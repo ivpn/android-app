@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#398FE6</color>
+    <color name="colorPrimaryDark">#0062b3</color>
+    <color name="colorAccent">#FB3841</color>
+
+    <color name="color_tutorial_link">#6b8299</color>
+    <color name="color_tutorial_descr">#374D66</color>
+    <color name="color_tutorial_title">#335266</color>
+    <color name="color_tutorial_circle_active">#334C66</color>
+    <color name="color_tutorial_circle_passive">#32334C66</color>
+    <color name="color_opacity_black_background">#b0ffffff</color>
+
+    <color name="color_trial_link">#6B8299</color>
+    <color name="color_trial_common">#374D66</color>
+
+    <color name="green_light">#21D06A</color>
+    <color name="yellow_light">#FFC933</color>
+    <color name="red_light">#FA2F38</color>
+
+    <!--Settings-->
+    <color name="color_section_text">#98A5B3</color>
+    <color name="color_section_divider">#4CB4C1CC</color>
+    <color name="color_section_fill">#F5F9FC</color>
+    <color name="color_arrow_right">#98A5B3</color>
+    <color name="color_description_text">#335266</color>
+    <color name="color_settings_option_description_text">#98a5b3</color>
+    <color name="color_settings_action">#398FE6</color>
+    <color name="color_switch_btn">#21D074</color>
+    <color name="color_settings_background">#F5F9FC</color>
+
+    <!--Servers Sync-->
+    <color name="servers_sync">#6B8299</color>
+
+    <!--Connect-->
+    <color name="color_connect_subscription_trial_background">#F3F3F3</color>
+    <color name="color_connect_subscription_font">#3F576D</color>
+    <color name="color_connect_connection_status">#B4C1CC</color>
+    <color name="color_connection_user_hint">#98A5B3</color>
+
+    <!--Networks Behaviour-->
+    <color name="color_default_background">#f7f7f7</color>
+    <color name="color_trusted_background">#bbf0d4</color>
+    <color name="color_untrusted_background">#f0bbbb</color>
+    <color name="color_default_untrusted_background">#fbf2f2</color>
+    <color name="color_default_trusted_background">#edffed</color>
+    <color name="color_trusted_text">#559341</color>
+    <color name="color_untrusted_text">#D35353</color>
+    <color name="color_default_text">#335266</color>
+    <color name="color_none_text">#335266</color>
+
+    <!--ConnectAnimation-->
+    <color name="color_animation_gray">#B4C1CC</color>
+    <color name="color_animation_main">#398FE6</color>
+    <color name="color_animation_shadow_color">#40000000</color>
+    <color name="color_animation_main_opacity">#80398FE6</color>
+    <color name="color_animation_white">#FFFFFF</color>
+    <color name="color_animation_background">#F5F9FC</color>
+
+    <!--Servers list-->
+    <color name="color_server_name_active">#335166</color>
+    <color name="color_server_name_passive">#98a5b3</color>
+
+    <!--Private Emails-->
+    <color name="color_private_email_passive">#b4c1cc</color>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tutorial_small_descr">16sp</dimen>
+    <dimen name="tutorial_big_descr">26sp</dimen>
+
+    <dimen name="tutorial_log_in_margin_bottom">27dp</dimen>
+    <dimen name="tutorial_log_in_margin_top">15dp</dimen>
+    <dimen name="tutorial_indicator_margin_bottom">19dp</dimen>
+    <dimen name="tutorial_indicator_margin_top">20dp</dimen>
+    <dimen name="tutorial_vpn_logo_margin_top">15dp</dimen>
+    <dimen name="tutorial_vpn_logo_margin_bottom">15dp</dimen>
+    <dimen name="tutorial_vpn_title_margin_top">0dp</dimen>
+</resources>

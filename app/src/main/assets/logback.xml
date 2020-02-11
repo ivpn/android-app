@@ -1,0 +1,40 @@
+<configuration debug="true">
+
+    <property name="ANDROID_PACKAGE" value="${PACKAGE_NAME}" />
+    <property scope="context" name="LOG_PATH" value="/data/data/${ANDROID_PACKAGE}/files/logs" />
+    <property scope="context" name="LOG_PATH_OLD" value="${LOG_PATH}/old" />
+
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <!-- Don't show trace and debug on logcat -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- Note that this level is overwritten programmatically in the Application class
+                 onCreate(). The default value is defined in preference
+                 "preferences_default_log_level_file" -->
+            <level>TRACE</level>
+        </filter>
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/log.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %logger{0} : %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_PATH_OLD}/old.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>1</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>512KB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="logcat" />
+        <appender-ref ref="file" />
+    </root>
+</configuration>

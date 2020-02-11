@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.ivpn.client.vpn.Protocol" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_settings_background">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+                <include
+                    android:id="@+id/protocol_selection"
+                    layout="@layout/protocol_section_selection"
+                    app:viewmodel="@{viewmodel}" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                <include
+                    android:id="@+id/protocol_settings"
+                    layout="@layout/protocol_section_settings"
+                    app:viewmodel="@{viewmodel}" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_sections_inner_margin" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@color/color_opacity_black_background"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ProgressBar
+                    style="?indeterminateProgressStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/AppTheme.ProgressBar" />
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@{viewmodel.loadingMessage}" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</layout>

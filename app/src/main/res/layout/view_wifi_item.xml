@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.network.WifiItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackground">
+
+        <LinearLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:currentState="@{viewmodel.currentState}"
+            app:defaultState="@{viewmodel.defaultState}">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/wifi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:maxLines="1"
+                    android:text="@{viewmodel.wifiItem.getTitle}"
+                    android:textColor="#335266"
+                    android:textSize="14sp"
+                    android:letterSpacing="-0.01"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/behavior_spinner"
+                style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#335266"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:overlapAnchor="true"
+                android:popupBackground="@android:color/white"
+                android:spinnerMode="dropdown"
+                app:default_network_state="@{viewmodel.defaultState}"
+                app:onChanged="@{viewmodel.listener}"
+                app:selectedItem="@{viewmodel.currentState}" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#4cb4c1cc" />
+    </LinearLayout>
+</layout>

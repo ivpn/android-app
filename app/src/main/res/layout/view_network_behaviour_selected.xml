@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/network_behaviour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:textAllCaps="true"
+        android:textColor="#335266"
+        android:textSize="14sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:id="@+id/network_behaviour_extra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="#335266"
+        android:letterSpacing="-0.01"
+        android:textSize="12sp" />
+</LinearLayout>

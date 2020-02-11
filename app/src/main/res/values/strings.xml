@@ -1,0 +1,525 @@
+<resources>
+    <string name="app_name">IVPN</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!--Tutorial-->
+    <string name="tutorial_page_title_multihop">Multi-hop connections</string>
+    <string name="tutorial_page_title_locations">Popular locations</string>
+    <string name="tutorial_page_title_access">All device access</string>
+    <string name="tutorial_page_title_security">Security</string>
+
+    <string name="tutorial_page_descr_multihop">Specify your entry and exit server with secured traffic in between, for even stronger security</string>
+    <string name="tutorial_page_descr_locations">IVPN offers 20+ locations with fast gigabit connections</string>
+    <string name="tutorial_page_descr_access">Use your IVPN account on all your devices, we support Windows, Mac, iOS, Android and Linux</string>
+    <string name="tutorial_page_descr_security">Get <b>serious</b> privacy protection and peace of mind</string>
+
+    <string name="tutorial_log_in">LOG IN TO MY ACCOUNT</string>
+    <string name="tutorial_start_free_trial">START MY FREE TRIAL</string>
+
+    <!--Trial-->
+    <string name="trial_login_hint"><font size="15">Email address</font></string>
+    <string name="trial_pass_hint"><font size="15">Create password</font></string>
+    <string name="trial_have_account">Already have an account?</string>
+    <string name="trial_btn_create_account">Create Account</string>
+    <string name="trial_log_in">Log In</string>
+
+    <!--Log in-->
+    <string name="sign_in_login_hint"><font size="15">Email address</font></string>
+    <string name="sign_in_pass_hint"><font size="15">Password</font></string>
+    <string name="sign_in_username_hint"><font size="15">Account ID</font></string>
+    <string name="sign_in_btn_login">LOG IN TO MY ACCOUNT</string>
+    <string name="sign_in_forgot_log_in">Forgot your password</string>
+    <string name="auth_bad_login">Bad login</string>
+    <string name="sign_in_title">Log in</string>
+    <string name="login_account_id_description">Your account ID can be found in the Client Area of the website.</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_switch_to_sign_up">Sign up</string>
+
+    <!--Sign up-->
+    <string name="sign_up_start_trial">START MY FREE TRIAL</string>
+    <string name="sign_up_title">Sign up</string>
+    <string name="sign_up_hint">Email address</string>
+    <string name="sign_up_password_hint">Create password</string>
+
+    <!--Reset Password-->
+    <string name="reset_password_info">We will send you the confirmation Email</string>
+    <string name="reset_password_edittext_hint">Your Email</string>
+    <string name="reset_password_title">Reset Password</string>
+    <string name="reset_password_button">RESET YOUR PASSWORD</string>
+    <string name="reset_password_back_to_login">BACK TO LOG IN</string>
+    <string name="reset_password_check_email">Please check email</string>
+    <string name="reset_password_server_error">Server error, please try again later</string>
+    <string name="reset_password_reach_max_confirmation_tries">You can resend the confirmation email only 3 times. Please check your spam.</string>
+
+    <!--Settings-->
+    <string name="settings_title">Settings</string>
+    <string name="settings_server">Server</string>
+    <string name="settings_connection">Connection</string>
+    <string name="settings_about">About</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_other">Advanced settings</string>
+    <string name="settings_terms_of_service">Terms of service</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_enable_logging">Enable logging</string>
+    <string name="settings_enable_crashes">Enable crash logging</string>
+    <string name="settings_enable_multi_hop">Multi-hop connection</string>
+    <string name="settings_kill_switch">Kill switch</string>
+    <string name="settings_always_on_vpn">Always-on VPN</string>
+    <string name="setting_anti_surveillance">AntiTracker</string>
+    <string name="setting_custom_dns">Custom DNS</string>
+    <string name="settings_start_on_boot">Start on boot</string>
+    <string name="settings_multi_hop_description">You will be redirected through 2 servers.</string>
+    <string name="settings_username">Account ID</string>
+    <string name="settings_port_label">Preferred protocol &amp; port</string>
+    <string name="settings_account_type">Account type</string>
+    <string name="settings_active_until">Active until</string>
+    <string name="settings_next_billing">Next billing date</string>
+    <string name="settings_manage_subscription">Manage subscription</string>
+    <string name="settings_resubscribe">Resubscribe</string>
+    <string name="settings_logout">LOG OUT</string>
+    <string name="settings_login_and_sign_up">LOG IN or SIGN UP</string>
+    <string name="settings_subscriptions">SUBSCRIPTIONS</string>
+    <string name="settings_send_logs">SEND LOGS</string>
+    <string name="settings_split_tunneling">Split tunneling</string>
+    <string name="settings_private_emails">PRIVATE EMAILS</string>
+    <string name="settings_account_type_trial">3-day free trial</string>
+    <string name="settings_account_type_subscription">Monthly subscription</string>
+    <string name="settings_do_not_collect_your_data">We can\'t see these until you send them to us.</string>
+    <string name="settings_crash_logging_description">Anonymous crash logs will be sent to IVPN to help us improve the application.</string>
+    <string name="settings_split_tunneling_description">Choose which apps you want to use with IVPN.</string>
+    <string name="settings_kill_switch_description">Allow using internet only when IVPN connection is enabled.</string>
+    <string name="settings_always_on_vpn_description">Can help to improve protection.</string>
+    <string name="settings_anti_surveillance_description">Configure ad, malware, and tracker blocking.</string>
+    <string name="settings_custom_dns_description">Specify DNS server when connected to VPN.</string>
+    <string name="settings_updates_title">Updates</string>
+
+    <string name="settings_protocol_selection_description">Choose VPN protocol and associated with it settings.</string>
+    <string name="settings_vpn_protocol">VPN protocol</string>
+
+    <string name="settings_action">SETTINGS</string>
+    <string name="settings_permission_description">To send an email with logs you need to allow us to use your storage.</string>
+    <string name="snackbar_to_change_server_disconnect_first_msg">To change server, please disconnect first</string>
+    <string name="snackbar_to_use_antitracker_disconnect">To use AntiTracker, please disconnect first</string>
+    <string name="snackbar_to_use_custom_dns_disconnect">To use Custom DNS, please disconnect first</string>
+    <string name="snackbar_to_use_split_tunneling_disconnect">To use split tunneling, please disconnect first</string>
+    <string name="snackbar_to_change_protocol_disconnect">To change protocol, please disconnect first</string>
+    <string name="snackbar_to_change_port_disconnect_first_msg">To change port please disconnect first</string>
+    <string name="snackbar_to_change_multihop_disconnect_first_msg">To change Multi-hop settings please disconnect first</string>
+    <string name="snackbar_multihop_not_allowed_for_wireguard">Multi-hop is not available for WireGuard right now</string>
+    <string name="snackbar_multihop_not_allowed_for_wg">Multi-hop is not available for WireGuard right now</string>
+    <string name="snackbar_new_try_with_different_port">Connection to server blocked, reconnecting on a different port. Please wait until connection is established.</string>
+    <string name="snackbar_disconnect_first">DISCONNECT</string>
+
+    <string name="settings_send_email">mailto:</string>
+    <string name="settings_send_email_via">Send email via</string>
+    <string name="settings_package">package:</string>
+
+    <string name="settings_always_on_vpn_title">Always-on VPN</string>
+    <string name="settings_start_on_boot_title">Start on system boot</string>
+    <string name="settings_start_on_boot_description">Enable VPN connection on system boot.</string>
+    <string name="settings_always_on_vpn_note">This feature enables you to automatically establish a VPN connection after the device boots. It should be manually enabled from the device settings inside the IVPN app profile. In addition, to prevent data leaks we recommend enabling \"Block connections without VPN\" from within the IVPN app profile.</string>
+    <string name="settings_always_on_vpn_action">Go to settings</string>
+
+    <string name="settings_trusted_wifi_title">Network protection</string>
+    <string name="settings_trusted_wifi_description">Configure how IVPN will behave on connection to Wi-Fi or mobile networks.</string>
+
+    <string name="start_on_boot_title">Start on boot</string>
+    <string name="start_on_boot_description">Due to system restrictions the vpn may take up to 1 minute to connect after system boot.</string>
+    <string name="start_on_boot_brand_restrictions">Some vendors might require you to provide additional permission to allow app Autostart on boot</string>
+
+    <string name="start_on_boot_read_more">read more</string>
+
+    <!--Updates-->
+    <string name="updates_info_title">Updates</string>
+    <string name="updates_current_version">Current version</string>
+    <string name="updates_version_up_to_date">You are using the latest version</string>
+    <string name="updates_check_for_updates">Check for updates</string>
+    <string name="updates_new_version_available">New version available</string>
+    <string name="updates_proceed">Download</string>
+    <string name="updates_updates_settings">Settings</string>
+    <string name="update_check_auto_for_update">Check automatically for updates</string>
+    <string name="update_show_notification">Show notifications</string>
+
+    <!--Update notification-->
+    <string name="notification_update_title">IVPN update available</string>
+    <string name="notification_update_message">Install the latest version of IVPN to ensure your privacy and security</string>
+    <string name="notification_update_proceed">Download</string>
+    <string name="notification_update_skip">Skip</string>
+    <string name="notification_update_settings">Settings</string>
+    <string name="notification_update_channel">IVPN updates channel</string>
+
+    <!--Anti-surveillance-->
+    <string name="settings_anti_surveillance_title">AntiTracker</string>
+    <string name="anti_surveillance_enable_title">Enable AntiTracker</string>
+    <string name="anti_surveillance_description">AntiTracker uses our private DNS to block ads, malicious website, and third-party trackers such as Google Analytics.</string>
+    <string name="anti_surveillance_for_more_information">For more information, please visit:</string>
+    <string name="anti_surveillance_hardcore">Hardcore Mode</string>
+    <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
+    <string name="anti_surveillance_read_more">Read more</string>
+
+    <!--Custom dns-->
+    <string name="custom_dns_title">Custom DNS</string>
+    <string name="custom_dns_feature">Use Custom DNS</string>
+    <string name="custom_dns_server">Custom DNS Server</string>
+    <string name="custom_dns_server_description">When specified, VPN Client will use provided DNS server when connected to the VPN.</string>
+    <string name="custom_dns_change">Change dns</string>
+    <string name="custom_dns_priority">AntiTracker will override this setting when enabled.</string>
+
+    <!--Servers sync-->
+    <string name="servers_sync_updating_servers">Updating Servers…</string>
+    <string name="servers_sync_error_servers">Error while loading servers</string>
+    <string name="servers_sync_retry">Retry</string>
+
+    <!--Split Tunneling-->
+    <string name="split_tunneling_title">Split tunnelling</string>
+    <string name="split_tunneling_description">Split tunnelling allows you to control which apps use the VPN tunnel. New apps that you install will automatically use the VPN tunnel.</string>
+    <string name="split_tunneling_turn_on_all">TURN ON ALL</string>
+    <string name="split_tunneling_turn_off_all">TURN OFF ALL</string>
+
+    <!--Trusted wifi -->
+    <string name="trusted_wifi_title">Trusted Wi-Fi</string>
+    <string name="trusted_wifi_switcher_title">Trusted Wi-Fi networks</string>
+    <string name="trusted_wifi_switcher_description">IVPN will not automatically start when connected to a trusted network below.</string>
+    <string name="network_mobile_data">Mobile data</string>
+    <string name="network_none">No network</string>
+    <string name="network_state_none">None</string>
+    <string name="network_default">Default</string>
+    <string name="network_trusted">Trusted</string>
+    <string name="network_untrusted">Untrusted</string>
+    <string name="network_title">Network Protection</string>
+    <string name="network_untrusted_label"><b>Untrusted</b> networks</string>
+    <string name="network_trusted_label"><b>Trusted</b> networks</string>
+    <string name="network_trusted_feature">Enable trusted/untrusted networks</string>
+    <string name="network_trusted_feature_description">Choose which networks you trust or don\'t trust and apply relevant actions.</string>
+    <string name="network_rules">Rules</string>
+    <string name="network_rule_title">Network Rules</string>
+    <string name="network_untrusted_action">Perform the following actions when joining untrusted networks:</string>
+    <string name="network_connect_to_vpn">Connect to IVPN</string>
+    <string name="network_enable_killswitch">Enable kill-switch</string>
+    <string name="network_trusted_action">Perform the following actions when joining trusted networks:</string>
+    <string name="network_disconnect_from_vpn">Disconnect from IVPN</string>
+    <string name="network_disable_killswitch">Disable kill-switch</string>
+
+    <!--Validation Screen-->
+    <string name="confirmation_title">Confirm your email</string>
+    <string name="confirmation_description">We’ve sent a separate email containing a link to confirm your email address.</string>
+    <string name="confirmation_resend">Resend confirmation email</string>
+    <string name="confirmation_not_get_yet">Email has not yet been confirmed</string>
+    <string name="confirmation_resend_success">Confirmation email was successfully resent</string>
+
+    <!--Api Error-->
+    <string name="api_error_title">Connection Error</string>
+    <string name="api_error_description">Our authentication server is currently unreachable. Please check your connection and try again. If you are online you can skip this step and validate your credentials later.</string>
+
+    <string name="api_error_try_again">Try again</string>
+    <string name="api_error_skip">Skip and continue</string>
+
+    <!--Subscription-->
+    <string name="subscription_title">Subscription</string>
+    <string name="subscription_title_monthly">Monthly</string>
+    <string name="subscription_title_annual">Annual</string>
+    <string name="subscription_progress_description">Querying available subscriptions…</string>
+    <string name="subscription_standard_plan">IVPN standard</string>
+    <string name="subscription_pro_plan">IVPN Pro</string>
+    <string name="subscription_current_plan">Current plan</string>
+    <string name="subscription_all_protocol">All protocol</string>
+    <string name="subscription_port_forwarding">Port forwarding</string>
+    <string name="subscription_2_devices">2 devices</string>
+    <string name="subscription_7_devices">7 devices</string>
+    <string name="subscription_year_discount">Save 20% with annual subscription</string>
+    <string name="subscription_multi_hop">Multi-hop</string>
+    <string name="subscription_select">Select</string>
+    <string name="subscription_free_trial">3-days free trial then</string>
+    
+    <string name="billing_validating">Validating purchase…</string>
+    <string name="billing_purchasing">Purchasing subscription…</string>
+    <string name="billing_error_title">Play Store Error</string>
+    <string name="billing_error_message">Error retrieving information from Google Play services. Please try again later or use the website to purchase a subscription.</string>
+
+    <!--Private Emails-->
+    <string name="private_emails_title">Email generator</string>
+    <string name="private_emails_email_copied">Email copied to the clipboard.</string>
+    <string name="private_emails_empty_description">Tap on the button below to generate your first private email address.</string>
+    <string name="private_emails_generate_title">Generate new</string>
+    <string name="private_emails_edit_title">Email</string>
+    <string name="private_emails_empty_title">No email addresses</string>
+    <string name="private_emails_new_feature_for_you">New feature!</string>
+    <string name="private_emails_new_feature_title">Generate private email addresses</string>
+    <string name="private_emails_new_feature_description">Use our new private email service to generate as many private email addresses as you wish. Emails are automatically forwarded to your registered email address.</string>
+    <string name="private_emails_new_feature_button">Got it</string>
+    <string name="private_emails_generate_note_hint">Add a note</string>
+    <string name="private_emails_generate_description">Emails sent to this address will be forwarded to your registered email.</string>
+
+    <!--Servers list-->
+    <string name="servers_list_title">Select Server</string>
+    <string name="servers_list_title_entry">Select entry server</string>
+    <string name="servers_list_title_exit">Select exit server</string>
+    <string name="servers_list_favorites">Favorites</string>
+    <string name="servers_list_all">Servers List</string>
+    <string name="favourites_added">Server added to favorites</string>
+    <string name="favourites_removed">Server removed from favorites</string>
+    <string name="favourites_undo">UNDO</string>
+    <string name="favourites_no_title">No favorites</string>
+    <string name="favourites_no_description">Tap and hold on server to add it to favorites. To remove, do the same.</string>
+
+    <!--Fastest Server Settings-->
+    <string name="fastest_setting_title">Fastest Server Settings</string>
+    <string name="fastest_setting_description">Choose which servers can be used as the fastest.</string>
+    <string name="fastest_setting_toast">At least one server should be selected.</string>
+
+    <!--Connect screen-->
+    <string name="connect_need_location_permission">To identify current Wi-Fi you need to allow us to use location</string>
+    <string name="connect_upgrade">Upgrade</string>
+    <string name="ivpn">IVPN</string>
+    <string name="connect_action">Connect</string>
+    <string name="disconnect_action">Disconnect</string>
+    <string name="connect_server_answered">Server answered</string>
+    <string name="connect_trial_renew">MANAGE</string>
+
+    <string name="connect_status_paused">Paused</string>
+    <string name="connect_status_pausing">Pausing</string>
+    <string name="connect_status_not_connected">Connect to</string>
+    <string name="connect_status_connecting">Connecting to</string>
+    <string name="connect_status_connected">Connected to</string>
+    <string name="connect_status_disconnecting">Disconnecting from</string>
+
+    <string name="connect_hint_paused">TAP TO RESUME</string>
+    <string name="connect_hint_pausing">PAUSING…</string>
+    <string name="connect_hint_not_connected">TAP TO CONNECT</string>
+    <string name="connect_hint_connecting">CONNECTING…</string>
+    <string name="connect_hint_connected">TAP TO DISCONNECT</string>
+    <string name="connect_hint_disconnecting">DISCONNECTING…</string>
+    <string name="connect_hint_finding_fastest">FINDING THE FASTEST SERVER…</string>
+    <string name="connect_hint_regeneration_wg_key">REGENERATING KEYS…</string>
+
+    <string name="connect_hint_creating_session">CREATING SESSION…</string>
+
+    <string name="connect_state_hint_connected">Vpn is connected, tap to disconnect</string>
+    <string name="connect_state_hint_pausing">Vpn is pausing…</string>
+    <string name="connect_state_hint_paused">Vpn is paused, tap to resume</string>
+    <string name="connect_state_hint_connecting">Vpn is connecting</string>
+    <string name="connect_state_hint_not_connected">Vpn is disconnected, tap to connect</string>
+    <string name="connect_state_hint_disconnecting">Vpn is disconnecting</string>
+    <string name="connect_state_hint_finding_fastest">Finding the fastest server</string>
+
+    <string name="connect_entry_server">Entry Server</string>
+    <string name="connect_exit_server">Exit Server</string>
+
+    <string name="connect_network">Network:</string>
+    <string name="connect_fastest_server">Fastest server</string>
+    <string name="connect_unable_test_fastest_server">Unable to test for the fastest server due to a network restriction, the default server will be selected.</string>
+    <string name="connect_resumed_in">Will resume in </string>
+    <!--Log-->
+    <string name="log_title">Application log</string>
+
+    <!--Notification-->
+    <string name="notification_title">IVPN</string>
+    <string name="notification_title_disconnecting">Disconnecting…</string>
+    <string name="notification_title_connecting">Connecting to</string>
+    <string name="notification_title_paused">Paused</string>
+    <string name="notification_title_not_connected">Not connected</string>
+    <string name="notification_title_connected">Connected to</string>
+    <string name="notification_status_connected">Connected to</string>
+    <string name="notification_status_auth_failed">Authentication problem. Check your credentials</string>
+    <string name="notification_status_not_connected">Not connected</string>
+    <string name="notification_resumed_in">Will resume in</string>
+    <string name="notification_paused">Paused</string>
+    <string name="notification_status_server_not_reply">Connecting to</string>
+    <string name="notification_status_waiting_for_user_input">Waiting for user input…</string>
+    <string name="notification_status_waiting_server_replied">Server replied</string>
+    <string name="notification_status_paused">Connection is paused</string>
+    <string name="notification_channel_name">IVPN main channel</string>
+    <string name="notification_kill_switch_channel">IVPN kill switch channel</string>
+    <string name="notification_wifi_watcher_channel">IVPN Wi-Fi protection channel</string>
+    <string name="notification_disconnect">Disconnect</string>
+    <string name="notification_pause">Pause</string>
+    <string name="notification_resume">Resume</string>
+    <string name="notification_stop">Stop</string>
+
+    <string name="notification_ks_title">Kill-switch active</string>
+    <string name="notification_ks_content">Internet connection is disabled while IVPN is disconnected</string>
+    <string name="notification_ks_connect_action">Connect</string>
+    <string name="notification_ks_cancel_action">Disable</string>
+    <string name="notification_ks_settings_action">Settings</string>
+
+    <string name="notification_wifi_watcher_title">Network protection is enabled</string>
+    <string name="notification_wifi_watcher_content">IVPN will automatically start when you connect to an untrusted Wi-Fi network</string>
+
+    <!--Dialogs-->
+    <string name="dialogs_log_out_title">Are you sure?</string>
+    <string name="dialogs_log_out_message">This will disconnect you from IVPN.</string>
+    <string name="dialogs_log_out_positive_button">LOG OUT</string>
+    <string name="dialogs_log_out_negative_button">NEVERMIND</string>
+
+    <string name="dialogs_session_too_many_title">Session limit</string>
+    <string name="dialogs_session_too_many_message">You\'ve reached the session limit, force login to logout of all other devices.</string>
+    <string name="dialogs_session_force_login">Force login</string>
+
+    <string name="dialogs_access_permission_title">Hey, you!</string>
+    <string name="dialogs_access_permission_positive_button">GO TO SETTINGS</string>
+    <string name="dialogs_access_permission_negative_button">CANCEL</string>
+
+    <string name="dialogs_error">Error</string>
+    <string name="dialogs_address_error_msg">The format of your email address is not correct, please check and try again.</string>
+    <string name="dialogs_ok">Ok</string>
+    <string name="dialogs_servers_error">When using Multi-Hop you must select entry and exit servers in different countries.</string>
+
+    <string name="dialogs_registration_error_title">Registration error</string>
+    <string name="dialogs_registration_error_msg">An account with this email is already registered. Please log in if you have already registered or reset your password if you have forgotten it.</string>
+    <string name="dialogs_username_error_msg">Account ID should start with \"ivpn\".</string>
+    <string name="dialogs_password_empty_msg">Password should not be empty.</string>
+
+    <string name="dialogs_registration_error">Registration is temporarily disabled from the Android client, you can try through the site.</string>
+    <string name="dialogs_registration_continue">Sign up</string>
+
+    <string name="dialogs_connection_error_title">Connection error</string>
+    <string name="dialogs_empty"></string>
+    <string name="dialogs_cant_connect">Can\&#39;t connect to the server</string>
+    <string name="dialogs_no_internet">Please check your Internet connection and try again.</string>
+    <string name="dialogs_cancel">CANCEL</string>
+    <string name="dialogs_try_again">TRY AGAIN</string>
+    <string name="dialogs_retry">Retry</string>
+
+    <string name="dialogs_auth_error_msg">Either your account ID is incorrect or your subscription has expired. Please check and try again.</string>
+
+    <string name="dialogs_address_error_title">Email address error</string>
+    <string name="dialogs_authentication_error">Authentication error</string>
+    <string name="dialogs_authentication_error_msg">Your account ID is incorrect. Please check and try again.</string>
+    <string name="dialogs_server_error">Internal server error, please try again later.</string>
+    <string name="dialogs_not_found_error">Error 404</string>
+    <string name="dialogs_forbidden_error">Error 403</string>
+    <string name="dialogs_please_contact_support">This action is currently unavailable, please contact the support or try again later.</string>
+
+    <string name="dialogs_session_has_expired">Your session has expired. Please login again.</string>
+
+    <string name="dialogs_remove_email_forever">This will remove the private email address permanently.</string>
+    <string name="dialogs_firmware_error_msg">Your firmware doesn\'t support VPN.</string>
+    <string name="dialogs_setting_not_supported">This setting is not supported by your device.</string>
+    <string name="dialogs_too_many_attempts">Too many attempts. Please try again later.</string>
+    <string name="dialogs_no_vpn_settings">Your device doesn\'t support these settings.</string>
+
+    <string name="dialogs_advanced_kill_switch_title">Block connections outside VPN</string>
+    <string name="dialogs_advanced_kill_switch_description">Use the internal Android kill-switch to increase your security. This option needs to be manually enabled in the device settings.</string>
+    <string name="dialogs_advanced_kill_switch_not_show_again">Don’t show this again</string>
+    <string name="dialogs_advanced_kill_switch_navigate_to_settings">Settings</string>
+    <string name="dialogs_advanced_kill_switch_cancel">Cancel</string>
+    <string name="dialogs_advanced_kill_switch_close">Close</string>
+
+    <string name="dialogs_failed_remove_key_title">Failed to automatically remove old WireGuard keys</string>
+    <string name="dialogs_failed_create_key_title">Failed to automatically generate WireGuard keys</string>
+    <string name="dialogs_failed_upgrade_title">Failed to automatically re-generate WireGuard keys</string>
+    <string name="dialogs_failed_upgrade_message">Cannot connect using WireGuard protocol: regenerating WireGuard keys failed. This is likely because of no access to an IVPN API server. You can retry connection, regenerate keys manually from preferences, or select another protocol. Please contact support if this error persists.</string>
+
+    <string name="dialogs_permission_title">Permission</string>
+    <string name="dialogs_location_permission_message">To identify the current Wi-Fi network, IVPN Client requires Location permission..</string>
+    <string name="dialogs_location_permission_info_message">To use a trusted/untrusted network feature, IVPN Client requires Location permission. It will allow identifying your current Wi-Fi.</string>
+    <string name="dialogs_permission_action_settings">Settings</string>
+    <string name="dialogs_permission_action_deny">Deny</string>
+
+    <string name="dialogs_time_picker_title">Your IVPN connection will automatically resume in</string>
+    <string name="dialogs_five_minutes">5 minutes</string>
+    <string name="dialogs_fifteen_minutes">15 minutes</string>
+    <string name="dialogs_one_hour">1 hour</string>
+    <string name="dialogs_custom_delay">Custom delay</string>
+    <string name="dialogs_apply_action">Apply</string>
+
+    <string name="dialogs_connection_info">Location</string>
+    <string name="dialogs_connection_info_public_ip">Public IP Address</string>
+    <string name="dialogs_connection_info_location">Location</string>
+    <string name="dialogs_connection_info_updating">Updating…</string>
+    <string name="dialogs_connection_info_duration">Time Connected</string>
+    <string name="dialogs_connection_info_protocol">Protocol</string>
+    <string name="dialogs_connection_info_local_ip_address">Local IP Address</string>
+    <string name="dialogs_connection_info_state">State</string>
+    <string name="dialogs_connection_info_state_connected">Connected</string>
+    <string name="dialogs_connection_info_state_not_connected">Not connected</string>
+    <string name="dialogs_connection_info_wireguard">WireGuard</string>
+    <string name="dialogs_connection_info_openvpn">OpenVPN</string>
+
+    <string name="dialogs_custom_dns">Custom DNS Server</string>
+    <string name="dialogs_custom_dns_dot">\.</string>
+    <string name="dialogs_custom_dns_apply">Apply</string>
+    <string name="dialogs_custom_dns_cancel">Cancel</string>
+
+    <!--Purchases-->
+    <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
+    <string name="purchases_guide_second_step">Select billing cycle and enter your payment information</string>
+    <string name="purchases_guide_third_step">Open the IVPN app and connect!</string>
+    <string name="purchases_title">Renew guide</string>
+    <string name="purchase_guide_1">1</string>
+    <string name="purchase_guide_2">2</string>
+    <string name="purchase_guide_3">3</string>
+
+    <!--WireGuard-->
+    <string name="error_root">Please obtain root access and try again</string>
+    <string name="tools_installer_already">wg and wg-quick are already installed</string>
+    <string name="tools_installer_failure">Unable to install command-line tools (no root?)</string>
+    <string name="tools_installer_initial">Install optional tools for scripting</string>
+    <string name="tools_installer_working">Installing wg and wg-quick</string>
+    <string name="tools_installer_initial_system">Install optional tools for scripting into the system partition</string>
+    <string name="tools_installer_initial_magisk">Install optional tools for scripting as Magisk module</string>
+    <string name="tools_installer_success_system">wg and wg-quick installed into the system partition</string>
+    <string name="tools_installer_success_magisk">wg and wg-quick installed as a Magisk module (reboot required)</string>
+    <string name="tools_installer_title">Install command line tools</string>
+    <string name="version_title">WireGuard for Android v%s"</string>
+    <string name="version_summary">%s backend v%s</string>
+    <string name="version_summary_checking">Checking %s backend version</string>
+    <string name="version_summary_unknown">Unknown %s version</string>
+
+    <!--Protocols-->
+    <string name="protocol_vpn_openvpn">OpenVPN</string>
+    <string name="protocol_vpn_wireguard">WireGuard</string>
+    <string name="protocol_action_bar_title">Select Protocol</string>
+    <string name="protocol_label">Protocols</string>
+    <string name="protocol_public_keys">Public key</string>
+    <string name="protocol_openvpn_description">Stable and secure, time-tested VPN protocol.</string>
+    <string name="protocol_wg_description">WARNING: The WireGuard protocol is currently under heavy development and should be considered as experimental. Review the WireGuard project for more information. We do not recommend WireGuard except for testing or in situations where security is not critical.</string>
+    <string name="protocol_wg_public_key_copied">Public key copied to clipboard</string>
+    <string name="protocol_wg_ip_address_copied">WireGuard IP address copied to clipboard</string>
+    <string name="protocol_generating_and_uploading_key">Generating new keys…</string>
+    <string name="protocol_delete_public_key_from_server">Removing public key from IVPN server…</string>
+    <string name="protocol_regenerating_keys">Regenerating keys…</string>
+    <string name="protocol_delete_session_from_server">Removing session from IVPN server…</string>
+    <string name="protocol_skip_process">skip</string>
+    <string name="protocol_wg_keys_regenerate_key">re-generate keys</string>
+    <string name="protocol_wg_details">WireGuard details</string>
+    <string name="protocol_settings">Protocol settings</string>
+    <string name="protocol_dialog_wg_details_title">WireGuard details</string>
+    <string name="protocol_wireguard_ip_address">IP address</string>
+    <string name="protocol_wg_deleting_key_error">There was a problem regenerating WireGuard keys.</string>
+    <string name="protocol_wg_uploading_key_error">There was a problem generating and uploading WireGuard keys to IVPN server.</string>
+    <string name="protocol_wg_uploading_too_many_keys">Maximum number of WireGuard keys reached. Please delete unused keys using the IVPN Website Client Area.</string>
+    <string name="protocol_wg_regeneration_period">Regeneration rate</string>
+    <string name="protocol_wg_last_keys_generated_date">Last generated:</string>
+    <string name="protocol_wg_will_regenerate_on">Will regenerate on:</string>
+    <string name="protocol_wg_valid_until">Valid until:</string>
+    <string name="protocol_wg_regeneration_description">Using the same internal IP address and keys for extended period of time may not be ideal for various reasons when connected with WireGuard protocol.</string>
+
+    <string name="shortcuts_connect">Connect</string>
+    <string name="shortcuts_establish_vpn_connection">Establish VPN connection</string>
+    <string name="shortcuts_disconnect">Disconnect</string>
+    <string name="shortcuts_disconnect_description">Disconnect from IVPN</string>
+
+    <string name="accessibility_service_desc">IVPN client accessibility service</string>
+    <!--Utils-->
+    <plurals name="days_in_millis">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="hours_in_millis">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="count_down_in_seconds">
+        <item quantity="one">Automatic refresh in %d second</item>
+        <item quantity="other">Automatic refresh in %d seconds</item>
+    </plurals>
+    <plurals name="regeneration_in_days">
+        <item quantity="one">Re-generate key every %d day.</item>
+        <item quantity="other">Re-generate key every %d days.</item>
+    </plurals>
+    <string name="expires_in">Your subscription expires in</string>
+    <string name="expired">Your subscription has expired</string>
+
+</resources>

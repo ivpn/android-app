@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="4.8dp"
+        android:drawable="@drawable/ic_mailbox"
+        android:left="4.8dp"
+        android:right="4.8dp"
+        android:top="4.8dp"/>
+</layer-list>

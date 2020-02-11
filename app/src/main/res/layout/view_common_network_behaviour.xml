@@ -1,0 +1,133 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.network.CommonBehaviourItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_connect_subscription_trial_background"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/default_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/default_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:ellipsize="end"
+                            android:fontFamily="sans-serif"
+                            android:lineSpacingExtra="8sp"
+                            android:maxLines="1"
+                            android:text="@string/network_default"
+                            android:textColor="#335266"
+                            android:textSize="14sp"
+                            android:letterSpacing="-0.01"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/default_behavior_spinner"
+                        style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:backgroundTint="#335266"
+                        android:gravity="center_vertical"
+                        android:overlapAnchor="true"
+                        android:popupBackground="@android:color/white"
+                        android:spinnerMode="dropdown"
+                        app:onChanged="@{viewmodel.defaultStateListener}"
+                        app:selectedItem="@{viewmodel.defaultState}" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#4cb4c1cc" />
+
+                <LinearLayout
+                    android:id="@+id/mobile_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/mobile_data_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:ellipsize="end"
+                            android:fontFamily="sans-serif"
+                            android:lineSpacingExtra="8sp"
+                            android:maxLines="1"
+                            android:text="@string/network_mobile_data"
+                            android:textColor="#335266"
+                            android:textSize="14sp"
+                            android:letterSpacing="-0.01"
+                            android:textStyle="normal" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/mobile_behavior_spinner"
+                        style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:backgroundTint="#335266"
+                        android:gravity="center_vertical"
+                        android:overlapAnchor="true"
+                        android:popupBackground="@android:color/white"
+                        android:spinnerMode="dropdown"
+                        app:default_network_state="@{viewmodel.defaultState}"
+                        app:onChanged="@{viewmodel.mobileDataStateListener}"
+                        app:selectedItem="@{viewmodel.mobileDataState}" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/color_settings_background" />
+    </LinearLayout>
+</layout>

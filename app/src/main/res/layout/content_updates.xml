@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.updates.UpdatesViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_settings_background">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="?attr/actionBarSize">
+
+                <include
+                    layout="@layout/updates_section_version_info"
+                    app:viewmodel="@{viewmodel}" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                <include
+                    layout="@layout/updates_section_settings"
+                    app:viewmodel="@{viewmodel}" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_sections_inner_margin" />
+
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</layout>

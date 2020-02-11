@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_select_all"
+        android:orderInCategory="100"
+        android:title="@string/split_tunneling_turn_on_all"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_deselect_all"
+        android:orderInCategory="101"
+        android:title="@string/split_tunneling_turn_off_all"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.ivpn.client.common.utils.DateUtil" />
+
+        <import type="net.ivpn.client.common.billing.SubscriptionState" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_account" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/username"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/settings_username"
+                    android:textAlignment="viewStart" />
+
+                <TextView
+                    android:id="@+id/username_value"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@{viewmodel.username}"
+                    android:textAlignment="viewStart" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/account_type"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/settings_account_type"
+                    android:textAlignment="viewStart" />
+
+                <TextView
+                    android:id="@+id/account_type_value"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@{viewmodel.subscriptionPlan}"
+                    android:textAlignment="viewStart" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.CANCELLED ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/subscription_status"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.CANCELLED ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/active_until"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/settings_active_until"
+                    android:textAlignment="viewStart" />
+
+                <TextView
+                    android:id="@+id/expiry_date"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@{DateUtil.formatDate(viewmodel.availableUntil)}"
+                    android:textAlignment="viewStart" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.ACTIVE ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/subscription_next_billing"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.ACTIVE ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/next_billing"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/settings_next_billing"
+                    android:textAlignment="viewStart" />
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@{DateUtil.formatDate(viewmodel.availableUntil)}"
+                    android:textAlignment="viewStart" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.isManageSubscriptionAvailable ? View.VISIBLE : View.GONE}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal"
+                android:visibility="@{viewmodel.isManageSubscriptionAvailable ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/manage_subscription_action"
+                    style="@style/SettingsAction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:onClick="manageSubscription"
+                    android:text="@string/settings_manage_subscription"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.CANCELLED ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal"
+                android:visibility="@{viewmodel.subscriptionState == SubscriptionState.CANCELLED ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/resubscribe_action"
+                    style="@style/SettingsAction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:onClick="resubscribe"
+                    android:text="@string/settings_resubscribe"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

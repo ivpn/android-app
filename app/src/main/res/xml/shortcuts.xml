@@ -1,0 +1,30 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="connect"
+        android:icon="@drawable/ic_shortcut_vpn_key"
+        android:shortcutShortLabel="@string/shortcuts_connect"
+        android:shortcutDisabledMessage="@string/shortcuts_establish_vpn_connection">
+        <intent
+            android:action="net.ivpn.client.SHORTCUT_CONNECTION"
+            android:targetPackage="net.ivpn.client"
+            android:targetClass="net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="disconnect"
+        android:icon="@drawable/ic_shortcut_vpn_key"
+        android:shortcutShortLabel="@string/shortcuts_disconnect"
+        android:shortcutDisabledMessage="@string/shortcuts_disconnect_description">
+        <intent
+            android:action="net.ivpn.client.SHORTCUT_DISCONNECTION"
+            android:targetPackage="net.ivpn.client"
+            android:targetClass="net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

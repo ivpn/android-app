@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.InputType" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.privateemails.edit.EditPrivateEmailViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:text="@{viewmodel.email.email}"
+                android:textColor="#335266"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:id="@+id/clipboard_copy"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:onClick="copyToClipBoard"
+                android:src="@drawable/ic_content_copy"
+                android:tint="#4c335266" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="#4cb4c1cc" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="30dp"
+            android:enabled="@{viewmodel.editable ? true : false}"
+            android:fontFamily="sans-serif"
+            android:hint="@string/private_emails_generate_note_hint"
+            android:imeOptions="actionDone"
+            android:inputType="@{viewmodel.editable ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_NULL}"
+            android:lineSpacingExtra="8sp"
+            android:text="@={viewmodel.email.note}"
+            android:textColor="#335266"
+            android:textColorHint="#98a5b3"
+            android:textStyle="normal"
+            android:theme="@style/EditTextEmailTheme" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="6sp"
+            android:text="@string/private_emails_generate_description"
+            android:textColor="#98a5b3"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+</layout>

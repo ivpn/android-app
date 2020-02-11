@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="page"
+            type="net.ivpn.client.ui.tutorial.data.TutorialPageContent" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ImageView
+            android:id="@+id/tutorial_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:src="@{page.imgResId}" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tutorial_vpn_title_margin_top"
+            android:visibility="@{page.emptyTitle ? View.GONE : View.VISIBLE}" />
+
+        <TextView
+            android:id="@+id/tutorial_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="2sp"
+            android:text="@{page.titleResId}"
+            android:textColor="#335166"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="@{page.emptyTitle ? View.GONE : View.VISIBLE}" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <TextView
+            android:id="@+id/tutorial_page_descr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="4sp"
+            android:text="@{page.descrResId}"
+            android:textColor="#334d66"
+            android:textSize="@{page.emptyTitle ? @dimen/tutorial_big_descr : @dimen/tutorial_small_descr}"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+</layout>

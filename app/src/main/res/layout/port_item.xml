@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/port_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif"
+    android:lineSpacingExtra="8sp"
+    android:textColor="#98a5b3"
+    android:textSize="16sp"
+    android:textStyle="normal" />

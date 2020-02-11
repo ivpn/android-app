@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.startonboot.StartOnBootViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginTop="17dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/settings_start_on_boot_title"
+                    android:textColor="#335266"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/start_on_boot_description"
+                    android:textAlignment="viewStart" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/start_on_boot_brand_restrictions"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/enable_logging"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/settings_margin_right_extended"
+                android:layout_marginStart="10dp"
+                android:checked="@{viewmodel.startOnBoot}"
+                android:translationX="3dp"
+                app:onChanged="@{viewmodel.enableStartOnBoot}"
+                app:theme="@style/AppTheme.SwitchCompat" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_margin_left"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.04"
+            android:onClick="readMore"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/start_on_boot_read_more"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+</layout>
