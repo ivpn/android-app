@@ -91,7 +91,7 @@ This project is licensed under the GPLv3 - see the [License](/LICENSE.md) file f
 <a name="authors"></a>
 ## Authors
 
-See the [Authors](/AUTHORS) file for the list of contributors who participated in this project.
+See the [Authors](/AUTHORS.md) file for the list of contributors who participated in this project.
 
 <a name="acknowledgements"></a>
 ## Acknowledgements
