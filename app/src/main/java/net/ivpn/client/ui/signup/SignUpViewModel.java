@@ -1,8 +1,7 @@
 package net.ivpn.client.ui.signup;
 
-import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import net.ivpn.client.common.billing.BillingManagerWrapper;
 import net.ivpn.client.common.prefs.ServersRepository;

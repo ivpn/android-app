@@ -1,7 +1,7 @@
 package net.ivpn.client.ui.dialog;
 
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;

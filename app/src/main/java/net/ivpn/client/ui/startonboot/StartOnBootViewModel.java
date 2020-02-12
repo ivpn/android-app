@@ -1,6 +1,6 @@
 package net.ivpn.client.ui.startonboot;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 import android.widget.CompoundButton;
 
 import net.ivpn.client.common.prefs.Settings;

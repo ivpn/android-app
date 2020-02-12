@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.wireguard.android.config.Config;
 import com.wireguard.android.config.InetNetwork;

@@ -1,7 +1,7 @@
 package net.ivpn.client.ui.updates;
 
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 import android.widget.CompoundButton;
 
 import net.ivpn.client.IVPNApplication;

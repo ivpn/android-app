@@ -1,8 +1,8 @@
 package net.ivpn.client.ui.serverlist;
 
 import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import net.ivpn.client.R;
 import net.ivpn.client.common.pinger.PingProvider;

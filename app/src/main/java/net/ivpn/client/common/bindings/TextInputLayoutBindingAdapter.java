@@ -1,10 +1,8 @@
 package net.ivpn.client.common.bindings;
 
-import android.databinding.BindingAdapter;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.AppCompatSpinner;
-
-import net.ivpn.client.ui.protocol.port.Port;
+import androidx.databinding.BindingAdapter;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 public class TextInputLayoutBindingAdapter {
 

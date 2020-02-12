@@ -78,7 +78,7 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/behavior_spinner"
                 style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                 android:layout_width="wrap_content"

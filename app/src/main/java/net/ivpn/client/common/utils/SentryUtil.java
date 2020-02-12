@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import io.sentry.android.core.SentryAndroid;
 
+
 @ApplicationScope
 public class SentryUtil {
 
@@ -31,15 +32,16 @@ public class SentryUtil {
     public void init() {
         isEnabled = settings.isSentryEnabled();
 
+
         SentryAndroid.init(context, options -> {
             // Add a callback that will be used before the event is sent to Sentry.
             // With this callback, you can modify the event or, when returning null, also discard the event.
             options.setBeforeSend((event, hint) -> {
                 if (isEnabled) {
-                    LOGGER.info("Send event");
+                    LOGGER.info("Event was sent");
                     return event;
                 } else {
-                    LOGGER.info("NOT Send event");
+                    LOGGER.info("Event was NOT sent");
                     return null;
                 }
             });

@@ -1,12 +1,11 @@
 package net.ivpn.client.ui.customdns;
 
 import android.content.Context;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.ToastUtil;
 
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;

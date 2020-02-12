@@ -1,10 +1,9 @@
 package net.ivpn.client.ui.subscription;
 
 import android.app.Activity;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
-import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.common.billing.BillingListener;

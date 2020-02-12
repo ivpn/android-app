@@ -1,11 +1,11 @@
 package net.ivpn.client.ui.serverlist;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
 import net.ivpn.client.IVPNApplication;
@@ -20,8 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-
-import io.sentry.core.Sentry;
 
 public class ServersListActivity extends AppCompatActivity implements ServersListNavigator {
 
@@ -42,6 +40,9 @@ public class ServersListActivity extends AppCompatActivity implements ServersLis
         initExtras();
         init();
         initToolbar();
+
+//        Sentry.captureException(new IllegalArgumentException("Test"));
+//        throw new IllegalArgumentException("Test");
     }
 
     @Override

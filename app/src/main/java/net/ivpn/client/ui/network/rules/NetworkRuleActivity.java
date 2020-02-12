@@ -1,15 +1,14 @@
 package net.ivpn.client.ui.network.rules;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
-import net.ivpn.client.common.utils.LogUtil;
 import net.ivpn.client.databinding.ActivityNetworkRuleBinding;
 
 import org.slf4j.Logger;

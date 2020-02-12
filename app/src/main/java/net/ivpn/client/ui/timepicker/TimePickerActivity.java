@@ -1,8 +1,8 @@
 package net.ivpn.client.ui.timepicker;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.ui.dialog.DialogBuilder;

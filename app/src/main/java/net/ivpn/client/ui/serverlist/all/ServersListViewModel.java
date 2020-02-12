@@ -1,10 +1,10 @@
 package net.ivpn.client.ui.serverlist.all;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableList;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.OnServerListUpdatedListener;
 import net.ivpn.client.common.prefs.ServerType;

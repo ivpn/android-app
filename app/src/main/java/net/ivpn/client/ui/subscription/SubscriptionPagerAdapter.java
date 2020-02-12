@@ -1,22 +1,17 @@
 package net.ivpn.client.ui.subscription;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
-
-import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.R;
 import net.ivpn.client.ui.subscription.monthly.MonthlySubscriptionFragment;
 import net.ivpn.client.ui.subscription.yearly.YearlySubscriptionFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SubscriptionPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -1,9 +1,8 @@
 package net.ivpn.client.ui.privateemails;
 
-import android.content.Context;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableList;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
@@ -17,7 +16,6 @@ import net.ivpn.client.rest.data.privateemails.GenerateEmailResponse;
 import net.ivpn.client.rest.data.privateemails.PrivateEmailsListRequestBody;
 import net.ivpn.client.rest.data.privateemails.PrivateEmailsListResponse;
 import net.ivpn.client.rest.requests.common.Request;
-import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
 
 import org.slf4j.Logger;

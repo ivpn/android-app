@@ -1,10 +1,10 @@
 package net.ivpn.client.ui.split;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +15,6 @@ import com.todtenkopf.mvvm.ViewModelBase;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
-import net.ivpn.client.common.dagger.ActivityComponent;
 import net.ivpn.client.databinding.ActivitySplitTunnelingBinding;
 
 import javax.inject.Inject;
