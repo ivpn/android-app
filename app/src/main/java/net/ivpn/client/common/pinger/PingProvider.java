@@ -58,7 +58,8 @@ public class PingProvider {
     public void pingAll(boolean shouldUseHardReset) {
         LOGGER.info("Ping servers if needed: should be reset " + shouldUseHardReset);
         Protocol currentProtocol = protocolController.getCurrentProtocol();
-        if (currentProtocol.equals(lastPingedProtocol) && !(needToFindNewlyFastestServer || shouldUseHardReset || isFrequencyLimitationSatisfied())) {
+        if (currentProtocol.equals(lastPingedProtocol) && !(needToFindNewlyFastestServer
+                || shouldUseHardReset || isFrequencyLimitationSatisfied())) {
             return;
         }
         List<Server> servers = serversRepository.getServers(false);

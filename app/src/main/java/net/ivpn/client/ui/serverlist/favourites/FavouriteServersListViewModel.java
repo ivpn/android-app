@@ -1,8 +1,8 @@
 package net.ivpn.client.ui.serverlist.favourites;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableField;
-import android.databinding.ObservableList;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.OnFavouriteServersChangedListener;
 import net.ivpn.client.common.prefs.ServerType;

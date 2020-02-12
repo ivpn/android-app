@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import net.ivpn.client.R;
 import net.ivpn.client.ui.connect.ConnectActivity;

@@ -2,16 +2,15 @@ package net.ivpn.client.ui.split;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableList;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableList;
 import android.os.AsyncTask;
 
 import com.todtenkopf.mvvm.ViewModelBase;
 
 import net.ivpn.client.common.prefs.PackagesPreference;
-import net.ivpn.client.common.prefs.Preference;
 import net.ivpn.client.ui.split.data.ApplicationItem;
 
 import java.util.HashSet;

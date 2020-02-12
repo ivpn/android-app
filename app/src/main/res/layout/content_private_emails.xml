@@ -45,7 +45,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="9" />
@@ -55,7 +55,7 @@
                     android:layout_height="200dp"
                     android:src="@drawable/illustration_empty_mailboxes" />
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2" />
@@ -71,7 +71,7 @@
                     android:textSize="20sp"
                     android:textStyle="normal" />
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
@@ -89,7 +89,7 @@
                     android:gravity="center_horizontal"
                     android:text="@string/private_emails_empty_description"/>
 
-                <android.support.v4.widget.Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="10" />

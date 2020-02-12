@@ -1,6 +1,6 @@
 package net.ivpn.client.ui.alwaysonvpn;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 import android.os.Build;
 import android.widget.CompoundButton;
 

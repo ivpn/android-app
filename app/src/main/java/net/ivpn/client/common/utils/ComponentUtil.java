@@ -1,7 +1,7 @@
 package net.ivpn.client.common.utils;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;

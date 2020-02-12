@@ -1,21 +1,18 @@
 package net.ivpn.client.ui.network;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import net.ivpn.client.IVPNApplication;
-import net.ivpn.client.common.prefs.Preference;
 import net.ivpn.client.databinding.ViewCommonNetworkBehaviourBinding;
 import net.ivpn.client.databinding.ViewNetworkMainBinding;
 import net.ivpn.client.databinding.ViewWifiItemBinding;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
-import net.ivpn.client.vpn.local.NetworkController;
 
 import java.util.LinkedList;
 import java.util.List;

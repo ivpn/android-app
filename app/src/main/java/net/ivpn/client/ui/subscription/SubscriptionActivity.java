@@ -1,27 +1,21 @@
 package net.ivpn.client.ui.subscription;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
-
-import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ActivityComponent;
 import net.ivpn.client.databinding.ActivitySubscriptionBinding;
 import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.dialog.Dialogs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

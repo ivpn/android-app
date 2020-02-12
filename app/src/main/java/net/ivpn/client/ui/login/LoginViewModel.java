@@ -1,8 +1,8 @@
 package net.ivpn.client.ui.login;
 
 import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import com.wireguard.android.crypto.Keypair;
 

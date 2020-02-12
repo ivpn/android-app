@@ -1,6 +1,6 @@
 package net.ivpn.client.ui.network;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;

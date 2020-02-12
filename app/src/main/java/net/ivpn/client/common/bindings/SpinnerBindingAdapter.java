@@ -1,7 +1,7 @@
 package net.ivpn.client.common.bindings;
 
-import android.databinding.BindingAdapter;
-import android.support.v7.widget.AppCompatSpinner;
+import androidx.databinding.BindingAdapter;
+import androidx.appcompat.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
 

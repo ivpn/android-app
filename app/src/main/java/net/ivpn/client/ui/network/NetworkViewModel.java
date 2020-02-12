@@ -1,10 +1,10 @@
 package net.ivpn.client.ui.network;
 
 import android.content.Context;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableList;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableList;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 

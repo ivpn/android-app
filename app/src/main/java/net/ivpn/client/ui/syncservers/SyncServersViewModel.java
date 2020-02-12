@@ -1,7 +1,7 @@
 package net.ivpn.client.ui.syncservers;
 
-import android.databinding.BaseObservable;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableBoolean;
 
 import net.ivpn.client.common.prefs.OnServerListUpdatedListener;
 import net.ivpn.client.common.prefs.ServersRepository;

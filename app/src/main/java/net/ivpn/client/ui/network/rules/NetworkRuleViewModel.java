@@ -1,9 +1,8 @@
 package net.ivpn.client.ui.network.rules;
 
-import android.databinding.ObservableBoolean;
+import androidx.databinding.ObservableBoolean;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.prefs.SettingsPreference;
 import net.ivpn.client.vpn.local.NetworkController;
 

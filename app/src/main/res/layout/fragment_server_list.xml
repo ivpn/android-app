@@ -24,7 +24,7 @@
             android:theme="@style/AppTheme.ProgressBar"
             android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,13 +32,13 @@
             android:visibility="@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}"
             app:refreshing="@{viewmodel.dataRefreshing}">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:forbiddenItem="@{viewmodel.forbiddenServer}"
                 app:items="@{viewmodel.obsServers}" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </FrameLayout>
 </layout>

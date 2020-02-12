@@ -1,7 +1,7 @@
 package com.todtenkopf.mvvm;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 public abstract class Command extends BaseObservable
 {

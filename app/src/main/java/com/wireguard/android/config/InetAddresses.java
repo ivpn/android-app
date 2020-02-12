@@ -6,7 +6,7 @@
 
 package com.wireguard.android.config;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

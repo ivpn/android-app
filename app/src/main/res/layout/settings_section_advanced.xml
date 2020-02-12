@@ -11,7 +11,7 @@
             type="net.ivpn.client.ui.settings.SettingsViewModel" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -270,7 +270,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_kill_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -319,7 +319,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_crashes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -367,7 +367,7 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_logging"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -402,5 +402,5 @@
                     android:text="@string/settings_send_logs" />
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </layout>
