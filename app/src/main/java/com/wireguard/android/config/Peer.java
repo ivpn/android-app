@@ -293,7 +293,6 @@ public class Peer implements Parcelable{
 
         public void setPublicKey(final String publicKey) {
             this.publicKey = publicKey;
-//            notifyPropertyChanged(BR.publicKey);
         }
 
         @Override

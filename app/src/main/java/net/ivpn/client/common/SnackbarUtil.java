@@ -2,10 +2,9 @@ package net.ivpn.client.common;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Typeface;
-import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
-import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import net.ivpn.client.R;
 
@@ -29,12 +28,6 @@ public class SnackbarUtil {
             snackbar.setAction(action, listener)
                     .setActionTextColor(resources.getColor(R.color.colorPrimary));
         }
-
-//        TextView mainTextView = (snackbar.getView()).findViewById(android.support.design.R.id.snackbar_text);
-//        mainTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-//
-//        TextView actionTextView = (snackbar.getView()).findViewById(android.support.design.R.id.snackbar_action);
-//        actionTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
 
         snackbar.show();
     }
