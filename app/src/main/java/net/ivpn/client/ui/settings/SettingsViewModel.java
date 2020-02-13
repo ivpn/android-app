@@ -381,6 +381,10 @@ public class SettingsViewModel extends BaseObservable {
 
     private String getSubscriptionPlan() {
         String plan = userPreference.getCurrentPlan();
+        if (!userPreference.getIsActive()) {
+            plan += " (inactive)";
+            return plan;
+        }
         Purchase purchase = billingManager.getPurchase();
         if (plan == null || purchase == null) {
             return plan;
