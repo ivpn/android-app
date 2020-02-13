@@ -42,6 +42,10 @@
     <string name="sign_up_hint">Email address</string>
     <string name="sign_up_password_hint">Create password</string>
 
+    <string name="sign_up_no_password_error">The password field is required.</string>
+    <string name="sign_up_wrong_email_format">The format of your email address is not correct.</string>
+    <string name="sign_up_unknown_error">Unknown error, please contact support and send logs</string>
+
     <!--Reset Password-->
     <string name="reset_password_info">We will send you the confirmation Email</string>
     <string name="reset_password_edittext_hint">Your Email</string>
