@@ -152,15 +152,13 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void authenticate() {
         LOGGER.info("authenticate");
-        Intent intent = new Intent(this, TutorialActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, TutorialActivity.class));
     }
 
     @Override
     public void subscribe() {
         LOGGER.info("subscribe");
-        Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
     }
 
     public void logout() {
@@ -215,7 +213,7 @@ public class SettingsActivity extends AppCompatActivity
                     R.string.snackbar_disconnect_first, null);
         } else {
             Intent intent = new Intent(this, ProtocolActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
         }
 
     }
@@ -230,26 +228,22 @@ public class SettingsActivity extends AppCompatActivity
             return;
         }
 
-        Intent intent = new Intent(this, NetworkActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, NetworkActivity.class));
     }
 
     public void readPrivacyPolicy(View view) {
         LOGGER.info("readPrivacyPolicy");
-        Intent intent = new Intent(this, PrivacyPolicyActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, PrivacyPolicyActivity.class));
     }
 
     public void readTermsOfService(View view) {
         LOGGER.info("readTermsOfService");
-        Intent intent = new Intent(this, TermsOfServiceActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, TermsOfServiceActivity.class));
     }
 
     public void checkUpdates(View view) {
         LOGGER.info("check for updates");
-        Intent intent = new Intent(this, UpdatesActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, UpdatesActivity.class));
     }
 
     public void sendLogs(View view) {
@@ -269,7 +263,7 @@ public class SettingsActivity extends AppCompatActivity
     public void alwaysOnVpn(View view) {
         LOGGER.info("alwaysOnVpn");
         Intent intent = new Intent(this, AlwaysOnVpnActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     public void startOnSystemBoot(View view) {
@@ -283,7 +277,7 @@ public class SettingsActivity extends AppCompatActivity
         }
 
         Intent intent = new Intent(this, StartOnBootActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     public void antiSurveillance(View view) {
@@ -296,36 +290,30 @@ public class SettingsActivity extends AppCompatActivity
 
     public void manageSubscription(View view) {
         LOGGER.info("renew");
-        Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
     }
 
     public void resubscribe(View view) {
         LOGGER.info("resubscribe");
-
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, viewModel.getSubscriptionUri());
-        startActivity(browserIntent);
+        startActivity(new Intent(Intent.ACTION_VIEW, viewModel.getSubscriptionUri()));
     }
 
     @Override
     public void splitTunneling() {
         LOGGER.info("splitTunneling");
-        Intent intent = new Intent(this, SplitTunnelingActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, SplitTunnelingActivity.class));
     }
 
     @Override
     public void customDNS() {
         LOGGER.info("customDns");
-        Intent intent = new Intent(this, CustomDNSActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, CustomDNSActivity.class));
     }
 
     @Override
     public void antiTracker() {
         LOGGER.info("antiSurveillance");
-        Intent intent = new Intent(this, AntiSurveillanceActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(new Intent(this, AntiSurveillanceActivity.class));
     }
 
     @Override
@@ -333,7 +321,7 @@ public class SettingsActivity extends AppCompatActivity
         LOGGER.info("chooseServer");
         Intent intent = new Intent(this, ServersListActivity.class);
         intent.setAction(serverType.toString());
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     @Override
@@ -370,5 +358,10 @@ public class SettingsActivity extends AppCompatActivity
                 DialogBuilder.createNotificationDialog(this, Dialogs.NO_VPN_SETTINGS);
             }
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

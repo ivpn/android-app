@@ -76,6 +76,9 @@ public class WireGuardKeyController {
         keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
             setKey();
+        } else {
+            //This case should not happen but for integrity, it should be here.
+            keysEventsListener.onKeyGeneratedError(null, null);
         }
     }
 
@@ -83,6 +86,9 @@ public class WireGuardKeyController {
         keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
             setKey();
+        } else {
+            //This case should not happen but for integrity, it should be here.
+            keysEventsListener.onKeyGeneratedError(null, null);
         }
     }
 
@@ -91,6 +97,9 @@ public class WireGuardKeyController {
         keysEventsListener.onKeyRemoving();
         if (!getSessionToken().isEmpty()) {
             setKey();
+        } else {
+            //This case should not happen but for integrity, it should be here.
+            keysEventsListener.onKeyGeneratedError(null, null);
         }
     }
 

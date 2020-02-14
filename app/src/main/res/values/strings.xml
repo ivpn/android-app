@@ -314,6 +314,10 @@
     <string name="connect_fastest_server">Fastest server</string>
     <string name="connect_unable_test_fastest_server">Unable to test for the fastest server due to a network restriction, the default server will be selected.</string>
     <string name="connect_resumed_in">Will resume in </string>
+
+    <string name="connect_menu_private_email">Private Emails</string>
+    <string name="connect_menu_settings">Settings</string>
+    <string name="connect_menu_location">Location</string>
     <!--Log-->
     <string name="log_title">Application log</string>
 

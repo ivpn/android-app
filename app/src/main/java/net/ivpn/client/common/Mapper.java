@@ -50,18 +50,16 @@ public class Mapper {
     }
 
     public static ErrorResponse errorResponseFrom(String json) {
-        if (json == null) return null;
+        if (json == null || json.isEmpty()) return null;
         try {
             return new Gson().fromJson(json, ErrorResponse.class);
-        } catch (JsonSyntaxException jsonSyntaxException) {
-            return null;
-        } catch (IllegalStateException exception) {
+        } catch (JsonSyntaxException | IllegalStateException jsonSyntaxException) {
             return null;
         }
     }
 
     public static Update updateFrom(String json) {
-        if (json == null) return null;
+        if (json == null || json.isEmpty()) return null;
         return new Gson().fromJson(json, Update.class);
     }
 }
