@@ -1,8 +1,12 @@
 package net.ivpn.client.ui.signup;
 
+import android.content.Context;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
+import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.billing.BillingManagerWrapper;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
@@ -16,6 +20,8 @@ import net.ivpn.client.rest.requests.common.Request;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -31,6 +37,7 @@ public class SignUpViewModel {
     private SignUpNavigator navigator;
     private BillingManagerWrapper billingManagerWrapper;
     private Request<ValidateAccountResponse> request;
+    private Context context;
 
     @Inject
     SignUpViewModel(BillingManagerWrapper billingManagerWrapper,
@@ -38,15 +45,18 @@ public class SignUpViewModel {
         this.billingManagerWrapper = billingManagerWrapper;
 
         request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.SHORT);
+        context = IVPNApplication.getApplication();
     }
 
     void signUp() {
+        if (password.get() == null || Objects.requireNonNull(password.get()).isEmpty()) {
+            passwordError.set(context.getString(R.string.sign_up_no_password_error));
+            return;
+        }
         if (StringUtil.validateUsername(email.get())) {
             validateAccount(email.get(), password.get());
-//            navigator.onSignUp();
         } else {
-            emailError.set("The format of your email address is not correct.");
-//            navigator.onEmailFormatError();
+            emailError.set(context.getString(R.string.sign_up_wrong_email_format));
         }
     }
 
@@ -84,7 +94,7 @@ public class SignUpViewModel {
                 //ToDo refactor it
                 dataLoading.set(false);
                 LOGGER.error(throwable.getMessage());
-                navigator.onError("", "Unknown error, please contact support and send logs");
+                navigator.onError("", context.getString(R.string.sign_up_unknown_error));
             }
 
             @Override
