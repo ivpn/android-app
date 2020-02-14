@@ -6,23 +6,23 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_info"
         app:showAsAction="ifRoom"
-        android:title="connection_info" />
+        android:title="@string/connect_menu_location" />
     <item
         android:id="@+id/action_private_emails"
         android:orderInCategory="100"
         android:icon="@drawable/ic_mailbox_wrapper"
         app:showAsAction="ifRoom"
-        android:title="private_emails" />
+        android:title="@string/connect_menu_private_email" />
     <item
         android:id="@+id/action_new_private_emails"
         android:orderInCategory="101"
         android:icon="@drawable/ic_mailbox_new"
         app:showAsAction="ifRoom"
-        android:title="private_emails" />
+        android:title="@string/connect_menu_private_email" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="102"
         android:icon="@drawable/ic_settings"
         app:showAsAction="ifRoom"
-        android:title="settings" />
+        android:title="@string/connect_menu_settings" />
 </menu>
