@@ -14,6 +14,7 @@ import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.vpn.OnProtocolChangedListener;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
+import net.ivpn.client.vpn.openvpn.IVPNService;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
 
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
+import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.VpnStatus;
 
 @ApplicationScope
@@ -123,7 +125,8 @@ public class VpnBehaviorController {
 
     public boolean isVPNActive() {
         if (protocol == Protocol.OPENVPN) {
-            return VpnStatus.isVPNActive();
+            return VpnStatus.isVPNActive()
+                    || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK && IVPNService.isRunning.get());
         } else {
             Tunnel tunnel = configManager.getTunnel();
             LOGGER.info("isVPNActive, tunnel " + tunnel);

@@ -147,6 +147,7 @@ public class GlobalBehaviorController implements ServiceConstants {
     public void stopVPN() {
         LOGGER.info("stopVPN");
         if (!isVpnActive()) {
+            LOGGER.info("VPN is NOT active, skip stopVPN event");
             return;
         }
         vpnBehaviorController.disconnect();
