@@ -17,6 +17,7 @@ Please check if your PR fulfills the following requirements:
 
 - [ ] I have read the CONTRIBUTING.md doc
 - [ ] I have added necessary documentation (if appropriate)
+- [ ] The Git workflow follows our guidelines: CONTRIBUTING.md#git
 
 ## What is the current behavior?
 
