@@ -12,6 +12,7 @@ import android.view.View;
 
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.R;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.databinding.ActivityTutorialBinding;
 import net.ivpn.client.ui.login.LoginActivity;
 import net.ivpn.client.ui.signup.SignUpActivity;
@@ -28,9 +29,7 @@ public class TutorialActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tutorial);
-        binding.backArrow.setOnClickListener(view -> {
-            onBackPressed();
-        });
+        binding.backArrow.setOnClickListener(view -> onBackPressed());
         init();
     }
 
@@ -61,6 +60,11 @@ public class TutorialActivity extends AppCompatActivity {
         binding.setPage(new TutorialPage(position));
     }
 
+    public void logIn(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     public void startTrial(View view) {
         if (BuildConfig.BUILD_VARIANT.equals("site")) {
             openWebsite();
@@ -70,14 +74,9 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
 
-    public void logIn(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     private void openWebsite() {
-        Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
