@@ -30,6 +30,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.SnackbarUtil;
 import net.ivpn.client.common.prefs.ServerType;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.common.utils.ViewUtil;
 import net.ivpn.client.databinding.ActivityConnectBinding;
 import net.ivpn.client.ui.dialog.DialogBuilder;
@@ -38,6 +39,7 @@ import net.ivpn.client.ui.network.NetworkAdapter;
 import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
 import net.ivpn.client.ui.settings.SettingsActivity;
+import net.ivpn.client.ui.signup.SignUpActivity;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.tutorial.TutorialActivity;
 import net.ivpn.client.ui.updates.UpdatesJobServiceUtil;
@@ -221,8 +223,20 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
     private void subscribe() {
         LOGGER.info("subscribe");
-        Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
+        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+            openWebsite();
+        } else {
+            Intent intent = new Intent(this, SubscriptionActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void openWebsite() {
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     private void handleTapToPause() {
@@ -319,12 +333,6 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
     @Override
     public void openErrorDialog(Dialogs dialogs) {
         DialogBuilder.createNotificationDialog(this, dialogs);
-    }
-
-    public void renew(View view) {
-        LOGGER.info("renew");
-        Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
     }
 
     public void chooseExitServer(View view) {

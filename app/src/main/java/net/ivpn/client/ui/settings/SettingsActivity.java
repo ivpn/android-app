@@ -16,11 +16,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.Constant;
 import net.ivpn.client.common.SnackbarUtil;
 import net.ivpn.client.common.prefs.ServerType;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.databinding.ActivitySettingsBinding;
 import net.ivpn.client.ui.alwaysonvpn.AlwaysOnVpnActivity;
 import net.ivpn.client.ui.customdns.CustomDNSActivity;
@@ -30,6 +32,7 @@ import net.ivpn.client.ui.network.NetworkActivity;
 import net.ivpn.client.ui.policy.PrivacyPolicyActivity;
 import net.ivpn.client.ui.protocol.ProtocolActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
+import net.ivpn.client.ui.signup.SignUpActivity;
 import net.ivpn.client.ui.split.SplitTunnelingActivity;
 import net.ivpn.client.ui.startonboot.StartOnBootActivity;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
@@ -158,7 +161,19 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void subscribe() {
         LOGGER.info("subscribe");
-        startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
+        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+            openWebsite();
+        } else {
+            startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
+        }
+    }
+
+    private void openWebsite() {
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     public void logout() {
@@ -290,7 +305,11 @@ public class SettingsActivity extends AppCompatActivity
 
     public void manageSubscription(View view) {
         LOGGER.info("renew");
-        startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
+        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+            openWebsite();
+        } else {
+            startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
+        }
     }
 
     public void resubscribe(View view) {
