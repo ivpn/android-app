@@ -187,13 +187,13 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
     public void openSettings() {
         LOGGER.info("openSettings");
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     public void openPrivateEmails() {
         LOGGER.info("openPrivateEmails");
         Intent intent = new Intent(this, PrivateEmailsActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     private void tryWifiWatcher() {
@@ -216,13 +216,13 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
     private void authenticate() {
         LOGGER.info("authenticate");
         Intent intent = new Intent(this, TutorialActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     private void subscribe() {
         LOGGER.info("subscribe");
         Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     private void handleTapToPause() {
@@ -282,7 +282,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         viewModel.logout();
 
         Intent intent = new Intent(this, TutorialActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
         finish();
     }
 
@@ -321,12 +321,6 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         DialogBuilder.createNotificationDialog(this, dialogs);
     }
 
-    public void renew(View view) {
-        LOGGER.info("renew");
-        Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
-    }
-
     public void chooseExitServer(View view) {
         LOGGER.info("chooseExitServer");
         viewModel.chooseServer(ServerType.EXIT);
@@ -342,7 +336,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         LOGGER.info("chooseServer serverType = " + serverType);
         Intent intent = new Intent(this, ServersListActivity.class);
         intent.setAction(serverType.toString());
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     @Override
@@ -429,5 +423,10 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
     @Override
     public void cancel() {
         createSessionFragment.dismissAllowingStateLoss();
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

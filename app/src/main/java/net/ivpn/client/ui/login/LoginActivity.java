@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
             openLink("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
             finish();
         }
     }
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     public void onLogin() {
         LOGGER.info("onLogin");
         Intent intent = new Intent(this, SyncServersActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
         finish();
     }
 
@@ -236,5 +236,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

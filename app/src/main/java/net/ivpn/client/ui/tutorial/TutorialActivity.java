@@ -66,13 +66,13 @@ public class TutorialActivity extends AppCompatActivity {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
         }
     }
 
     public void logIn(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     private void openWebsite() {
@@ -81,5 +81,10 @@ public class TutorialActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }
