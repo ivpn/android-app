@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.common.utils.KeyboardUtil;
 import net.ivpn.client.databinding.ActivityLoginBinding;
 import net.ivpn.client.ui.connect.CreateSessionFragment;
@@ -150,11 +151,19 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
         LOGGER.info("Navigate to sign up screen");
 
         if (BuildConfig.BUILD_VARIANT.equals("site")) {
-            openLink("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+            openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
             startSingleTopActivity(intent);
             finish();
+        }
+    }
+
+    private void openWebsite() {
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
@@ -169,6 +178,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     @Override
     public void openSubscriptionScreen() {
         LOGGER.info("openSubscriptionScreen");
+        if (BuildConfig.BUILD_VARIANT.equals("site")){
+            onLogin();
+            return;
+        }
         Intent syncIntent = new Intent(this, SyncServersActivity.class);
         Intent subscriptionIntent = new Intent(this, SubscriptionActivity.class);
 
@@ -231,8 +244,8 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     }
 
     private void openLink(String link) {
-        Uri webpage = Uri.parse(link);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        Uri webPage = Uri.parse(link);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
