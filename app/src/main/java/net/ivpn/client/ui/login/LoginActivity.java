@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == OFFLINE_LOGIN_REQUEST_CODE) {
             viewModel.login(false);
         }
@@ -177,6 +178,23 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
         stackBuilder.startActivities();
         finish();
+    }
+
+    @Override
+    public void openSite() {
+        LOGGER.info("openSite");
+        Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            Intent syncIntent = new Intent(this, SyncServersActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntent(syncIntent);
+            stackBuilder.addNextIntent(webIntent);
+            stackBuilder.startActivities();
+            finish();
+        } else {
+            onLogin();
+        }
     }
 
     @Override

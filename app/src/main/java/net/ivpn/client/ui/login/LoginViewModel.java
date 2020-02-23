@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField;
 
 import com.wireguard.android.crypto.Keypair;
 
+import net.ivpn.client.BuildConfig;
 import net.ivpn.client.R;
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.prefs.ServersRepository;
@@ -143,7 +144,11 @@ public class LoginViewModel {
             if (userPreference.getIsActive()) {
                 navigator.onLogin();
             } else {
-                navigator.openSubscriptionScreen();
+                if (BuildConfig.BUILD_VARIANT.equals("site")) {
+                    navigator.openSite();
+                } else {
+                    navigator.openSubscriptionScreen();
+                }
             }
         } else {
             navigator.openErrorDialogue(Dialogs.SERVER_ERROR);
