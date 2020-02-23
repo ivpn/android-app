@@ -8,7 +8,6 @@ if (new File("keystore.properties").exists()) {
 } else {
     keystoreProperties.load(new FileInputStream(rootProject.file("fakekeystore.properties")))
 }
-//keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 android {
     signingConfigs {
