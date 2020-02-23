@@ -3,7 +3,12 @@ apply plugin: 'io.sentry.android.gradle'
 apply plugin: 'kotlin-android'
 
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+if (new File("keystore.properties").exists()) {
+    keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+} else {
+    keystoreProperties.load(new FileInputStream(rootProject.file("fakekeystore.properties")))
+}
+//keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 android {
     signingConfigs {
