@@ -356,10 +356,11 @@ public class SettingsViewModel extends BaseObservable {
 
     private boolean isAuthenticated() {
         String token = userPreference.getSessionToken();
-        if (!token.isEmpty()) {
-            return true;
-        }
-        return !userPreference.getUserLogin().isEmpty();
+        return !token.isEmpty();
+//        if (!token.isEmpty()) {
+//            return true;
+//        }
+//        return !userPreference.getUserLogin().isEmpty();
     }
 
     private boolean isManageSubscriptionAvailable() {

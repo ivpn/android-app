@@ -39,7 +39,6 @@ import net.ivpn.client.ui.network.NetworkAdapter;
 import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
 import net.ivpn.client.ui.settings.SettingsActivity;
-import net.ivpn.client.ui.signup.SignUpActivity;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.tutorial.TutorialActivity;
 import net.ivpn.client.ui.updates.UpdatesJobServiceUtil;
@@ -204,7 +203,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
     private void handleTapToConnect() {
         LOGGER.info("handleTapToConnect");
-        if (viewModel.isCredentialsAbsent()) {
+        if (!viewModel.isCredentialsExist()) {
             authenticate();
         } else if (!viewModel.isActive()) {
             subscribe();
