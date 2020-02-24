@@ -60,25 +60,28 @@ public class TutorialActivity extends AppCompatActivity {
         binding.setPage(new TutorialPage(position));
     }
 
-    public void logIn(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     public void startTrial(View view) {
         if (BuildConfig.BUILD_VARIANT.equals("site")) {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
         }
     }
-
+    public void logIn(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startSingleTopActivity(intent);
+    }
     private void openWebsite() {
         Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

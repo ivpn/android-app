@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
             finish();
         }
     }
@@ -171,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     public void onLogin() {
         LOGGER.info("onLogin");
         Intent intent = new Intent(this, SyncServersActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
         finish();
     }
 
@@ -191,6 +191,23 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
         stackBuilder.startActivities();
         finish();
+    }
+
+    @Override
+    public void openSite() {
+        LOGGER.info("openSite");
+        Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            Intent syncIntent = new Intent(this, SyncServersActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntent(syncIntent);
+            stackBuilder.addNextIntent(webIntent);
+            stackBuilder.startActivities();
+            finish();
+        } else {
+            onLogin();
+        }
     }
 
     @Override
@@ -232,5 +249,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }
