@@ -17,7 +17,7 @@ public class ConnectionShortcutsViewModel {
     }
 
     boolean isCredentialsExist() {
-        return !userPreference.getUserLogin().isEmpty();
+        return !userPreference.getSessionToken().isEmpty();
     }
 
     void startVpn() {

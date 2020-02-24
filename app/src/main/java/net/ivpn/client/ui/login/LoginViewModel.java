@@ -108,7 +108,7 @@ public class LoginViewModel {
                         LOGGER.error("Login process: ERROR: " + error);
                         ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
                         dataLoading.set(false);
-                        handleErrorResponse(errorResponse);
+                        handleErrorResponse(errorResponse, username);
                     }
                 });
     }
@@ -155,7 +155,7 @@ public class LoginViewModel {
         }
     }
 
-    private void handleErrorResponse(ErrorResponse errorResponse) {
+    private void handleErrorResponse(ErrorResponse errorResponse, String username) {
         if (errorResponse == null || errorResponse.getStatus() == null) {
             navigator.openErrorDialogue(Dialogs.SERVER_ERROR);
             return;
@@ -166,7 +166,11 @@ public class LoginViewModel {
                 navigator.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR);
                 break;
             }
-
+            case Responses.NOT_ACTIVE: {
+                userPreference.putUserLogin(username);
+                navigator.openActivateDialogue();
+                break;
+            }
             case Responses.SESSION_TOO_MANY: {
                 navigator.openSessionLimitReachedDialogue();
                 break;

@@ -27,6 +27,8 @@ public enum Dialogs {
             R.string.dialogs_try_again, R.string.dialogs_cancel),
     ON_CONNECTION_AUTHENTICATION_ERROR(R.string.dialogs_authentication_error, R.string.dialogs_auth_error_msg,
             R.string.dialogs_log_out_positive_button, R.string.dialogs_cancel),
+    ACCOUNT_IS_NOT_ACTIVE(R.string.dialogs_authentication_error, R.string.dialogs_no_active_subscription,
+            R.string.dialogs_activate_action, R.string.dialogs_cancel),
     INCOMPATIBLE_SERVERS(R.string.dialogs_error, R.string.dialogs_servers_error, -1, R.string.dialogs_ok),
     ACCOUNT_VERIFICATION_ERROR(R.string.dialogs_error, R.string.dialogs_authentication_error_msg,
             R.string.dialogs_log_out_positive_button, -1),

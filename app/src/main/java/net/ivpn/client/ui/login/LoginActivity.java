@@ -1,6 +1,7 @@
 package net.ivpn.client.ui.login;
 
 import android.app.TaskStackBuilder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
 
@@ -178,10 +179,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     @Override
     public void openSubscriptionScreen() {
         LOGGER.info("openSubscriptionScreen");
-        if (BuildConfig.BUILD_VARIANT.equals("site")){
-            onLogin();
-            return;
-        }
         Intent syncIntent = new Intent(this, SyncServersActivity.class);
         Intent subscriptionIntent = new Intent(this, SubscriptionActivity.class);
 
@@ -191,6 +188,18 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
         stackBuilder.startActivities();
         finish();
+    }
+
+    @Override
+    public void openActivateDialogue() {
+        LOGGER.info("openActivateDialogue");
+        DialogBuilder.createOptionDialog(this, Dialogs.ACCOUNT_IS_NOT_ACTIVE, (dialog, which) -> {
+            if (BuildConfig.BUILD_VARIANT.equals("site")) {
+                openLink("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+            } else {
+                startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
+            }
+        });
     }
 
     @Override

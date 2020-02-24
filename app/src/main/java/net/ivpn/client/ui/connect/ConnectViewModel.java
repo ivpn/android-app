@@ -322,11 +322,8 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         return serversRepository.getCurrentServer(serverType);
     }
 
-    boolean isCredentialsAbsent() {
-        if (isTokenExist()) {
-            return false;
-        }
-        return userPreference.getUserLogin().isEmpty();
+    boolean isCredentialsExist() {
+        return isTokenExist();
     }
 
     boolean isActive() {

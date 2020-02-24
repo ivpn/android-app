@@ -4,6 +4,7 @@ public interface Responses {
     int SUCCESS = 200;
     int BAD_REQUEST = 400;
     int INVALID_CREDENTIALS = 401;
+    int NOT_ACTIVE = 402;
     int WIREGUARD_KEY_INVALID = 422;
     int WIREGUARD_PUBLIC_KEY_EXIST = 423;
     int WIREGUARD_KEY_NOT_FOUND = 424;
