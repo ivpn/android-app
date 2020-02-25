@@ -10,6 +10,7 @@ import net.ivpn.client.R;
 import net.ivpn.client.common.billing.BillingManagerWrapper;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
@@ -36,13 +37,16 @@ public class SignUpViewModel {
 
     private SignUpNavigator navigator;
     private BillingManagerWrapper billingManagerWrapper;
+    private UserPreference userPreference;
     private Request<ValidateAccountResponse> request;
     private Context context;
 
     @Inject
     SignUpViewModel(BillingManagerWrapper billingManagerWrapper,
-                    Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository) {
+                    Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository,
+                    UserPreference userPreference) {
         this.billingManagerWrapper = billingManagerWrapper;
+        this.userPreference = userPreference;
 
         request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.SHORT);
         context = IVPNApplication.getApplication();
@@ -118,5 +122,6 @@ public class SignUpViewModel {
 
         billingManagerWrapper.setEmail(email);
         billingManagerWrapper.setPassword(password);
+        userPreference.putUserLogin("");
     }
 }
