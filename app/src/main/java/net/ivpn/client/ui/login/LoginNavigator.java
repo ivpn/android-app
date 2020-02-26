@@ -5,7 +5,6 @@ import net.ivpn.client.ui.dialog.Dialogs;
 public interface LoginNavigator {
     void onLogin();
     void openSubscriptionScreen();
-    void openActivateDialogue();
     void openSite();
     void openSessionLimitReachedDialogue();
     void openErrorDialogue(Dialogs dialogs);
