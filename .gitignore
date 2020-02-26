@@ -10,3 +10,5 @@
 .externalNativeBuild
 keystore.properties
 /keystore.properties
+/app/storeProduction
+/app/siteProduction

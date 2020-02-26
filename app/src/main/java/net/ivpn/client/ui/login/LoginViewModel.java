@@ -166,11 +166,6 @@ public class LoginViewModel {
                 navigator.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR);
                 break;
             }
-            case Responses.NOT_ACTIVE: {
-                userPreference.putUserLogin(username);
-                navigator.openActivateDialogue();
-                break;
-            }
             case Responses.SESSION_TOO_MANY: {
                 navigator.openSessionLimitReachedDialogue();
                 break;

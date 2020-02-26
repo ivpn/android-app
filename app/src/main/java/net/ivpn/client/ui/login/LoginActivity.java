@@ -191,18 +191,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     }
 
     @Override
-    public void openActivateDialogue() {
-        LOGGER.info("openActivateDialogue");
-        DialogBuilder.createOptionDialog(this, Dialogs.ACCOUNT_IS_NOT_ACTIVE, (dialog, which) -> {
-            if (BuildConfig.BUILD_VARIANT.equals("site")) {
-                openLink("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
-            } else {
-                startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
-            }
-        });
-    }
-
-    @Override
     public void openSite() {
         LOGGER.info("openSite");
         Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
