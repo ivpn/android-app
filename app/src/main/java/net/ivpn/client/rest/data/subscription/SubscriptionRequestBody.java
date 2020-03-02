@@ -42,7 +42,6 @@ public class SubscriptionRequestBody {
     public SubscriptionRequestBody(String username,
                                    String subscriptionId, String purchaseToken) {
         this.username = username;
-        this.passwordConfirmation = password;
         this.packageName = BuildConfig.APPLICATION_ID;
         this.subscriptionId = subscriptionId;
         this.purchaseToken = purchaseToken;

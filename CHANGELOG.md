@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+##Version 1.65 - 2020-02-27
+
+[NEW] Option to enable/disable sending crash reports
+[IMPROVED] Migrated Android SDK to androidx
+[IMPROVED] Logic for start on boot. Feature is now disabled for Android 10, due to OS restrictions. Please use Always-on VPN
+[IMPROVED] Logic of all services for Android 10
+[IMPROVED] WireGuard library was upgraded to the latest version
+[IMPROVED] Subscription logic for edge cases
+[IMPROVED] Overall stability
+[FIXED] Network protection for some cases
+[FIXED] Always-on VPN for Android 10
+[FIXED] Logic for sending crashes for Android 10
+[FIXED] UI issues for devices with small screen
+
 ##Version 1.64 - 2020-01-20
 
 [IMPROVED] Overall stability
