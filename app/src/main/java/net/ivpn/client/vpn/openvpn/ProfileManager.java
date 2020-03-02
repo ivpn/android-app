@@ -1,6 +1,6 @@
 package net.ivpn.client.vpn.openvpn;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import net.ivpn.client.common.ProfileStorage;
 import net.ivpn.client.common.dagger.ApplicationScope;

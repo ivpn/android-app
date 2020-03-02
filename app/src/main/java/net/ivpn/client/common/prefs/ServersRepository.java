@@ -1,6 +1,6 @@
 package net.ivpn.client.common.prefs;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.dagger.ApplicationScope;

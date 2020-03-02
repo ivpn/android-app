@@ -3,7 +3,7 @@ package net.ivpn.client.vpn;
 import android.content.Intent;
 import android.net.VpnService;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;

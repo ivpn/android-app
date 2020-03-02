@@ -24,99 +24,92 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:fillViewport="true"
-                android:overScrollMode="never"
-                android:scrollbars="none">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="10dp" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/login_image" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:minHeight="20dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/sign_up_hint"
+                    android:theme="@style/TextInputLayoutAppTheme"
+                    app:error="@{viewmodel.emailError}"
+                    app:errorEnabled="true">
 
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.7"
-                        android:minHeight="10dp" />
-
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/login_image" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.7"
-                        android:minHeight="20dp" />
-
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_up_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/sign_up_hint"
-                        android:theme="@style/TextInputLayoutAppTheme"
-                        app:errorEnabled="true"
-                        app:error="@{viewmodel.emailError}">
+                        android:gravity="start"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress|textNoSuggestions"
+                        android:text="@={viewmodel.email}"
+                        android:textAlignment="viewStart"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/sign_up_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:imeOptions="actionNext"
-                            android:inputType="textEmailAddress|textNoSuggestions"
-                            android:text="@={viewmodel.email}"
-                            android:textAlignment="viewStart"
-                            android:theme="@style/EditTextTheme" />
-                    </android.support.design.widget.TextInputLayout>
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:minHeight="5dp" />
 
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.2"
-                        android:minHeight="5dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/password"
+                    android:theme="@style/TextInputLayoutAppTheme"
+                    app:error="@{viewmodel.passwordError}"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/colorPrimary">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_up_pass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:hint="@string/password"
-                        android:theme="@style/TextInputLayoutAppTheme"
-                        app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/colorPrimary"
-                        app:errorEnabled="true"
-                        app:error="@{viewmodel.passwordError}">
+                        android:gravity="start"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:text="@={viewmodel.password}"
+                        android:textAlignment="viewStart"
+                        android:theme="@style/EditTextTheme" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/sign_up_pass"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="start"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword"
-                            android:text="@={viewmodel.password}"
-                            android:textAlignment="viewStart"
-                            android:theme="@style/EditTextTheme" />
-                    </android.support.design.widget.TextInputLayout>
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:minHeight="40dp" />
 
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:minHeight="40dp" />
-                </LinearLayout>
-            </ScrollView>
+
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"

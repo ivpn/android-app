@@ -70,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
-                    <android.support.v7.widget.CardView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -86,7 +86,7 @@
                             android:visibility="@{viewmodel.authenticated ? View.VISIBLE : View.GONE}"
                             android:text="@string/settings_logout" />
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </ScrollView>
 

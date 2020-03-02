@@ -1,23 +1,22 @@
 package net.ivpn.client.ui.login;
 
-import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
+import androidx.databinding.DataBindingUtil;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.common.utils.KeyboardUtil;
 import net.ivpn.client.databinding.ActivityLoginBinding;
 import net.ivpn.client.ui.connect.CreateSessionFragment;
@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == OFFLINE_LOGIN_REQUEST_CODE) {
             viewModel.login(false);
         }
@@ -151,11 +152,19 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
         LOGGER.info("Navigate to sign up screen");
 
         if (BuildConfig.BUILD_VARIANT.equals("site")) {
-            openLink("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+            openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
             finish();
+        }
+    }
+
+    private void openWebsite() {
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
@@ -163,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     public void onLogin() {
         LOGGER.info("onLogin");
         Intent intent = new Intent(this, SyncServersActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
         finish();
     }
 
@@ -179,6 +188,23 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
         stackBuilder.startActivities();
         finish();
+    }
+
+    @Override
+    public void openSite() {
+        LOGGER.info("openSite");
+        Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (webIntent.resolveActivity(getPackageManager()) != null) {
+            Intent syncIntent = new Intent(this, SyncServersActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntent(syncIntent);
+            stackBuilder.addNextIntent(webIntent);
+            stackBuilder.startActivities();
+            finish();
+        } else {
+            onLogin();
+        }
     }
 
     @Override
@@ -215,10 +241,15 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     }
 
     private void openLink(String link) {
-        Uri webpage = Uri.parse(link);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        Uri webPage = Uri.parse(link);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

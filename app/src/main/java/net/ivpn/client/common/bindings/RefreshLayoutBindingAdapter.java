@@ -1,7 +1,7 @@
 package net.ivpn.client.common.bindings;
 
-import android.databinding.BindingAdapter;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.databinding.BindingAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.ivpn.client.ui.serverlist.all.ServersListViewModel;
 

@@ -1,6 +1,6 @@
 package net.ivpn.client.common.bindings;
 
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.widget.Button;
 
 public class ButtonBindingAdapter {

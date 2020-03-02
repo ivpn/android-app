@@ -3,7 +3,11 @@ apply plugin: 'io.sentry.android.gradle'
 apply plugin: 'kotlin-android'
 
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+if (new File("keystore.properties").exists()) {
+    keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+} else {
+    keystoreProperties.load(new FileInputStream(rootProject.file("fakekeystore.properties")))
+}
 
 android {
     signingConfigs {
@@ -101,12 +105,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
-    implementation "com.android.support:appcompat-v7:$supportLibsVersion"
-    implementation "com.android.support:support-annotations:$supportLibsVersion"
-    implementation "com.android.support:support-v4:$supportLibsVersion"
-    implementation "com.android.support:design:$supportLibsVersion"
-    implementation "com.android.support:cardview-v7:$supportLibsVersion"
-    implementation "com.android.support:preference-v14:$supportLibsVersion"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
 
     //Used to support stream API from JAVA8 and JAVA9
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
@@ -117,8 +121,9 @@ dependencies {
     
     //For crash logging
     implementation 'io.sentry:sentry-android-core:2.0.+'
+
     //Powerful library for logging
-    implementation 'org.slf4j:slf4j-api:1.7.0'
+    implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
 

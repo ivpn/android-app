@@ -113,8 +113,8 @@
 
     <style name="AppTheme.Button" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="colorButtonNormal">#98A5B3</item>
-
     </style>
 
     <style name="AppTheme.RadioButton.TextAppearance">

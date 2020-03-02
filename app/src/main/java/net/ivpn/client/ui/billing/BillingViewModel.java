@@ -1,17 +1,14 @@
 package net.ivpn.client.ui.billing;
 
-import android.app.Activity;
 import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.R;
 import net.ivpn.client.common.billing.BillingListener;
 import net.ivpn.client.common.billing.BillingManagerWrapper;
-import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.dialog.Dialogs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

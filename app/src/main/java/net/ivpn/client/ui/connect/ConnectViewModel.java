@@ -1,11 +1,10 @@
 package net.ivpn.client.ui.connect;
 
 import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 import android.util.Log;
 
-import com.android.billingclient.api.Purchase;
 import com.todtenkopf.mvvm.ViewModelBase;
 
 import net.ivpn.client.R;
@@ -323,11 +322,8 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         return serversRepository.getCurrentServer(serverType);
     }
 
-    boolean isCredentialsAbsent() {
-        if (isTokenExist()) {
-            return false;
-        }
-        return userPreference.getUserLogin().isEmpty();
+    boolean isCredentialsExist() {
+        return isTokenExist();
     }
 
     boolean isActive() {

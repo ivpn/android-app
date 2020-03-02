@@ -1,11 +1,12 @@
 package net.ivpn.client.ui.login;
 
 import android.content.Context;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 
 import com.wireguard.android.crypto.Keypair;
 
+import net.ivpn.client.BuildConfig;
 import net.ivpn.client.R;
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.prefs.ServersRepository;
@@ -107,7 +108,7 @@ public class LoginViewModel {
                         LOGGER.error("Login process: ERROR: " + error);
                         ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
                         dataLoading.set(false);
-                        handleErrorResponse(errorResponse);
+                        handleErrorResponse(errorResponse, username);
                     }
                 });
     }
@@ -143,14 +144,18 @@ public class LoginViewModel {
             if (userPreference.getIsActive()) {
                 navigator.onLogin();
             } else {
-                navigator.openSubscriptionScreen();
+                if (BuildConfig.BUILD_VARIANT.equals("site")) {
+                    navigator.openSite();
+                } else {
+                    navigator.openSubscriptionScreen();
+                }
             }
         } else {
             navigator.openErrorDialogue(Dialogs.SERVER_ERROR);
         }
     }
 
-    private void handleErrorResponse(ErrorResponse errorResponse) {
+    private void handleErrorResponse(ErrorResponse errorResponse, String username) {
         if (errorResponse == null || errorResponse.getStatus() == null) {
             navigator.openErrorDialogue(Dialogs.SERVER_ERROR);
             return;
@@ -161,7 +166,6 @@ public class LoginViewModel {
                 navigator.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR);
                 break;
             }
-
             case Responses.SESSION_TOO_MANY: {
                 navigator.openSessionLimitReachedDialogue();
                 break;

@@ -1,7 +1,7 @@
 package net.ivpn.client.ui.serverlist.fastest;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.rest.data.model.Server;

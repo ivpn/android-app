@@ -8,7 +8,7 @@ package com.wireguard.android.config;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.wireguard.android.crypto.Keypair;
 

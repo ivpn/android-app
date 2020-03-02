@@ -1,7 +1,7 @@
 package net.ivpn.client.ui.privateemails.edit;
 
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
 import android.util.Log;
 
 import com.todtenkopf.mvvm.ViewModelBase;
@@ -20,7 +20,6 @@ import net.ivpn.client.rest.data.privateemails.RemovePrivateEmailResponse;
 import net.ivpn.client.rest.data.privateemails.UpdatePrivateEmailRequestBody;
 import net.ivpn.client.rest.data.privateemails.UpdatePrivateEmailResponse;
 import net.ivpn.client.rest.requests.common.Request;
-import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
 
 import java.net.UnknownHostException;

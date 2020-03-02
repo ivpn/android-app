@@ -1,10 +1,9 @@
 package net.ivpn.client.common.bindings;
 
-import android.databinding.BindingAdapter;
-import android.support.v7.widget.SwitchCompat;
+import androidx.databinding.BindingAdapter;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Switch;
 
 public class SwitchButtonBindingAdapter {
 

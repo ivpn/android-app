@@ -18,7 +18,7 @@
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white">
@@ -55,7 +55,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/enable_anti_surveillance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -88,13 +88,13 @@
                     android:textAllCaps="true" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/settings_sections_inner_margin" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white">
@@ -131,7 +131,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/enable_logging"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -164,6 +164,6 @@
                     android:textAllCaps="true" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </layout>

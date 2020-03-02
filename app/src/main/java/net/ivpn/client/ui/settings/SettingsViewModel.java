@@ -1,10 +1,10 @@
 package net.ivpn.client.ui.settings;
 
 import android.content.Context;
-import android.databinding.BaseObservable;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableLong;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableLong;
 import android.net.Uri;
 import android.os.Build;
 import android.view.MotionEvent;
@@ -356,10 +356,7 @@ public class SettingsViewModel extends BaseObservable {
 
     private boolean isAuthenticated() {
         String token = userPreference.getSessionToken();
-        if (!token.isEmpty()) {
-            return true;
-        }
-        return !userPreference.getUserLogin().isEmpty();
+        return !token.isEmpty();
     }
 
     private boolean isManageSubscriptionAvailable() {
@@ -381,6 +378,10 @@ public class SettingsViewModel extends BaseObservable {
 
     private String getSubscriptionPlan() {
         String plan = userPreference.getCurrentPlan();
+        if (!userPreference.getIsActive()) {
+            plan += " (inactive)";
+            return plan;
+        }
         Purchase purchase = billingManager.getPurchase();
         if (plan == null || purchase == null) {
             return plan;

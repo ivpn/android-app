@@ -6,10 +6,10 @@
 
 package com.wireguard.android.config;
 
-import android.databinding.ObservableArrayList;
+import androidx.databinding.ObservableArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;

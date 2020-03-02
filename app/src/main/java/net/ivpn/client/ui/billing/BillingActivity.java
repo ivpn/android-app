@@ -1,16 +1,14 @@
 package net.ivpn.client.ui.billing;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
-import net.ivpn.client.common.billing.BillingManager;
 import net.ivpn.client.databinding.ActivityBillingBinding;
 import net.ivpn.client.ui.connect.ConnectActivity;
 import net.ivpn.client.ui.dialog.DialogBuilder;

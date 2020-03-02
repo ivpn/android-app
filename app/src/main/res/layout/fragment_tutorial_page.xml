@@ -27,7 +27,7 @@
             android:scaleType="centerInside"
             android:src="@{page.imgResId}" />
 
-        <android.support.v4.widget.Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/tutorial_vpn_title_margin_top"
             android:visibility="@{page.emptyTitle ? View.GONE : View.VISIBLE}" />
@@ -45,7 +45,7 @@
             android:textStyle="bold"
             android:visibility="@{page.emptyTitle ? View.GONE : View.VISIBLE}" />
 
-        <android.support.v4.widget.Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="8dp" />
 

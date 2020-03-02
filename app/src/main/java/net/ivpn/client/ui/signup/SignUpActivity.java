@@ -1,11 +1,11 @@
 package net.ivpn.client.ui.signup;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -82,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpNavigator
     public void logIn(View view) {
         LOGGER.info("logIn");
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     public void signUp(View view) {
@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpNavigator
     @Override
     public void onSignUp() {
         Intent intent = new Intent(this, SubscriptionActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
 
     @Override
@@ -104,5 +104,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpNavigator
     @Override
     public void onError(String errorCode, String errorMessage) {
         DialogBuilder.createFullCustomNotificationDialog(this, "Registration Error " + errorCode, errorMessage);
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

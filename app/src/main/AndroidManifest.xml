@@ -17,7 +17,7 @@
     <application
         android:name=".IVPNApplication"
         android:allowBackup="false"
-        android:debuggable="true"
+        android:debuggable="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -183,7 +183,7 @@
         </receiver>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="net.ivpn.client"
             android:exported="false"
             android:grantUriPermissions="true">

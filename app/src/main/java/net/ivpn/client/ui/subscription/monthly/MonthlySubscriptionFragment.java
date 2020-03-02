@@ -1,29 +1,22 @@
 package net.ivpn.client.ui.subscription.monthly;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.FragmentMonthlySubscriptionBinding;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.subscription.SubscriptionViewModel;
 
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 

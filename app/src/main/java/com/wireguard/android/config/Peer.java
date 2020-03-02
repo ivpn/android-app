@@ -6,13 +6,12 @@
 
 package com.wireguard.android.config;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.wireguard.android.crypto.KeyEncoding;
 
 import java.net.Inet6Address;
@@ -21,12 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-
-import java9.lang.Iterables;
 
 /**
  * Represents the configuration for a WireGuard peer (a [Peer] block).
@@ -299,7 +293,6 @@ public class Peer implements Parcelable{
 
         public void setPublicKey(final String publicKey) {
             this.publicKey = publicKey;
-            notifyPropertyChanged(BR.publicKey);
         }
 
         @Override

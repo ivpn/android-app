@@ -93,11 +93,6 @@ public class UserPreference {
         return sharedPreferences.getBoolean(IS_ACTIVE, true);
     }
 
-//    public String getUserPassword() {
-//        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
-//        return sharedPreferences.getString(USER_PASSWORD, "");
-//    }
-
     public String getSessionVpnUsername() {
         SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
         return sharedPreferences.getString(SESSION_VPN_USERNAME, "");

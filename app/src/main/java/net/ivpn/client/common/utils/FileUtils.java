@@ -2,7 +2,7 @@ package net.ivpn.client.common.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import android.util.Log;
 
 import org.slf4j.LoggerFactory;

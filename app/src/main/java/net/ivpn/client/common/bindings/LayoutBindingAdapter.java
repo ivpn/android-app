@@ -1,7 +1,7 @@
 package net.ivpn.client.common.bindings;
 
 import android.content.res.Resources;
-import android.databinding.BindingAdapter;
+import androidx.databinding.BindingAdapter;
 import android.widget.LinearLayout;
 
 import net.ivpn.client.IVPNApplication;

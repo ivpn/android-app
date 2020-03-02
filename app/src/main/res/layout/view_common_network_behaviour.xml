@@ -16,7 +16,7 @@
         android:background="@color/color_connect_subscription_trial_background"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -55,7 +55,7 @@
                             android:textStyle="normal" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/default_behavior_spinner"
                         style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                         android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                             android:textStyle="normal" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.AppCompatSpinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/mobile_behavior_spinner"
                         style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                         android:layout_width="wrap_content"
@@ -123,7 +123,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <View
             android:layout_width="match_parent"

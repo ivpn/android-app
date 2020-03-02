@@ -1,17 +1,18 @@
 package net.ivpn.client.ui.tutorial;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.R;
+import net.ivpn.client.common.utils.IntentUtils;
 import net.ivpn.client.databinding.ActivityTutorialBinding;
 import net.ivpn.client.ui.login.LoginActivity;
 import net.ivpn.client.ui.signup.SignUpActivity;
@@ -28,9 +29,7 @@ public class TutorialActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tutorial);
-        binding.backArrow.setOnClickListener(view -> {
-            onBackPressed();
-        });
+        binding.backArrow.setOnClickListener(view -> onBackPressed());
         init();
     }
 
@@ -66,20 +65,23 @@ public class TutorialActivity extends AppCompatActivity {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
+            startSingleTopActivity(intent);
         }
     }
-
     public void logIn(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        startSingleTopActivity(intent);
     }
-
     private void openWebsite() {
-        Uri webpage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually");
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        Intent intent = IntentUtils.INSTANCE.createWebSignUpIntent();
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    private void startSingleTopActivity(Intent intent) {
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }

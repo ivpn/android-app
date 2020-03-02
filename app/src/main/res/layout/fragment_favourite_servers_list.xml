@@ -28,7 +28,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="6" />
@@ -38,7 +38,7 @@
                 android:layout_height="200dp"
                 android:src="@drawable/empty_locations" />
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2" />
@@ -54,7 +54,7 @@
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -72,7 +72,7 @@
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
-            <android.support.v4.widget.Space
+            <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="6" />
