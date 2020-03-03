@@ -89,6 +89,11 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
     }
+    externalNativeBuild {
+        cmake {
+            path 'tools/CMakeLists.txt'
+        }
+    }
 }
 ext {
     supportLibsVersion = '28.0.0'
