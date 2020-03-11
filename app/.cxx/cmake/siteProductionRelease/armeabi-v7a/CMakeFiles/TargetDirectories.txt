@@ -1,0 +1,15 @@
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/makeassetdir.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/openvpn.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/pie_openvpn.armeabi-v7a.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/libovpnexec.so.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/jbcrypto.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/crypto.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/osslspeedtest.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/opvpnutil.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/nopie_openvpn.armeabi-v7a.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/ovpn3.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/lz4.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/ssl.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/armeabi-v7a/CMakeFiles/lzo.dir

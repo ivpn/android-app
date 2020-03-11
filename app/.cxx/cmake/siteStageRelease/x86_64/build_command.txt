@@ -1,0 +1,20 @@
+Executable : /Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake
+arguments : 
+-H/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_TOOLCHAIN_FILE=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_ABI=x86_64
+-DANDROID_NDK=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle
+-DANDROID_PLATFORM=android-21
+-DCMAKE_ANDROID_ARCH_ABI=x86_64
+-DCMAKE_ANDROID_NDK=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteStageRelease/obj/x86_64
+-DCMAKE_MAKE_PROGRAM=/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_SYSTEM_VERSION=21
+-B/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86_64
+-GNinja
+jvmArgs : 
+
+Build command args:

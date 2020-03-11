@@ -1,0 +1,15 @@
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/rebuild_cache.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/makeassetdir.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/pie_openvpn.x86_64.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/jbcrypto.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/libovpnexec.so.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/openvpn.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/edit_cache.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/crypto.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/osslspeedtest.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/opvpnutil.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/ovpn3.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/nopie_openvpn.x86_64.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/lz4.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/ssl.dir
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/x86_64/CMakeFiles/lzo.dir

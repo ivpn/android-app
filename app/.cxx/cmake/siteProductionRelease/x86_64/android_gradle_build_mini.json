@@ -1,0 +1,94 @@
+{
+  "buildFiles": [
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn3/refs/heads/master",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake.in",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn/refs/heads/icsopenvpn",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn3/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/openssl.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/tools.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" clean"
+  ],
+  "buildTargetsCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "opvpnutil-Release-x86_64": {
+      "artifactName": "opvpnutil",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" opvpnutil",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteProductionRelease/obj/x86_64/libopvpnutil.so"
+    },
+    "openvpn-Release-x86_64": {
+      "artifactName": "openvpn",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" openvpn",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteProductionRelease/obj/x86_64/libopenvpn.so"
+    },
+    "crypto-Release-x86_64": {
+      "artifactName": "crypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" crypto",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/libcrypto.a"
+    },
+    "pie_openvpn.x86_64-Release-x86_64": {
+      "artifactName": "pie_openvpn.x86_64",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" pie_openvpn.x86_64",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/pie_openvpn.x86_64"
+    },
+    "jbcrypto-Release-x86_64": {
+      "artifactName": "jbcrypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" jbcrypto",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteProductionRelease/obj/x86_64/libjbcrypto.so"
+    },
+    "libovpnexec.so-Release-x86_64": {
+      "artifactName": "libovpnexec.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" libovpnexec.so",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/libovpnexec.so"
+    },
+    "lzo-Release-x86_64": {
+      "artifactName": "lzo",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" lzo",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/liblzo.a"
+    },
+    "ovpn3-Release-x86_64": {
+      "artifactName": "ovpn3",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" ovpn3",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteProductionRelease/obj/x86_64/libovpn3.so"
+    },
+    "nopie_openvpn.x86_64-Release-x86_64": {
+      "artifactName": "nopie_openvpn.x86_64",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" nopie_openvpn.x86_64",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/nopie_openvpn.x86_64"
+    },
+    "lz4-Release-x86_64": {
+      "artifactName": "lz4",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" lz4",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/liblz4.a"
+    },
+    "osslspeedtest-Release-x86_64": {
+      "artifactName": "osslspeedtest",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" osslspeedtest",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/siteProductionRelease/obj/x86_64/libosslspeedtest.so"
+    },
+    "ssl-Release-x86_64": {
+      "artifactName": "ssl",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64\" ssl",
+      "abi": "x86_64",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionRelease/x86_64/libssl.a"
+    }
+  }
+}

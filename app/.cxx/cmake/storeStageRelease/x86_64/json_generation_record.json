@@ -1,0 +1,488 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 21 min SDK version: x86_64",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "No CMake version was specified in build.gradle. Using default version 3.10.2.",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Trying to locate CMake in local SDK repository.",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "- CMake found in SDK at \u0027/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404\u0027 had version \u00273.10.2\u0027",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "CMake \u00273.6.0\u0027 found in SDK did not match requested version \u00273.10.2\u0027.",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "rebuilding JSON /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/android_gradle_build.json due to:",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "- expected json /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/android_gradle_build.json file is not present, will remove stale json folder",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "- missing previous command file /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/build_command.txt, will remove stale json folder",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "- command changed from previous, will remove stale json folder",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "removing stale contents from \u0027/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\u0027",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "created folder \u0027/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\u0027",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "executing cmake Executable : /Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake\narguments : \n-H/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\n-DCMAKE_BUILD_TYPE\u003dRelease\n-DCMAKE_TOOLCHAIN_FILE\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake\n-DANDROID_ABI\u003dx86_64\n-DANDROID_NDK\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle\n-DANDROID_PLATFORM\u003dandroid-21\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86_64\n-DCMAKE_ANDROID_NDK\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64\n-DCMAKE_MAKE_PROGRAM\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_SYSTEM_VERSION\u003d21\n-B/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\n-GNinja\njvmArgs : \n\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "[\u003d\u003d \"CMake Server\" \u003d\u003d[\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"supportedProtocolVersions\":[{\"isExperimental\":true,\"major\":1,\"minor\":1}],\"type\":\"hello\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "]\u003d\u003d \"CMake Server\" \u003d\u003d]\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\n  \"type\": \"handshake\",\n  \"cookie\": \"gradle-cmake-cookie\",\n  \"protocolVersion\": {\n    \"isExperimental\": true,\n    \"major\": 1,\n    \"minor\": 1\n  },\n  \"sourceDirectory\": \"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\n  \"buildDirectory\": \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\n  \"generator\": \"Ninja\"\n}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"gradle-cmake-cookie\",\"inReplyTo\":\"handshake\",\"type\":\"reply\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\n  \"type\": \"configure\",\n  \"cacheArguments\": [\n    \"\",\n    \"-DCMAKE_BUILD_TYPE\\u003dRelease\",\n    \"-DCMAKE_TOOLCHAIN_FILE\\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake\",\n    \"-DANDROID_ABI\\u003dx86_64\",\n    \"-DANDROID_NDK\\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle\",\n    \"-DANDROID_PLATFORM\\u003dandroid-21\",\n    \"-DCMAKE_ANDROID_ARCH_ABI\\u003dx86_64\",\n    \"-DCMAKE_ANDROID_NDK\\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle\",\n    \"-DCMAKE_EXPORT_COMPILE_COMMANDS\\u003dON\",\n    \"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\\u003d/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64\",\n    \"-DCMAKE_MAKE_PROGRAM\\u003d/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja\",\n    \"-DCMAKE_SYSTEM_NAME\\u003dAndroid\",\n    \"-DCMAKE_SYSTEM_VERSION\\u003d21\"\n  ]\n}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":33,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -- works\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -- works",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting C compiler ABI info\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting C compiler ABI info",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":65,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting C compiler ABI info - done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting C compiler ABI info - done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting C compile features\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting C compile features",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":96,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":126,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":155,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting C compile features - done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting C compile features - done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":184,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ -- works\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ -- works",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting CXX compiler ABI info\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting CXX compiler ABI info",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":211,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting CXX compiler ABI info - done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting CXX compiler ABI info - done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting CXX compile features\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting CXX compile features",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":237,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":262,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":287,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":311,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Detecting CXX compile features - done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Detecting CXX compile features - done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"OpenVPN 2.x version icsopenvpn/v0.7.14-0-gb3eb7a46\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "OpenVPN 2.x version icsopenvpn/v0.7.14-0-gb3eb7a46",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"OpenVPN 3.x version pg-pr-2017-157-g8c10b92b\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "OpenVPN 3.x version pg-pr-2017-157-g8c10b92b",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"The ASM compiler identification is Clang\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "The ASM compiler identification is Clang",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Found assembler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Found assembler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Found SWIG: /usr/local/bin/swig (found suitable version \\\"3.0.12\\\", minimum required is \\\"3.0\\\") \",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Found SWIG: /usr/local/bin/swig (found suitable version \"3.0.12\", minimum required is \"3.0\") ",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"progressCurrent\":1000,\"progressMaximum\":1000,\"progressMessage\":\"Configuring\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"message\":\"Configuring done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Configuring done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"configure\",\"type\":\"reply\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"type\":\"compute\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"compute\",\"progressCurrent\":1000,\"progressMaximum\":1000,\"progressMessage\":\"Generating\",\"progressMinimum\":0,\"type\":\"progress\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"compute\",\"message\":\"Generating done\",\"type\":\"message\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "Generating done",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"cookie\":\"\",\"inReplyTo\":\"compute\",\"type\":\"reply\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"type\":\"cmakeInputs\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"buildFiles\":[{\"isCMake\":true,\"isTemporary\":false,\"sources\":[\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystem.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystemSpecificInitialize.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Initialize.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine-C.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android/Determine-Compiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeFindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-FindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompiler.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCXXCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Determine-CXX.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android/Determine-Compiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeFindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-FindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompiler.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeSystemSpecificInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeGenericSystem.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Linux.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/UnixPaths.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/GNU.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang-C.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCompilerCommon.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompilerABI.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeParseImplicitLinkInfo.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompilerABI.c\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompileFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Internal/FeatureTesting.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-C-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCCompiler.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang-CXX.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCXXCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestCompilerCommon.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompilerABI.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeParseImplicitLinkInfo.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompileFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Internal/FeatureTesting.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-FeatureTests.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-CXX-TestableFeatures.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeCXXCompiler.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindGit.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageMessage.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindGit.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageMessage.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineASMCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeFindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-FindBinUtils.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeASMCompiler.cmake.in\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeASMInformation.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang-ASM.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Compiler/Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang-ASM.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/Platform/Android-Clang.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeTestASMCompiler.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindSWIG.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake\",\"../../../../../../../Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/FindPackageMessage.cmake\"]},{\"isCMake\":false,\"isTemporary\":false,\"sources\":[\"CMakeLists.txt\",\"../../../../../../../Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake\",\"../../../../../../../Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake\",\"GetGitRevisionDescription.cmake\",\"../../../../.git/modules/app/src/main/cpp/openvpn/HEAD\",\"GetGitRevisionDescription.cmake.in\",\"../../../../.git/modules/app/src/main/cpp/openvpn/refs/heads/icsopenvpn\",\"../../../../.git/modules/app/src/main/cpp/openvpn3/HEAD\",\"GetGitRevisionDescription.cmake.in\",\"../../../../.git/modules/app/src/main/cpp/openvpn3/refs/heads/master\",\"tools.cmake\",\"lzo.cmake\",\"lz4.cmake\",\"openssl/openssl.cmake\"]},{\"isCMake\":false,\"isTemporary\":true,\"sources\":[\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeSystem.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeCCompiler.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeCXXCompiler.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.c\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.c\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.c\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeCCompiler.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.cxx\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.cxx\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.cxx\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/feature_tests.cxx\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeCXXCompiler.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/git-data/grabRef.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/git-data/grabRef.cmake\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/3.10.2/CMakeASMCompiler.cmake\"]}],\"cmakeRootDirectory\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10\",\"cookie\":\"\",\"inReplyTo\":\"cmakeInputs\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"type\":\"reply\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"type\":\"codemodel\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "{\"configurations\":[{\"name\":\"Release\",\"projects\":[{\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"name\":\"Project\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"targets\":[{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/libcrypto.a\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC   -Wno-missing-field-initializers -Wno-unused-parameter -DKECCAK1600_ASM -DNDEBUG -DECP_NISTZ256_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DOPENSSL_PIC -DOPENSSL_THREADS -DOPENSSL_BN_ASM_MONT -DOPENSSL_CPUID_OBJ\",\"defines\":[\"ECP_NISTZ256_ASM\",\"ENGINESDIR\u003d\\\"/system/lib/ssl/engines\\\"\",\"GHASH_ASM\",\"MD5_ASM\",\"NDEBUG\",\"NO_WINDOWS_BRAINDEATH\",\"OPENSSLDIR\u003d\\\"/system/lib/ssl\\\"\",\"OPENSSL_BN_ASM_GF2m\",\"OPENSSL_BN_ASM_MONT5\",\"OPENSSL_IA32_SSE2\",\"POLY1305_ASM\",\"RC4_ASM\",\"VPAES_ASM\",\"X25519_ASM\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/modes\"}],\"isGenerated\":false,\"language\":\"ASM\",\"sources\":[\"openssl/crypto/aes/asm/aesni-mb-x86_64.S\",\"openssl/crypto/aes/asm/aesni-sha1-x86_64.S\",\"openssl/crypto/aes/asm/aesni-sha256-x86_64.S\",\"openssl/crypto/aes/asm/aesni-x86_64.S\",\"openssl/crypto/aes/asm/vpaes-x86_64.S\",\"openssl/crypto/bn/asm/rsaz-avx2.S\",\"openssl/crypto/bn/asm/rsaz-x86_64.S\",\"openssl/crypto/bn/asm/x86_64-gf2m.S\",\"openssl/crypto/bn/asm/x86_64-mont.S\",\"openssl/crypto/bn/asm/x86_64-mont5.S\",\"openssl/crypto/ec/asm/ecp_nistz256-x86_64.S\",\"openssl/crypto/md5/asm/md5-x86_64.S\",\"openssl/crypto/modes/asm/aesni-gcm-x86_64.S\",\"openssl/crypto/modes/asm/ghash-x86_64.S\",\"openssl/crypto/poly1305/asm/poly1305-x86_64.S\",\"openssl/crypto/rc4/asm/rc4-md5-x86_64.S\",\"openssl/crypto/rc4/asm/rc4-x86_64.S\",\"openssl/crypto/sha/asm/sha1-mb-x86_64.S\",\"openssl/crypto/sha/asm/sha1-x86_64.S\",\"openssl/crypto/sha/asm/sha256-mb-x86_64.S\",\"openssl/crypto/sha/asm/sha256-x86_64.S\",\"openssl/crypto/sha/asm/sha512-x86_64.S\",\"openssl/crypto/sha/asm/keccak1600-x86_64.S\",\"openssl/crypto/ec/asm/x25519-x86_64.S\",\"openssl/crypto/x86_64cpuid.S\"]},{\"isGenerated\":false,\"sources\":[\"openssl/crypto/store/store_locl.h\"]},{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC   -Wno-missing-field-initializers -Wno-unused-parameter -DKECCAK1600_ASM -DNDEBUG -DECP_NISTZ256_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DOPENSSL_PIC -DOPENSSL_THREADS -DOPENSSL_BN_ASM_MONT -DOPENSSL_CPUID_OBJ\",\"defines\":[\"ECP_NISTZ256_ASM\",\"ENGINESDIR\u003d\\\"/system/lib/ssl/engines\\\"\",\"GHASH_ASM\",\"MD5_ASM\",\"NDEBUG\",\"NO_WINDOWS_BRAINDEATH\",\"OPENSSLDIR\u003d\\\"/system/lib/ssl\\\"\",\"OPENSSL_BN_ASM_GF2m\",\"OPENSSL_BN_ASM_MONT5\",\"OPENSSL_IA32_SSE2\",\"POLY1305_ASM\",\"RC4_ASM\",\"VPAES_ASM\",\"X25519_ASM\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/modes\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"openssl/crypto/aes/aes_cbc.c\",\"openssl/crypto/aes/aes_cfb.c\",\"openssl/crypto/aes/aes_ecb.c\",\"openssl/crypto/aes/aes_ige.c\",\"openssl/crypto/aes/aes_misc.c\",\"openssl/crypto/aes/aes_ofb.c\",\"openssl/crypto/aes/aes_wrap.c\",\"openssl/crypto/aria/aria.c\",\"openssl/crypto/asn1/a_bitstr.c\",\"openssl/crypto/asn1/a_d2i_fp.c\",\"openssl/crypto/asn1/a_digest.c\",\"openssl/crypto/asn1/a_dup.c\",\"openssl/crypto/asn1/a_gentm.c\",\"openssl/crypto/asn1/a_i2d_fp.c\",\"openssl/crypto/asn1/a_int.c\",\"openssl/crypto/asn1/a_mbstr.c\",\"openssl/crypto/asn1/a_object.c\",\"openssl/crypto/asn1/a_octet.c\",\"openssl/crypto/asn1/a_print.c\",\"openssl/crypto/asn1/a_sign.c\",\"openssl/crypto/asn1/a_strex.c\",\"openssl/crypto/asn1/a_strnid.c\",\"openssl/crypto/asn1/a_time.c\",\"openssl/crypto/asn1/a_type.c\",\"openssl/crypto/asn1/a_utctm.c\",\"openssl/crypto/asn1/a_utf8.c\",\"openssl/crypto/asn1/a_verify.c\",\"openssl/crypto/asn1/ameth_lib.c\",\"openssl/crypto/asn1/asn1_err.c\",\"openssl/crypto/asn1/asn1_gen.c\",\"openssl/crypto/asn1/asn1_lib.c\",\"openssl/crypto/asn1/asn1_par.c\",\"openssl/crypto/asn1/asn_mime.c\",\"openssl/crypto/asn1/asn_moid.c\",\"openssl/crypto/asn1/asn_mstbl.c\",\"openssl/crypto/asn1/asn_pack.c\",\"openssl/crypto/asn1/bio_asn1.c\",\"openssl/crypto/asn1/bio_ndef.c\",\"openssl/crypto/asn1/d2i_pr.c\",\"openssl/crypto/asn1/d2i_pu.c\",\"openssl/crypto/asn1/evp_asn1.c\",\"openssl/crypto/asn1/f_int.c\",\"openssl/crypto/asn1/f_string.c\",\"openssl/crypto/asn1/i2d_pr.c\",\"openssl/crypto/asn1/i2d_pu.c\",\"openssl/crypto/asn1/n_pkey.c\",\"openssl/crypto/asn1/nsseq.c\",\"openssl/crypto/asn1/p5_pbe.c\",\"openssl/crypto/asn1/p5_pbev2.c\",\"openssl/crypto/asn1/p5_scrypt.c\",\"openssl/crypto/asn1/p8_pkey.c\",\"openssl/crypto/asn1/t_bitst.c\",\"openssl/crypto/asn1/t_pkey.c\",\"openssl/crypto/asn1/tasn_dec.c\",\"openssl/crypto/asn1/tasn_enc.c\",\"openssl/crypto/asn1/tasn_fre.c\",\"openssl/crypto/asn1/tasn_new.c\",\"openssl/crypto/asn1/tasn_prn.c\",\"openssl/crypto/asn1/tasn_scn.c\",\"openssl/crypto/asn1/tasn_typ.c\",\"openssl/crypto/asn1/tasn_utl.c\",\"openssl/crypto/asn1/x_algor.c\",\"openssl/crypto/asn1/x_bignum.c\",\"openssl/crypto/asn1/x_info.c\",\"openssl/crypto/asn1/x_int64.c\",\"openssl/crypto/asn1/x_long.c\",\"openssl/crypto/asn1/x_pkey.c\",\"openssl/crypto/asn1/x_sig.c\",\"openssl/crypto/asn1/x_spki.c\",\"openssl/crypto/asn1/x_val.c\",\"openssl/crypto/async/arch/async_null.c\",\"openssl/crypto/async/arch/async_posix.c\",\"openssl/crypto/async/async.c\",\"openssl/crypto/async/async_err.c\",\"openssl/crypto/async/async_wait.c\",\"openssl/crypto/bf/bf_cfb64.c\",\"openssl/crypto/bf/bf_ecb.c\",\"openssl/crypto/bf/bf_enc.c\",\"openssl/crypto/bf/bf_ofb64.c\",\"openssl/crypto/bf/bf_skey.c\",\"openssl/crypto/bio/b_addr.c\",\"openssl/crypto/bio/b_dump.c\",\"openssl/crypto/bio/b_print.c\",\"openssl/crypto/bio/b_sock.c\",\"openssl/crypto/bio/b_sock2.c\",\"openssl/crypto/bio/bf_buff.c\",\"openssl/crypto/bio/bf_nbio.c\",\"openssl/crypto/bio/bf_null.c\",\"openssl/crypto/bio/bio_cb.c\",\"openssl/crypto/bio/bio_err.c\",\"openssl/crypto/bio/bio_lib.c\",\"openssl/crypto/bio/bio_meth.c\",\"openssl/crypto/bio/bss_acpt.c\",\"openssl/crypto/bio/bss_bio.c\",\"openssl/crypto/bio/bss_conn.c\",\"openssl/crypto/bio/bss_dgram.c\",\"openssl/crypto/bio/bss_fd.c\",\"openssl/crypto/bio/bss_file.c\",\"openssl/crypto/bio/bss_log.c\",\"openssl/crypto/bio/bss_mem.c\",\"openssl/crypto/bio/bss_null.c\",\"openssl/crypto/bio/bss_sock.c\",\"openssl/crypto/blake2/blake2b.c\",\"openssl/crypto/blake2/blake2s.c\",\"openssl/crypto/blake2/m_blake2b.c\",\"openssl/crypto/blake2/m_blake2s.c\",\"openssl/crypto/bn/bn_add.c\",\"openssl/crypto/bn/bn_blind.c\",\"openssl/crypto/bn/bn_const.c\",\"openssl/crypto/bn/bn_ctx.c\",\"openssl/crypto/bn/bn_dh.c\",\"openssl/crypto/bn/bn_div.c\",\"openssl/crypto/bn/bn_err.c\",\"openssl/crypto/bn/bn_exp.c\",\"openssl/crypto/bn/bn_exp2.c\",\"openssl/crypto/bn/bn_gcd.c\",\"openssl/crypto/bn/bn_gf2m.c\",\"openssl/crypto/bn/bn_intern.c\",\"openssl/crypto/bn/bn_kron.c\",\"openssl/crypto/bn/bn_lib.c\",\"openssl/crypto/bn/bn_mod.c\",\"openssl/crypto/bn/bn_mont.c\",\"openssl/crypto/bn/bn_mpi.c\",\"openssl/crypto/bn/bn_mul.c\",\"openssl/crypto/bn/bn_nist.c\",\"openssl/crypto/bn/bn_prime.c\",\"openssl/crypto/bn/bn_print.c\",\"openssl/crypto/bn/bn_rand.c\",\"openssl/crypto/bn/bn_recp.c\",\"openssl/crypto/bn/bn_shift.c\",\"openssl/crypto/bn/bn_sqr.c\",\"openssl/crypto/bn/bn_sqrt.c\",\"openssl/crypto/bn/bn_srp.c\",\"openssl/crypto/bn/bn_word.c\",\"openssl/crypto/bn/bn_x931p.c\",\"openssl/crypto/bn/rsaz_exp.c\",\"openssl/crypto/buffer/buf_err.c\",\"openssl/crypto/buffer/buffer.c\",\"openssl/crypto/chacha/chacha_enc.c\",\"openssl/crypto/cmac/cm_ameth.c\",\"openssl/crypto/cmac/cm_pmeth.c\",\"openssl/crypto/cmac/cmac.c\",\"openssl/crypto/cms/cms_asn1.c\",\"openssl/crypto/cms/cms_att.c\",\"openssl/crypto/cms/cms_cd.c\",\"openssl/crypto/cms/cms_dd.c\",\"openssl/crypto/cms/cms_enc.c\",\"openssl/crypto/cms/cms_env.c\",\"openssl/crypto/cms/cms_err.c\",\"openssl/crypto/cms/cms_ess.c\",\"openssl/crypto/cms/cms_io.c\",\"openssl/crypto/cms/cms_kari.c\",\"openssl/crypto/cms/cms_lib.c\",\"openssl/crypto/cms/cms_pwri.c\",\"openssl/crypto/cms/cms_sd.c\",\"openssl/crypto/cms/cms_smime.c\",\"openssl/crypto/comp/c_zlib.c\",\"openssl/crypto/comp/comp_err.c\",\"openssl/crypto/comp/comp_lib.c\",\"openssl/crypto/conf/conf_api.c\",\"openssl/crypto/conf/conf_def.c\",\"openssl/crypto/conf/conf_err.c\",\"openssl/crypto/conf/conf_lib.c\",\"openssl/crypto/conf/conf_mall.c\",\"openssl/crypto/conf/conf_mod.c\",\"openssl/crypto/conf/conf_sap.c\",\"openssl/crypto/conf/conf_ssl.c\",\"openssl/crypto/cpt_err.c\",\"openssl/crypto/cryptlib.c\",\"openssl/crypto/ct/ct_b64.c\",\"openssl/crypto/ct/ct_err.c\",\"openssl/crypto/ct/ct_log.c\",\"openssl/crypto/ct/ct_oct.c\",\"openssl/crypto/ct/ct_policy.c\",\"openssl/crypto/ct/ct_prn.c\",\"openssl/crypto/ct/ct_sct.c\",\"openssl/crypto/ct/ct_sct_ctx.c\",\"openssl/crypto/ct/ct_vfy.c\",\"openssl/crypto/ct/ct_x509v3.c\",\"openssl/crypto/ctype.c\",\"openssl/crypto/cversion.c\",\"openssl/crypto/des/cbc_cksm.c\",\"openssl/crypto/des/cbc_enc.c\",\"openssl/crypto/des/cfb64ede.c\",\"openssl/crypto/des/cfb64enc.c\",\"openssl/crypto/des/cfb_enc.c\",\"openssl/crypto/des/des_enc.c\",\"openssl/crypto/des/ecb3_enc.c\",\"openssl/crypto/des/ecb_enc.c\",\"openssl/crypto/des/fcrypt.c\",\"openssl/crypto/des/fcrypt_b.c\",\"openssl/crypto/des/ofb64ede.c\",\"openssl/crypto/des/ofb64enc.c\",\"openssl/crypto/des/ofb_enc.c\",\"openssl/crypto/des/pcbc_enc.c\",\"openssl/crypto/des/qud_cksm.c\",\"openssl/crypto/des/rand_key.c\",\"openssl/crypto/des/set_key.c\",\"openssl/crypto/des/str2key.c\",\"openssl/crypto/des/xcbc_enc.c\",\"openssl/crypto/dh/dh_ameth.c\",\"openssl/crypto/dh/dh_asn1.c\",\"openssl/crypto/dh/dh_check.c\",\"openssl/crypto/dh/dh_depr.c\",\"openssl/crypto/dh/dh_err.c\",\"openssl/crypto/dh/dh_gen.c\",\"openssl/crypto/dh/dh_kdf.c\",\"openssl/crypto/dh/dh_key.c\",\"openssl/crypto/dh/dh_lib.c\",\"openssl/crypto/dh/dh_meth.c\",\"openssl/crypto/dh/dh_pmeth.c\",\"openssl/crypto/dh/dh_rfc5114.c\",\"openssl/crypto/dh/dh_rfc7919.c\",\"openssl/crypto/dsa/dsa_ameth.c\",\"openssl/crypto/dsa/dsa_asn1.c\",\"openssl/crypto/dsa/dsa_depr.c\",\"openssl/crypto/dsa/dsa_err.c\",\"openssl/crypto/dsa/dsa_gen.c\",\"openssl/crypto/dsa/dsa_key.c\",\"openssl/crypto/dsa/dsa_lib.c\",\"openssl/crypto/dsa/dsa_meth.c\",\"openssl/crypto/dsa/dsa_ossl.c\",\"openssl/crypto/dsa/dsa_pmeth.c\",\"openssl/crypto/dsa/dsa_prn.c\",\"openssl/crypto/dsa/dsa_sign.c\",\"openssl/crypto/dsa/dsa_vrf.c\",\"openssl/crypto/dso/dso_dl.c\",\"openssl/crypto/dso/dso_dlfcn.c\",\"openssl/crypto/dso/dso_err.c\",\"openssl/crypto/dso/dso_lib.c\",\"openssl/crypto/dso/dso_openssl.c\",\"openssl/crypto/ebcdic.c\",\"openssl/crypto/ec/curve25519.c\",\"openssl/crypto/ec/curve448/curve448_tables.c\",\"openssl/crypto/ec/curve448/curve448.c\",\"openssl/crypto/ec/curve448/eddsa.c\",\"openssl/crypto/ec/curve448/arch_32/f_impl.c\",\"openssl/crypto/ec/curve448/scalar.c\",\"openssl/crypto/ec/curve448/f_generic.c\",\"openssl/crypto/ec/ec2_oct.c\",\"openssl/crypto/ec/ec2_smpl.c\",\"openssl/crypto/ec/ec_ameth.c\",\"openssl/crypto/ec/ec_asn1.c\",\"openssl/crypto/ec/ec_check.c\",\"openssl/crypto/ec/ec_curve.c\",\"openssl/crypto/ec/ec_cvt.c\",\"openssl/crypto/ec/ec_err.c\",\"openssl/crypto/ec/ec_key.c\",\"openssl/crypto/ec/ec_kmeth.c\",\"openssl/crypto/ec/ec_lib.c\",\"openssl/crypto/ec/ec_mult.c\",\"openssl/crypto/ec/ec_oct.c\",\"openssl/crypto/ec/ec_pmeth.c\",\"openssl/crypto/ec/ec_print.c\",\"openssl/crypto/ec/ecdh_kdf.c\",\"openssl/crypto/ec/ecdh_ossl.c\",\"openssl/crypto/ec/ecdsa_ossl.c\",\"openssl/crypto/ec/ecdsa_sign.c\",\"openssl/crypto/ec/ecdsa_vrf.c\",\"openssl/crypto/ec/eck_prn.c\",\"openssl/crypto/ec/ecp_mont.c\",\"openssl/crypto/ec/ecp_nist.c\",\"openssl/crypto/ec/ecp_nistz256.c\",\"openssl/crypto/ec/ecp_oct.c\",\"openssl/crypto/ec/ecp_smpl.c\",\"openssl/crypto/ec/ecx_meth.c\",\"openssl/crypto/engine/eng_all.c\",\"openssl/crypto/engine/eng_cnf.c\",\"openssl/crypto/engine/eng_ctrl.c\",\"openssl/crypto/engine/eng_dyn.c\",\"openssl/crypto/engine/eng_err.c\",\"openssl/crypto/engine/eng_fat.c\",\"openssl/crypto/engine/eng_init.c\",\"openssl/crypto/engine/eng_lib.c\",\"openssl/crypto/engine/eng_list.c\",\"openssl/crypto/engine/eng_openssl.c\",\"openssl/crypto/engine/eng_pkey.c\",\"openssl/crypto/engine/eng_table.c\",\"openssl/crypto/engine/tb_asnmth.c\",\"openssl/crypto/engine/tb_cipher.c\",\"openssl/crypto/engine/tb_dh.c\",\"openssl/crypto/engine/tb_digest.c\",\"openssl/crypto/engine/tb_dsa.c\",\"openssl/crypto/engine/tb_eckey.c\",\"openssl/crypto/engine/tb_pkmeth.c\",\"openssl/crypto/engine/tb_rand.c\",\"openssl/crypto/engine/tb_rsa.c\",\"openssl/crypto/err/err.c\",\"openssl/crypto/err/err_all.c\",\"openssl/crypto/err/err_prn.c\",\"openssl/crypto/evp/bio_b64.c\",\"openssl/crypto/evp/bio_enc.c\",\"openssl/crypto/evp/bio_md.c\",\"openssl/crypto/evp/bio_ok.c\",\"openssl/crypto/evp/c_allc.c\",\"openssl/crypto/evp/c_alld.c\",\"openssl/crypto/evp/cmeth_lib.c\",\"openssl/crypto/evp/digest.c\",\"openssl/crypto/evp/e_aes.c\",\"openssl/crypto/evp/e_aes_cbc_hmac_sha1.c\",\"openssl/crypto/evp/e_aes_cbc_hmac_sha256.c\",\"openssl/crypto/evp/e_aria.c\",\"openssl/crypto/evp/e_bf.c\",\"openssl/crypto/evp/e_chacha20_poly1305.c\",\"openssl/crypto/evp/e_des.c\",\"openssl/crypto/evp/e_des3.c\",\"openssl/crypto/evp/e_null.c\",\"openssl/crypto/evp/e_old.c\",\"openssl/crypto/evp/e_rc2.c\",\"openssl/crypto/evp/e_rc4.c\",\"openssl/crypto/evp/e_rc4_hmac_md5.c\",\"openssl/crypto/evp/e_rc5.c\",\"openssl/crypto/evp/e_sm4.c\",\"openssl/crypto/evp/e_xcbc_d.c\",\"openssl/crypto/evp/encode.c\",\"openssl/crypto/evp/evp_cnf.c\",\"openssl/crypto/evp/evp_enc.c\",\"openssl/crypto/evp/evp_err.c\",\"openssl/crypto/evp/evp_key.c\",\"openssl/crypto/evp/evp_lib.c\",\"openssl/crypto/evp/evp_pbe.c\",\"openssl/crypto/evp/evp_pkey.c\",\"openssl/crypto/evp/m_md4.c\",\"openssl/crypto/evp/m_md5.c\",\"openssl/crypto/evp/m_md5_sha1.c\",\"openssl/crypto/evp/m_mdc2.c\",\"openssl/crypto/evp/m_null.c\",\"openssl/crypto/evp/m_sha1.c\",\"openssl/crypto/evp/m_sha3.c\",\"openssl/crypto/evp/m_sigver.c\",\"openssl/crypto/evp/m_wp.c\",\"openssl/crypto/evp/names.c\",\"openssl/crypto/evp/p5_crpt.c\",\"openssl/crypto/evp/p5_crpt2.c\",\"openssl/crypto/evp/pbe_scrypt.c\",\"openssl/crypto/evp/p_dec.c\",\"openssl/crypto/evp/p_enc.c\",\"openssl/crypto/evp/p_lib.c\",\"openssl/crypto/evp/p_open.c\",\"openssl/crypto/evp/p_seal.c\",\"openssl/crypto/evp/p_sign.c\",\"openssl/crypto/evp/p_verify.c\",\"openssl/crypto/evp/pmeth_fn.c\",\"openssl/crypto/evp/pmeth_gn.c\",\"openssl/crypto/evp/pmeth_lib.c\",\"openssl/crypto/ex_data.c\",\"openssl/crypto/getenv.c\",\"openssl/crypto/hmac/hm_ameth.c\",\"openssl/crypto/hmac/hm_pmeth.c\",\"openssl/crypto/hmac/hmac.c\",\"openssl/crypto/init.c\",\"openssl/crypto/kdf/hkdf.c\",\"openssl/crypto/kdf/kdf_err.c\",\"openssl/crypto/kdf/scrypt.c\",\"openssl/crypto/kdf/tls1_prf.c\",\"openssl/crypto/lhash/lh_stats.c\",\"openssl/crypto/lhash/lhash.c\",\"openssl/crypto/md4/md4_dgst.c\",\"openssl/crypto/md4/md4_one.c\",\"openssl/crypto/md5/md5_dgst.c\",\"openssl/crypto/md5/md5_one.c\",\"openssl/crypto/mem.c\",\"openssl/crypto/mem_dbg.c\",\"openssl/crypto/mem_sec.c\",\"openssl/crypto/modes/cbc128.c\",\"openssl/crypto/modes/ccm128.c\",\"openssl/crypto/modes/cfb128.c\",\"openssl/crypto/modes/ctr128.c\",\"openssl/crypto/modes/gcm128.c\",\"openssl/crypto/modes/ocb128.c\",\"openssl/crypto/modes/ofb128.c\",\"openssl/crypto/modes/wrap128.c\",\"openssl/crypto/modes/xts128.c\",\"openssl/crypto/o_dir.c\",\"openssl/crypto/o_fips.c\",\"openssl/crypto/o_fopen.c\",\"openssl/crypto/o_init.c\",\"openssl/crypto/o_str.c\",\"openssl/crypto/o_time.c\",\"openssl/crypto/objects/o_names.c\",\"openssl/crypto/objects/obj_dat.c\",\"openssl/crypto/objects/obj_err.c\",\"openssl/crypto/objects/obj_lib.c\",\"openssl/crypto/objects/obj_xref.c\",\"openssl/crypto/ocsp/ocsp_asn.c\",\"openssl/crypto/ocsp/ocsp_cl.c\",\"openssl/crypto/ocsp/ocsp_err.c\",\"openssl/crypto/ocsp/ocsp_ext.c\",\"openssl/crypto/ocsp/ocsp_ht.c\",\"openssl/crypto/ocsp/ocsp_lib.c\",\"openssl/crypto/ocsp/ocsp_prn.c\",\"openssl/crypto/ocsp/ocsp_srv.c\",\"openssl/crypto/ocsp/ocsp_vfy.c\",\"openssl/crypto/ocsp/v3_ocsp.c\",\"openssl/crypto/pem/pem_all.c\",\"openssl/crypto/pem/pem_err.c\",\"openssl/crypto/pem/pem_info.c\",\"openssl/crypto/pem/pem_lib.c\",\"openssl/crypto/pem/pem_oth.c\",\"openssl/crypto/pem/pem_pk8.c\",\"openssl/crypto/pem/pem_pkey.c\",\"openssl/crypto/pem/pem_sign.c\",\"openssl/crypto/pem/pem_x509.c\",\"openssl/crypto/pem/pem_xaux.c\",\"openssl/crypto/pem/pvkfmt.c\",\"openssl/crypto/pkcs12/p12_add.c\",\"openssl/crypto/pkcs12/p12_asn.c\",\"openssl/crypto/pkcs12/p12_attr.c\",\"openssl/crypto/pkcs12/p12_crpt.c\",\"openssl/crypto/pkcs12/p12_crt.c\",\"openssl/crypto/pkcs12/p12_decr.c\",\"openssl/crypto/pkcs12/p12_init.c\",\"openssl/crypto/pkcs12/p12_key.c\",\"openssl/crypto/pkcs12/p12_kiss.c\",\"openssl/crypto/pkcs12/p12_mutl.c\",\"openssl/crypto/pkcs12/p12_npas.c\",\"openssl/crypto/pkcs12/p12_p8d.c\",\"openssl/crypto/pkcs12/p12_p8e.c\",\"openssl/crypto/pkcs12/p12_sbag.c\",\"openssl/crypto/pkcs12/p12_utl.c\",\"openssl/crypto/pkcs12/pk12err.c\",\"openssl/crypto/pkcs7/pk7_asn1.c\",\"openssl/crypto/pkcs7/pk7_attr.c\",\"openssl/crypto/pkcs7/pk7_doit.c\",\"openssl/crypto/pkcs7/pk7_lib.c\",\"openssl/crypto/pkcs7/pk7_mime.c\",\"openssl/crypto/pkcs7/pk7_smime.c\",\"openssl/crypto/pkcs7/pkcs7err.c\",\"openssl/crypto/poly1305/poly1305.c\",\"openssl/crypto/poly1305/poly1305_ameth.c\",\"openssl/crypto/poly1305/poly1305_pmeth.c\",\"openssl/crypto/rand/drbg_lib.c\",\"openssl/crypto/rand/drbg_ctr.c\",\"openssl/crypto/rand/rand_egd.c\",\"openssl/crypto/rand/rand_err.c\",\"openssl/crypto/rand/rand_lib.c\",\"openssl/crypto/rand/rand_unix.c\",\"openssl/crypto/rand/rand_win.c\",\"openssl/crypto/rand/randfile.c\",\"openssl/crypto/rc2/rc2_cbc.c\",\"openssl/crypto/rc2/rc2_ecb.c\",\"openssl/crypto/rc2/rc2_skey.c\",\"openssl/crypto/rc2/rc2cfb64.c\",\"openssl/crypto/rc2/rc2ofb64.c\",\"openssl/crypto/rsa/rsa_ameth.c\",\"openssl/crypto/rsa/rsa_asn1.c\",\"openssl/crypto/rsa/rsa_chk.c\",\"openssl/crypto/rsa/rsa_crpt.c\",\"openssl/crypto/rsa/rsa_err.c\",\"openssl/crypto/rsa/rsa_gen.c\",\"openssl/crypto/rsa/rsa_lib.c\",\"openssl/crypto/rsa/rsa_meth.c\",\"openssl/crypto/rsa/rsa_mp.c\",\"openssl/crypto/rsa/rsa_none.c\",\"openssl/crypto/rsa/rsa_oaep.c\",\"openssl/crypto/rsa/rsa_ossl.c\",\"openssl/crypto/rsa/rsa_pk1.c\",\"openssl/crypto/rsa/rsa_pmeth.c\",\"openssl/crypto/rsa/rsa_prn.c\",\"openssl/crypto/rsa/rsa_pss.c\",\"openssl/crypto/rsa/rsa_saos.c\",\"openssl/crypto/rsa/rsa_sign.c\",\"openssl/crypto/rsa/rsa_ssl.c\",\"openssl/crypto/rsa/rsa_x931.c\",\"openssl/crypto/rsa/rsa_x931g.c\",\"openssl/crypto/sha/sha1_one.c\",\"openssl/crypto/sha/sha1dgst.c\",\"openssl/crypto/sha/sha256.c\",\"openssl/crypto/sha/sha512.c\",\"openssl/crypto/siphash/siphash_pmeth.c\",\"openssl/crypto/siphash/siphash.c\",\"openssl/crypto/siphash/siphash_ameth.c\",\"openssl/crypto/sm2/sm2_err.c\",\"openssl/crypto/sm2/sm2_crypt.c\",\"openssl/crypto/sm2/sm2_sign.c\",\"openssl/crypto/sm2/sm2_pmeth.c\",\"openssl/crypto/sm3/m_sm3.c\",\"openssl/crypto/sm3/sm3.c\",\"openssl/crypto/sm4/sm4.c\",\"openssl/crypto/srp/srp_lib.c\",\"openssl/crypto/srp/srp_vfy.c\",\"openssl/crypto/store/store_init.c\",\"openssl/crypto/store/store_err.c\",\"openssl/crypto/store/store_register.c\",\"openssl/crypto/store/store_lib.c\",\"openssl/crypto/store/store_strings.c\",\"openssl/crypto/store/loader_file.c\",\"openssl/crypto/stack/stack.c\",\"openssl/crypto/threads_none.c\",\"openssl/crypto/threads_pthread.c\",\"openssl/crypto/threads_win.c\",\"openssl/crypto/ts/ts_err.c\",\"openssl/crypto/txt_db/txt_db.c\",\"openssl/crypto/ui/ui_err.c\",\"openssl/crypto/ui/ui_lib.c\",\"openssl/crypto/ui/ui_null.c\",\"openssl/crypto/ui/ui_openssl.c\",\"openssl/crypto/ui/ui_util.c\",\"openssl/crypto/uid.c\",\"openssl/crypto/x509/by_dir.c\",\"openssl/crypto/x509/by_file.c\",\"openssl/crypto/x509/t_crl.c\",\"openssl/crypto/x509/t_req.c\",\"openssl/crypto/x509/t_x509.c\",\"openssl/crypto/x509/x509_att.c\",\"openssl/crypto/x509/x509_cmp.c\",\"openssl/crypto/x509/x509_d2.c\",\"openssl/crypto/x509/x509_def.c\",\"openssl/crypto/x509/x509_err.c\",\"openssl/crypto/x509/x509_ext.c\",\"openssl/crypto/x509/x509_lu.c\",\"openssl/crypto/x509/x509_obj.c\",\"openssl/crypto/x509/x509_r2x.c\",\"openssl/crypto/x509/x509_req.c\",\"openssl/crypto/x509/x509_set.c\",\"openssl/crypto/x509/x509_trs.c\",\"openssl/crypto/x509/x509_txt.c\",\"openssl/crypto/x509/x509_v3.c\",\"openssl/crypto/x509/x509_vfy.c\",\"openssl/crypto/x509/x509_vpm.c\",\"openssl/crypto/x509/x509cset.c\",\"openssl/crypto/x509/x509name.c\",\"openssl/crypto/x509/x509rset.c\",\"openssl/crypto/x509/x509spki.c\",\"openssl/crypto/x509/x509type.c\",\"openssl/crypto/x509/x_all.c\",\"openssl/crypto/x509/x_attrib.c\",\"openssl/crypto/x509/x_crl.c\",\"openssl/crypto/x509/x_exten.c\",\"openssl/crypto/x509/x_name.c\",\"openssl/crypto/x509/x_pubkey.c\",\"openssl/crypto/x509/x_req.c\",\"openssl/crypto/x509/x_x509.c\",\"openssl/crypto/x509/x_x509a.c\",\"openssl/crypto/x509v3/pcy_cache.c\",\"openssl/crypto/x509v3/pcy_data.c\",\"openssl/crypto/x509v3/pcy_lib.c\",\"openssl/crypto/x509v3/pcy_map.c\",\"openssl/crypto/x509v3/pcy_node.c\",\"openssl/crypto/x509v3/pcy_tree.c\",\"openssl/crypto/x509v3/v3_admis.c\",\"openssl/crypto/x509v3/v3_akey.c\",\"openssl/crypto/x509v3/v3_akeya.c\",\"openssl/crypto/x509v3/v3_alt.c\",\"openssl/crypto/x509v3/v3_bcons.c\",\"openssl/crypto/x509v3/v3_bitst.c\",\"openssl/crypto/x509v3/v3_conf.c\",\"openssl/crypto/x509v3/v3_cpols.c\",\"openssl/crypto/x509v3/v3_crld.c\",\"openssl/crypto/x509v3/v3_enum.c\",\"openssl/crypto/x509v3/v3_extku.c\",\"openssl/crypto/x509v3/v3_genn.c\",\"openssl/crypto/x509v3/v3_ia5.c\",\"openssl/crypto/x509v3/v3_info.c\",\"openssl/crypto/x509v3/v3_int.c\",\"openssl/crypto/x509v3/v3_lib.c\",\"openssl/crypto/x509v3/v3_ncons.c\",\"openssl/crypto/x509v3/v3_pci.c\",\"openssl/crypto/x509v3/v3_pcia.c\",\"openssl/crypto/x509v3/v3_pcons.c\",\"openssl/crypto/x509v3/v3_pku.c\",\"openssl/crypto/x509v3/v3_pmaps.c\",\"openssl/crypto/x509v3/v3_prn.c\",\"openssl/crypto/x509v3/v3_purp.c\",\"openssl/crypto/x509v3/v3_skey.c\",\"openssl/crypto/x509v3/v3_sxnet.c\",\"openssl/crypto/x509v3/v3_tlsf.c\",\"openssl/crypto/x509v3/v3_utl.c\",\"openssl/crypto/x509v3/v3err.c\",\"openssl/crypto/aes/aes_x86core.c\",\"openssl/crypto/bn/asm/x86_64-gcc.c\"]}],\"fullName\":\"libcrypto.a\",\"linkerLanguage\":\"C\",\"name\":\"crypto\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"STATIC_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libosslspeedtest.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"defines\":[\"osslspeedtest_EXPORTS\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"opvpnutil/sslspeed.c\"]}],\"fullName\":\"libosslspeedtest.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now\",\"linkLibraries\":\"-llog libcrypto.a libssl.a libcrypto.a -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"osslspeedtest\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"SHARED_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libopvpnutil.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"defines\":[\"OPENVPN2_GIT_REVISION\u003d\\\"icsopenvpn/v0.7.14-0-gb3eb7a46\\\"\",\"OPENVPN3_GIT_REVISION\u003d\\\"pg-pr-2017-157-g8c10b92b\\\"\",\"TARGET_ARCH_ABI\u003d\\\"x86_64\\\"\",\"opvpnutil_EXPORTS\"],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"opvpnutil/jniglue.c\",\"opvpnutil/scan_ifs.c\"]}],\"fullName\":\"libopvpnutil.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now\",\"linkLibraries\":\"-llog -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"opvpnutil\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"SHARED_LIBRARY\"},{\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"isGenerated\":true,\"sources\":[\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/makeassetdir\",\"../../../.cxx/cmake/storeStageRelease/x86_64/CMakeFiles/makeassetdir.rule\"]}],\"fullName\":\"makeassetdir\",\"name\":\"makeassetdir\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"type\":\"UTILITY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/pie_openvpn.x86_64\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIE   -fPIE\",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"minivpn/minivpn.c\"]}],\"fullName\":\"pie_openvpn.x86_64\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE\",\"linkLanguageFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG\",\"linkLibraries\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libopenvpn.so -fPIE -pie libssl.a libcrypto.a liblzo.a -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"pie_openvpn.x86_64\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"EXECUTABLE\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libjbcrypto.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security -std\u003dc++11  -O2 -DNDEBUG  -fPIC  \",\"defines\":[\"jbcrypto_EXPORTS\"],\"includePath\":[{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/android/support/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++abi/include\"}],\"isGenerated\":false,\"language\":\"CXX\",\"sources\":[\"jbcrypto/jbcrypto.cpp\"]}],\"fullName\":\"libjbcrypto.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now\",\"linkLibraries\":\"-llog -ldl -latomic -lm \\\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_static.a\\\" \\\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++abi.a\\\"\",\"linkerLanguage\":\"CXX\",\"name\":\"jbcrypto\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"SHARED_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/libovpnexec.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIE   -fPIE\",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"minivpn/minivpn.c\"]}],\"fullName\":\"libovpnexec.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE\",\"linkLanguageFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG\",\"linkLibraries\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libopenvpn.so -fPIE -pie libssl.a libcrypto.a liblzo.a -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"libovpnexec.so\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"EXECUTABLE\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libopenvpn.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"defines\":[\"CONFIGURE_GIT_FLAGS\u003d\\\"\\\"\",\"CONFIGURE_GIT_REVISION\u003d\\\"icsopenvpn/v0.7.14-0-gb3eb7a46\\\"\",\"ENABLE_CRYPTO_OPENSSL\u003d1\",\"HAVE_CONFIG_H\",\"OPENSSL_API_COMPAT\u003d0x10200000L\",\"TARGET_ABI\u003d\\\"x86_64\\\"\",\"openvpn_EXPORTS\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn-config\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn/src/compat\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/mbedtls/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"openvpn/src/compat/compat-basename.c\",\"openvpn/src/compat/compat-daemon.c\",\"openvpn/src/compat/compat-dirname.c\",\"openvpn/src/compat/compat-gettimeofday.c\",\"openvpn/src/compat/compat-inet_ntop.c\",\"openvpn/src/compat/compat-inet_pton.c\",\"openvpn/src/compat/compat-lz4.c\",\"openvpn/src/openvpn/argv.c\",\"openvpn/src/openvpn/auth_token.c\",\"openvpn/src/openvpn/base64.c\",\"openvpn/src/openvpn/buffer.c\",\"openvpn/src/openvpn/clinat.c\",\"openvpn/src/openvpn/console.c\",\"openvpn/src/openvpn/console_builtin.c\",\"openvpn/src/openvpn/crypto.c\",\"openvpn/src/openvpn/crypto_openssl.c\",\"openvpn/src/openvpn/crypto_mbedtls.c\",\"openvpn/src/openvpn/cryptoapi.c\",\"openvpn/src/openvpn/dhcp.c\",\"openvpn/src/openvpn/error.c\",\"openvpn/src/openvpn/event.c\",\"openvpn/src/openvpn/env_set.c\",\"openvpn/src/openvpn/fdmisc.c\",\"openvpn/src/openvpn/forward.c\",\"openvpn/src/openvpn/fragment.c\",\"openvpn/src/openvpn/gremlin.c\",\"openvpn/src/openvpn/helper.c\",\"openvpn/src/openvpn/httpdigest.c\",\"openvpn/src/openvpn/init.c\",\"openvpn/src/openvpn/interval.c\",\"openvpn/src/openvpn/list.c\",\"openvpn/src/openvpn/lladdr.c\",\"openvpn/src/openvpn/lzo.c\",\"openvpn/src/openvpn/manage.c\",\"openvpn/src/openvpn/mbuf.c\",\"openvpn/src/openvpn/misc.c\",\"openvpn/src/openvpn/mroute.c\",\"openvpn/src/openvpn/mss.c\",\"openvpn/src/openvpn/mstats.c\",\"openvpn/src/openvpn/mtcp.c\",\"openvpn/src/openvpn/mtu.c\",\"openvpn/src/openvpn/mudp.c\",\"openvpn/src/openvpn/multi.c\",\"openvpn/src/openvpn/ntlm.c\",\"openvpn/src/openvpn/occ.c\",\"openvpn/src/openvpn/openvpn.c\",\"openvpn/src/openvpn/options.c\",\"openvpn/src/openvpn/otime.c\",\"openvpn/src/openvpn/packet_id.c\",\"openvpn/src/openvpn/perf.c\",\"openvpn/src/openvpn/pf.c\",\"openvpn/src/openvpn/ping.c\",\"openvpn/src/openvpn/pkcs11.c\",\"openvpn/src/openvpn/pkcs11_openssl.c\",\"openvpn/src/openvpn/platform.c\",\"openvpn/src/openvpn/plugin.c\",\"openvpn/src/openvpn/pool.c\",\"openvpn/src/openvpn/proto.c\",\"openvpn/src/openvpn/proxy.c\",\"openvpn/src/openvpn/ps.c\",\"openvpn/src/openvpn/push.c\",\"openvpn/src/openvpn/reliable.c\",\"openvpn/src/openvpn/route.c\",\"openvpn/src/openvpn/run_command.c\",\"openvpn/src/openvpn/schedule.c\",\"openvpn/src/openvpn/session_id.c\",\"openvpn/src/openvpn/shaper.c\",\"openvpn/src/openvpn/sig.c\",\"openvpn/src/openvpn/socket.c\",\"openvpn/src/openvpn/socks.c\",\"openvpn/src/openvpn/ssl.c\",\"openvpn/src/openvpn/ssl_openssl.c\",\"openvpn/src/openvpn/ssl_mbedtls.c\",\"openvpn/src/openvpn/ssl_ncp.c\",\"openvpn/src/openvpn/ssl_verify.c\",\"openvpn/src/openvpn/ssl_verify_openssl.c\",\"openvpn/src/openvpn/ssl_verify_mbedtls.c\",\"openvpn/src/openvpn/status.c\",\"openvpn/src/openvpn/tls_crypt.c\",\"openvpn/src/openvpn/tun.c\",\"openvpn/src/openvpn/comp-lz4.c\",\"openvpn/src/openvpn/comp.c\",\"openvpn/src/openvpn/compstub.c\"]}],\"fullName\":\"libopenvpn.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now\",\"linkLibraries\":\"libcrypto.a libssl.a liblzo.a libcrypto.a -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"openvpn\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"SHARED_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libovpn3.so\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"isGenerated\":true,\"sources\":[\"../../../.cxx/cmake/storeStageRelease/x86_64/ovpncli_wrap.cxx.rule\"]},{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security -std\u003dc++11  -O2 -DNDEBUG  -fPIC   -std\u003dc++1y\",\"defines\":[\"ASIO_STANDALONE\",\"GIT_VERSION_STRING\u003d\\\"pg-pr-2017-157-g8c10b92b\\\"\",\"HAVE_CONFIG_H\",\"HAVE_LZ4\",\"HAVE_LZO\",\"NO_ROUTE_EXCLUDE_EMULATION\",\"OPENSSL_API_COMPAT\u003d0x10200000L\",\"OPENVPN_SHOW_SESSION_TOKEN\",\"USE_ASIO\",\"USE_OPENSSL\",\"ovpn3_EXPORTS\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn3\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/asio/asio/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn3/client\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/mbedtls/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4/lib\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/android/support/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++abi/include\"}],\"isGenerated\":true,\"language\":\"CXX\",\"sources\":[\"../../../.cxx/cmake/storeStageRelease/x86_64/ovpncli_wrap.cxx\"]},{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security -std\u003dc++11  -O2 -DNDEBUG  -fPIC   -std\u003dc++1y\",\"defines\":[\"ASIO_STANDALONE\",\"GIT_VERSION_STRING\u003d\\\"pg-pr-2017-157-g8c10b92b\\\"\",\"HAVE_CONFIG_H\",\"HAVE_LZ4\",\"HAVE_LZO\",\"NO_ROUTE_EXCLUDE_EMULATION\",\"OPENSSL_API_COMPAT\u003d0x10200000L\",\"OPENVPN_SHOW_SESSION_TOKEN\",\"USE_ASIO\",\"USE_OPENSSL\",\"ovpn3_EXPORTS\"],\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn3\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/asio/asio/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openvpn3/client\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/mbedtls/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4/lib\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/android/support/include\"},{\"isSystem\":true,\"path\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++abi/include\"}],\"isGenerated\":false,\"language\":\"CXX\",\"sources\":[\"openvpn3/client/ovpncli.cpp\"]}],\"fullName\":\"libovpn3.so\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now\",\"linkLibraries\":\"libcrypto.a libssl.a liblzo.a liblz4.a libcrypto.a -latomic -lm \\\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_static.a\\\" \\\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++abi.a\\\"\",\"linkerLanguage\":\"CXX\",\"name\":\"ovpn3\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"SHARED_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/nopie_openvpn.x86_64\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIE  \",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"minivpn/minivpn.c\"]}],\"fullName\":\"nopie_openvpn.x86_64\",\"linkFlags\":\"-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libatomic.a -nostdlib++ --sysroot /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/platforms/android-21/arch-x86_64 -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -L/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86_64 -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE\",\"linkLanguageFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG\",\"linkLibraries\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/storeStageRelease/obj/x86_64/libopenvpn.so libssl.a libcrypto.a liblzo.a -latomic -lm\",\"linkerLanguage\":\"C\",\"name\":\"nopie_openvpn.x86_64\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"EXECUTABLE\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/liblz4.a\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4/lib\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"lz4/lib/lz4.c\"]}],\"fullName\":\"liblz4.a\",\"linkerLanguage\":\"C\",\"name\":\"lz4\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"STATIC_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/libssl.a\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/include\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448/arch_32\"},{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/crypto/ec/curve448\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"openssl/ssl/bio_ssl.c\",\"openssl/ssl/d1_lib.c\",\"openssl/ssl/d1_msg.c\",\"openssl/ssl/d1_srtp.c\",\"openssl/ssl/methods.c\",\"openssl/ssl/packet.c\",\"openssl/ssl/pqueue.c\",\"openssl/ssl/record/dtls1_bitmap.c\",\"openssl/ssl/record/rec_layer_d1.c\",\"openssl/ssl/record/rec_layer_s3.c\",\"openssl/ssl/record/ssl3_buffer.c\",\"openssl/ssl/record/ssl3_record.c\",\"openssl/ssl/record/ssl3_record_tls13.c\",\"openssl/ssl/s3_cbc.c\",\"openssl/ssl/s3_enc.c\",\"openssl/ssl/s3_lib.c\",\"openssl/ssl/s3_msg.c\",\"openssl/ssl/ssl_asn1.c\",\"openssl/ssl/ssl_cert.c\",\"openssl/ssl/ssl_ciph.c\",\"openssl/ssl/ssl_conf.c\",\"openssl/ssl/ssl_err.c\",\"openssl/ssl/ssl_init.c\",\"openssl/ssl/ssl_lib.c\",\"openssl/ssl/ssl_mcnf.c\",\"openssl/ssl/ssl_rsa.c\",\"openssl/ssl/ssl_sess.c\",\"openssl/ssl/ssl_stat.c\",\"openssl/ssl/ssl_txt.c\",\"openssl/ssl/ssl_utst.c\",\"openssl/ssl/statem/statem.c\",\"openssl/ssl/statem/statem_clnt.c\",\"openssl/ssl/statem/statem_dtls.c\",\"openssl/ssl/statem/extensions.c\",\"openssl/ssl/statem/extensions_clnt.c\",\"openssl/ssl/statem/extensions_srvr.c\",\"openssl/ssl/statem/extensions_cust.c\",\"openssl/ssl/statem/statem_lib.c\",\"openssl/ssl/statem/statem_srvr.c\",\"openssl/ssl/t1_enc.c\",\"openssl/ssl/t1_lib.c\",\"openssl/ssl/t1_trce.c\",\"openssl/ssl/tls_srp.c\",\"openssl/ssl/tls13_enc.c\"]}],\"fullName\":\"libssl.a\",\"linkerLanguage\":\"C\",\"name\":\"ssl\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"STATIC_LIBRARY\"},{\"artifacts\":[\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/liblzo.a\"],\"buildDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64\",\"fileGroups\":[{\"compileFlags\":\"-isystem /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__\u003d21 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror\u003dformat-security  -O2 -DNDEBUG  -fPIC  \",\"includePath\":[{\"path\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo/include\"}],\"isGenerated\":false,\"language\":\"C\",\"sources\":[\"lzo/src/lzo1.c\",\"lzo/src/lzo1_99.c\",\"lzo/src/lzo1a.c\",\"lzo/src/lzo1a_99.c\",\"lzo/src/lzo1b_1.c\",\"lzo/src/lzo1b_2.c\",\"lzo/src/lzo1b_3.c\",\"lzo/src/lzo1b_4.c\",\"lzo/src/lzo1b_5.c\",\"lzo/src/lzo1b_6.c\",\"lzo/src/lzo1b_7.c\",\"lzo/src/lzo1b_8.c\",\"lzo/src/lzo1b_9.c\",\"lzo/src/lzo1b_99.c\",\"lzo/src/lzo1b_9x.c\",\"lzo/src/lzo1b_cc.c\",\"lzo/src/lzo1b_d1.c\",\"lzo/src/lzo1b_d2.c\",\"lzo/src/lzo1b_rr.c\",\"lzo/src/lzo1b_xx.c\",\"lzo/src/lzo1c_1.c\",\"lzo/src/lzo1c_2.c\",\"lzo/src/lzo1c_3.c\",\"lzo/src/lzo1c_4.c\",\"lzo/src/lzo1c_5.c\",\"lzo/src/lzo1c_6.c\",\"lzo/src/lzo1c_7.c\",\"lzo/src/lzo1c_8.c\",\"lzo/src/lzo1c_9.c\",\"lzo/src/lzo1c_99.c\",\"lzo/src/lzo1c_9x.c\",\"lzo/src/lzo1c_cc.c\",\"lzo/src/lzo1c_d1.c\",\"lzo/src/lzo1c_d2.c\",\"lzo/src/lzo1c_rr.c\",\"lzo/src/lzo1c_xx.c\",\"lzo/src/lzo1f_1.c\",\"lzo/src/lzo1f_9x.c\",\"lzo/src/lzo1f_d1.c\",\"lzo/src/lzo1f_d2.c\",\"lzo/src/lzo1x_1.c\",\"lzo/src/lzo1x_1k.c\",\"lzo/src/lzo1x_1l.c\",\"lzo/src/lzo1x_1o.c\",\"lzo/src/lzo1x_9x.c\",\"lzo/src/lzo1x_d1.c\",\"lzo/src/lzo1x_d2.c\",\"lzo/src/lzo1x_d3.c\",\"lzo/src/lzo1x_o.c\",\"lzo/src/lzo1y_1.c\",\"lzo/src/lzo1y_9x.c\",\"lzo/src/lzo1y_d1.c\",\"lzo/src/lzo1y_d2.c\",\"lzo/src/lzo1y_d3.c\",\"lzo/src/lzo1y_o.c\",\"lzo/src/lzo1z_9x.c\",\"lzo/src/lzo1z_d1.c\",\"lzo/src/lzo1z_d2.c\",\"lzo/src/lzo1z_d3.c\",\"lzo/src/lzo2a_9x.c\",\"lzo/src/lzo2a_d1.c\",\"lzo/src/lzo2a_d2.c\",\"lzo/src/lzo_crc.c\",\"lzo/src/lzo_init.c\",\"lzo/src/lzo_ptr.c\",\"lzo/src/lzo_str.c\",\"lzo/src/lzo_util.c\"]}],\"fullName\":\"liblzo.a\",\"linkerLanguage\":\"C\",\"name\":\"lzo\",\"sourceDirectory\":\"/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp\",\"sysroot\":\"/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/sysroot\",\"type\":\"STATIC_LIBRARY\"}]}]}],\"cookie\":\"\",\"inReplyTo\":\"codemodel\",\"type\":\"reply\"}\n",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "done executing cmake",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "write build output /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/build_output.txt",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "write command file /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/storeStageRelease/x86_64/build_command.txt",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed without problems",
+    "file": "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "tag": "storeStageRelease|x86_64"
+  }
+]
