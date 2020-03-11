@@ -32,7 +32,6 @@ public class SentryUtil {
     public void init() {
         isEnabled = settings.isSentryEnabled();
 
-
         SentryAndroid.init(context, options -> {
             // Add a callback that will be used before the event is sent to Sentry.
             // With this callback, you can modify the event or, when returning null, also discard the event.

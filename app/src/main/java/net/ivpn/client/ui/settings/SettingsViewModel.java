@@ -61,8 +61,10 @@ public class SettingsViewModel extends BaseObservable {
     public final ObservableBoolean crashLogging = new ObservableBoolean();
     public final ObservableBoolean multiHop = new ObservableBoolean();
     public final ObservableBoolean killSwitch = new ObservableBoolean();
+    public final ObservableBoolean isSentryEnabled = new ObservableBoolean();
     public final ObservableBoolean isOnFreeTrial = new ObservableBoolean();
     public final ObservableBoolean isAntiTrackerEnabled = new ObservableBoolean();
+    public final ObservableBoolean isUpdatesEnabled = new ObservableBoolean();
     public final ObservableBoolean isManageSubscriptionAvailable = new ObservableBoolean();
     public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
     public final ObservableBoolean isNativeSubscription = new ObservableBoolean();
@@ -187,6 +189,8 @@ public class SettingsViewModel extends BaseObservable {
         subscriptionPlan.set(getSubscriptionPlan());
         isManageSubscriptionAvailable.set(isManageSubscriptionAvailable());
         crashLogging.set(sentryUtil.isEnabled);
+        isSentryEnabled.set(isSentryEnabled());
+        isUpdatesEnabled.set(isUpdatesEnabled());
         ping(enterServer.get(), getPingFinishListener(ServerType.ENTRY));
         ping(exitServer.get(), getPingFinishListener(ServerType.EXIT));
     }
@@ -351,12 +355,20 @@ public class SettingsViewModel extends BaseObservable {
     }
 
     private boolean isAntiTrackerEnabled() {
+        return BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid");
+    }
+
+    private boolean isUpdatesEnabled() {
         return BuildConfig.BUILD_VARIANT.equals("site");
     }
 
     private boolean isAuthenticated() {
         String token = userPreference.getSessionToken();
         return !token.isEmpty();
+    }
+
+    private boolean isSentryEnabled() {
+        return !BuildConfig.BUILD_VARIANT.equals("fdroid");
     }
 
     private boolean isManageSubscriptionAvailable() {

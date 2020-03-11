@@ -54,6 +54,11 @@ android {
             buildConfigField "String", "BUILD_VARIANT", "\"site\""
         }
 
+        fdroid {
+            dimension "spread"
+            buildConfigField "String", "BUILD_VARIANT", "\"fdroid\""
+        }
+
         production {
             dimension "api"
             buildConfigField "String", "BASE_URL", "\"api.ivpn.net\""
