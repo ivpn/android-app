@@ -163,6 +163,7 @@ public final class GoBackend implements Backend {
                     }
                 }
                 goConfig = fmt.toString();
+//                System.out.println("Go config = " + goConfig);
             }
 
             // Create the vpn tunnel with android API

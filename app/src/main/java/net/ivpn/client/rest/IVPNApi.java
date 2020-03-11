@@ -35,9 +35,6 @@ public interface IVPNApi {
     @GET("v4/servers.json")
     Call<ServersListResponse> getServers();
 
-    @POST("v2/authenticate")
-    Call<LoginResponse> login(@Body LoginRequestBody body);
-
     @GET("v4/geo-lookup")
     Call<LocationResponse> getLocation();
     
