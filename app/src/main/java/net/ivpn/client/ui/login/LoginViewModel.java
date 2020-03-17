@@ -144,7 +144,7 @@ public class LoginViewModel {
             if (userPreference.getIsActive()) {
                 navigator.onLogin();
             } else {
-                if (BuildConfig.BUILD_VARIANT.equals("site")) {
+                if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
                     navigator.openSite();
                 } else {
                     navigator.openSubscriptionScreen();

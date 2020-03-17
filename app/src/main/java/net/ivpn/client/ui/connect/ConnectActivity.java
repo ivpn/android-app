@@ -222,7 +222,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
     private void subscribe() {
         LOGGER.info("subscribe");
-        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+        if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SubscriptionActivity.class);

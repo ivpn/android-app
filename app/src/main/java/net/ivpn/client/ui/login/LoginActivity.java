@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     public void signUp(View view) {
         LOGGER.info("Navigate to sign up screen");
 
-        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+        if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);
