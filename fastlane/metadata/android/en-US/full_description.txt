@@ -1,0 +1,29 @@
+IVPN is an audited, privacy focused VPN service that offers WireGuard, multi-hop
+connections and built-in ad and tracker blocking.
+IVPN applications for all major platforms are open-source since February 2020.
+
+Notable features:
+* Fast servers in 45 locations
+* Use on up to 7 devices (Pro plan)
+* Split tunneling
+* Kill switch
+* Set trusted networks and use custom DNS
+* Multi-hop connections for advanced privacy
+* Unlimited bandwidth
+* 24/7 customer service
+
+What we do differently than other VPNs?
+* No logs and data collection on your connection
+* No third-party tools in app
+* No surveillance ads on Facebook and Google
+* No false promises (e.g. fully anonymous connection)
+* Transparent ownership and team
+* Civilian grade encryption
+
+More details about our company and service: https://www.ivpn.net/facts
+Review our privacy policy: https://www.ivpn.net/privacy
+Terms of Service: https://www.ivpn.net/tos
+Audit by cure53: https://www.ivpn.net/blog/independent-security-audit-concluded
+Privacy guides: https://www.ivpn.net/blog/privacy-guides
+
+WireGuard® is a registered trademark of Jason A. Donenfeld.
