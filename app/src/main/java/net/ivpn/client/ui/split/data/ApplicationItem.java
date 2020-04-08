@@ -10,12 +10,7 @@ public class ApplicationItem {
     private Drawable icon;
     private boolean isAllowed;
 
-    public static Comparator<ApplicationItem> comparator = new Comparator<ApplicationItem>() {
-        @Override
-        public int compare(ApplicationItem item1, ApplicationItem item2) {
-            return item1.getApplicationName().compareTo(item2.getApplicationName());
-        }
-    };
+    public static Comparator<ApplicationItem> comparator = (item1, item2) -> item1.getApplicationName().toLowerCase().compareTo(item2.getApplicationName().toLowerCase());
 
     public ApplicationItem(String applicationName, String packageName, Drawable icon) {
         this.applicationName = applicationName;
