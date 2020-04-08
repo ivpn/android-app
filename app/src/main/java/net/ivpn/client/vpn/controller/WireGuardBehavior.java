@@ -509,11 +509,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
                     }
                 }
             }
-
-            @Override
-            public void onKeyRemoving() {
-                //Nothing to do here.
-            }
         };
     }
 }
