@@ -46,6 +46,7 @@ public class HttpClientFactory {
             Request.Builder requestBuilder = chain.request().newBuilder();
             requestBuilder.header("Content-Type", "application/json");
             requestBuilder.header("Accept", "application/json");
+            requestBuilder.header("User-Agent", "ivpn/android");
             return chain.proceed(requestBuilder.build());
         };
     }
