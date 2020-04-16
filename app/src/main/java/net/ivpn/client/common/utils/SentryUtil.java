@@ -49,5 +49,6 @@ public class SentryUtil {
 
     public void setState(boolean isEnabled) {
         this.isEnabled = isEnabled;
+        settings.enableSentry(isEnabled);
     }
 }
