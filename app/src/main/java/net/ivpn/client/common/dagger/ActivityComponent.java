@@ -32,6 +32,7 @@ import net.ivpn.client.ui.surveillance.AntiSurveillanceActivity;
 import net.ivpn.client.ui.syncservers.SyncServersActivity;
 import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.ui.updates.UpdatesActivity;
+import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
 import net.ivpn.client.vpn.controller.WireGuardKeyBroadcastReceiver;
@@ -125,4 +126,8 @@ public interface ActivityComponent {
     DialogueCustomDNSViewModel getDialogueViewModel();
 
     LocationDialogViewModel getLocationDialogueViewModel();
+
+    //v2
+
+    void inject(ConnectFragment connectFragment);
 }

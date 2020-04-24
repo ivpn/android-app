@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <net.ivpn.client.v2.map.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include android:id="@+id/sliding_panel"
+            layout="@layout/view_sliding_panel"/>
+
+    </FrameLayout>
+
+<!--        <com.sothree.slidinguppanel.SlidingUpPanelLayout-->
+<!--            xmlns:sothree="http://schemas.android.com/apk/res-auto"-->
+<!--            android:id="@+id/sliding_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:gravity="bottom"-->
+<!--            sothree:umanoPanelHeight="@dimen/panel_height"-->
+<!--            sothree:umanoShadowHeight="0dp"-->
+<!--            sothree:umanoOverlay="true">-->
+
+<!--        </com.sothree.slidinguppanel.SlidingUpPanelLayout>-->
+</layout>

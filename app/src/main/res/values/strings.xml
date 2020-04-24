@@ -532,5 +532,25 @@
     </plurals>
     <string name="expires_in">Your subscription expires in</string>
     <string name="expired">Your subscription has expired</string>
+    
+    <!--v2-->
+    <string name="your_network_is">Your network is</string>
+    <string name="connection_state_protected">protected</string>
+    <string name="single_hop">Single-hop</string>
+    <string name="multi_hop">Multi-hop</string>
+    <string name="connect_to">Connect to</string>
+    <string name="exit_server">Exit server</string>
+    <string name="entry_server">Entry server</string>
+
+    <!--Connect description-->
+    <string name="content_description_entry_server_flag">Entry server flag</string>
+    <string name="content_description_choose_entry_server">choose entry server</string>
+    
+    <string name="sliding_panel_connection_details">Connection details</string>
+    <string name="sliding_panel_antitracker">AntiTracker</string>
+    <string name="sliding_panel_antitracker_description">AntiTracker will block all trackers on the web pages</string>
+    <string name="sliding_panel_wifi_title">Wi-Fi network</string>
+    <string name="sliding_panel_wifi_name_stub">Network Name</string>
+    <string name="sliding_panel_protocol_port_name">Protocol/Port</string>
 
 </resources>

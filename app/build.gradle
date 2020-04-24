@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
+
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 def keystoreProperties = new Properties()
 if (new File("keystore.properties").exists()) {
@@ -34,16 +39,16 @@ android {
         manifestPlaceholders = [ SENTRY_DSN:keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
         buildConfigField 'boolean', 'openvpn3', 'false'
-        externalNativeBuild {
-            cmake {
-                arguments '-DANDROID_TOOLCHAIN=clang',
-                        '-DANDROID_STL=c++_static'
-            }
-
-            ndk {
-                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-            }
-        }
+//        externalNativeBuild {
+//            cmake {
+//                arguments '-DANDROID_TOOLCHAIN=clang',
+//                        '-DANDROID_STL=c++_static'
+//            }
+//
+//            ndk {
+//                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+//            }
+//        }
     }
 
     flavorDimensions "spread", "api"
@@ -106,11 +111,11 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
     }
-    externalNativeBuild {
-        cmake {
-            path 'CMakeLists.txt'
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path 'CMakeLists.txt'
+//        }
+//    }
 
     splits {
         abi {
@@ -121,50 +126,60 @@ android {
     }
 }
 
-def File registerGenTask(variantName, variantDirName) {
-    def baseDir = new File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
-    def genDir = new File(baseDir, "net/openvpn/ovpn3")
-    task("generateOpenVPN3Swig${variantName}",type:Exec) {
-
-        def swigcmd = "swig"
-        if (file("/usr/local/bin/swig").exists())
-            swigcmd = "/usr/local/bin/swig"
-
-        doFirst {
-            mkdir genDir
-        }
-
-        commandLine swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
-                "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
-                "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
-                "src/main/cpp/openvpn3/javacli/ovpncli.i"
-    }
-
-    return baseDir
-}
-
-android.applicationVariants.all { variant ->
-    def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
-    def task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
-
-    variant.registerJavaGeneratingTask(task, sourceDir)
-}
+//def File registerGenTask(variantName, variantDirName) {
+//    def baseDir = new File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
+//    def genDir = new File(baseDir, "net/openvpn/ovpn3")
+//    task("generateOpenVPN3Swig${variantName}",type:Exec) {
+//
+//        def swigcmd = "swig"
+//        if (file("/usr/local/bin/swig").exists())
+//            swigcmd = "/usr/local/bin/swig"
+//
+//        doFirst {
+//            mkdir genDir
+//        }
+//
+//        commandLine swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
+//                "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
+//                "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
+//                "src/main/cpp/openvpn3/javacli/ovpncli.i"
+//    }
+//
+//    return baseDir
+//}
+//
+//android.applicationVariants.all { variant ->
+//    def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
+//    def task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
+//
+//    variant.registerJavaGeneratingTask(task, sourceDir)
+//}
 
 ext {
     supportLibsVersion = '28.0.0'
     streamsupportVersion = '1.7.1'
 }
+kapt {
+    generateStubs = true
+}
 
 dependencies {
+    def nav_version = "2.3.0-alpha04"
+    def lifecycle_version = "2.2.0"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
     // JSON Parsing
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -176,8 +191,14 @@ dependencies {
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
+    //Sliding up panel
+//    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+
 //    Purchases
-    implementation 'com.android.billingclient:billing:2.1.0'
+    implementation 'com.android.billingclient:billing:2.2.0'
     
     //For crash logging
     implementation 'io.sentry:sentry-android-core:2.0.+'
@@ -186,6 +207,13 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
+
+    //Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Navigation component dynamic feature module support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     implementation "junit:junit:$rootProject.ext.junitVersion"
 
@@ -197,6 +225,8 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
 
+    //Dagger
+    kapt 'com.google.dagger:dagger-compiler:2.24'
     implementation 'com.google.dagger:dagger:2.24'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
 

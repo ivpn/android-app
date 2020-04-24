@@ -66,4 +66,14 @@
     <dimen name="regeneration_view_round_radius">6dp</dimen>
     <dimen name="regeneration_icon_size">24dp</dimen>
     <dimen name="regeneration_value_text_size">16sp</dimen>
+
+    <!--V2-->
+    <dimen name="location_anim_max_radius">90dp</dimen>
+    <dimen name="location_radius">10dp</dimen>
+    <dimen name="point_radius">9dp</dimen>
+    <dimen name="panel_height">361dp</dimen>
+
+    <dimen name="slider_layout_single_hop_height">276dp</dimen>
+    <dimen name="slider_layout_exit_layout_height">85dp</dimen>
+    <dimen name="slider_layout_top_padding">32dp</dimen>
 </resources>

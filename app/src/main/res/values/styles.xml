@@ -222,6 +222,31 @@
     </style>
 
     <style name="AppTheme.SwitchCompat">
-        <item name="colorAccent">@color/color_switch_btn</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.MultiHopText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.ServerHintText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/sliding_panel_text_color</item>
+    </style>
+
+    <style name="AppTheme.ServerNameText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/sliding_panel_text_color</item>
+        <item name="android:textSize">18sp</item>
     </style>
 </resources>

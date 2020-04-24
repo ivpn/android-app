@@ -63,4 +63,20 @@
 
     <!--Private Emails-->
     <color name="color_private_email_passive">#b4c1cc</color>
+
+    <!--Version 2-->
+    <color name="accent_color">#449CF8</color>
+
+    <color name="wave_connected">#449CF8</color>
+    <color name="wave_disconnected">#FF6258</color>
+    
+    <color name="sliding_panel_drag_view">#D3DFE6</color>
+    <color name="sliding_panel_background">#ffffff</color>
+    <color name="sliding_panel_icon">#2A394B</color>
+    <color name="sliding_panel_line_color">#2B8B9AAB</color>
+    <color name="sliding_panel_text_color">#2A394B</color>
+    <color name="sliding_panel_text_color_disabled">#B32A394B</color>
+    <color name="sliding_panel_arrow">#8B9AAB</color>
+    <color name="sliding_panel_gray_background">#F2F3F6</color>
+    <color name="sliding_panel_gray_hint_text">#8494A5</color>
 </resources>
