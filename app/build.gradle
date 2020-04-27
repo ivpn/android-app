@@ -192,6 +192,7 @@ dependencies {
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
     //Sliding up panel
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 //    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     //Constraint layout
