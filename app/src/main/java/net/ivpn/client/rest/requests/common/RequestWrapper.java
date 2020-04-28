@@ -167,10 +167,6 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private String getTestingIp() {
-//        if (testingIp == null) {
-//            testingIp = getLastUsedIp();
-//        }
-
         return testingIp;
     }
 

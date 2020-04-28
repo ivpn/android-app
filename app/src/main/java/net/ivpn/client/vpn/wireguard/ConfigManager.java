@@ -88,8 +88,7 @@ public class ConfigManager {
         Peer peer;
         for (Host host : server.getHosts()) {
             peer = new Peer();
-//            peer.setAllowedIPsString("0.0.0.0/0, ::/0");
-            peer.setAllowedIPsString("0.0.0.0/0");
+            peer.setAllowedIPsString("0.0.0.0/0, ::/0");
             peer.setEndpointString(host.getHost() + ":" + port.getPortNumber());
             peer.setPublicKey(host.getPublicKey());
             peers.add(peer);
