@@ -1,5 +1,7 @@
 package net.ivpn.client.rest;
 
+import android.util.Log;
+
 import net.ivpn.client.BuildConfig;
 
 import java.io.IOException;
@@ -11,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -52,7 +55,12 @@ public class HttpClientFactory {
     }
 
     private HostnameVerifier getHostnameVerifier() {
-        return (hostname, session) -> HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+        return (hostname, session) -> {
+            boolean isVerified = HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+            Log.d("HttpClientFactory", "verify: isVerified = " + isVerified);
+            return isVerified;
+        };
+
     }
 
     private static void shutdownHttpClient(OkHttpClient client) {
