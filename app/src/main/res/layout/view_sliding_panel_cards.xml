@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/sliding_panel_background">
@@ -9,29 +8,31 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/location_card"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/sliding_panel_card_background">
 
             <TextView
                 android:id="@+id/public_ip2"
-                style="@style/sliding_panel_card_text_value"
+                style="@style/AppTheme.ServerNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Amsterdam"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/public_ip_title2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/public_ip_title2" />
 
             <TextView
                 android:id="@+id/public_ip_title2"
@@ -39,38 +40,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/sliding_panel_location_title"
-                app:layout_constraintBottom_toTopOf="@+id/public_ip2"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_map_pin" />
+                app:srcCompat="@drawable/ic_map_pin"
+                android:tint="@color/primary"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ip_card"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/dns_card"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_optimizationLevel="dimensions">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/sliding_panel_card_background">
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -78,20 +83,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_server" />
+                app:srcCompat="@drawable/ic_server"
+                android:tint="@color/primary"/>
 
             <TextView
                 android:id="@+id/public_ip"
-                style="@style/sliding_panel_card_text_value"
+                style="@style/AppTheme.ServerNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="255.255.255.255"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/public_ip_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/public_ip_title" />
 
             <TextView
                 android:id="@+id/public_ip_title"
@@ -99,81 +107,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/sliding_panel_your_ip_title"
-                app:layout_constraintBottom_toTopOf="@+id/public_ip"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/dns_card"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ip_card"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/public_ip_title3"
-                style="@style/sliding_panel_card_text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/sliding_panel_dns_ip_title"
-                app:layout_constraintBottom_toTopOf="@+id/public_ip4"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_server" />
-
-            <TextView
-                android:id="@+id/public_ip4"
-                style="@style/sliding_panel_card_text_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="255.255.255.255"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/internet_provider_card"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="@id/view6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location_card"
-        app:layout_constraintTop_toBottomOf="@+id/dns_card">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/sliding_panel_card_background">
 
             <TextView
                 android:id="@+id/public_ip_title4"
@@ -181,10 +139,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/sliding_panel_internet_provider_title"
-                app:layout_constraintBottom_toTopOf="@+id/public_ip3"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="@+id/imageView7"
+                app:layout_constraintVertical_bias="0.531" />
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -192,21 +153,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_server" />
+                app:srcCompat="@drawable/ic_server"
+                android:tint="@color/primary"/>
 
             <TextView
                 android:id="@+id/public_ip3"
-                style="@style/sliding_panel_card_text_value"
+                style="@style/AppTheme.ServerNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="{hidden}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView7"
+                app:layout_constraintVertical_bias="0.4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/sliding_panel_line_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

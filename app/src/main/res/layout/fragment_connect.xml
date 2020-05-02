@@ -8,10 +8,46 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <net.ivpn.client.v2.map.MapView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="match_parent">
+
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+            <net.ivpn.client.v2.map.MapView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_gravity="top|start"
+                android:tint="@color/connect_map_fab_icon"
+                app:backgroundTint="@color/connect_fab_background"
+                android:src="@drawable/ic_account"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_gravity="top|end"
+                android:tint="@color/connect_map_fab_icon"
+                app:backgroundTint="@color/connect_fab_background"
+                android:src="@drawable/ic_settings_fab"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/night_mode_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="top|center"
+                android:tint="@color/connect_map_fab_icon"
+                app:backgroundTint="@color/connect_fab_background"
+                android:src="@drawable/ic_night_mode"/>
+
+        </FrameLayout>
 
         <include android:id="@+id/sliding_panel"
             layout="@layout/view_sliding_panel"/>

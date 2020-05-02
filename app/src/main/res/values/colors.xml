@@ -79,4 +79,15 @@
     <color name="sliding_panel_arrow">#8B9AAB</color>
     <color name="sliding_panel_gray_background">#F2F3F6</color>
     <color name="sliding_panel_gray_hint_text">#8494A5</color>
+
+    <color name="sliding_panel_multi_hop_active">#2A394B</color>
+    <color name="sliding_panel_multi_hop_passive">#B32A394B</color>
+
+    <color name="connect_fab_background">#FFFFFF</color>
+    <color name="connect_map_fab_icon">#96A7BB</color>
+    <color name="sliding_panel_card_background">#FFFFFF</color>
+
+    <color name="primary">#4C8BF5</color>
+    <color name="accent">#FF6258</color>
+
 </resources>

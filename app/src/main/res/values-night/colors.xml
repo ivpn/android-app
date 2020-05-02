@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent_color">#449CF8</color>
+
+    <color name="wave_connected">#449CF8</color>
+    <color name="wave_disconnected">#FF6258</color>
+
+    <color name="sliding_panel_drag_view">#49494B</color>
+    <color name="sliding_panel_background">#202020</color>
+    <color name="sliding_panel_icon">#FFFFFF</color>
+    <color name="sliding_panel_line_color">#2B8B9AAB</color>
+    <color name="sliding_panel_text_color">#ffffff</color>
+    <color name="sliding_panel_text_color_disabled">#B3FFFFFF</color>
+    <color name="sliding_panel_arrow">#92949E</color>
+    <color name="sliding_panel_gray_background">#121212</color>
+    <color name="sliding_panel_gray_hint_text">#80FFFFFF</color>
+
+    <color name="sliding_panel_multi_hop_active">#FFFFFF</color>
+    <color name="sliding_panel_multi_hop_passive">#B3FFFFFF</color>
+
+    <color name="connect_fab_background">#323232</color>
+    <color name="connect_map_fab_icon">#ffffff</color>
+    <color name="sliding_panel_card_background">#323232</color>
+
+    <color name="primary">#74b8ff</color>
+    <color name="accent">#ed7e79</color>
+</resources>

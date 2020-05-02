@@ -63,29 +63,17 @@
                     android:layout_height="wrap_content"
                     android:background="@color/sliding_panel_background">
 
-                    <View
-                        android:id="@+id/view3"
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@color/sliding_panel_line_color"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
                         android:alpha="0.5"
                         android:letterSpacing="-0.02"
                         android:text="@string/your_network_is"
                         android:textColor="@color/sliding_panel_text_color"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
-                        app:layout_constraintTop_toBottomOf="@+id/view" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"
@@ -114,15 +102,17 @@
                         app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/AppTheme.SwitchCompat"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:elevation="2dp"
+                        android:thumb="@drawable/thumb_selector_big"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
                         app:layout_constraintTop_toTopOf="@+id/textView"
-                        app:layout_constraintVertical_bias="0.5" />
+                        app:layout_constraintVertical_bias="0.5"
+                        app:track="@drawable/track_selector" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/floatingActionButton"
@@ -132,7 +122,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:tint="@color/sliding_panel_icon"
-                        app:backgroundTint="@color/sliding_panel_background"
+                        app:backgroundTint="@color/connect_fab_background"
                         app:elevation="2dp"
                         app:fabSize="mini"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
@@ -158,29 +148,55 @@
                         app:layout_constraintGuide_percent="0.5"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        style="@style/AppTheme.MultiHopText"
-                        android:alpha="@{multihop.isEnabled()? 0.35f : 1f}"
-                        android:onClick="@{() -> multihop.enableMultiHop(false)}"
-                        android:text="@string/single_hop"
-                        android:textColor="@color/sliding_panel_text_color"
-                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        style="@style/AppTheme.MultiHopText"
-                        android:alpha="@{multihop.isEnabled()? 1f : 0.35f}"
-                        android:onClick="@{() -> multihop.enableMultiHop(true)}"
-                        android:text="@string/multi_hop"
-                        android:textColor="@color/sliding_panel_text_color"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guideline3"
-                        app:layout_constraintTop_toBottomOf="@+id/view2" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:onClick="@{() -> multihop.enableMultiHop(false)}">
+
+                        <TextView
+                            style="@style/AppTheme.MultiHopText"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@string/single_hop"
+                            android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_passive : @color/sliding_panel_multi_hop_active}" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:onClick="@{() -> multihop.enableMultiHop(true)}">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            style="@style/AppTheme.MultiHopText"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:text="@string/multi_hop"
+                            android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_active : @color/sliding_panel_multi_hop_passive}" />
+
+                    </FrameLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/sliding_panel_line_color" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/enter_server_layout"
@@ -350,14 +366,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/antitracker_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="48dp"
+                        android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
+                        android:thumb="@drawable/thumb_selector_small"
                         app:layout_constraintBottom_toBottomOf="@+id/antitracker_title"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/antitracker_title" />
+                        app:layout_constraintTop_toTopOf="@+id/antitracker_title"
+                        app:track="@drawable/track_selector" />
 
                     <TextView
                         android:id="@+id/antitracker_description"
@@ -484,8 +502,9 @@
                         app:srcCompat="@drawable/ic_arrow_right" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_sliding_panel_cards"/>
+                <include layout="@layout/view_sliding_panel_cards" />
 
+                <include layout="@layout/view_sliding_panel_chart" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -556,5 +556,7 @@
     <string name="sliding_panel_dns_ip_title">DNS IP</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>
+    <string name="sliding_panel_problem_description">Did you mention a problem with the IVPN application?</string>
+    <string name="sliding_panel_report_bug">Report a bug</string>
 
 </resources>
