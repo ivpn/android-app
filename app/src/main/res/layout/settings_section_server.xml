@@ -7,8 +7,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="multihop"
+            type="net.ivpn.client.v2.viewmodel.MultiHopViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -66,11 +70,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/settings_margin_right_extended"
                     android:layout_marginStart="10dp"
-                    android:checked="@{viewmodel.multiHop}"
-                    android:enabled="@{viewmodel.isMultiHopEnabled}"
+                    android:checked="@{multihop.isEnabled}"
+                    android:enabled="@{multihop.isSupported}"
                     android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableMultiHopListener}"
-                    app:onTouch="@{viewmodel.multiHopTouchListener}"
+                    app:onChanged="@{multihop.enableMultiHopListener}"
+                    app:onTouch="@{multihop.multiHopTouchListener}"
                     app:theme="@style/AppTheme.SwitchCompat" />
 
             </LinearLayout>
@@ -86,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{viewmodel.fastestServer ? View.GONE : View.VISIBLE}">
+                android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,7 +103,7 @@
                         android:layout_width="@dimen/settings_icon_size"
                         android:layout_height="@dimen/settings_icon_size"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:src="@{viewmodel.enterServer}" />
+                        android:src="@{servers.entryServer}" />
 
                     <TextView
                         android:id="@+id/enter_server_description"
@@ -107,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:text="@{viewmodel.enterServer.getDescription}" />
+                        android:text="@{servers.entryServer.getDescription}" />
 
                     <Space
                         android:layout_width="0dp"
@@ -118,7 +122,7 @@
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@{viewmodel.pingResultEnterServer.getAppropriateLight}" />
+                        android:src="@{servers.pingResultEnterServer.getAppropriateLight}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -127,7 +131,7 @@
                         android:fontFamily="sans-serif"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="5sp"
-                        android:text="@{viewmodel.pingResultEnterServer.formatPing}"
+                        android:text="@{servers.pingResultEnterServer.formatPing}"
                         android:textColor="#98a5b3"
                         android:textSize="15sp"
                         android:textStyle="normal" />
@@ -138,7 +142,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:background="@color/color_section_divider"
-                    android:visibility="@{viewmodel.multiHop ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,13 +150,13 @@
                     android:gravity="center_vertical"
                     android:onClick="chooseExitServer"
                     android:orientation="horizontal"
-                    android:visibility="@{viewmodel.multiHop ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{multihop.isEnabled()  ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="@dimen/settings_icon_size"
                         android:layout_height="@dimen/settings_icon_size"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:src="@{viewmodel.exitServer}" />
+                        android:src="@{servers.exitServer}" />
 
                     <TextView
                         android:id="@+id/exit_server_description"
@@ -160,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:text="@{viewmodel.exitServer.getDescription}" />
+                        android:text="@{servers.exitServer.getDescription}" />
 
                     <Space
                         android:layout_width="0dp"
@@ -171,7 +175,7 @@
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@{viewmodel.pingResultExitServer.getAppropriateLight}" />
+                        android:src="@{servers.pingResultExitServer.getAppropriateLight}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,7 +184,7 @@
                         android:fontFamily="sans-serif"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="5sp"
-                        android:text="@{viewmodel.pingResultExitServer.formatPing}"
+                        android:text="@{servers.pingResultExitServer.formatPing}"
                         android:textColor="#98a5b3"
                         android:textSize="15sp"
                         android:textStyle="normal" />
@@ -193,7 +197,7 @@
                 android:gravity="center_vertical"
                 android:onClick="chooseEntryServer"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.fastestServer ? View.VISIBLE : View.GONE}">
+                android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
 
                 <ImageView
                     android:layout_width="@dimen/settings_icon_size"

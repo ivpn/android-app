@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">#1c1c1c</color>
+    <color name="colorPrimaryDark">#000000</color>
+
     <color name="accent_color">#449CF8</color>
 
     <color name="wave_connected">#449CF8</color>

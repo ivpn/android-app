@@ -48,68 +48,68 @@ public class SettingsViewModel extends BaseObservable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SettingsViewModel.class);
 
     public final ObservableBoolean dataLoading = new ObservableBoolean();
-    public final ObservableField<Server> enterServer = new ObservableField<>();
-    public final ObservableField<Server> exitServer = new ObservableField<>();
+//    public final ObservableField<Server> enterServer = new ObservableField<>();
+//    public final ObservableField<Server> exitServer = new ObservableField<>();
     public final ObservableField<String> username = new ObservableField<>();
     public final ObservableField<String> subscriptionPlan = new ObservableField<>();
     public final ObservableField<String> accountType = new ObservableField<>();
     public final ObservableField<SubscriptionState> subscriptionState = new ObservableField<>();
     public final ObservableBoolean authenticated = new ObservableBoolean();
-    public final ObservableBoolean isAlwaysOnVpnSupported = new ObservableBoolean();
-    public final ObservableBoolean fastestServer = new ObservableBoolean();
+//    public final ObservableBoolean isAlwaysOnVpnSupported = new ObservableBoolean();
+//    public final ObservableBoolean fastestServer = new ObservableBoolean();
     public final ObservableBoolean logging = new ObservableBoolean();
     public final ObservableBoolean crashLogging = new ObservableBoolean();
-    public final ObservableBoolean multiHop = new ObservableBoolean();
+//    public final ObservableBoolean multiHop = new ObservableBoolean();
     public final ObservableBoolean killSwitch = new ObservableBoolean();
     public final ObservableBoolean isSentryEnabled = new ObservableBoolean();
     public final ObservableBoolean isOnFreeTrial = new ObservableBoolean();
     public final ObservableBoolean isAntiTrackerEnabled = new ObservableBoolean();
     public final ObservableBoolean isUpdatesEnabled = new ObservableBoolean();
     public final ObservableBoolean isManageSubscriptionAvailable = new ObservableBoolean();
-    public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
+//    public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
     public final ObservableBoolean isNativeSubscription = new ObservableBoolean();
-    public final ObservableBoolean isStartOnBootEnabled = new ObservableBoolean();
+//    public final ObservableBoolean isStartOnBootEnabled = new ObservableBoolean();
     public final ObservableLong availableUntil = new ObservableLong();
-    public final ObservableField<PingResultFormatter> pingResultExitServer = new ObservableField<>();
-    public final ObservableField<PingResultFormatter> pingResultEnterServer = new ObservableField<>();
+//    public final ObservableField<PingResultFormatter> pingResultExitServer = new ObservableField<>();
+//    public final ObservableField<PingResultFormatter> pingResultEnterServer = new ObservableField<>();
 
     public OnCheckedChangeListener enableLoggingListener = (compoundButton, value) -> enableLogging(value);
     public OnCheckedChangeListener enableCrashLoggingListener = (compoundButton, value) -> enableCrashLogging(value);
-    public OnCheckedChangeListener enableMultiHopListener = (compoundButton, value) -> enableMultiHop(value);
+//    public OnCheckedChangeListener enableMultiHopListener = (compoundButton, value) -> enableMultiHop(value);
     public OnCheckedChangeListener enableKillSwitch = (compoundButton, value) -> enableKillSwitch(value);
 
-    public View.OnTouchListener multiHopTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (!authenticated.get()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.authenticate();
-                }
-                return true;
-            }
-            if (!isActive()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.subscribe();
-                }
-                return true;
-            }
-            if (isVpnActive()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.notifyUser(R.string.snackbar_to_change_multihop_disconnect_first_msg,
-                            R.string.snackbar_disconnect_first, null);
-                }
-                return true;
-            }
-            if (!isMultihopAllowedByProtocol()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.notifyUser(R.string.snackbar_multihop_not_allowed_for_wg,
-                            R.string.snackbar_disconnect_first, null);
-                }
-                return true;
-            }
-            return false;
-        }
-    };
+//    public View.OnTouchListener multiHopTouchListener = new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            if (!authenticated.get()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.authenticate();
+//                }
+//                return true;
+//            }
+//            if (!isActive()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.subscribe();
+//                }
+//                return true;
+//            }
+//            if (isVpnActive()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.notifyUser(R.string.snackbar_to_change_multihop_disconnect_first_msg,
+//                            R.string.snackbar_disconnect_first, null);
+//                }
+//                return true;
+//            }
+//            if (!isMultihopAllowedByProtocol()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.notifyUser(R.string.snackbar_multihop_not_allowed_for_wg,
+//                            R.string.snackbar_disconnect_first, null);
+//                }
+//                return true;
+//            }
+//            return false;
+//        }
+//    };
     public View.OnTouchListener killSwitchTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -168,15 +168,15 @@ public class SettingsViewModel extends BaseObservable {
 
     void onResume() {
         logging.set(isLoggingEnabled());
-        multiHop.set(isMultiHopChecked());
-        isMultiHopEnabled.set(isMultiHopUIEnabled());
+//        multiHop.set(isMultiHopChecked());
+//        isMultiHopEnabled.set(isMultiHopUIEnabled());
         killSwitch.set(isKillSwitchEnabled());
-        fastestServer.set(isFastestServerEnabled());
-        isAlwaysOnVpnSupported.set(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
-        enterServer.set(getCurrentServer(ServerType.ENTRY));
-        exitServer.set(getCurrentServer(ServerType.EXIT));
-        pingResultExitServer.set(null);
-        pingResultEnterServer.set(null);
+//        fastestServer.set(isFastestServerEnabled());
+//        isAlwaysOnVpnSupported.set(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
+//        enterServer.set(getCurrentServer(ServerType.ENTRY));
+//        exitServer.set(getCurrentServer(ServerType.EXIT));
+//        pingResultExitServer.set(null);
+//        pingResultEnterServer.set(null);
         username.set(getUsername());
         accountType.set(getUserAccountType());
         isOnFreeTrial.set(isOnFreeTrial());
@@ -184,15 +184,15 @@ public class SettingsViewModel extends BaseObservable {
         isAntiTrackerEnabled.set(isAntiTrackerEnabled());
         authenticated.set(isAuthenticated());
         isNativeSubscription.set(isNativeSubscription());
-        isStartOnBootEnabled.set(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P);
+//        isStartOnBootEnabled.set(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P);
         subscriptionState.set(getSubscriptionState());
         subscriptionPlan.set(getSubscriptionPlan());
         isManageSubscriptionAvailable.set(isManageSubscriptionAvailable());
         crashLogging.set(sentryUtil.isEnabled);
         isSentryEnabled.set(isSentryEnabled());
         isUpdatesEnabled.set(isUpdatesEnabled());
-        ping(enterServer.get(), getPingFinishListener(ServerType.ENTRY));
-        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT));
+//        ping(enterServer.get(), getPingFinishListener(ServerType.ENTRY));
+//        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT));
     }
 
     private void enableLogging(boolean value) {
@@ -205,11 +205,11 @@ public class SettingsViewModel extends BaseObservable {
         sentryUtil.setState(value);
     }
 
-    private void enableMultiHop(boolean value) {
-        multiHop.set(value);
-        fastestServer.set(isFastestServerEnabled());
-        settings.enableMultiHop(value);
-    }
+//    private void enableMultiHop(boolean value) {
+//        multiHop.set(value);
+//        fastestServer.set(isFastestServerEnabled());
+//        settings.enableMultiHop(value);
+//    }
 
     private void enableKillSwitch(boolean value) {
         killSwitch.set(value);
@@ -256,19 +256,19 @@ public class SettingsViewModel extends BaseObservable {
         settings.enableAdvancedKillSwitchDialog(value);
     }
 
-    private OnPingFinishListener getPingFinishListener(final ServerType serverType) {
-        return result -> {
-            if (serverType.equals(ServerType.ENTRY)) {
-                pingResultEnterServer.set(result);
-            } else {
-                pingResultExitServer.set(result);
-            }
-        };
-    }
+//    private OnPingFinishListener getPingFinishListener(final ServerType serverType) {
+//        return result -> {
+//            if (serverType.equals(ServerType.ENTRY)) {
+//                pingResultEnterServer.set(result);
+//            } else {
+//                pingResultExitServer.set(result);
+//            }
+//        };
+//    }
 
-    private Server getCurrentServer(ServerType serverType) {
-        return serversRepository.getCurrentServer(serverType);
-    }
+//    private Server getCurrentServer(ServerType serverType) {
+//        return serversRepository.getCurrentServer(serverType);
+//    }
 
     public String getUsername() {
         return userPreference.getUserLogin();
@@ -302,7 +302,7 @@ public class SettingsViewModel extends BaseObservable {
         IVPNApplication.getApplication().appComponent.provideComponentUtil().resetComponents();
 
         authenticated.set(false);
-        multiHop.set(false);
+//        multiHop.set(false);
     }
 
     boolean isVpnActive() {
@@ -339,9 +339,9 @@ public class SettingsViewModel extends BaseObservable {
     }
 
     private boolean isFastestServerEnabled() {
-        if (multiHop.get() || isVpnActive()) {
-            return false;
-        }
+//        if (multiHop.get() || isVpnActive()) {
+//            return false;
+//        }
 
         return settings.isFastestServerEnabled();
     }
@@ -405,9 +405,9 @@ public class SettingsViewModel extends BaseObservable {
         return plan;
     }
 
-    private void ping(Server server, OnPingFinishListener listener) {
-        pingProvider.ping(server, listener);
-    }
+//    private void ping(Server server, OnPingFinishListener listener) {
+//        pingProvider.ping(server, listener);
+//    }
 
     private SubscriptionState getSubscriptionState() {
         if (!userPreference.getIsActive()) {

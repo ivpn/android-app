@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.IVPNApplication
@@ -48,6 +49,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         binding.nightModeFab.setOnClickListener {
             nightMode = if (nightMode ==  AppCompatDelegate.MODE_NIGHT_NO) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
             AppCompatDelegate.setDefaultNightMode(nightMode)
+        }
+
+        binding.settingsButton.setOnClickListener {
+            toSettings()
         }
 
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
@@ -92,6 +97,16 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         }
     }
 
+    override fun subscribe() {
+
+    }
+
+    override fun authenticate() {
+    }
+
+    override fun notifyUser(msgId: Int, actionId: Int) {
+    }
+
     private fun enableMultiHop() {
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)).toInt(), true)
@@ -103,5 +118,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)).toInt(), true)
         binding.slidingPanel.exitServerLayout.visibility = View.GONE
         binding.slidingPanel.bottomSheet.requestLayout()
+    }
+
+    private fun toSettings() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
+        NavHostFragment.findNavController(this).navigate(action)
     }
 }

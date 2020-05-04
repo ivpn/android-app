@@ -119,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity
 
     private void init() {
         viewModel.setNavigator(this);
-        binding.contentLayout.setViewmodel(viewModel);
+//        binding.contentLayout.setViewmodel(viewModel);
     }
 
     private void initToolbar() {

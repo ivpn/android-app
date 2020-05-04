@@ -7,8 +7,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="startOnBoot"
+            type="net.ivpn.client.v2.viewmodel.StartOnBootViewModel" />
+
+        <variable
+            name="alwaysOnVPN"
+            type="net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,11 +31,11 @@
                 android:text="@string/settings_other" />
 
             <LinearLayout
+                android:id="@+id/split_tunneling_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:onClick="splitTunneling"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -59,11 +63,11 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/network_protection_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:onClick="trustedWifi"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -89,14 +93,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isStartOnBootEnabled ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{startOnBoot.isStartOnBootEnabled() ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
+                android:id="@+id/start_on_boot_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isStartOnBootEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{startOnBoot.isStartOnBootEnabled()  ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -105,7 +110,6 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:layout_weight="1"
-                    android:onClick="startOnSystemBoot"
                     android:orientation="vertical">
 
                     <TextView
@@ -130,14 +134,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{alwaysOnVPN.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/always_on_vpn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}">
+                android:visibility="@{alwaysOnVPN.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -146,7 +151,6 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:layout_weight="1"
-                    android:onClick="alwaysOnVpn"
                     android:orientation="vertical">
 
                     <TextView
@@ -174,11 +178,11 @@
                 android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/anti_tracker_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:onClick="antiSurveillance"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -207,11 +211,11 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/custom_dns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:onClick="customDns"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
