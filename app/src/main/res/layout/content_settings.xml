@@ -21,6 +21,26 @@
         <variable
             name="alwaysOnVPN"
             type="net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel" />
+
+        <variable
+            name="antiTracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
+
+        <variable
+            name="killSwitch"
+            type="net.ivpn.client.v2.viewmodel.KillSwitchViewModel" />
+
+        <variable
+            name="logging"
+            type="net.ivpn.client.v2.viewmodel.LoggingViewModel" />
+
+        <variable
+            name="updates"
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
+
+        <variable
+            name="colorTheme"
+            type="net.ivpn.client.v2.viewmodel.ThemeViewModel" />
     </data>
 
     <FrameLayout
@@ -58,7 +78,19 @@
                         android:id="@+id/section_other"
                         layout="@layout/settings_section_advanced"
                         app:startOnBoot="@{startOnBoot}"
-                        app:alwaysOnVPN="@{alwaysOnVPN}"/>
+                        app:alwaysOnVPN="@{alwaysOnVPN}"
+                        app:antiTracker="@{antiTracker}"
+                        app:killSwitch="@{killSwitch}"
+                        app:logging="@{logging}"/>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                    <include
+                        android:id="@+id/section_interface"
+                        layout="@layout/settings_section_interface"
+                        app:colorTheme="@{colorTheme}"/>
 
                     <Space
                         android:layout_width="match_parent"
@@ -67,7 +99,7 @@
                     <include
                         android:id="@+id/section_about"
                         layout="@layout/settings_section_about"
-                        app:viewmodel="@{viewmodel}"/>
+                        app:updates="@{updates}"/>
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

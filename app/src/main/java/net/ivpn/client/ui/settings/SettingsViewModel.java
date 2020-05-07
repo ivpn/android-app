@@ -57,14 +57,14 @@ public class SettingsViewModel extends BaseObservable {
     public final ObservableBoolean authenticated = new ObservableBoolean();
 //    public final ObservableBoolean isAlwaysOnVpnSupported = new ObservableBoolean();
 //    public final ObservableBoolean fastestServer = new ObservableBoolean();
-    public final ObservableBoolean logging = new ObservableBoolean();
-    public final ObservableBoolean crashLogging = new ObservableBoolean();
+//    public final ObservableBoolean logging = new ObservableBoolean();
+//    public final ObservableBoolean crashLogging = new ObservableBoolean();
 //    public final ObservableBoolean multiHop = new ObservableBoolean();
-    public final ObservableBoolean killSwitch = new ObservableBoolean();
-    public final ObservableBoolean isSentryEnabled = new ObservableBoolean();
+//    public final ObservableBoolean killSwitch = new ObservableBoolean();
+//    public final ObservableBoolean isSentryEnabled = new ObservableBoolean();
     public final ObservableBoolean isOnFreeTrial = new ObservableBoolean();
     public final ObservableBoolean isAntiTrackerEnabled = new ObservableBoolean();
-    public final ObservableBoolean isUpdatesEnabled = new ObservableBoolean();
+//    public final ObservableBoolean isUpdatesEnabled = new ObservableBoolean();
     public final ObservableBoolean isManageSubscriptionAvailable = new ObservableBoolean();
 //    public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
     public final ObservableBoolean isNativeSubscription = new ObservableBoolean();
@@ -73,10 +73,10 @@ public class SettingsViewModel extends BaseObservable {
 //    public final ObservableField<PingResultFormatter> pingResultExitServer = new ObservableField<>();
 //    public final ObservableField<PingResultFormatter> pingResultEnterServer = new ObservableField<>();
 
-    public OnCheckedChangeListener enableLoggingListener = (compoundButton, value) -> enableLogging(value);
-    public OnCheckedChangeListener enableCrashLoggingListener = (compoundButton, value) -> enableCrashLogging(value);
+//    public OnCheckedChangeListener enableLoggingListener = (compoundButton, value) -> enableLogging(value);
+//    public OnCheckedChangeListener enableCrashLoggingListener = (compoundButton, value) -> enableCrashLogging(value);
 //    public OnCheckedChangeListener enableMultiHopListener = (compoundButton, value) -> enableMultiHop(value);
-    public OnCheckedChangeListener enableKillSwitch = (compoundButton, value) -> enableKillSwitch(value);
+//    public OnCheckedChangeListener enableKillSwitch = (compoundButton, value) -> enableKillSwitch(value);
 
 //    public View.OnTouchListener multiHopTouchListener = new View.OnTouchListener() {
 //        @Override
@@ -110,24 +110,24 @@ public class SettingsViewModel extends BaseObservable {
 //            return false;
 //        }
 //    };
-    public View.OnTouchListener killSwitchTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (!authenticated.get()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.authenticate();
-                }
-                return true;
-            }
-            if (!isActive()) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    navigator.subscribe();
-                }
-                return true;
-            }
-            return false;
-        }
-    };
+//    public View.OnTouchListener killSwitchTouchListener = new View.OnTouchListener() {
+//        @Override
+//        public boolean onTouch(View view, MotionEvent motionEvent) {
+//            if (!authenticated.get()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.authenticate();
+//                }
+//                return true;
+//            }
+//            if (!isActive()) {
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    navigator.subscribe();
+//                }
+//                return true;
+//            }
+//            return false;
+//        }
+//    };
 
     private SettingsNavigator navigator;
 
@@ -167,10 +167,10 @@ public class SettingsViewModel extends BaseObservable {
     }
 
     void onResume() {
-        logging.set(isLoggingEnabled());
+//        logging.set(isLoggingEnabled());
 //        multiHop.set(isMultiHopChecked());
 //        isMultiHopEnabled.set(isMultiHopUIEnabled());
-        killSwitch.set(isKillSwitchEnabled());
+//        killSwitch.set(isKillSwitchEnabled());
 //        fastestServer.set(isFastestServerEnabled());
 //        isAlwaysOnVpnSupported.set(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
 //        enterServer.set(getCurrentServer(ServerType.ENTRY));
@@ -181,29 +181,29 @@ public class SettingsViewModel extends BaseObservable {
         accountType.set(getUserAccountType());
         isOnFreeTrial.set(isOnFreeTrial());
         availableUntil.set(getAvailableUntil());
-        isAntiTrackerEnabled.set(isAntiTrackerEnabled());
+//        isAntiTrackerEnabled.set(isAntiTrackerEnabled());
         authenticated.set(isAuthenticated());
         isNativeSubscription.set(isNativeSubscription());
 //        isStartOnBootEnabled.set(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P);
         subscriptionState.set(getSubscriptionState());
         subscriptionPlan.set(getSubscriptionPlan());
         isManageSubscriptionAvailable.set(isManageSubscriptionAvailable());
-        crashLogging.set(sentryUtil.isEnabled);
-        isSentryEnabled.set(isSentryEnabled());
-        isUpdatesEnabled.set(isUpdatesEnabled());
+//        crashLogging.set(sentryUtil.isEnabled);
+//        isSentryEnabled.set(isSentryEnabled());
+//        isUpdatesEnabled.set(isUpdatesEnabled());
 //        ping(enterServer.get(), getPingFinishListener(ServerType.ENTRY));
 //        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT));
     }
 
-    private void enableLogging(boolean value) {
-        logging.set(value);
-        settings.enableLogging(value);
-    }
-
-    private void enableCrashLogging(boolean value) {
-        crashLogging.set(value);
-        sentryUtil.setState(value);
-    }
+//    private void enableLogging(boolean value) {
+//        logging.set(value);
+//        settings.enableLogging(value);
+//    }
+//
+//    private void enableCrashLogging(boolean value) {
+//        crashLogging.set(value);
+//        sentryUtil.setState(value);
+//    }
 
 //    private void enableMultiHop(boolean value) {
 //        multiHop.set(value);
@@ -211,11 +211,11 @@ public class SettingsViewModel extends BaseObservable {
 //        settings.enableMultiHop(value);
 //    }
 
-    private void enableKillSwitch(boolean value) {
-        killSwitch.set(value);
-        settings.enableKillSwitch(value);
-        navigator.enableKillSwitch(value, isAdvancedKillSwitchDialogEnabled());
-    }
+//    private void enableKillSwitch(boolean value) {
+//        killSwitch.set(value);
+//        settings.enableKillSwitch(value);
+//        navigator.enableKillSwitch(value, isAdvancedKillSwitchDialogEnabled());
+//    }
 
     public void cancel() {
         deleteSessionRequest.cancel();
@@ -252,9 +252,9 @@ public class SettingsViewModel extends BaseObservable {
         }
     }
 
-    void enableAdvancedKillSwitchDialog(boolean value) {
-        settings.enableAdvancedKillSwitchDialog(value);
-    }
+//    void enableAdvancedKillSwitchDialog(boolean value) {
+//        settings.enableAdvancedKillSwitchDialog(value);
+//    }
 
 //    private OnPingFinishListener getPingFinishListener(final ServerType serverType) {
 //        return result -> {
@@ -321,9 +321,9 @@ public class SettingsViewModel extends BaseObservable {
         return protocolController.getCurrentProtocol().equals(Protocol.OPENVPN);
     }
 
-    private boolean isLoggingEnabled() {
-        return settings.isLoggingEnabled();
-    }
+//    private boolean isLoggingEnabled() {
+//        return settings.isLoggingEnabled();
+//    }
 
     private boolean isMultiHopChecked() {
         return settings.isMultiHopEnabled() && isMultihopAllowedByProtocol();
@@ -334,9 +334,9 @@ public class SettingsViewModel extends BaseObservable {
         return userPreference.getCapabilityMultiHop();
     }
 
-    private boolean isKillSwitchEnabled() {
-        return settings.isKillSwitchEnabled();
-    }
+//    private boolean isKillSwitchEnabled() {
+//        return settings.isKillSwitchEnabled();
+//    }
 
     private boolean isFastestServerEnabled() {
 //        if (multiHop.get() || isVpnActive()) {
@@ -354,22 +354,22 @@ public class SettingsViewModel extends BaseObservable {
         return userPreference.isUserOnTrial();
     }
 
-    private boolean isAntiTrackerEnabled() {
-        return BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid");
-    }
+//    private boolean isAntiTrackerEnabled() {
+//        return BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid");
+//    }
 
-    private boolean isUpdatesEnabled() {
-        return BuildConfig.BUILD_VARIANT.equals("site");
-    }
+//    private boolean isUpdatesEnabled() {
+//        return BuildConfig.BUILD_VARIANT.equals("site");
+//    }
 
     private boolean isAuthenticated() {
         String token = userPreference.getSessionToken();
         return !token.isEmpty();
     }
 
-    private boolean isSentryEnabled() {
-        return !BuildConfig.BUILD_VARIANT.equals("fdroid");
-    }
+//    private boolean isSentryEnabled() {
+//        return !BuildConfig.BUILD_VARIANT.equals("fdroid");
+//    }
 
     private boolean isManageSubscriptionAvailable() {
         if (!userPreference.getIsActive()) {

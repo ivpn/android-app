@@ -259,4 +259,26 @@
         <item name="android:textColor">@color/sliding_panel_text_color</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:background">@color/dialogue_background</item>
+        <item name="android:windowTitleStyle">@style/AppTheme.DialogTitleStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppTheme.AlertDialogButton</item>
+    </style>
+
+    <style name="AppTheme.DialogTitleStyle">
+        <item name="android:textColor">@color/dialogue_title</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogButton" parent="android:Widget.DeviceDefault.Button.Borderless">
+        <item name="android:textColor">@color/dialogue_button</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

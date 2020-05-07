@@ -34,6 +34,9 @@ class MultiHopViewModel @Inject constructor(
     var navigator: MultiHopNavigator? = null
 
     init {
+    }
+
+    fun onResume() {
         isEnabled.set(multiHopController.isEnabled)
         isSupported.set(multiHopController.isSupportedByPlan())
     }
@@ -62,6 +65,8 @@ class MultiHopViewModel @Inject constructor(
             MultiHopController.State.DISABLED_BY_PROTOCOL -> {
                 navigator?.notifyUser(R.string.snackbar_multihop_not_allowed_for_wg,
                         R.string.snackbar_disconnect_first)
+            }
+            MultiHopController.State.ENABLED -> {
             }
         }
     }

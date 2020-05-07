@@ -1,17 +1,19 @@
 package net.ivpn.client.common.prefs;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.wireguard.android.crypto.Keypair;
 
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.common.BuildController;
 import net.ivpn.client.common.alarm.GlobalWireGuardAlarm;
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.nightmode.NightMode;
 import net.ivpn.client.common.utils.LogUtil;
 import net.ivpn.client.ui.protocol.port.Port;
 import net.ivpn.client.vpn.Protocol;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 import javax.inject.Inject;
@@ -22,11 +24,14 @@ public class Settings {
     private static final String TAG = Settings.class.getSimpleName();
     private SettingsPreference settingsPreference;
     private StickyPreference stickyPreference;
+    private BuildController buildController;
 
     @Inject
-    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference) {
+    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference,
+             BuildController buildController) {
         this.settingsPreference = settingsPreference;
         this.stickyPreference = stickyPreference;
+        this.buildController = buildController;
     }
 
     public void enableLogging(boolean value) {
@@ -277,6 +282,7 @@ public class Settings {
         settingsPreference.setWgPort(port.toJson());
     }
 
+
     public void nextPort() {
         Protocol protocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
         if (protocol.equals(Protocol.OPENVPN)) {
@@ -321,5 +327,23 @@ public class Settings {
         }
 
         return null;
+    }
+
+    public void setNightMode(NightMode mode) {
+        settingsPreference.setNightMode(mode.name());
+    }
+
+    public NightMode getNightMode() {
+        String name = settingsPreference.getNightMode();
+
+        if (name != null) {
+            return NightMode.valueOf(name);
+        }
+
+        if (buildController.isSystemDefaultNightModeSupported) {
+            return NightMode.SYSTEM_DEFAULT;
+        } else {
+            return NightMode.BY_BATTERY_SAVER;
+        }
     }
 }

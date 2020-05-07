@@ -364,7 +364,7 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void enableAdvancedKillSwitchDialog(boolean enable) {
         LOGGER.info("enableAdvancedKillSwitchDialog");
-        viewModel.enableAdvancedKillSwitchDialog(enable);
+//        viewModel.enableAdvancedKillSwitchDialog(enable);
     }
 
     @Override

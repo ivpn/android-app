@@ -13,6 +13,18 @@
         <variable
             name="alwaysOnVPN"
             type="net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel" />
+
+        <variable
+            name="antiTracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
+
+        <variable
+            name="killSwitch"
+            type="net.ivpn.client.v2.viewmodel.KillSwitchViewModel" />
+
+        <variable
+            name="logging"
+            type="net.ivpn.client.v2.viewmodel.LoggingViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -175,7 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{antiTracker.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:id="@+id/anti_tracker_layout"
@@ -187,7 +199,7 @@
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{antiTracker.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     style="@style/SettingsOptionTitle"
@@ -280,10 +292,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.killSwitch}"
+                    android:checked="@{killSwitch.isEnabled}"
                     android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableKillSwitch}"
-                    app:onTouch="@{viewmodel.killSwitchTouchListener}"
+                    app:onChanged="@{killSwitch.enableKillSwitch}"
+                    app:onTouch="@{killSwitch.touchListener}"
                     app:theme="@style/AppTheme.SwitchCompat" />
             </LinearLayout>
 
@@ -291,13 +303,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isSentryEnabled ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{logging.isSentrySupported() ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:visibility="@{viewmodel.isSentryEnabled ? View.VISIBLE : View.GONE}"
+                android:visibility="@{logging.isSentrySupported() ? View.VISIBLE : View.GONE}"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -331,9 +343,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.crashLogging}"
+                    android:checked="@{logging.isCrashLoggingEnabled()}"
                     android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableCrashLoggingListener}"
+                    app:onChanged="@{logging.enableCrashLoggingListener}"
                     app:theme="@style/AppTheme.SwitchCompat" />
             </LinearLayout>
 
@@ -379,9 +391,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.logging}"
+                    android:checked="@{logging.isLoggingEnabled}"
                     android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableLoggingListener}"
+                    app:onChanged="@{logging.enableLoggingListener}"
                     app:theme="@style/AppTheme.SwitchCompat" />
             </LinearLayout>
 
@@ -390,7 +402,7 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/settings_margin_left"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.logging ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -398,7 +410,7 @@
                 android:gravity="center_vertical"
                 android:onClick="sendLogs"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.logging ? View.VISIBLE : View.GONE}">
+                android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     style="@style/SettingsAction"

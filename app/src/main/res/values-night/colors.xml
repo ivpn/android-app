@@ -28,4 +28,10 @@
 
     <color name="primary">#74b8ff</color>
     <color name="accent">#ed7e79</color>
+
+    <color name="dialogue_background">#383838</color>
+    <color name="dialogue_title">#D0ffffff</color>
+    <color name="dialogue_text">#BBffffff</color>
+    <color name="dialogue_button">#74b8ff</color>
+
 </resources>

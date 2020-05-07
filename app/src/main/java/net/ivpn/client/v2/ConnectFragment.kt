@@ -43,13 +43,13 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         initViews()
     }
 
-    var nightMode = AppCompatDelegate.MODE_NIGHT_NO
+//    var nightMode = AppCompatDelegate.MODE_NIGHT_NO
     private fun initViews() {
 //        AppCompatDelegate.setDefaultNightMode(nightMode)
-        binding.nightModeFab.setOnClickListener {
-            nightMode = if (nightMode ==  AppCompatDelegate.MODE_NIGHT_NO) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-            AppCompatDelegate.setDefaultNightMode(nightMode)
-        }
+//        binding.nightModeFab.setOnClickListener {
+//            nightMode = if (nightMode == AppCompatDelegate.MODE_NIGHT_NO) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+//            AppCompatDelegate.setDefaultNightMode(nightMode)
+//        }
 
         binding.settingsButton.setOnClickListener {
             toSettings()
@@ -58,7 +58,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
 

@@ -90,4 +90,11 @@
     <color name="primary">#4C8BF5</color>
     <color name="accent">#FF6258</color>
 
+    <!--Dialog-->
+    <color name="dialogue_background">#ffffff</color>
+    <color name="dialogue_title">#de000000</color>
+    <color name="dialogue_text">#99000000</color>
+    <color name="dialogue_button">#4C8BF5</color>
+
+
 </resources>

@@ -5,12 +5,12 @@ import net.ivpn.client.common.BuildController
 import javax.inject.Inject
 
 class AlwaysOnVPNViewModel @Inject constructor(
-        buildController: BuildController
-){
+        private val buildController: BuildController
+) {
 
     val isAlwaysOnVpnSupported = ObservableBoolean()
 
-    init {
+    fun onResume() {
         isAlwaysOnVpnSupported.set(buildController.isAlwaysOnVpnSupported)
     }
 }

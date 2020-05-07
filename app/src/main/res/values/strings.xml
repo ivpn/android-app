@@ -61,10 +61,12 @@
     <string name="settings_server">Server</string>
     <string name="settings_connection">Connection</string>
     <string name="settings_about">About</string>
+    <string name="settings_interface">Interface</string>
     <string name="settings_account">Account</string>
     <string name="settings_other">Advanced settings</string>
     <string name="settings_terms_of_service">Terms of service</string>
     <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_color_theme">Color theme</string>
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_crashes">Enable crash logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
@@ -452,6 +454,12 @@
     <string name="dialogs_custom_dns_dot">\.</string>
     <string name="dialogs_custom_dns_apply">Apply</string>
     <string name="dialogs_custom_dns_cancel">Cancel</string>
+
+    <string name="dialogs_color_theme_title">Color Theme</string>
+    <string name="dialogs_color_theme_light">Light</string>
+    <string name="dialogs_color_theme_dark">Dark</string>
+    <string name="dialogs_color_theme_default">System default</string>
+    <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>

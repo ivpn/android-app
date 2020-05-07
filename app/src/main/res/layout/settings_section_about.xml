@@ -6,8 +6,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="updates"
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -31,7 +31,7 @@
                 android:gravity="center_vertical"
                 android:onClick="checkUpdates"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isUpdatesEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/updates"
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
