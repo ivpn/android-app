@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -22,6 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/settings_card_background"
             android:orientation="vertical">
 
             <TextView
@@ -30,54 +32,56 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_server" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="14dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/SettingsOptionTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_multi_hop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_multi_hop" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/settings_multi_hop_description"
-                        android:textAlignment="viewStart"
-                        android:textColor="#98a5b3"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/settings_multi_hop_description"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/settings_option_description_text"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_multi_hop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
                     android:checked="@{multihop.isEnabled}"
                     android:enabled="@{multihop.isSupported}"
+                    android:thumb="@drawable/common_thumb_selector"
                     android:translationX="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView10"
                     app:onChanged="@{multihop.enableMultiHopListener}"
                     app:onTouch="@{multihop.multiHopTouchListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-
-            </LinearLayout>
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -203,6 +207,7 @@
                     android:layout_width="@dimen/settings_icon_size"
                     android:layout_height="@dimen/settings_icon_size"
                     android:layout_marginStart="@dimen/settings_margin_left"
+                    android:tint="@color/settings_option_description_text"
                     android:src="@drawable/ic_fastest_server" />
 
                 <TextView
@@ -226,13 +231,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/settings_margin_left"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:onClick="vpnProtocol"
-                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical"
-                android:paddingBottom="14dp"
-                android:paddingTop="14dp">
+                android:paddingStart="@dimen/settings_margin_left"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
 
                 <TextView
                     style="@style/SettingsOptionTitle"
@@ -244,8 +249,8 @@
                     style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/settings_protocol_selection_description"
                     android:textAlignment="viewStart" />
 

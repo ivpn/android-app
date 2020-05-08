@@ -8,7 +8,7 @@
 
         <variable
                 name="colorTheme"
-                type="net.ivpn.client.v2.viewmodel.ThemeViewModel" />
+                type="net.ivpn.client.v2.viewmodel.ColorThemeViewModel" />
     </data>
 
     <LinearLayout
@@ -29,9 +29,9 @@
         <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:orientation="vertical"
@@ -47,7 +47,7 @@
                     android:text="@string/dialogs_color_theme_light"
                     android:textColor="@color/dialogue_text"
                     android:textSize="16sp"
-                    app:buttonTint="@color/colorPrimary"
+                    app:buttonTint="@color/dialogue_button"
                     tools:ignore="RtlSymmetry" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
@@ -60,7 +60,7 @@
                     android:text="@string/dialogs_color_theme_dark"
                     android:textColor="@color/dialogue_text"
                     android:textSize="16sp"
-                    app:buttonTint="@color/colorPrimary"
+                    app:buttonTint="@color/dialogue_button"
                     tools:ignore="RtlSymmetry" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
@@ -68,14 +68,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:gravity="top"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
                     android:text="@string/dialogs_color_theme_default"
                     android:textColor="@color/dialogue_text"
                     android:textSize="16sp"
                     android:visibility="@{colorTheme.isSystemDefaultNightModeSupported ? View.VISIBLE : View.GONE}"
-                    app:buttonTint="@color/colorPrimary"
+                    app:buttonTint="@color/dialogue_button"
                     tools:ignore="RtlSymmetry" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
@@ -90,14 +89,14 @@
                     android:textColor="@color/dialogue_text"
                     android:textSize="16sp"
                     android:visibility="@{colorTheme.isSystemDefaultNightModeSupported ? View.GONE : View.VISIBLE}"
-                    app:buttonTint="@color/colorPrimary"
+                    app:buttonTint="@color/dialogue_button"
                     tools:ignore="RtlSymmetry" />
         </RadioGroup>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:gravity="end"
                 android:orientation="horizontal">
 
@@ -110,7 +109,7 @@
                     android:letterSpacing="0.05"
                     android:text="@string/dialogs_cancel"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dialogue_button"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -126,7 +125,7 @@
                     android:letterSpacing="0.05"
                     android:text="@string/dialogs_apply_action"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/dialogue_button"
                     android:textSize="14sp"
                     android:textStyle="bold" />
         </LinearLayout>

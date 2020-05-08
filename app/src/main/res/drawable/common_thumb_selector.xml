@@ -7,7 +7,7 @@
             <size android:width="24dp"
                 android:height="24dp"/>
             <stroke android:width="2dp"
-                android:color="@color/accent"/>
+                android:color="@color/disabled"/>
         </shape>
     </item>
     <item android:state_checked="true">

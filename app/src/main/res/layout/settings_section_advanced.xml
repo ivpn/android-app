@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -34,6 +35,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/settings_card_background"
             android:orientation="vertical">
 
             <TextView
@@ -105,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{startOnBoot.isStartOnBootEnabled() ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{startOnBoot.isStartOnBootEnabled() ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:id="@+id/start_on_boot_layout"
@@ -254,148 +256,153 @@
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_kill_switch" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/settings_kill_switch_description"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/enable_kill_switch"
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_kill_switch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_kill_switch_description"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/antitracker_switch"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
                     android:checked="@{killSwitch.isEnabled}"
-                    android:translationX="3dp"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView3"
                     app:onChanged="@{killSwitch.enableKillSwitch}"
                     app:onTouch="@{killSwitch.touchListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{logging.isSentrySupported() ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:visibility="@{logging.isSentrySupported() ? View.VISIBLE : View.GONE}"
-                android:orientation="horizontal">
+                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView9"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_crashes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_crashes" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="@string/settings_crash_logging_description"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_crash_logging_description"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_crashes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
+                    android:layout_marginEnd="16dp"
                     android:checked="@{logging.isCrashLoggingEnabled()}"
-                    android:translationX="3dp"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView9"
                     app:onChanged="@{logging.enableCrashLoggingListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_logging"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_logging" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="@string/settings_do_not_collect_your_data"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_do_not_collect_your_data"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.01"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_logging"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
+                    android:layout_marginEnd="16dp"
                     android:checked="@{logging.isLoggingEnabled}"
-                    android:translationX="3dp"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView7"
                     app:onChanged="@{logging.enableLoggingListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"

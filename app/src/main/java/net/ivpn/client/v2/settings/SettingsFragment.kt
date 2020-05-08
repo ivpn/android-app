@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
-        AdvancedKillSwitchActionListener, OnNightModeChangedListener {
+        AdvancedKillSwitchActionListener, OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SettingsActivity::class.java)
@@ -65,7 +65,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     lateinit var updates: UpdatesViewModel
 
     @Inject
-    lateinit var colorTheme: ThemeViewModel
+    lateinit var colorTheme: ColorThemeViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -109,6 +109,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         antiTracker.onResume()
         killSwitch.onResume()
         updates.onResume()
+        logging.onResume()
+        colorTheme.onResume()
     }
 
     private fun initViews() {
@@ -121,7 +123,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.antiTracker = antiTracker
         binding.contentLayout.killSwitch = killSwitch
         binding.contentLayout.updates = updates
+        binding.contentLayout.logging = logging
         binding.contentLayout.colorTheme = colorTheme
+
+        colorTheme.navigator = this
 
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()

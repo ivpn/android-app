@@ -20,8 +20,8 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_gravity="top|start"
                 android:tint="@color/connect_map_fab_icon"
                 app:backgroundTint="@color/connect_fab_background"
@@ -31,22 +31,12 @@
                 android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
                 android:layout_gravity="top|end"
                 android:tint="@color/connect_map_fab_icon"
                 app:backgroundTint="@color/connect_fab_background"
                 android:src="@drawable/ic_settings_fab"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/night_mode_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_gravity="top|center"
-                android:tint="@color/connect_map_fab_icon"
-                app:backgroundTint="@color/connect_fab_background"
-                android:src="@drawable/ic_night_mode"/>
 
         </FrameLayout>
 

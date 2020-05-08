@@ -27,7 +27,7 @@ class LoggingViewModel @Inject constructor(
     fun onResume() {
         isLoggingEnabled.set(isLoggingEnabled())
         isCrashLoggingEnabled.set(isSentryEnabled())
-        isSentrySupported.set(isSentryEnabled())
+        isSentrySupported.set(isSentrySupported())
     }
 
     private fun isLoggingEnabled(): Boolean {

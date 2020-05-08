@@ -40,7 +40,7 @@
 
         <variable
             name="colorTheme"
-            type="net.ivpn.client.v2.viewmodel.ThemeViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ColorThemeViewModel" />
     </data>
 
     <FrameLayout
@@ -64,42 +64,46 @@
                     android:orientation="vertical"
                     android:paddingTop="?attr/actionBarSize">
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_top_margin" />
+
                     <include
                         android:id="@+id/section_server"
                         layout="@layout/settings_section_server"
                         app:multihop="@{multihop}"
-                        app:servers="@{servers}"/>
+                        app:servers="@{servers}" />
 
-                    <Space
+                    <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
                         android:id="@+id/section_other"
                         layout="@layout/settings_section_advanced"
-                        app:startOnBoot="@{startOnBoot}"
                         app:alwaysOnVPN="@{alwaysOnVPN}"
                         app:antiTracker="@{antiTracker}"
                         app:killSwitch="@{killSwitch}"
-                        app:logging="@{logging}"/>
+                        app:logging="@{logging}"
+                        app:startOnBoot="@{startOnBoot}" />
 
-                    <Space
+                    <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
                         android:id="@+id/section_interface"
                         layout="@layout/settings_section_interface"
-                        app:colorTheme="@{colorTheme}"/>
+                        app:colorTheme="@{colorTheme}" />
 
-                    <Space
+                    <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
                         android:id="@+id/section_about"
                         layout="@layout/settings_section_about"
-                        app:updates="@{updates}"/>
+                        app:updates="@{updates}" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

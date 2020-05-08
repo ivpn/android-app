@@ -7,7 +7,7 @@
 
         <variable
             name="colorTheme"
-            type="net.ivpn.client.v2.viewmodel.ThemeViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ColorThemeViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,7 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/settings_card_background">
 
             <TextView
                 style="@style/SettingsSectionTitle"
@@ -50,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/SettingsOptionTitle"
-                    android:text="Light"
+                    android:text="@{colorTheme.nightMode.stringId}"
                     android:alpha="0.5"
                     android:layout_marginEnd="@dimen/settings_margin_right"/>
             </LinearLayout>

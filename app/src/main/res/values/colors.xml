@@ -90,11 +90,20 @@
     <color name="primary">#4C8BF5</color>
     <color name="accent">#FF6258</color>
 
+    <color name="disabled">#8D8D8E</color>
+
     <!--Dialog-->
     <color name="dialogue_background">#ffffff</color>
-    <color name="dialogue_title">#de000000</color>
-    <color name="dialogue_text">#99000000</color>
+    <color name="dialogue_title">#DE2A394B</color>
+    <color name="dialogue_text">#DE2A394B</color>
     <color name="dialogue_button">#4C8BF5</color>
+
+    <color name="settings_card_background">#FFFFFF</color>
+    <color name="settings_inner_background">#FFFFFF</color>
+
+    <color name="settings_section_title">#4C8BF5</color>
+    <color name="settings_option_title_text">#2A394B</color>
+    <color name="settings_option_description_text">#802A394B</color>
 
 
 </resources>

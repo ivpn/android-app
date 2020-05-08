@@ -34,6 +34,7 @@
     <dimen name="settings_arrow_size">24dp</dimen>
     <dimen name="settings_option_title_text_size">16sp</dimen>
     <dimen name="settings_sections_inner_margin">12dp</dimen>
+    <dimen name="settings_sections_top_margin">6dp</dimen>
     <dimen name="settings_inner_margin">30dp</dimen>
     <dimen name="settings_renew_button_width">100dp</dimen>
     <dimen name="settings_option_description_text_size">14sp</dimen>

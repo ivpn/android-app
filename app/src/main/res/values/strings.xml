@@ -136,6 +136,11 @@
 
     <string name="start_on_boot_read_more">read more</string>
 
+    <string name="settings_color_theme_light">Light</string>
+    <string name="settings_color_theme_dark">Dark</string>
+    <string name="settings_color_theme_system_default">System default</string>
+    <string name="settings_color_theme_system_by_battery">By battery</string>
+
     <!--Updates-->
     <string name="updates_info_title">Updates</string>
     <string name="updates_current_version">Current version</string>
