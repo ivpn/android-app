@@ -3,8 +3,8 @@
 
     <color name="color_settings_background">#000000</color>
 
-    <color name="colorPrimary">#1c1c1c</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#292929</color>
+    <color name="colorPrimaryDark">#1c1c1c</color>
 
     <color name="accent_color">#449CF8</color>
 
@@ -45,5 +45,10 @@
     <color name="settings_option_title_text">#FFFFFF</color>
     <color name="settings_option_description_text">#80FFFFFF</color>
     <color name="color_section_divider">#2B8B9AAB</color>
+
+    <!--Split Tunneling-->
+    <color name="split_item_background">#121212</color>
+    <color name="split_text_color">#DEFFFFFF</color>
+    <color name="split_line_color">#2B8B9AAB</color>
 
 </resources>

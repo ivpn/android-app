@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuCommandBindings implements ViewModelActivity.IMenuCallbackListener {
+public class MenuCommandBindings implements IMenuCallbackListener {
 
     public enum EnableBinding {
         None,
@@ -17,10 +17,16 @@ public class MenuCommandBindings implements ViewModelActivity.IMenuCallbackListe
 
     private HashMap<Integer,MenuBinding> mCommandMap = new HashMap<>();
     private ViewModelActivity mActivity;
+    private ViewModelFragment mFragment;
 
     public MenuCommandBindings(ViewModelActivity activity) {
         mActivity = activity;
         activity.setMenuCallbackListener(this);
+    }
+
+    public MenuCommandBindings(ViewModelFragment fragment) {
+        mFragment = fragment;
+        mFragment.setMenuCallbackListener(this);
     }
 
     public void addBinding(int menuId, Command cmd, EnableBinding enableBinding) {
@@ -54,7 +60,12 @@ public class MenuCommandBindings implements ViewModelActivity.IMenuCallbackListe
     private final Observable.OnPropertyChangedCallback mPropertyChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
         public void onPropertyChanged(Observable observable, int i) {
-            mActivity.invalidateOptionsMenu();
+            if (mActivity != null) {
+                mActivity.invalidateOptionsMenu();
+            }
+            if (mFragment != null) {
+                mFragment.getActivity().invalidateOptionsMenu();
+            }
         }
     };
 

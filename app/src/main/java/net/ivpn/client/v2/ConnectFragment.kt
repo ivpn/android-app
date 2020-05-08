@@ -43,13 +43,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         initViews()
     }
 
-//    var nightMode = AppCompatDelegate.MODE_NIGHT_NO
     private fun initViews() {
-//        AppCompatDelegate.setDefaultNightMode(nightMode)
-//        binding.nightModeFab.setOnClickListener {
-//            nightMode = if (nightMode == AppCompatDelegate.MODE_NIGHT_NO) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-//            AppCompatDelegate.setDefaultNightMode(nightMode)
-//        }
 
         binding.settingsButton.setOnClickListener {
             toSettings()

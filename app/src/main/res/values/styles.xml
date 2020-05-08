@@ -214,7 +214,7 @@
     </style>
 
     <style name="AppTheme.ProgressBar">
-        <item name="colorAccent">@color/colorPrimary</item> <!-- Whatever color you want-->
+        <item name="colorAccent">@color/primary</item> <!-- Whatever color you want-->
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -222,7 +222,7 @@
     </style>
 
     <style name="AppTheme.SwitchCompat">
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/primary</item>
     </style>
 
     <style name="AppTheme.MultiHopText">

@@ -14,7 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/split_item_background">
 
         <LinearLayout
             android:id="@+id/content_layout"
@@ -23,7 +24,8 @@
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/application_icon"
@@ -43,7 +45,7 @@
                 android:lineSpacingExtra="8sp"
                 android:maxLines="1"
                 android:text="@{application.getApplicationName}"
-                android:textColor="#335266"
+                android:textColor="@color/split_text_color"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -62,6 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="18dp"
-            android:background="#4cb4c1cc" />
+            android:background="@color/split_line_color" />
     </LinearLayout>
 </layout>

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/connectFragment"
         android:name="net.ivpn.client.v2.ConnectFragment"
-        android:label="ConnectFragment" >
+        android:label="ConnectFragment">
         <action
             android:id="@+id/action_connectFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -15,5 +15,13 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="net.ivpn.client.v2.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="Settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_splitTunnelingFragment"
+            app:destination="@id/splitTunnelingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splitTunnelingFragment"
+        android:name="net.ivpn.client.v2.splittunneling.SplitTunnelingFragment"
+        android:label="Split Tunneling" />
 </navigation>
