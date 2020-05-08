@@ -1,8 +1,10 @@
 package com.todtenkopf.mvvm;
 
+import androidx.lifecycle.ViewModel;
+
 import java.util.ArrayList;
 
-public abstract class ViewModelBase {
+public abstract class ViewModelBase extends ViewModel {
 
     protected ArrayList<CommandVM> mCommands;
 

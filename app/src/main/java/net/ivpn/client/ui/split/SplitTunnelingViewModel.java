@@ -42,7 +42,7 @@ public class SplitTunnelingViewModel extends ViewModelBase {
             refreshCommands();
         }
     };
-    CommandVM selectAllCommand = new CommandVM() {
+    public CommandVM selectAllCommand = new CommandVM() {
         @Override
         public void execute() {
             allowAllPackages();
@@ -55,7 +55,7 @@ public class SplitTunnelingViewModel extends ViewModelBase {
         }
     };
 
-    CommandVM deselectAllCommand = new CommandVM() {
+    public CommandVM deselectAllCommand = new CommandVM() {
         @Override
         public void execute() {
             disallowAllApps(new HashSet<>(apps));
@@ -83,7 +83,7 @@ public class SplitTunnelingViewModel extends ViewModelBase {
         updateMenuFlag();
     }
 
-    void getApplicationsList(PackageManager packageManager) {
+    public void getApplicationsList(PackageManager packageManager) {
         new InflateApplicationInfoAsyncTask(packageManager).execute();
     }
 

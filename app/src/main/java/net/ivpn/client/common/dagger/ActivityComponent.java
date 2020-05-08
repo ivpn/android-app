@@ -34,6 +34,7 @@ import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.v2.settings.SettingsFragment;
+import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
 import net.ivpn.client.vpn.controller.WireGuardKeyBroadcastReceiver;
@@ -133,4 +134,6 @@ public interface ActivityComponent {
     void inject(ConnectFragment connectFragment);
 
     void inject(SettingsFragment settingsFragment);
+
+    void inject(SplitTunnelingFragment fragment);
 }

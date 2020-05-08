@@ -1,46 +1,45 @@
 package com.todtenkopf.mvvm;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public abstract class ViewModelActivity extends AppCompatActivity {
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+public abstract class ViewModelFragment extends Fragment {
     protected ViewModelBase mViewModel;
     private MenuCommandBindings mMenuBindings;
-    private IMenuCallbackListener mMenuCallbackListner;
+    private IMenuCallbackListener mMenuCallbackListener;
 
     public void setMenuCallbackListener(IMenuCallbackListener listener) {
-        mMenuCallbackListner = listener;
+        mMenuCallbackListener = listener;
     }
 
     @Nullable
     protected abstract ViewModelBase createViewModel();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mViewModel = createViewModel();
+        setHasOptionsMenu(true);
     }
 
     // subclasses should call super for onPrepareOptionsMenu and onOptionsItemSelected
     // FIRST, ignore the return value, then do their processing and return true
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mMenuCallbackListner != null) {
-            mMenuCallbackListner.onPrepareOptionsMenu(menu);
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (mMenuCallbackListener != null) {
+            mMenuCallbackListener.onPrepareOptionsMenu(menu);
         }
-        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mMenuCallbackListner != null) {
-            mMenuCallbackListner.onOptionsItemSelected(item.getItemId());
+        if (mMenuCallbackListener != null) {
+            mMenuCallbackListener.onOptionsItemSelected(item.getItemId());
         }
         return false;
     }
