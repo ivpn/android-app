@@ -11,7 +11,6 @@ import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.dialog.LocationDialogViewModel;
 import net.ivpn.client.ui.login.LoginActivity;
 import net.ivpn.client.ui.network.NetworkActivity;
-import net.ivpn.client.ui.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.ui.network.rules.NetworkRuleActivity;
 import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
 import net.ivpn.client.ui.privateemails.edit.EditPrivateEmailActivity;
@@ -33,6 +32,9 @@ import net.ivpn.client.ui.syncservers.SyncServersActivity;
 import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
+import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
+import net.ivpn.client.v2.network.NetworkProtectionFragment;
+import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
@@ -136,4 +138,8 @@ public interface ActivityComponent {
     void inject(SettingsFragment settingsFragment);
 
     void inject(SplitTunnelingFragment fragment);
+
+    void inject(AlwaysOnVPNFragment fragment);
+
+    void inject(NetworkProtectionFragment fragment);
 }

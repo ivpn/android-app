@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import net.ivpn.client.R
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.databinding.DialogueNightModeBinding
+import net.ivpn.client.v2.network.NetworkViewModel
+import net.ivpn.client.v2.network.OnChangeNetworkStateListener
 import net.ivpn.client.v2.viewmodel.ColorThemeViewModel
 
 object DialogBuilderK {
@@ -15,6 +17,37 @@ object DialogBuilderK {
     //Move listener to ThemeViewModel
     //Maybe colorThemeViewModel should be gotten from AppComponent
     fun openDarkModeDialogue(context: Context, listener: OnNightModeChangedListener, colorThemeViewModel: ColorThemeViewModel) {
+        val builder: AlertDialog.Builder =
+                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val binding: DialogueNightModeBinding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.dialogue_night_mode, null, false
+        )
+
+        binding.colorTheme = colorThemeViewModel
+        builder.setView(binding.root)
+        val alertDialog = builder.create()
+        binding.cancelButton.setOnClickListener {
+            alertDialog.dismiss()
+            listener.onNightModeCancelClicked()
+        }
+        binding.applyButton.setOnClickListener {
+            alertDialog.dismiss()
+            colorThemeViewModel.applyMode()
+        }
+
+        if ((context as Activity).isFinishing) {
+            return
+        }
+
+        alertDialog.show()
+        alertDialog.setOnCancelListener { listener.onNightModeCancelClicked() }
+    }
+
+    fun openChangeNetworkStatusDialogue(context: Context, listener: OnChangeNetworkStateListener, networkViewModel: NetworkViewModel) {
         val builder: AlertDialog.Builder =
                 AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
         val inflater =

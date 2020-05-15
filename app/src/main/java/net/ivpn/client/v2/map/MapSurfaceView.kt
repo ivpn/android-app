@@ -13,7 +13,8 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
+import android.view.SurfaceHolder
+import android.view.SurfaceView
 import android.view.animation.LinearInterpolator
 import android.widget.Scroller
 import androidx.core.content.res.ResourcesCompat
@@ -26,12 +27,17 @@ import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.map.model.Tile
 import kotlin.system.measureTimeMillis
 
-class MapView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0,
-    defStyleRes: Int = 0
-) : View(context, attrs, defStyle, defStyleRes) {
+class MapSurfaceView @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = 0,
+        defStyleRes: Int = 0
+) : SurfaceView(context, attrs, defStyle, defStyleRes), SurfaceHolder.Callback {
+
+    private lateinit var thread: MapSurfaceThread
+
+    //    var isRunning = false
+    var isDrawing = false
 
     private val pointRadius: Float
     private val locationMaxRadius: Float
@@ -46,7 +52,8 @@ class MapView @JvmOverloads constructor(
     //Objects that are used for drawing on the canvas
     private val pointPaint = Paint()
     private val bitmapPaint = Paint()
-//    private var numberPaint = Paint()
+
+    //    private var numberPaint = Paint()
     private var wavePaint = Paint()
 
     private var bitmaps: Array<Array<Tile>> = arrayOf()
@@ -57,31 +64,36 @@ class MapView @JvmOverloads constructor(
     private val math = MapMath()
     private val waveHandler: Handler
 
+    private var job: Job? = null
+    @Volatile
+    private var doAnimate = true
+
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
         override fun onDown(e: MotionEvent): Boolean {
             // Aborts any active scroll animations and invalidates.
             scroller.forceFinished(true)
-            ViewCompat.postInvalidateOnAnimation(this@MapView)
+            ViewCompat.postInvalidateOnAnimation(this@MapSurfaceView)
             return true
         }
 
         override fun onScroll(
-            e1: MotionEvent?,
-            e2: MotionEvent?,
-            distanceX: Float,
-            distanceY: Float
+                e1: MotionEvent?,
+                e2: MotionEvent?,
+                distanceX: Float,
+                distanceY: Float
         ): Boolean {
             math.appendX(distanceX)
             math.appendY(distanceY)
 
-            invalidate()
+            doAnimate = true
+//            invalidate()
             return true
         }
 
         override fun onFling(
-            e1: MotionEvent, e2: MotionEvent,
-            velocityX: Float, velocityY: Float
+                e1: MotionEvent, e2: MotionEvent,
+                velocityX: Float, velocityY: Float
         ): Boolean {
             fling((-velocityX).toInt(), (-velocityY).toInt())
             return true
@@ -90,28 +102,28 @@ class MapView @JvmOverloads constructor(
 
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     init {
+        holder.addCallback(this)
+//        isFocusable = true
+//        setZOrderOnTop(true)
+
         with(pointPaint) {
-            color = ResourcesCompat.getColor(resources, R.color.colorAccent, null)
+            color = androidx.core.content.res.ResourcesCompat.getColor(resources, net.ivpn.client.R.color.colorAccent, null)
             isAntiAlias = true
-            style = Paint.Style.FILL
+            style = android.graphics.Paint.Style.FILL
         }
 
         with(bitmapPaint) {
             isAntiAlias = true
-            style = Paint.Style.FILL
+            style = android.graphics.Paint.Style.FILL
         }
-
-//        with(numberPaint) {
-//            color = ResourcesCompat.getColor(resources, R.color.map_text_color, null)
-//            textSize = resources.getDimension(R.dimen.city_font_size)
-//            isAntiAlias = true
-//        }
 
         with(wavePaint) {
             color = ResourcesCompat.getColor(resources, R.color.wave_connected, null)
             isAntiAlias = true
-            style = Paint.Style.FILL
+            style = android.graphics.Paint.Style.FILL
         }
 
         waveHandler = Handler()
@@ -121,49 +133,32 @@ class MapView @JvmOverloads constructor(
         locationRadius = resources.getDimension(R.dimen.location_radius)
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return gestureDetector.onTouchEvent(event)
-    }
+    @Volatile
+    var drawTotalX: Float = 0f
+    @Volatile
+    var drawTotalY: Float = 0f
 
-    //While fling animation is active this function will be periodically called
-    override fun computeScroll() {
-        super.computeScroll()
-        if (scroller.computeScrollOffset()) {
-            math.setX(scroller.currX.toFloat())
-            math.setY(scroller.currY.toFloat())
-
-            ViewCompat.postInvalidateOnAnimation(this)
-        }
-    }
-
-    private fun fling(velocityX: Int, velocityY: Int) {
-        // Before flinging, aborts the current animation.
-        scroller.forceFinished(true)
-        // Begins the animation
-        scroller.fling(
-            // Current scroll position
-            math.totalX.toInt(),
-            math.totalY.toInt(),
-            velocityX,
-            velocityY,
-            /*
-             * Minimum and maximum scroll positions. The minimum scroll
-             * position is generally zero and the maximum scroll position
-             * is generally the content size less the screen size. So if the
-             * content width is 1000 pixels and the screen width is 200
-             * pixels, the maximum scroll offset should be 800 pixels.
-             */
-            0, MapMath.tileWidth * MapMath.tilesCount - width,
-            0, MapMath.tileHeight * MapMath.tilesCount - height
-        )
-        // Invalidates to trigger computeScroll()
-        ViewCompat.postInvalidateOnAnimation(this)
-    }
-
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        drawTotalX = math.totalX
+        drawTotalY = math.totalY
+        println("Draw map with totalX = $drawTotalX, totalY = $drawTotalY")
+
+        canvas.drawRGB(255, 255, 255)
         drawMap(canvas)
-//        drawCities(canvas)
+        drawLocation(canvas)
+    }
+
+    fun drawOn(canvas: Canvas) {
+//        if (isDrawing) {
+//            return
+//        }
+        drawTotalX = math.totalX
+        drawTotalY = math.totalY
+        println("Draw map with totalX = $drawTotalX, totalY = $drawTotalY")
+
+        canvas.drawRGB(255, 255, 255)
+        drawMap(canvas)
         drawLocation(canvas)
     }
 
@@ -171,10 +166,10 @@ class MapView @JvmOverloads constructor(
         val srcRect = Rect()
 
         with(srcRect) {
-            left = (math.totalX).toInt()
-            right = (math.totalX + width).toInt()
-            top = (math.totalY).toInt()
-            bottom = (math.totalY + height).toInt()
+            left = (drawTotalX).toInt()
+            right = (drawTotalX + width).toInt()
+            top = (drawTotalY).toInt()
+            bottom = (drawTotalY + height).toInt()
         }
 
         val intersectionRect = Rect()
@@ -185,10 +180,10 @@ class MapView @JvmOverloads constructor(
 
                 if (intersectionRect.setIntersect(tile.rect, srcRect)) {
                     with(relativeRect) {
-                        left = (intersectionRect.left - math.totalX).toInt()
-                        right = (intersectionRect.right - math.totalX).toInt()
-                        top = (intersectionRect.top - math.totalY).toInt()
-                        bottom = (intersectionRect.bottom - math.totalY).toInt()
+                        left = (intersectionRect.left - drawTotalX).toInt()
+                        right = (intersectionRect.right - drawTotalX).toInt()
+                        top = (intersectionRect.top - drawTotalY).toInt()
+                        bottom = (intersectionRect.bottom - drawTotalY).toInt()
                     }
                     with(intersectionRect) {
                         left -= tile.rect.left
@@ -211,32 +206,32 @@ class MapView @JvmOverloads constructor(
         val srcRect = Rect()
 
         with(srcRect) {
-            left = (math.totalX).toInt()
-            right = (math.totalX + width).toInt()
-            top = (math.totalY).toInt()
-            bottom = (math.totalY + height).toInt()
+            left = (drawTotalX).toInt()
+            right = (drawTotalX+ width).toInt()
+            top = (drawTotalY).toInt()
+            bottom = (drawTotalY+ height).toInt()
         }
 
         pointPaint.color = if (location!!.isConnected) ResourcesCompat.getColor(
-            resources,
-            R.color.wave_connected,
-            null
+                resources,
+                R.color.wave_connected,
+                null
         ) else ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
 
         val location = location?.coordinate ?: return
 
         canvas?.drawCircle(
-            location.first - srcRect.left,
-            location.second - srcRect.top,
-            pointRadius,
-            pointPaint
+                location.first - srcRect.left,
+                location.second - srcRect.top,
+                pointRadius,
+                pointPaint
         )
     }
 
     private fun drawMultiWaves(canvas: Canvas?, progress: Float) {
         var currentProgress = progress
 
-        for (i in 1..WAVES_COUNT) {
+        for (i in 1..MapView.WAVES_COUNT) {
             drawWave(canvas, currentProgress)
             if (firstWave && (getNextProgress(currentProgress) > currentProgress)) {
                 break
@@ -247,7 +242,7 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun getNextProgress(progress: Float): Float {
-        val waveStep = 1f / WAVES_COUNT
+        val waveStep = 1f / MapView.WAVES_COUNT
 
         return if (progress - waveStep > 0) (progress - waveStep) else (progress + (1 - waveStep))
     }
@@ -256,9 +251,9 @@ class MapView @JvmOverloads constructor(
         if (location == null) return
         val srcRect = Rect()
         wavePaint.color = if (location!!.isConnected) ResourcesCompat.getColor(
-            resources,
-            R.color.wave_connected,
-            null
+                resources,
+                R.color.wave_connected,
+                null
         ) else ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
 
         with(srcRect) {
@@ -270,12 +265,12 @@ class MapView @JvmOverloads constructor(
         val location = location?.coordinate ?: return
 
         val radius = (locationMaxRadius - pointRadius) * progress + pointRadius
-        wavePaint.alpha = ((MAX_ALPHA * (1 - progress)).toInt())
+        wavePaint.alpha = ((MapView.MAX_ALPHA * (1 - progress)).toInt())
         canvas?.drawCircle(
-            location.first - srcRect.left,
-            location.second - srcRect.top,
-            radius,
-            wavePaint
+                location.first - srcRect.left,
+                location.second - srcRect.top,
+                radius,
+                wavePaint
         )
     }
 
@@ -294,7 +289,7 @@ class MapView @JvmOverloads constructor(
     var isMoving: Boolean = false
     private fun startMovementAnimation() {
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
-        movementAnimator.duration = MOVEMENT_ANIMATION_DURATION
+        movementAnimator.duration = MapView.MOVEMENT_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
                 firstWave = false
@@ -325,7 +320,8 @@ class MapView @JvmOverloads constructor(
             location?.let {
                 math.totalY = startY + (it.coordinate!!.second - height / 2f - startY) * progressMove
                 math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progressMove
-                invalidate()
+                doAnimate = true
+//                invalidate()
             }
         }
         movementAnimator.start()
@@ -334,7 +330,7 @@ class MapView @JvmOverloads constructor(
     var waveAnimator: ValueAnimator? = null
     private fun startWaveAnimation() {
         waveAnimator = ValueAnimator.ofFloat(0f, 1f)
-        waveAnimator?.duration = ANIMATION_DURATION
+        waveAnimator?.duration = MapView.ANIMATION_DURATION
         waveAnimator?.repeatCount = ValueAnimator.INFINITE
         waveAnimator?.interpolator = LinearInterpolator()
         waveAnimator?.addListener(object : Animator.AnimatorListener {
@@ -356,25 +352,104 @@ class MapView @JvmOverloads constructor(
         })
         waveAnimator?.addUpdateListener { valueAnimator ->
             progressWave = valueAnimator.animatedValue as Float
-            invalidate()
+            doAnimate = true
+//            invalidate()
         }
         waveAnimator?.start()
     }
 
-    private var job: Job? = null
-    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
-        super.onSizeChanged(width, height, oldWidth, oldHeight)
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+    }
 
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
+//        var retry = true
+//        thread.isRunning = false
+//        while (retry) {
+//            try {
+//                thread.join()
+//                retry = false
+//            } catch (e: InterruptedException) {
+//            }
+//        }
+        doAnimate = false
+        job?.cancel()
+        job = null
+    }
+
+    override fun surfaceCreated(holder: SurfaceHolder) {
+//        thread = MapSurfaceThread(getHolder(), this)
+//        thread.isRunning = true
+//
+//        if (width == 0 || height == 0) {
+//            return
+//        }
+//
+//        math.setScreenSize(width.toFloat(), height.toFloat())
+//        initTiles()
+//
+//        thread.start()
         if (width == 0 || height == 0) {
             return
         }
 
+        doAnimate = true
         job = GlobalScope.launch {
             math.setScreenSize(width.toFloat(), height.toFloat())
             initTiles()
+
+            while (isAttachedToWindow) {
+                if (doAnimate) {
+                    println("Inside loop ")
+                    synchronized(holder) {
+                        val canvas = holder.lockCanvas()
+                        canvas?.let {
+                            drawOn(it)
+                            holder.unlockCanvasAndPost(it)
+                        }
+                    }
+                    doAnimate = false
+                }
+            }
         }
-//        math.setScreenSize(width.toFloat(), height.toFloat())
-//        initTiles()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return gestureDetector.onTouchEvent(event)
+    }
+
+    //While fling animation is active this function will be periodically called
+    override fun computeScroll() {
+        super.computeScroll()
+        if (scroller.computeScrollOffset()) {
+            math.setX(scroller.currX.toFloat())
+            math.setY(scroller.currY.toFloat())
+
+            ViewCompat.postInvalidateOnAnimation(this)
+        }
+    }
+
+    private fun fling(velocityX: Int, velocityY: Int) {
+        // Before flinging, aborts the current animation.
+        scroller.forceFinished(true)
+        // Begins the animation
+        scroller.fling(
+                // Current scroll position
+                math.totalX.toInt(),
+                math.totalY.toInt(),
+                velocityX,
+                velocityY,
+                /*
+                 * Minimum and maximum scroll positions. The minimum scroll
+                 * position is generally zero and the maximum scroll position
+                 * is generally the content size less the screen size. So if the
+                 * content width is 1000 pixels and the screen width is 200
+                 * pixels, the maximum scroll offset should be 800 pixels.
+                 */
+                0, MapMath.tileWidth * MapMath.tilesCount - width,
+                0, MapMath.tileHeight * MapMath.tilesCount - height
+        )
+        // Invalidates to trigger computeScroll()
+        ViewCompat.postInvalidateOnAnimation(this)
     }
 
     private fun initTiles() {
@@ -400,12 +475,12 @@ class MapView @JvmOverloads constructor(
 
     private fun getBitmapFrom(assetPath: String): Bitmap {
         val drawable = Drawable.createFromStream(
-            context.assets.open(assetPath), null
+                context.assets.open(assetPath), null
         )
 
         return Bitmap.createScaledBitmap(
-            (drawable as BitmapDrawable).bitmap, MapMath.tileWidth,
-            MapMath.tileHeight, false
+                (drawable as BitmapDrawable).bitmap, MapMath.tileWidth,
+                MapMath.tileHeight, false
         )
     }
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.privateemails.Email;
-import net.ivpn.client.ui.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
 import net.ivpn.client.ui.privateemails.PrivateEmailsRecyclerViewAdapter;
 import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter;
@@ -16,6 +15,7 @@ import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
 import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
 import net.ivpn.client.ui.split.SplitTunnelingRecyclerViewAdapter;
 import net.ivpn.client.ui.split.data.ApplicationItem;
+import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 

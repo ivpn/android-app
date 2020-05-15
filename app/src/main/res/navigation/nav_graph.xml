@@ -19,9 +19,23 @@
         <action
             android:id="@+id/action_settingsFragment_to_splitTunnelingFragment"
             app:destination="@id/splitTunnelingFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_alwaysOnVPNFragment"
+            app:destination="@id/alwaysOnVPNFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_networkProtectionFragment"
+            app:destination="@id/networkProtectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
         android:name="net.ivpn.client.v2.splittunneling.SplitTunnelingFragment"
         android:label="Split Tunneling" />
+    <fragment
+        android:id="@+id/alwaysOnVPNFragment"
+        android:name="net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment"
+        android:label="Always-on VPN" />
+    <fragment
+        android:id="@+id/networkProtectionFragment"
+        android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
+        android:label="Network Protection" />
 </navigation>

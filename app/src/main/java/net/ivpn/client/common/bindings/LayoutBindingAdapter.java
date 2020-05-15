@@ -11,6 +11,6 @@ public class LayoutBindingAdapter {
     @BindingAdapter({"app:currentState", "app:defaultState"})
     public static void setBackgroundColor(LinearLayout view, NetworkState currentState, NetworkState defaultState) {
         Resources resources = IVPNApplication.getApplication().getResources();
-        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
+//        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
     }
 }

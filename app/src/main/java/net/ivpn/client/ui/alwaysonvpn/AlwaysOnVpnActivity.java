@@ -14,7 +14,7 @@ import android.view.View;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
-import net.ivpn.client.databinding.ActivityAlwaysOnVpnBinding;
+import net.ivpn.client.databinding.FragmentAlwaysOnVpnBinding;
 import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
 
@@ -26,7 +26,7 @@ import javax.inject.Inject;
 public class AlwaysOnVpnActivity extends AppCompatActivity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlwaysOnVpnActivity.class);
-    private ActivityAlwaysOnVpnBinding binding;
+    private FragmentAlwaysOnVpnBinding binding;
     @Inject
     AlwaysOnVpnViewModel viewModel;
 
@@ -35,7 +35,7 @@ public class AlwaysOnVpnActivity extends AppCompatActivity {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         LOGGER.info("AlwaysOnVpnActivity onCreate");
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_always_on_vpn);
+        binding = DataBindingUtil.setContentView(this, R.layout.fragment_always_on_vpn);
         init();
         initToolbar();
     }
@@ -56,7 +56,7 @@ public class AlwaysOnVpnActivity extends AppCompatActivity {
     }
 
     private void init() {
-        binding.contentLayout.setViewmodel(viewModel);
+//        binding.contentLayout.setViewmodel(viewModel);
     }
 
     private void initToolbar() {

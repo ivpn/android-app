@@ -139,6 +139,12 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.splitTunnelingLayout.setOnClickListener {
             openSplitTunnelingScreen()
         }
+        binding.contentLayout.sectionOther.alwaysOnVpn.setOnClickListener {
+            openAlwaysOnVPNScreen()
+        }
+        binding.contentLayout.sectionOther.networkProtectionLayout.setOnClickListener {
+            openNetworkProtectionScreen()
+        }
     }
 
     private fun initToolbar() {
@@ -154,6 +160,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openSplitTunnelingScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToSplitTunnelingFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openAlwaysOnVPNScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToAlwaysOnVPNFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openNetworkProtectionScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToNetworkProtectionFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

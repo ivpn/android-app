@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Networks Behaviour-->
+    <color name="color_trusted_text">#559341</color>
+    <color name="color_untrusted_text">#D35353</color>
+    <color name="color_default_text">#99FFFFFF</color>
+    <color name="color_none_text">#99FFFFFF</color>
+
     <color name="color_settings_background">#000000</color>
 
     <color name="colorPrimary">#292929</color>
@@ -50,5 +56,12 @@
     <color name="split_item_background">#121212</color>
     <color name="split_text_color">#DEFFFFFF</color>
     <color name="split_line_color">#2B8B9AAB</color>
+
+    <color name="always_on_background">#121212</color>
+    <color name="always_on_title">#DEFFFFFF</color>
+
+    <color name="network_protection_text_color">#FFFFFF</color>
+    <color name="network_protection_background">#121212</color>
+    <color name="network_protection_card_background">#202020</color>
 
 </resources>

@@ -1,16 +1,21 @@
-package net.ivpn.client.ui.network;
+package net.ivpn.client.v2.network;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.databinding.ViewCommonNetworkBehaviourBinding;
 import net.ivpn.client.databinding.ViewNetworkMainBinding;
 import net.ivpn.client.databinding.ViewWifiItemBinding;
+import net.ivpn.client.ui.network.CommonBehaviourItemViewModel;
+import net.ivpn.client.ui.network.NetworkAdapter;
+import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
+import net.ivpn.client.ui.network.WifiItemViewModel;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
@@ -33,7 +38,7 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private NetworkState mobileDataState = DEFAULT;
     private OnNetworkFeatureStateChanged onNetworkFeatureStateChanged;
 
-    NetworkRecyclerViewAdapter() {
+    public NetworkRecyclerViewAdapter() {
     }
 
     @Override
@@ -131,8 +136,8 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
             viewModel.setDefaultState(defaultState);
 
-            binding.behaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-                    NetworkState.getActiveState(), defaultState));
+//            binding.behaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
+//                    NetworkState.getActiveState(), defaultState));
             binding.setViewmodel(viewModel);
         }
 
@@ -191,10 +196,10 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
             viewModel.setNavigator(this);
             binding.setViewmodel(viewModel);
-            binding.defaultBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-                    NetworkState.getDefaultStates(), defaultState));
-            binding.mobileBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-                    NetworkState.getActiveState(), defaultState));
+//            binding.defaultBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
+//                    NetworkState.getDefaultStates(), defaultState));
+//            binding.mobileBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
+//                    NetworkState.getActiveState(), defaultState));
         }
 
         private void bind() {

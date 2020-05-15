@@ -6,7 +6,9 @@ import kotlin.math.tan
 
 class MapMath {
     //Coordinates that are used to understand what part on map should be shown.
+    @Volatile
     var totalX: Float = 0f
+    @Volatile
     var totalY: Float = 0f
 
     //Final width and height of map's bitmap

@@ -1,15 +1,18 @@
-package net.ivpn.client.ui.network;
+package net.ivpn.client.v2.network;
 
 import android.content.Context;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
+
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableList;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
 
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.ui.network.NetworkNavigator;
+import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
 import net.ivpn.client.vpn.local.NetworkController;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
@@ -50,7 +53,7 @@ public class NetworkViewModel {
         init();
     }
 
-    void setNavigator(NetworkNavigator navigator) {
+    public void setNavigator(NetworkNavigator navigator) {
         this.navigator = navigator;
     }
 
@@ -105,7 +108,7 @@ public class NetworkViewModel {
         }
     }
 
-    void applyNetworkFeatureState(boolean isEnabled) {
+    public void applyNetworkFeatureState(boolean isEnabled) {
         LOGGER.info("applyNetworkFeatureState: isEnabled = " + isEnabled);
         isNetworkFeatureEnabled.set(isEnabled);
         settings.putSettingsNetworkRules(isEnabled);

@@ -466,6 +466,8 @@
     <string name="dialogs_color_theme_default">System default</string>
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
+    <string name="dialogs_change_network_title">Change Network Status</string>
+
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
     <string name="purchases_guide_second_step">Select billing cycle and enter your payment information</string>
@@ -572,4 +574,7 @@
     <string name="sliding_panel_problem_description">Did you mention a problem with the IVPN application?</string>
     <string name="sliding_panel_report_bug">Report a bug</string>
 
+    <string name="network_protection_top_hint">Decide which networks do you trust. IVPN connection will be turned on automatically for untrusted networks</string>
+    <string name="network_protection_default_mobile_data">Default &amp; Mobile Data</string>
+    <string name="network_protection_wifi">Wi-Fi networks</string>
 </resources>

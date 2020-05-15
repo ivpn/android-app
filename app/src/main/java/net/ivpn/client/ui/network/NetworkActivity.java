@@ -24,6 +24,8 @@ import net.ivpn.client.databinding.ActivityNetworkBinding;
 import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
 import net.ivpn.client.ui.network.rules.NetworkRuleActivity;
+import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
+import net.ivpn.client.v2.network.NetworkViewModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
