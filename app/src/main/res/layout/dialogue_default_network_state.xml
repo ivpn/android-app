@@ -8,7 +8,7 @@
 
         <variable
             name="network"
-            type="net.ivpn.client.ui.network.NetworkItemViewModel" />
+            type="net.ivpn.client.ui.network.CommonBehaviourItemViewModel" />
     </data>
 
     <LinearLayout
@@ -35,8 +35,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:orientation="vertical"
-            app:checked="@{network.currentState}"
-            app:listener="@{network.networkStateListener}">
+            app:checked="@{network.defaultState}"
+            app:listener="@{network.defaultNetworkStateListener}">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/trusted_state"
@@ -64,13 +64,13 @@
                 tools:ignore="RtlSymmetry" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/default_state"
+                android:id="@+id/none_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
-                android:text="@string/dialogs_change_status_default"
+                android:text="@string/dialogs_change_status_none"
                 android:textColor="@color/dialogue_text"
                 android:textSize="16sp"
                 app:buttonTint="@color/dialogue_button"

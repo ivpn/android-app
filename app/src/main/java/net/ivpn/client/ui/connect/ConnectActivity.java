@@ -91,9 +91,9 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
             // Be sure to call the superclass implementation
             return true;
         });
-        binding.contentLayout.behaviorSpinner.setAdapter(
-                new NetworkAdapter(this, NetworkState.getActiveState(),
-                        viewModel.getDefaultNetworkState()));
+//        binding.contentLayout.behaviorSpinner.setAdapter(
+//                new NetworkAdapter(this, NetworkState.getActiveState(),
+//                        viewModel.getDefaultNetworkState()));
 
         return viewModel;
     }

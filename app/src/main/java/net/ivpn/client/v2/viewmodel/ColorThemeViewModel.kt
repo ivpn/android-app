@@ -20,7 +20,8 @@ class ColorThemeViewModel @Inject constructor(
 
     val isSystemDefaultNightModeSupported = ObservableBoolean()
     val nightMode = ObservableField<NightMode>()
-    val selectedNightMode = ObservableField<NightMode>()
+
+    private val selectedNightMode = ObservableField<NightMode>()
 
     var navigator: ColorThemeNavigator? = null
 
@@ -29,17 +30,17 @@ class ColorThemeViewModel @Inject constructor(
     }
 
     fun onResume() {
-        selectedNightMode.set(settings.getNightMode())
-        nightMode.set(settings.getNightMode())
+        selectedNightMode.set(settings.nightMode)
+        nightMode.set(settings.nightMode)
     }
 
     fun applyMode() {
         nightMode.set(selectedNightMode.get())
-        settings.setNightMode(nightMode.get())
+        settings.nightMode = nightMode.get()
         navigator?.onNightModeChanged(nightMode.get())
     }
 
-    fun onCheckedChanged(checkedId: Int) {
+    private fun onCheckedChanged(checkedId: Int) {
         val nightMode = NightMode.getById(checkedId)
         if (nightMode == this.selectedNightMode.get()) {
             return

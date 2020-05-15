@@ -7,8 +7,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
+            name="defaultItem"
             type="net.ivpn.client.ui.network.CommonBehaviourItemViewModel" />
+
+        <variable
+            name="mobileItem"
+            type="net.ivpn.client.ui.network.MobileDataItemViewModel" />
     </data>
 
     <LinearLayout
@@ -72,9 +76,9 @@
                         android:layout_marginEnd="16dp"
                         android:fontFamily="sans-serif-medium"
                         android:letterSpacing="0.04"
-                        android:text="@{viewmodel.defaultState.textRes}"
+                        android:text="@{defaultItem.defaultState.textRes}"
                         android:textAllCaps="true"
-                        android:textColor="@{viewmodel.defaultState.textColor}"
+                        android:textColor="@{defaultItem.getColor(defaultItem.defaultState)}"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -133,9 +137,9 @@
                             android:fontFamily="sans-serif-medium"
                             android:gravity="center"
                             android:letterSpacing="0.04"
-                            android:text="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.textRes : viewmodel.mobileDataState.textRes}"
+                            android:text="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? mobileItem.defaultState.textRes : mobileItem.currentState.textRes}"
                             android:textAllCaps="true"
-                            android:textColor="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.textColor : viewmodel.mobileDataState.textColor}"
+                            android:textColor="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? mobileItem.getColor(mobileItem.defaultState) : mobileItem.getColor(mobileItem.currentState)}"
                             android:textSize="14sp"
                             android:textStyle="normal" />
 
@@ -147,9 +151,9 @@
                             android:fontFamily="sans-serif"
                             android:letterSpacing="-0.01"
                             android:text="@{NetworkState.DEFAULT.textRes}"
-                            android:textColor="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.textColor : viewmodel.mobileDataState.textColor}"
+                            android:textColor="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? mobileItem.getColor(mobileItem.defaultState) : mobileItem.getColor(mobileItem.currentState)}"
                             android:textSize="12sp"
-                            android:visibility="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />
                     </LinearLayout>
 
                 </LinearLayout>

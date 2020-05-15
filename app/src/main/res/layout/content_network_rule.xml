@@ -15,17 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="?attr/actionBarSize">
+        android:paddingTop="?attr/actionBarSize"
+        android:background="@color/network_protection_background">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/network_protection_background" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/network_protection_card_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@color/network_protection_card_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -36,7 +44,7 @@
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/network_untrusted_label"
-                    android:textColor="#335266"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
@@ -45,8 +53,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="6sp"
+                    android:alpha="0.6"
                     android:text="@string/network_untrusted_action"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
@@ -55,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/network_connect_to_vpn"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="14sp"
                     android:textStyle="normal"
                     android:theme="@style/AppTheme.CheckBox"
@@ -68,7 +77,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/network_enable_killswitch"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="14sp"
                     android:textStyle="normal"
                     android:theme="@style/AppTheme.CheckBox"
@@ -79,18 +88,20 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="16dp"
             android:background="@color/color_settings_background" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/network_protection_card_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@color/network_protection_card_background"
                 android:orientation="vertical">
 
                 <TextView
@@ -100,8 +111,8 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
+                    android:textColor="@color/network_protection_text_color"
                     android:text="@string/network_trusted_label"
-                    android:textColor="#335266"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
@@ -111,7 +122,8 @@
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="6sp"
                     android:text="@string/network_trusted_action"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
+                    android:alpha="0.6"
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
@@ -120,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/network_disconnect_from_vpn"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="14sp"
                     android:textStyle="normal"
                     android:theme="@style/AppTheme.CheckBox"
@@ -133,7 +145,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/network_disable_killswitch"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/network_protection_text_color"
                     android:textSize="14sp"
                     android:textStyle="normal"
                     android:theme="@style/AppTheme.CheckBox"

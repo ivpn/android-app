@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -26,6 +27,7 @@ import net.ivpn.client.databinding.FragmentNetworkBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.network.NetworkNavigator
+import net.ivpn.client.v2.settings.SettingsFragmentDirections
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -85,7 +87,7 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
 
     private fun initViews() {
         network.setNavigator(this)
-        adapter = NetworkRecyclerViewAdapter()
+        adapter = NetworkRecyclerViewAdapter(activity)
         binding.contentLayout.viewmodel = network
         binding.contentLayout.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.contentLayout.recyclerView.adapter = adapter
@@ -120,6 +122,10 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
             return
         }
         askPermissionRationale()
+    }
+
+    override fun toRules() {
+        openNetworkProtectionRulesScreen()
     }
 
     override fun shouldAskForLocationPermission(): Boolean {
@@ -165,5 +171,10 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
     private fun askPermission() {
         ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                 LOCATION_PERMISSION_CODE)
+    }
+
+    private fun openNetworkProtectionRulesScreen() {
+        val action = NetworkProtectionFragmentDirections.actionNetworkProtectionFragmentToNetworkProtectionRulesFragment()
+        NavHostFragment.findNavController(this).navigate(action)
     }
 }

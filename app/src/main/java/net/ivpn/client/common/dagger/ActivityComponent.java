@@ -35,6 +35,7 @@ import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.client.v2.network.NetworkProtectionFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
+import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
@@ -142,4 +143,6 @@ public interface ActivityComponent {
     void inject(AlwaysOnVPNFragment fragment);
 
     void inject(NetworkProtectionFragment fragment);
+
+    void inject(NetworkProtectionRulesFragment fragment);
 }

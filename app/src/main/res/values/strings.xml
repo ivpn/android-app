@@ -467,6 +467,10 @@
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
     <string name="dialogs_change_network_title">Change Network Status</string>
+    <string name="dialogs_change_status_trusted">Trusted</string>
+    <string name="dialogs_change_status_untrusted">Untrusted</string>
+    <string name="dialogs_change_status_default">Default</string>
+    <string name="dialogs_change_status_none">None</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>

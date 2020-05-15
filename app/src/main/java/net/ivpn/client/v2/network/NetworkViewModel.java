@@ -35,7 +35,17 @@ public class NetworkViewModel {
     public final ObservableField<NetworkState> defaultState = new ObservableField<>();
     public final ObservableField<NetworkState> mobileDataState = new ObservableField<>();
     public final ObservableList<WifiItem> wifiItemList = new ObservableArrayList<>();
-    public OnNetworkFeatureStateChanged onNetworkFeatureStateChanged = this::handleNetworkFeatureState;
+    public OnNetworkFeatureStateChanged onNetworkFeatureStateChanged = new OnNetworkFeatureStateChanged() {
+        @Override
+        public void onNetworkFeatureStateChanged(boolean isEnabled) {
+            handleNetworkFeatureState(isEnabled);
+        }
+
+        @Override
+        public void toRules() {
+            navigator.toRules();
+        }
+    };
 
     private WifiManager wifiManager;
     private NetworkNavigator navigator;

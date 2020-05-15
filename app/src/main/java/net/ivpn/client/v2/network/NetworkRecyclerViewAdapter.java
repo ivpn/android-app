@@ -1,5 +1,6 @@
 package net.ivpn.client.v2.network;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,9 +14,10 @@ import net.ivpn.client.databinding.ViewCommonNetworkBehaviourBinding;
 import net.ivpn.client.databinding.ViewNetworkMainBinding;
 import net.ivpn.client.databinding.ViewWifiItemBinding;
 import net.ivpn.client.ui.network.CommonBehaviourItemViewModel;
-import net.ivpn.client.ui.network.NetworkAdapter;
+import net.ivpn.client.ui.network.MobileDataItemViewModel;
+import net.ivpn.client.ui.network.NetworkItemViewModel;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
-import net.ivpn.client.ui.network.WifiItemViewModel;
+import net.ivpn.client.v2.dialog.DialogBuilderK;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
@@ -38,7 +40,10 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private NetworkState mobileDataState = DEFAULT;
     private OnNetworkFeatureStateChanged onNetworkFeatureStateChanged;
 
-    public NetworkRecyclerViewAdapter() {
+    private Context context;
+
+    public NetworkRecyclerViewAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -127,22 +132,23 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public class WifiItemViewHolder extends RecyclerView.ViewHolder {
 
         private ViewWifiItemBinding binding;
-        @Inject WifiItemViewModel viewModel;
+        @Inject
+        NetworkItemViewModel viewModel;
 
         WifiItemViewHolder(ViewWifiItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
 
+            viewModel.setContext(binding.getRoot().getContext());
             viewModel.setDefaultState(defaultState);
 
-//            binding.behaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-//                    NetworkState.getActiveState(), defaultState));
             binding.setViewmodel(viewModel);
+            binding.contentLayout.setOnClickListener(v -> DialogBuilderK.INSTANCE.openChangeNetworkStatusDialogue(context, viewModel));
         }
 
         public void bind(WifiItem wifiItem) {
-            WifiItemViewModel viewModel = binding.getViewmodel();
+            NetworkItemViewModel viewModel = binding.getViewmodel();
             viewModel.setWifiItem(wifiItem);
             viewModel.setDefaultState(defaultState);
             binding.executePendingBindings();
@@ -161,6 +167,9 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             binding.wifiMainSwitcher.setChecked(isNetworkRulesEnabled);
             binding.setIsNetworkFilterEnabled(isNetworkRulesEnabled);
             binding.wifiMainSwitcher.setOnCheckedChangeListener(this);
+            binding.rulesAction.setOnClickListener(v -> {
+                onNetworkFeatureStateChanged.toRules();
+            });
         }
 
         private void bind() {
@@ -188,23 +197,33 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         private ViewCommonNetworkBehaviourBinding binding;
         @Inject
-        public CommonBehaviourItemViewModel viewModel;
+        public CommonBehaviourItemViewModel defaultViewModel;
+        @Inject
+        public MobileDataItemViewModel mobileViewModel;
 
         CommonNetworkViewHolder(ViewCommonNetworkBehaviourBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
-            viewModel.setNavigator(this);
-            binding.setViewmodel(viewModel);
-//            binding.defaultBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-//                    NetworkState.getDefaultStates(), defaultState));
-//            binding.mobileBehaviorSpinner.setAdapter(new NetworkAdapter(binding.getRoot().getContext(),
-//                    NetworkState.getActiveState(), defaultState));
+            defaultViewModel.setNavigator(this);
+            defaultViewModel.setContext(binding.getRoot().getContext());
+            mobileViewModel.setContext(binding.getRoot().getContext());
+            binding.setDefaultItem(defaultViewModel);
+            binding.setMobileItem(mobileViewModel);
+
+            binding.mobileContentLayout.setOnClickListener(v ->
+                    DialogBuilderK.INSTANCE.openChangeNetworkStatusDialogue(context, mobileViewModel)
+            );
+
+            binding.defaultLayout.setOnClickListener(view ->
+                    DialogBuilderK.INSTANCE.openChangeDefaultNetworkStatusDialogue(context, defaultViewModel)
+            );
         }
 
         private void bind() {
-            viewModel.setDefaultState(defaultState);
-            viewModel.setMobileDataState(mobileDataState);
+            defaultViewModel.setDefaultState(defaultState);
+            mobileViewModel.setDefaultState(defaultState);
+            mobileViewModel.setCurrentState(mobileDataState);
             binding.executePendingBindings();
         }
 
@@ -214,11 +233,6 @@ public class NetworkRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 return;
             }
             updateUIWithDefaultValue(state);
-        }
-
-        @Override
-        public void onMobileDataBehaviourChanged(NetworkState mobileDataState) {
-            NetworkRecyclerViewAdapter.this.mobileDataState = mobileDataState;
         }
     }
 }

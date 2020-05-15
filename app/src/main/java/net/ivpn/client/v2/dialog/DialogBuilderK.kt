@@ -7,9 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import net.ivpn.client.R
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
+import net.ivpn.client.databinding.DialogueDefaultNetworkStateBinding
+import net.ivpn.client.databinding.DialogueNetworkStateBinding
 import net.ivpn.client.databinding.DialogueNightModeBinding
-import net.ivpn.client.v2.network.NetworkViewModel
-import net.ivpn.client.v2.network.OnChangeNetworkStateListener
+import net.ivpn.client.ui.network.CommonBehaviourItemViewModel
+import net.ivpn.client.ui.network.NetworkItemViewModel
 import net.ivpn.client.v2.viewmodel.ColorThemeViewModel
 
 object DialogBuilderK {
@@ -47,27 +49,26 @@ object DialogBuilderK {
         alertDialog.setOnCancelListener { listener.onNightModeCancelClicked() }
     }
 
-    fun openChangeNetworkStatusDialogue(context: Context, listener: OnChangeNetworkStateListener, networkViewModel: NetworkViewModel) {
+    fun openChangeNetworkStatusDialogue(context: Context, wifiItemViewModel: NetworkItemViewModel) {
         val builder: AlertDialog.Builder =
                 AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
         val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val binding: DialogueNightModeBinding = DataBindingUtil.inflate(
+        val binding: DialogueNetworkStateBinding = DataBindingUtil.inflate(
                 inflater,
-                R.layout.dialogue_night_mode, null, false
+                R.layout.dialogue_network_state, null, false
         )
 
-        binding.colorTheme = colorThemeViewModel
+        binding.network = wifiItemViewModel
         builder.setView(binding.root)
         val alertDialog = builder.create()
         binding.cancelButton.setOnClickListener {
             alertDialog.dismiss()
-            listener.onNightModeCancelClicked()
         }
         binding.applyButton.setOnClickListener {
             alertDialog.dismiss()
-            colorThemeViewModel.applyMode()
+            wifiItemViewModel.applyState()
         }
 
         if ((context as Activity).isFinishing) {
@@ -75,6 +76,34 @@ object DialogBuilderK {
         }
 
         alertDialog.show()
-        alertDialog.setOnCancelListener { listener.onNightModeCancelClicked() }
+    }
+
+    fun openChangeDefaultNetworkStatusDialogue(context: Context, defaultViewModel: CommonBehaviourItemViewModel) {
+        val builder: AlertDialog.Builder =
+                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val binding: DialogueDefaultNetworkStateBinding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.dialogue_default_network_state, null, false
+        )
+
+        binding.network = defaultViewModel
+        builder.setView(binding.root)
+        val alertDialog = builder.create()
+        binding.cancelButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        binding.applyButton.setOnClickListener {
+            alertDialog.dismiss()
+            defaultViewModel.applyState()
+        }
+
+        if ((context as Activity).isFinishing) {
+            return
+        }
+
+        alertDialog.show()
     }
 }

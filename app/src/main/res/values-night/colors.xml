@@ -2,8 +2,8 @@
 <resources>
 
     <!--Networks Behaviour-->
-    <color name="color_trusted_text">#559341</color>
-    <color name="color_untrusted_text">#D35353</color>
+    <color name="color_trusted_text">#74b8ff</color>
+    <color name="color_untrusted_text">#ed7e79</color>
     <color name="color_default_text">#99FFFFFF</color>
     <color name="color_none_text">#99FFFFFF</color>
 

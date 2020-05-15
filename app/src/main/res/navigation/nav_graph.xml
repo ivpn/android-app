@@ -37,5 +37,13 @@
     <fragment
         android:id="@+id/networkProtectionFragment"
         android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
-        android:label="Network Protection" />
+        android:label="Network Protection" >
+        <action
+            android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"
+            app:destination="@id/networkProtectionRulesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/networkProtectionRulesFragment"
+        android:name="net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment"
+        android:label="Protection Rules" />
 </navigation>

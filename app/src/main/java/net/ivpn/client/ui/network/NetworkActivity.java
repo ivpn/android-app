@@ -107,7 +107,7 @@ public class NetworkActivity extends AppCompatActivity implements NetworkNavigat
 
     private void init() {
         viewModel.setNavigator(this);
-        adapter = new NetworkRecyclerViewAdapter();
+        adapter = new NetworkRecyclerViewAdapter(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_network);
         binding.contentLayout.setViewmodel(viewModel);
@@ -130,6 +130,11 @@ public class NetworkActivity extends AppCompatActivity implements NetworkNavigat
             showInformationDialog();
         }
         return true;
+    }
+
+    @Override
+    public void toRules() {
+
     }
 
     private void askPermissionRationale() {
