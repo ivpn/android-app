@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.ParcelFileDescriptor;
+
 import androidx.annotation.Nullable;
 
 import com.wireguard.android.config.Config;
@@ -56,7 +57,8 @@ public final class GoBackend implements Backend {
     private VpnBehaviorController vpnBehaviorController;
     private PackagesPreference packagesPreference;
 
-    @Nullable private Tunnel currentTunnel;
+    @Nullable
+    private Tunnel currentTunnel;
     private int currentTunnelHandle = -1;
 
     @Inject
@@ -82,7 +84,9 @@ public final class GoBackend implements Backend {
     private static native String wgVersion();
 
     @Override
-    public String getVersion() { return wgVersion(); }
+    public String getVersion() {
+        return wgVersion();
+    }
 
     @Override
     public State getState(final Tunnel tunnel) {
@@ -141,29 +145,7 @@ public final class GoBackend implements Backend {
             }
 
             // Build config
-            final Interface iface = config.getInterface();
-            final String goConfig;
-            try (final Formatter fmt = new Formatter(new StringBuilder())) {
-                fmt.format("replace_peers=true\n");
-                if (iface.getPrivateKey() != null)
-                    fmt.format("private_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(iface.getPrivateKey())));
-                if (iface.getListenPort() != 0)
-                    fmt.format("listen_port=%d\n", config.getInterface().getListenPort());
-                for (final Peer peer : config.getPeers()) {
-                    if (peer.getPublicKey() != null)
-                        fmt.format("public_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.getPublicKey())));
-                    if (peer.getPreSharedKey() != null)
-                        fmt.format("preshared_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.getPreSharedKey())));
-                    if (peer.getEndpoint() != null)
-                        fmt.format("endpoint=%s\n", peer.getResolvedEndpointString());
-                    if (peer.getPersistentKeepalive() != 0)
-                        fmt.format("persistent_keepalive_interval=%d\n", peer.getPersistentKeepalive());
-                    for (final InetNetwork addr : peer.getAllowedIPs()) {
-                        fmt.format("allowed_ip=%s\n", addr.toString());
-                    }
-                }
-                goConfig = fmt.toString();
-            }
+            final String goConfig = config.format();
 
             // Create the vpn tunnel with android API
             final WireGuardVpnService.Builder builder = service.getBuilder();
@@ -241,8 +223,10 @@ public final class GoBackend implements Backend {
 
     public static class WireGuardVpnService extends android.net.VpnService {
 
-        @Inject VpnBehaviorController vpnBehaviorController;
-        @Inject ConfigManager configManager;
+        @Inject
+        VpnBehaviorController vpnBehaviorController;
+        @Inject
+        ConfigManager configManager;
 
         public Builder getBuilder() {
             return new Builder();

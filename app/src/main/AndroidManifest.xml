@@ -32,6 +32,10 @@
             android:name="io.sentry.auto-init"
             android:value="false" />
 
+        <meta-data
+            android:name="io.sentry.anr.enable"
+            android:value="false" />
+
         <activity
             android:name=".ui.tutorial.TutorialActivity"
             android:screenOrientation="portrait"

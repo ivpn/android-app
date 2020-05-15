@@ -218,13 +218,6 @@ public class ProtocolViewModel {
                 dataLoading.set(false);
                 ProtocolViewModel.this.onGeneratingError(error, throwable);
             }
-
-            @Override
-            public void onKeyRemoving() {
-                LOGGER.info("onKeyRemoving");
-                dataLoading.set(true);
-                loadingMessage.set(context.getString(R.string.protocol_delete_public_key_from_server));
-            }
         };
     }
 }

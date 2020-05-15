@@ -161,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void subscribe() {
         LOGGER.info("subscribe");
-        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+        if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
             openWebsite();
         } else {
             startSingleTopActivity(new Intent(this, SubscriptionActivity.class));
@@ -305,7 +305,7 @@ public class SettingsActivity extends AppCompatActivity
 
     public void manageSubscription(View view) {
         LOGGER.info("renew");
-        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+        if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
             openWebsite();
         } else {
             startSingleTopActivity(new Intent(this, SubscriptionActivity.class));

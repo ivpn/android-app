@@ -61,7 +61,7 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     public void startTrial(View view) {
-        if (BuildConfig.BUILD_VARIANT.equals("site")) {
+        if (BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid")) {
             openWebsite();
         } else {
             Intent intent = new Intent(this, SignUpActivity.class);

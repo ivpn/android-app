@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
 import android.util.Log;
 
+import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.migration.MigrationController;
@@ -90,7 +91,9 @@ public class ComponentUtil {
     }
 
     private void initSentry() {
-        sentryUtil.init();
+        if (!BuildConfig.BUILD_VARIANT.equals("fdroid")) {
+            sentryUtil.init();
+        }
     }
 
     private void initLogger() {

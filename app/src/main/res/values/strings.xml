@@ -490,7 +490,7 @@
     <string name="protocol_wg_ip_address_copied">WireGuard IP address copied to clipboard</string>
     <string name="protocol_generating_and_uploading_key">Generating new keys…</string>
     <string name="protocol_delete_public_key_from_server">Removing public key from IVPN server…</string>
-    <string name="protocol_regenerating_keys">Regenerating keys…</string>
+    <string name="protocol_regenerating_keys">Generating new keys…</string>
     <string name="protocol_delete_session_from_server">Removing session from IVPN server…</string>
     <string name="protocol_skip_process">skip</string>
     <string name="protocol_wg_keys_regenerate_key">re-generate keys</string>

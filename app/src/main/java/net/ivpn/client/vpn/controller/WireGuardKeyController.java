@@ -94,7 +94,7 @@ public class WireGuardKeyController {
 
     public void regenerateKeys() {
         LOGGER.info("regenerateKeys");
-        keysEventsListener.onKeyRemoving();
+        keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
             setKey();
         } else {
@@ -156,7 +156,5 @@ public class WireGuardKeyController {
         void onKeyGeneratedSuccess();
 
         void onKeyGeneratedError(String error, Throwable throwable);
-
-        void onKeyRemoving();
     }
 }
