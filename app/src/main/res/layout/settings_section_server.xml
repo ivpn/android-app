@@ -229,6 +229,7 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/protocol_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"

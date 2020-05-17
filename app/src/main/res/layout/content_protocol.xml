@@ -28,6 +28,11 @@
                 android:orientation="vertical"
                 android:paddingTop="?attr/actionBarSize">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:background="@color/protocol_background"
+                    android:layout_height="@dimen/settings_sections_inner_margin" />
+
                 <include
                     android:id="@+id/protocol_selection"
                     layout="@layout/protocol_section_selection"
@@ -35,7 +40,8 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_sections_inner_margin" />
+                    android:layout_height="@dimen/settings_sections_inner_margin"
+                    android:background="@color/protocol_background"/>
 
                 <include
                     android:id="@+id/protocol_settings"
@@ -44,7 +50,8 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_sections_inner_margin" />
+                    android:layout_height="@dimen/settings_sections_inner_margin"
+                    android:background="@color/protocol_background"/>
 
             </LinearLayout>
         </ScrollView>

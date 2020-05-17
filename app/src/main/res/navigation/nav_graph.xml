@@ -25,6 +25,12 @@
         <action
             android:id="@+id/action_settingsFragment_to_networkProtectionFragment"
             app:destination="@id/networkProtectionFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_customDNSFragment"
+            app:destination="@id/customDNSFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -46,4 +52,12 @@
         android:id="@+id/networkProtectionRulesFragment"
         android:name="net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment"
         android:label="Protection Rules" />
+    <fragment
+        android:id="@+id/protocolFragment"
+        android:name="net.ivpn.client.v2.protocol.ProtocolFragment"
+        android:label="Protocol" />
+    <fragment
+        android:id="@+id/customDNSFragment"
+        android:name="net.ivpn.client.v2.customdns.CustomDNSFragment"
+        android:label="Custom DNS" />
 </navigation>

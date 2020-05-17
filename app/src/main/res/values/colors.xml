@@ -119,4 +119,12 @@
 
     <color name="network_protection_rules_text">#2A394B</color>
 
+    <color name="protocol_text_color">#2A394B</color>
+    <color name="protocol_background">#F5F9FC</color>
+    <color name="protocol_card_background">#FFFFFF</color>
+
+    <color name="custom_dns_text_color">#2A394B</color>
+    <color name="custom_dns_background">#FFFFFF</color>
+    <color name="custom_dns_card_background">#FFFFFF</color>
+
 </resources>

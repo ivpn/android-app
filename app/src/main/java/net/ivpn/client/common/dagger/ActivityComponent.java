@@ -33,9 +33,11 @@ import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
+import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.network.NetworkProtectionFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
+import net.ivpn.client.v2.protocol.ProtocolFragment;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
@@ -145,4 +147,8 @@ public interface ActivityComponent {
     void inject(NetworkProtectionFragment fragment);
 
     void inject(NetworkProtectionRulesFragment fragment);
+
+    void inject(ProtocolFragment fragment);
+
+    void inject(CustomDNSFragment fragment);
 }

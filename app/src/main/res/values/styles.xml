@@ -99,8 +99,8 @@
     </style>
 
     <style name="EditTextTheme" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">#6126394d</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/custom_dns_text_color</item>
+        <item name="colorControlActivated">@color/primary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">16sp</item>
     </style>

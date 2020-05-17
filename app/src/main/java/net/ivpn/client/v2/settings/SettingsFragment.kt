@@ -145,6 +145,12 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.networkProtectionLayout.setOnClickListener {
             openNetworkProtectionScreen()
         }
+        binding.contentLayout.sectionServer.protocolLayout.setOnClickListener {
+            openProtocolScreen()
+        }
+        binding.contentLayout.sectionOther.customDns.setOnClickListener {
+            openCustomDNSScreen()
+        }
     }
 
     private fun initToolbar() {
@@ -170,6 +176,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openNetworkProtectionScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToNetworkProtectionFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openProtocolScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToProtocolFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openCustomDNSScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToCustomDNSFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

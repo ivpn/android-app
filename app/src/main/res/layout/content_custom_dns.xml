@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/custom_dns_background"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -41,7 +41,7 @@
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/custom_dns_feature"
-                    android:textColor="#335266"
+                    android:textColor="@color/custom_dns_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -53,7 +53,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="@dimen/settings_margin_right_extended"
                 android:checked="@{viewmodel.isCustomDNSEnabled}"
-                android:translationX="3dp"
+                app:track="@drawable/common_track_selector"
+                android:thumb="@drawable/common_thumb_selector"
                 app:onChanged="@{viewmodel.enableCustomDNS}"
                 app:theme="@style/AppTheme.SwitchCompat" />
         </LinearLayout>
@@ -68,6 +69,8 @@
             android:lineSpacingExtra="3sp"
             android:text="@string/custom_dns_priority"
             android:textAlignment="viewStart"
+            android:textColor="@color/custom_dns_text_color"
+            android:alpha="0.6"
             android:textSize="16sp"
             android:textStyle="normal" />
 
@@ -85,7 +88,7 @@
                 android:lineSpacingExtra="3sp"
                 android:text="@string/custom_dns_server"
                 android:textAlignment="viewStart"
-                android:textColor="#335266"
+                android:textColor="@color/custom_dns_text_color"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -98,6 +101,8 @@
                 style="@style/SettingsOptionDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/custom_dns_text_color"
+                android:alpha="0.6"
                 android:text="@{viewmodel.dns}"
                 android:textSize="16dp" />
 
@@ -112,12 +117,12 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/change_dns_button"
                 style="@style/SettingsAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/custom_dns_change"
-                android:textAllCaps="true"
-                android:onClick="changeDNS"/>
+                android:textAllCaps="true"/>
 
         </LinearLayout>
 
@@ -129,6 +134,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:lineSpacingExtra="3sp"
+            android:textColor="@color/custom_dns_text_color"
+            android:alpha="0.6"
             android:text="@string/custom_dns_server_description"
             android:textAlignment="viewStart"
             android:textSize="16sp"

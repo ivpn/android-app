@@ -113,17 +113,17 @@ public class ProtocolViewModel {
         this.navigator = navigator;
     }
 
-    void copyWgKeyToClipboard(ClipboardManager clipboard) {
+    public void copyWgKeyToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_public_key", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    void copyWgIpToClipboard(ClipboardManager clipboard) {
+    public void copyWgIpToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_ip", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    WireGuardDialogInfo getWireGuardInfo() {
+    public WireGuardDialogInfo getWireGuardInfo() {
         String ipAddress = settings.getWireGuardIpAddress();
 
         long regenerationPeriod = keyController.getRegenerationPeriod();
@@ -142,7 +142,7 @@ public class ProtocolViewModel {
         setProtocol(Protocol.WIREGUARD);
     }
 
-    void reGenerateKeys() {
+    public void reGenerateKeys() {
         LOGGER.info(TAG, "Regenerate keys");
         keyController.regenerateKeys();
     }
