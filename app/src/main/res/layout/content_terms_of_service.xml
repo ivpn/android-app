@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:url="@{Constant.TERMS_OF_SERVICE_URL}" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </FrameLayout>
 </layout>

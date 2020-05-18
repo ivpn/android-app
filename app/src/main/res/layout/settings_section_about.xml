@@ -51,6 +51,7 @@
                 android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
+                android:id="@+id/terms_of_service_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
@@ -72,10 +73,10 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/privacy_policy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="readPrivacyPolicy"
                 android:orientation="horizontal">
 
                 <TextView

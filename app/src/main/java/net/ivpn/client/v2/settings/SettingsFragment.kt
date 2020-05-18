@@ -151,6 +151,12 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.customDns.setOnClickListener {
             openCustomDNSScreen()
         }
+        binding.contentLayout.sectionAbout.termsOfServiceLayout.setOnClickListener {
+            openTermsOfServiceScreen()
+        }
+        binding.contentLayout.sectionAbout.privacyPolicyLayout.setOnClickListener {
+            openPrivacyPolicyScreen()
+        }
     }
 
     private fun initToolbar() {
@@ -186,6 +192,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openCustomDNSScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToCustomDNSFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openTermsOfServiceScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToTermsFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openPrivacyPolicyScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 
