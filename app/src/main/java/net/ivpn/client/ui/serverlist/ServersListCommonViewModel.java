@@ -32,11 +32,11 @@ public class ServersListCommonViewModel {
         this.pingProvider = pingProvider;
     }
 
-    void onResume() {
+    public void onResume() {
         pingProvider.pingAll(false);
     }
 
-    void start(Context context, ServerType serverType) {
+    public void start(Context context, ServerType serverType) {
         isFavouriteServersListEmpty.set(getFavouriteServersList().isEmpty());
         boolean isMultiHopEnabled = isMultiHopEnabled();
         String titleStr;

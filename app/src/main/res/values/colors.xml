@@ -127,4 +127,9 @@
     <color name="custom_dns_background">#FFFFFF</color>
     <color name="custom_dns_card_background">#FFFFFF</color>
 
+    <color name="servers_text_color">#2A394B</color>
+    <color name="servers_background">#FFFFFF</color>
+    <color name="servers_card_background">#FFFFFF</color>
+    <color name="servers_icon_color">#802A394B</color>
+
 </resources>

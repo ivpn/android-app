@@ -11,6 +11,12 @@
         <action
             android:id="@+id/action_connectFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_connectFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment" />
+        <action
+            android:id="@+id/action_connectFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -49,7 +55,7 @@
     <fragment
         android:id="@+id/networkProtectionFragment"
         android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
-        android:label="Network Protection" >
+        android:label="Network Protection">
         <action
             android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"
             app:destination="@id/networkProtectionRulesFragment" />
@@ -74,4 +80,20 @@
         android:id="@+id/policyFragment"
         android:name="net.ivpn.client.v2.policy.PolicyFragment"
         android:label="Privacy Policy" />
+    <fragment
+        android:id="@+id/serverListFragment"
+        android:name="net.ivpn.client.v2.serverlist.ServerListFragment"
+        android:label="ServerListFragment">
+        <argument
+            android:name="serverType"
+            android:defaultValue="ENTRY"
+            app:argType="net.ivpn.client.common.prefs.ServerType" />
+        <action
+            android:id="@+id/action_serverListFragment_to_fastestSettingFragment"
+            app:destination="@id/fastestSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fastestSettingFragment"
+        android:name="net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment"
+        android:label="Fastest Setting" />
 </navigation>

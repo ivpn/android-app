@@ -39,6 +39,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="18dp"
+                    android:tint="@color/servers_icon_color"
                     android:src="@drawable/ic_fastest_server" />
 
                 <TextView
@@ -48,7 +49,7 @@
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/connect_fastest_server"
-                    android:textColor="@color/color_server_name_active"
+                    android:textColor="@color/servers_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
@@ -70,7 +71,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_settings"
-                    android:tint="#B4C1CC" />
+                    android:tint="@color/servers_icon_color" />
             </FrameLayout>
         </LinearLayout>
 
@@ -108,7 +109,7 @@
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/favourites_no_title"
-                android:textColor="#26394d"
+                android:textColor="@color/servers_text_color"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -126,7 +127,8 @@
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/favourites_no_description"
-                android:textColor="#6b8299"
+                android:textColor="@color/servers_text_color"
+                android:alpha="0.6"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 

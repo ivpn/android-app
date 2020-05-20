@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -12,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentConnectBinding
 import net.ivpn.client.v2.viewmodel.MultiHopViewModel
 import net.ivpn.client.v2.viewmodel.ServersViewModel
@@ -44,11 +44,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
     }
 
     private fun initViews() {
-
-        binding.settingsButton.setOnClickListener {
-            toSettings()
-        }
-
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
@@ -67,6 +62,19 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         binding.slidingPanel.multihop = multihop
 
         binding.slidingPanel.servers = servers
+
+        binding.settingsButton.setOnClickListener {
+            openSettingsScreen()
+        }
+        binding.slidingPanel.protocolLayout.setOnClickListener {
+            openProtocolScreen()
+        }
+        binding.slidingPanel.enterServerLayout.setOnClickListener {
+            openEnterServerSelectionScreen()
+        }
+        binding.slidingPanel.exitServerLayout.setOnClickListener {
+            openExitServerSelectionScreen()
+        }
     }
 
     override fun onResume() {
@@ -114,8 +122,23 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         binding.slidingPanel.bottomSheet.requestLayout()
     }
 
-    private fun toSettings() {
+    private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openProtocolScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToProtocolFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openEnterServerSelectionScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openExitServerSelectionScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.EXIT)
         NavHostFragment.findNavController(this).navigate(action)
     }
 }

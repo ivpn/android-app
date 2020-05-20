@@ -8,7 +8,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import net.ivpn.client.R;
-import net.ivpn.client.ui.serverlist.all.ServersListFragment;
+import net.ivpn.client.ui.serverlist.all.CommonServerListFragment;
 import net.ivpn.client.ui.serverlist.favourites.FavouriteServersListFragment;
 
 public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
@@ -18,7 +18,7 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private Context context;
 
-    ServersListPagerAdapter(Context context, FragmentManager fragmentManager) {
+    public ServersListPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
         this.context = context;
     }
@@ -44,7 +44,7 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new FavouriteServersListFragment();
             default:
-                return new ServersListFragment();
+                return new CommonServerListFragment();
         }
     }
 
@@ -67,7 +67,7 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         ((FavouriteServersListFragment) registeredFragments.get(0)).cancel();
-        ((ServersListFragment) registeredFragments.get(1)).cancel();
+        ((CommonServerListFragment) registeredFragments.get(1)).cancel();
     }
 
     public void applyPendingAction() {
@@ -76,6 +76,6 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         ((FavouriteServersListFragment) registeredFragments.get(0)).applyPendingAction();
-        ((ServersListFragment) registeredFragments.get(1)).applyPendingAction();
+        ((CommonServerListFragment) registeredFragments.get(1)).applyPendingAction();
     }
 }

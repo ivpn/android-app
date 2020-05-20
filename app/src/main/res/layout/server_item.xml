@@ -26,7 +26,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/servers_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,8 +55,9 @@
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="8sp"
                 android:text="@{server.getDescription}"
-                android:textColor="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? @color/color_server_name_active : @color/color_server_name_passive}"
+                android:textColor="@color/servers_text_color"
                 android:textSize="16sp"
+                android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
                 android:textStyle="normal" />
 
             <Space
@@ -86,7 +88,8 @@
                     android:letterSpacing="-0.03"
                     android:lineSpacingExtra="5sp"
                     android:text="@{pingstatus.formatPing}"
-                    android:textColor="#98a5b3"
+                    android:textColor="@color/servers_text_color"
+                    android:alpha="0.6"
                     android:textSize="15sp"
                     android:textStyle="normal"
                     android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />

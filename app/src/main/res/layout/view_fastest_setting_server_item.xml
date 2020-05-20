@@ -15,7 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/servers_background">
 
         <LinearLayout
             android:id="@+id/content_layout"
@@ -42,6 +43,7 @@
                 android:lineSpacingExtra="8sp"
                 android:text="@{server.getDescription}"
                 android:textSize="16sp"
+                android:textColor="@color/servers_text_color"
                 android:textStyle="normal" />
 
             <Space
@@ -55,7 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:translationX="3dp"
+                android:thumb="@drawable/common_thumb_selector"
+                app:track="@drawable/common_track_selector"
                 app:theme="@style/AppTheme.SwitchCompat" />
 
         </LinearLayout>

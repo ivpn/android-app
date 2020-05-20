@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/servers_background">
 
         <net.ivpn.client.ui.common.EmptyRecyclerView
             android:id="@+id/recycler_view"
@@ -50,7 +50,7 @@
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/favourites_no_title"
-                android:textColor="#26394d"
+                android:textColor="@color/servers_text_color"
                 android:textSize="20sp"
                 android:textStyle="normal" />
 
@@ -68,7 +68,8 @@
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/favourites_no_description"
-                android:textColor="#6b8299"
+                android:textColor="@color/servers_text_color"
+                android:alpha="0.6"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
