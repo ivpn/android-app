@@ -34,6 +34,7 @@ import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
+import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.network.NetworkProtectionFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
@@ -42,6 +43,7 @@ import net.ivpn.client.v2.serverlist.ServerListFragment;
 import net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
+import net.ivpn.client.v2.sync.SyncFragment;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
 import net.ivpn.client.vpn.controller.WireGuardKeyBroadcastReceiver;
@@ -157,4 +159,8 @@ public interface ActivityComponent {
     void inject(ServerListFragment fragment);
 
     void inject(FastestSettingFragment fragment);
+
+    void inject(LoginFragment fragment);
+
+    void inject(SyncFragment fragment);
 }

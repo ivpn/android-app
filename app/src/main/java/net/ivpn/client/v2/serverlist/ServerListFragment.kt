@@ -82,17 +82,12 @@ class ServerListFragment : Fragment() {
     fun onServerLongClick(server: Server?) {}
 
     fun onFastestServerSelected() {
-//        val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
         NavHostFragment.findNavController(this).popBackStack()
-//        finish()
     }
 
     fun onFastestServerSettings() {
         val action = ServerListFragmentDirections.actionServerListFragmentToFastestSettingFragment()
         NavHostFragment.findNavController(this).navigate(action)
-//        val intent = Intent(this, FastestSettingActivity::class.java)
-//        intent.action = serverType.toString()
-//        startActivity(intent)
     }
 
     fun getServerType(): ServerType {

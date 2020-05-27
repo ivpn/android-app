@@ -1,12 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
         <!--<item name="textColorError"> @color/colorAccent </item>-->
     </style>
 
@@ -39,7 +39,7 @@
     </style>
 
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">#FFFFFF</item>
+        <item name="android:background">@color/dialogue_background</item>
         <item name="android:windowTitleStyle">@style/DialogTitleStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
@@ -50,7 +50,7 @@
     </style>
 
     <style name="DialogTitleStyle">
-        <item name="android:textColor">#26394D</item>
+        <item name="android:textColor">@color/dialogue_title</item>
         <item name="android:lineSpacingExtra">2sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -58,7 +58,7 @@
     </style>
 
     <style name="DialogMessageStyle" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">#6B8299</item>
+        <item name="android:textColor">@color/dialogue_text</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textAlignment">viewStart</item>
@@ -66,8 +66,8 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="AlertDialogButton" parent="android:Widget.DeviceDefault.Button.Borderless">
-        <item name="android:textColor">#398fe6</item>
+    <style name="AlertDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:letterSpacing">0.04</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -171,13 +171,26 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
-    <style name="TextInputLayoutAppTheme" parent="Widget.Design.TextInputLayout">
+    <style name="TextInputLayoutAppTheme" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
         <!-- Hint color and label color in FALSE initState -->
         <item name="android:textColorHint">#6126394d</item>
         <!-- Label color in TRUE initState and bar color FALSE and TRUE InitState -->
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorControlNormal">#6126394d</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="EditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintEnabled">true</item>
+        <item name="hintTextAppearance">@style/EditText.HintText</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="colorPrimary">@color/primary</item>
+    </style>
+
+    <style name="EditText.HintText" parent="android:TextAppearance">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="SettingsSectionTitle">

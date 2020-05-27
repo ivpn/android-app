@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#0062b3</color>
     <color name="colorAccent">#FB3841</color>
 
+    <color name="color_toolbar">#398FE6</color>
+    <color name="error">#b00020</color>
+
     <color name="color_tutorial_link">#6b8299</color>
     <color name="color_tutorial_descr">#374D66</color>
     <color name="color_tutorial_title">#335266</color>
@@ -131,5 +134,18 @@
     <color name="servers_background">#FFFFFF</color>
     <color name="servers_card_background">#FFFFFF</color>
     <color name="servers_icon_color">#802A394B</color>
+
+    <color name="login_text_color">#2A394B</color>
+    <color name="login_text_color_invert">#FFFFFF</color>
+    <color name="login_background">#FFFFFF</color>
+    <color name="login_icon_color">#802A394B</color>
+    <color name="login_edit_text_box_background">#54D3DFE6</color>
+    <color name="color_on_surface">#2A394B</color>
+
+    <color name="bottom_sheet_background">#FFFFFF</color>
+    <color name="bottom_sheet_text">#2A394B</color>
+
+    <color name="sync_background">#FFFFFF</color>
+    <color name="sync_text">#2A394B</color>
 
 </resources>

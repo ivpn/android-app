@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     protected void onResume() {
         LOGGER.info("onResume");
         super.onResume();
-        binding.contentLayout.login.setFocusable(true);
+//        binding.contentLayout.login.setFocusable(true);
     }
 
     @Override
@@ -97,18 +97,18 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
     private void init() {
         viewModel.setNavigator(this);
-        binding.contentLayout.setViewmodel(viewModel);
-        binding.contentLayout.login.setOnEditorActionListener((textView, actionId, keyEvent) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                login(textView);
-                return true;
-            }
-            return false;
-        });
+//        binding.contentLayout.setViewmodel(viewModel);
+//        binding.contentLayout.login.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                login(textView);
+//                return true;
+//            }
+//            return false;
+//        });
 
-        KeyboardUtil.addKeyboardToggleListener(this, isVisible -> {
-            binding.contentLayout.image.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-        });
+//        KeyboardUtil.addKeyboardToggleListener(this, isVisible -> {
+//            binding.contentLayout.image.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+//        });
 
         String string = getString(R.string.login_account_id_description);
         String stringToSpan = "Client Area";
@@ -130,8 +130,8 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
         spannable.setSpan(span, startSpanPosition,
                 startSpanPosition + stringToSpan.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        binding.contentLayout.description.setText(spannable);
-        binding.contentLayout.description.setMovementMethod(new LinkMovementMethod());
+//        binding.contentLayout.description.setText(spannable);
+//        binding.contentLayout.description.setMovementMethod(new LinkMovementMethod());
     }
 
     private void initToolbar() {

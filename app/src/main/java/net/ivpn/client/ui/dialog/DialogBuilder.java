@@ -16,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.InputFilterMinMax;
@@ -44,7 +46,8 @@ public class DialogBuilder {
     public static void createOptionDialog(Context context, Dialogs dialogAttr,
                                           DialogInterface.OnClickListener listener) {
         LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
         if (dialogAttr.getPositiveBtnId() != -1) {
@@ -66,7 +69,8 @@ public class DialogBuilder {
 
     public static void createNotificationDialog(Context context, Dialogs dialogAttr) {
         LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
         builder.setNegativeButton(context.getString(dialogAttr.getNegativeBtnId()), null);
@@ -104,7 +108,8 @@ public class DialogBuilder {
 
     public static void createFullCustomNotificationDialog(Context context, String title, String msg) {
         LOGGER.info("Create dialog ");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setNegativeButton(context.getString(R.string.dialogs_ok), null);

@@ -16,6 +16,10 @@
             type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
     </data>
 
+<!--    app:behavior_expandedOffset="@dimen/slider_expanded_offset"-->
+
+    <!--    app:behavior_expandedOffset="100"-->
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/sheet_layout"
         android:layout_width="match_parent"
@@ -121,7 +125,7 @@
                         android:layout_marginEnd="24dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:tint="@color/sliding_panel_icon"
+                        app:tint="@color/sliding_panel_icon"
                         app:backgroundTint="@color/connect_fab_background"
                         app:elevation="2dp"
                         app:fabSize="mini"

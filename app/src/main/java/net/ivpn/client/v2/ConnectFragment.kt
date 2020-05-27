@@ -63,6 +63,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
 
         binding.slidingPanel.servers = servers
 
+        binding.accountButton.setOnClickListener {
+            openAccountScreen()
+        }
         binding.settingsButton.setOnClickListener {
             openSettingsScreen()
         }
@@ -124,6 +127,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
 
     private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openAccountScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

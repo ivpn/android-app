@@ -77,6 +77,7 @@
     <dimen name="slider_layout_single_hop_height">276dp</dimen>
     <dimen name="slider_layout_exit_layout_height">85dp</dimen>
     <dimen name="slider_layout_top_padding">32dp</dimen>
+    <dimen name="slider_expanded_offset">32dp</dimen>
 
     <dimen name="switch_track_selector_height">48dp</dimen>
 </resources>

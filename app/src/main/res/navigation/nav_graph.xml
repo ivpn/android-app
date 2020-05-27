@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_connectFragment_to_serverListFragment"
             app:destination="@id/serverListFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -96,4 +99,15 @@
         android:id="@+id/fastestSettingFragment"
         android:name="net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment"
         android:label="Fastest Setting" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="net.ivpn.client.v2.login.LoginFragment"
+        android:label="Log in" >
+        <action
+            android:id="@+id/action_loginFragment_to_syncFragment"
+            app:destination="@id/syncFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/syncFragment"
+        android:name="net.ivpn.client.v2.sync.SyncFragment" />
 </navigation>

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.BottomSheetBinding;
 import net.ivpn.client.ui.login.LoginActivity;
+import net.ivpn.client.v2.login.LoginFragment;
 
 public class CreateSessionFragment extends BottomSheetDialogFragment {
 
@@ -30,6 +31,9 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         super.onAttach(context);
         if (context instanceof ConnectActivity || context instanceof LoginActivity) {
             navigator = (CreateSessionNavigator) context;
+        }
+        if (getParentFragment() instanceof LoginFragment) {
+            navigator = (CreateSessionNavigator) getParentFragment();
         }
     }
 
