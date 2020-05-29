@@ -50,11 +50,11 @@ public class SettingsViewModel extends BaseObservable {
     public final ObservableBoolean dataLoading = new ObservableBoolean();
 //    public final ObservableField<Server> enterServer = new ObservableField<>();
 //    public final ObservableField<Server> exitServer = new ObservableField<>();
-    public final ObservableField<String> username = new ObservableField<>();
-    public final ObservableField<String> subscriptionPlan = new ObservableField<>();
-    public final ObservableField<String> accountType = new ObservableField<>();
-    public final ObservableField<SubscriptionState> subscriptionState = new ObservableField<>();
-    public final ObservableBoolean authenticated = new ObservableBoolean();
+//    public final ObservableField<String> username = new ObservableField<>();
+//    public final ObservableField<String> subscriptionPlan = new ObservableField<>();
+//    public final ObservableField<String> accountType = new ObservableField<>();
+//    public final ObservableField<SubscriptionState> subscriptionState = new ObservableField<>();
+//    public final ObservableBoolean authenticated = new ObservableBoolean();
 //    public final ObservableBoolean isAlwaysOnVpnSupported = new ObservableBoolean();
 //    public final ObservableBoolean fastestServer = new ObservableBoolean();
 //    public final ObservableBoolean logging = new ObservableBoolean();
@@ -62,14 +62,14 @@ public class SettingsViewModel extends BaseObservable {
 //    public final ObservableBoolean multiHop = new ObservableBoolean();
 //    public final ObservableBoolean killSwitch = new ObservableBoolean();
 //    public final ObservableBoolean isSentryEnabled = new ObservableBoolean();
-    public final ObservableBoolean isOnFreeTrial = new ObservableBoolean();
+//    public final ObservableBoolean isOnFreeTrial = new ObservableBoolean();
     public final ObservableBoolean isAntiTrackerEnabled = new ObservableBoolean();
 //    public final ObservableBoolean isUpdatesEnabled = new ObservableBoolean();
     public final ObservableBoolean isManageSubscriptionAvailable = new ObservableBoolean();
 //    public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
-    public final ObservableBoolean isNativeSubscription = new ObservableBoolean();
+//    public final ObservableBoolean isNativeSubscription = new ObservableBoolean();
 //    public final ObservableBoolean isStartOnBootEnabled = new ObservableBoolean();
-    public final ObservableLong availableUntil = new ObservableLong();
+//    public final ObservableLong availableUntil = new ObservableLong();
 //    public final ObservableField<PingResultFormatter> pingResultExitServer = new ObservableField<>();
 //    public final ObservableField<PingResultFormatter> pingResultEnterServer = new ObservableField<>();
 
@@ -177,16 +177,16 @@ public class SettingsViewModel extends BaseObservable {
 //        exitServer.set(getCurrentServer(ServerType.EXIT));
 //        pingResultExitServer.set(null);
 //        pingResultEnterServer.set(null);
-        username.set(getUsername());
-        accountType.set(getUserAccountType());
-        isOnFreeTrial.set(isOnFreeTrial());
-        availableUntil.set(getAvailableUntil());
+//        username.set(getUsername());
+//        accountType.set(getUserAccountType());
+//        isOnFreeTrial.set(isOnFreeTrial());
+//        availableUntil.set(getAvailableUntil());
 //        isAntiTrackerEnabled.set(isAntiTrackerEnabled());
-        authenticated.set(isAuthenticated());
-        isNativeSubscription.set(isNativeSubscription());
+//        authenticated.set(isAuthenticated());
+//        isNativeSubscription.set(isNativeSubscription());
 //        isStartOnBootEnabled.set(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P);
-        subscriptionState.set(getSubscriptionState());
-        subscriptionPlan.set(getSubscriptionPlan());
+//        subscriptionState.set(getSubscriptionState());
+//        subscriptionPlan.set(getSubscriptionPlan());
         isManageSubscriptionAvailable.set(isManageSubscriptionAvailable());
 //        crashLogging.set(sentryUtil.isEnabled);
 //        isSentryEnabled.set(isSentryEnabled());
@@ -270,13 +270,13 @@ public class SettingsViewModel extends BaseObservable {
 //        return serversRepository.getCurrentServer(serverType);
 //    }
 
-    public String getUsername() {
-        return userPreference.getUserLogin();
-    }
-
-    private String getUserAccountType() {
-        return userPreference.getCurrentPlan();
-    }
+//    public String getUsername() {
+//        return userPreference.getUserLogin();
+//    }
+//
+//    private String getUserAccountType() {
+//        return userPreference.getCurrentPlan();
+//    }
 
     public String getSessionToken() {
         return userPreference.getSessionToken();
@@ -294,16 +294,16 @@ public class SettingsViewModel extends BaseObservable {
             deleteSession(token);
         } else {
             LOGGER.info("Logout, removing local cache...");
-            clearLocalCache();
+//            clearLocalCache();
         }
     }
 
-    private void clearLocalCache() {
-        IVPNApplication.getApplication().appComponent.provideComponentUtil().resetComponents();
-
-        authenticated.set(false);
-//        multiHop.set(false);
-    }
+//    private void clearLocalCache() {
+//        IVPNApplication.getApplication().appComponent.provideComponentUtil().resetComponents();
+//
+//        authenticated.set(false);
+////        multiHop.set(false);
+//    }
 
     boolean isVpnActive() {
         return vpnBehaviorController.isVPNActive();
@@ -350,9 +350,9 @@ public class SettingsViewModel extends BaseObservable {
         return settings.isAdvancedKillSwitchDialogEnabled();
     }
 
-    private boolean isOnFreeTrial() {
-        return userPreference.isUserOnTrial();
-    }
+//    private boolean isOnFreeTrial() {
+//        return userPreference.isUserOnTrial();
+//    }
 
 //    private boolean isAntiTrackerEnabled() {
 //        return BuildConfig.BUILD_VARIANT.equals("site") || BuildConfig.BUILD_VARIANT.equals("fdroid");
@@ -362,10 +362,10 @@ public class SettingsViewModel extends BaseObservable {
 //        return BuildConfig.BUILD_VARIANT.equals("site");
 //    }
 
-    private boolean isAuthenticated() {
-        String token = userPreference.getSessionToken();
-        return !token.isEmpty();
-    }
+//    private boolean isAuthenticated() {
+//        String token = userPreference.getSessionToken();
+//        return !token.isEmpty();
+//    }
 
 //    private boolean isSentryEnabled() {
 //        return !BuildConfig.BUILD_VARIANT.equals("fdroid");
@@ -388,41 +388,41 @@ public class SettingsViewModel extends BaseObservable {
         return paymentMethod.equals("ivpnandroidiap") && purchase != null && purchase.isAutoRenewing();
     }
 
-    private String getSubscriptionPlan() {
-        String plan = userPreference.getCurrentPlan();
-        if (!userPreference.getIsActive()) {
-            plan += " (inactive)";
-            return plan;
-        }
-        Purchase purchase = billingManager.getPurchase();
-        if (plan == null || purchase == null) {
-            return plan;
-        }
-        if (!purchase.isAutoRenewing()) {
-            plan += " (cancelled)";
-        }
-
-        return plan;
-    }
+//    private String getSubscriptionPlan() {
+//        String plan = userPreference.getCurrentPlan();
+//        if (!userPreference.getIsActive()) {
+//            plan += " (inactive)";
+//            return plan;
+//        }
+//        Purchase purchase = billingManager.getPurchase();
+//        if (plan == null || purchase == null) {
+//            return plan;
+//        }
+//        if (!purchase.isAutoRenewing()) {
+//            plan += " (cancelled)";
+//        }
+//
+//        return plan;
+//    }
 
 //    private void ping(Server server, OnPingFinishListener listener) {
 //        pingProvider.ping(server, listener);
 //    }
 
-    private SubscriptionState getSubscriptionState() {
-        if (!userPreference.getIsActive()) {
-            return SubscriptionState.INACTIVE;
-        }
-        Purchase purchase = billingManager.getPurchase();
-        if (purchase == null) {
-            return SubscriptionState.ACTIVE;
-        }
-        if (purchase.isAutoRenewing()) {
-            return SubscriptionState.ACTIVE;
-        } else {
-            return SubscriptionState.CANCELLED;
-        }
-    }
+//    private SubscriptionState getSubscriptionState() {
+//        if (!userPreference.getIsActive()) {
+//            return SubscriptionState.INACTIVE;
+//        }
+//        Purchase purchase = billingManager.getPurchase();
+//        if (purchase == null) {
+//            return SubscriptionState.ACTIVE;
+//        }
+//        if (purchase.isAutoRenewing()) {
+//            return SubscriptionState.ACTIVE;
+//        } else {
+//            return SubscriptionState.CANCELLED;
+//        }
+//    }
 
     boolean isActive() {
         return userPreference.getIsActive();
@@ -459,12 +459,12 @@ public class SettingsViewModel extends BaseObservable {
 
     private void onRemoveSuccess() {
         dataLoading.set(false);
-        clearLocalCache();
+//        clearLocalCache();
     }
 
     private void onRemoveError() {
         dataLoading.set(false);
-        clearLocalCache();
+//        clearLocalCache();
     }
 
     Uri getLogFileUri(Context context) {

@@ -39,6 +39,7 @@ class PolicyFragment: Fragment() {
     }
 
     private fun init() {
+        binding.contentLayout.webView.setBackgroundColor(resources.getColor(R.color.web_view_background))
         binding.contentLayout.webView.loadUrl(getString(R.string.path_to_policy))
     }
 }

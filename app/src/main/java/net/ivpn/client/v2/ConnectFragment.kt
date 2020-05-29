@@ -13,6 +13,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentConnectBinding
+import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.MultiHopViewModel
 import net.ivpn.client.v2.viewmodel.ServersViewModel
 import javax.inject.Inject
@@ -27,6 +28,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
 
     @Inject
     lateinit var servers: ServersViewModel
+
+    @Inject
+    lateinit var account: AccountViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -64,7 +68,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         binding.slidingPanel.servers = servers
 
         binding.accountButton.setOnClickListener {
-            openAccountScreen()
+            if (account.authenticated.get()) {
+                openAccountScreen()
+            } else {
+                openLoginScreen()
+            }
         }
         binding.settingsButton.setOnClickListener {
             openSettingsScreen()
@@ -83,6 +91,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
     override fun onResume() {
         super.onResume()
         servers.onResume()
+        account.onResume()
         applySlidingPanelSide()
     }
 
@@ -130,8 +139,13 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator {
         NavHostFragment.findNavController(this).navigate(action)
     }
 
-    private fun openAccountScreen() {
+    private fun openLoginScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openAccountScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToAccountFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

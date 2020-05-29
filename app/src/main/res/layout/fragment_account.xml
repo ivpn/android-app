@@ -19,13 +19,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/color_toolbar"
+                android:paddingEnd="6dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
             android:id="@+id/content_layout"
-            layout="@layout/content_split_tunneling" />
+            layout="@layout/content_account" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

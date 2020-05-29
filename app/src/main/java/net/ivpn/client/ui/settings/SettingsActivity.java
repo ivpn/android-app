@@ -214,34 +214,34 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     public void vpnProtocol(View view) {
-        LOGGER.info("vpnProtocol");
-        if (!viewModel.authenticated.get()) {
-            authenticate();
-            return;
-        } else if (!viewModel.isActive()) {
-            subscribe();
-            return;
-        }
-
-        if (viewModel.isVpnActive()) {
-            notifyUser(R.string.snackbar_to_change_protocol_disconnect,
-                    R.string.snackbar_disconnect_first, null);
-        } else {
-            Intent intent = new Intent(this, ProtocolActivity.class);
-            startSingleTopActivity(intent);
-        }
+//        LOGGER.info("vpnProtocol");
+//        if (!viewModel.authenticated.get()) {
+//            authenticate();
+//            return;
+//        } else if (!viewModel.isActive()) {
+//            subscribe();
+//            return;
+//        }
+//
+//        if (viewModel.isVpnActive()) {
+//            notifyUser(R.string.snackbar_to_change_protocol_disconnect,
+//                    R.string.snackbar_disconnect_first, null);
+//        } else {
+//            Intent intent = new Intent(this, ProtocolActivity.class);
+//            startSingleTopActivity(intent);
+//        }
 
     }
 
     public void trustedWifi(View view) {
         LOGGER.info("trustedWifi");
-        if (!viewModel.authenticated.get()) {
-            authenticate();
-            return;
-        } else if (!viewModel.isActive()) {
-            subscribe();
-            return;
-        }
+//        if (!viewModel.authenticated.get()) {
+//            authenticate();
+//            return;
+//        } else if (!viewModel.isActive()) {
+//            subscribe();
+//            return;
+//        }
 
         startSingleTopActivity(new Intent(this, NetworkActivity.class));
     }
@@ -283,13 +283,13 @@ public class SettingsActivity extends AppCompatActivity
 
     public void startOnSystemBoot(View view) {
         LOGGER.info("startOnSystemBoot");
-        if (!viewModel.authenticated.get()) {
-            authenticate();
-            return;
-        } else if (!viewModel.isActive()) {
-            subscribe();
-            return;
-        }
+//        if (!viewModel.authenticated.get()) {
+//            authenticate();
+//            return;
+//        } else if (!viewModel.isActive()) {
+//            subscribe();
+//            return;
+//        }
 
         Intent intent = new Intent(this, StartOnBootActivity.class);
         startSingleTopActivity(intent);

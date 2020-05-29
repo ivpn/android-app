@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_connectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_connectFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_policyFragment"
             app:destination="@id/policyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -110,4 +116,8 @@
     <fragment
         android:id="@+id/syncFragment"
         android:name="net.ivpn.client.v2.sync.SyncFragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="net.ivpn.client.v2.account.AccountFragment"
+        android:label="Account details" />
 </navigation>

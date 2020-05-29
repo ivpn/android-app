@@ -1,5 +1,6 @@
 package net.ivpn.client.v2.terms
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ class TermsFragment: Fragment() {
     }
 
     private fun init() {
+        binding.contentLayout.webView.setBackgroundColor(resources.getColor(R.color.web_view_background))
         binding.contentLayout.webView.loadUrl(getString(R.string.path_to_tos))
     }
 }

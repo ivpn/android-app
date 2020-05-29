@@ -199,8 +199,8 @@
     <string name="network_trusted">Trusted</string>
     <string name="network_untrusted">Untrusted</string>
     <string name="network_title">Network Protection</string>
-    <string name="network_untrusted_label"><b>Untrusted</b> networks</string>
-    <string name="network_trusted_label"><b>Trusted</b> networks</string>
+    <string name="network_untrusted_label">Untrusted networks</string>
+    <string name="network_trusted_label">Trusted networks</string>
     <string name="network_trusted_feature">Enable trusted/untrusted networks</string>
     <string name="network_trusted_feature_description">Choose which networks you trust or don\'t trust and apply relevant actions.</string>
     <string name="network_rules">Rules</string>
@@ -585,4 +585,10 @@
     <string name="auth_log_in_label">Enter your Account ID</string>
     <string name="auth_create_new_account">Create a new account</string>
     <string name="auth_log_in">Log in</string>
+
+    <string name="account_label">Account Id</string>
+    <string name="account_active">Active</string>
+    <string name="account_type">Account type</string>
+    <string name="account_active_until">Active until</string>
+    <string name="account_log_out">Log out</string>
 </resources>

@@ -116,6 +116,7 @@
     <color name="always_on_background">#ffffff</color>
     <color name="always_on_title">#335266</color>
 
+    <color name="network_protection_text_color_opacity">#992A394B</color>
     <color name="network_protection_text_color">#2A394B</color>
     <color name="network_protection_background">#F5F9FC</color>
     <color name="network_protection_card_background">#FFFFFF</color>
@@ -147,5 +148,16 @@
 
     <color name="sync_background">#FFFFFF</color>
     <color name="sync_text">#2A394B</color>
+
+    <color name="account_text">#2A394B</color>
+    <color name="account_background">#FFFFFF</color>
+    <color name="account_active_background">#4caf50</color>
+    <color name="account_text_invert">#FFFFFF</color>
+    <color name="account_line">#2B8B9AAB</color>
+
+    <color name="tab_text_color">#99FFFFFF</color>
+    <color name="tab_selected_text_color">#FFFFFF</color>
+
+    <color name="web_view_background">#FFFFFF</color>
 
 </resources>

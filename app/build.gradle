@@ -211,6 +211,10 @@ dependencies {
     //For crash logging
     implementation 'io.sentry:sentry-android-core:2.0.+'
 
+    //QR support
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
+
     //Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'

@@ -62,6 +62,7 @@
     <color name="always_on_background">#121212</color>
     <color name="always_on_title">#DEFFFFFF</color>
 
+    <color name="network_protection_text_color_opacity">#99FFFFFF</color>
     <color name="network_protection_text_color">#FFFFFF</color>
     <color name="network_protection_background">#121212</color>
     <color name="network_protection_card_background">#202020</color>
@@ -95,4 +96,14 @@
     <color name="sync_background">#121212</color>
     <color name="sync_text">#FFFFFF</color>
 
+    <color name="account_text">#FFFFFF</color>
+    <color name="account_background">#121212</color>
+    <color name="account_active_background">#80e27e</color>
+    <color name="account_text_invert">#121212</color>
+    <color name="account_line">#2B8B9AAB</color>
+
+    <color name="tab_text_color">#99FFFFFF</color>
+    <color name="tab_selected_text_color">#FFFFFF</color>
+
+    <color name="web_view_background">#121212</color>
 </resources>

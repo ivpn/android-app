@@ -97,10 +97,10 @@
                 android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
+                    android:id="@+id/entry_server_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_section_height"
                     android:gravity="center_vertical"
-                    android:onClick="chooseEntryServer"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -149,10 +149,10 @@
                     android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
 
                 <LinearLayout
+                    android:id="@+id/exit_server_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_section_height"
                     android:gravity="center_vertical"
-                    android:onClick="chooseExitServer"
                     android:orientation="horizontal"
                     android:visibility="@{multihop.isEnabled()  ? View.VISIBLE : View.GONE}">
 
@@ -196,10 +196,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fastest_server_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="chooseEntryServer"
                 android:orientation="horizontal"
                 android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
 

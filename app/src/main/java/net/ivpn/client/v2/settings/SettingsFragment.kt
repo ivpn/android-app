@@ -21,6 +21,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
+import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
@@ -157,6 +158,15 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionAbout.privacyPolicyLayout.setOnClickListener {
             openPrivacyPolicyScreen()
         }
+        binding.contentLayout.sectionServer.entryServerLayout.setOnClickListener {
+            openEntryServerScreen()
+        }
+        binding.contentLayout.sectionServer.fastestServerLayout.setOnClickListener {
+            openEntryServerScreen()
+        }
+        binding.contentLayout.sectionServer.exitServerLayout.setOnClickListener {
+            openExitServerScreen()
+        }
     }
 
     private fun initToolbar() {
@@ -202,6 +212,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openPrivacyPolicyScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openEntryServerScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.ENTRY)
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openExitServerScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.EXIT)
         NavHostFragment.findNavController(this).navigate(action)
     }
 

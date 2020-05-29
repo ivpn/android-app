@@ -14,6 +14,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <application
         android:name=".IVPNApplication"
         android:allowBackup="false"
@@ -165,6 +169,8 @@
         <activity
             android:name=".vpn.local.PermissionActivity"
             android:theme="@style/AppTheme.Transparent" />
+
+        <activity android:name=".v2.qr.QRActivity" />
 
         <service
             android:name=".vpn.openvpn.IVPNService"

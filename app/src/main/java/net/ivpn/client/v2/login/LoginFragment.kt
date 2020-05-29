@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentLoginBinding
@@ -23,10 +26,11 @@ import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
 import net.ivpn.client.ui.syncservers.SyncServersActivity
+import net.ivpn.client.v2.qr.QRActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class LoginFragment: Fragment(), LoginNavigator, CreateSessionNavigator {
+class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
@@ -54,6 +58,17 @@ class LoginFragment: Fragment(), LoginNavigator, CreateSessionNavigator {
         initToolbar()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        println("OnActivityResult")
+        super.onActivityResult(requestCode, resultCode, data)
+        val scanningResult: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (scanningResult != null && scanningResult.contents != null) {
+            viewModel.username.set(scanningResult.contents.toString())
+        } else {
+            Toast.makeText(context, "Nothing scanned", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
         viewModel.navigator = this
@@ -65,8 +80,11 @@ class LoginFragment: Fragment(), LoginNavigator, CreateSessionNavigator {
             }
             return@setOnEditorActionListener false
         }
-        binding.contentLayout.loginButton.setOnClickListener{
+        binding.contentLayout.loginButton.setOnClickListener {
             viewModel.login(false)
+        }
+        binding.contentLayout.outlinedTextField.setEndIconOnClickListener {
+            openQRScanner()
         }
     }
 
@@ -75,6 +93,16 @@ class LoginFragment: Fragment(), LoginNavigator, CreateSessionNavigator {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun openQRScanner() {
+        val scanIntegrator = IntentIntegrator.forSupportFragment(this)
+        with(scanIntegrator) {
+            captureActivity = QRActivity::class.java
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setPrompt("Place a QR code inside viewfinder to scan Account Id.")
+            initiateScan()
+        }
     }
 
     //ToDo Check this logic!!!

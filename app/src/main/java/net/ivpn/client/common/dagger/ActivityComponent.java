@@ -32,6 +32,7 @@ import net.ivpn.client.ui.syncservers.SyncServersActivity;
 import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
+import net.ivpn.client.v2.account.AccountFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
@@ -163,4 +164,6 @@ public interface ActivityComponent {
     void inject(LoginFragment fragment);
 
     void inject(SyncFragment fragment);
+
+    void inject(AccountFragment fragment);
 }
