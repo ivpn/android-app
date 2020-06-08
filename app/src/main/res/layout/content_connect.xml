@@ -110,35 +110,34 @@
             <net.ivpn.client.ui.connect.animation.ConnectionView
                 android:id="@+id/connection_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@{viewmodel.connectionViewHint}" />
+                android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/connection_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.04"
-                android:text="@{viewmodel.connectionUserHint}"
-                android:textColor="@color/color_connection_user_hint"
-                android:textSize="14sp"
-                android:textStyle="normal" />
+<!--            <TextView-->
+<!--                android:id="@+id/connection_hint"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:letterSpacing="0.04"-->
+<!--                android:text="@{viewmodel.connectionUserHint}"-->
+<!--                android:textColor="@color/color_connection_user_hint"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textStyle="normal" />-->
 
-            <TextView
-                android:id="@+id/pause_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.04"
-                android:text="@{viewmodel.timeUntilResumed}"
-                android:textAllCaps="true"
-                android:textColor="@color/color_connection_user_hint"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                android:visibility="@{viewmodel.isPaused ? View.VISIBLE : View.GONE}" />
+<!--            <TextView-->
+<!--                android:id="@+id/pause_hint"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:fontFamily="sans-serif-medium"-->
+<!--                android:letterSpacing="0.04"-->
+<!--                android:text="@{viewmodel.timeUntilResumed}"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@color/color_connection_user_hint"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textStyle="normal"-->
+<!--                android:visibility="@{viewmodel.isPaused ? View.VISIBLE : View.GONE}" />-->
 
         </FrameLayout>
 

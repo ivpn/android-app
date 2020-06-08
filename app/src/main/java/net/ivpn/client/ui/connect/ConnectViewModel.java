@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.todtenkopf.mvvm.ViewModelBase;
 
-import net.ivpn.client.R;
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.billing.BillingManagerWrapper;
 import net.ivpn.client.common.pinger.OnPingFinishListener;
@@ -19,15 +18,11 @@ import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.utils.ComponentUtil;
-import net.ivpn.client.common.utils.ConnectivityUtil;
-import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.Responses;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.model.ServiceStatus;
-import net.ivpn.client.rest.data.model.WireGuard;
-import net.ivpn.client.rest.data.session.SessionNewRequestBody;
 import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.session.SessionStatusRequestBody;
 import net.ivpn.client.rest.data.session.SessionStatusResponse;
@@ -48,7 +43,6 @@ import net.ivpn.client.vpn.model.NetworkState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InterruptedIOException;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -75,7 +69,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     private BillingManagerWrapper billingManager;
 
     public final ObservableField<Long> activeUntil = new ObservableField<>();
-    public final ObservableBoolean isPaused = new ObservableBoolean();
+//    public final ObservableBoolean isPaused = new ObservableBoolean();
     public final ObservableBoolean isFastestServerEnabled = new ObservableBoolean();
     public final ObservableBoolean isMultiHopEnabled = new ObservableBoolean();
     public final ObservableBoolean isPrivateEmailsEnabled = new ObservableBoolean();
@@ -108,7 +102,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     CommandVM privateEmailCommand = new CommandVM() {
         @Override
         public void execute() {
-            navigator.openPrivateEmails();
+//            navigator.openPrivateEmails();
         }
 
         @Override
@@ -120,7 +114,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     CommandVM newPrivateEmailCommand = new CommandVM() {
         @Override
         public void execute() {
-            navigator.openPrivateEmails();
+//            navigator.openPrivateEmails();
         }
 
         @Override
@@ -132,7 +126,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     CommandVM settingsCommand = new CommandVM() {
         @Override
         public void execute() {
-            navigator.openSettings();
+//            navigator.openSettings();
         }
 
         @Override
@@ -144,7 +138,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     CommandVM infoCommand = new CommandVM() {
         @Override
         public void execute() {
-            navigator.openInfoDialogue();
+//            navigator.openInfoDialogue();
         }
 
         @Override
@@ -182,7 +176,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     void onStart() {
         LOGGER.info("onStart: ");
         networkController.setNetworkSourceChangedListener(this);
-        vpnBehaviorController.setVpnStateListener(this);
+        vpnBehaviorController.addVpnStateListener(this);
     }
 
     void onResume() {
@@ -219,13 +213,13 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         this.navigator = navigator;
     }
 
-    void onConnectRequest() {
-        if (!isTokenExist()) {
-            createNewSession(false);
-            return;
-        }
-        vpnBehaviorController.connectionActionByUser();
-    }
+//    void onConnectRequest() {
+//        if (!isTokenExist()) {
+//            createNewSession(false);
+//            return;
+//        }
+//        vpnBehaviorController.connectionActionByUser();
+//    }
 
     void onPauseRequest() {
         vpnBehaviorController.pauseActionByUser();
@@ -236,69 +230,69 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     }
 
     void chooseServer(ServerType serverType) {
-        navigator.chooseServer(serverType);
+//        navigator.chooseServer(serverType);
     }
 
     void tryWifiWatcher() {
         networkController.tryWifiWatcher();
     }
 
-    void createNewSession(boolean force) {
-        connectionUserHint.set(context.getString(R.string.connect_hint_creating_session));
-        SessionNewRequestBody body = new SessionNewRequestBody(getUsername(), getWireGuardPublicKey(), force);
-        LOGGER.info("SessionNewRequestBody = " + body);
-        sessionNewRequest.start(api -> api.newSession(body),
-                getSessionNewRequestListener());
-    }
+//    void createNewSession(boolean force) {
+//        connectionUserHint.set(context.getString(R.string.connect_hint_creating_session));
+//        SessionNewRequestBody body = new SessionNewRequestBody(getUsername(), getWireGuardPublicKey(), force);
+//        LOGGER.info("SessionNewRequestBody = " + body);
+//        sessionNewRequest.start(api -> api.newSession(body),
+//                getSessionNewRequestListener());
+//    }
 
-    private RequestListener<SessionNewResponse> getSessionNewRequestListener() {
-        return new RequestListener<SessionNewResponse>() {
-            @Override
-            public void onSuccess(SessionNewResponse response) {
-                LOGGER.info(response.toString());
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-                if (response.getStatus() == null) {
-                    //ignore it
-                    vpnBehaviorController.connectionActionByUser();
-                    return;
-                }
-
-                LOGGER.info("Status = " + response.getStatus());
-                if (response.getStatus() == Responses.SUCCESS) {
-                    putUserData(response);
-                    handleWireGuardResponse(response.getWireGuard());
-                    //Connect using session username/password
-                    vpnBehaviorController.connectionActionByUser();
-                } else {
-                    navigator.openErrorDialog(Dialogs.SERVER_ERROR);
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                LOGGER.error("Create session: ERROR", throwable);
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-                if (!ConnectivityUtil.isOnline(context)) {
-                    navigator.openErrorDialog(Dialogs.CONNECTION_ERROR);
-                    return;
-                }
-
-                if (throwable instanceof InterruptedIOException) {
-                    navigator.openErrorDialog(Dialogs.TOO_MANY_ATTEMPTS_ERROR);
-                    return;
-                }
-            }
-
-            @Override
-            public void onError(String error) {
-                LOGGER.error("Create session: ERROR", error);
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-                ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
-                handleErrorResponse(errorResponse);
-            }
-        };
-    }
+//    private RequestListener<SessionNewResponse> getSessionNewRequestListener() {
+//        return new RequestListener<SessionNewResponse>() {
+//            @Override
+//            public void onSuccess(SessionNewResponse response) {
+//                LOGGER.info(response.toString());
+//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//                if (response.getStatus() == null) {
+//                    //ignore it
+//                    vpnBehaviorController.connectionActionByUser();
+//                    return;
+//                }
+//
+//                LOGGER.info("Status = " + response.getStatus());
+//                if (response.getStatus() == Responses.SUCCESS) {
+//                    putUserData(response);
+//                    handleWireGuardResponse(response.getWireGuard());
+//                    //Connect using session username/password
+//                    vpnBehaviorController.connectionActionByUser();
+//                } else {
+//                    navigator.openErrorDialog(Dialogs.SERVER_ERROR);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//                LOGGER.error("Create session: ERROR", throwable);
+//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//                if (!ConnectivityUtil.isOnline(context)) {
+//                    navigator.openErrorDialog(Dialogs.CONNECTION_ERROR);
+//                    return;
+//                }
+//
+//                if (throwable instanceof InterruptedIOException) {
+//                    navigator.openErrorDialog(Dialogs.TOO_MANY_ATTEMPTS_ERROR);
+//                    return;
+//                }
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                LOGGER.error("Create session: ERROR", error);
+//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//                ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
+//                handleErrorResponse(errorResponse);
+//            }
+//        };
+//    }
 
     private OnPingFinishListener getPingFinishListener(final ServerType serverType) {
         return result -> {
@@ -340,7 +334,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     }
 
     private boolean isMultihopAllowedByProtocol() {
-        return protocolController.getCurrentProtocol().equals(Protocol.OPENVPN);
+        return protocolController.getCurrentProtocol().equals(Protocol.OpenVPN);
     }
 
     private boolean isPrivateEmailsEnabled() {
@@ -480,75 +474,75 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         pingProvider.ping(server, listener);
     }
 
-    private void putUserData(SessionNewResponse response) {
-        LOGGER.info("Save account data");
+//    private void putUserData(SessionNewResponse response) {
+//        LOGGER.info("Save account data");
+//
+//        userPreference.putSessionToken(response.getToken());
+//        userPreference.putSessionUsername(response.getVpnUsername());
+//        userPreference.putSessionPassword(response.getVpnPassword());
+//        saveSessionStatus(response.getServiceStatus());
+//    }
 
-        userPreference.putSessionToken(response.getToken());
-        userPreference.putSessionUsername(response.getVpnUsername());
-        userPreference.putSessionPassword(response.getVpnPassword());
-        saveSessionStatus(response.getServiceStatus());
-    }
+//    private void handleWireGuardResponse(WireGuard wireGuard) {
+//        LOGGER.info("Handle WireGuard response: " + wireGuard);
+//        if (wireGuard == null || wireGuard.getStatus() == null) {
+//            //ignore it right now
+//            resetWireGuard();
+//            return;
+//        }
+//
+//        if (wireGuard.getStatus() == Responses.SUCCESS) {
+//            putWireGuardData(wireGuard);
+//        } else {
+//            LOGGER.error("Error received: " + wireGuard.getStatus() + " "
+//                    + (wireGuard.getMessage() != null ? wireGuard.getMessage() : ""));
+//            resetWireGuard();
+//        }
+//    }
 
-    private void handleWireGuardResponse(WireGuard wireGuard) {
-        LOGGER.info("Handle WireGuard response: " + wireGuard);
-        if (wireGuard == null || wireGuard.getStatus() == null) {
-            //ignore it right now
-            resetWireGuard();
-            return;
-        }
+//    private void putWireGuardData(WireGuard wireGuard) {
+//        LOGGER.info("Save WireGuard data");
+//        settings.setWireGuardIpAddress(wireGuard.getIpAddress());
+//    }
 
-        if (wireGuard.getStatus() == Responses.SUCCESS) {
-            putWireGuardData(wireGuard);
-        } else {
-            LOGGER.error("Error received: " + wireGuard.getStatus() + " "
-                    + (wireGuard.getMessage() != null ? wireGuard.getMessage() : ""));
-            resetWireGuard();
-        }
-    }
-
-    private void putWireGuardData(WireGuard wireGuard) {
-        LOGGER.info("Save WireGuard data");
-        settings.setWireGuardIpAddress(wireGuard.getIpAddress());
-    }
-
-    private void resetWireGuard() {
-        LOGGER.info("Reset WireGuard protocol");
-        protocolController.setCurrentProtocol(Protocol.OPENVPN);
-    }
-
-    private void handleErrorResponse(ErrorResponse errorResponse) {
-        LOGGER.info("Handle error response: " + errorResponse);
-        if (errorResponse == null || errorResponse.getStatus() == null) {
-            vpnBehaviorController.connectionActionByUser();
-            return;
-        }
-
-        switch (errorResponse.getStatus()) {
-            case Responses.INVALID_CREDENTIALS: {
-                navigator.openErrorDialog(Dialogs.AUTHENTICATION_ERROR);
-                navigator.logout();
-                break;
-            }
-
-            case Responses.SESSION_TOO_MANY: {
-                navigator.openSessionLimitReachedDialogue();
-                break;
-            }
-
-            case Responses.WIREGUARD_KEY_INVALID:
-            case Responses.WIREGUARD_PUBLIC_KEY_EXIST:
-            case Responses.BAD_REQUEST:
-            case Responses.SESSION_SERVICE_ERROR: {
-                vpnBehaviorController.connectionActionByUser();
-                break;
-            }
-
-            default: {
-                vpnBehaviorController.connectionActionByUser();
-                break;
-            }
-        }
-    }
+//    private void resetWireGuard() {
+//        LOGGER.info("Reset WireGuard protocol");
+//        protocolController.setCurrentProtocol(Protocol.OpenVPN);
+//    }
+//
+//    private void handleErrorResponse(ErrorResponse errorResponse) {
+//        LOGGER.info("Handle error response: " + errorResponse);
+//        if (errorResponse == null || errorResponse.getStatus() == null) {
+//            vpnBehaviorController.connectionActionByUser();
+//            return;
+//        }
+//
+//        switch (errorResponse.getStatus()) {
+//            case Responses.INVALID_CREDENTIALS: {
+//                navigator.openErrorDialog(Dialogs.AUTHENTICATION_ERROR);
+//                navigator.logout();
+//                break;
+//            }
+//
+//            case Responses.SESSION_TOO_MANY: {
+//                navigator.openSessionLimitReachedDialogue();
+//                break;
+//            }
+//
+//            case Responses.WIREGUARD_KEY_INVALID:
+//            case Responses.WIREGUARD_PUBLIC_KEY_EXIST:
+//            case Responses.BAD_REQUEST:
+//            case Responses.SESSION_SERVICE_ERROR: {
+//                vpnBehaviorController.connectionActionByUser();
+//                break;
+//            }
+//
+//            default: {
+//                vpnBehaviorController.connectionActionByUser();
+//                break;
+//            }
+//        }
+//    }
 
     @Override
     public void onNetworkSourceChanged(NetworkSource source) {
@@ -569,54 +563,54 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
 
     @Override
     public void onConnectionStateChanged(ConnectionState state) {
-        if (state == null) {
-            return;
-        }
-        navigator.onConnectionStateChanged(state);
-        updateFastestServer(state);
-        switch (state) {
-            case CONNECTED: {
-                isPaused.set(false);
-                connectionStatus.set(context.getString(R.string.connect_status_connected));
-                connectionUserHint.set(context.getString(R.string.connect_hint_connected));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_connected));
-                break;
-            }
-            case CONNECTING: {
-                isPaused.set(false);
-                connectionStatus.set(context.getString(R.string.connect_status_connecting));
-                connectionUserHint.set(context.getString(R.string.connect_hint_connecting));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_connecting));
-                break;
-            }
-            case DISCONNECTING: {
-                isPaused.set(false);
-                connectionStatus.set(context.getString(R.string.connect_status_disconnecting));
-                connectionUserHint.set(context.getString(R.string.connect_hint_disconnecting));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_disconnecting));
-                break;
-            }
-            case NOT_CONNECTED: {
-                isPaused.set(false);
-                connectionStatus.set(context.getString(R.string.connect_status_not_connected));
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_not_connected));
-                break;
-            }
-            case PAUSING: {
-                connectionStatus.set(context.getString(R.string.connect_status_pausing));
-                connectionUserHint.set(context.getString(R.string.connect_hint_pausing));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_pausing));
-                break;
-            }
-            case PAUSED: {
-                isPaused.set(true);
-                connectionStatus.set(context.getString(R.string.connect_status_paused));
-                connectionUserHint.set(context.getString(R.string.connect_hint_paused));
-                connectionViewHint.set(context.getString(R.string.connect_state_hint_paused));
-                break;
-            }
-        }
+//        if (state == null) {
+//            return;
+//        }
+//        navigator.onConnectionStateChanged(state);
+//        updateFastestServer(state);
+//        switch (state) {
+//            case CONNECTED: {
+//                isPaused.set(false);
+//                connectionStatus.set(context.getString(R.string.connect_status_connected));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_connected));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_connected));
+//                break;
+//            }
+//            case CONNECTING: {
+//                isPaused.set(false);
+//                connectionStatus.set(context.getString(R.string.connect_status_connecting));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_connecting));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_connecting));
+//                break;
+//            }
+//            case DISCONNECTING: {
+//                isPaused.set(false);
+//                connectionStatus.set(context.getString(R.string.connect_status_disconnecting));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_disconnecting));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_disconnecting));
+//                break;
+//            }
+//            case NOT_CONNECTED: {
+//                isPaused.set(false);
+//                connectionStatus.set(context.getString(R.string.connect_status_not_connected));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_not_connected));
+//                break;
+//            }
+//            case PAUSING: {
+//                connectionStatus.set(context.getString(R.string.connect_status_pausing));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_pausing));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_pausing));
+//                break;
+//            }
+//            case PAUSED: {
+//                isPaused.set(true);
+//                connectionStatus.set(context.getString(R.string.connect_status_paused));
+//                connectionUserHint.set(context.getString(R.string.connect_hint_paused));
+//                connectionViewHint.set(context.getString(R.string.connect_state_hint_paused));
+//                break;
+//            }
+//        }
     }
 
     @Override
@@ -626,7 +620,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
 
     @Override
     public void onTimeTick(long millisUntilResumed) {
-        timeUntilResumed.set(StringUtil.formatTimeUntilResumed(millisUntilResumed));
+//        timeUntilResumed.set(StringUtil.formatTimeUntilResumed(millisUntilResumed));
     }
 
     @Override
@@ -641,7 +635,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
 
     @Override
     public void onFindingFastestServer() {
-        connectionUserHint.set(context.getString(R.string.connect_hint_finding_fastest));
+//        connectionUserHint.set(context.getString(R.string.connect_hint_finding_fastest));
     }
 
     @Override
@@ -655,17 +649,17 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
 
     @Override
     public void onRegeneratingKeys() {
-        connectionUserHint.set(context.getString(R.string.connect_hint_regeneration_wg_key));
+//        connectionUserHint.set(context.getString(R.string.connect_hint_regeneration_wg_key));
     }
 
     @Override
     public void onRegenerationSuccess() {
-        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
     }
 
     @Override
     public void onRegenerationError(Dialogs errorDialog) {
-        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
+//        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
         navigator.openErrorDialog(errorDialog);
     }
 

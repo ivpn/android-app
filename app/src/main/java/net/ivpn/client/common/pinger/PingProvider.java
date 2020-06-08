@@ -80,7 +80,7 @@ public class PingProvider {
         if (pingFutures == null) {
             pingFutures = new PingFuture(pingExecutor);
             String ipAddress;
-            if (server.getType() == null || server.getType().equals(Protocol.OPENVPN)) {
+            if (server.getType() == null || server.getType().equals(Protocol.OpenVPN)) {
                 ipAddress = server.getIpAddresses().get(0);
             } else {
                 ipAddress = server.getHosts().get(0).getHost();

@@ -116,10 +116,10 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         super.onResume();
         LOGGER.info("onResume");
         viewModel.onResume();
-        binding.contentLayout.connectionHint.post(() -> ViewUtil.setStatusTopMargin(binding.contentLayout.connectionHint,
-                binding.contentLayout.connectionView.getStatusTopMargin()));
-        binding.contentLayout.pauseHint.post(() -> ViewUtil.setPauseTimerTopMargin(binding.contentLayout.pauseHint,
-                binding.contentLayout.connectionView.getStatusTopMargin(), binding.contentLayout.connectionView.getHeight()));
+//        binding.contentLayout.connectionHint.post(() -> ViewUtil.setStatusTopMargin(binding.contentLayout.connectionHint,
+//                binding.contentLayout.connectionView.getStatusTopMargin()));
+//        binding.contentLayout.pauseHint.post(() -> ViewUtil.setPauseTimerTopMargin(binding.contentLayout.pauseHint,
+//                binding.contentLayout.connectionView.getStatusTopMargin(), binding.contentLayout.connectionView.getHeight()));
         checkLocationPermission();
     }
 
@@ -157,7 +157,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
         switch (requestCode) {
             case ServiceConstants.IVPN_REQUEST_CODE: {
-                viewModel.onConnectRequest();
+//                viewModel.onConnectRequest();
                 break;
             }
             case ServiceConstants.KILL_SWITCH_REQUEST_CODE: {
@@ -185,6 +185,11 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         getSupportActionBar().setTitle(" ");
     }
 
+    @Override
+    public void askConnectionPermission() {
+
+    }
+
     public void openSettings() {
         LOGGER.info("openSettings");
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -208,7 +213,7 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         } else if (!viewModel.isActive()) {
             subscribe();
         } else if (viewModel.isVpnActive()) {
-            viewModel.onConnectRequest();
+//            viewModel.onConnectRequest();
         } else {
             checkVPNPermission(ServiceConstants.IVPN_REQUEST_CODE);
         }
@@ -319,10 +324,10 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
                 });
     }
 
-    @Override
-    public void onConnectionStateChanged(ConnectionState state) {
-        binding.contentLayout.connectionView.updateConnectionState(state);
-    }
+//    @Override
+//    public void onConnectionStateChanged(ConnectionState state) {
+//        binding.contentLayout.connectionView.updateConnectionState(state);
+//    }
 
     @Override
     public void openNoNetworkDialog() {
@@ -344,19 +349,19 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         viewModel.chooseServer(ServerType.ENTRY);
     }
 
-    @Override
-    public void chooseServer(ServerType serverType) {
-        LOGGER.info("chooseServer serverType = " + serverType);
-        Intent intent = new Intent(this, ServersListActivity.class);
-        intent.setAction(serverType.toString());
-        startSingleTopActivity(intent);
-    }
-
-    @Override
-    public void openInfoDialogue() {
-        LOGGER.info("openInfoDialogue");
-        DialogBuilder.createConnectionInfoDialog(this);
-    }
+//    @Override
+//    public void chooseServer(ServerType serverType) {
+//        LOGGER.info("chooseServer serverType = " + serverType);
+//        Intent intent = new Intent(this, ServersListActivity.class);
+//        intent.setAction(serverType.toString());
+//        startSingleTopActivity(intent);
+//    }
+//
+//    @Override
+//    public void openInfoDialogue() {
+//        LOGGER.info("openInfoDialogue");
+//        DialogBuilder.createConnectionInfoDialog(this);
+//    }
 
     @Override
     public void onAuthFailed() {
@@ -370,9 +375,9 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
     @Override
     public void onTimeOut() {
-        LOGGER.info("onTimeOut");
-        disconnectVpnService(true, Dialogs.TRY_RECONNECT,
-                (dialogInterface, i) -> viewModel.onConnectRequest());
+//        LOGGER.info("onTimeOut");
+//        disconnectVpnService(true, Dialogs.TRY_RECONNECT,
+//                (dialogInterface, i) -> viewModel.onConnectRequest());
     }
 
     public void disconnect(View view) {
@@ -423,13 +428,13 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
 
     @Override
     public void onForceLogout() {
-        viewModel.createNewSession(true);
+//        viewModel.createNewSession(true);
         createSessionFragment.dismissAllowingStateLoss();
     }
 
     @Override
     public void tryAgain() {
-        viewModel.createNewSession(false);
+//        viewModel.createNewSession(false);
         createSessionFragment.dismissAllowingStateLoss();
     }
 

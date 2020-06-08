@@ -34,6 +34,7 @@ import net.ivpn.client.ui.updates.UpdatesActivity;
 import net.ivpn.client.v2.ConnectFragment;
 import net.ivpn.client.v2.account.AccountFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
+import net.ivpn.client.v2.antitracker.AntiTrackerFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.network.NetworkProtectionFragment;
@@ -166,4 +167,6 @@ public interface ActivityComponent {
     void inject(SyncFragment fragment);
 
     void inject(AccountFragment fragment);
+
+    void inject(AntiTrackerFragment fragment);
 }

@@ -74,10 +74,14 @@ class ServerListFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    fun onServerSelected(server: Server?, forbiddenServer: Server?) {
+    fun navigateBack() {
         NavHostFragment.findNavController(this).popBackStack()
-//        finish()
     }
+
+//    fun onServerSelected(server: Server?, forbiddenServer: Server?) {
+//        NavHostFragment.findNavController(this).popBackStack()
+////        finish()
+//    }
 
     fun onServerLongClick(server: Server?) {}
 

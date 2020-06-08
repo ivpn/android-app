@@ -13,11 +13,14 @@ import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
+import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
 import net.ivpn.client.rest.data.session.DeleteSessionRequestBody
 import net.ivpn.client.rest.data.session.DeleteSessionResponse
+import net.ivpn.client.rest.data.session.SessionNewResponse
+import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -25,10 +28,8 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
         private val userPreference: UserPreference,
         private val billingManager: BillingManagerWrapper,
-        settings: Settings,
-        clientFactory: HttpClientFactory,
-        serversRepository: ServersRepository
-) : ViewModel() {
+        private val sessionController: SessionController
+) : ViewModel(), SessionController.SessionListener {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
@@ -46,9 +47,11 @@ class AccountViewModel @Inject constructor(
     val isNativeSubscription = ObservableBoolean()
     val availableUntil = ObservableLong()
 
-    private val deleteSessionRequest: Request<DeleteSessionResponse>
-            = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
     var navigator: AccountNavigator? = null
+
+    init {
+        sessionController.subscribe(this)
+    }
 
     fun onResume() {
         username.set(getUsername())
@@ -66,47 +69,39 @@ class AccountViewModel @Inject constructor(
     }
 
     fun logOut() {
-        val token = userPreference.sessionToken
         dataLoading.set(true)
-        val requestBody = DeleteSessionRequestBody(token)
-
-        deleteSessionRequest.start({ api: IVPNApi -> api.deleteSession(requestBody) },
-                object : RequestListener<DeleteSessionResponse?> {
-                    override fun onSuccess(response: DeleteSessionResponse?) {
-                        LOGGER.info("Deleting session from server state: SUCCESS")
-                        LOGGER.info(response.toString())
-                        onRemoveSuccess()
-                    }
-
-                    override fun onError(throwable: Throwable) {
-                        LOGGER.error("Error while deleting session from server", throwable)
-                        onRemoveError()
-                    }
-
-                    override fun onError(error: String) {
-                        LOGGER.error("Error while deleting session from server", error)
-                        onRemoveError()
-                    }
-                })
+        sessionController.logOut()
     }
 
     fun cancel() {
-        deleteSessionRequest.cancel()
+        sessionController.cancel()
     }
 
-    private fun onRemoveSuccess() {
+    override fun onRemoveSuccess() {
         dataLoading.set(false)
         clearLocalCache()
     }
 
-    private fun onRemoveError() {
+    override fun onRemoveError() {
         dataLoading.set(false)
         clearLocalCache()
+    }
+
+    override fun onCreateSuccess(response: SessionNewResponse) {
+    }
+
+    override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    }
+
+    override fun onUpdateSuccess() {
+    }
+
+    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+        TODO("Not yet implemented")
     }
 
     private fun clearLocalCache() {
         authenticated.set(false)
-        IVPNApplication.getApplication().appComponent.provideComponentUtil().resetComponents()
         navigator?.onLogOut()
     }
 

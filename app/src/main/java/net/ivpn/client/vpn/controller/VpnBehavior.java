@@ -20,7 +20,7 @@ public interface VpnBehavior {
 
     void regenerateKeys();
 
-    void setStateListener(VpnStateListener vpnStateListener);
+    void addStateListener(VpnStateListener vpnStateListener);
 
     void removeStateListener(VpnStateListener vpnStateListener);
 

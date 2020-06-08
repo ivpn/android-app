@@ -62,7 +62,7 @@
                     android:overlapAnchor="true"
                     android:popupBackground="@color/dialogue_background"
                     android:spinnerMode="dropdown"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.GONE : View.VISIBLE}"
                     app:onChanged="@{viewmodel.onPortChangedListener}"
                     app:onTouch="@{viewmodel.portsTouchListener}"
                     app:selectedItem="@{viewmodel.openVPNPort}" />
@@ -80,7 +80,7 @@
                     android:overlapAnchor="true"
                     android:popupBackground="@color/dialogue_background"
                     android:spinnerMode="dropdown"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.VISIBLE : View.GONE}"
                     app:onChanged="@{viewmodel.onPortChangedListener}"
                     app:onTouch="@{viewmodel.portsTouchListener}"
                     app:selectedItem="@{viewmodel.wireGuardPort}" />
@@ -91,7 +91,7 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,7 +160,7 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                 android:layout_marginEnd="@dimen/settings_margin_right"
                 android:gravity="center_vertical|start"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WireGuard) ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/wireguard_details"

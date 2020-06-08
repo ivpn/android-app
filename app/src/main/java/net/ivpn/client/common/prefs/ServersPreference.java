@@ -125,7 +125,7 @@ public class ServersPreference {
 
     private SharedPreferences getProperSharedPreference() {
         Protocol protocol = protocolController.getCurrentProtocol();
-        if (protocol.equals(Protocol.WIREGUARD)) {
+        if (protocol.equals(Protocol.WireGuard)) {
             return preference.getWireguardServersSharedPreferences();
         } else {
             return preference.getServersSharedPreferences();

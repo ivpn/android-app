@@ -8,24 +8,35 @@
         <import type="android.view.View" />
 
         <variable
+            name="antitracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
+
+        <variable
             name="multihop"
             type="net.ivpn.client.v2.viewmodel.MultiHopViewModel" />
 
         <variable
             name="servers"
             type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
+
+        <variable
+            name="protocol"
+            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+
+        <variable
+            name="network"
+            type="net.ivpn.client.v2.network.NetworkViewModel" />
+
+        <variable
+            name="connect"
+            type="net.ivpn.client.v2.viewmodel.ConnectionViewModel" />
     </data>
-
-<!--    app:behavior_expandedOffset="@dimen/slider_expanded_offset"-->
-
-    <!--    app:behavior_expandedOffset="100"-->
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/sheet_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:behavior_expandedOffset="100"
         app:behavior_fitToContents="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -112,6 +123,8 @@
                         android:layout_height="40dp"
                         android:elevation="2dp"
                         android:thumb="@drawable/thumb_selector_big"
+                        android:checked="@{connect.isConnected}"
+                        app:onTouch="@{connect.touchListener}"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
                         app:layout_constraintTop_toTopOf="@+id/textView"
@@ -348,6 +361,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{antitracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}"
                     android:background="@color/sliding_panel_background">
 
                     <View
@@ -379,7 +393,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/antitracker_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/antitracker_title"
-                        app:track="@drawable/track_selector" />
+                        app:track="@drawable/common_track_selector" />
 
                     <TextView
                         android:id="@+id/antitracker_description"
@@ -398,10 +412,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/network_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:visibility="@{network.isNetworkFeatureEnabled? View.VISIBLE : View.GONE}"
                     android:focusable="true">
 
                     <TextView
@@ -411,7 +427,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/sliding_panel_wifi_name_stub"
+                        android:text="@{network.networkTitle}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/wifi_label" />
 
@@ -450,6 +466,26 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/wifi_ssid" />
+
+                    <TextView
+                        android:id="@+id/network_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:letterSpacing="0.1"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:textColor="@color/account_text_invert"
+                        android:paddingTop="3dp"
+                        android:visibility="@{network.networkState == null ? View.GONE : View.VISIBLE}"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="@{network.networkState}"
+                        app:background="@{network.networkState.backgroundId}"
+                        app:layout_constraintBottom_toBottomOf="@+id/wifi_arrow"
+                        app:layout_constraintEnd_toStartOf="@+id/wifi_arrow"
+                        app:layout_constraintTop_toTopOf="@+id/wifi_arrow" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -477,7 +513,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:text="OpenVPN/ UDP 13"
+                        android:text="@{protocol.description}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/protocol_port_label" />
 
@@ -507,9 +543,8 @@
                         app:srcCompat="@drawable/ic_arrow_right" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/view_sliding_panel_cards" />
-
-                <include layout="@layout/view_sliding_panel_chart" />
+                <include layout="@layout/view_sliding_panel_cards"
+                    android:id="@+id/cards"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -1,10 +1,10 @@
 package net.ivpn.client.vpn;
 
 public enum Protocol {
-    WIREGUARD,
-    OPENVPN;
+    WireGuard,
+    OpenVPN;
 
     public boolean isMultihopEnabled() {
-        return this == OPENVPN;
+        return this == OpenVPN;
     }
 }

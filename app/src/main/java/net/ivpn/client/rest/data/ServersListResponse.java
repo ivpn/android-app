@@ -47,10 +47,10 @@ public class ServersListResponse {
 
     public void markServerTypes() {
         for (Server server : wireGuard) {
-            server.setType(Protocol.WIREGUARD);
+            server.setType(Protocol.WireGuard);
         }
         for (Server server : openvpn) {
-            server.setType(Protocol.OPENVPN);
+            server.setType(Protocol.OpenVPN);
         }
     }
 }

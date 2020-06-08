@@ -29,9 +29,13 @@ import net.ivpn.client.vpn.openvpn.IVPNService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import de.blinkt.openvpn.core.ConnectionStatus;
+import de.blinkt.openvpn.core.VpnStatus;
 
 import static net.ivpn.client.ui.connect.ConnectionState.CONNECTED;
 import static net.ivpn.client.ui.connect.ConnectionState.CONNECTING;
@@ -51,7 +55,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private ConnectionStatus status;
     private ConnectionState state;
-    private VpnStateListener stateListener;
+    private List<VpnStateListener> listeners = new ArrayList<>();
     private PauseTimer timer;
     private GlobalBehaviorController globalBehaviorController;
     private ServersRepository serversRepository;
@@ -77,16 +81,13 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             }
         }
     };
-    private Runnable noNetworkRunnable = new Runnable() {
-        @Override
-        public void run() {
-            LOGGER.info("no network runnable");
-            if (stateListener != null) {
-                stateListener.notifyNoNetworkConnection();
-            }
-            stopVpn();
-            reset();
+    private Runnable noNetworkRunnable = () -> {
+        LOGGER.info("no network runnable");
+        for (VpnStateListener listener: listeners) {
+            listener.notifyNoNetworkConnection();
         }
+        stopVpn();
+        reset();
     };
 
     @Inject
@@ -116,8 +117,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         timer = new PauseTimer(new PauseTimer.PauseTimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (stateListener != null) {
-                    stateListener.onTimeTick(millisUntilFinished);
+                for (VpnStateListener listener: listeners) {
+                    listener.onTimeTick(millisUntilFinished);
                 }
             }
 
@@ -188,9 +189,9 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     @Override
-    public void setStateListener(VpnStateListener stateListener) {
+    public void addStateListener(VpnStateListener stateListener) {
         Log.d(TAG, "setStateListener: ");
-        this.stateListener = stateListener;
+        listeners.add(stateListener);
         if (stateListener != null) {
             stateListener.onConnectionStateChanged(state);
         }
@@ -199,7 +200,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     @Override
     public void removeStateListener(VpnStateListener stateListener) {
         Log.d(TAG, "removeStateListener: ");
-        this.stateListener = null;
+        listeners.remove(stateListener);
     }
 
     @Override
@@ -324,8 +325,9 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private void startConnectWithFastestServer() {
         LOGGER.info("startConnectWithFastestServer: state = " + state);
-        if (stateListener != null) {
-            stateListener.onFindingFastestServer();
+
+        for (VpnStateListener listener: listeners) {
+            listener.onFindingFastestServer();
         }
         pingProvider.findFastestServer(getFastestServerDetectorListener(false));
         //nothing to do, we will get fastest server through listener
@@ -333,8 +335,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private void startReconnectWithFastestServer() {
         LOGGER.info("startReconnectWithFastestServer: state = " + state);
-        if (stateListener != null) {
-            stateListener.onFindingFastestServer();
+        for (VpnStateListener listener: listeners) {
+            listener.onFindingFastestServer();
         }
         pingProvider.findFastestServer(getFastestServerDetectorListener(true));
     }
@@ -369,8 +371,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         LOGGER.info("onAuthFailed: state = " + state);
         handler.removeCallbacksAndMessages(null);
         stopVpn();
-        if (stateListener != null) {
-            stateListener.onAuthFailed();
+        for (VpnStateListener listener: listeners) {
+            listener.onAuthFailed();
         }
         state = NOT_CONNECTED;
         connectionTime = 0;
@@ -381,8 +383,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         LOGGER.info("Reset");
         handler.removeCallbacksAndMessages(null);
         state = NOT_CONNECTED;
-        if (stateListener != null) {
-            stateListener.onCheckSessionState();
+        for (VpnStateListener listener: listeners) {
+            listener.onCheckSessionState();
         }
         sendConnectionState();
         connectionTime = 0;
@@ -391,8 +393,9 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     private void tryAnotherPort() {
         LOGGER.info("Try another port");
         stopVpn();
-        if (stateListener != null) {
-            stateListener.notifyAnotherPortUsedToConnect();
+
+        for (VpnStateListener listener: listeners) {
+            listener.notifyAnotherPortUsedToConnect();
         }
 
         new Handler().postDelayed(() -> {
@@ -404,8 +407,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     private void onTimeOut() {
         LOGGER.info("onTimeOut");
         stopVpn();
-        if (stateListener != null) {
-            stateListener.onTimeOut();
+        for (VpnStateListener listener: listeners) {
+            listener.onTimeOut();
         }
     }
 
@@ -444,8 +447,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
                 } else {
                     connectionTime = 0;
                     state = NOT_CONNECTED;
-                    if (stateListener != null) {
-                        stateListener.onCheckSessionState();
+                    for (VpnStateListener listener: listeners) {
+                        listener.onCheckSessionState();
                     }
                 }
                 sendConnectionState();
@@ -480,8 +483,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private void sendConnectionState() {
         LOGGER.info("sendConnectionState: state = " + state);
-        if (stateListener != null) {
-            stateListener.onConnectionStateChanged(state);
+        for (VpnStateListener listener: listeners) {
+            listener.onConnectionStateChanged(state);
         }
     }
 
@@ -561,8 +564,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             @Override
             public void onFastestServerDetected(Server server) {
                 LOGGER.info("OpenVPN onFastestServerDetected: server = " + server);
-                if (stateListener != null) {
-                    stateListener.notifyServerAsFastest(server);
+                for (VpnStateListener listener: listeners) {
+                    listener.notifyServerAsFastest(server);
                 }
                 serversRepository.setCurrentServer(ServerType.ENTRY, server);
                 if (isReconnecting) {
@@ -576,8 +579,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             public void onDefaultServerApplied(Server server) {
                 LOGGER.info("OpenVPN onDefaultServerApplied: server = " + server);
                 ToastUtil.toast(R.string.connect_unable_test_fastest_server);
-                if (stateListener != null) {
-                    stateListener.notifyServerAsFastest(server);
+                for (VpnStateListener listener: listeners) {
+                    listener.notifyServerAsFastest(server);
                 }
                 serversRepository.setCurrentServer(ServerType.ENTRY, server);
                 if (isReconnecting) {

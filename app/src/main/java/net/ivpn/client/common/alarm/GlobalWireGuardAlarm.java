@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -44,7 +43,7 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
 
     private void initAlarmManager() {
         LOGGER.info( "initAlarmManager: ");
-        if (!protocolController.getCurrentProtocol().equals(Protocol.WIREGUARD)) {
+        if (!protocolController.getCurrentProtocol().equals(Protocol.WireGuard)) {
             return;
         }
         LOGGER.info( "initAlarmManager: setAlarm");

@@ -54,8 +54,8 @@ public class ServersRepository implements Serializable {
         onFavouritesChangedListeners = new ArrayList<>();
         onServerListUpdatedListeners = new ArrayList<>();
         onServerChangedListeners = new ArrayList<>();
-        currentServers.put(Protocol.OPENVPN, new EnumMap<>(ServerType.class));
-        currentServers.put(Protocol.WIREGUARD, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.OpenVPN, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.WireGuard, new EnumMap<>(ServerType.class));
     }
 
     @Nullable
@@ -312,7 +312,7 @@ public class ServersRepository implements Serializable {
     }
 
     private List<Server> getSuitableServers(ServersListResponse response) {
-        if (getCurrentProtocolType().equals(Protocol.WIREGUARD)) {
+        if (getCurrentProtocolType().equals(Protocol.WireGuard)) {
             return response.getWireGuardServerList();
         } else {
             return response.getOpenVpnServerList();

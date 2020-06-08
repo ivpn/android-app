@@ -3,24 +3,15 @@ package net.ivpn.client.ui.settings;
 import android.content.Context;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.ObservableBoolean;
-import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableLong;
+
 import android.net.Uri;
-import android.os.Build;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.billingclient.api.Purchase;
 
 import net.ivpn.client.BuildConfig;
-import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.billing.BillingManagerWrapper;
-import net.ivpn.client.common.billing.SubscriptionState;
-import net.ivpn.client.common.pinger.OnPingFinishListener;
 import net.ivpn.client.common.pinger.PingProvider;
-import net.ivpn.client.common.pinger.PingResultFormatter;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
@@ -29,7 +20,6 @@ import net.ivpn.client.common.utils.FileUtils;
 import net.ivpn.client.common.utils.SentryUtil;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
-import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.session.DeleteSessionRequestBody;
 import net.ivpn.client.rest.data.session.DeleteSessionResponse;
 import net.ivpn.client.rest.requests.common.Request;
@@ -318,7 +308,7 @@ public class SettingsViewModel extends BaseObservable {
     }
 
     private boolean isMultihopAllowedByProtocol() {
-        return protocolController.getCurrentProtocol().equals(Protocol.OPENVPN);
+        return protocolController.getCurrentProtocol().equals(Protocol.OpenVPN);
     }
 
 //    private boolean isLoggingEnabled() {

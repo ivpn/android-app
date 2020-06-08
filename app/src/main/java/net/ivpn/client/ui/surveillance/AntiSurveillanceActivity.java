@@ -46,7 +46,7 @@ public class AntiSurveillanceActivity extends AppCompatActivity {
     }
 
     private void init() {
-        binding.contentLayout.setViewmodel(viewModel);
+//        binding.contentLayout.setViewmodel(viewModel);
     }
 
     private void initToolbar() {

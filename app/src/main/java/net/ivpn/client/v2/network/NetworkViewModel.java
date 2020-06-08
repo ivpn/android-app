@@ -3,6 +3,7 @@ package net.ivpn.client.v2.network;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
@@ -10,10 +11,13 @@ import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
+import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.ui.network.NetworkNavigator;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
+import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
 import net.ivpn.client.vpn.local.NetworkController;
+import net.ivpn.client.vpn.model.NetworkSource;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
@@ -27,7 +31,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class NetworkViewModel {
+import static net.ivpn.client.vpn.model.NetworkSource.WIFI;
+
+public class NetworkViewModel implements OnNetworkSourceChangedListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkViewModel.class);
 
@@ -35,6 +41,8 @@ public class NetworkViewModel {
     public final ObservableField<NetworkState> defaultState = new ObservableField<>();
     public final ObservableField<NetworkState> mobileDataState = new ObservableField<>();
     public final ObservableList<WifiItem> wifiItemList = new ObservableArrayList<>();
+    public final ObservableField<String> networkTitle = new ObservableField<>();
+    public final ObservableField<NetworkState> networkState = new ObservableField<>();
     public OnNetworkFeatureStateChanged onNetworkFeatureStateChanged = new OnNetworkFeatureStateChanged() {
         @Override
         public void onNetworkFeatureStateChanged(boolean isEnabled) {
@@ -61,6 +69,16 @@ public class NetworkViewModel {
         this.networkController = networkController;
         this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         init();
+    }
+
+    public void onStart() {
+        Log.d("NetworkController", "onStart: add network listener to NetworkViewModel ");
+        networkController.setNetworkSourceChangedListener(this);
+    }
+
+    public void onStop() {
+        Log.d("NetworkController", "onStop: Remove network listener from NetworkViewModel ");
+        networkController.removeNetworkSourceListener();
     }
 
     public void setNavigator(NetworkNavigator navigator) {
@@ -139,5 +157,23 @@ public class NetworkViewModel {
 
     private Set<String> getWifiListMarkedAsNone() {
         return networkProtectionPreference.getNoneWifiList();
+    }
+
+    @Override
+    public void onNetworkSourceChanged(NetworkSource source) {
+        Log.d("NetworkController", "onNetworkSourceChanged: source = " + source);
+        if (source == null) {
+            return;
+        }
+        if (source.equals(WIFI)) {
+            Log.d("NetworkController", "onNetworkSourceChanged: ssid = " + source.getSsid());
+        }
+
+        networkState.set(source.getFinalState());
+        networkTitle.set(source.getTitle());
+    }
+
+    @Override
+    public void onDefaultNetworkStateChanged(NetworkState defaultState) {
     }
 }

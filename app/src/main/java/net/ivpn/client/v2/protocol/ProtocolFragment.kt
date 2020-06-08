@@ -57,9 +57,9 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
     private fun initViews() {
         viewModel.setNavigator(this)
         binding.contentLayout.viewmodel = viewModel
-        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN))
+        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OpenVPN))
         binding.contentLayout.protocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
-        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD))
+        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WireGuard))
         binding.contentLayout.protocolSettings.wgSpinner.adapter = wgVpnPortAdapter
 
         binding.contentLayout.protocolSettings.wireguardDetails.setOnClickListener {

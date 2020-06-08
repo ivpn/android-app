@@ -23,7 +23,7 @@ class BuildController @Inject constructor() {
     @kotlin.jvm.JvmField
     var isSystemDefaultNightModeSupported = Build.VERSION.SDK_INT >= 29
 
-    val isAntiTrackerEnabled = BuildConfig.BUILD_VARIANT == SITE || BuildConfig.BUILD_VARIANT == F_DROID
+    val isAntiTrackerSupported = BuildConfig.BUILD_VARIANT == SITE || BuildConfig.BUILD_VARIANT == F_DROID
     val isSentrySupported = BuildConfig.BUILD_VARIANT != F_DROID
     val isUpdatesSupported = BuildConfig.BUILD_VARIANT == SITE
     val isIAPEnabled = BuildConfig.BUILD_VARIANT == STORE

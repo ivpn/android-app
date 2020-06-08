@@ -114,7 +114,7 @@ class LoginViewModel @Inject constructor(
 
     private fun getWgKeyPair(): Keypair? {
         val currentProtocol = protocolController.currentProtocol
-        return if (currentProtocol == Protocol.WIREGUARD) {
+        return if (currentProtocol == Protocol.WireGuard) {
             Keypair()
         } else null
     }
@@ -216,6 +216,6 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun resetWireGuard() {
-        protocolController.currentProtocol = Protocol.OPENVPN
+        protocolController.currentProtocol = Protocol.OpenVPN
     }
 }

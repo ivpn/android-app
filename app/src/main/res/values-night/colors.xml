@@ -106,4 +106,8 @@
     <color name="tab_selected_text_color">#FFFFFF</color>
 
     <color name="web_view_background">#121212</color>
+
+    <color name="antitracker_text">#FFFFFF</color>
+    <color name="antitracker_background">#121212</color>
+    <color name="antitracker_card_background">#202020</color>
 </resources>

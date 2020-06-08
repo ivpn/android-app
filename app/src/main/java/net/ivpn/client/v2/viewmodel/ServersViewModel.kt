@@ -11,7 +11,10 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
+import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
+import net.ivpn.client.vpn.controller.VpnStateListener
 import javax.inject.Inject
 
 class ServersViewModel @Inject constructor(
@@ -30,6 +33,7 @@ class ServersViewModel @Inject constructor(
 
     init {
         multiHopController.addListener(getOnMultihopValueChanges())
+        vpnBehaviorController.addVpnStateListener(getVPNStateListener())
     }
 
     fun onResume() {
@@ -55,6 +59,26 @@ class ServersViewModel @Inject constructor(
         }
 
         return settings.isFastestServerEnabled
+    }
+
+    private fun getVPNStateListener(): VpnStateListener {
+        return object : DefaultVPNStateListener() {
+
+            override fun onConnectionStateChanged(state: ConnectionState?) {
+                if (state == null) {
+                    return
+                }
+                updateFastestServer(state)
+            }
+
+            override fun notifyServerAsFastest(server: Server) {
+                entryServer.set(server)
+            }
+        }
+    }
+
+    private fun updateFastestServer(state: ConnectionState) {
+        fastestServer.set(isFastestServerEnabled())
     }
 
     private fun isVpnActive(): Boolean {

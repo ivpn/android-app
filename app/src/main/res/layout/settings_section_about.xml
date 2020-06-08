@@ -8,6 +8,7 @@
         <variable
             name="updates"
             type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
+
     </data>
 
     <androidx.cardview.widget.CardView

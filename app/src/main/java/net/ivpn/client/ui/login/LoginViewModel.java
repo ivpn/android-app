@@ -125,7 +125,7 @@ public class LoginViewModel {
 
     private Keypair getWgKeyPair() {
         Protocol currentProtocol = protocolController.getCurrentProtocol();
-        if (currentProtocol.equals(Protocol.WIREGUARD)) {
+        if (currentProtocol.equals(Protocol.WireGuard)) {
             return new Keypair();
         }
         return null;
@@ -233,6 +233,6 @@ public class LoginViewModel {
     }
 
     private void resetWireGuard() {
-        protocolController.setCurrentProtocol(Protocol.OPENVPN);
+        protocolController.setCurrentProtocol(Protocol.OpenVPN);
     }
 }

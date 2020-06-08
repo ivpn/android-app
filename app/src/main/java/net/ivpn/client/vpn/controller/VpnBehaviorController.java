@@ -109,9 +109,9 @@ public class VpnBehaviorController {
         behavior.notifyVpnState();
     }
 
-    public void setVpnStateListener(VpnStateListener stateListener) {
+    public void addVpnStateListener(VpnStateListener stateListener) {
         Log.d(TAG, "setVpnStateListener: ");
-        behavior.setStateListener(stateListener);
+        behavior.addStateListener(stateListener);
     }
 
     public void removeVpnStateListener(VpnStateListener stateListener) {
@@ -124,7 +124,7 @@ public class VpnBehaviorController {
     }
 
     public boolean isVPNActive() {
-        if (protocol == Protocol.OPENVPN) {
+        if (protocol == Protocol.OpenVPN) {
             return VpnStatus.isVPNActive()
                     || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK && IVPNService.isRunning.get());
         } else {
@@ -136,7 +136,7 @@ public class VpnBehaviorController {
     }
 
     private VpnBehavior getBehavior(Protocol protocol) {
-        if (protocol == Protocol.WIREGUARD) {
+        if (protocol == Protocol.WireGuard) {
             return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getWireGuardBehavior();
         }
         return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getOpenVpnBehavior();

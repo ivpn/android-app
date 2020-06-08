@@ -198,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{antiTracker.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
                 android:id="@+id/anti_tracker_layout"
@@ -212,7 +212,7 @@
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="@{antiTracker.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     style="@style/SettingsOptionTitle"

@@ -160,4 +160,8 @@
 
     <color name="web_view_background">#FFFFFF</color>
 
+    <color name="antitracker_text">#2A394B</color>
+    <color name="antitracker_background">#FFFFFF</color>
+    <color name="antitracker_card_background">#FFFFFF</color>
+
 </resources>

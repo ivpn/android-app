@@ -117,7 +117,7 @@ public class FavouriteServersListFragment extends Fragment implements ServersLis
         LOGGER.info("onServerSelected server = " + server + " forbiddenServer = " + forbiddenServer);
         if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
             viewmodel.setCurrentServer(server);
-            ((ServerListFragment) getParentFragment()).onServerSelected(server, forbiddenServer);
+            ((ServerListFragment) getParentFragment()).navigateBack();
             //FINISH IT
 //            navigator.onServerSelected(server, forbiddenServer);
         } else {

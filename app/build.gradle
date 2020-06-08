@@ -39,16 +39,16 @@ android {
         manifestPlaceholders = [ SENTRY_DSN:keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
         buildConfigField 'boolean', 'openvpn3', 'false'
-//        externalNativeBuild {
-//            cmake {
-//                arguments '-DANDROID_TOOLCHAIN=clang',
-//                        '-DANDROID_STL=c++_static'
-//            }
-//
-//            ndk {
-//                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-//            }
-//        }
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_TOOLCHAIN=clang',
+                        '-DANDROID_STL=c++_static'
+            }
+
+            ndk {
+                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
     }
 
     flavorDimensions "spread", "api"
@@ -114,11 +114,11 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
     }
-//    externalNativeBuild {
-//        cmake {
-//            path 'CMakeLists.txt'
-//        }
-//    }
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
     androidExtensions {
         experimental = true
     }
@@ -132,34 +132,34 @@ android {
     }
 }
 
-//def File registerGenTask(variantName, variantDirName) {
-//    def baseDir = new File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
-//    def genDir = new File(baseDir, "net/openvpn/ovpn3")
-//    task("generateOpenVPN3Swig${variantName}",type:Exec) {
-//
-//        def swigcmd = "swig"
-//        if (file("/usr/local/bin/swig").exists())
-//            swigcmd = "/usr/local/bin/swig"
-//
-//        doFirst {
-//            mkdir genDir
-//        }
-//
-//        commandLine swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
-//                "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
-//                "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
-//                "src/main/cpp/openvpn3/javacli/ovpncli.i"
-//    }
-//
-//    return baseDir
-//}
-//
-//android.applicationVariants.all { variant ->
-//    def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
-//    def task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
-//
-//    variant.registerJavaGeneratingTask(task, sourceDir)
-//}
+def File registerGenTask(variantName, variantDirName) {
+    def baseDir = new File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
+    def genDir = new File(baseDir, "net/openvpn/ovpn3")
+    task("generateOpenVPN3Swig${variantName}",type:Exec) {
+
+        def swigcmd = "swig"
+        if (file("/usr/local/bin/swig").exists())
+            swigcmd = "/usr/local/bin/swig"
+
+        doFirst {
+            mkdir genDir
+        }
+
+        commandLine swigcmd, "-outdir", genDir, "-outcurrentdir", "-c++", "-java", "-package", "net.openvpn.ovpn3",
+                "-Isrc/main/cpp/openvpn3/client", "-Isrc/main/cpp/openvpn3/",
+                "-o", "${genDir}/ovpncli_wrap.cxx", "-oh", "${genDir}/ovpncli_wrap.h",
+                "src/main/cpp/openvpn3/javacli/ovpncli.i"
+    }
+
+    return baseDir
+}
+
+android.applicationVariants.all { variant ->
+    def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
+    def task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
+
+    variant.registerJavaGeneratingTask(task, sourceDir)
+}
 
 ext {
     supportLibsVersion = '28.0.0'

@@ -258,6 +258,7 @@ public class NetworkController implements ServiceConstants {
 
     public void setNetworkSourceChangedListener(OnNetworkSourceChangedListener listener) {
         networkSourceChangedListener = listener;
+        networkSourceChangedListener.onNetworkSourceChanged(source);
     }
 
     public void removeNetworkSourceListener() {

@@ -15,7 +15,6 @@ import net.ivpn.client.databinding.FragmentServerListBinding
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.serverlist.ServersListActivity
 import net.ivpn.client.ui.serverlist.ServersListNavigator
 import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter
 import net.ivpn.client.v2.serverlist.ServerListFragment
@@ -34,13 +33,6 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
 
     lateinit var serverType: ServerType
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null) {
-//            serverType = (ServerType) savedInstanceState.getSerializable(SERVER_TYPE_STATE);
-//            LOGGER.info("Created server list fragment, state = $serverType")
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -103,13 +95,12 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
         viewmodel.cancel()
     }
 
-    override fun onServerSelected(server: Server, forbiddenServer: Server) {
+    override fun onServerSelected(server: Server, forbiddenServer: Server?) {
         LOGGER.info("Server = $server forbidden server = $forbiddenServer")
         if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
             viewmodel.setCurrentServer(server)
             //TODO FINISH IT
-            (parentFragment as ServerListFragment).onServerSelected(server, forbiddenServer)
-//            navigator.onServerSelected(server, forbiddenServer);
+            (parentFragment as ServerListFragment).navigateBack()
         } else {
             DialogBuilder.createNotificationDialog(this.context, Dialogs.INCOMPATIBLE_SERVERS)
         }
@@ -126,14 +117,12 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
         viewmodel.setSettingFastestServer()
         //TODO FINISH IT
         (parentFragment as ServerListFragment).onFastestServerSelected()
-//        navigator.onFastestServerSelected();
     }
 
     override fun onFastestServerSettings() {
         LOGGER.info("onFastestServerSettings")
         //TODO START FASTEST SERVER SETTINGS
         (parentFragment as ServerListFragment).onFastestServerSettings()
-//        navigator.onFastestServerSettings();
     }
 
     companion object {

@@ -108,7 +108,6 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
-        antiTracker.onResume()
         killSwitch.onResume()
         updates.onResume()
         logging.onResume()
@@ -134,6 +133,9 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private fun initNavigation() {
+        binding.contentLayout.sectionOther.antiTrackerLayout.setOnClickListener {
+            openAntiTrackerScreen()
+        }
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
         }
@@ -192,6 +194,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openNetworkProtectionScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToNetworkProtectionFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openAntiTrackerScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToAntiTrackerFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 
