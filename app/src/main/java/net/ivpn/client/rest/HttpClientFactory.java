@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,11 +29,25 @@ public class HttpClientFactory {
 
     public OkHttpClient getHttpClient(int timeOut) {
         if (httpClient != null) {
-            shutdownHttpClient(httpClient);
+            return httpClient;
         }
+//        if (httpClient != null) {
+//            shutdownHttpClient(httpClient);
+//        }
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
+
+        ConnectionPool connectionPool = new ConnectionPool(1, 3, TimeUnit.SECONDS);
+        httpClientBuilder.connectionPool(connectionPool)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS);
+
+//        httpClientBuilder.cache(null);
+//        httpClientBuilder.readTimeout(1, TimeUnit.MINUTES);
+//        httpClientBuilder.writeTimeout(1, TimeUnit.MINUTES);
+//        httpClientBuilder.connectTimeout(1, TimeUnit.MINUTES);
+
         httpClientBuilder.hostnameVerifier(getHostnameVerifier());
         httpClientBuilder.readTimeout(timeOut, TimeUnit.SECONDS);
         httpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS);
@@ -57,15 +72,15 @@ public class HttpClientFactory {
 
     private static void shutdownHttpClient(OkHttpClient client) {
 //        executor.submit(() -> {
-            try {
+//            try {
 //                client.dispatcher().executorService().shutdown();
-                client.connectionPool().evictAll();
-                if (client.cache() != null) {
-                    client.cache().close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//                client.connectionPool().evictAll();
+//                if (client.cache() != null) {
+//                    client.cache().close();
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 //        });
     }
 }
