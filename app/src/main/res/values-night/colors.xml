@@ -13,6 +13,7 @@
     <color name="colorPrimary">#74b8ff</color>
 <!--    <color name="colorPrimary">#292929</color>-->
     <color name="colorPrimaryDark">#1c1c1c</color>
+    <color name="textColorPrimary">#FFFFFF</color>
 
     <color name="accent_color">#449CF8</color>
 
@@ -42,7 +43,7 @@
     <color name="disabled">#8D8D8E</color>
 
     <color name="dialogue_background">#383838</color>
-    <color name="dialogue_title">#DEFFFFFF</color>
+    <color name="dialogue_title">#FFFFFF</color>
     <color name="dialogue_text">#DEFFFFFF</color>
     <color name="dialogue_button">#74b8ff</color>
 

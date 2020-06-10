@@ -339,6 +339,11 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         DialogBuilder.createNotificationDialog(this, dialogs);
     }
 
+    @Override
+    public void onChangeConnectionStatus(ConnectionState state) {
+
+    }
+
     public void chooseExitServer(View view) {
         LOGGER.info("chooseExitServer");
         viewModel.chooseServer(ServerType.EXIT);

@@ -39,13 +39,16 @@ class ConnectionViewModel @Inject constructor(
     val connectionStatus = ObservableField<String>()
     val connectionState = ObservableField<ConnectionState>()
     val connectionUserHint = ObservableField<String>()
+    val isPauseAvailable = ObservableBoolean()
     val isPaused = ObservableBoolean()
     val timeUntilResumed = ObservableField<String>()
     val connectionViewHint = ObservableField<String>()
 
     var touchListener = View.OnTouchListener { _, motionEvent ->
         if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-            navigator?.askConnectionPermission()
+            if (!isPaused.get()) {
+                navigator?.askConnectionPermission()
+            }
             return@OnTouchListener true
         }
 
@@ -80,10 +83,6 @@ class ConnectionViewModel @Inject constructor(
 
     fun disconnect() {
         vpnBehaviorController.disconnect()
-    }
-
-    private fun handleTouch() {
-
     }
 
     private fun createNewSession(force: Boolean) {
@@ -142,18 +141,22 @@ class ConnectionViewModel @Inject constructor(
                     ConnectionState.CONNECTED -> {
                         isConnected.set(true)
                         isPaused.set(false)
+                        isPauseAvailable.set(true)
+                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_connected))
                         connectionUserHint.set(context.getString(R.string.connect_hint_connected))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
                         isPaused.set(false)
+                        isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_connecting))
                         connectionUserHint.set(context.getString(R.string.connect_hint_connecting))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_connecting))
                     }
                     ConnectionState.DISCONNECTING -> {
                         isPaused.set(false)
+                        isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_disconnecting))
                         connectionUserHint.set(context.getString(R.string.connect_hint_disconnecting))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_disconnecting))
@@ -161,17 +164,21 @@ class ConnectionViewModel @Inject constructor(
                     ConnectionState.NOT_CONNECTED -> {
                         isConnected.set(false)
                         isPaused.set(false)
+                        isPauseAvailable.set(false)
+                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_not_connected))
                         connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_not_connected))
                     }
                     ConnectionState.PAUSING -> {
+                        isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_pausing))
                         connectionUserHint.set(context.getString(R.string.connect_hint_pausing))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_pausing))
                     }
                     ConnectionState.PAUSED -> {
                         isPaused.set(true)
+                        isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_paused))
                         connectionUserHint.set(context.getString(R.string.connect_hint_paused))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_paused))

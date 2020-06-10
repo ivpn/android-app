@@ -26,7 +26,7 @@ import java.util.*
 class UpdateHelper @Inject constructor(
         private val settings: Settings) {
 
-    private val LOGGER = LoggerFactory.getLogger(UpdateHelper::class.java!!)
+    private val LOGGER = LoggerFactory.getLogger(UpdateHelper::class.java)
     private var notificationActionReceiver: BroadcastReceiver? = null
 
     private val currentVersion: String = BuildConfig.VERSION_NAME

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#398FE6</color>
     <color name="colorPrimaryDark">#0062b3</color>
     <color name="colorAccent">#FB3841</color>
+    <color name="textColorPrimary">#2A394B</color>
 
     <color name="color_toolbar">#398FE6</color>
     <color name="error">#b00020</color>

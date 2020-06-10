@@ -1,6 +1,5 @@
 package net.ivpn.client.ui.connect;
 
-import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.ui.dialog.Dialogs;
 
 public interface ConnectionNavigator {
@@ -22,4 +21,6 @@ public interface ConnectionNavigator {
     void openNoNetworkDialog();
 
     void openErrorDialog(Dialogs dialogs);
+
+    void onChangeConnectionStatus(ConnectionState state);
 }

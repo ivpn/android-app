@@ -290,9 +290,9 @@
 
     <string name="connect_status_paused">Paused</string>
     <string name="connect_status_pausing">Pausing</string>
-    <string name="connect_status_not_connected">Connect to</string>
-    <string name="connect_status_connecting">Connecting to</string>
-    <string name="connect_status_connected">Connected to</string>
+    <string name="connect_status_not_connected">Unprotected</string>
+    <string name="connect_status_connecting">Establishing</string>
+    <string name="connect_status_connected">Protected</string>
     <string name="connect_status_disconnecting">Disconnecting from</string>
 
     <string name="connect_hint_paused">TAP TO RESUME</string>
@@ -591,4 +591,8 @@
     <string name="account_type">Account type</string>
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
+    
+    <string name="map_dialog_not_connected_title">Everyone knows about your location</string>
+    <string name="map_dialog_connected_title">No one knows about your location</string>
+    <string name="map_dialog_checking_location">Checking location…</string>
 </resources>

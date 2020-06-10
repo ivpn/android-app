@@ -18,19 +18,21 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentConnectBinding
-import net.ivpn.client.ui.connect.ConnectActivity
 import net.ivpn.client.ui.connect.ConnectionNavigator
+import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, ConnectionNavigator {
+class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
+        ConnectionNavigator, LocationViewModel.LocationNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -99,6 +101,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
 
         multihop.navigator = this
         connect.navigator = this
+        location.navigator = this
 
         binding.slidingPanel.antitracker = antiTracker
         binding.slidingPanel.multihop = multihop
@@ -130,6 +133,12 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
         binding.slidingPanel.exitServerLayout.setOnClickListener {
             openExitServerSelectionScreen()
         }
+        binding.slidingPanel.pauseButton.setOnClickListener {
+            connect.onPauseRequest()
+        }
+        binding.slidingPanel.resumeButton.setOnClickListener {
+            connect.onConnectRequest()
+        }
     }
 
     override fun onResume() {
@@ -138,6 +147,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
         account.onResume()
         applySlidingPanelSide()
         checkLocationPermission()
+
+        showPopup()
     }
 
     override fun onStart() {
@@ -177,7 +188,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
     }
 
     private fun checkLocation() {
-        location.checkLocation()
+        location.checkLocation(null)
     }
 
     private fun checkLocationPermission() {
@@ -217,6 +228,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
         }
     }
 
+    private fun showPopup() {
+    }
+
     override fun onMultiHopStateChanged(state: Boolean) {
         if (state) {
             enableMultiHop()
@@ -240,12 +254,15 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)).toInt(), true)
         binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         binding.slidingPanel.bottomSheet.requestLayout()
+        binding.map.setBottomPadding((resources.getDimension(R.dimen.slider_layout_single_hop_height)
+                + resources.getDimension(R.dimen.slider_layout_exit_layout_height)))
     }
 
     private fun disableMultiHop() {
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)).toInt(), true)
         binding.slidingPanel.exitServerLayout.visibility = View.GONE
         binding.slidingPanel.bottomSheet.requestLayout()
+        binding.map.setBottomPadding(resources.getDimension(R.dimen.slider_layout_single_hop_height))
     }
 
     private fun openSettingsScreen() {
@@ -307,6 +324,17 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
                 })
     }
 
+    override fun onChangeConnectionStatus(state: ConnectionState) {
+        val entryServer = servers.entryServer.get()
+        entryServer?.let {server ->
+            if (state == ConnectionState.CONNECTED) {
+                binding.map.setConnectedLocation(Location(server.longitude.toFloat(), server.latitude.toFloat(), true))
+            } else if (state == ConnectionState.NOT_CONNECTED) {
+                binding.map.setConnectedLocation(null)
+            }
+        }
+    }
+
     override fun askConnectionPermission() {
         checkVPNPermission(ServiceConstants.IVPN_REQUEST_CODE)
     }
@@ -346,5 +374,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator, Connect
 
     override fun logout() {
 //        account.logout()
+    }
+
+    override fun initMapWith(location: Location) {
+        binding.map.setHomeLocation(location)
+        binding.map.visibility = View.VISIBLE
     }
 }

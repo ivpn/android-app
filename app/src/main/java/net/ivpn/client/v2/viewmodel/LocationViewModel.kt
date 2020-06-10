@@ -10,6 +10,7 @@ import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.vpn.Protocol
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -30,23 +31,33 @@ class LocationViewModel @Inject constructor(
     val location = ObservableField<String>()
     val isp = ObservableField<String>()
 
+    private var isLocationInit = false
+    var navigator: LocationNavigator? = null
+
     private var request: Request<LocationResponse> = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
 
-    fun checkLocation() {
+    init {
+        checkLocation(null)
+    }
+
+    fun checkLocation(listener: CheckLocationListener?) {
         dataLoading.set(true)
         request.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
                 LOGGER.info(response.toString())
+                listener?.onSuccess(response)
                 this@LocationViewModel.onSuccess(response)
             }
 
             override fun onError(throwable: Throwable) {
                 LOGGER.error("Error while updating location ", throwable)
+                listener?.onError()
                 this@LocationViewModel.onError()
             }
 
             override fun onError(string: String) {
                 LOGGER.error("Error while updating location ", string)
+                listener?.onError()
                 this@LocationViewModel.onError()
             }
         })
@@ -55,6 +66,10 @@ class LocationViewModel @Inject constructor(
     private fun onSuccess(response: LocationResponse?) {
         dataLoading.set(false)
         response?.let {
+            if (!isLocationInit) {
+                navigator?.initMapWith(Location(it.longitude.toFloat(), it.latitude.toFloat(), false))
+                isLocationInit = true
+            }
             ip.set(it.ipAddress)
             if (it.city != null && it.city.isNotEmpty()) {
                 location.set(it.getLocation())
@@ -67,5 +82,15 @@ class LocationViewModel @Inject constructor(
 
     private fun onError() {
         dataLoading.set(false)
+    }
+
+    interface LocationNavigator {
+        fun initMapWith(location: Location)
+    }
+
+    interface CheckLocationListener {
+        fun onSuccess(response: LocationResponse?)
+
+        fun onError()
     }
 }

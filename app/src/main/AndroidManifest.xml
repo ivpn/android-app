@@ -107,9 +107,9 @@
         <!--        <activity-->
         <!--            android:name=".vpn.local.PermissionActivity"-->
         <!--            android:theme="@style/AppTheme.Transparent" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.timepicker.TimePickerActivity"-->
-        <!--            android:theme="@style/AppTheme.Transparent" />-->
+                <activity
+                    android:name=".ui.timepicker.TimePickerActivity"
+                    android:theme="@style/AppTheme.Transparent" />
         <!--        <activity-->
         <!--            android:name=".ui.alwaysonvpn.AlwaysOnVpnActivity"-->
         <!--            android:screenOrientation="portrait"-->

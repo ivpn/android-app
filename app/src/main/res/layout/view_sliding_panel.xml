@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:letterSpacing="-0.01"
-                        android:text="@string/connection_state_protected"
+                        android:text="@{connect.connectionStatus}"
                         android:textColor="@color/sliding_panel_text_color"
                         android:textSize="24sp"
                         android:textStyle="bold"
@@ -132,12 +132,13 @@
                         app:track="@drawable/track_selector" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton"
+                        android:id="@+id/pause_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:clickable="true"
                         android:focusable="true"
+                        android:visibility="@{connect.isPauseAvailable() ? View.VISIBLE : View.GONE}"
                         app:tint="@color/sliding_panel_icon"
                         app:backgroundTint="@color/connect_fab_background"
                         app:elevation="2dp"
@@ -146,6 +147,23 @@
                         app:layout_constraintEnd_toStartOf="@+id/switch1"
                         app:layout_constraintTop_toTopOf="@+id/textView"
                         app:srcCompat="@drawable/ic_pause" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/resume_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:visibility="@{connect.isPaused() ? View.VISIBLE : View.GONE}"
+                        app:tint="@color/sliding_panel_icon"
+                        app:backgroundTint="@color/connect_fab_background"
+                        app:elevation="2dp"
+                        app:fabSize="mini"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                        app:layout_constraintEnd_toStartOf="@+id/switch1"
+                        app:layout_constraintTop_toTopOf="@+id/textView"
+                        app:srcCompat="@drawable/ic_play" />
 
                     <View
                         android:id="@+id/view2"

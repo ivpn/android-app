@@ -27,9 +27,9 @@ public class HttpClientFactory {
     }
 
     public OkHttpClient getHttpClient(int timeOut) {
-//        if (httpClient != null) {
-//            shutdownHttpClient(httpClient);
-//        }
+        if (httpClient != null) {
+            shutdownHttpClient(httpClient);
+        }
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
@@ -56,9 +56,9 @@ public class HttpClientFactory {
     }
 
     private static void shutdownHttpClient(OkHttpClient client) {
-        executor.submit(() -> {
+//        executor.submit(() -> {
             try {
-                client.dispatcher().executorService().shutdown();
+//                client.dispatcher().executorService().shutdown();
                 client.connectionPool().evictAll();
                 if (client.cache() != null) {
                     client.cache().close();
@@ -66,6 +66,6 @@ public class HttpClientFactory {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+//        });
     }
 }

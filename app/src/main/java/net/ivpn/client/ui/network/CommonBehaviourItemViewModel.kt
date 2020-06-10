@@ -61,9 +61,6 @@ class CommonBehaviourItemViewModel @Inject constructor(
             NetworkState.DEFAULT -> {
                 ResourcesCompat.getColor(context.resources, R.color.color_default_text, null)
             }
-            else -> {
-                ResourcesCompat.getColor(context.resources, R.color.color_default_text, null)
-            }
         }
     }
 

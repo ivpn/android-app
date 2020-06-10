@@ -31,6 +31,13 @@ public class Server {
     @SerializedName("city")
     @Expose
     private String city;
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
+
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
     @SerializedName("ip_addresses")
     @Expose
     private List<String> ipAddresses = null;
@@ -99,6 +106,22 @@ public class Server {
 
     public void setType(Protocol type) {
         this.type = type;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public boolean canBeUsedAsMultiHopWith(Server server) {
