@@ -7,6 +7,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -21,6 +22,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
@@ -29,7 +31,6 @@ import net.ivpn.client.v2.map.dialogue.model.LocationData
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.map.model.Tile
 import net.ivpn.client.v2.viewmodel.LocationViewModel
-import java.io.File
 import javax.inject.Inject
 import kotlin.system.measureTimeMillis
 
@@ -60,6 +61,9 @@ class MapView @JvmOverloads constructor(
     private val pointPaint = Paint()
     private val bitmapPaint = Paint()
     private var wavePaint = Paint()
+    private var serverPointPaint = Paint()
+    private var serversPaint = TextPaint()
+    private var serversPaintStroke = TextPaint()
 
     private var bitmaps: Array<Array<Tile>> = arrayOf()
 
@@ -73,6 +77,7 @@ class MapView @JvmOverloads constructor(
     private val math = MapMath()
     private val waveHandler: Handler
 
+    private var serverLocations: List<ServerLocation>? = null
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
@@ -149,6 +154,31 @@ class MapView @JvmOverloads constructor(
             style = Paint.Style.FILL
         }
 
+        with(serverPointPaint) {
+            color = ResourcesCompat.getColor(resources, R.color.map_label, null)
+            isAntiAlias = true
+            style = Paint.Style.FILL
+        }
+
+        with(serversPaint) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.map_label, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            typeface = Typeface.DEFAULT_BOLD
+        }
+
+//        serversPaint.setShadowLayer(15.0f, 0.0f, 0.0f, ResourcesCompat.getColor(resources, R.color.map_label_shadow, null))
+        with(serversPaintStroke) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.map_label_shadow, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            strokeWidth = 4f
+            typeface = Typeface.DEFAULT_BOLD
+            style = Paint.Style.FILL_AND_STROKE
+        }
+
         val dialogueUtil = DialogueUtil(resources)
         dialogueDrawer = DialogueDrawer(dialogueUtil, context)
 
@@ -207,7 +237,7 @@ class MapView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawMap(canvas)
-//        drawCities(canvas)
+        drawServers(canvas)
         drawLocation(canvas)
         dialogueDrawer.draw(canvas, dialogueData)
     }
@@ -243,6 +273,39 @@ class MapView @JvmOverloads constructor(
                     }
                     canvas.drawBitmap(tile.bitmap, intersectionRect, relativeRect, bitmapPaint)
                 }
+            }
+        }
+    }
+
+    private fun drawServers(canvas: Canvas) {
+        val bounds = Rect()
+        val srcRect = Rect()
+
+        with(srcRect) {
+            left = (math.totalX).toInt()
+            right = (math.totalX + width).toInt()
+            top = (math.totalY).toInt()
+            bottom = (math.totalY + height).toInt()
+        }
+
+        serverLocations?.let {
+            for (location in it) {
+//                println("Draw location = (${location.x}, ${location.y})")
+                canvas.drawCircle(
+                        (location.x - srcRect.left),
+                        (location.y - srcRect.top), pointRadius, serverPointPaint
+                )
+
+                serversPaint.getTextBounds(location.city, 0, location.city.length, bounds)
+                canvas.drawText(
+                        location.city, ((location.x - srcRect.left - bounds.width() / 2)),
+                        ((location.y - srcRect.top - bounds.height() / 2 - pointRadius)), serversPaintStroke
+                )
+                canvas.drawText(
+                        location.city, ((location.x - srcRect.left - bounds.width() / 2)),
+                        ((location.y - srcRect.top - bounds.height() / 2 - pointRadius)), serversPaint
+                )
+//            }
             }
         }
     }
@@ -325,7 +388,7 @@ class MapView @JvmOverloads constructor(
     }
 
     fun setHomeLocation(location: Location) {
-        println("Set HOME location as $location isInit = $isInit")
+//        println("Set HOME location as $location isInit = $isInit")
         homeLocation = location
         if (isInit) {
             setLocation(homeLocation)
@@ -340,8 +403,24 @@ class MapView @JvmOverloads constructor(
         }
     }
 
+    fun setServerLocation(serverLocations: List<ServerLocation>?) {
+        println("Set servers locations")
+        this.serverLocations = serverLocations
+
+        serverLocations?.let {
+            var pair: Pair<Float, Float>
+            for (location in it) {
+                pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
+//                println("GET location (x,y) as (${pair.first}, ${pair.second})")
+                location.x = pair.first
+                location.y = pair.second
+            }
+        }
+        invalidate()
+    }
+
     private fun setLocation(location: Location?) {
-        println("Set current location as $location")
+//        println("Set current location as $location")
         this.location = location
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
@@ -455,15 +534,30 @@ class MapView @JvmOverloads constructor(
         }
         job?.invokeOnCompletion {
             MainScope().launch {
-                println("isInit = true")
-                if (homeLocation != null) {
-                    setLocation(homeLocation)
-                }
+                postInit()
+            }
+        }
+    }
+
+    private fun postInit() {
+        println("isInit = true")
+        if (homeLocation != null) {
+            setLocation(homeLocation)
+        }
+
+        serverLocations?.let {
+            var pair: Pair<Float, Float>
+            for (location in it) {
+                pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
+                println("GET location (x,y) as (${pair.first}, ${pair.second})")
+                location.x = pair.first
+                location.y = pair.second
             }
         }
     }
 
     private fun initTiles() {
+        val path = resources.getString(R.string.path_to_tiles)
         val executionTime = measureTimeMillis {
             var array: Array<Tile>
             for (i in 1..MapMath.tilesCount) {
@@ -475,7 +569,7 @@ class MapView @JvmOverloads constructor(
                                     MapMath.tileWidth * i,
                                     MapMath.tileHeight * j
                             ),
-                            getBitmapFrom("tiles/row-${j}-col-${i}.png")
+                            getBitmapFrom("$path/row-${j}-col-${i}.png")
                     )
                 }
                 bitmaps += array

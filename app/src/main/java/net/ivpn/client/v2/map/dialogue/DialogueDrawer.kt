@@ -26,7 +26,7 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
             style = Paint.Style.FILL_AND_STROKE
             color = ResourcesCompat.getColor(resources, R.color.dialogue_background, null)
         }
-        dialoguePaint.setShadowLayer(7.0f, 0.0f, 2.0f, Color.BLACK);
+        dialoguePaint.setShadowLayer(7.0f, 0.0f, 2.0f, Color.BLACK)
 
         with(titleTextPaint) {
             isAntiAlias = true

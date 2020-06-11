@@ -42,8 +42,8 @@ class PingFuture {
                         if (PingFuture.this.listener != null) {
                             PingFuture.this.listener.onPingFinish(result);
                         }
-                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
-                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
+//                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
+//                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
                     }
 
                     @Override

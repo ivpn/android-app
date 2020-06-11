@@ -52,7 +52,7 @@ public class PingProvider {
         pingExecutor = Executors.newFixedThreadPool(THREAD_COUNTS);
 
         serversRepository.addOnServersListUpdatedListener(getOnServerListUpdatedListener());
-        protocolController.setOnProtocolChangedListener(getOnProtocolChangedListener());
+        protocolController.addOnProtocolChangedListener(getOnProtocolChangedListener());
     }
 
     public void pingAll(boolean shouldUseHardReset) {

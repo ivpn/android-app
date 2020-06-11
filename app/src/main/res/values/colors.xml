@@ -165,4 +165,6 @@
     <color name="antitracker_background">#FFFFFF</color>
     <color name="antitracker_card_background">#FFFFFF</color>
 
+    <color name="map_label">#6B6B6B</color>
+    <color name="map_label_shadow">#FFFFFF</color>
 </resources>

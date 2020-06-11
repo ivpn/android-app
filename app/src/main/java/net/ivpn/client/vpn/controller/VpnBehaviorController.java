@@ -46,7 +46,7 @@ public class VpnBehaviorController {
         serversRepository.setOnServerChangedListener(onServerChangedListener);
 
         OnProtocolChangedListener onProtocolChangedListener = this::init;
-        protocolController.setOnProtocolChangedListener(onProtocolChangedListener);
+        protocolController.addOnProtocolChangedListener(onProtocolChangedListener);
     }
 
     public void init(Protocol protocol) {

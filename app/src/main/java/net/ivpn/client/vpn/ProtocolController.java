@@ -47,7 +47,7 @@ public class ProtocolController {
         stickyPreference.putCurrentProtocol(currentProtocol);
     }
 
-    public void setOnProtocolChangedListener(OnProtocolChangedListener listener) {
+    public void addOnProtocolChangedListener(OnProtocolChangedListener listener) {
         listeners.add(listener);
         notify(currentProtocol);
     }

@@ -92,6 +92,7 @@ public class ComponentUtil {
 
     private void initApiAccessImprovement() {
         serversRepository.tryUpdateIpList();
+        serversRepository.tryUpdateServerLocations();
     }
 
     private void initSentry() {

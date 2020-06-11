@@ -1,5 +1,6 @@
 package net.ivpn.client.v2.viewmodel
 
+import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -8,17 +9,21 @@ import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
+import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
 import net.ivpn.client.v2.map.model.Location
+import net.ivpn.client.vpn.OnProtocolChangedListener
 import net.ivpn.client.vpn.Protocol
+import net.ivpn.client.vpn.ProtocolController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class LocationViewModel @Inject constructor(
+        private val serversRepository: ServersRepository,
         settings: Settings,
         httpClientFactory: HttpClientFactory,
-        serversRepository: ServersRepository
+        protocolController: ProtocolController
 ) : ViewModel()  {
 
     companion object {
@@ -26,6 +31,7 @@ class LocationViewModel @Inject constructor(
     }
 
     val dataLoading = ObservableBoolean()
+    val locations = ObservableField<List<ServerLocation>?>()
 
     val ip = ObservableField<String>()
     val location = ObservableField<String>()
@@ -38,6 +44,7 @@ class LocationViewModel @Inject constructor(
 
     init {
         checkLocation(null)
+        protocolController.addOnProtocolChangedListener(getOnProtocolChangeListener())
     }
 
     fun checkLocation(listener: CheckLocationListener?) {
@@ -82,6 +89,10 @@ class LocationViewModel @Inject constructor(
 
     private fun onError() {
         dataLoading.set(false)
+    }
+
+    private fun getOnProtocolChangeListener() : OnProtocolChangedListener {
+        return OnProtocolChangedListener { locations.set(serversRepository.locations) }
     }
 
     interface LocationNavigator {

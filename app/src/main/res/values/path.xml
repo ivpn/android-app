@@ -2,4 +2,6 @@
 <resources>
     <string name="path_to_tos">file:///android_asset/light/tos.html</string>
     <string name="path_to_policy">file:///android_asset/light/privacy-policy.html</string>
+
+    <string name="path_to_tiles">tiles</string>
 </resources>

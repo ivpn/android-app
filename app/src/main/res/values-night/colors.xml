@@ -111,4 +111,7 @@
     <color name="antitracker_text">#FFFFFF</color>
     <color name="antitracker_background">#121212</color>
     <color name="antitracker_card_background">#202020</color>
+
+    <color name="map_label">#CFCBCB</color>
+    <color name="map_label_shadow">#121212</color>
 </resources>

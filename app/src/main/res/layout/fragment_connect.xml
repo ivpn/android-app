@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="location"
+            type="net.ivpn.client.v2.viewmodel.LocationViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -16,7 +23,8 @@
                 android:id="@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                app:locations="@{location.locations}"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/account_button"

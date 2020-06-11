@@ -9,6 +9,7 @@ import net.ivpn.client.rest.IVPNApi;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.ServersListResponse;
+import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
@@ -119,6 +120,31 @@ public class ServersRepository implements Serializable {
             servers = serversPreference.getServersList();
         }
         return servers;
+    }
+
+    public List<ServerLocation> getLocations() {
+        List<ServerLocation> locations = serversPreference.getServerLocations();
+        if (locations == null) {
+            updateLocations();
+            locations = serversPreference.getServerLocations();
+        }
+
+        return locations;
+    }
+
+    private void updateLocations() {
+        List<Server> servers = serversPreference.getServersList();
+        List<ServerLocation> locations = new ArrayList<>();
+
+        for (Server server: servers) {
+            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        }
+
+        if (protocolController.getCurrentProtocol() == Protocol.OpenVPN) {
+            serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
+        } else {
+            serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
+        }
     }
 
     public List<Server> getFavouritesServers() {
@@ -241,6 +267,36 @@ public class ServersRepository implements Serializable {
         settings.setAntiTrackerDefaultDNSMulti(response.getConfig().getAntiTracker().getDefault().getMultihopIp());
         settings.setAntiTrackerHardcoreDNSMulti(response.getConfig().getAntiTracker().getHardcore().getMultihopIp());
         settings.setIpList(Mapper.stringFromIps(response.getConfig().getApi().getIps()));
+    }
+
+    public void tryUpdateServerLocations() {
+        if (serversPreference.getServerLocations() != null) {
+            return;
+        }
+
+        ServersListResponse response = Mapper.getProtocolServers(ServersLoader.load());
+        response.markServerTypes();
+
+        List<ServerLocation> locations = new ArrayList<>();
+
+        for (Server server: response.getOpenVpnServerList()) {
+            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        }
+        serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
+        locations.clear();
+
+        for (Server server: response.getWireGuardServerList()) {
+            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        }
+        serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
+
+//        setServerList(response.getOpenVpnServerList(), response.getWireGuardServerList());
+    }
+
+    public void setLocationList(List<ServerLocation> openVpnLocations, List<ServerLocation> wireguardLocations) {
+        LOGGER.info("Putting locations, OpenVPN locations list size = " + openVpnLocations.size() + " WireGuard = " + wireguardLocations.size());
+        serversPreference.putOpenVPNLocations(openVpnLocations);
+        serversPreference.putWireGuardLocations(wireguardLocations);
     }
 
     public void setServerList(List<Server> openvpnServers, List<Server> wireguardServers) {

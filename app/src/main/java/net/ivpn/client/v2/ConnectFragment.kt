@@ -103,6 +103,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         connect.navigator = this
         location.navigator = this
 
+        binding.location = location
         binding.slidingPanel.antitracker = antiTracker
         binding.slidingPanel.multihop = multihop
         binding.slidingPanel.servers = servers
