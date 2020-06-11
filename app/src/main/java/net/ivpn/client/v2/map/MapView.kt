@@ -1,7 +1,5 @@
 package net.ivpn.client.v2.map
 
-import android.animation.Animator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,7 +11,6 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.LinearInterpolator
 import android.widget.Scroller
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
@@ -24,6 +21,8 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
+import net.ivpn.client.v2.map.animation.AnimationData
+import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
@@ -73,6 +72,8 @@ class MapView @JvmOverloads constructor(
     private var location: Location? = null
     private var homeLocation: Location? = null
     private var serverLocations: List<ServerLocation>? = null
+
+    private val animator = MapAnimator(getAnimatorListener())
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
@@ -278,7 +279,8 @@ class MapView @JvmOverloads constructor(
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
-            startMovementAnimation()
+            animator.startMovementAnimation(math.totalX, math.totalY)
+//            startMovementAnimation()
         }
     }
 
@@ -291,78 +293,6 @@ class MapView @JvmOverloads constructor(
         }
 
         invalidate()
-    }
-
-    var startX: Float = 0f
-    var startY: Float = 0f
-    var progressMove = 0f
-    private fun startMovementAnimation() {
-        val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
-        movementAnimator.duration = MOVEMENT_ANIMATION_DURATION
-        movementAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-                locationDrawer.firstWave = false
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                println("onAnimationEnd")
-                startWaveAnimation()
-                locationData.isMoving = false
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationStart(animation: Animator?) {
-                println("onAnimationStart")
-                waveAnimator?.cancel()
-                startX = math.totalX
-                startY = math.totalY
-                locationData.isMoving = true
-                locationDrawer.firstWave = true
-            }
-
-        })
-        movementAnimator.addUpdateListener { valueAnimator ->
-            progressMove = valueAnimator.animatedValue as Float
-
-            location?.let {
-                math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * progressMove
-                math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progressMove
-                invalidate()
-            }
-        }
-        movementAnimator.start()
-    }
-
-    var waveAnimator: ValueAnimator? = null
-    private fun startWaveAnimation() {
-        waveAnimator = ValueAnimator.ofFloat(0f, 1f)
-        waveAnimator?.duration = ANIMATION_DURATION
-        waveAnimator?.repeatCount = ValueAnimator.INFINITE
-        waveAnimator?.interpolator = LinearInterpolator()
-        waveAnimator?.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-                locationDrawer.firstWave = false
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                println("onAnimationEnd")
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationStart(animation: Animator?) {
-                println("onAnimationStart")
-            }
-
-        })
-        waveAnimator?.addUpdateListener { valueAnimator ->
-            locationData.progress = valueAnimator.animatedValue as Float
-            invalidate()
-        }
-        waveAnimator?.start()
     }
 
     private var job: Job? = null
@@ -440,6 +370,34 @@ class MapView @JvmOverloads constructor(
                 (drawable as BitmapDrawable).bitmap, MapMath.tileWidth,
                 MapMath.tileHeight, false
         )
+    }
+
+    private fun getAnimatorListener(): MapAnimator.AnimatorListener {
+        return object : MapAnimator.AnimatorListener {
+            override fun redraw() {
+                invalidate()
+            }
+
+            override fun onMovementProgressUpdate(progress: Float, startX: Float, startY: Float) {
+                location?.let {
+                    math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * progress
+                    math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progress
+                    invalidate()
+                }
+            }
+
+            override fun updateWaveProgress(progress: Float) {
+                locationData.progress = progress
+            }
+
+            override fun updateFirstDraw(isFirstDraw: Boolean) {
+                locationDrawer.firstWave = isFirstDraw
+            }
+
+            override fun updateMovingState(isMoving: Boolean) {
+                locationData.isMoving = isMoving
+            }
+        }
     }
 
     companion object {

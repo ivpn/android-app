@@ -3,8 +3,6 @@ package net.ivpn.client.v2.map.location
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Rect
-import android.os.Handler
 import androidx.core.content.res.ResourcesCompat
 import net.ivpn.client.R
 import net.ivpn.client.v2.map.MapView
@@ -38,7 +36,7 @@ class LocationDrawer(resources: Resources) {
     }
 
     fun draw(canvas: Canvas, data: LocationData) {
-        println("Draw location data = ${data.toString()}")
+//        println("Draw location data = ${data.toString()}")
         if (data.isMoving) return
 
         data.location?.let {
