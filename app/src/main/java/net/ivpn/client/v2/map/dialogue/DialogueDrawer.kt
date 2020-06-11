@@ -1,14 +1,13 @@
 package net.ivpn.client.v2.map.dialogue
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import androidx.core.content.res.ResourcesCompat
 import net.ivpn.client.R
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
-import net.ivpn.client.v2.map.dialogue.model.LocationData
+import net.ivpn.client.v2.map.dialogue.model.DialogueLocationData
 import java.io.File
 
 class DialogueDrawer(private val utils: DialogueUtil, private val context: Context) {
@@ -71,12 +70,12 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
         canvas.drawPath(path, dialoguePaint)
 
         val locationRect = Rect()
-        data.locationData.description?.let {
+        data.dialogueLocationData.description?.let {
             locationTextPaint.getTextBounds(it, 0, it.length, locationRect)
         }
 
         if (data.state != DialogState.CHECKING) {
-            val drawable: Drawable? = getCountryDrawable(data.locationData)
+            val drawable: Drawable? = getCountryDrawable(data.dialogueLocationData)
             drawable?.let {
                 it.bounds = Rect((dialogueRect.left + utils.dialogueMargin).toInt(),
                         (dialogueRect.top + utils.dialogueMargin + utils.checkingRect.height() + utils.innerVerticalMargin).toInt(),
@@ -103,7 +102,7 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
                         dialogueRect.top + utils.checkingRect.height() / 2 + utils.dialogueMargin,
                         titleTextPaint
                 )
-                data.locationData.description?.let {
+                data.dialogueLocationData.description?.let {
                     canvas.drawText(
                             it,
                             dialogueRect.left + utils.dialogueMargin + utils.dialogueIconSize + utils.innerHorizontalMargin,
@@ -119,7 +118,7 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
                         dialogueRect.top + utils.checkingRect.height() / 2 + utils.dialogueMargin,
                         titleTextPaint
                 )
-                data.locationData.description?.let {
+                data.dialogueLocationData.description?.let {
                     canvas.drawText(
                             it,
                             dialogueRect.left + utils.dialogueMargin + utils.dialogueIconSize + utils.innerHorizontalMargin,
@@ -134,16 +133,16 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
         }
     }
 
-    private fun getCountryDrawable(locationData: LocationData): Drawable? {
-        if (locationData.countryCode == null) {
+    private fun getCountryDrawable(dialogueLocationData: DialogueLocationData): Drawable? {
+        if (dialogueLocationData.countryCode == null) {
             return null
         }
-        if (locationData.countryCode.equals("uk", ignoreCase = true)) {
-            locationData.countryCode = "gb"
+        if (dialogueLocationData.countryCode.equals("uk", ignoreCase = true)) {
+            dialogueLocationData.countryCode = "gb"
         }
 
         var path: String
-        locationData.countryCode?.let {
+        dialogueLocationData.countryCode?.let {
             path = ("flag" + File.separator
                     + it.toLowerCase() + ".png")
             return Drawable.createFromStream(context.assets.open(path), null)

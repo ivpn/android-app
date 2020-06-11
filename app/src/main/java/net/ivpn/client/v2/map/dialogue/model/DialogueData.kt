@@ -6,5 +6,5 @@ data class DialogueData(
         var state: DialogueDrawer.DialogState = DialogueDrawer.DialogState.NONE,
         var x: Float = 0f,
         var y: Float = 0f,
-        var locationData: LocationData = LocationData()
+        var dialogueLocationData: DialogueLocationData = DialogueLocationData()
 )

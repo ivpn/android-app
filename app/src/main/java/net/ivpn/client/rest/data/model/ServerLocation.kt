@@ -14,6 +14,8 @@ data class ServerLocation(
     var y: Float = 0f
 
     companion object {
+        private val bannedCities = arrayListOf("Bratislava", "Brussels", "New Jersey, NJ")
+
         fun stringFrom(locations: List<ServerLocation>): String {
             return Gson().toJson(locations)
         }
@@ -30,7 +32,7 @@ data class ServerLocation(
 
         fun filter(locations: List<ServerLocation>): List<ServerLocation> {
             return locations.filter {
-                it.city != "Bratislava" && it.city != "Brussels" && it.city != "New Jersey, NJ"
+                !bannedCities.contains<String>(it.city)
             }
         }
     }

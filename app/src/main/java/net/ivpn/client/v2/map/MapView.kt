@@ -3,18 +3,18 @@ package net.ivpn.client.v2.map
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Scroller
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -27,9 +27,13 @@ import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
-import net.ivpn.client.v2.map.dialogue.model.LocationData
+import net.ivpn.client.v2.map.dialogue.model.DialogueLocationData
+import net.ivpn.client.v2.map.location.LocationData
+import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.map.model.Tile
+import net.ivpn.client.v2.map.servers.ServerLocationDrawer
+import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 import net.ivpn.client.v2.viewmodel.LocationViewModel
 import javax.inject.Inject
 import kotlin.system.measureTimeMillis
@@ -44,39 +48,30 @@ class MapView @JvmOverloads constructor(
     @Inject
     lateinit var locationViewModel: LocationViewModel
 
-    private val pointRadius: Float
-    private val locationMaxRadius: Float
-    private val locationRadius: Float
-
     //object that is used for calculation the x,y coordinates after fling gesture.
     //While fling animation is in process we can ask it for the newest and correct coordinates.
     private var scroller: Scroller = Scroller(this.context)
 
-    private var location: Location? = null
-    private var homeLocation: Location? = null
-
     private var panelHeight: Float = 0f
 
-    //Objects that are used for drawing on the canvas
-    private val pointPaint = Paint()
     private val bitmapPaint = Paint()
-    private var wavePaint = Paint()
-    private var serverPointPaint = Paint()
-    private var serversPaint = TextPaint()
-    private var serversPaintStroke = TextPaint()
-
     private var bitmaps: Array<Array<Tile>> = arrayOf()
 
     private var dialogueDrawer: DialogueDrawer
     private var dialogueData = DialogueData()
 
+    private var serverLocationDrawer = ServerLocationDrawer(resources)
+    private var serverLocationsData = ServerLocationsData()
+
+    private var locationDrawer = LocationDrawer(resources)
+    private var locationData = LocationData()
+
     private var isInit = false
-    private var progressWave = 0f
-    private var firstWave = true
 
     private val math = MapMath()
-    private val waveHandler: Handler
 
+    private var location: Location? = null
+    private var homeLocation: Location? = null
     private var serverLocations: List<ServerLocation>? = null
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
@@ -124,7 +119,7 @@ class MapView @JvmOverloads constructor(
                         DialogueDrawer.DialogState.PROTECTED
                     else DialogueDrawer.DialogState.UNPROTECTED
 
-                    dialogueData.locationData = LocationData("${response.city},  ${response.country}", response.countryCode)
+                    dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
 //                    curLong = response.longitude.toFloat()
 //                    curLat = response.latitude.toFloat()
                 }
@@ -143,56 +138,13 @@ class MapView @JvmOverloads constructor(
     init {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
 
-        with(pointPaint) {
-            color = ResourcesCompat.getColor(resources, R.color.colorAccent, null)
-            isAntiAlias = true
-            style = Paint.Style.FILL
-        }
-
         with(bitmapPaint) {
             isAntiAlias = true
             style = Paint.Style.FILL
         }
 
-        with(serverPointPaint) {
-            color = ResourcesCompat.getColor(resources, R.color.map_label, null)
-            isAntiAlias = true
-            style = Paint.Style.FILL
-        }
-
-        with(serversPaint) {
-            isAntiAlias = true
-            color = ResourcesCompat.getColor(resources, R.color.map_label, null)
-            textSize = resources.getDimension(R.dimen.location_name)
-            letterSpacing = 0.03f
-            typeface = Typeface.DEFAULT_BOLD
-        }
-
-//        serversPaint.setShadowLayer(15.0f, 0.0f, 0.0f, ResourcesCompat.getColor(resources, R.color.map_label_shadow, null))
-        with(serversPaintStroke) {
-            isAntiAlias = true
-            color = ResourcesCompat.getColor(resources, R.color.map_label_shadow, null)
-            textSize = resources.getDimension(R.dimen.location_name)
-            letterSpacing = 0.03f
-            strokeWidth = 4f
-            typeface = Typeface.DEFAULT_BOLD
-            style = Paint.Style.FILL_AND_STROKE
-        }
-
         val dialogueUtil = DialogueUtil(resources)
         dialogueDrawer = DialogueDrawer(dialogueUtil, context)
-
-        with(wavePaint) {
-            color = ResourcesCompat.getColor(resources, R.color.wave_connected, null)
-            isAntiAlias = true
-            style = Paint.Style.FILL
-        }
-
-        waveHandler = Handler()
-
-        pointRadius = resources.getDimension(R.dimen.point_radius)
-        locationMaxRadius = resources.getDimension(R.dimen.location_anim_max_radius)
-        locationRadius = resources.getDimension(R.dimen.location_radius)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -237,8 +189,22 @@ class MapView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawMap(canvas)
-        drawServers(canvas)
-        drawLocation(canvas)
+
+        with(serverLocationsData) {
+            left = math.totalX
+            top = math.totalY
+        }
+        serverLocationDrawer.draw(canvas, serverLocationsData)
+
+        locationData.location = location
+        with(locationData.screen) {
+            left = math.totalX.toInt()
+            top = math.totalY.toInt()
+            right = (math.totalX + width).toInt()
+            bottom = (math.totalY + height).toInt()
+        }
+        locationDrawer.draw(canvas, locationData)
+
         dialogueDrawer.draw(canvas, dialogueData)
     }
 
@@ -277,118 +243,7 @@ class MapView @JvmOverloads constructor(
         }
     }
 
-    private fun drawServers(canvas: Canvas) {
-        val bounds = Rect()
-        val srcRect = Rect()
-
-        with(srcRect) {
-            left = (math.totalX).toInt()
-            right = (math.totalX + width).toInt()
-            top = (math.totalY).toInt()
-            bottom = (math.totalY + height).toInt()
-        }
-
-        serverLocations?.let {
-            for (location in it) {
-//                println("Draw location = (${location.x}, ${location.y})")
-                canvas.drawCircle(
-                        (location.x - srcRect.left),
-                        (location.y - srcRect.top), pointRadius, serverPointPaint
-                )
-
-                serversPaint.getTextBounds(location.city, 0, location.city.length, bounds)
-                canvas.drawText(
-                        location.city, ((location.x - srcRect.left - bounds.width() / 2)),
-                        ((location.y - srcRect.top - bounds.height() / 2 - pointRadius)), serversPaintStroke
-                )
-                canvas.drawText(
-                        location.city, ((location.x - srcRect.left - bounds.width() / 2)),
-                        ((location.y - srcRect.top - bounds.height() / 2 - pointRadius)), serversPaint
-                )
-//            }
-            }
-        }
-    }
-
-    private fun drawLocation(canvas: Canvas) {
-        if (isMoving) return
-        if (location == null) return
-
-        drawMultiWaves(canvas, progressWave)
-
-        val srcRect = Rect()
-
-        with(srcRect) {
-            left = (math.totalX).toInt()
-            right = (math.totalX + width).toInt()
-            top = (math.totalY).toInt()
-            bottom = (math.totalY + height).toInt()
-        }
-
-        pointPaint.color = if (location!!.isConnected) ResourcesCompat.getColor(
-                resources,
-                R.color.wave_connected,
-                null
-        ) else ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
-
-        val location = location?.coordinate ?: return
-
-        canvas.drawCircle(
-                location.first - srcRect.left,
-                location.second - srcRect.top,
-                pointRadius,
-                pointPaint
-        )
-    }
-
-    private fun drawMultiWaves(canvas: Canvas?, progress: Float) {
-        var currentProgress = progress
-
-        for (i in 1..WAVES_COUNT) {
-            drawWave(canvas, currentProgress)
-            if (firstWave && (getNextProgress(currentProgress) > currentProgress)) {
-                break
-            } else {
-                currentProgress = getNextProgress(currentProgress)
-            }
-        }
-    }
-
-    private fun getNextProgress(progress: Float): Float {
-        val waveStep = 1f / WAVES_COUNT
-
-        return if (progress - waveStep > 0) (progress - waveStep) else (progress + (1 - waveStep))
-    }
-
-    private fun drawWave(canvas: Canvas?, progress: Float) {
-        if (location == null) return
-        val srcRect = Rect()
-        wavePaint.color = if (location!!.isConnected) ResourcesCompat.getColor(
-                resources,
-                R.color.wave_connected,
-                null
-        ) else ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
-
-        with(srcRect) {
-            left = (math.totalX).toInt()
-            right = (math.totalX + width).toInt()
-            top = (math.totalY).toInt()
-            bottom = (math.totalY + height).toInt()
-        }
-        val location = location?.coordinate ?: return
-
-        val radius = (locationMaxRadius - pointRadius) * progress + pointRadius
-        wavePaint.alpha = ((MAX_ALPHA * (1 - progress)).toInt())
-        canvas?.drawCircle(
-                location.first - srcRect.left,
-                location.second - srcRect.top,
-                radius,
-                wavePaint
-        )
-    }
-
     fun setHomeLocation(location: Location) {
-//        println("Set HOME location as $location isInit = $isInit")
         homeLocation = location
         if (isInit) {
             setLocation(homeLocation)
@@ -411,7 +266,6 @@ class MapView @JvmOverloads constructor(
             var pair: Pair<Float, Float>
             for (location in it) {
                 pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
-//                println("GET location (x,y) as (${pair.first}, ${pair.second})")
                 location.x = pair.first
                 location.y = pair.second
             }
@@ -420,7 +274,6 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun setLocation(location: Location?) {
-//        println("Set current location as $location")
         this.location = location
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
@@ -443,19 +296,18 @@ class MapView @JvmOverloads constructor(
     var startX: Float = 0f
     var startY: Float = 0f
     var progressMove = 0f
-    var isMoving: Boolean = false
     private fun startMovementAnimation() {
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
         movementAnimator.duration = MOVEMENT_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
-                firstWave = false
+                locationDrawer.firstWave = false
             }
 
             override fun onAnimationEnd(animation: Animator?) {
                 println("onAnimationEnd")
                 startWaveAnimation()
-                isMoving = false
+                locationData.isMoving = false
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -466,8 +318,8 @@ class MapView @JvmOverloads constructor(
                 waveAnimator?.cancel()
                 startX = math.totalX
                 startY = math.totalY
-                isMoving = true
-                firstWave = true
+                locationData.isMoving = true
+                locationDrawer.firstWave = true
             }
 
         })
@@ -491,7 +343,7 @@ class MapView @JvmOverloads constructor(
         waveAnimator?.interpolator = LinearInterpolator()
         waveAnimator?.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
-                firstWave = false
+                locationDrawer.firstWave = false
             }
 
             override fun onAnimationEnd(animation: Animator?) {
@@ -507,7 +359,7 @@ class MapView @JvmOverloads constructor(
 
         })
         waveAnimator?.addUpdateListener { valueAnimator ->
-            progressWave = valueAnimator.animatedValue as Float
+            locationData.progress = valueAnimator.animatedValue as Float
             invalidate()
         }
         waveAnimator?.start()
@@ -554,6 +406,7 @@ class MapView @JvmOverloads constructor(
                 location.y = pair.second
             }
         }
+        serverLocationDrawer.serverLocations = serverLocations
     }
 
     private fun initTiles() {
