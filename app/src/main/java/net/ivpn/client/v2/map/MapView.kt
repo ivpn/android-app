@@ -106,32 +106,25 @@ class MapView @JvmOverloads constructor(
             return true
         }
 
-        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            dialogueData.state = DialogueDrawer.DialogState.CHECKING
-            locationViewModel.checkLocation(object : LocationViewModel.CheckLocationListener {
-                override fun onSuccess(response: LocationResponse?) {
-                    if (response == null) {
-                        dialogueData.state = DialogueDrawer.DialogState.NONE
-                        invalidate()
-                        return
-                    }
-
-                    dialogueData.state = if (response.isIvpnServer)
-                        DialogueDrawer.DialogState.PROTECTED
-                    else DialogueDrawer.DialogState.UNPROTECTED
-
-                    dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
-//                    curLong = response.longitude.toFloat()
-//                    curLat = response.latitude.toFloat()
+        override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
+            val locationPointerRect = Rect()
+            locationData.location?.coordinate?.let {
+                val locationPointerRect = Rect()
+                with(locationPointerRect) {
+                    left = (it.first - 200 - math.totalX).toInt()
+                    right = (it.first + 200 - math.totalX).toInt()
+                    top = (it.second - 200 - math.totalY).toInt()
+                    bottom = (it.second + 200 - math.totalY).toInt()
                 }
 
-                override fun onError() {
+                if (locationPointerRect.contains(event.x.toInt(), event.y.toInt())) {
+                    animator.centerLocation(math.totalX, math.totalY)
+                } else {
                     dialogueData.state = DialogueDrawer.DialogState.NONE
                     invalidate()
                 }
-
-            })
-            return super.onSingleTapConfirmed(e)
+            }
+            return super.onSingleTapConfirmed(event)
         }
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
@@ -207,6 +200,31 @@ class MapView @JvmOverloads constructor(
         locationDrawer.draw(canvas, locationData)
 
         dialogueDrawer.draw(canvas, dialogueData)
+    }
+
+    private fun openLocationDialogue() {
+        dialogueData.state = DialogueDrawer.DialogState.CHECKING
+        locationViewModel.checkLocation(object : LocationViewModel.CheckLocationListener {
+            override fun onSuccess(response: LocationResponse?) {
+                if (response == null) {
+                    dialogueData.state = DialogueDrawer.DialogState.NONE
+                    invalidate()
+                    return
+                }
+
+                dialogueData.state = if (response.isIvpnServer)
+                    DialogueDrawer.DialogState.PROTECTED
+                else DialogueDrawer.DialogState.UNPROTECTED
+
+                dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
+            }
+
+            override fun onError() {
+                dialogueData.state = DialogueDrawer.DialogState.NONE
+                invalidate()
+            }
+
+        })
     }
 
     private fun drawMap(canvas: Canvas) {
@@ -331,7 +349,6 @@ class MapView @JvmOverloads constructor(
             var pair: Pair<Float, Float>
             for (location in it) {
                 pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
-                println("GET location (x,y) as (${pair.first}, ${pair.second})")
                 location.x = pair.first
                 location.y = pair.second
             }
@@ -397,12 +414,17 @@ class MapView @JvmOverloads constructor(
             override fun updateMovingState(isMoving: Boolean) {
                 locationData.isMoving = isMoving
             }
+
+            override fun onCenterAnimationFinish() {
+                openLocationDialogue()
+            }
         }
     }
 
     companion object {
         const val ANIMATION_DURATION = 8000L
         const val MOVEMENT_ANIMATION_DURATION = 1000L
+        const val CENTER_ANIMATION_DURATION = 300L
 
         const val MAX_ALPHA = 255
 

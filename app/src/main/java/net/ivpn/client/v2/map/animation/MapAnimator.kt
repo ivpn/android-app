@@ -21,6 +21,36 @@ class MapAnimator(val listener: AnimatorListener) {
         data.waveProgress = waveProgress
     }
 
+    fun centerLocation(startX: Float, startY: Float) {
+        this.startX = startX
+        this.startY = startY
+        val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
+        movementAnimator.duration = MapView.CENTER_ANIMATION_DURATION
+        movementAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+                listener.updateFirstDraw(false)
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                println("onAnimationEnd")
+                listener.onCenterAnimationFinish()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                println("onAnimationStart")
+            }
+
+        })
+        movementAnimator.addUpdateListener { valueAnimator ->
+            movementProgress = valueAnimator.animatedValue as Float
+            listener.onMovementProgressUpdate(movementProgress, startX, startY)
+        }
+        movementAnimator.start()
+    }
+
     fun startMovementAnimation(startX: Float, startY: Float) {
         this.startX = startX
         this.startY = startY
@@ -29,14 +59,12 @@ class MapAnimator(val listener: AnimatorListener) {
         movementAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
                 listener.updateFirstDraw(false)
-//                locationDrawer.firstWave = false
             }
 
             override fun onAnimationEnd(animation: Animator?) {
                 println("onAnimationEnd")
                 startWaveAnimation()
                 listener.updateMovingState(false)
-//                locationData.isMoving = false
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -47,19 +75,12 @@ class MapAnimator(val listener: AnimatorListener) {
                 waveAnimator.cancel()
                 listener.updateMovingState(true)
                 listener.updateFirstDraw(true)
-//                locationData.isMoving = true
-//                locationDrawer.firstWave = true
             }
 
         })
         movementAnimator.addUpdateListener { valueAnimator ->
             movementProgress = valueAnimator.animatedValue as Float
             listener.onMovementProgressUpdate(movementProgress, startX, startY)
-//            location?.let {
-//                math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * movementProgress
-//                math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * movementProgress
-//                invalidate()
-//            }
         }
         movementAnimator.start()
     }
@@ -107,5 +128,7 @@ class MapAnimator(val listener: AnimatorListener) {
         fun updateFirstDraw(isFirstDraw: Boolean)
 
         fun updateMovingState(isMoving: Boolean)
+
+        fun onCenterAnimationFinish()
     }
 }

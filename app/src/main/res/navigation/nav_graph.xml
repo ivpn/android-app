@@ -10,22 +10,28 @@
         android:label="ConnectFragment">
         <action
             android:id="@+id/action_connectFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:popUpTo="@+id/connectFragment"/>
         <action
             android:id="@+id/action_connectFragment_to_protocolFragment"
-            app:destination="@id/protocolFragment" />
+            app:destination="@id/protocolFragment"
+            app:popUpTo="@+id/connectFragment"/>
         <action
             android:id="@+id/action_connectFragment_to_serverListFragment"
-            app:destination="@id/serverListFragment" />
+            app:destination="@id/serverListFragment"
+            app:popUpTo="@+id/connectFragment"/>
         <action
             android:id="@+id/action_connectFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/connectFragment"/>
         <action
             android:id="@+id/action_connectFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/accountFragment"
+            app:popUpTo="@+id/connectFragment"/>
         <action
             android:id="@+id/action_connectFragment_to_networkProtectionFragment"
-            app:destination="@id/networkProtectionFragment" />
+            app:destination="@id/networkProtectionFragment"
+            app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -117,11 +123,13 @@
         android:label="Log in">
         <action
             android:id="@+id/action_loginFragment_to_syncFragment"
-            app:destination="@id/syncFragment" />
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
-        android:name="net.ivpn.client.v2.sync.SyncFragment" />
+        android:name="net.ivpn.client.v2.sync.SyncFragment">
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="net.ivpn.client.v2.account.AccountFragment"

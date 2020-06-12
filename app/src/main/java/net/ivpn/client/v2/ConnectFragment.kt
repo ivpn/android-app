@@ -71,17 +71,20 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        println("Connect Fragment onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        println("Connect Fragment onViewCreated")
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
     }
 
     private fun initViews() {
+        println("Connect Fragment init views height = ${view?.height}")
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
@@ -143,21 +146,23 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onResume() {
+        println("Connect Fragment onResume")
         super.onResume()
         servers.onResume()
         account.onResume()
         applySlidingPanelSide()
         checkLocationPermission()
-
-        showPopup()
     }
 
     override fun onStart() {
+        println("Connect Fragment onStart")
+
         super.onStart()
         network.onStart()
     }
 
     override fun onStop() {
+        println("Connect Fragment onStop")
         super.onStop()
         network.onStop()
     }
@@ -227,9 +232,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         } else {
             onActivityResult(requestCode, Activity.RESULT_OK, null)
         }
-    }
-
-    private fun showPopup() {
     }
 
     override fun onMultiHopStateChanged(state: Boolean) {
