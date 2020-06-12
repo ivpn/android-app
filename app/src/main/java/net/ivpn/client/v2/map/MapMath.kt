@@ -48,6 +48,9 @@ class MapMath {
 
         bitmapWidth = (tileWidth * tilesCount).toFloat()
         bitmapHeight = (tileHeight * tilesCount).toFloat()
+
+        totalX = (bitmapWidth - screenWidth) / 2f
+        totalY = (bitmapHeight - screenHeight) / 2f
         println("bitmapWidth = $bitmapWidth bitmapHeight = $bitmapHeight")
     }
 

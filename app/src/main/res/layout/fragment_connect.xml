@@ -7,6 +7,14 @@
         <variable
             name="location"
             type="net.ivpn.client.v2.viewmodel.LocationViewModel" />
+
+        <variable
+            name="connection"
+            type="net.ivpn.client.v2.viewmodel.ConnectionViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -23,8 +31,10 @@
                 android:id="@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                app:locations="@{location.locations}"/>
+                android:visibility="visible"
+                app:locations="@{location.locations}"
+                app:connectionState="@{connection.connectionState}"
+                app:gateway="@{servers.entryServer}"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/account_button"

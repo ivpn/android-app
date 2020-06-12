@@ -107,6 +107,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         location.navigator = this
 
         binding.location = location
+        binding.connection = connect
+        binding.servers = servers
         binding.slidingPanel.antitracker = antiTracker
         binding.slidingPanel.multihop = multihop
         binding.slidingPanel.servers = servers
@@ -257,7 +259,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)).toInt(), true)
         binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         binding.slidingPanel.bottomSheet.requestLayout()
-        binding.map.setBottomPadding((resources.getDimension(R.dimen.slider_layout_single_hop_height)
+        binding.map.setPanelHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)))
     }
 
@@ -265,7 +267,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)).toInt(), true)
         binding.slidingPanel.exitServerLayout.visibility = View.GONE
         binding.slidingPanel.bottomSheet.requestLayout()
-        binding.map.setBottomPadding(resources.getDimension(R.dimen.slider_layout_single_hop_height))
+        binding.map.setPanelHeight(resources.getDimension(R.dimen.slider_layout_single_hop_height))
     }
 
     private fun openSettingsScreen() {
@@ -328,14 +330,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onChangeConnectionStatus(state: ConnectionState) {
-        val entryServer = servers.entryServer.get()
-        entryServer?.let {server ->
-            if (state == ConnectionState.CONNECTED) {
-                binding.map.setConnectedLocation(Location(server.longitude.toFloat(), server.latitude.toFloat(), true))
-            } else if (state == ConnectionState.NOT_CONNECTED) {
-                binding.map.setConnectedLocation(null)
-            }
-        }
+//        val entryServer = servers.entryServer.get()
+//        entryServer?.let {server ->
+//            if (state == ConnectionState.CONNECTED) {
+//                binding.map.setConnectedLocation(Location(server.longitude.toFloat(), server.latitude.toFloat(), true))
+//            } else if (state == ConnectionState.NOT_CONNECTED) {
+//                binding.map.setConnectedLocation(null)
+//            }
+//        }
     }
 
     override fun askConnectionPermission() {
@@ -380,7 +382,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun initMapWith(location: Location) {
-        binding.map.setHomeLocation(location)
-        binding.map.visibility = View.VISIBLE
+//        binding.map.setHomeLocation(location)
+//        binding.map.visibility = View.VISIBLE
     }
 }

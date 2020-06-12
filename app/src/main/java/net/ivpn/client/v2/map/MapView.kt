@@ -21,6 +21,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
+import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.v2.map.animation.AnimationData
 import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
@@ -262,22 +263,73 @@ class MapView @JvmOverloads constructor(
         }
     }
 
-    fun setHomeLocation(location: Location) {
-        homeLocation = location
-        if (isInit) {
-            setLocation(homeLocation)
+//    fun setHomeLocation(location: Location) {
+//        homeLocation = location
+//        if (isInit) {
+//            setLocation(homeLocation)
+//        }
+//    }
+//
+//    fun setConnectedLocation(location: Location?) {
+//        if (location == null) {
+//            setLocation(homeLocation)
+//        } else {
+//            setLocation(location)
+//        }
+//    }
+
+    var connectionState: ConnectionState? = null
+    fun setConnectionState(state: ConnectionState?, gateway: Location?) {
+        println("Set connection state = ${state}, gateway = ${gateway}")
+        if (state == null) {
+            return
+        }
+
+        this.connectionState = state
+        when(state) {
+            ConnectionState.NOT_CONNECTED -> {
+                locationViewModel.checkLocation(getCheckLocationListener())
+            }
+            ConnectionState.CONNECTING -> {
+
+            }
+            ConnectionState.CONNECTED -> {
+                if (gateway != null) {
+                    gateway.isConnected = true
+                    setLocation(gateway)
+                }
+            }
+            ConnectionState.DISCONNECTING -> {
+
+            }
+            ConnectionState.PAUSING -> {
+
+            }
+            ConnectionState.PAUSED -> {
+
+            }
         }
     }
 
-    fun setConnectedLocation(location: Location?) {
-        if (location == null) {
-            setLocation(homeLocation)
-        } else {
-            setLocation(location)
+    private fun getCheckLocationListener(): LocationViewModel.CheckLocationListener {
+        return object : LocationViewModel.CheckLocationListener {
+            override fun onSuccess(response: LocationResponse?) {
+                if (response == null) {
+                     return
+                }
+
+                if (connectionState == ConnectionState.NOT_CONNECTED) {
+                    setLocation(Location(response.longitude.toFloat(), response.latitude.toFloat(), false))
+                }
+            }
+
+            override fun onError() {
+            }
+
         }
     }
 
-    fun setServerLocation(serverLocations: List<ServerLocation>?) {
+    fun setGatewayLocations(serverLocations: List<ServerLocation>?) {
         println("Set servers locations")
         this.serverLocations = serverLocations
 
@@ -294,15 +346,18 @@ class MapView @JvmOverloads constructor(
 
     private fun setLocation(location: Location?) {
         this.location = location
+
+        if (!isInit) {
+            return
+        }
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
             animator.startMovementAnimation(math.totalX, math.totalY)
-//            startMovementAnimation()
         }
     }
 
-    fun setBottomPadding(padding: Float) {
+    fun setPanelHeight(padding: Float) {
         math.totalY = math.totalY - (panelHeight - padding / 2f)
         this.panelHeight = padding / 2f
         with(dialogueData) {
@@ -341,8 +396,11 @@ class MapView @JvmOverloads constructor(
 
     private fun postInit() {
         println("isInit = true")
-        if (homeLocation != null) {
-            setLocation(homeLocation)
+//        if (homeLocation != null) {
+//            setLocation(homeLocation)
+//        }
+        if (location != null) {
+            setLocation(location)
         }
 
         serverLocations?.let {

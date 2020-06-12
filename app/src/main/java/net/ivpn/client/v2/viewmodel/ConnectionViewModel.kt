@@ -137,6 +137,7 @@ class ConnectionViewModel @Inject constructor(
                 if (state == null) {
                     return
                 }
+                connectionState.set(state)
                 when (state) {
                     ConnectionState.CONNECTED -> {
                         isConnected.set(true)

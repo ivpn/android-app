@@ -14,24 +14,18 @@ public class GestureBindingAdapter {
     @BindingAdapter({"app:onLongClick", "app:server"})
     public static void setOnLongClickListener(LinearLayout layout,
                                               final ServersListNavigator navigator, final Server server) {
-        layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                navigator.onServerLongClick(server);
-                return true;
-            }
+        layout.setOnLongClickListener(view -> {
+            navigator.onServerLongClick(server);
+            return true;
         });
     }
 
     @BindingAdapter({"app:onLongClick", "app:email"})
     public static void setOnLongClickListener(LinearLayout layout,
                                               final PrivateEmailsNavigator navigator, final Email email) {
-        layout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                navigator.copyToClipboardEmail(email);
-                return true;
-            }
+        layout.setOnLongClickListener(view -> {
+            navigator.copyToClipboardEmail(email);
+            return true;
         });
     }
 }
