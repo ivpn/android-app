@@ -171,6 +171,10 @@ public class LoginViewModel {
                 navigator.openSessionLimitReachedDialogue();
                 break;
             }
+            case Responses.ACCOUNT_NOT_ACTIVE: {
+                navigator.openAccountNotActiveDialogue();
+                break;
+            }
 
             case Responses.WIREGUARD_KEY_INVALID:
             case Responses.WIREGUARD_PUBLIC_KEY_EXIST:

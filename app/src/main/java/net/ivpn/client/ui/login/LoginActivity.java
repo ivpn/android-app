@@ -214,6 +214,11 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     }
 
     @Override
+    public void openAccountNotActiveDialogue() {
+        DialogBuilder.createNotificationDialog(this, Dialogs.ACCOUNT_NOT_ACTIVE);
+    }
+
+    @Override
     public void openErrorDialogue(Dialogs dialog) {
         DialogBuilder.createNotificationDialog(this, dialog);
     }
