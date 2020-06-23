@@ -1,17 +1,16 @@
 package net.ivpn.client.v2.map
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -22,7 +21,6 @@ import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.ui.connect.ConnectionState
-import net.ivpn.client.v2.map.animation.AnimationData
 import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
@@ -36,7 +34,6 @@ import net.ivpn.client.v2.map.servers.ServerLocationDrawer
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 import net.ivpn.client.v2.viewmodel.LocationViewModel
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 class MapView @JvmOverloads constructor(
         context: Context,
@@ -130,6 +127,10 @@ class MapView @JvmOverloads constructor(
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
+
+    private var serverPointPaint = Paint()
+    private var serversPaint = TextPaint()
+    private var serversPaintStroke = TextPaint()
     init {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
 
@@ -140,6 +141,30 @@ class MapView @JvmOverloads constructor(
 
         val dialogueUtil = DialogueUtil(resources)
         dialogueDrawer = DialogueDrawer(dialogueUtil, context)
+
+        with(serverPointPaint) {
+            color = ResourcesCompat.getColor(resources, R.color.primary, null)
+            isAntiAlias = true
+            style = Paint.Style.FILL
+        }
+
+        with(serversPaint) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.primary, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            typeface = Typeface.DEFAULT_BOLD
+        }
+
+        with(serversPaintStroke) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.map_label_shadow, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            strokeWidth = 4f
+            typeface = Typeface.DEFAULT_BOLD
+            style = Paint.Style.FILL_AND_STROKE
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -190,6 +215,7 @@ class MapView @JvmOverloads constructor(
             top = math.totalY
         }
         serverLocationDrawer.draw(canvas, serverLocationsData)
+//        drawCities(canvas, serverLocationsData)
 
         locationData.location = location
         with(locationData.screen) {
@@ -201,6 +227,29 @@ class MapView @JvmOverloads constructor(
         locationDrawer.draw(canvas, locationData)
 
         dialogueDrawer.draw(canvas, dialogueData)
+    }
+
+    val pointRadius = 10f
+    private fun drawCities(canvas: Canvas, data: ServerLocationsData) {
+        val bounds = Rect()
+
+        for (city in math.cities) {
+            canvas.drawCircle(
+                    ((city.x - data.left).toFloat()),
+                    ((city.y - data.top).toFloat()), pointRadius, serverPointPaint
+            )
+
+            serversPaint.getTextBounds(city.name, 0, city.name.length, bounds)
+            canvas.drawText(
+                    city.name, (((city.x - data.left - bounds.width() / 2).toFloat())),
+                    (((city.y - data.top - bounds.height() / 2 - pointRadius).toFloat())), serversPaintStroke
+            )
+            canvas.drawText(
+                    city.name, (((city.x - data.left - bounds.width() / 2).toFloat())),
+                    (((city.y - data.top - bounds.height() / 2 - pointRadius).toFloat())), serversPaint
+            )
+        }
+
     }
 
     private fun openLocationDialogue() {
@@ -286,7 +335,7 @@ class MapView @JvmOverloads constructor(
         }
 
         this.connectionState = state
-        when(state) {
+        when (state) {
             ConnectionState.NOT_CONNECTED -> {
                 locationViewModel.checkLocation(getCheckLocationListener())
             }
@@ -315,7 +364,7 @@ class MapView @JvmOverloads constructor(
         return object : LocationViewModel.CheckLocationListener {
             override fun onSuccess(response: LocationResponse?) {
                 if (response == null) {
-                     return
+                    return
                 }
 
                 if (connectionState == ConnectionState.NOT_CONNECTED) {
@@ -411,29 +460,36 @@ class MapView @JvmOverloads constructor(
                 location.y = pair.second
             }
         }
+        var pair: Pair<Float, Float>
+        for (city in math.cities) {
+            pair = math.getCoordinatesBy(city.longitude.toFloat(), city.latitude.toFloat())
+            city.x = pair.first.toDouble()
+            city.y = pair.second.toDouble()
+        }
         serverLocationDrawer.serverLocations = serverLocations
     }
 
     private fun initTiles() {
-        val path = resources.getString(R.string.path_to_tiles)
-        val executionTime = measureTimeMillis {
-            var array: Array<Tile>
-            for (i in 1..MapMath.tilesCount) {
-                array = arrayOf()
-                for (j in 1..MapMath.tilesCount) {
-                    array += Tile(
-                            Rect(
-                                    MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
-                                    MapMath.tileWidth * i,
-                                    MapMath.tileHeight * j
-                            ),
-                            getBitmapFrom("$path/row-${j}-col-${i}.png")
-                    )
-                }
-                bitmaps += array
-            }
-        }
-        println("Bitmap init time = $executionTime")
+        bitmaps = MapHolder.getTilesFor(resources.getString(R.string.path_to_tiles), context)
+//        val path = resources.getString(R.string.path_to_tiles)
+//        val executionTime = measureTimeMillis {
+//            var array: Array<Tile>
+//            for (i in 1..MapMath.tilesCount) {
+//                array = arrayOf()
+//                for (j in 1..MapMath.tilesCount) {
+//                    array += Tile(
+//                            Rect(
+//                                    MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
+//                                    MapMath.tileWidth * i,
+//                                    MapMath.tileHeight * j
+//                            ),
+//                            getBitmapFrom("$path/row-${j}-col-${i}.png")
+//                    )
+//                }
+//                bitmaps += array
+//            }
+//        }
+//        println("Bitmap init time = $executionTime")
     }
 
     private fun getBitmapFrom(assetPath: String): Bitmap {

@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.VpnService
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -158,7 +159,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onStart() {
         println("Connect Fragment onStart")
-
         super.onStart()
         network.onStart()
     }
@@ -257,7 +257,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     private fun enableMultiHop() {
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)).toInt(), true)
-        binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+        Handler().postDelayed({
+            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+        }, 50)
+//        binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         binding.slidingPanel.bottomSheet.requestLayout()
         binding.map.setPanelHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
                 + resources.getDimension(R.dimen.slider_layout_exit_layout_height)))
@@ -265,7 +268,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun disableMultiHop() {
         bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)).toInt(), true)
-        binding.slidingPanel.exitServerLayout.visibility = View.GONE
+        Handler().postDelayed({
+            binding.slidingPanel.exitServerLayout.visibility = View.GONE
+        }, 50)
+//        binding.slidingPanel.exitServerLayout.visibility = View.GONE
         binding.slidingPanel.bottomSheet.requestLayout()
         binding.map.setPanelHeight(resources.getDimension(R.dimen.slider_layout_single_hop_height))
     }

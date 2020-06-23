@@ -15,9 +15,12 @@
     <color name="colorPrimaryDark">#1c1c1c</color>
     <color name="textColorPrimary">#FFFFFF</color>
 
-    <color name="accent_color">#449CF8</color>
+    <color name="accent_color">#398FE6</color>
+<!--    <color name="accent_color">#449CF8</color>-->
 
-    <color name="wave_connected">#449CF8</color>
+<!--    <color name="wave_connected">#449CF8</color>-->
+<!--    <color name="wave_disconnected">#ed7e79</color>-->
+    <color name="wave_connected">#398FE6</color>
     <color name="wave_disconnected">#FF6258</color>
 
     <color name="sliding_panel_drag_view">#49494B</color>
@@ -37,20 +40,25 @@
     <color name="connect_map_fab_icon">#ffffff</color>
     <color name="sliding_panel_card_background">#323232</color>
 
-    <color name="primary">#74b8ff</color>
-    <color name="accent">#ed7e79</color>
+<!--    <color name="primary">#74b8ff</color>-->
+<!--    <color name="accent">#ed7e79</color>-->
+    <color name="primary">#398FE6</color>
+    <color name="accent">#FF6258</color>
 
     <color name="disabled">#8D8D8E</color>
 
     <color name="dialogue_background">#383838</color>
     <color name="dialogue_title">#FFFFFF</color>
     <color name="dialogue_text">#DEFFFFFF</color>
-    <color name="dialogue_button">#74b8ff</color>
+
+<!--    <color name="dialogue_button">#74b8ff</color>-->
+    <color name="dialogue_button">#398FE6</color>
 
     <color name="settings_card_background">#202020</color>
     <color name="settings_inner_background">#000000</color>
 
-    <color name="settings_section_title">#74b8ff</color>
+    <color name="settings_section_title">#398FE6</color>
+<!--    <color name="settings_section_title">#74b8ff</color>-->
     <color name="settings_option_title_text">#FFFFFF</color>
     <color name="settings_option_description_text">#80FFFFFF</color>
     <color name="color_section_divider">#2B8B9AAB</color>
@@ -114,4 +122,11 @@
 
     <color name="map_label">#CFCBCB</color>
     <color name="map_label_shadow">#121212</color>
+    <color name="map_background">#181818</color>
+
+    <color name="sliding_panel_shadow_1">#00000000</color>
+    <color name="sliding_panel_shadow_2">#10000000</color>
+    <color name="sliding_panel_shadow_3">#20000000</color>
+    <color name="sliding_panel_shadow_4">#30000000</color>
+    <color name="sliding_panel_shadow_5">#50000000</color>
 </resources>

@@ -70,9 +70,9 @@
     <color name="color_private_email_passive">#b4c1cc</color>
 
     <!--Version 2-->
-    <color name="accent_color">#449CF8</color>
+    <color name="accent_color">#398FE6</color>
 
-    <color name="wave_connected">#449CF8</color>
+    <color name="wave_connected">#398FE6</color>
     <color name="wave_disconnected">#FF6258</color>
     
     <color name="sliding_panel_drag_view">#D3DFE6</color>
@@ -167,4 +167,11 @@
 
     <color name="map_label">#6B6B6B</color>
     <color name="map_label_shadow">#FFFFFF</color>
+    <color name="map_background">#CBD2D3</color>
+
+    <color name="sliding_panel_shadow_1">#00CCCCCC</color>
+    <color name="sliding_panel_shadow_2">#10CCCCCC</color>
+    <color name="sliding_panel_shadow_3">#20d5d5d5</color>
+    <color name="sliding_panel_shadow_4">#30cbcbcb</color>
+    <color name="sliding_panel_shadow_5">#50bababa</color>
 </resources>

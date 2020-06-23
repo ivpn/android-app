@@ -23,9 +23,11 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
+<!--        android:background="@color/map_background"-->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/map_background">
 
             <net.ivpn.client.v2.map.MapView
                 android:id="@+id/map"
