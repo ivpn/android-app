@@ -452,6 +452,9 @@
     <string name="dialogs_custom_dns_dot">\.</string>
     <string name="dialogs_custom_dns_apply">Apply</string>
     <string name="dialogs_custom_dns_cancel">Cancel</string>
+    
+    <string name="dialogs_account_not_active_title">Account not activated</string>
+    <string name="dialogs_account_not_active_msg">This operation cannot be performed on a new account. Please complete the purchase first.</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
