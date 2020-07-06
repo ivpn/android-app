@@ -16,8 +16,7 @@ import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
 import net.ivpn.client.ui.privateemails.edit.EditPrivateEmailActivity;
 import net.ivpn.client.ui.protocol.ProtocolActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
-import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter;
-import net.ivpn.client.ui.serverlist.all.CommonServerListFragment;
+import net.ivpn.client.ui.serverlist.all.ServerListFragment;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingActivity;
 import net.ivpn.client.ui.serverlist.favourites.FavouriteServersListFragment;
 import net.ivpn.client.ui.settings.SettingsActivity;
@@ -42,7 +41,8 @@ import net.ivpn.client.v2.network.NetworkProtectionFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
-import net.ivpn.client.v2.serverlist.ServerListFragment;
+import net.ivpn.client.v2.serverlist.ServerFragment;
+import net.ivpn.client.v2.serverlist.ServersRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
@@ -111,7 +111,7 @@ public interface ActivityComponent {
 
     void inject(ConnectionShortcutsActivity activity);
 
-    void inject(CommonServerListFragment fragment);
+    void inject(ServerListFragment fragment);
 
     void inject(FavouriteServersListFragment fragment);
 
@@ -132,6 +132,8 @@ public interface ActivityComponent {
     void inject(NetworkRecyclerViewAdapter.CommonNetworkViewHolder viewHolder);
 
     void inject(NetworkRecyclerViewAdapter.WifiItemViewHolder viewHolder);
+
+//    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
 
     void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
 
@@ -159,7 +161,7 @@ public interface ActivityComponent {
 
     void inject(CustomDNSFragment fragment);
 
-    void inject(ServerListFragment fragment);
+    void inject(ServerFragment fragment);
 
     void inject(FastestSettingFragment fragment);
 

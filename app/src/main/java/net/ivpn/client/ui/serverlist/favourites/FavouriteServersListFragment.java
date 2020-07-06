@@ -18,10 +18,9 @@ import net.ivpn.client.databinding.FragmentFavouriteServersListBinding;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
-import net.ivpn.client.ui.serverlist.ServersListActivity;
 import net.ivpn.client.ui.serverlist.ServersListNavigator;
 import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter;
-import net.ivpn.client.v2.serverlist.ServerListFragment;
+import net.ivpn.client.v2.serverlist.ServerFragment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class FavouriteServersListFragment extends Fragment implements ServersLis
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
 //        this.navigator = (ServersListNavigator) getActivity();
 
-        serverType = ((ServerListFragment) getParentFragment()).getServerType();
+        serverType = ((ServerFragment) getParentFragment()).getServerType();
     }
 
     @Override
@@ -117,7 +116,7 @@ public class FavouriteServersListFragment extends Fragment implements ServersLis
         LOGGER.info("onServerSelected server = " + server + " forbiddenServer = " + forbiddenServer);
         if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
             viewmodel.setCurrentServer(server);
-            ((ServerListFragment) getParentFragment()).navigateBack();
+            ((ServerFragment) getParentFragment()).navigateBack();
             //FINISH IT
 //            navigator.onServerSelected(server, forbiddenServer);
         } else {
@@ -130,14 +129,14 @@ public class FavouriteServersListFragment extends Fragment implements ServersLis
         LOGGER.info("onServerLongClick server = " + server);
         viewmodel.removeFavouriteServer(server);
         adapter.removeServer(server);
-        ((ServerListFragment) getParentFragment()).notifyFavouritesChanged(false);
+        ((ServerFragment) getParentFragment()).notifyFavouritesChanged(false);
     }
 
     @Override
     public void onFastestServerSelected() {
         LOGGER.info("onFastestServerSelected");
         viewmodel.setSettingFastestServer();
-        ((ServerListFragment) getParentFragment()).onFastestServerSelected();
+        ((ServerFragment) getParentFragment()).onFastestServerSelected();
         //FINISH IT
 //        navigator.onFastestServerSelected();
     }
@@ -146,7 +145,7 @@ public class FavouriteServersListFragment extends Fragment implements ServersLis
     public void onFastestServerSettings() {
         LOGGER.info("onFastestServerSettings");
         //TODO OPEN FASTEST SERVER
-        ((ServerListFragment) getParentFragment()).onFastestServerSettings();
+        ((ServerFragment) getParentFragment()).onFastestServerSettings();
 //        navigator.onFastestServerSettings();
     }
 

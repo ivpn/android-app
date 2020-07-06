@@ -215,7 +215,7 @@ class MapView @JvmOverloads constructor(
             top = math.totalY
         }
         serverLocationDrawer.draw(canvas, serverLocationsData)
-//        drawCities(canvas, serverLocationsData)
+        drawCities(canvas, serverLocationsData)
 
         locationData.location = location
         with(locationData.screen) {
@@ -229,7 +229,7 @@ class MapView @JvmOverloads constructor(
         dialogueDrawer.draw(canvas, dialogueData)
     }
 
-    val pointRadius = 10f
+    val pointRadius = 3f
     private fun drawCities(canvas: Canvas, data: ServerLocationsData) {
         val bounds = Rect()
 

@@ -72,7 +72,7 @@
     <!--V2-->
     <dimen name="location_anim_max_radius">90dp</dimen>
     <dimen name="location_radius">10dp</dimen>
-    <dimen name="point_radius">3dp</dimen>
+    <dimen name="point_radius">1dp</dimen>
     <dimen name="location_name">10sp</dimen>
 <!--    <dimen name="panel_height">361dp</dimen>-->
 

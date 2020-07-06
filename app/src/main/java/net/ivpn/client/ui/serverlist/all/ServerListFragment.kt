@@ -17,11 +17,11 @@ import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.serverlist.ServersListNavigator
 import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter
-import net.ivpn.client.v2.serverlist.ServerListFragment
+import net.ivpn.client.v2.serverlist.ServerFragment
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class CommonServerListFragment : Fragment(), ServersListNavigator {
+class ServerListFragment : Fragment(), ServersListNavigator {
     private lateinit var binding: FragmentServerListBinding
 
     @Inject
@@ -47,7 +47,7 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        serverType = (parentFragment as ServerListFragment).getServerType()
+        serverType = (parentFragment as ServerFragment).getServerType()
 //        args = ServerListFragmentArgs.fromBundle(arguments!!)
     }
 
@@ -100,7 +100,7 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
         if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
             viewmodel.setCurrentServer(server)
             //TODO FINISH IT
-            (parentFragment as ServerListFragment).navigateBack()
+            (parentFragment as ServerFragment).navigateBack()
         } else {
             DialogBuilder.createNotificationDialog(this.context, Dialogs.INCOMPATIBLE_SERVERS)
         }
@@ -109,24 +109,24 @@ class CommonServerListFragment : Fragment(), ServersListNavigator {
     override fun onServerLongClick(server: Server) {
         LOGGER.info("onServerLongClick server = $server")
         viewmodel.addFavouriteServer(server)
-        (parentFragment as ServerListFragment).notifyFavouritesChanged(true)
+        (parentFragment as ServerFragment).notifyFavouritesChanged(true)
     }
 
     override fun onFastestServerSelected() {
         LOGGER.info("onFastestServerSelected")
         viewmodel.setSettingFastestServer()
         //TODO FINISH IT
-        (parentFragment as ServerListFragment).onFastestServerSelected()
+        (parentFragment as ServerFragment).onFastestServerSelected()
     }
 
     override fun onFastestServerSettings() {
         LOGGER.info("onFastestServerSettings")
         //TODO START FASTEST SERVER SETTINGS
-        (parentFragment as ServerListFragment).onFastestServerSettings()
+        (parentFragment as ServerFragment).onFastestServerSettings()
     }
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(CommonServerListFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
         private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
     }
 }

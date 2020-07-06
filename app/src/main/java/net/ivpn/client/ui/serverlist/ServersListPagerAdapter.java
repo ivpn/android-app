@@ -8,7 +8,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import net.ivpn.client.R;
-import net.ivpn.client.ui.serverlist.all.CommonServerListFragment;
+import net.ivpn.client.ui.serverlist.all.ServerListFragment;
 import net.ivpn.client.ui.serverlist.favourites.FavouriteServersListFragment;
 
 public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
@@ -44,7 +44,7 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new FavouriteServersListFragment();
             default:
-                return new CommonServerListFragment();
+                return new ServerListFragment();
         }
     }
 
@@ -67,7 +67,7 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         ((FavouriteServersListFragment) registeredFragments.get(0)).cancel();
-        ((CommonServerListFragment) registeredFragments.get(1)).cancel();
+        ((ServerListFragment) registeredFragments.get(1)).cancel();
     }
 
     public void applyPendingAction() {
@@ -76,6 +76,6 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
         }
 
         ((FavouriteServersListFragment) registeredFragments.get(0)).applyPendingAction();
-        ((CommonServerListFragment) registeredFragments.get(1)).applyPendingAction();
+        ((ServerListFragment) registeredFragments.get(1)).applyPendingAction();
     }
 }

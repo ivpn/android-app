@@ -19,14 +19,13 @@ import net.ivpn.client.databinding.FragmentTabsServerListBinding
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
 import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
-import net.ivpn.client.v2.settings.SettingsFragmentDirections
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ServerListFragment : Fragment() {
+class ServerFragment : Fragment() {
 
     companion object {
-        val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
+        val LOGGER = LoggerFactory.getLogger(ServerFragment::class.java)
     }
 
     lateinit var binding: FragmentTabsServerListBinding
@@ -34,7 +33,7 @@ class ServerListFragment : Fragment() {
     @Inject
     lateinit var viewModel: ServersListCommonViewModel
     lateinit var adapter: ServersListPagerAdapter
-    val args: ServerListFragmentArgs by navArgs()
+    val args: ServerFragmentArgs by navArgs()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -78,10 +77,6 @@ class ServerListFragment : Fragment() {
         NavHostFragment.findNavController(this).popBackStack()
     }
 
-//    fun onServerSelected(server: Server?, forbiddenServer: Server?) {
-//        NavHostFragment.findNavController(this).popBackStack()
-////        finish()
-//    }
 
     fun onServerLongClick(server: Server?) {}
 
@@ -90,7 +85,7 @@ class ServerListFragment : Fragment() {
     }
 
     fun onFastestServerSettings() {
-        val action = ServerListFragmentDirections.actionServerListFragmentToFastestSettingFragment()
+        val action = ServerFragmentDirections.actionServerListFragmentToFastestSettingFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 
