@@ -5,10 +5,12 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.prefs.Settings
 import javax.inject.Inject
 
+@ApplicationScope
 class ColorThemeViewModel @Inject constructor(
         buildController: BuildController,
         private val settings: Settings

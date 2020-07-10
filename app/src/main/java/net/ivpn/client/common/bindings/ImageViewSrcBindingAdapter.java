@@ -87,7 +87,7 @@ public class ImageViewSrcBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:bitmap")
+    @BindingAdapter("bitmap")
     public static void setImageBitmap(ImageView imageView, Bitmap bitmap) {
         if (bitmap == null) {
             return;

@@ -103,7 +103,7 @@
         android:label="Privacy Policy" />
     <fragment
         android:id="@+id/serverListFragment"
-        android:name="net.ivpn.client.v2.serverlist.ServerFragment"
+        android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"
         android:label="ServerListFragment">
         <argument
             android:name="serverType"

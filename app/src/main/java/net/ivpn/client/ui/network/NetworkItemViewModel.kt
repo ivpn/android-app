@@ -39,7 +39,33 @@ open class NetworkItemViewModel @Inject constructor(
         selectedState.set(wifiItem.networkState)
     }
 
-    fun getColor(state: NetworkState): Int {
+    fun getCurrentStateColor(): Int {
+        return if (currentState.get() == NetworkState.DEFAULT) {
+            getColor(defaultState.get())
+        } else {
+            getColor(currentState.get())
+        }
+    }
+
+    fun getCurrentStateText(): String? {
+        return if (currentState.get() == NetworkState.DEFAULT) {
+            defaultState.get()?.let {
+                context.getString(it.textRes)
+            }
+        } else {
+            currentState.get()?.let {
+                context.getString(it.textRes)
+            }
+        }
+    }
+
+    fun getDefaultText(): String? {
+        return defaultState.get()?.let {
+            context.getString(it.textRes)
+        }
+    }
+
+    fun getColor(state: NetworkState?): Int {
         return when (state) {
             NetworkState.TRUSTED -> {
                 ResourcesCompat.getColor(context.resources, R.color.color_trusted_text, null)
@@ -52,6 +78,9 @@ open class NetworkItemViewModel @Inject constructor(
             }
             NetworkState.DEFAULT -> {
                 ResourcesCompat.getColor(context.resources, R.color.color_default_text, null)
+            }
+            else -> {
+                ResourcesCompat.getColor(context.resources, R.color.color_none_text, null)
             }
         }
     }

@@ -6,10 +6,12 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
 import javax.inject.Inject
 
+@ApplicationScope
 class KillSwitchViewModel @Inject constructor(
         private val settings: Settings,
         private val userPreference: UserPreference,

@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.HttpClientFactory
@@ -19,6 +20,7 @@ import net.ivpn.client.vpn.ProtocolController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
+@ApplicationScope
 class LocationViewModel @Inject constructor(
         private val serversRepository: ServersRepository,
         settings: Settings,

@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import net.ivpn.client.vpn.model.NetworkState
 
-@BindingAdapter("app:background")
+@BindingAdapter("background")
 fun setBackground(view: TextView, backgroundId: Int) {
     view.setBackgroundResource(backgroundId)
 }

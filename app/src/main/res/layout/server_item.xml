@@ -16,91 +16,95 @@
 
         <variable
             name="navigator"
-            type="net.ivpn.client.ui.serverlist.ServersListNavigator" />
+            type="net.ivpn.client.ui.serverlist.AdapterListener" />
 
         <variable
             name="forbiddenServer"
             type="net.ivpn.client.rest.data.model.Server" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/servers_background">
+        android:background="@color/servers_card_background">
 
         <LinearLayout
+            android:id="@+id/server_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="64dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center_vertical"
-            android:onClick="@{() -> navigator.onServerSelected(server, forbiddenServer)}"
-            android:orientation="horizontal"
-            app:onLongClick="@{navigator}"
-            app:server="@{server}">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/server_flag"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="20dp"
                 android:src="@{server}" />
 
             <TextView
                 android:id="@+id/enter_server_description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="16dp"
+                android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
                 android:fontFamily="sans-serif"
+                android:layout_weight="1"
                 android:lineSpacingExtra="8sp"
+                android:letterSpacing="-0.03"
                 android:text="@{server.getDescription}"
                 android:textColor="@color/servers_text_color"
-                android:textSize="16sp"
-                android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
             <LinearLayout
-                android:layout_width="80dp"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:gravity="center_vertical|end">
 
                 <ImageView
                     android:id="@+id/ping_light"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}"
-                    android:src="@{pingstatus.getAppropriateLight}" />
+                    android:src="@{pingstatus.getAppropriateLight}"
+                    android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
 
                 <TextView
                     android:id="@+id/server_ping"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
                     android:layout_weight="1"
+                    android:alpha="0.6"
                     android:fontFamily="sans-serif"
+                    android:gravity="end"
                     android:letterSpacing="-0.03"
                     android:lineSpacingExtra="5sp"
                     android:text="@{pingstatus.formatPing}"
                     android:textColor="@color/servers_text_color"
-                    android:alpha="0.6"
                     android:textSize="15sp"
                     android:textStyle="normal"
                     android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
-        </LinearLayout>
+            
+            <FrameLayout
+                android:id="@+id/star_layout"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="58dp"
-            android:background="#4cb4c1cc" />
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/star"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@{server.isFavourite ? @drawable/ic_star_on : @drawable/ic_star_off}" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

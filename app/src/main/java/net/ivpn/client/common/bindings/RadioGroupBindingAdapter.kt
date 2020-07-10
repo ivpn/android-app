@@ -5,17 +5,17 @@ import androidx.databinding.BindingAdapter
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.vpn.model.NetworkState
 
-@BindingAdapter("app:checked")
+@BindingAdapter("checked")
 fun setMode(view: RadioGroup, nightMode: NightMode) {
     view.check(nightMode.id)
 }
 
-@BindingAdapter("app:listener")
+@BindingAdapter("listener")
 fun setListener(view: RadioGroup, listener: RadioGroup.OnCheckedChangeListener) {
     view.setOnCheckedChangeListener(listener)
 }
 
-@BindingAdapter("app:checked")
+@BindingAdapter("checked")
 fun setMode(view: RadioGroup, networkState: NetworkState) {
     view.check(networkState.id)
 }

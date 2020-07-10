@@ -1,19 +1,20 @@
 package net.ivpn.client.rest.data.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import net.ivpn.client.v2.serverlist.items.ConnectionOption;
+import net.ivpn.client.vpn.Protocol;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import net.ivpn.client.vpn.Protocol;
-
-public class Server {
+public class Server implements ConnectionOption {
 
     public static Comparator<Server> comparator = (server1, server2) -> {
         int countryCode = server1.countryCode.compareTo(server2.countryCode);
-        if (countryCode != 0){
+        if (countryCode != 0) {
             return countryCode;
         }
         return server1.city.compareTo(server2.city);
@@ -47,6 +48,8 @@ public class Server {
     @SerializedName("protocol")
     @Expose
     private Protocol type;
+
+    private boolean isFavourite = false;
 
     public String getGateway() {
         return gateway;
@@ -124,6 +127,14 @@ public class Server {
         this.longitude = longitude;
     }
 
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
+
     public boolean canBeUsedAsMultiHopWith(Server server) {
         if (server == null) return true;
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
@@ -151,10 +162,10 @@ public class Server {
             return false;
         }
         Server other = (Server) obj;
-        if (Objects.equals(this.gateway, other.gateway)) {
-            return true;
+        if (!Objects.equals(this.countryCode, other.countryCode)) {
+            return false;
         }
-        return false;
+        return Objects.equals(this.city, other.city);
     }
 
     @Override

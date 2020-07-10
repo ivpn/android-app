@@ -13,19 +13,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.common.SnackbarUtil
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentTabsServerListBinding
-import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
 import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ServerFragment : Fragment() {
+class ServerListTabFragment : Fragment() {
 
     companion object {
-        val LOGGER = LoggerFactory.getLogger(ServerFragment::class.java)
+        val LOGGER = LoggerFactory.getLogger(ServerListTabFragment::class.java)
     }
 
     lateinit var binding: FragmentTabsServerListBinding
@@ -33,7 +31,7 @@ class ServerFragment : Fragment() {
     @Inject
     lateinit var viewModel: ServersListCommonViewModel
     lateinit var adapter: ServersListPagerAdapter
-    val args: ServerFragmentArgs by navArgs()
+    val args: ServerListTabFragmentArgs by navArgs()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -77,26 +75,16 @@ class ServerFragment : Fragment() {
         NavHostFragment.findNavController(this).popBackStack()
     }
 
-
-    fun onServerLongClick(server: Server?) {}
-
     fun onFastestServerSelected() {
         NavHostFragment.findNavController(this).popBackStack()
     }
 
-    fun onFastestServerSettings() {
-        val action = ServerFragmentDirections.actionServerListFragmentToFastestSettingFragment()
+    fun openFastestSetting() {
+        val action = ServerListTabFragmentDirections.actionServerListFragmentToFastestSettingFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 
     fun getServerType(): ServerType {
         return args.serverType
-    }
-
-    fun notifyFavouritesChanged(isAdded: Boolean) {
-        val msgId = if (isAdded) R.string.favourites_added else R.string.favourites_removed
-        SnackbarUtil.show(binding.coordinator, msgId, R.string.favourites_undo) { view ->
-                adapter.applyPendingAction()
-        }
     }
 }

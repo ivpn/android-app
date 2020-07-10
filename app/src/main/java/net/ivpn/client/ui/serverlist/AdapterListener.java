@@ -2,7 +2,7 @@ package net.ivpn.client.ui.serverlist;
 
 import net.ivpn.client.rest.data.model.Server;
 
-public interface ServersListNavigator {
+public interface AdapterListener {
 
     void onServerSelected(Server server, Server forbiddenServer);
 
@@ -10,5 +10,9 @@ public interface ServersListNavigator {
 
     void onFastestServerSelected();
 
-    void onFastestServerSettings();
+    void onFastestServerSettingsClick();
+
+    void onRandomServerSelected();
+
+    void changeFavouriteStateFor(Server server, boolean isFavourite);
 }

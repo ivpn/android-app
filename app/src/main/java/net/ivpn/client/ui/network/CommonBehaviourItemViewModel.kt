@@ -5,7 +5,6 @@ import android.widget.RadioGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.ObservableField
 import net.ivpn.client.R
-import net.ivpn.client.ui.network.OnNetworkBehaviourChangedListener
 import net.ivpn.client.vpn.local.NetworkController
 import net.ivpn.client.vpn.model.NetworkState
 import org.slf4j.LoggerFactory
@@ -14,18 +13,13 @@ import javax.inject.Inject
 class CommonBehaviourItemViewModel @Inject constructor(
         private val networkController: NetworkController
 ) {
-//    val mobileDataState = ObservableField<NetworkState>()
     val defaultState = ObservableField<NetworkState>()
     private val selectedDefaultState = ObservableField<NetworkState>()
-
-//    val currentState = ObservableField<NetworkState>()
-//    private val selectedState = ObservableField<NetworkState>()
 
     @JvmField
     var navigator: OnDefaultBehaviourChanged? = null
 
-    var defaultNetworkStateListener = RadioGroup.OnCheckedChangeListener {
-        _: RadioGroup?, checkedId: Int ->
+    var defaultNetworkStateListener = RadioGroup.OnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
         onDefaultCheckedChanged(checkedId)
     }
 
@@ -61,6 +55,12 @@ class CommonBehaviourItemViewModel @Inject constructor(
             NetworkState.DEFAULT -> {
                 ResourcesCompat.getColor(context.resources, R.color.color_default_text, null)
             }
+        }
+    }
+
+    fun getDefaultText(): String? {
+        return defaultState.get()?.let {
+            context.getString(it.textRes)
         }
     }
 

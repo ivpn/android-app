@@ -85,9 +85,10 @@
     <color name="custom_dns_card_background">#202020</color>
 
     <color name="servers_text_color">#FFFFFF</color>
-    <color name="servers_background">#121212</color>
+    <color name="servers_text_color_hint">#80FFFFFF</color>
+    <color name="servers_background">#060606</color>
     <color name="servers_card_background">#202020</color>
-    <color name="servers_icon_color">#80FFFFFF</color>
+    <color name="servers_icon_color">#98A5B3</color>
 
     <color name="color_opacity_black_background">#b0000000</color>
     <color name="login_text_color">#FFFFFF</color>

@@ -6,9 +6,11 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.multihop.MultiHopController
 import javax.inject.Inject
 
+@ApplicationScope
 class MultiHopViewModel @Inject constructor(
         private val multiHopController: MultiHopController) : ViewModel() {
 

@@ -1,21 +1,23 @@
 package net.ivpn.client.ui.serverlist;
 
 import android.content.Context;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import net.ivpn.client.R;
-import net.ivpn.client.ui.serverlist.all.ServerListFragment;
-import net.ivpn.client.ui.serverlist.favourites.FavouriteServersListFragment;
+import net.ivpn.client.v2.serverlist.all.ServerListFragment;
+import net.ivpn.client.v2.serverlist.favourite.FavouriteServersListFragment;
 
 public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int ITEM_COUNT = 2;
 
-    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private SparseArray<Fragment> registeredFragments = new SparseArray<>();
     private Context context;
 
     public ServersListPagerAdapter(Context context, FragmentManager fragmentManager) {
@@ -30,33 +32,31 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return context.getString(R.string.servers_list_favorites);
-            default:
-                return context.getString(R.string.servers_list_all);
+        if (position == 0) {
+            return context.getString(R.string.servers_list_all);
         }
+        return context.getString(R.string.servers_list_favorites);
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new FavouriteServersListFragment();
-            default:
-                return new ServerListFragment();
+        if (position == 0) {
+            return new ServerListFragment();
         }
+        return new FavouriteServersListFragment();
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
         registeredFragments.put(position, fragment);
         return fragment;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         registeredFragments.remove(position);
         super.destroyItem(container, position, object);
     }
@@ -68,14 +68,5 @@ public class ServersListPagerAdapter extends FragmentStatePagerAdapter {
 
         ((FavouriteServersListFragment) registeredFragments.get(0)).cancel();
         ((ServerListFragment) registeredFragments.get(1)).cancel();
-    }
-
-    public void applyPendingAction() {
-        if (registeredFragments.size() != ITEM_COUNT) {
-            return;
-        }
-
-        ((FavouriteServersListFragment) registeredFragments.get(0)).applyPendingAction();
-        ((ServerListFragment) registeredFragments.get(1)).applyPendingAction();
     }
 }

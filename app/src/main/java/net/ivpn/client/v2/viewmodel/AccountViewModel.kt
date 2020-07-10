@@ -6,25 +6,18 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableLong
 import androidx.lifecycle.ViewModel
 import com.android.billingclient.api.Purchase
-import net.ivpn.client.IVPNApplication
 import net.ivpn.client.common.billing.BillingManagerWrapper
 import net.ivpn.client.common.billing.SubscriptionState
-import net.ivpn.client.common.prefs.ServersRepository
-import net.ivpn.client.common.prefs.Settings
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
-import net.ivpn.client.rest.HttpClientFactory
-import net.ivpn.client.rest.IVPNApi
-import net.ivpn.client.rest.RequestListener
-import net.ivpn.client.rest.data.session.DeleteSessionRequestBody
-import net.ivpn.client.rest.data.session.DeleteSessionResponse
 import net.ivpn.client.rest.data.session.SessionNewResponse
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
-import net.ivpn.client.rest.requests.common.Request
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
+@ApplicationScope
 class AccountViewModel @Inject constructor(
         private val userPreference: UserPreference,
         private val billingManager: BillingManagerWrapper,
@@ -54,10 +47,10 @@ class AccountViewModel @Inject constructor(
     }
 
     fun onResume() {
-        username.set(getUsername())
+        username.set(getUsernameValue())
         accountType.set(getUserAccountType())
         isOnFreeTrial.set(isOnFreeTrial())
-        availableUntil.set(getAvailableUntil())
+        availableUntil.set(getAvailableUntilValue())
         authenticated.set(isAuthenticated())
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
@@ -105,7 +98,7 @@ class AccountViewModel @Inject constructor(
         navigator?.onLogOut()
     }
 
-    private fun getUsername(): String? {
+    private fun getUsernameValue(): String? {
         return userPreference.userLogin
     }
 
@@ -117,7 +110,7 @@ class AccountViewModel @Inject constructor(
         return userPreference.isUserOnTrial
     }
 
-    private fun getAvailableUntil(): Long {
+    private fun getAvailableUntilValue(): Long {
         return userPreference.availableUntil
     }
 

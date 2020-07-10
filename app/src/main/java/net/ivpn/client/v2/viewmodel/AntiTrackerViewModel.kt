@@ -4,9 +4,11 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.Settings
 import javax.inject.Inject
 
+@ApplicationScope
 class AntiTrackerViewModel @Inject constructor(
         private val buildController: BuildController,
         private val settings: Settings
@@ -17,17 +19,17 @@ class AntiTrackerViewModel @Inject constructor(
     val isHardcoreModeEnabled = ObservableBoolean()
     val isHardcoreModeUIEnabled = ObservableBoolean()
 
-    var enableAntiSurveillance = CompoundButton.OnCheckedChangeListener { compoundButton: CompoundButton?, value: Boolean -> enableAntiSurveillance(value) }
-    var enableHardcoreMode = CompoundButton.OnCheckedChangeListener { compoundButton: CompoundButton?, value: Boolean -> enableHardcoreMode(value) }
+    var enableAntiSurveillance = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAntiSurveillance(value) }
+    var enableHardcoreMode = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableHardcoreMode(value) }
 
     init {
-        isAntiTrackerSupported.set(isAntiTrackerSupported())
+        isAntiTrackerSupported.set(getAntiTrackerSupport())
         isAntiSurveillanceEnabled.set(settings.isAntiSurveillanceEnabled)
         isHardcoreModeEnabled.set(settings.isAntiSurveillanceHardcoreEnabled)
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
     }
 
-    private fun isAntiTrackerSupported(): Boolean {
+    private fun getAntiTrackerSupport(): Boolean {
         return buildController.isAntiTrackerSupported
     }
 

@@ -1,6 +1,7 @@
 package net.ivpn.client.v2.map
 
 import kotlin.math.ln
+import kotlin.math.log
 import kotlin.math.tan
 
 class MapMath {
@@ -108,15 +109,29 @@ class MapMath {
     }
 
     fun getCoordinatesBy(longitude: Float, latitude: Float): Pair<Float, Float> {
-        var x: Float = toRadian(longitude) - 0.18f
-        var y: Float = toRadian(latitude) + 0.124f
+        var x: Double = toRadian(longitude) - 0.18
+        var y: Double = toRadian(latitude).toDouble()
 
-        y = (1.25f * ln(tan(0.25f * Math.PI + 0.4f * y))).toFloat()
+        val yStrech = 0.542
+        val yOffset = 0.053
 
-        x = (((bitmapWidth) / 2f) + (bitmapWidth / (2 * Math.PI)) * x).toFloat()
-        y = ((bitmapHeight / 2f) - (bitmapHeight / (2 * 2.383412543)) * y).toFloat()
+        y = yStrech * ln(tan(0.25 * Math.PI + 0.4 * y)) + yOffset
 
-        return Pair(x, y)
+        x = ((bitmapWidth) / 2) + (bitmapWidth / (2 * Math.PI)) * x
+        y = (bitmapHeight / 2) - (bitmapHeight / 2) * y
+
+        return Pair(x.toFloat(), y.toFloat())
+
+
+//        var x: Float = toRadian(longitude) - 0.18f
+//        var y: Float = toRadian(latitude) + 0.124f
+//
+//        y = (1.25f * ln(tan(0.25f * Math.PI + 0.4f * y))).toFloat()
+//
+//        x = (((bitmapWidth) / 2f) + (bitmapWidth / (2 * Math.PI)) * x).toFloat()
+//        y = ((bitmapHeight / 2f) - (bitmapHeight / (2 * 2.383412543)) * y).toFloat()
+//
+//        return Pair(x, y)
     }
 
     private fun toRadian(value: Float): Float {

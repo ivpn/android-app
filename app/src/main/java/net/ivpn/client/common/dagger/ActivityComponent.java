@@ -16,9 +16,7 @@ import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
 import net.ivpn.client.ui.privateemails.edit.EditPrivateEmailActivity;
 import net.ivpn.client.ui.protocol.ProtocolActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
-import net.ivpn.client.ui.serverlist.all.ServerListFragment;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingActivity;
-import net.ivpn.client.ui.serverlist.favourites.FavouriteServersListFragment;
 import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.ui.signup.SignUpActivity;
 import net.ivpn.client.ui.split.SplitTunnelingActivity;
@@ -41,9 +39,11 @@ import net.ivpn.client.v2.network.NetworkProtectionFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
-import net.ivpn.client.v2.serverlist.ServerFragment;
-import net.ivpn.client.v2.serverlist.ServersRecyclerViewAdapter;
+import net.ivpn.client.v2.serverlist.ServerListTabFragment;
+import net.ivpn.client.v2.serverlist.all.ServerListFragment;
 import net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment;
+import net.ivpn.client.v2.serverlist.favourite.FavouriteServersListFragment;
+import net.ivpn.client.v2.serverlist.holders.ServerViewHolder;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.v2.sync.SyncFragment;
@@ -135,7 +135,7 @@ public interface ActivityComponent {
 
 //    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
 
-    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
+    void inject(ServerViewHolder viewHolder);
 
     void inject(Connection connection);
 
@@ -161,7 +161,7 @@ public interface ActivityComponent {
 
     void inject(CustomDNSFragment fragment);
 
-    void inject(ServerFragment fragment);
+    void inject(ServerListTabFragment fragment);
 
     void inject(FastestSettingFragment fragment);
 

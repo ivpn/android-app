@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
-import net.ivpn.client.common.SnackbarUtil;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.databinding.ActivityServerListBinding;
 import net.ivpn.client.rest.data.model.Server;
@@ -21,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-public class ServersListActivity extends AppCompatActivity implements ServersListNavigator {
+public class ServersListActivity extends AppCompatActivity {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServersListActivity.class);
 
@@ -98,35 +97,6 @@ public class ServersListActivity extends AppCompatActivity implements ServersLis
         viewModel.start(this, serverType);
     }
 
-    public void notifyFavouritesChanged(boolean isAdded) {
-        int msgId = isAdded ? R.string.favourites_added : R.string.favourites_removed;
-        SnackbarUtil.show(binding.coordinator, msgId, R.string.favourites_undo, view -> {
-            if (adapter != null) {
-                adapter.applyPendingAction();
-            }
-        });
-    }
-
-    @Override
-    public void onServerSelected(Server server, Server forbiddenServer) {
-        finish();
-    }
-
-    @Override
-    public void onServerLongClick(Server server) {
-    }
-
-    @Override
-    public void onFastestServerSelected() {
-        finish();
-    }
-
-    @Override
-    public void onFastestServerSettings() {
-        Intent intent = new Intent(this, FastestSettingActivity.class);
-        intent.setAction(serverType.toString());
-        startActivity(intent);
-    }
 
     public ServerType getServerType() {
         return serverType;

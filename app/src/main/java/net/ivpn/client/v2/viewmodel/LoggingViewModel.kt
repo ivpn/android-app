@@ -25,12 +25,12 @@ class LoggingViewModel @Inject constructor(
     }
 
     fun onResume() {
-        isLoggingEnabled.set(isLoggingEnabled())
+        isLoggingEnabled.set(getLoggingValue())
         isCrashLoggingEnabled.set(isSentryEnabled())
-        isSentrySupported.set(isSentrySupported())
+        isSentrySupported.set(getSentrySupport())
     }
 
-    private fun isLoggingEnabled(): Boolean {
+    private fun getLoggingValue(): Boolean {
         return settings.isLoggingEnabled
     }
 
@@ -38,7 +38,7 @@ class LoggingViewModel @Inject constructor(
         return sentryUtil.isEnabled
     }
 
-    private fun isSentrySupported(): Boolean {
+    private fun getSentrySupport(): Boolean {
         return buildController.isSentrySupported
     }
 

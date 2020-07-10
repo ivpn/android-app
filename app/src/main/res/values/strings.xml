@@ -267,12 +267,12 @@
     <string name="servers_list_title_entry">Select entry server</string>
     <string name="servers_list_title_exit">Select exit server</string>
     <string name="servers_list_favorites">Favorites</string>
-    <string name="servers_list_all">Servers List</string>
+    <string name="servers_list_all">All</string>
     <string name="favourites_added">Server added to favorites</string>
     <string name="favourites_removed">Server removed from favorites</string>
     <string name="favourites_undo">UNDO</string>
-    <string name="favourites_no_title">No favorites</string>
-    <string name="favourites_no_description">Tap and hold on server to add it to favorites. To remove, do the same.</string>
+    <string name="favourites_no_title">Your favourite servers will be\n displayed here</string>
+    <string name="favourites_no_description">Save your time by creating your own list of servers</string>
 
     <!--Fastest Server Settings-->
     <string name="fastest_setting_title">Fastest Server Settings</string>
@@ -319,6 +319,7 @@
 
     <string name="connect_network">Network:</string>
     <string name="connect_fastest_server">Fastest server</string>
+    <string name="connect_random_server">Random server</string>
     <string name="connect_unable_test_fastest_server">Unable to test for the fastest server due to a network restriction, the default server will be selected.</string>
     <string name="connect_resumed_in">Will resume in </string>
 

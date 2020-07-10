@@ -150,7 +150,7 @@
                             android:layout_marginTop="2dp"
                             android:fontFamily="sans-serif"
                             android:letterSpacing="-0.01"
-                            android:text="@{NetworkState.DEFAULT.textRes}"
+                            android:text="@{defaultItem.getDefaultText}"
                             android:textColor="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? mobileItem.getColor(mobileItem.defaultState) : mobileItem.getColor(mobileItem.currentState)}"
                             android:textSize="12sp"
                             android:visibility="@{mobileItem.currentState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />

@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/color_toolbar"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@{viewmodel.title}"/>
+                app:title="@{viewmodel.title}" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/sliding_tabs"
@@ -34,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_toolbar"
                 app:tabIndicatorColor="@android:color/white"
-                app:tabTextColor="@color/tab_text_color"
+                app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/tab_selected_text_color"
-                app:tabMode="fixed" />
+                app:tabTextColor="@color/tab_text_color" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,9 +44,8 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:isFavouritesEmpty="@{viewmodel.isFavouriteServersListEmpty}"
-            android:background="@color/servers_background"/>
+            android:background="@color/servers_background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

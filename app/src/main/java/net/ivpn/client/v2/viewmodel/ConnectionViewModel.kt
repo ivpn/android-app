@@ -7,6 +7,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.utils.ConnectivityUtil
@@ -24,6 +25,7 @@ import org.slf4j.LoggerFactory
 import java.io.InterruptedIOException
 import javax.inject.Inject
 
+@ApplicationScope
 class ConnectionViewModel @Inject constructor(
         private val context: Context,
         private val sessionController: SessionController,

@@ -3,6 +3,7 @@ package net.ivpn.client.v2.viewmodel
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.multihop.MultiHopController
 import net.ivpn.client.common.pinger.OnPingFinishListener
 import net.ivpn.client.common.pinger.PingProvider
@@ -17,6 +18,7 @@ import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
 import javax.inject.Inject
 
+@ApplicationScope
 class ServersViewModel @Inject constructor(
         val serversRepository: ServersRepository,
         private val multiHopController: MultiHopController,
@@ -55,7 +57,7 @@ class ServersViewModel @Inject constructor(
 
     private fun isFastestServerEnabled(): Boolean {
         if (multiHopController.isEnabled || isVpnActive()) {
-            return false;
+            return false
         }
 
         return settings.isFastestServerEnabled
@@ -89,7 +91,7 @@ class ServersViewModel @Inject constructor(
         pingProvider.ping(server, listener)
     }
 
-    private fun getOnMultihopValueChanges() : MultiHopController.onValueChangeListener {
+    private fun getOnMultihopValueChanges(): MultiHopController.onValueChangeListener {
         return object : MultiHopController.onValueChangeListener {
             override fun onValueChange(value: Boolean) {
                 fastestServer.set(isFastestServerEnabled())
