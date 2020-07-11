@@ -1,6 +1,5 @@
 package net.ivpn.client.v2.viewmodel
 
-import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -13,10 +12,13 @@ import net.ivpn.client.rest.RequestListener
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.vpn.OnProtocolChangedListener
-import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
+import net.ivpn.client.vpn.controller.VpnBehaviorController
+import net.ivpn.client.vpn.controller.VpnStateListener
+import net.ivpn.client.vpn.controller.VpnStateListenerImpl
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -25,8 +27,9 @@ class LocationViewModel @Inject constructor(
         private val serversRepository: ServersRepository,
         settings: Settings,
         httpClientFactory: HttpClientFactory,
-        protocolController: ProtocolController
-) : ViewModel()  {
+        protocolController: ProtocolController,
+        vpnBehaviorController: VpnBehaviorController
+) : ViewModel() {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(LocationViewModel::class.java)
@@ -34,39 +37,62 @@ class LocationViewModel @Inject constructor(
 
     val dataLoading = ObservableBoolean()
     val locations = ObservableField<List<ServerLocation>?>()
+    private val homeLocation = ObservableField<Location>()
+    var state: ConnectionState? = null
 
     val ip = ObservableField<String>()
     val location = ObservableField<String>()
     val isp = ObservableField<String>()
 
-    private var isLocationInit = false
-    var navigator: LocationNavigator? = null
+    private var locationListeners = arrayListOf<CheckLocationListener>()
 
     private var request: Request<LocationResponse> = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
 
     init {
-        checkLocation(null)
+        vpnBehaviorController.addVpnStateListener(getVpnStateListener())
+        checkLocation()
         protocolController.addOnProtocolChangedListener(getOnProtocolChangeListener())
     }
 
-    fun checkLocation(listener: CheckLocationListener?) {
+    fun addLocationListener(listener: CheckLocationListener) {
+        locationListeners.add(listener)
+        val location = homeLocation.get()
+        if (location != null && state != null && state == ConnectionState.NOT_CONNECTED) {
+            listener.onSuccess(location)
+        }
+    }
+
+    fun removeLocationListener(listener: CheckLocationListener) {
+        locationListeners.remove(listener)
+    }
+
+    private fun checkLocation() {
         dataLoading.set(true)
+        val location = homeLocation.get()
+        if (location != null && state != null && state == ConnectionState.NOT_CONNECTED) {
+            for (listener in locationListeners) {
+                listener.onSuccess(location)
+            }
+        }
         request.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
                 LOGGER.info(response.toString())
-                listener?.onSuccess(response)
                 this@LocationViewModel.onSuccess(response)
             }
 
             override fun onError(throwable: Throwable) {
                 LOGGER.error("Error while updating location ", throwable)
-                listener?.onError()
+                for (listener in locationListeners) {
+                    listener.onError()
+                }
                 this@LocationViewModel.onError()
             }
 
             override fun onError(string: String) {
                 LOGGER.error("Error while updating location ", string)
-                listener?.onError()
+                for (listener in locationListeners) {
+                    listener.onError()
+                }
                 this@LocationViewModel.onError()
             }
         })
@@ -75,10 +101,14 @@ class LocationViewModel @Inject constructor(
     private fun onSuccess(response: LocationResponse?) {
         dataLoading.set(false)
         response?.let {
-            if (!isLocationInit) {
-                navigator?.initMapWith(Location(it.longitude.toFloat(), it.latitude.toFloat(), false))
-                isLocationInit = true
+            if (state != null && state == ConnectionState.NOT_CONNECTED) {
+                val newLocation = Location(it.longitude.toFloat(), it.latitude.toFloat(), false)
+                homeLocation.set(newLocation)
+                for (listener in locationListeners) {
+                    listener.onSuccess(newLocation)
+                }
             }
+
             ip.set(it.ipAddress)
             if (it.city != null && it.city.isNotEmpty()) {
                 location.set(it.getLocation())
@@ -93,16 +123,38 @@ class LocationViewModel @Inject constructor(
         dataLoading.set(false)
     }
 
-    private fun getOnProtocolChangeListener() : OnProtocolChangedListener {
+    private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
         return OnProtocolChangedListener { locations.set(serversRepository.locations) }
     }
 
-    interface LocationNavigator {
-        fun initMapWith(location: Location)
+    private fun getVpnStateListener(): VpnStateListener {
+        return object : VpnStateListenerImpl() {
+            override fun onConnectionStateChanged(state: ConnectionState) {
+                this@LocationViewModel.state = state
+                when (state) {
+                    ConnectionState.NOT_CONNECTED -> {
+                        checkLocation()
+                    }
+                    ConnectionState.DISCONNECTING -> {
+                        val location = homeLocation.get()
+                        if (location != null) {
+                            for (listener in locationListeners) {
+                                listener.onSuccess(location)
+                            }
+                        }
+                    }
+                    ConnectionState.CONNECTED -> {
+                        checkLocation()
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
     }
 
     interface CheckLocationListener {
-        fun onSuccess(response: LocationResponse?)
+        fun onSuccess(location: Location)
 
         fun onError()
     }

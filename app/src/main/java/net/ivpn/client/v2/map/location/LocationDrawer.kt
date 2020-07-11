@@ -9,17 +9,18 @@ import net.ivpn.client.v2.map.MapView
 
 class LocationDrawer(resources: Resources) {
 
-    var pointRadius = resources.getDimension(R.dimen.point_radius)
+    var pointRadius = resources.getDimension(R.dimen.location_point_radius)
     var locationMaxRadius = resources.getDimension(R.dimen.location_anim_max_radius)
 //    var locationRadius = resources.getDimension(R.dimen.location_radius)
 
     private val pointPaint = Paint()
     private var wavePaint = Paint()
 
-    private val connectedColor =  ResourcesCompat.getColor(resources, R.color.wave_connected, null)
+    private val progressColor = ResourcesCompat.getColor(resources, R.color.wave_progress, null)
+    private val connectedColor = ResourcesCompat.getColor(resources, R.color.wave_connected, null)
     private val disconnectedColor = ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
 
-    var firstWave = true
+//    var firstWave = true
 
     init {
         with(pointPaint) {
@@ -37,12 +38,28 @@ class LocationDrawer(resources: Resources) {
 
     fun draw(canvas: Canvas, data: LocationData) {
 //        println("Draw location data = ${data.toString()}")
-        if (data.isMoving) return
+        drawOldLocation(canvas, data)
+        drawCurrentLocation(canvas, data)
+    }
+
+    private fun drawCurrentLocation(canvas: Canvas, data: LocationData) {
+        if (!data.drawCurrentLocation) return
 
         data.location?.let {
-            drawMultiWaves(canvas, data)
-
-            pointPaint.color = if (it.isConnected) connectedColor else disconnectedColor
+//            drawMultiWaves(canvas, data)
+            val color = when {
+                data.inProgress -> {
+                    progressColor
+                }
+                it.isConnected -> {
+                    connectedColor
+                }
+                else -> {
+                    disconnectedColor
+                }
+            }
+            pointPaint.color = color
+            pointPaint.alpha = ((MapView.MAX_ALPHA * 2 * data.appearProgress).coerceAtMost(MapView.MAX_ALPHA.toFloat())).toInt()
             val location = it.coordinate ?: return
 
             canvas.drawCircle(
@@ -51,35 +68,58 @@ class LocationDrawer(resources: Resources) {
                     pointRadius,
                     pointPaint
             )
+
+            wavePaint.color = color
+
+            val radius = (locationMaxRadius - pointRadius) * (data.appearProgress) + pointRadius
+            wavePaint.alpha = (MapView.MAX_ALPHA * (0.6f)).toInt()
+            canvas.drawCircle(
+                    location.first - data.screen.left,
+                    location.second - data.screen.top,
+                    radius,
+                    wavePaint
+            )
         } ?: return
     }
 
-    private fun drawMultiWaves(canvas: Canvas, data: LocationData) {
-        var currentProgress = data.progress
-
-        for (i in 1..MapView.WAVES_COUNT) {
-            drawWave(canvas, currentProgress, data)
-            if (firstWave && (getNextProgress(currentProgress) > currentProgress)) {
-                break
-            } else {
-                currentProgress = getNextProgress(currentProgress)
+    private fun drawOldLocation(canvas: Canvas, data: LocationData) {
+        data.oldLocation?.let {
+            if (data.moveAnimationProgress > 0.5f) {
+                return
             }
+
+            pointPaint.color = if (it.isConnected) connectedColor else disconnectedColor
+            pointPaint.alpha = ((MapView.MAX_ALPHA * (1 - 2 * data.moveAnimationProgress)).toInt())
+            val location = it.coordinate ?: return
+
+            canvas.drawCircle(
+                    location.first - data.screen.left,
+                    location.second - data.screen.top,
+                    pointRadius,
+                    pointPaint
+            )
+
+            wavePaint.color = if (it.isConnected) connectedColor else disconnectedColor
+
+            val radius = (locationMaxRadius - pointRadius) * (1 - 2 * data.moveAnimationProgress) + pointRadius
+            wavePaint.alpha = ((MapView.MAX_ALPHA * (0.6 - data.moveAnimationProgress)).toInt())
+            canvas.drawCircle(
+                    location.first - data.screen.left,
+                    location.second - data.screen.top,
+                    radius,
+                    wavePaint
+            )
         }
     }
 
-    private fun getNextProgress(progress: Float): Float {
-        val waveStep = 1f / MapView.WAVES_COUNT
-
-        return if (progress - waveStep > 0) (progress - waveStep) else (progress + (1 - waveStep))
-    }
-
-    private fun drawWave(canvas: Canvas, progress: Float, data: LocationData) {
+    private fun drawMultiWaves(canvas: Canvas, data: LocationData) {
+//        var currentProgress = data.progress
         data.location?.let {
             wavePaint.color = if (it.isConnected) connectedColor else disconnectedColor
             val location = it.coordinate ?: return
 
-            val radius = (locationMaxRadius - pointRadius) * progress + pointRadius
-            wavePaint.alpha = ((MapView.MAX_ALPHA * (1 - progress)).toInt())
+            val radius = locationMaxRadius
+            wavePaint.alpha = ((MapView.MAX_ALPHA * 0.6f).toInt())
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
@@ -87,6 +127,38 @@ class LocationDrawer(resources: Resources) {
                     wavePaint
             )
 
-        } ?: return
+        }
+
+//        for (i in 1..MapView.WAVES_COUNT) {
+//        drawWave(canvas, 0f, data)
+//            if (firstWave && (getNextProgress(currentProgress) > currentProgress)) {
+//                break
+//            } else {
+//                currentProgress = getNextProgress(currentProgress)
+//            }
+//        }
     }
+
+//    private fun getNextProgress(progress: Float): Float {
+//        val waveStep = 1f / MapView.WAVES_COUNT
+//
+//        return if (progress - waveStep > 0) (progress - waveStep) else (progress + (1 - waveStep))
+//    }
+//
+//    private fun drawWave(canvas: Canvas, progress: Float, data: LocationData) {
+//        data.location?.let {
+//            wavePaint.color = if (it.isConnected) connectedColor else disconnectedColor
+//            val location = it.coordinate ?: return
+//
+//            val radius = (locationMaxRadius - pointRadius) * progress + pointRadius
+//            wavePaint.alpha = ((MapView.MAX_ALPHA * (1 - progress)).toInt())
+//            canvas.drawCircle(
+//                    location.first - data.screen.left,
+//                    location.second - data.screen.top,
+//                    radius,
+//                    wavePaint
+//            )
+//
+//        } ?: return
+//    }
 }

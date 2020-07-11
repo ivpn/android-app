@@ -1,9 +1,10 @@
 package net.ivpn.client.v2.map
 
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -19,13 +20,11 @@ import kotlinx.coroutines.launch
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
-import net.ivpn.client.v2.map.dialogue.model.DialogueLocationData
 import net.ivpn.client.v2.map.location.LocationData
 import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location
@@ -33,7 +32,6 @@ import net.ivpn.client.v2.map.model.Tile
 import net.ivpn.client.v2.map.servers.ServerLocationDrawer
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 import net.ivpn.client.v2.viewmodel.LocationViewModel
-import javax.inject.Inject
 
 class MapView @JvmOverloads constructor(
         context: Context,
@@ -42,8 +40,8 @@ class MapView @JvmOverloads constructor(
         defStyleRes: Int = 0
 ) : View(context, attrs, defStyle, defStyleRes) {
 
-    @Inject
-    lateinit var locationViewModel: LocationViewModel
+//    @Inject
+//    lateinit var locationViewModel: LocationViewModel
 
     //object that is used for calculation the x,y coordinates after fling gesture.
     //While fling animation is in process we can ask it for the newest and correct coordinates.
@@ -68,7 +66,7 @@ class MapView @JvmOverloads constructor(
     private val math = MapMath()
 
     private var location: Location? = null
-    private var homeLocation: Location? = null
+    private var oldLocation: Location? = null
     private var serverLocations: List<ServerLocation>? = null
 
     private val animator = MapAnimator(getAnimatorListener())
@@ -105,7 +103,6 @@ class MapView @JvmOverloads constructor(
         }
 
         override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-            val locationPointerRect = Rect()
             locationData.location?.coordinate?.let {
                 val locationPointerRect = Rect()
                 with(locationPointerRect) {
@@ -127,10 +124,21 @@ class MapView @JvmOverloads constructor(
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
+    val locationListener = object : LocationViewModel.CheckLocationListener {
+        override fun onSuccess(location: Location) {
+//            if (connectionState == ConnectionState.NOT_CONNECTED) {
+            setLocation(location)
+//            }
+        }
+
+        override fun onError() {
+        }
+    }
 
     private var serverPointPaint = Paint()
     private var serversPaint = TextPaint()
     private var serversPaintStroke = TextPaint()
+
     init {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
 
@@ -208,6 +216,10 @@ class MapView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!isInit || location == null) {
+            return
+        }
+
         drawMap(canvas)
 
         with(serverLocationsData) {
@@ -215,9 +227,9 @@ class MapView @JvmOverloads constructor(
             top = math.totalY
         }
         serverLocationDrawer.draw(canvas, serverLocationsData)
-        drawCities(canvas, serverLocationsData)
 
         locationData.location = location
+        locationData.oldLocation = oldLocation
         with(locationData.screen) {
             left = math.totalX.toInt()
             top = math.totalY.toInt()
@@ -229,52 +241,30 @@ class MapView @JvmOverloads constructor(
         dialogueDrawer.draw(canvas, dialogueData)
     }
 
-    val pointRadius = 3f
-    private fun drawCities(canvas: Canvas, data: ServerLocationsData) {
-        val bounds = Rect()
-
-        for (city in math.cities) {
-            canvas.drawCircle(
-                    ((city.x - data.left).toFloat()),
-                    ((city.y - data.top).toFloat()), pointRadius, serverPointPaint
-            )
-
-            serversPaint.getTextBounds(city.name, 0, city.name.length, bounds)
-            canvas.drawText(
-                    city.name, (((city.x - data.left - bounds.width() / 2).toFloat())),
-                    (((city.y - data.top - bounds.height() / 2 - pointRadius).toFloat())), serversPaintStroke
-            )
-            canvas.drawText(
-                    city.name, (((city.x - data.left - bounds.width() / 2).toFloat())),
-                    (((city.y - data.top - bounds.height() / 2 - pointRadius).toFloat())), serversPaint
-            )
-        }
-
-    }
-
     private fun openLocationDialogue() {
+        //TODO fix it.
         dialogueData.state = DialogueDrawer.DialogState.CHECKING
-        locationViewModel.checkLocation(object : LocationViewModel.CheckLocationListener {
-            override fun onSuccess(response: LocationResponse?) {
-                if (response == null) {
-                    dialogueData.state = DialogueDrawer.DialogState.NONE
-                    invalidate()
-                    return
-                }
-
-                dialogueData.state = if (response.isIvpnServer)
-                    DialogueDrawer.DialogState.PROTECTED
-                else DialogueDrawer.DialogState.UNPROTECTED
-
-                dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
-            }
-
-            override fun onError() {
-                dialogueData.state = DialogueDrawer.DialogState.NONE
-                invalidate()
-            }
-
-        })
+//        locationViewModel.checkLocation(object : LocationViewModel.CheckLocationListener {
+//            override fun onSuccess(response: LocationResponse?) {
+//                if (response == null) {
+//                    dialogueData.state = DialogueDrawer.DialogState.NONE
+//                    invalidate()
+//                    return
+//                }
+//
+//                dialogueData.state = if (response.isIvpnServer)
+//                    DialogueDrawer.DialogState.PROTECTED
+//                else DialogueDrawer.DialogState.UNPROTECTED
+//
+//                dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
+//            }
+//
+//            override fun onError() {
+//                dialogueData.state = DialogueDrawer.DialogState.NONE
+//                invalidate()
+//            }
+//
+//        })
     }
 
     private fun drawMap(canvas: Canvas) {
@@ -312,21 +302,6 @@ class MapView @JvmOverloads constructor(
         }
     }
 
-//    fun setHomeLocation(location: Location) {
-//        homeLocation = location
-//        if (isInit) {
-//            setLocation(homeLocation)
-//        }
-//    }
-//
-//    fun setConnectedLocation(location: Location?) {
-//        if (location == null) {
-//            setLocation(homeLocation)
-//        } else {
-//            setLocation(location)
-//        }
-//    }
-
     var connectionState: ConnectionState? = null
     fun setConnectionState(state: ConnectionState?, gateway: Location?) {
         println("Set connection state = ${state}, gateway = ${gateway}")
@@ -336,45 +311,46 @@ class MapView @JvmOverloads constructor(
 
         this.connectionState = state
         when (state) {
-            ConnectionState.NOT_CONNECTED -> {
-                locationViewModel.checkLocation(getCheckLocationListener())
-            }
-            ConnectionState.CONNECTING -> {
-
-            }
             ConnectionState.CONNECTED -> {
+                locationData.inProgress = false
                 if (gateway != null) {
                     gateway.isConnected = true
                     setLocation(gateway)
                 }
+                invalidate()
+            }
+            ConnectionState.NOT_CONNECTED -> {
+                locationData.inProgress = false
+                invalidate()
+            }
+            ConnectionState.CONNECTING -> {
+                locationData.inProgress = true
+                if (gateway != null) {
+                    gateway.isConnected = true
+                    setLocation(gateway)
+                }
+                invalidate()
             }
             ConnectionState.DISCONNECTING -> {
-
+                locationData.inProgress = true
+                invalidate()
             }
             ConnectionState.PAUSING -> {
-
+                locationData.inProgress = true
+                if (gateway != null) {
+                    gateway.isConnected = true
+                    setLocation(gateway)
+                }
+                invalidate()
             }
             ConnectionState.PAUSED -> {
-
-            }
-        }
-    }
-
-    private fun getCheckLocationListener(): LocationViewModel.CheckLocationListener {
-        return object : LocationViewModel.CheckLocationListener {
-            override fun onSuccess(response: LocationResponse?) {
-                if (response == null) {
-                    return
+                locationData.inProgress = true
+                if (gateway != null) {
+                    gateway.isConnected = true
+                    setLocation(gateway)
                 }
-
-                if (connectionState == ConnectionState.NOT_CONNECTED) {
-                    setLocation(Location(response.longitude.toFloat(), response.latitude.toFloat(), false))
-                }
+                invalidate()
             }
-
-            override fun onError() {
-            }
-
         }
     }
 
@@ -394,6 +370,29 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun setLocation(location: Location?) {
+        println("Set location as $location")
+        println("Previous location is ${this.location}")
+
+        if (this.location == location) {
+            return
+        }
+
+        if (this.location == null) {
+            this.location = location
+            location?.let {
+                it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+                math.totalY = (it.coordinate!!.second - height / 2f + panelHeight)
+                math.totalX = (it.coordinate!!.first - width / 2f)
+                invalidate()
+            }
+            return
+        }
+
+        if (this.location?.isConnected == location?.isConnected) {
+            this.location = location
+            return
+        }
+        this.oldLocation = this.location
         this.location = location
 
         if (!isInit) {
@@ -402,7 +401,7 @@ class MapView @JvmOverloads constructor(
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
-            animator.startMovementAnimation(math.totalX, math.totalY)
+            animator.startMovementAnimation(math.totalX, math.totalY, it.isConnected)
         }
     }
 
@@ -433,6 +432,12 @@ class MapView @JvmOverloads constructor(
         job = GlobalScope.launch {
             println("Start to init map")
             math.setScreenSize(width.toFloat(), height.toFloat())
+            location?.let {
+                it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+                math.totalY = (it.coordinate!!.second - height / 2f + panelHeight)
+                math.totalX = (it.coordinate!!.first - width / 2f)
+                invalidate()
+            }
             initTiles()
             isInit = true
         }
@@ -445,12 +450,6 @@ class MapView @JvmOverloads constructor(
 
     private fun postInit() {
         println("isInit = true")
-//        if (homeLocation != null) {
-//            setLocation(homeLocation)
-//        }
-        if (location != null) {
-            setLocation(location)
-        }
 
         serverLocations?.let {
             var pair: Pair<Float, Float>
@@ -460,47 +459,12 @@ class MapView @JvmOverloads constructor(
                 location.y = pair.second
             }
         }
-        var pair: Pair<Float, Float>
-        for (city in math.cities) {
-            pair = math.getCoordinatesBy(city.longitude.toFloat(), city.latitude.toFloat())
-            city.x = pair.first.toDouble()
-            city.y = pair.second.toDouble()
-        }
         serverLocationDrawer.serverLocations = serverLocations
+        invalidate()
     }
 
     private fun initTiles() {
         bitmaps = MapHolder.getTilesFor(resources.getString(R.string.path_to_tiles), context)
-//        val path = resources.getString(R.string.path_to_tiles)
-//        val executionTime = measureTimeMillis {
-//            var array: Array<Tile>
-//            for (i in 1..MapMath.tilesCount) {
-//                array = arrayOf()
-//                for (j in 1..MapMath.tilesCount) {
-//                    array += Tile(
-//                            Rect(
-//                                    MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
-//                                    MapMath.tileWidth * i,
-//                                    MapMath.tileHeight * j
-//                            ),
-//                            getBitmapFrom("$path/row-${j}-col-${i}.png")
-//                    )
-//                }
-//                bitmaps += array
-//            }
-//        }
-//        println("Bitmap init time = $executionTime")
-    }
-
-    private fun getBitmapFrom(assetPath: String): Bitmap {
-        val drawable = Drawable.createFromStream(
-                context.assets.open(assetPath), null
-        )
-
-        return Bitmap.createScaledBitmap(
-                (drawable as BitmapDrawable).bitmap, MapMath.tileWidth,
-                MapMath.tileHeight, false
-        )
     }
 
     private fun getAnimatorListener(): MapAnimator.AnimatorListener {
@@ -509,7 +473,12 @@ class MapView @JvmOverloads constructor(
                 invalidate()
             }
 
-            override fun onMovementProgressUpdate(progress: Float, startX: Float, startY: Float) {
+            override fun onStartMovementAnimation() {
+                locationData.drawCurrentLocation = false
+            }
+
+            override fun updateMovementProgress(progress: Float, startX: Float, startY: Float) {
+                locationData.moveAnimationProgress = progress
                 location?.let {
                     math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * progress
                     math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progress
@@ -517,16 +486,17 @@ class MapView @JvmOverloads constructor(
                 }
             }
 
+            override fun onEndMovementAnimation() {
+                locationData.drawCurrentLocation = true
+                oldLocation = null
+            }
+
+            override fun updateAppearProgress(progress: Float) {
+                locationData.appearProgress = progress
+            }
+
             override fun updateWaveProgress(progress: Float) {
-                locationData.progress = progress
-            }
-
-            override fun updateFirstDraw(isFirstDraw: Boolean) {
-                locationDrawer.firstWave = isFirstDraw
-            }
-
-            override fun updateMovingState(isMoving: Boolean) {
-                locationData.isMoving = isMoving
+                locationData.waveAnimationProgress = progress
             }
 
             override fun onCenterAnimationFinish() {
@@ -536,8 +506,9 @@ class MapView @JvmOverloads constructor(
     }
 
     companion object {
-        const val ANIMATION_DURATION = 8000L
+        const val ANIMATION_DURATION = 2000L
         const val MOVEMENT_ANIMATION_DURATION = 1000L
+        const val APPEAR_ANIMATION_DURATION = 500L
         const val CENTER_ANIMATION_DURATION = 300L
 
         const val MAX_ALPHA = 255

@@ -2,6 +2,7 @@ package net.ivpn.client.v2.map.animation
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.animation.LinearInterpolator
 import net.ivpn.client.v2.map.MapView
 
@@ -11,6 +12,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
     var startX: Float = 0f
     var startY: Float = 0f
+    var appearProgress = 0f
     var movementProgress = 0f
     var waveProgress = 0f
 
@@ -28,7 +30,7 @@ class MapAnimator(val listener: AnimatorListener) {
         movementAnimator.duration = MapView.CENTER_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
-                listener.updateFirstDraw(false)
+//                listener.updateFirstDraw(false)
             }
 
             override fun onAnimationEnd(animation: Animator?) {
@@ -46,25 +48,27 @@ class MapAnimator(val listener: AnimatorListener) {
         })
         movementAnimator.addUpdateListener { valueAnimator ->
             movementProgress = valueAnimator.animatedValue as Float
-            listener.onMovementProgressUpdate(movementProgress, startX, startY)
+            listener.updateMovementProgress(movementProgress, startX, startY)
         }
         movementAnimator.start()
     }
 
-    fun startMovementAnimation(startX: Float, startY: Float) {
+    fun startMovementAnimation(startX: Float, startY: Float, postWaveAnimation: Boolean) {
         this.startX = startX
         this.startY = startY
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
         movementAnimator.duration = MapView.MOVEMENT_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
-                listener.updateFirstDraw(false)
             }
 
             override fun onAnimationEnd(animation: Animator?) {
                 println("onAnimationEnd")
-                startWaveAnimation()
-                listener.updateMovingState(false)
+                startAppearAnimation(postWaveAnimation)
+//                if (postWaveAnimation) {
+//                    startWaveAnimation()
+//                }
+                listener.onEndMovementAnimation()
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -73,31 +77,60 @@ class MapAnimator(val listener: AnimatorListener) {
             override fun onAnimationStart(animation: Animator?) {
                 println("onAnimationStart")
                 waveAnimator.cancel()
-                listener.updateMovingState(true)
-                listener.updateFirstDraw(true)
+                listener.onStartMovementAnimation()
             }
 
         })
         movementAnimator.addUpdateListener { valueAnimator ->
             movementProgress = valueAnimator.animatedValue as Float
-            listener.onMovementProgressUpdate(movementProgress, startX, startY)
+            listener.updateMovementProgress(movementProgress, startX, startY)
         }
         movementAnimator.start()
+    }
+
+    fun startAppearAnimation(postWaveAnimation: Boolean) {
+        Log.d("MapAnimator", "startAppearAnimation postWaveAnimation = $postWaveAnimation ")
+        val appearAnimator = ValueAnimator.ofFloat(0f, 1f)
+        appearAnimator.duration = MapView.APPEAR_ANIMATION_DURATION
+        appearAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                println("onAnimationEnd")
+                if (postWaveAnimation) {
+                    startWaveAnimation()
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+        })
+        appearAnimator.addUpdateListener { valueAnimator ->
+            appearProgress = valueAnimator.animatedValue as Float
+            Log.d("MapAnimator", "Update appear animation appearProgress = $appearProgress ")
+            listener.updateAppearProgress(appearProgress)
+            listener.redraw()
+        }
+        appearAnimator.start()
     }
 
     fun startWaveAnimation() {
         waveAnimator = ValueAnimator.ofFloat(0f, 1f)
         waveAnimator.duration = MapView.ANIMATION_DURATION
-        waveAnimator.repeatCount = ValueAnimator.INFINITE
         waveAnimator.interpolator = LinearInterpolator()
         waveAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
-                listener.updateFirstDraw(false)
-//                locationDrawer.firstWave = false
             }
 
             override fun onAnimationEnd(animation: Animator?) {
                 println("onAnimationEnd")
+                waveAnimator.startDelay = 5000
+                waveAnimator.start()
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -112,8 +145,6 @@ class MapAnimator(val listener: AnimatorListener) {
             waveProgress = valueAnimator.animatedValue as Float
             listener.updateWaveProgress(waveProgress)
             listener.redraw()
-//            locationData.progress = valueAnimator.animatedValue as Float
-//            invalidate()
         }
         waveAnimator.start()
     }
@@ -121,13 +152,15 @@ class MapAnimator(val listener: AnimatorListener) {
     interface AnimatorListener {
         fun redraw()
 
-        fun onMovementProgressUpdate(progress: Float, startX: Float, startY: Float)
+        fun onStartMovementAnimation()
+
+        fun updateMovementProgress(progress: Float, startX: Float, startY: Float)
+
+        fun onEndMovementAnimation()
+
+        fun updateAppearProgress(progress: Float)
 
         fun updateWaveProgress(progress: Float)
-
-        fun updateFirstDraw(isFirstDraw: Boolean)
-
-        fun updateMovingState(isMoving: Boolean)
 
         fun onCenterAnimationFinish()
     }

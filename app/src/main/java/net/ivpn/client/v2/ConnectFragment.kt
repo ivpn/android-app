@@ -2,14 +2,15 @@ package net.ivpn.client.v2
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.net.VpnService
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -33,7 +34,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
-        ConnectionNavigator, LocationViewModel.LocationNavigator {
+        ConnectionNavigator{
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -105,7 +106,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
         multihop.navigator = this
         connect.navigator = this
-        location.navigator = this
 
         binding.location = location
         binding.connection = connect
@@ -146,6 +146,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.resumeButton.setOnClickListener {
             connect.onConnectRequest()
         }
+
+        location.addLocationListener(binding.map.locationListener)
     }
 
     override fun onResume() {
@@ -167,6 +169,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         println("Connect Fragment onStop")
         super.onStop()
         network.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        location.removeLocationListener(binding.map.locationListener)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -196,7 +203,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun checkLocation() {
-        location.checkLocation(null)
+//        location.checkLocation(null)
     }
 
     private fun checkLocationPermission() {
@@ -336,14 +343,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onChangeConnectionStatus(state: ConnectionState) {
-//        val entryServer = servers.entryServer.get()
-//        entryServer?.let {server ->
-//            if (state == ConnectionState.CONNECTED) {
-//                binding.map.setConnectedLocation(Location(server.longitude.toFloat(), server.latitude.toFloat(), true))
-//            } else if (state == ConnectionState.NOT_CONNECTED) {
-//                binding.map.setConnectedLocation(null)
-//            }
-//        }
     }
 
     override fun askConnectionPermission() {
@@ -385,10 +384,5 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun logout() {
 //        account.logout()
-    }
-
-    override fun initMapWith(location: Location) {
-//        binding.map.setHomeLocation(location)
-//        binding.map.visibility = View.VISIBLE
     }
 }

@@ -21,6 +21,7 @@
 <!--    <color name="wave_connected">#449CF8</color>-->
 <!--    <color name="wave_disconnected">#ed7e79</color>-->
     <color name="wave_connected">#398FE6</color>
+    <color name="wave_progress">#d3d3d3</color>
     <color name="wave_disconnected">#FF6258</color>
 
     <color name="sliding_panel_drag_view">#49494B</color>

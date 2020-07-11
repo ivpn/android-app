@@ -42,7 +42,7 @@ class ServerListViewModel @Inject constructor(
             if (navigators.isNotEmpty()) {
                 navigators[0].navigateBack()
             }
-            
+
         }
 
         override fun onFastestServerSettingsClick() {
