@@ -25,6 +25,8 @@ public interface Responses {
     int SUBSCRIPTION_ALREADY_REGISTERED = 409;
     int SUBSCRIPTION_ERROR_WHILE_CREATING_ACCOUNT = 500;
 
+    int ACCOUNT_NOT_ACTIVE = 11005;
+
     int FORBIDDEN = 403;
     int NOT_FOUND = 404;
     int CONFLICT = 409;

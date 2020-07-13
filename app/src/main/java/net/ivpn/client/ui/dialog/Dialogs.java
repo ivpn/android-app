@@ -11,6 +11,7 @@ public enum Dialogs {
             -1, R.string.dialogs_ok),
     USERNAME_FORMAT_ERROR(R.string.dialogs_error, R.string.dialogs_username_error_msg, -1, R.string.dialogs_ok),
     PASSWORD_EMPTY(R.string.dialogs_error, R.string.dialogs_password_empty_msg, -1, R.string.dialogs_ok),
+    ACCOUNT_NOT_ACTIVE(R.string.dialogs_account_not_active_title, R.string.dialogs_account_not_active_msg, -1, R.string.dialogs_ok),
     TOO_MANY_ATTEMPTS_ERROR(R.string.dialogs_authentication_error, R.string.dialogs_too_many_attempts, -1, R.string.dialogs_ok),
     TOO_MANY_ATTEMPTS_REG_ERROR(R.string.dialogs_registration_error_title, R.string.dialogs_too_many_attempts, -1, R.string.dialogs_ok),
     CUSTOM_ERROR(R.string.dialogs_error, -1, -1, R.string.dialogs_ok),

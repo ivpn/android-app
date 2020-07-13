@@ -36,6 +36,7 @@ public class LoginViewModel {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginViewModel.class);
     private static final String ivpnPrefix = "ivpn";
+    private static final String ivpnNewPrefix = "i-";
 
     public final ObservableField<String> username = new ObservableField<>();
     public final ObservableField<String> usernameError = new ObservableField<>();
@@ -65,8 +66,8 @@ public class LoginViewModel {
 
     public void login(boolean force) {
         LOGGER.info("Trying to login");
-        if (username.get() == null || !username.get().startsWith(ivpnPrefix)) {
-            usernameError.set("Account ID should start with \"ivpn\".");
+        if (username.get() == null || !(username.get().startsWith(ivpnPrefix) || username.get().startsWith(ivpnNewPrefix))) {
+            usernameError.set("Your account ID has to be in 'i-XXXX-XXXX-XXXX' or 'ivpnXXXXXXXX' format. You can find it on other devices where you are logged in and in the client area of the IVPN website.");
             return;
         }
         dataLoading.set(true);
@@ -168,6 +169,10 @@ public class LoginViewModel {
             }
             case Responses.SESSION_TOO_MANY: {
                 navigator.openSessionLimitReachedDialogue();
+                break;
+            }
+            case Responses.ACCOUNT_NOT_ACTIVE: {
+                navigator.openAccountNotActiveDialogue();
                 break;
             }
 
