@@ -25,6 +25,7 @@ import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
+import net.ivpn.client.v2.map.dialogue.model.DialogueLocationData
 import net.ivpn.client.v2.map.location.LocationData
 import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location
@@ -242,29 +243,14 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun openLocationDialogue() {
-        //TODO fix it.
-        dialogueData.state = DialogueDrawer.DialogState.CHECKING
-//        locationViewModel.checkLocation(object : LocationViewModel.CheckLocationListener {
-//            override fun onSuccess(response: LocationResponse?) {
-//                if (response == null) {
-//                    dialogueData.state = DialogueDrawer.DialogState.NONE
-//                    invalidate()
-//                    return
-//                }
-//
-//                dialogueData.state = if (response.isIvpnServer)
-//                    DialogueDrawer.DialogState.PROTECTED
-//                else DialogueDrawer.DialogState.UNPROTECTED
-//
-//                dialogueData.dialogueLocationData = DialogueLocationData("${response.city},  ${response.country}", response.countryCode)
-//            }
-//
-//            override fun onError() {
-//                dialogueData.state = DialogueDrawer.DialogState.NONE
-//                invalidate()
-//            }
-//
-//        })
+        location?.let {
+            dialogueData.state = if (it.isConnected)
+                DialogueDrawer.DialogState.PROTECTED
+            else DialogueDrawer.DialogState.UNPROTECTED
+            dialogueData.dialogueLocationData = DialogueLocationData("${it.description}", "${it.countryCode}")
+            dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
+            invalidate()
+        }
     }
 
     private fun drawMap(canvas: Canvas) {
@@ -309,6 +295,7 @@ class MapView @JvmOverloads constructor(
             return
         }
 
+        dialogueData.state = DialogueDrawer.DialogState.NONE
         this.connectionState = state
         when (state) {
             ConnectionState.CONNECTED -> {

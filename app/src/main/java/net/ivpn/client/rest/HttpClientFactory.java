@@ -1,16 +1,19 @@
 package net.ivpn.client.rest;
 
-import net.ivpn.client.BuildConfig;
+import android.util.Log;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import net.ivpn.client.BuildConfig;
+import net.ivpn.client.common.prefs.ServersRepository;
+import net.ivpn.client.common.prefs.Settings;
+
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 
 import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
@@ -21,19 +24,17 @@ import okhttp3.Request;
 public class HttpClientFactory {
     private static final String BASE_URL = BuildConfig.BASE_URL;
     private static OkHttpClient httpClient;
-    private static ExecutorService executor = Executors.newSingleThreadExecutor();
+    private LinkedList<String> ips;
 
     @Inject
     public HttpClientFactory() {
     }
 
-    public OkHttpClient getHttpClient(int timeOut) {
+    public OkHttpClient getHttpClient(int timeOut, LinkedList<String> ips) {
         if (httpClient != null) {
             return httpClient;
         }
-//        if (httpClient != null) {
-//            shutdownHttpClient(httpClient);
-//        }
+        this.ips = ips;
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
@@ -62,12 +63,27 @@ public class HttpClientFactory {
             requestBuilder.header("Content-Type", "application/json");
             requestBuilder.header("Accept", "application/json");
             requestBuilder.header("User-Agent", "ivpn/android");
+            Log.d("HttpFactory", "requestBuilder.build() = " + requestBuilder.build());
             return chain.proceed(requestBuilder.build());
         };
     }
 
+    //ToDo спросить про verifier
     private HostnameVerifier getHostnameVerifier() {
-        return (hostname, session) -> HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+        return (hostname, session) -> {
+            for (String ip : ips) {
+                if (ip == null || ip.isEmpty()) {
+                    continue;
+                }
+                if (hostname.contains(ip)) {
+                    return true;
+                }
+            }
+            return HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+        };
+//        return (hostname, session) -> {
+//            HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+//        }
     }
 
     private static void shutdownHttpClient(OkHttpClient client) {

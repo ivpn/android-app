@@ -91,7 +91,8 @@
     <dimen name="map_dialog_arrow_width">20dp</dimen>
     <dimen name="map_dialog_outer_top_margin">15dp</dimen>
     <dimen name="map_dialog_corner_radius">10dp</dimen>
-    <dimen name="map_dialog_inner_vertical_margin">4dp</dimen>
-    <dimen name="map_dialog_inner_horizontal_margin">16dp</dimen>
+    <dimen name="map_dialog_inner_vertical_margin">8dp</dimen>
+    <dimen name="map_dialog_inner_horizontal_margin">8dp</dimen>
+    <dimen name="map_dialog_y_shift">2dp</dimen>
     
 </resources>

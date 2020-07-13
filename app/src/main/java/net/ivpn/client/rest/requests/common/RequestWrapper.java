@@ -49,7 +49,7 @@ public class RequestWrapper<T> implements Callback<T> {
                    int timeOut) {
         this.settings = settings;
         this.serversRepository = serversRepository;
-        this.httpClient = httpClientFactory.getHttpClient(timeOut);
+        this.httpClient = httpClientFactory.getHttpClient(timeOut, getIps());
     }
 
     void setRequestListener(RequestListener listener) {
@@ -63,6 +63,7 @@ public class RequestWrapper<T> implements Callback<T> {
     void perform() {
         LOGGER.info("Perform with testingIp = " + testingIp);
         String baseUrl = generateURL(testingIp);
+        LOGGER.info("Perform with baseUrl = " + baseUrl);
         perform(baseUrl);
     }
 
@@ -73,7 +74,8 @@ public class RequestWrapper<T> implements Callback<T> {
 
     private String generateURL(String ip) {
         if (ip == null) {
-            return HTTPS + BASE_URL + SLASH;
+//            return HTTPS + BASE_URL + SLASH;
+            return BASE_URL + SLASH;
         }
         return HTTPS + ip + SLASH;
     }
@@ -103,6 +105,7 @@ public class RequestWrapper<T> implements Callback<T> {
 
         LOGGER.info("Perform with testingIp = " + testingIp);
         baseUrl = generateURL(testingIp);
+        LOGGER.info("Perform with baseUrl = " + baseUrl);
         perform(baseUrl);
     }
 
@@ -167,10 +170,9 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private String getTestingIp() {
-        if (testingIp == null) {
-            testingIp = getLastUsedIp();
-        }
-
+//        if (testingIp == null) {
+//            testingIp = getLastUsedIp();
+//        }
         return testingIp;
     }
 

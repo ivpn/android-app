@@ -40,7 +40,7 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
             textSize = resources.getDimension(R.dimen.map_dialog_location_text_size)
         }
 
-        utils.calculateTextRects(titleTextPaint)
+//        utils.calculateTextRects(titleTextPaint)
     }
 
     fun draw(canvas: Canvas, data: DialogueData) {
@@ -74,61 +74,94 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
             locationTextPaint.getTextBounds(it, 0, it.length, locationRect)
         }
 
-        if (data.state != DialogState.CHECKING) {
-            val drawable: Drawable? = getCountryDrawable(data.dialogueLocationData)
-            drawable?.let {
-                it.bounds = Rect((dialogueRect.left + utils.dialogueMargin).toInt(),
-                        (dialogueRect.top + utils.dialogueMargin + utils.checkingRect.height() + utils.innerVerticalMargin).toInt(),
-                        (dialogueRect.left + utils.dialogueMargin + utils.dialogueIconSize).toInt(),
-                        (dialogueRect.top + utils.dialogueMargin + utils.checkingRect.height() + utils.innerVerticalMargin + utils.dialogueIconSize).toInt()
-                )
-                it.draw(canvas)
-            }
-        }
+        val drawable: Drawable? = getCountryDrawable(data.dialogueLocationData)
+        val countryBound = Rect()
+        val infoBound = Rect()
 
         when (data.state) {
-            DialogState.CHECKING -> {
-                canvas.drawText(
-                        utils.checkingLocation,
-                        dialogueRect.centerX() - utils.checkingRect.width() / 2,
-                        dialogueRect.centerY() + utils.checkingRect.height() / 2,
-                        titleTextPaint
-                )
-            }
+//            DialogState.CHECKING -> {
+//                canvas.drawText(
+//                        utils.checkingLocation,
+//                        dialogueRect.centerX() - utils.checkingRect.width() / 2,
+//                        dialogueRect.centerY() + utils.checkingRect.height() / 2,
+//                        titleTextPaint
+//                )
+//            }
             DialogState.PROTECTED -> {
                 canvas.drawText(
                         utils.protectedLocation,
                         dialogueRect.left + utils.dialogueMargin,
-                        dialogueRect.top + utils.checkingRect.height() / 2 + utils.dialogueMargin,
+                        dialogueRect.top + utils.protectedLocationRect.height() + utils.dialogueMargin,
                         titleTextPaint
                 )
                 data.dialogueLocationData.description?.let {
                     canvas.drawText(
                             it,
                             dialogueRect.left + utils.dialogueMargin + utils.dialogueIconSize + utils.innerHorizontalMargin,
-                            dialogueRect.top + utils.dialogueMargin + utils.checkingRect.height() + utils.innerVerticalMargin + 2 * (utils.dialogueIconSize) / 5f + locationRect.height() / 2,
+                            dialogueRect.top + utils.dialogueMargin + utils.protectedLocationRect.height()
+                                    + utils.innerVerticalMargin + locationRect.height() + 0.1f * (utils.dialogueIconSize),
                             locationTextPaint
                     )
+                }
+                drawable?.let {
+                    with(countryBound) {
+                        left = (dialogueRect.left + utils.dialogueMargin).toInt()
+                        right = (left + utils.dialogueIconSize).toInt()
+                        top = (dialogueRect.top + utils.dialogueMargin + utils.protectedLocationRect.height() + utils.innerVerticalMargin).toInt()
+                        bottom = (top + utils.dialogueIconSize).toInt()
+                    }
+                    it.bounds = countryBound
+                    it.draw(canvas)
+                }
+
+                utils.infoDrawable?.let {
+                    with(infoBound) {
+                        right = (dialogueRect.right - utils.dialogueMargin).toInt()
+                        left = (right - utils.dialogueIconSize).toInt()
+                        top = (dialogueRect.top + utils.dialogueMargin + utils.protectedLocationRect.height() + utils.innerVerticalMargin).toInt()
+                        bottom = (top + utils.dialogueIconSize).toInt()
+                    }
+                    it.bounds = infoBound
+                    it.draw(canvas)
                 }
             }
             DialogState.UNPROTECTED -> {
                 canvas.drawText(
                         utils.unprotectedLocation,
                         dialogueRect.left + utils.dialogueMargin,
-                        dialogueRect.top + utils.checkingRect.height() / 2 + utils.dialogueMargin,
+                        dialogueRect.top + utils.unprotectedLocationRect.height() + utils.dialogueMargin,
                         titleTextPaint
                 )
+//                2 * (utils.dialogueIconSize) / 5f
                 data.dialogueLocationData.description?.let {
                     canvas.drawText(
                             it,
                             dialogueRect.left + utils.dialogueMargin + utils.dialogueIconSize + utils.innerHorizontalMargin,
-                            dialogueRect.top + utils.dialogueMargin + utils.checkingRect.height() + utils.innerVerticalMargin + 2 * (utils.dialogueIconSize) / 5f + locationRect.height() / 2,
+                            dialogueRect.top + utils.dialogueMargin + utils.unprotectedLocationRect.height()
+                                    + utils.innerVerticalMargin + locationRect.height() + 0.1f * (utils.dialogueIconSize),
                             locationTextPaint
                     )
                 }
-//                description?.let {
-//                    locationTextPaint.getTextBounds(it, 0, it.length, protectedLocationRect)
-//                }
+                drawable?.let {
+                    with(countryBound) {
+                        left = (dialogueRect.left + utils.dialogueMargin).toInt()
+                        right = (left + utils.dialogueIconSize).toInt()
+                        top = (dialogueRect.top + utils.dialogueMargin + utils.unprotectedLocationRect.height() + utils.innerVerticalMargin).toInt()
+                        bottom = (top + utils.dialogueIconSize).toInt()
+                    }
+                    it.bounds = countryBound
+                    it.draw(canvas)
+                }
+                utils.infoDrawable?.let {
+                    with(infoBound) {
+                        right = (dialogueRect.right - utils.dialogueMargin).toInt()
+                        left = (right - utils.dialogueIconSize).toInt()
+                        top = (dialogueRect.top + utils.dialogueMargin + utils.unprotectedLocationRect.height() + utils.innerVerticalMargin).toInt()
+                        bottom = (top + utils.dialogueIconSize).toInt()
+                    }
+                    it.bounds = infoBound
+                    it.draw(canvas)
+                }
             }
         }
     }
@@ -149,9 +182,12 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
         } ?: return null
     }
 
+    fun prepareDimensionsFor(dialogueLocationData: DialogueLocationData, state: DialogState) {
+        utils.prepareDimensionsFor(dialogueLocationData, state)
+    }
+
     enum class DialogState {
         NONE,
-        CHECKING,
         PROTECTED,
         UNPROTECTED
     }

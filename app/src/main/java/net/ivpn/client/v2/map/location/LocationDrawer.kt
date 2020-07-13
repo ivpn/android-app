@@ -113,7 +113,6 @@ class LocationDrawer(resources: Resources) {
     }
 
     private fun drawMultiWaves(canvas: Canvas, data: LocationData) {
-//        var currentProgress = data.progress
         data.location?.let {
             wavePaint.color = if (it.isConnected) connectedColor else disconnectedColor
             val location = it.coordinate ?: return
@@ -128,37 +127,5 @@ class LocationDrawer(resources: Resources) {
             )
 
         }
-
-//        for (i in 1..MapView.WAVES_COUNT) {
-//        drawWave(canvas, 0f, data)
-//            if (firstWave && (getNextProgress(currentProgress) > currentProgress)) {
-//                break
-//            } else {
-//                currentProgress = getNextProgress(currentProgress)
-//            }
-//        }
     }
-
-//    private fun getNextProgress(progress: Float): Float {
-//        val waveStep = 1f / MapView.WAVES_COUNT
-//
-//        return if (progress - waveStep > 0) (progress - waveStep) else (progress + (1 - waveStep))
-//    }
-//
-//    private fun drawWave(canvas: Canvas, progress: Float, data: LocationData) {
-//        data.location?.let {
-//            wavePaint.color = if (it.isConnected) connectedColor else disconnectedColor
-//            val location = it.coordinate ?: return
-//
-//            val radius = (locationMaxRadius - pointRadius) * progress + pointRadius
-//            wavePaint.alpha = ((MapView.MAX_ALPHA * (1 - progress)).toInt())
-//            canvas.drawCircle(
-//                    location.first - data.screen.left,
-//                    location.second - data.screen.top,
-//                    radius,
-//                    wavePaint
-//            )
-//
-//        } ?: return
-//    }
 }

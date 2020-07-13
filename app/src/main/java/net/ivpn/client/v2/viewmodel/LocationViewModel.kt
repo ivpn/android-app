@@ -102,7 +102,7 @@ class LocationViewModel @Inject constructor(
         dataLoading.set(false)
         response?.let {
             if (state != null && state == ConnectionState.NOT_CONNECTED) {
-                val newLocation = Location(it.longitude.toFloat(), it.latitude.toFloat(), false)
+                val newLocation = Location(it.longitude.toFloat(), it.latitude.toFloat(), false, "${it.city}, ${it.country}", it.countryCode)
                 homeLocation.set(newLocation)
                 for (listener in locationListeners) {
                     listener.onSuccess(newLocation)

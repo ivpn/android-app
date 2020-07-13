@@ -20,6 +20,9 @@ import net.ivpn.client.vpn.wireguard.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import de.blinkt.openvpn.core.ConnectionStatus;
@@ -35,6 +38,8 @@ public class VpnBehaviorController {
     private Protocol protocol;
 
     private ConfigManager configManager;
+
+    private List<VpnStateListener> listeners = new ArrayList<>();
 
     @Inject
     public VpnBehaviorController(ConfigManager configManager, ServersRepository serversRepository,
@@ -58,6 +63,9 @@ public class VpnBehaviorController {
             behavior.destroy();
         }
         behavior = getBehavior(protocol);
+        for (VpnStateListener listener: listeners) {
+            behavior.addStateListener(listener);
+        }
     }
 
     public void disconnect() {
@@ -111,11 +119,13 @@ public class VpnBehaviorController {
 
     public void addVpnStateListener(VpnStateListener stateListener) {
         Log.d(TAG, "setVpnStateListener: ");
+        listeners.add(stateListener);
         behavior.addStateListener(stateListener);
     }
 
     public void removeVpnStateListener(VpnStateListener stateListener) {
         Log.d(TAG, "removeVpnStateListener: ");
+        listeners.remove(stateListener);
         behavior.removeStateListener(stateListener);
     }
 

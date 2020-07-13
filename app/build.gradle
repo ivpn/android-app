@@ -70,7 +70,7 @@ android {
 
         production {
             dimension "api"
-            buildConfigField "String", "BASE_URL", "\"api.ivpn.net\""
+            buildConfigField "String", "BASE_URL", "\"https://api.ivpn.net\""
         }
 
         stage {
