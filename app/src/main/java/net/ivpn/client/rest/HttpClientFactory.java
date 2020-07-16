@@ -3,8 +3,6 @@ package net.ivpn.client.rest;
 import android.util.Log;
 
 import net.ivpn.client.BuildConfig;
-import net.ivpn.client.common.prefs.ServersRepository;
-import net.ivpn.client.common.prefs.Settings;
 
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
@@ -13,9 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 
 import okhttp3.ConnectionPool;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,18 +29,16 @@ public class HttpClientFactory {
     }
 
     public OkHttpClient getHttpClient(int timeOut, LinkedList<String> ips) {
-        if (httpClient != null) {
-            return httpClient;
-        }
-        this.ips = ips;
+//        if (httpClient != null) {
+//            return httpClient;
+//        }
+//        this.ips = ips;
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
 
-        ConnectionPool connectionPool = new ConnectionPool(1, 3, TimeUnit.SECONDS);
-        httpClientBuilder.connectionPool(connectionPool)
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS);
+//        ConnectionPool connectionPool = new ConnectionPool(1, 3, TimeUnit.SECONDS);
+//        httpClientBuilder.connectionPool(connectionPool);
 
 //        httpClientBuilder.cache(null);
 //        httpClientBuilder.readTimeout(1, TimeUnit.MINUTES);
@@ -51,7 +47,7 @@ public class HttpClientFactory {
 
         httpClientBuilder.hostnameVerifier(getHostnameVerifier());
         httpClientBuilder.readTimeout(timeOut, TimeUnit.SECONDS);
-        httpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS);
+        httpClientBuilder.connectTimeout(3, TimeUnit.SECONDS);
         httpClient = httpClientBuilder.build();
 
         return httpClient;
@@ -60,30 +56,18 @@ public class HttpClientFactory {
     private Interceptor getInterceptor() {
         return chain -> {
             Request.Builder requestBuilder = chain.request().newBuilder();
-            requestBuilder.header("Content-Type", "application/json");
-            requestBuilder.header("Accept", "application/json");
-            requestBuilder.header("User-Agent", "ivpn/android");
-            Log.d("HttpFactory", "requestBuilder.build() = " + requestBuilder.build());
-            return chain.proceed(requestBuilder.build());
+            requestBuilder.addHeader("Content-Type", "application/json");
+            requestBuilder.addHeader("Accept", "application/json");
+            requestBuilder.addHeader("User-Agent", "ivpn/android");
+            Request request = requestBuilder
+                    .build();
+            Log.d("HttpClientFactory", "getInterceptor: request " + request);
+            return chain.proceed(request);
         };
     }
 
-    //ToDo спросить про verifier
     private HostnameVerifier getHostnameVerifier() {
-        return (hostname, session) -> {
-            for (String ip : ips) {
-                if (ip == null || ip.isEmpty()) {
-                    continue;
-                }
-                if (hostname.contains(ip)) {
-                    return true;
-                }
-            }
-            return HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
-        };
-//        return (hostname, session) -> {
-//            HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
-//        }
+        return (hostname, session) -> HttpsURLConnection.getDefaultHostnameVerifier().verify("api.ivpn.net", session);
     }
 
     private static void shutdownHttpClient(OkHttpClient client) {

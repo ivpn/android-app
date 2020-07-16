@@ -1,12 +1,10 @@
 package net.ivpn.client.common.session
 
 import net.ivpn.client.IVPNApplication
-import net.ivpn.client.R
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
-import net.ivpn.client.common.utils.ConnectivityUtil
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
@@ -16,14 +14,11 @@ import net.ivpn.client.rest.data.model.WireGuard
 import net.ivpn.client.rest.data.session.*
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
-import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.viewmodel.AccountViewModel
-import net.ivpn.client.v2.viewmodel.ConnectionViewModel
 import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import org.slf4j.LoggerFactory
-import java.io.InterruptedIOException
 import javax.inject.Inject
 
 class SessionController @Inject constructor(
@@ -264,7 +259,7 @@ class SessionController @Inject constructor(
 
     private fun resetWireGuard() {
         LOGGER.info("Reset WireGuard protocol")
-        protocolController.currentProtocol = Protocol.OpenVPN
+        protocolController.currentProtocol = Protocol.OPENVPN
     }
 
     interface SessionListener {

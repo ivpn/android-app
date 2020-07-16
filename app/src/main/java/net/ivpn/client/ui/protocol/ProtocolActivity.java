@@ -71,9 +71,9 @@ public class ProtocolActivity extends AppCompatActivity implements ProtocolNavig
         viewModel.setNavigator(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_protocol);
         binding.contentLayout.setViewmodel(viewModel);
-        PortAdapter openVpnPortAdapter = new PortAdapter(this, R.layout.port_item, Port.valuesFor(Protocol.OpenVPN));
+        PortAdapter openVpnPortAdapter = new PortAdapter(this, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN));
         binding.contentLayout.protocolSettings.openvpnSpinner.setAdapter(openVpnPortAdapter);
-        PortAdapter wgVpnPortAdapter = new PortAdapter(this, R.layout.port_item, Port.valuesFor(Protocol.WireGuard));
+        PortAdapter wgVpnPortAdapter = new PortAdapter(this, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD));
         binding.contentLayout.protocolSettings.wgSpinner.setAdapter(wgVpnPortAdapter);
     }
 

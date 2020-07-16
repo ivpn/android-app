@@ -64,11 +64,17 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun onConnectRequest() {
-        if (!isTokenExist()) {
-            createNewSession(false)
-            return;
-        }
+//        if (!isTokenExist()) {
+//            createNewSession(false)
+//            return;
+//        }
         vpnBehaviorController.connectionActionByUser()
+    }
+
+    fun connectIfNot() {
+        if (!isConnected.get()) {
+            vpnBehaviorController.connectActionByRules()
+        }
     }
 
     fun onPauseRequest() {

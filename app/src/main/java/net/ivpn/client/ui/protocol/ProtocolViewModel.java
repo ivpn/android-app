@@ -54,8 +54,8 @@ public class ProtocolViewModel {
     private VpnBehaviorController vpnBehaviorController;
 
     public CompoundButton.OnCheckedChangeListener openVPNCheckedChangeListener = (buttonView, isChecked) -> {
-        if (isChecked && protocol.get().equals(Protocol.WireGuard)) {
-            setProtocol(Protocol.OpenVPN);
+        if (isChecked && protocol.get().equals(Protocol.WIREGUARD)) {
+            setProtocol(Protocol.OPENVPN);
         }
     };
     public CompoundButton.OnCheckedChangeListener wireGuardCheckedChangeListener = (buttonView, isChecked) -> {
@@ -63,7 +63,7 @@ public class ProtocolViewModel {
         if (protocol.get() == null) {
             return;
         }
-        if (isChecked && protocol.get().equals(Protocol.OpenVPN)) {
+        if (isChecked && protocol.get().equals(Protocol.OPENVPN)) {
             protocol.set(null);
             tryEnableWgProtocol();
         }
@@ -133,7 +133,7 @@ public class ProtocolViewModel {
     }
 
     public String getDescription() {
-        if (protocol.get().equals(Protocol.WireGuard)) {
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
             return protocol.get() + ", " + wireGuardPort.get().toThumbnail();
         } else {
             return protocol.get() + ", " + openVPNPort.get().toThumbnail();
@@ -147,7 +147,7 @@ public class ProtocolViewModel {
             return;
         }
 
-        setProtocol(Protocol.WireGuard);
+        setProtocol(Protocol.WIREGUARD);
     }
 
     public void reGenerateKeys() {
@@ -163,7 +163,7 @@ public class ProtocolViewModel {
 
     void setPort(Port port) {
         LOGGER.info(TAG, "Set port: " + port);
-        if (protocol.get().equals(Protocol.WireGuard)) {
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
             settings.setWgPort(port);
         } else {
             settings.setOpenVPNPort(port);
@@ -173,7 +173,7 @@ public class ProtocolViewModel {
     private void onGeneratingError(String error, Throwable throwable) {
         LOGGER.error(TAG, "On generating error: " + error, throwable);
         dataLoading.set(false);
-        setProtocol(Protocol.OpenVPN);
+        setProtocol(Protocol.OPENVPN);
 
         if (throwable != null) {
             if (throwable instanceof UnknownHostException) {
@@ -216,7 +216,7 @@ public class ProtocolViewModel {
             public void onKeyGeneratedSuccess() {
                 LOGGER.info("WireGuard public key was added to server");
                 dataLoading.set(false);
-                setProtocol(Protocol.WireGuard);
+                setProtocol(Protocol.WIREGUARD);
                 wireGuardPublicKey = settings.getWireGuardPublicKey();
             }
 

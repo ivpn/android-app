@@ -134,7 +134,7 @@ public class VpnBehaviorController {
     }
 
     public boolean isVPNActive() {
-        if (protocol == Protocol.OpenVPN) {
+        if (protocol == Protocol.OPENVPN) {
             return VpnStatus.isVPNActive()
                     || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK && IVPNService.isRunning.get());
         } else {
@@ -146,7 +146,7 @@ public class VpnBehaviorController {
     }
 
     private VpnBehavior getBehavior(Protocol protocol) {
-        if (protocol == Protocol.WireGuard) {
+        if (protocol == Protocol.WIREGUARD) {
             return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getWireGuardBehavior();
         }
         return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getOpenVpnBehavior();

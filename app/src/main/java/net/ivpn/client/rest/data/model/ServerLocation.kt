@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 
 data class ServerLocation(
         @SerializedName("city") var city: String,
+        @SerializedName("countryCode") var countryCode: String,
         @SerializedName("latitude") var latitude: Double,
         @SerializedName("longitude") var longitude: Double
 ) {

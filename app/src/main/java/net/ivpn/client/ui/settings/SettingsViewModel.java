@@ -308,7 +308,7 @@ public class SettingsViewModel extends BaseObservable {
     }
 
     private boolean isMultihopAllowedByProtocol() {
-        return protocolController.getCurrentProtocol().equals(Protocol.OpenVPN);
+        return protocolController.getCurrentProtocol().equals(Protocol.OPENVPN);
     }
 
 //    private boolean isLoggingEnabled() {

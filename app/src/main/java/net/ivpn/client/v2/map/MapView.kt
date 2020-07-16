@@ -4,20 +4,16 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.Typeface
-import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.ui.connect.ConnectionState
@@ -33,6 +29,8 @@ import net.ivpn.client.v2.map.model.Tile
 import net.ivpn.client.v2.map.servers.ServerLocationDrawer
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 import net.ivpn.client.v2.viewmodel.LocationViewModel
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class MapView @JvmOverloads constructor(
         context: Context,
@@ -41,11 +39,6 @@ class MapView @JvmOverloads constructor(
         defStyleRes: Int = 0
 ) : View(context, attrs, defStyle, defStyleRes) {
 
-//    @Inject
-//    lateinit var locationViewModel: LocationViewModel
-
-    //object that is used for calculation the x,y coordinates after fling gesture.
-    //While fling animation is in process we can ask it for the newest and correct coordinates.
     private var scroller: Scroller = Scroller(this.context)
 
     private var panelHeight: Float = 0f
@@ -58,6 +51,7 @@ class MapView @JvmOverloads constructor(
 
     private var serverLocationDrawer = ServerLocationDrawer(resources)
     private var serverLocationsData = ServerLocationsData()
+    private var nearestServer: ServerLocation? = null
 
     private var locationDrawer = LocationDrawer(resources)
     private var locationData = LocationData()
@@ -103,46 +97,28 @@ class MapView @JvmOverloads constructor(
             return true
         }
 
-        override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-            locationData.location?.coordinate?.let {
-                val locationPointerRect = Rect()
-                with(locationPointerRect) {
-                    left = (it.first - 200 - math.totalX).toInt()
-                    right = (it.first + 200 - math.totalX).toInt()
-                    top = (it.second - 200 - math.totalY).toInt()
-                    bottom = (it.second + 200 - math.totalY).toInt()
-                }
-
-                if (locationPointerRect.contains(event.x.toInt(), event.y.toInt())) {
-                    animator.centerLocation(math.totalX, math.totalY)
-                } else {
-                    dialogueData.state = DialogueDrawer.DialogState.NONE
-                    invalidate()
-                }
-            }
-            return super.onSingleTapConfirmed(event)
+        override fun onSingleTapUp(event: MotionEvent): Boolean {
+            checkTap(event)
+            return super.onSingleTapUp(event)
         }
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
     val locationListener = object : LocationViewModel.CheckLocationListener {
-        override fun onSuccess(location: Location) {
-//            if (connectionState == ConnectionState.NOT_CONNECTED) {
-            setLocation(location)
-//            }
+        override fun onSuccess(location: Location, connectionState: ConnectionState) {
+            println("Location listener on Success connectionState = $connectionState")
+            if (connectionState == ConnectionState.NOT_CONNECTED) {
+                setLocation(location)
+            }
         }
 
         override fun onError() {
         }
     }
 
-    private var serverPointPaint = Paint()
-    private var serversPaint = TextPaint()
-    private var serversPaintStroke = TextPaint()
+    var mapListener: MapListener? = null
 
     init {
-        IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
-
         with(bitmapPaint) {
             isAntiAlias = true
             style = Paint.Style.FILL
@@ -150,30 +126,6 @@ class MapView @JvmOverloads constructor(
 
         val dialogueUtil = DialogueUtil(resources)
         dialogueDrawer = DialogueDrawer(dialogueUtil, context)
-
-        with(serverPointPaint) {
-            color = ResourcesCompat.getColor(resources, R.color.primary, null)
-            isAntiAlias = true
-            style = Paint.Style.FILL
-        }
-
-        with(serversPaint) {
-            isAntiAlias = true
-            color = ResourcesCompat.getColor(resources, R.color.primary, null)
-            textSize = resources.getDimension(R.dimen.location_name)
-            letterSpacing = 0.03f
-            typeface = Typeface.DEFAULT_BOLD
-        }
-
-        with(serversPaintStroke) {
-            isAntiAlias = true
-            color = ResourcesCompat.getColor(resources, R.color.map_label_shadow, null)
-            textSize = resources.getDimension(R.dimen.location_name)
-            letterSpacing = 0.03f
-            strokeWidth = 4f
-            typeface = Typeface.DEFAULT_BOLD
-            style = Paint.Style.FILL_AND_STROKE
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -242,12 +194,93 @@ class MapView @JvmOverloads constructor(
         dialogueDrawer.draw(canvas, dialogueData)
     }
 
+    private fun checkTap(event: MotionEvent) {
+        when(dialogueData.state) {
+            DialogueDrawer.DialogState.UNPROTECTED, DialogueDrawer.DialogState.PROTECTED -> {
+                if (dialogueDrawer.infoButtonRect.contains(event.x.toInt(), event.y.toInt())) {
+                    mapListener?.onCheckLocationTap()
+                    dialogueData.state = DialogueDrawer.DialogState.NONE
+                    invalidate()
+                    return
+                }
+            }
+            DialogueDrawer.DialogState.SERVER_CONNECT -> {
+                if (dialogueDrawer.connectButtonRect.contains(event.x, event.y)) {
+                    println("on connect button tap")
+                    nearestServer?.let {
+                        mapListener?.onConnectTap(it)
+                    }
+                    dialogueData.state = DialogueDrawer.DialogState.NONE
+                    invalidate()
+                    return
+                }
+            }
+        }
+        dialogueData.state = DialogueDrawer.DialogState.NONE
+
+        locationData.location?.coordinate?.let {
+            val locationPointerRect = Rect()
+            with(locationPointerRect) {
+                left = (it.first - locationDrawer.locationMaxRadius - math.totalX).toInt()
+                right = (it.first + locationDrawer.locationMaxRadius - math.totalX).toInt()
+                top = (it.second - locationDrawer.locationMaxRadius - math.totalY).toInt()
+                bottom = (it.second + locationDrawer.locationMaxRadius - math.totalY).toInt()
+            }
+
+            if (locationPointerRect.contains(event.x.toInt(), event.y.toInt())) {
+                //ToDo Dialog state will be checked again after animation
+                animator.centerLocation(math.totalX,
+                        math.totalY,
+                        DialogueDrawer.DialogState.PROTECTED,
+                        MapAnimator.MovementAnimationType.CENTER_LOCATION
+                )
+                return
+            }
+        }
+
+        serverLocationDrawer.serverLocations?.let {
+            nearestServer = null
+            var minDistance = Float.MAX_VALUE
+            var distance: Float
+            for (serverLocation in it) {
+                distance = sqrt((serverLocation.x - math.totalX - event.x).pow(2)
+                        + (serverLocation.y - math.totalY - event.y).pow(2))
+
+                if (distance < serverLocationDrawer.tapRadius) {
+                    if (distance < minDistance) {
+                        nearestServer = serverLocation
+                        minDistance = distance
+                    }
+                }
+            }
+
+            if (nearestServer != null) {
+                animator.centerLocation(math.totalX, math.totalY,
+                        DialogueDrawer.DialogState.SERVER_CONNECT,
+                        MapAnimator.MovementAnimationType.CENTER_GATEWAY
+                )
+                return
+            }
+        }
+
+        invalidate()
+    }
+
     private fun openLocationDialogue() {
         location?.let {
             dialogueData.state = if (it.isConnected)
                 DialogueDrawer.DialogState.PROTECTED
             else DialogueDrawer.DialogState.UNPROTECTED
             dialogueData.dialogueLocationData = DialogueLocationData("${it.description}", "${it.countryCode}")
+            dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
+            invalidate()
+        }
+    }
+
+    private fun openGatewayDialogue() {
+        nearestServer?.let {
+            dialogueData.state = DialogueDrawer.DialogState.SERVER_CONNECT
+            dialogueData.dialogueLocationData = DialogueLocationData(it.city, it.countryCode)
             dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
             invalidate()
         }
@@ -290,7 +323,7 @@ class MapView @JvmOverloads constructor(
 
     var connectionState: ConnectionState? = null
     fun setConnectionState(state: ConnectionState?, gateway: Location?) {
-        println("Set connection state = ${state}, gateway = ${gateway}")
+        println("Animation Set connection state = ${state}, gateway = ${gateway}")
         if (state == null) {
             return
         }
@@ -300,6 +333,9 @@ class MapView @JvmOverloads constructor(
         when (state) {
             ConnectionState.CONNECTED -> {
                 locationData.inProgress = false
+                if (animator.animationState == MapAnimator.AnimationState.NONE) {
+                    animator.startWaveAnimation()
+                }
                 if (gateway != null) {
                     gateway.isConnected = true
                     setLocation(gateway)
@@ -307,6 +343,7 @@ class MapView @JvmOverloads constructor(
                 invalidate()
             }
             ConnectionState.NOT_CONNECTED -> {
+                animator.stopWaveAnimation()
                 locationData.inProgress = false
                 invalidate()
             }
@@ -356,10 +393,18 @@ class MapView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun centerMap() {
+        dialogueData.state = DialogueDrawer.DialogState.NONE
+        animator.centerLocation(math.totalX,
+                math.totalY,
+                DialogueDrawer.DialogState.NONE,
+                MapAnimator.MovementAnimationType.CENTER_LOCATION
+        )
+    }
+
     private fun setLocation(location: Location?) {
         println("Set location as $location")
         println("Previous location is ${this.location}")
-
         if (this.location == location) {
             return
         }
@@ -377,6 +422,9 @@ class MapView @JvmOverloads constructor(
 
         if (this.location?.isConnected == location?.isConnected) {
             this.location = location
+            this.location?.let {
+                it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+            }
             return
         }
         this.oldLocation = this.location
@@ -388,7 +436,7 @@ class MapView @JvmOverloads constructor(
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
-            animator.startMovementAnimation(math.totalX, math.totalY, it.isConnected)
+            animator.startMovementAnimation(math.totalX, math.totalY)
         }
     }
 
@@ -419,12 +467,6 @@ class MapView @JvmOverloads constructor(
         job = GlobalScope.launch {
             println("Start to init map")
             math.setScreenSize(width.toFloat(), height.toFloat())
-            location?.let {
-                it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
-                math.totalY = (it.coordinate!!.second - height / 2f + panelHeight)
-                math.totalX = (it.coordinate!!.first - width / 2f)
-                invalidate()
-            }
             initTiles()
             isInit = true
         }
@@ -446,6 +488,12 @@ class MapView @JvmOverloads constructor(
                 location.y = pair.second
             }
         }
+        location?.let {
+            it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+            math.totalY = (it.coordinate!!.second - height / 2f + panelHeight)
+            math.totalX = (it.coordinate!!.first - width / 2f)
+            invalidate()
+        }
         serverLocationDrawer.serverLocations = serverLocations
         invalidate()
     }
@@ -464,12 +512,26 @@ class MapView @JvmOverloads constructor(
                 locationData.drawCurrentLocation = false
             }
 
-            override fun updateMovementProgress(progress: Float, startX: Float, startY: Float) {
+            override fun updateMovementProgress(progress: Float,
+                                                startX: Float,
+                                                startY: Float,
+                                                animationType: MapAnimator.MovementAnimationType) {
                 locationData.moveAnimationProgress = progress
-                location?.let {
-                    math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * progress
-                    math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progress
-                    invalidate()
+                when (animationType) {
+                    MapAnimator.MovementAnimationType.CENTER_LOCATION -> {
+                        location?.let {
+                            math.totalY = startY + (it.coordinate!!.second - height / 2f - startY + panelHeight) * progress
+                            math.totalX = startX + (it.coordinate!!.first - width / 2f - startX) * progress
+                            invalidate()
+                        }
+                    }
+                    MapAnimator.MovementAnimationType.CENTER_GATEWAY -> {
+                        nearestServer?.let {
+                            math.totalY = startY + (it.y - height / 2f - startY + panelHeight) * progress
+                            math.totalX = startX + (it.x - width / 2f - startX) * progress
+                            invalidate()
+                        }
+                    }
                 }
             }
 
@@ -482,24 +544,40 @@ class MapView @JvmOverloads constructor(
                 locationData.appearProgress = progress
             }
 
+            override fun onEndAppearAnimation() {
+                if (connectionState != null && connectionState == ConnectionState.CONNECTED) {
+                    animator.startWaveAnimation()
+                }
+            }
+
             override fun updateWaveProgress(progress: Float) {
                 locationData.waveAnimationProgress = progress
             }
 
-            override fun onCenterAnimationFinish() {
-                openLocationDialogue()
+            override fun onCenterAnimationFinish(dialogState: DialogueDrawer.DialogState) {
+                when (dialogState) {
+                    DialogueDrawer.DialogState.NONE -> {
+                        return
+                    }
+                    DialogueDrawer.DialogState.PROTECTED, DialogueDrawer.DialogState.UNPROTECTED -> openLocationDialogue()
+                    DialogueDrawer.DialogState.SERVER_CONNECT -> openGatewayDialogue()
+                }
             }
         }
     }
 
+    interface MapListener {
+        fun onConnectTap(serverLocation: ServerLocation)
+
+        fun onCheckLocationTap()
+    }
+
     companion object {
-        const val ANIMATION_DURATION = 2000L
+        const val WAVE_ANIMATION_DURATION = 2000L
         const val MOVEMENT_ANIMATION_DURATION = 1000L
-        const val APPEAR_ANIMATION_DURATION = 500L
+        const val APPEAR_ANIMATION_DURATION = 10L
         const val CENTER_ANIMATION_DURATION = 300L
 
         const val MAX_ALPHA = 255
-
-        const val WAVES_COUNT = 3
     }
 }

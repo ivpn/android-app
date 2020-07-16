@@ -284,7 +284,7 @@ public class Settings {
 
     public void nextPort() {
         Protocol protocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
-        if (protocol.equals(Protocol.OpenVPN)) {
+        if (protocol.equals(Protocol.OPENVPN)) {
             Port nextPort = getOpenVpnPort().next();
             Log.d(TAG, "nextPort: next port = ");
             setOpenVPNPort(nextPort);

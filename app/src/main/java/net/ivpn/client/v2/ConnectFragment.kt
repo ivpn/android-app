@@ -20,12 +20,14 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentConnectBinding
+import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.ui.connect.ConnectionNavigator
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
 import net.ivpn.client.v2.viewmodel.*
@@ -73,20 +75,17 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        println("Connect Fragment onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("Connect Fragment onViewCreated")
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
     }
 
     private fun initViews() {
-        println("Connect Fragment init views height = ${view?.height}")
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
@@ -146,8 +145,23 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.resumeButton.setOnClickListener {
             connect.onConnectRequest()
         }
+        binding.centerLocation.setOnClickListener {
+            binding.map.centerMap()
+        }
 
         location.addLocationListener(binding.map.locationListener)
+        binding.map.mapListener = object: MapView.MapListener {
+            override fun onConnectTap(serverLocation: ServerLocation) {
+                servers.setServerLocation(serverLocation)
+                connect.connectIfNot()
+            }
+
+            override fun onCheckLocationTap() {
+                location.checkLocation()
+                bottomSheetBehavior.state = STATE_EXPANDED
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -189,7 +203,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 connect.onConnectRequest()
             }
             ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
-//                kill.startKillSwitch()
             }
         }
     }
@@ -203,23 +216,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun checkLocation() {
-//        location.checkLocation(null)
     }
 
     private fun checkLocationPermission() {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
-//            return
-//        }
-//        val isPermissionGranted: Boolean = isPermissionGranted()
-//        val isEnabled: Boolean = viewModel.areNetworkRulesEnabled.get()
-//        if (!isEnabled) {
-//            return
-//        }
-//        if (isPermissionGranted) {
-//            viewModel.applyNetworkFeatureState(true)
-//            return
-//        }
-//        askPermissionRationale()
     }
 
     private fun checkVPNPermission(requestCode: Int) {
@@ -262,25 +261,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun enableMultiHop() {
-        bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
-                + resources.getDimension(R.dimen.slider_layout_exit_layout_height)).toInt(), true)
-        Handler().postDelayed({
-            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
-        }, 50)
-//        binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
-        binding.slidingPanel.bottomSheet.requestLayout()
-        binding.map.setPanelHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)
-                + resources.getDimension(R.dimen.slider_layout_exit_layout_height)))
+        val peekHeight = (resources.getDimension(R.dimen.slider_layout_single_hop_height) + resources.getDimension(R.dimen.slider_layout_exit_layout_height))
+        bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
+        binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+        binding.map.setPanelHeight(peekHeight)
+        binding.centerLocation.animate().translationY(-peekHeight)
     }
 
     private fun disableMultiHop() {
-        bottomSheetBehavior.setPeekHeight((resources.getDimension(R.dimen.slider_layout_single_hop_height)).toInt(), true)
+        val peekHeight = resources.getDimension(R.dimen.slider_layout_single_hop_height)
+        bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
         Handler().postDelayed({
             binding.slidingPanel.exitServerLayout.visibility = View.GONE
         }, 50)
-//        binding.slidingPanel.exitServerLayout.visibility = View.GONE
-        binding.slidingPanel.bottomSheet.requestLayout()
-        binding.map.setPanelHeight(resources.getDimension(R.dimen.slider_layout_single_hop_height))
+        binding.map.setPanelHeight(peekHeight)
+        binding.centerLocation.animate().translationY(-peekHeight)
     }
 
     private fun openSettingsScreen() {

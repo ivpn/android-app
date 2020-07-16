@@ -7,8 +7,8 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.IVPNApi;
 import net.ivpn.client.rest.RequestListener;
-import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.ServersListResponse;
+import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.vpn.Protocol;
@@ -55,8 +55,8 @@ public class ServersRepository implements Serializable {
         onFavouritesChangedListeners = new ArrayList<>();
         onServerListUpdatedListeners = new ArrayList<>();
         onServerChangedListeners = new ArrayList<>();
-        currentServers.put(Protocol.OpenVPN, new EnumMap<>(ServerType.class));
-        currentServers.put(Protocol.WireGuard, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.OPENVPN, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.WIREGUARD, new EnumMap<>(ServerType.class));
     }
 
     @Nullable
@@ -136,11 +136,16 @@ public class ServersRepository implements Serializable {
         List<Server> servers = serversPreference.getServersList();
         List<ServerLocation> locations = new ArrayList<>();
 
-        for (Server server: servers) {
-            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        for (Server server : servers) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
         }
 
-        if (protocolController.getCurrentProtocol() == Protocol.OpenVPN) {
+        if (protocolController.getCurrentProtocol() == Protocol.OPENVPN) {
             serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
         } else {
             serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
@@ -213,7 +218,7 @@ public class ServersRepository implements Serializable {
 
     public void fastestServerSelected() {
         settings.enableFastestServerSetting(true);
-        for (OnServerChangedListener listener: onServerChangedListeners) {
+        for (OnServerChangedListener listener : onServerChangedListeners) {
             listener.onServerChanged();
         }
     }
@@ -224,7 +229,7 @@ public class ServersRepository implements Serializable {
         if (type == ServerType.ENTRY) {
             updateVPNSettingWith(server);
         } else {
-            for (OnServerChangedListener listener: onServerChangedListeners) {
+            for (OnServerChangedListener listener : onServerChangedListeners) {
                 listener.onServerChanged();
             }
         }
@@ -279,14 +284,24 @@ public class ServersRepository implements Serializable {
 
         List<ServerLocation> locations = new ArrayList<>();
 
-        for (Server server: response.getOpenVpnServerList()) {
-            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        for (Server server : response.getOpenVpnServerList()) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
         }
         serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
         locations.clear();
 
-        for (Server server: response.getWireGuardServerList()) {
-            locations.add(new ServerLocation(server.getCity(), server.getLatitude(), server.getLongitude()));
+        for (Server server : response.getWireGuardServerList()) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
         }
         serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
 
@@ -368,7 +383,7 @@ public class ServersRepository implements Serializable {
     }
 
     private List<Server> getSuitableServers(ServersListResponse response) {
-        if (getCurrentProtocolType().equals(Protocol.WireGuard)) {
+        if (getCurrentProtocolType().equals(Protocol.WIREGUARD)) {
             return response.getWireGuardServerList();
         } else {
             return response.getOpenVpnServerList();
@@ -388,7 +403,7 @@ public class ServersRepository implements Serializable {
     }
 
     private void updateVPNSettingWith(Server server) {
-        for (OnServerChangedListener listener: onServerChangedListeners) {
+        for (OnServerChangedListener listener : onServerChangedListeners) {
             listener.onServerChanged();
         }
     }

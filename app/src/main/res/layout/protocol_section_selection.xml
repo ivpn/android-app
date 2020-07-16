@@ -61,7 +61,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@{viewmodel.protocol.equals(Protocol.OpenVPN) ? true : false}"
+                    android:checked="@{viewmodel.protocol.equals(Protocol.OPENVPN) ? true : false}"
                     android:theme="@style/AppTheme.RadioButton"
                     app:buttonTint="@color/dialogue_button"
                     app:onChanged="@{viewmodel.openVPNCheckedChangeListener}" />
@@ -104,7 +104,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@{viewmodel.protocol.equals(Protocol.WireGuard) ? true : false}"
+                    android:checked="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? true : false}"
                     android:theme="@style/AppTheme.RadioButton"
                     app:buttonTint="@color/dialogue_button"
                     app:onChanged="@{viewmodel.wireGuardCheckedChangeListener}" />
