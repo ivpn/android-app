@@ -14,6 +14,13 @@ fun setServerLocations(map: MapView, locations: List<ServerLocation>?) {
 
 @BindingAdapter(value = ["connectionState", "gateway"], requireAll = false)
 fun setConnectionState(map: MapView, state: ConnectionState?, server: Server?) {
-    val location = server?.let { Location(it.longitude.toFloat(), it.latitude.toFloat(), false, it.description, it.countryCode) }
+    val location = server?.let {
+        Location(it.longitude.toFloat(),
+                it.latitude.toFloat(),
+                false,
+                it.city,
+                it.country,
+                it.countryCode)
+    }
     map.setConnectionState(state, location)
 }

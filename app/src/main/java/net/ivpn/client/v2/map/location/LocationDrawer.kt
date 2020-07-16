@@ -3,6 +3,8 @@ package net.ivpn.client.v2.map.location
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Rect
+import android.text.TextPaint
 import androidx.core.content.res.ResourcesCompat
 import net.ivpn.client.R
 import net.ivpn.client.v2.map.MapView
@@ -19,6 +21,9 @@ class LocationDrawer(resources: Resources) {
     private val connectedColor = ResourcesCompat.getColor(resources, R.color.wave_connected, null)
     private val disconnectedColor = ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
 
+    private var locationPaint = TextPaint()
+    private var locationPaintStroke = TextPaint()
+
     init {
         with(pointPaint) {
             color = ResourcesCompat.getColor(resources, R.color.colorAccent, null)
@@ -30,6 +35,24 @@ class LocationDrawer(resources: Resources) {
             color = ResourcesCompat.getColor(resources, R.color.wave_connected, null)
             isAntiAlias = true
             style = Paint.Style.FILL
+        }
+
+        with(locationPaint) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.wave_disconnected, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            typeface = android.graphics.Typeface.DEFAULT_BOLD
+        }
+
+        with(locationPaintStroke) {
+            isAntiAlias = true
+            color = ResourcesCompat.getColor(resources, R.color.map_label_shadow, null)
+            textSize = resources.getDimension(R.dimen.location_name)
+            letterSpacing = 0.03f
+            strokeWidth = 4f
+            typeface = android.graphics.Typeface.DEFAULT_BOLD
+            style = Paint.Style.FILL_AND_STROKE
         }
     }
 
@@ -64,6 +87,23 @@ class LocationDrawer(resources: Resources) {
                     pointRadius,
                     pointPaint
             )
+
+            if (!it.isConnected) {
+                val bounds = Rect()
+                it.city?.let { city ->
+                    locationPaint.getTextBounds(city, 0, city.length, bounds)
+                    locationPaint.alpha = MapView.MAX_ALPHA
+                    locationPaintStroke.alpha = MapView.MAX_ALPHA
+                    canvas.drawText(
+                            city, ((location.first - data.screen.left - bounds.width() / 2)),
+                            ((location.second - data.screen.top - bounds.height() / 2 - pointRadius)), locationPaintStroke
+                    )
+                    canvas.drawText(
+                            city, ((location.first - data.screen.left - bounds.width() / 2)),
+                            ((location.second - data.screen.top - bounds.height() / 2 - pointRadius)), locationPaint
+                    )
+                }
+            }
         } ?: return
     }
 
@@ -73,8 +113,9 @@ class LocationDrawer(resources: Resources) {
                 return
             }
 
+            val alpha = ((MapView.MAX_ALPHA * (1 - 2 * data.moveAnimationProgress)).toInt())
             pointPaint.color = if (it.isConnected) connectedColor else disconnectedColor
-            pointPaint.alpha = ((MapView.MAX_ALPHA * (1 - 2 * data.moveAnimationProgress)).toInt())
+            pointPaint.alpha = alpha
             val location = it.coordinate ?: return
 
             canvas.drawCircle(
@@ -83,6 +124,23 @@ class LocationDrawer(resources: Resources) {
                     pointRadius,
                     pointPaint
             )
+
+            if (!it.isConnected) {
+                val bounds = Rect()
+                it.city?.let { city ->
+                    locationPaint.getTextBounds(city, 0, city.length, bounds)
+                    locationPaint.alpha = alpha
+                    locationPaintStroke.alpha = alpha
+                    canvas.drawText(
+                            city, ((location.first - data.screen.left - bounds.width() / 2)),
+                            ((location.second - data.screen.top - bounds.height() / 2 - pointRadius)), locationPaintStroke
+                    )
+                    canvas.drawText(
+                            city, ((location.first - data.screen.left - bounds.width() / 2)),
+                            ((location.second - data.screen.top - bounds.height() / 2 - pointRadius)), locationPaint
+                    )
+                }
+            }
         }
     }
 

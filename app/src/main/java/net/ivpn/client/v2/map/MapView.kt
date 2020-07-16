@@ -271,7 +271,7 @@ class MapView @JvmOverloads constructor(
             dialogueData.state = if (it.isConnected)
                 DialogueDrawer.DialogState.PROTECTED
             else DialogueDrawer.DialogState.UNPROTECTED
-            dialogueData.dialogueLocationData = DialogueLocationData("${it.description}", "${it.countryCode}")
+            dialogueData.dialogueLocationData = DialogueLocationData("${it.city}, ${it.country}", "${it.countryCode}")
             dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
             invalidate()
         }

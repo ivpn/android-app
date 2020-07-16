@@ -73,7 +73,7 @@
     <dimen name="location_anim_max_radius">40dp</dimen>
     <dimen name="location_radius">10dp</dimen>
     <dimen name="point_radius">5dp</dimen>
-    <dimen name="location_point_radius">6dp</dimen>
+    <dimen name="location_point_radius">5dp</dimen>
     <dimen name="location_name">10sp</dimen>
     <dimen name="server_tap_radius">20dp</dimen>
 

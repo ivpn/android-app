@@ -4,7 +4,8 @@ data class Location(
         val longitude: Float,
         val latitude: Float,
         var isConnected: Boolean,
-        var description: String?,
+        var city: String?,
+        var country: String?,
         var countryCode: String?) {
     var coordinate: Pair<Float, Float>? = null
 }
