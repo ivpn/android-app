@@ -25,7 +25,7 @@ public class WireGuardKeyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
         LOGGER.info("Receive intent");
-        if (protocolController.getCurrentProtocol().equals(Protocol.WireGuard)
+        if (protocolController.getCurrentProtocol().equals(Protocol.WIREGUARD)
                 && vpnBehaviorController.isVPNActive()) {
             vpnBehaviorController.regenerate();
         }

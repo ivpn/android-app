@@ -43,7 +43,7 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
 
     private void initAlarmManager() {
         LOGGER.info( "initAlarmManager: ");
-        if (!protocolController.getCurrentProtocol().equals(Protocol.WireGuard)) {
+        if (!protocolController.getCurrentProtocol().equals(Protocol.WIREGUARD)) {
             return;
         }
         LOGGER.info( "initAlarmManager: setAlarm");

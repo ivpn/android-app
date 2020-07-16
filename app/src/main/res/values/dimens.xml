@@ -75,6 +75,7 @@
     <dimen name="point_radius">5dp</dimen>
     <dimen name="location_point_radius">6dp</dimen>
     <dimen name="location_name">10sp</dimen>
+    <dimen name="server_tap_radius">20dp</dimen>
 
     <dimen name="slider_layout_single_hop_height">252dp</dimen>
     <dimen name="slider_layout_exit_layout_height">85dp</dimen>
@@ -85,7 +86,7 @@
     
     <dimen name="map_dialog_side_margin">16dp</dimen>
     <dimen name="map_dialog_title_text_size">12sp</dimen>
-    <dimen name="map_dialog_location_text_size">16sp</dimen>
+    <dimen name="map_dialog_location_text_size">14sp</dimen>
     <dimen name="map_dialog_icon_size">24dp</dimen>
     <dimen name="map_dialog_arrow_height">10dp</dimen>
     <dimen name="map_dialog_arrow_width">20dp</dimen>
@@ -94,5 +95,6 @@
     <dimen name="map_dialog_inner_vertical_margin">8dp</dimen>
     <dimen name="map_dialog_inner_horizontal_margin">8dp</dimen>
     <dimen name="map_dialog_y_shift">2dp</dimen>
+    <dimen name="map_dialog_button_height">42dp</dimen>
     
 </resources>

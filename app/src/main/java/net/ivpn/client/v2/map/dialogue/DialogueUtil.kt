@@ -13,13 +13,13 @@ class DialogueUtil(val resources: Resources) {
 
     var protectedLocationRect = Rect()
     var unprotectedLocationRect = Rect()
-    var checkingRect = Rect()
+    var gatewayTitleRect = Rect()
     var locationRect = Rect()
-    var infoButtonRect = Rect()
 
-    var checkingLocation = resources.getString(R.string.map_dialog_checking_location)
     var protectedLocation = resources.getString(R.string.map_dialog_connected_title)
     var unprotectedLocation = resources.getString(R.string.map_dialog_not_connected_title)
+    var gateway = resources.getString(R.string.map_dialog_server)
+    var connectText = resources.getString(R.string.map_dialog_button_text)
 
     var radii: FloatArray
 
@@ -34,6 +34,7 @@ class DialogueUtil(val resources: Resources) {
     var contentHeight = 0f
     var contentWidth = 0f
     var yShift = 0f
+    var buttonHeight = 0f
 
     var infoDrawable: Drawable?
 
@@ -50,6 +51,7 @@ class DialogueUtil(val resources: Resources) {
         innerHorizontalMargin = resources.getDimension(R.dimen.map_dialog_inner_horizontal_margin)
         cornerRadius = resources.getDimension(R.dimen.map_dialog_corner_radius)
         yShift = resources.getDimension(R.dimen.map_dialog_y_shift)
+        buttonHeight = resources.getDimension(R.dimen.map_dialog_button_height)
 
         radii = FloatArray(8) {
             cornerRadius
@@ -90,6 +92,9 @@ class DialogueUtil(val resources: Resources) {
             DialogueDrawer.DialogState.UNPROTECTED -> {
                 prepareUnprotectedState(dialogueLocationData)
             }
+            DialogueDrawer.DialogState.SERVER_CONNECT -> {
+                prepareGatewayState(dialogueLocationData)
+            }
         }
     }
 
@@ -119,6 +124,21 @@ class DialogueUtil(val resources: Resources) {
 
         contentWidth = 3 * dialogueMargin + max(descriptionWidth, titleWidth) + dialogueIconSize
         contentHeight = 2 * dialogueMargin + innerVerticalMargin + unprotectedLocationRect.height() + dialogueIconSize - yShift
+    }
+
+    private fun prepareGatewayState(dialogueLocationData: DialogueLocationData) {
+        titleTextPaint.getTextBounds(gateway, 0, gateway.length, gatewayTitleRect)
+        val titleWidth: Float = gatewayTitleRect.width().toFloat()
+
+        dialogueLocationData.description?.let {
+            locationTextPaint.getTextBounds(it, 0, it.length, locationRect)
+        }
+
+        val descriptionWidth: Float = dialogueIconSize + locationRect.width() + innerHorizontalMargin
+
+        contentWidth = 2 * dialogueMargin + max(descriptionWidth, titleWidth) + 5f
+        contentHeight = (2 * dialogueMargin + 2 * innerVerticalMargin + gatewayTitleRect.height()
+                + dialogueIconSize - yShift + buttonHeight)
     }
 
 }

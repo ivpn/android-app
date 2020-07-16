@@ -12,11 +12,13 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
+import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
 import javax.inject.Inject
+import kotlin.math.E
 
 @ApplicationScope
 class ServersViewModel @Inject constructor(
@@ -106,6 +108,27 @@ class ServersViewModel @Inject constructor(
             } else {
                 pingResultExitServer.set(result)
             }
+        }
+    }
+
+    fun setServerLocation(serverLocation: ServerLocation) {
+        var serverToConnect: Server? = null
+        for (server in serversRepository.getServers(false)) {
+            if (serverLocation.city == server.city) {
+                serverToConnect = server
+                break
+            }
+        }
+
+        if (serverToConnect == null) {
+            return
+        }
+        if (multiHopController.isEnabled) {
+            exitServer.set(serverToConnect)
+            serversRepository.serverSelected(serverToConnect, ServerType.EXIT)
+        } else {
+            entryServer.set(serverToConnect)
+            serversRepository.serverSelected(serverToConnect, ServerType.ENTRY)
         }
     }
 }

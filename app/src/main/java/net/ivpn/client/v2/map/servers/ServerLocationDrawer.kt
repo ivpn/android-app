@@ -18,6 +18,7 @@ class ServerLocationDrawer(resources: Resources) {
     private var serversPaintStroke = TextPaint()
 
     private val pointRadius = resources.getDimension(R.dimen.point_radius)
+    val tapRadius = resources.getDimension(R.dimen.server_tap_radius)
 
     var serverLocations: List<ServerLocation>? = null
 

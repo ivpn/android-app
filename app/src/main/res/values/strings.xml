@@ -596,4 +596,6 @@
     <string name="map_dialog_not_connected_title">Everyone knows about your location</string>
     <string name="map_dialog_connected_title">No one knows about your location</string>
     <string name="map_dialog_checking_location">Checking location…</string>
+    <string name="map_dialog_server">Protect yourself by connecting to</string>
+    <string name="map_dialog_button_text">CONNECT TO SERVER</string>
 </resources>

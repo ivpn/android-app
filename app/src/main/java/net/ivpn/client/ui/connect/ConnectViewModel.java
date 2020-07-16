@@ -334,7 +334,7 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
     }
 
     private boolean isMultihopAllowedByProtocol() {
-        return protocolController.getCurrentProtocol().equals(Protocol.OpenVPN);
+        return protocolController.getCurrentProtocol().equals(Protocol.OPENVPN);
     }
 
     private boolean isPrivateEmailsEnabled() {

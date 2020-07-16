@@ -101,6 +101,7 @@
     <!--Dialog-->
     <color name="dialogue_background">#ffffff</color>
     <color name="dialogue_title">#DE2A394B</color>
+    <color name="dialogue_button_text">#ffffff</color>
     <color name="dialogue_text">#DE2A394B</color>
     <color name="dialogue_button">#4C8BF5</color>
 

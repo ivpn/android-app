@@ -19,7 +19,7 @@ public class StickyPreference {
 
     public String getCurrentProtocol() {
         SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
-        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.OpenVPN.name());
+        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.OPENVPN.name());
     }
 
     public void putCurrentProtocol(Protocol protocol) {

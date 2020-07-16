@@ -57,8 +57,9 @@ class LocationViewModel @Inject constructor(
     fun addLocationListener(listener: CheckLocationListener) {
         locationListeners.add(listener)
         val location = homeLocation.get()
-        if (location != null && state != null && state == ConnectionState.NOT_CONNECTED) {
-            listener.onSuccess(location)
+        val stateL = state
+        if (location != null && stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
+            listener.onSuccess(location, stateL)
         }
     }
 
@@ -66,12 +67,13 @@ class LocationViewModel @Inject constructor(
         locationListeners.remove(listener)
     }
 
-    private fun checkLocation() {
+    fun checkLocation() {
         dataLoading.set(true)
         val location = homeLocation.get()
-        if (location != null && state != null && state == ConnectionState.NOT_CONNECTED) {
+        val stateL = state
+        if (location != null && stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
             for (listener in locationListeners) {
-                listener.onSuccess(location)
+                listener.onSuccess(location, stateL)
             }
         }
         request.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
@@ -101,11 +103,12 @@ class LocationViewModel @Inject constructor(
     private fun onSuccess(response: LocationResponse?) {
         dataLoading.set(false)
         response?.let {
-            if (state != null && state == ConnectionState.NOT_CONNECTED) {
+            val stateL = state
+            if (stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
                 val newLocation = Location(it.longitude.toFloat(), it.latitude.toFloat(), false, "${it.city}, ${it.country}", it.countryCode)
                 homeLocation.set(newLocation)
                 for (listener in locationListeners) {
-                    listener.onSuccess(newLocation)
+                    listener.onSuccess(newLocation, stateL)
                 }
             }
 
@@ -139,7 +142,7 @@ class LocationViewModel @Inject constructor(
                         val location = homeLocation.get()
                         if (location != null) {
                             for (listener in locationListeners) {
-                                listener.onSuccess(location)
+                                listener.onSuccess(location, state)
                             }
                         }
                     }
@@ -154,7 +157,7 @@ class LocationViewModel @Inject constructor(
     }
 
     interface CheckLocationListener {
-        fun onSuccess(location: Location)
+        fun onSuccess(location: Location, connectionState: ConnectionState)
 
         fun onError()
     }

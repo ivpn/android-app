@@ -189,7 +189,7 @@
                         android:gravity="end"
                         android:letterSpacing="-0.02"
                         android:singleLine="true"
-                        android:text="@{viewmodel.protocol == Protocol.WireGuard ? @string/dialogs_connection_info_wireguard : @string/dialogs_connection_info_openvpn}"
+                        android:text="@{viewmodel.protocol == Protocol.WIREGUARD ? @string/dialogs_connection_info_wireguard : @string/dialogs_connection_info_openvpn}"
                         android:textColor="#98a5b3"
                         android:textSize="16sp"
                         android:textStyle="normal" />
@@ -201,13 +201,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="#4cb4c1cc"
-                    android:visibility="@{(viewmodel.connected &amp;&amp; (viewmodel.protocol == Protocol.WireGuard))  ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{(viewmodel.connected &amp;&amp; (viewmodel.protocol == Protocol.WIREGUARD))  ? View.VISIBLE : View.GONE}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="@{(viewmodel.connected &amp;&amp; (viewmodel.protocol == Protocol.WireGuard))  ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{(viewmodel.connected &amp;&amp; (viewmodel.protocol == Protocol.WIREGUARD))  ? View.VISIBLE : View.GONE}">
 
                     <TextView
                         style="@style/SettingsOptionTitle"

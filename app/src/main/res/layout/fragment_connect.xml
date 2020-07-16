@@ -59,6 +59,17 @@
                 app:tint="@color/connect_map_fab_icon"
                 app:backgroundTint="@color/connect_fab_background"
                 android:src="@drawable/ic_settings_fab"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/center_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_crosshair"
+                app:backgroundTint="@color/connect_fab_background"
+                app:tint="@color/connect_map_fab_icon" />
         </FrameLayout>
 
         <include android:id="@+id/sliding_panel"
