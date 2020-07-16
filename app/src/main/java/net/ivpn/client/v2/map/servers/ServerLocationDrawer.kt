@@ -12,7 +12,6 @@ import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 
 class ServerLocationDrawer(resources: Resources) {
-
     private var serverPointPaint = Paint()
     private var serversPaint = TextPaint()
     private var serversPaintStroke = TextPaint()

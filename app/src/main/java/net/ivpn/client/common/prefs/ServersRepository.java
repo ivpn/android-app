@@ -146,9 +146,9 @@ public class ServersRepository implements Serializable {
         }
 
         if (protocolController.getCurrentProtocol() == Protocol.OPENVPN) {
-            serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
+            serversPreference.putOpenVPNLocations(locations);
         } else {
-            serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
+            serversPreference.putWireGuardLocations(locations);
         }
     }
 
@@ -292,7 +292,7 @@ public class ServersRepository implements Serializable {
                     server.getLongitude()
             ));
         }
-        serversPreference.putOpenVPNLocations(ServerLocation.Companion.filter(locations));
+        serversPreference.putOpenVPNLocations(locations);
         locations.clear();
 
         for (Server server : response.getWireGuardServerList()) {
@@ -303,7 +303,7 @@ public class ServersRepository implements Serializable {
                     server.getLongitude()
             ));
         }
-        serversPreference.putWireGuardLocations(ServerLocation.Companion.filter(locations));
+        serversPreference.putWireGuardLocations(locations);
 
 //        setServerList(response.getOpenVpnServerList(), response.getWireGuardServerList());
     }
@@ -354,7 +354,6 @@ public class ServersRepository implements Serializable {
         }
 
         return possibleServersList;
-
     }
 
     public void addFavouriteServerListener(OnFavouriteServersChangedListener listener) {
