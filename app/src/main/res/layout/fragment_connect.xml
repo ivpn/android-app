@@ -36,7 +36,7 @@
                 android:visibility="visible"
                 app:locations="@{location.locations}"
                 app:connectionState="@{connection.connectionState}"
-                app:gateway="@{servers.entryServer}"/>
+                app:gateway="@{servers.mapServer}"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/account_button"

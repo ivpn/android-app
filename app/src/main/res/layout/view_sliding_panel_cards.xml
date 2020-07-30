@@ -228,6 +228,7 @@
             android:id="@+id/view6"
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:visibility="invisible"
             android:background="@color/sliding_panel_line_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

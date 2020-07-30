@@ -123,6 +123,11 @@ android {
         experimental = true
     }
 
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     splits {
         abi {
             reset()

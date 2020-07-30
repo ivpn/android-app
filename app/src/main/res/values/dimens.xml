@@ -72,12 +72,15 @@
     <!--V2-->
     <dimen name="location_anim_max_radius">40dp</dimen>
     <dimen name="location_radius">10dp</dimen>
-    <dimen name="point_radius">5dp</dimen>
+    <dimen name="point_radius">4dp</dimen>
     <dimen name="location_point_radius">5dp</dimen>
     <dimen name="location_name">10sp</dimen>
     <dimen name="server_tap_radius">20dp</dimen>
+    <dimen name="location_label_shift">5dp</dimen>
+    <dimen name="location_distance_from_dot">4dp</dimen>
 
-    <dimen name="slider_layout_single_hop_height">252dp</dimen>
+    <dimen name="slider_layout_basic_height">208dp</dimen>
+    <dimen name="slider_layout_multihop_switch_height">44dp</dimen>
     <dimen name="slider_layout_exit_layout_height">85dp</dimen>
     <dimen name="slider_layout_top_padding">32dp</dimen>
     <dimen name="slider_expanded_offset">32dp</dimen>

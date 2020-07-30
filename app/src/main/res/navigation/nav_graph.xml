@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_antiTrackerFragment"
             app:destination="@id/antiTrackerFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"

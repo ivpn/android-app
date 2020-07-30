@@ -1,9 +1,7 @@
 package net.ivpn.client.v2.serverlist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -17,10 +15,13 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentTabsServerListBinding
 import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
 import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
+import net.ivpn.client.v2.dialog.DialogBuilderK
+import net.ivpn.client.v2.serverlist.dialog.Filters
+import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ServerListTabFragment : Fragment() {
+class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChangedListener {
 
     companion object {
         val LOGGER = LoggerFactory.getLogger(ServerListTabFragment::class.java)
@@ -30,6 +31,10 @@ class ServerListTabFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: ServersListCommonViewModel
+
+    @Inject
+    lateinit var filterViewModel: ServerListFilterViewModel
+
     lateinit var adapter: ServersListPagerAdapter
     val args: ServerListTabFragmentArgs by navArgs()
 
@@ -53,6 +58,7 @@ class ServerListTabFragment : Fragment() {
         super.onResume()
         LOGGER.info("onResume")
         viewModel.onResume()
+        filterViewModel.onResume()
     }
 
     private fun initViews() {
@@ -68,7 +74,18 @@ class ServerListTabFragment : Fragment() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
+        binding.toolbar.inflateMenu(R.menu.menu_servers)
+        binding.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.action_filter) {
+                openFilterDialogue()
+            }
+            return@setOnMenuItemClickListener true
+        }
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun openFilterDialogue() {
+        DialogBuilderK.openSortServerDialogue(context!!, this, filterViewModel)
     }
 
     fun navigateBack() {
@@ -86,5 +103,9 @@ class ServerListTabFragment : Fragment() {
 
     fun getServerType(): ServerType {
         return args.serverType
+    }
+
+    override fun onFilterChanged(filter: Filters?) {
+
     }
 }

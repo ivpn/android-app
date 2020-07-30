@@ -15,19 +15,32 @@ import net.ivpn.client.databinding.FragmentFavouriteServersListBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
+import net.ivpn.client.v2.serverlist.dialog.Filters
+import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
+class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListNavigator,
+        ServerListFilterViewModel.OnFilterChangedListener {
 
     lateinit var binding: FragmentFavouriteServersListBinding
 
     @Inject
     lateinit var viewmodel: ServerListViewModel
+
+    @Inject
+    lateinit var filterViewModel: ServerListFilterViewModel
+
     lateinit var adapter: FavouriteServerListRecyclerViewAdapter
 
     private var serverType: ServerType? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        filterViewModel.listeners.add(this)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
@@ -75,12 +88,14 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
     override fun onDestroy() {
         super.onDestroy()
         viewmodel.favouriteListeners.remove(adapter)
+        filterViewModel.listeners.remove(this)
     }
 
     private fun init(view: View) {
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
-        adapter = FavouriteServerListRecyclerViewAdapter(viewmodel.adapterListener)
+        adapter = FavouriteServerListRecyclerViewAdapter(viewmodel.adapterListener,
+                filterViewModel.filter.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))
@@ -104,5 +119,9 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
     companion object {
         private val LOGGER = LoggerFactory.getLogger(FavouriteServersListFragment::class.java)
         private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
+    }
+
+    override fun onFilterChanged(filter: Filters?) {
+        adapter.setFilter(filter)
     }
 }

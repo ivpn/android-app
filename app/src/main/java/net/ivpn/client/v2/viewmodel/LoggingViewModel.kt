@@ -1,10 +1,13 @@
 package net.ivpn.client.v2.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.prefs.Settings
+import net.ivpn.client.common.utils.FileUtils
 import net.ivpn.client.common.utils.SentryUtil
 import javax.inject.Inject
 
@@ -28,6 +31,10 @@ class LoggingViewModel @Inject constructor(
         isLoggingEnabled.set(getLoggingValue())
         isCrashLoggingEnabled.set(isSentryEnabled())
         isSentrySupported.set(getSentrySupport())
+    }
+
+    fun getLogFileUri(context: Context?): Uri {
+        return FileUtils.createLogFileUri(context)
     }
 
     private fun getLoggingValue(): Boolean {

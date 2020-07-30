@@ -134,9 +134,9 @@ public class ProtocolViewModel {
 
     public String getDescription() {
         if (protocol.get().equals(Protocol.WIREGUARD)) {
-            return protocol.get() + ", " + wireGuardPort.get().toThumbnail();
+            return "WireGuard" + ", " + wireGuardPort.get().toThumbnail();
         } else {
-            return protocol.get() + ", " + openVPNPort.get().toThumbnail();
+            return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();
         }
     }
 

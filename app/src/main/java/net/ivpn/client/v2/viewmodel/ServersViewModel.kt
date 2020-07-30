@@ -18,7 +18,6 @@ import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
 import javax.inject.Inject
-import kotlin.math.E
 
 @ApplicationScope
 class ServersViewModel @Inject constructor(
@@ -32,6 +31,7 @@ class ServersViewModel @Inject constructor(
     val fastestServer = ObservableBoolean()
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
+    val mapServer = ObservableField<Server>()
     val pingResultExitServer = ObservableField<PingResultFormatter>()
     val pingResultEnterServer = ObservableField<PingResultFormatter>()
 
@@ -43,6 +43,7 @@ class ServersViewModel @Inject constructor(
     fun onResume() {
         entryServer.set(getCurrentServer(ServerType.ENTRY))
         exitServer.set(getCurrentServer(ServerType.EXIT))
+        mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
 
         fastestServer.set(isFastestServerEnabled())
 
@@ -93,16 +94,17 @@ class ServersViewModel @Inject constructor(
         pingProvider.ping(server, listener)
     }
 
-    private fun getOnMultihopValueChanges(): MultiHopController.onValueChangeListener {
-        return object : MultiHopController.onValueChangeListener {
+    private fun getOnMultihopValueChanges(): MultiHopController.OnValueChangeListener {
+        return object : MultiHopController.OnValueChangeListener {
             override fun onValueChange(value: Boolean) {
                 fastestServer.set(isFastestServerEnabled())
+                mapServer.set(if (value) exitServer.get() else entryServer.get())
             }
         }
     }
 
     private fun getPingFinishListener(serverType: ServerType): OnPingFinishListener {
-        return OnPingFinishListener { result: PingResultFormatter? ->
+        return OnPingFinishListener { _, result: PingResultFormatter? ->
             if (serverType == ServerType.ENTRY) {
                 pingResultEnterServer.set(result)
             } else {
@@ -130,5 +132,6 @@ class ServersViewModel @Inject constructor(
             entryServer.set(serverToConnect)
             serversRepository.serverSelected(serverToConnect, ServerType.ENTRY)
         }
+        mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
     }
 }

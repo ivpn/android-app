@@ -16,7 +16,6 @@ class ServerLocationDrawer(resources: Resources) {
     private var serversPaint = TextPaint()
     private var serversPaintStroke = TextPaint()
 
-    private val pointRadius = resources.getDimension(R.dimen.point_radius)
     val tapRadius = resources.getDimension(R.dimen.server_tap_radius)
 
     var serverLocations: List<ServerLocation>? = null
@@ -52,20 +51,23 @@ class ServerLocationDrawer(resources: Resources) {
 
         serverLocations?.let {
             for (location in it) {
-                canvas.drawCircle(
-                        (location.x - data.left),
-                        (location.y - data.top), pointRadius, serverPointPaint
-                )
-
+                location.pointRect?.let { pointRectObj ->
+                    canvas.drawCircle(
+                            (pointRectObj.exactCenterX() - data.left),
+                            (pointRectObj.exactCenterY() - data.top), pointRectObj.width() / 2f, serverPointPaint
+                    )
+                }
                 serversPaint.getTextBounds(location.city, 0, location.city.length, bounds)
-                canvas.drawText(
-                        location.city, ((location.x - data.left - bounds.width() / 2)),
-                        ((location.y - data.top - bounds.height() / 2 - pointRadius)), serversPaintStroke
-                )
-                canvas.drawText(
-                        location.city, ((location.x - data.left - bounds.width() / 2)),
-                        ((location.y - data.top - bounds.height() / 2 - pointRadius)), serversPaint
-                )
+                location.labelRect?.let {labelRectObj ->
+                    canvas.drawText(
+                            location.city, (labelRectObj.left - data.left),
+                            (labelRectObj.bottom - data.top), serversPaintStroke
+                    )
+                    canvas.drawText(
+                            location.city, (labelRectObj.left - data.left),
+                            (labelRectObj.bottom - data.top), serversPaint
+                    )
+                }
             }
         }
     }

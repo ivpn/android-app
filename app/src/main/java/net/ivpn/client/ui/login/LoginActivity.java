@@ -208,6 +208,10 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     }
 
     @Override
+    public void openAccountNotActiveDialogue() {
+    }
+
+    @Override
     public void openSessionLimitReachedDialogue() {
         createSessionFragment = new CreateSessionFragment();
         createSessionFragment.show(getSupportFragmentManager(), createSessionFragment.getTag());

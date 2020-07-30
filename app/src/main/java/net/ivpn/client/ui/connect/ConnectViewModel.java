@@ -213,14 +213,6 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         this.navigator = navigator;
     }
 
-//    void onConnectRequest() {
-//        if (!isTokenExist()) {
-//            createNewSession(false);
-//            return;
-//        }
-//        vpnBehaviorController.connectionActionByUser();
-//    }
-
     void onPauseRequest() {
         vpnBehaviorController.pauseActionByUser();
     }
@@ -237,65 +229,8 @@ public class ConnectViewModel extends ViewModelBase implements OnNetworkSourceCh
         networkController.tryWifiWatcher();
     }
 
-//    void createNewSession(boolean force) {
-//        connectionUserHint.set(context.getString(R.string.connect_hint_creating_session));
-//        SessionNewRequestBody body = new SessionNewRequestBody(getUsername(), getWireGuardPublicKey(), force);
-//        LOGGER.info("SessionNewRequestBody = " + body);
-//        sessionNewRequest.start(api -> api.newSession(body),
-//                getSessionNewRequestListener());
-//    }
-
-//    private RequestListener<SessionNewResponse> getSessionNewRequestListener() {
-//        return new RequestListener<SessionNewResponse>() {
-//            @Override
-//            public void onSuccess(SessionNewResponse response) {
-//                LOGGER.info(response.toString());
-//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-//                if (response.getStatus() == null) {
-//                    //ignore it
-//                    vpnBehaviorController.connectionActionByUser();
-//                    return;
-//                }
-//
-//                LOGGER.info("Status = " + response.getStatus());
-//                if (response.getStatus() == Responses.SUCCESS) {
-//                    putUserData(response);
-//                    handleWireGuardResponse(response.getWireGuard());
-//                    //Connect using session username/password
-//                    vpnBehaviorController.connectionActionByUser();
-//                } else {
-//                    navigator.openErrorDialog(Dialogs.SERVER_ERROR);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                LOGGER.error("Create session: ERROR", throwable);
-//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-//                if (!ConnectivityUtil.isOnline(context)) {
-//                    navigator.openErrorDialog(Dialogs.CONNECTION_ERROR);
-//                    return;
-//                }
-//
-//                if (throwable instanceof InterruptedIOException) {
-//                    navigator.openErrorDialog(Dialogs.TOO_MANY_ATTEMPTS_ERROR);
-//                    return;
-//                }
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                LOGGER.error("Create session: ERROR", error);
-//                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected));
-//                ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
-//                handleErrorResponse(errorResponse);
-//            }
-//        };
-//    }
-
     private OnPingFinishListener getPingFinishListener(final ServerType serverType) {
-        return result -> {
+        return (server, result) -> {
             if (serverType.equals(ServerType.ENTRY)) {
                 pingResultEntryServer.set(result);
             } else {

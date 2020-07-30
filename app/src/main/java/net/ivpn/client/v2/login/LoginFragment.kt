@@ -64,6 +64,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         val scanningResult: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (scanningResult != null && scanningResult.contents != null) {
             viewModel.username.set(scanningResult.contents.toString())
+            viewModel.login(false)
         } else {
             Toast.makeText(context, "Nothing scanned", Toast.LENGTH_SHORT).show()
         }
@@ -138,6 +139,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
         }
+    }
+
+    override fun openAccountNotActiveDialogue() {
+        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE);
     }
 
     override fun onLogin() {

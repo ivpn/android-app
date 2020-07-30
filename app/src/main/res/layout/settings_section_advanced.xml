@@ -425,10 +425,10 @@
                 android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/send_logs_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="sendLogs"
                 android:orientation="horizontal"
                 android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}">
 

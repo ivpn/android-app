@@ -456,6 +456,9 @@
     <string name="dialogs_connection_info_wireguard">WireGuard</string>
     <string name="dialogs_connection_info_openvpn">OpenVPN</string>
 
+    <string name="dialogs_account_not_active_title">Account not activated</string>
+    <string name="dialogs_account_not_active_msg">This operation cannot be performed on a new account. Please complete the purchase first.</string>
+
     <string name="dialogs_custom_dns">Custom DNS Server</string>
     <string name="dialogs_custom_dns_dot">\.</string>
     <string name="dialogs_custom_dns_apply">Apply</string>
@@ -466,6 +469,11 @@
     <string name="dialogs_color_theme_dark">Dark</string>
     <string name="dialogs_color_theme_default">System default</string>
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
+
+    <string name="dialogs_filter_title">Sort by</string>
+    <string name="dialogs_filter_city">City</string>
+    <string name="dialogs_filter_country">Country</string>
+    <string name="dialogs_filter_latency">Latency</string>
 
     <string name="dialogs_change_network_title">Change Network Status</string>
     <string name="dialogs_change_status_trusted">Trusted</string>

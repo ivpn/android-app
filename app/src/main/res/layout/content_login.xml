@@ -67,6 +67,7 @@
                 app:endIconMode="custom"
                 app:endIconTint="@color/primary"
                 app:error="@{viewmodel.usernameError}"
+                app:errorIconDrawable="@null"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/error"
                 app:errorIconTint="@color/error"

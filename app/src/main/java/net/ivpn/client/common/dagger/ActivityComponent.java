@@ -40,8 +40,10 @@ import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
 import net.ivpn.client.v2.serverlist.ServerListTabFragment;
+import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.all.ServerListFragment;
 import net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment;
+import net.ivpn.client.v2.serverlist.favourite.FavouriteServerListRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.favourite.FavouriteServersListFragment;
 import net.ivpn.client.v2.serverlist.holders.ServerViewHolder;
 import net.ivpn.client.v2.settings.SettingsFragment;
@@ -174,4 +176,8 @@ public interface ActivityComponent {
     void inject(AntiTrackerFragment fragment);
 
     void inject(MapView map);
+
+    void inject(AllServersRecyclerViewAdapter adapter);
+
+    void inject(FavouriteServerListRecyclerViewAdapter adapter);
 }
