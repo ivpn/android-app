@@ -151,7 +151,7 @@
                 <LinearLayout
                     android:id="@+id/exit_server_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_section_height"
+                    android:layout_height="85dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="@{multihop.isEnabled()  ? View.VISIBLE : View.GONE}">

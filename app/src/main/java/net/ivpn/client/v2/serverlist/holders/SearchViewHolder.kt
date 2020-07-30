@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.client.databinding.SearchItemBinding
 
 class SearchViewHolder(
-        binding: SearchItemBinding,
+        val binding: SearchItemBinding,
         filter: Filter
 ) : RecyclerView.ViewHolder(binding.root) {
 

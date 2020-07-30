@@ -15,18 +15,24 @@ import net.ivpn.client.databinding.FragmentServerListBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
+import net.ivpn.client.v2.serverlist.dialog.Filters
+import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
+class ServerListFragment : Fragment(),
+        ServerListViewModel.ServerListNavigator, ServerListFilterViewModel.OnFilterChangedListener {
     private lateinit var binding: FragmentServerListBinding
 
     @Inject
     lateinit var viewmodel: ServerListViewModel
 
+    @Inject
+    lateinit var filterViewModel: ServerListFilterViewModel
+
     lateinit var serverType: ServerType
-    lateinit var adapter : AllServersRecyclerViewAdapter
+    lateinit var adapter: AllServersRecyclerViewAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,6 +42,7 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         serverType = (parentFragment as ServerListTabFragment).getServerType()
+        filterViewModel.listeners.add(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +61,6 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
     override fun onResume() {
         super.onResume()
         viewmodel.navigators.add(this)
-//        viewmodel.start(serverType)
     }
 
     override fun onPause() {
@@ -65,6 +71,7 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
     override fun onDestroy() {
         super.onDestroy()
         viewmodel.favouriteListeners.remove(adapter)
+        filterViewModel.listeners.remove(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -76,7 +83,7 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
         adapter = AllServersRecyclerViewAdapter(viewmodel.adapterListener,
-                viewmodel.isFastestServerAllowed())
+                viewmodel.isFastestServerAllowed(), filterViewModel.filter.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
@@ -88,6 +95,7 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
         LOGGER.info("cancel")
         viewmodel.cancel()
     }
+
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
         private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
@@ -103,5 +111,9 @@ class ServerListFragment : Fragment(), ServerListViewModel.ServerListNavigator {
 
     override fun openFastestSetting() {
         (parentFragment as ServerListTabFragment).openFastestSetting()
+    }
+
+    override fun onFilterChanged(filter: Filters?) {
+        adapter.setFilter(filter)
     }
 }

@@ -8,4 +8,8 @@ data class Location(
         var country: String?,
         var countryCode: String?) {
     var coordinate: Pair<Float, Float>? = null
+
+    fun getDescription(): String {
+        return "$city, $country"
+    }
 }

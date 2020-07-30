@@ -41,6 +41,7 @@ class LoginViewModel @Inject constructor(
 
     companion object {
         private const val ivpnPrefix = "ivpn"
+        private const val ivpnNewPrefix = "i-"
         private val LOGGER = LoggerFactory.getLogger(LoginViewModel::class.java)
     }
 
@@ -58,8 +59,10 @@ class LoginViewModel @Inject constructor(
     fun login(force: Boolean) {
         LOGGER.info("Trying to login")
         username.get()?.let {
-            if (!it.startsWith(ivpnPrefix)) {
-                usernameError.set("Account ID should start with \"ivpn\".")
+            if (!(it.startsWith(ivpnPrefix) || it.startsWith(ivpnNewPrefix))) {
+                usernameError.set("Your account ID has to be in 'i-XXXX-XXXX-XXXX' or 'ivpnXXXXXXXX'" +
+                        " format. You can find it on other devices where you are logged in and in the" +
+                        " client area of the IVPN website.")
                 return
             }
         } ?: return
@@ -150,6 +153,9 @@ class LoginViewModel @Inject constructor(
         } ?: return
 
         when (errorResponse.status) {
+            Responses.ACCOUNT_NOT_ACTIVE -> {
+                navigator?.openAccountNotActiveDialogue()
+            }
             Responses.INVALID_CREDENTIALS -> {
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)
             }

@@ -11,6 +11,7 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.nightmode.NightMode;
 import net.ivpn.client.common.utils.LogUtil;
 import net.ivpn.client.ui.protocol.port.Port;
+import net.ivpn.client.v2.serverlist.dialog.Filters;
 import net.ivpn.client.vpn.Protocol;
 
 import java.util.LinkedList;
@@ -281,7 +282,6 @@ public class Settings {
         settingsPreference.setWgPort(port.toJson());
     }
 
-
     public void nextPort() {
         Protocol protocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
         if (protocol.equals(Protocol.OPENVPN)) {
@@ -344,5 +344,19 @@ public class Settings {
         } else {
             return NightMode.BY_BATTERY_SAVER;
         }
+    }
+
+    public void setFilter(Filters filter) {
+        settingsPreference.setFilter(filter.name());
+    }
+
+    public Filters getFilter() {
+        String name = settingsPreference.getFilter();
+
+        if (name != null) {
+            return Filters.valueOf(name);
+        }
+
+        return Filters.COUNTRY;
     }
 }

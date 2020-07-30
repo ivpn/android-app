@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -85,14 +86,30 @@ public class PingProvider {
             } else {
                 ipAddress = server.getHosts().get(0).getHost();
             }
-            featureExecutor.execute(pingFutures.getPingRunnable(ipAddress, listener));
+            featureExecutor.execute(pingFutures.getPingRunnable(server, ipAddress, listener));
             pings.put(server, pingFutures);
         } else if (pingFutures.isFinished()) {
-            if (listener != null)
-                listener.onPingFinish(pingFutures.getResult());
+            if (listener != null) {
+                listener.onPingFinish(server, pingFutures.getResult());
+            }
         } else {
-            pingFutures.updateOnPingFinishListener(listener);
+            pingFutures.addOnPingFinishListener(listener);
         }
+    }
+
+    public ConcurrentHashMap<Server, PingResultFormatter> getPingResults() {
+        ConcurrentHashMap<Server, PingResultFormatter> result = new ConcurrentHashMap<>();
+        PingFuture pingFuture;
+        for (Server server: pings.keySet()) {
+            pingFuture = pings.get(server);
+            if (pingFuture == null || !pingFuture.isFinished()) {
+                continue;
+            }
+
+            result.put(server, pingFuture.getResult());
+        }
+
+        return result;
     }
 
     public void findFastestServer(final OnFastestServerDetectorListener listener) {

@@ -6,6 +6,7 @@ public interface LoginNavigator {
     void onLogin();
     void openSubscriptionScreen();
     void openSite();
+    void openAccountNotActiveDialogue();
     void openSessionLimitReachedDialogue();
     void openErrorDialogue(Dialogs dialogs);
     void openCustomErrorDialogue(String title, String message);

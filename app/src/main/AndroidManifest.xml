@@ -111,6 +111,7 @@
         <!--            android:theme="@style/AppTheme.Transparent" />-->
                 <activity
                     android:name=".ui.timepicker.TimePickerActivity"
+                    android:screenOrientation="portrait"
                     android:theme="@style/AppTheme.Transparent" />
         <!--        <activity-->
         <!--            android:name=".ui.alwaysonvpn.AlwaysOnVpnActivity"-->
@@ -160,6 +161,7 @@
         <activity
             android:name=".v2.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -170,9 +172,11 @@
 
         <activity
             android:name=".vpn.local.PermissionActivity"
-            android:theme="@style/AppTheme.Transparent" />
+            android:theme="@style/AppTheme.Transparent"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".v2.qr.QRActivity" />
+        <activity android:name=".v2.qr.QRActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".vpn.openvpn.IVPNService"

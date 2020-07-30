@@ -1,8 +1,10 @@
 package net.ivpn.client.rest.data.model
 
+import android.graphics.Rect
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 data class ServerLocation(
         @SerializedName("city") var city: String,
@@ -14,14 +16,25 @@ data class ServerLocation(
     var x: Float = 0f
     var y: Float = 0f
 
-    companion object {
-//        private val bannedCities = arrayListOf("Bratislava", "Brussels", "New Jersey, NJ")
+    var distanceToTap: Float = 0f
 
-        fun stringFrom(locations: List<ServerLocation>): String {
-            return Gson().toJson(locations)
+    var pointRect: Rect? = null
+    var labelRect: Rect? = null
+
+//    var comparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
+//        location1.distanceToTap.compareTo(location2.distanceToTap)
+//    }
+
+    companion object {
+        var tapComparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
+            location1.distanceToTap.compareTo(location2.distanceToTap)
         }
 
-        fun stringFrom(locations: ServerLocation): String {
+        var comparatorByX = Comparator { location1: ServerLocation, location2: ServerLocation ->
+            location1.x.compareTo(location2.x)
+        }
+
+        fun stringFrom(locations: List<ServerLocation>): String {
             return Gson().toJson(locations)
         }
 
@@ -30,11 +43,5 @@ data class ServerLocation(
             val type = object : TypeToken<List<ServerLocation>>() {}.type
             return Gson().fromJson(json, type)
         }
-
-//        fun filter(locations: List<ServerLocation>): List<ServerLocation> {
-//            return locations.filter {
-//                !bannedCities.contains<String>(it.city)
-//            }
-//        }
     }
 }

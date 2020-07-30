@@ -17,10 +17,10 @@ class MultiHopController @Inject constructor(
 
     var isEnabled: Boolean
 
-    var listeners = ArrayList<onValueChangeListener>()
+    var listeners = ArrayList<OnValueChangeListener>()
 
     init {
-        isEnabled = settings.isMultiHopEnabled && isMultihopAllowedByProtocol()
+        isEnabled = getIsEnabled()
     }
 
     fun enable(value : Boolean) {
@@ -35,7 +35,12 @@ class MultiHopController @Inject constructor(
     }
 
     fun isSupportedByPlan(): Boolean {
-        return userPreference.capabilityMultiHop
+        return userPreference.capabilityMultiHop && isAuthenticated()
+    }
+
+    fun getIsEnabled(): Boolean {
+        isEnabled = settings.isMultiHopEnabled && isMultihopAllowedByProtocol()
+        return isEnabled
     }
 
     fun getState() : State {
@@ -52,11 +57,12 @@ class MultiHopController @Inject constructor(
         }
     }
 
-    fun addListener(listener : onValueChangeListener) {
+    fun addListener(listener : OnValueChangeListener) {
         listeners.add(listener)
+        listener.onValueChange(isEnabled)
     }
 
-    fun removeListener(listener : onValueChangeListener) {
+    fun removeListener(listener : OnValueChangeListener) {
         listeners.remove(listener)
     }
 
@@ -91,7 +97,7 @@ class MultiHopController @Inject constructor(
         DISABLED_BY_PROTOCOL
     }
 
-    interface onValueChangeListener {
+    interface OnValueChangeListener {
         fun onValueChange(value: Boolean)
     }
 }

@@ -2,7 +2,9 @@ package net.ivpn.client.common.pinger;
 
 import android.util.Log;
 
-import java.util.concurrent.Executor;
+import net.ivpn.client.rest.data.model.Server;
+
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
 class PingFuture {
@@ -11,9 +13,10 @@ class PingFuture {
     private static final int TIMES = 2;
     private static final int TIMEOUT = 1000;
 
-    private boolean isFinished;
+    private volatile boolean isFinished;
     private volatile PingResultFormatter result;
-    private volatile OnPingFinishListener listener;
+    private volatile Server server;
+    private volatile ArrayList<OnPingFinishListener> listeners = new ArrayList<>();
     private ExecutorService executor;
 
     PingFuture(ExecutorService executor) {
@@ -21,8 +24,13 @@ class PingFuture {
         isFinished = false;
     }
 
-    Runnable getPingRunnable(final String ipAddress, final OnPingFinishListener listener) {
-        this.listener = listener;
+    Runnable getPingRunnable(Server server, final String ipAddress, final OnPingFinishListener listener) {
+        this.server = server;
+        synchronized (this) {
+            if (listener != null) {
+                this.listeners.add(listener);
+            }
+        }
         return new Thread(() -> Ping.onAddress(ipAddress, executor)
                 .setTimeOutMillis(TIMEOUT)
                 .setTimes(TIMES)
@@ -39,9 +47,19 @@ class PingFuture {
                         } else {
                             result = new PingResultFormatter(PingResultFormatter.PingResult.OK, (long) pingStats.getMinTimeTaken());
                         }
-                        if (PingFuture.this.listener != null) {
-                            PingFuture.this.listener.onPingFinish(result);
+                        synchronized (this) {
+                            for (OnPingFinishListener listener: listeners) {
+                                listener.onPingFinish(server, result);
+                            }
+                            listeners.clear();
                         }
+                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
+                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
+//                        if (PingFuture.this.listener != null) {
+//                            PingFuture.this.listener.forEach({
+//                                    onPingFinish(server, result);
+//                            });onPingFinish(server, result);
+//                        }
 //                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
 //                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
                     }
@@ -50,9 +68,18 @@ class PingFuture {
                     public void onError(Exception e) {
                         isFinished = true;
                         result = new PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, -1);
-                        if (PingFuture.this.listener != null) {
-                            PingFuture.this.listener.onPingFinish(result);
+                        synchronized (this) {
+                            for (OnPingFinishListener listener: listeners) {
+                                listener.onPingFinish(server, result);
+                            }
+                            listeners.clear();
                         }
+//                        for (OnPingFinishListener listener: listeners) {
+//                            listener.onPingFinish(server, result);
+//                        }
+//                        if (PingFuture.this.listener != null) {
+//                            PingFuture.this.listener.onPingFinish(server, result);
+//                        }
                         e.printStackTrace();
                     }
                 }));
@@ -66,7 +93,17 @@ class PingFuture {
         return result;
     }
 
-    void updateOnPingFinishListener(OnPingFinishListener listener) {
-        this.listener = listener;
+    void addOnPingFinishListener(OnPingFinishListener listener) {
+        synchronized (this) {
+            if (listener != null) {
+                if (isFinished) {
+                    listener.onPingFinish(server, result);
+                } else {
+                    listeners.add(listener);
+                }
+            }
+        }
+//        listeners.add(listener);
+//        this.listener = listener;
     }
 }

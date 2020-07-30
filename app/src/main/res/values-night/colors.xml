@@ -2,7 +2,7 @@
 <resources>
 
     <!--Networks Behaviour-->
-    <color name="color_trusted_text">#74b8ff</color>
+    <color name="color_trusted_text">#398FE6</color>
     <color name="color_untrusted_text">#ed7e79</color>
     <color name="color_default_text">#99FFFFFF</color>
     <color name="color_none_text">#99FFFFFF</color>
@@ -10,7 +10,7 @@
     <color name="color_settings_background">#000000</color>
 
     <color name="color_toolbar">#292929</color>
-    <color name="colorPrimary">#74b8ff</color>
+    <color name="colorPrimary">#398FE6</color>
 <!--    <color name="colorPrimary">#292929</color>-->
     <color name="colorPrimaryDark">#1c1c1c</color>
     <color name="textColorPrimary">#FFFFFF</color>
@@ -48,6 +48,8 @@
 
     <color name="disabled">#8D8D8E</color>
 
+    <color name="dialogue_map_background">#1c1c1c</color>
+    <color name="map_dialogue_location_disabled_indicator">#4Dffffff</color>
     <color name="dialogue_background">#383838</color>
     <color name="dialogue_title">#FFFFFF</color>
     <color name="dialogue_text">#DEFFFFFF</color>
@@ -131,4 +133,15 @@
     <color name="sliding_panel_shadow_3">#20000000</color>
     <color name="sliding_panel_shadow_4">#30000000</color>
     <color name="sliding_panel_shadow_5">#50000000</color>
+
+    <color name="dialog_shadow_1">#00000000</color>
+    <color name="dialog_shadow_2">#10000000</color>
+    <color name="dialog_shadow_3">#15000000</color>
+    <color name="dialog_shadow_4">#20000000</color>
+    <color name="dialog_shadow_5">#25000000</color>
+    <color name="dialog_shadow_6">#30000000</color>
+    <color name="dialog_shadow_7">#35000000</color>
+    <color name="dialog_shadow_8">#40000000</color>
+
+    <color name="dialog_shadow_no_opacity">#000000</color>
 </resources>

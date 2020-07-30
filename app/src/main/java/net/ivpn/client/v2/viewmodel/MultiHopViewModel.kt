@@ -39,12 +39,21 @@ class MultiHopViewModel @Inject constructor(
     }
 
     fun onResume() {
-        isEnabled.set(multiHopController.isEnabled)
+        isEnabled.set(multiHopController.getIsEnabled())
         isSupported.set(multiHopController.isSupportedByPlan())
     }
 
     fun enableMultiHop(state: Boolean) {
         if (isEnabled.get() == state) return
+        when (multiHopController.getState()) {
+            MultiHopController.State.NOT_AUTHENTICATED,
+            MultiHopController.State.SUBSCRIPTION_NOT_ACTIVE,
+            MultiHopController.State.VPN_ACTIVE,
+            MultiHopController.State.DISABLED_BY_PROTOCOL -> {
+                return
+            }
+        }
+
         isEnabled.set(state)
 
         multiHopController.enable(state)

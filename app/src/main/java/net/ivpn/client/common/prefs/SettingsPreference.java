@@ -39,6 +39,7 @@ public class SettingsPreference {
     private static final String SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE";
     private static final String SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION";
     private static final String SETTINGS_NIGHT_MODE = "NIGHT_MODE";
+    private static final String SETTINGS_FILTER =  "SETTINGS_FILTER";
 
     private static final String OV_PORT = "OV_PORT";
     private static final String WG_PORT = "WG_PORT";
@@ -461,6 +462,18 @@ public class SettingsPreference {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         sharedPreferences.edit()
                 .putString(SETTINGS_NIGHT_MODE, mode)
+                .apply();
+    }
+
+    public String getFilter() {
+        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
+        return sharedPreferences.getString(SETTINGS_FILTER, null);
+    }
+
+    public void setFilter(String filter) {
+        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
+        sharedPreferences.edit()
+                .putString(SETTINGS_FILTER, filter)
                 .apply();
     }
 }

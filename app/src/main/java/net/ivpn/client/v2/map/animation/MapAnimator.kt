@@ -121,7 +121,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
         waveAnimator = ValueAnimator.ofFloat(0f, 1f)
         waveAnimator.duration = MapView.WAVE_ANIMATION_DURATION
-        waveAnimator.interpolator = LinearInterpolator()
+//        waveAnimator.interpolator = LinearInterpolator()
         waveAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator) {
             }

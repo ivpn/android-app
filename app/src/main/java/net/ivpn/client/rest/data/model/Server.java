@@ -50,6 +50,7 @@ public class Server implements ConnectionOption {
     private Protocol type;
 
     private boolean isFavourite = false;
+    private long latency = Long.MAX_VALUE;
 
     public String getGateway() {
         return gateway;
@@ -135,6 +136,14 @@ public class Server implements ConnectionOption {
         isFavourite = favourite;
     }
 
+    public long getLatency() {
+        return latency;
+    }
+
+    public void setLatency(long latency) {
+        this.latency = latency;
+    }
+
     public boolean canBeUsedAsMultiHopWith(Server server) {
         if (server == null) return true;
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
@@ -150,6 +159,7 @@ public class Server implements ConnectionOption {
                 ", ipAddresses=" + ipAddresses +
                 ", hosts=" + hosts +
                 ", type=" + type +
+                ", latency = " + latency +
                 '}';
     }
 

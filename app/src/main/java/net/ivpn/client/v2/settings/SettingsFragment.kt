@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
 import android.provider.Settings
@@ -19,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.Constant
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.common.prefs.ServerType
@@ -31,6 +33,7 @@ import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
+import java.util.*
 import javax.inject.Inject
 
 class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
@@ -41,6 +44,9 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private lateinit var binding: FragmentSettingsBinding
+
+    @Inject
+    lateinit var account: AccountViewModel
 
     @Inject
     lateinit var servers: ServersViewModel
@@ -134,25 +140,49 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun initNavigation() {
         binding.contentLayout.sectionOther.antiTrackerLayout.setOnClickListener {
-            openAntiTrackerScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openAntiTrackerScreen()
+            }
         }
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
         }
         binding.contentLayout.sectionOther.splitTunnelingLayout.setOnClickListener {
-            openSplitTunnelingScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openSplitTunnelingScreen()
+            }
         }
         binding.contentLayout.sectionOther.alwaysOnVpn.setOnClickListener {
-            openAlwaysOnVPNScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openAlwaysOnVPNScreen()
+            }
         }
         binding.contentLayout.sectionOther.networkProtectionLayout.setOnClickListener {
-            openNetworkProtectionScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openNetworkProtectionScreen()
+            }
         }
         binding.contentLayout.sectionServer.protocolLayout.setOnClickListener {
-            openProtocolScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openProtocolScreen()
+            }
         }
         binding.contentLayout.sectionOther.customDns.setOnClickListener {
-            openCustomDNSScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openCustomDNSScreen()
+            }
         }
         binding.contentLayout.sectionAbout.termsOfServiceLayout.setOnClickListener {
             openTermsOfServiceScreen()
@@ -160,14 +190,29 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionAbout.privacyPolicyLayout.setOnClickListener {
             openPrivacyPolicyScreen()
         }
+        binding.contentLayout.sectionOther.sendLogsLayout.setOnClickListener {
+            sendLogs()
+        }
         binding.contentLayout.sectionServer.entryServerLayout.setOnClickListener {
-            openEntryServerScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openEntryServerScreen()
+            }
         }
         binding.contentLayout.sectionServer.fastestServerLayout.setOnClickListener {
-            openEntryServerScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openEntryServerScreen()
+            }
         }
         binding.contentLayout.sectionServer.exitServerLayout.setOnClickListener {
-            openExitServerScreen()
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else {
+                openExitServerScreen()
+            }
         }
     }
 
@@ -222,6 +267,19 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         NavHostFragment.findNavController(this).navigate(action)
     }
 
+    private fun sendLogs() {
+        val uris = ArrayList<Uri>()
+        val uri: Uri = logging.getLogFileUri(context)
+        uris.add(uri)
+
+        val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
+        intent.type = "message/rfc822"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constant.SUPPORT_EMAIL))
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(intent)
+    }
+
     private fun openEntryServerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.ENTRY)
         NavHostFragment.findNavController(this).navigate(action)
@@ -229,6 +287,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openExitServerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.EXIT)
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openLoginScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

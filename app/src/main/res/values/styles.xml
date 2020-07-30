@@ -9,6 +9,7 @@
         <item name="colorOnSurface">@color/color_on_surface</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="colorControlNormal">@color/textColorPrimary</item>
+        <item name="popupWindowStyle">@style/AppTheme.Popup</item>
         <!--<item name="textColorError"> @color/colorAccent </item>-->
     </style>
 
@@ -288,6 +289,15 @@
         <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/AppTheme.AlertDialogButton</item>
+    </style>
+
+    <style name="AppTheme.MapDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:background">@color/dialogue_background</item>
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
+
+    <style name="AppTheme.Popup" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:popupBackground">@drawable/popup_background</item>
     </style>
 
     <style name="AppTheme.DialogTitleStyle">

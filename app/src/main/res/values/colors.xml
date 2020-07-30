@@ -99,6 +99,7 @@
     <color name="disabled">#8D8D8E</color>
 
     <!--Dialog-->
+    <color name="dialogue_map_background">#ffffff</color>
     <color name="dialogue_background">#ffffff</color>
     <color name="dialogue_title">#DE2A394B</color>
     <color name="dialogue_button_text">#ffffff</color>
@@ -171,10 +172,22 @@
     <color name="map_label">#6B6B6B</color>
     <color name="map_label_shadow">#FFFFFF</color>
     <color name="map_background">#CBD2D3</color>
+    <color name="map_dialogue_location_disabled_indicator">#4D2A394B</color>
 
     <color name="sliding_panel_shadow_1">#00CCCCCC</color>
     <color name="sliding_panel_shadow_2">#10CCCCCC</color>
     <color name="sliding_panel_shadow_3">#20d5d5d5</color>
     <color name="sliding_panel_shadow_4">#30cbcbcb</color>
     <color name="sliding_panel_shadow_5">#50bababa</color>
+
+    <color name="dialog_shadow_1">#00CCCCCC</color>
+    <color name="dialog_shadow_2">#10CCCCCC</color>
+    <color name="dialog_shadow_3">#15CCCCCC</color>
+    <color name="dialog_shadow_4">#20CCCCCC</color>
+    <color name="dialog_shadow_5">#25CCCCCC</color>
+    <color name="dialog_shadow_6">#30CCCCCC</color>
+    <color name="dialog_shadow_7">#35CCCCCC</color>
+    <color name="dialog_shadow_8">#40CCCCCC</color>
+
+    <color name="dialog_shadow_no_opacity">#CCCCCC</color>
 </resources>

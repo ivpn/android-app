@@ -1,14 +1,16 @@
 package net.ivpn.client.v2.map
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
+import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
+import androidx.collection.LruCache
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -21,14 +23,16 @@ import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 import net.ivpn.client.v2.map.dialogue.DialogueUtil
 import net.ivpn.client.v2.map.dialogue.model.DialogueData
-import net.ivpn.client.v2.map.dialogue.model.DialogueLocationData
 import net.ivpn.client.v2.map.location.LocationData
 import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location
-import net.ivpn.client.v2.map.model.Tile
 import net.ivpn.client.v2.map.servers.ServerLocationDrawer
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
 import net.ivpn.client.v2.viewmodel.LocationViewModel
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.math.ceil
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -44,14 +48,13 @@ class MapView @JvmOverloads constructor(
     private var panelHeight: Float = 0f
 
     private val bitmapPaint = Paint()
-    private var bitmaps: Array<Array<Tile>> = arrayOf()
 
     private var dialogueDrawer: DialogueDrawer
     private var dialogueData = DialogueData()
 
     private var serverLocationDrawer = ServerLocationDrawer(resources)
     private var serverLocationsData = ServerLocationsData()
-    private var nearestServer: ServerLocation? = null
+    private var nearestServers: ArrayList<ServerLocation>? = null
 
     private var locationDrawer = LocationDrawer(resources)
     private var locationData = LocationData()
@@ -118,7 +121,10 @@ class MapView @JvmOverloads constructor(
 
     var mapListener: MapListener? = null
 
+    var globalPath: String
+
     init {
+        globalPath = context.resources.getString(R.string.path_to_tiles)
         with(bitmapPaint) {
             isAntiAlias = true
             style = Paint.Style.FILL
@@ -195,40 +201,41 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun checkTap(event: MotionEvent) {
-        when(dialogueData.state) {
-            DialogueDrawer.DialogState.UNPROTECTED, DialogueDrawer.DialogState.PROTECTED -> {
-                if (dialogueDrawer.infoButtonRect.contains(event.x.toInt(), event.y.toInt())) {
-                    mapListener?.onCheckLocationTap()
-                    dialogueData.state = DialogueDrawer.DialogState.NONE
-                    invalidate()
-                    return
-                }
-            }
-            DialogueDrawer.DialogState.SERVER_CONNECT -> {
-                if (dialogueDrawer.connectButtonRect.contains(event.x, event.y)) {
-                    println("on connect button tap")
-                    nearestServer?.let {
-                        mapListener?.onConnectTap(it)
-                    }
-                    dialogueData.state = DialogueDrawer.DialogState.NONE
-                    invalidate()
-                    return
-                }
-            }
-        }
-        dialogueData.state = DialogueDrawer.DialogState.NONE
+//        when (dialogueData.state) {
+//            DialogueDrawer.DialogState.UNPROTECTED, DialogueDrawer.DialogState.PROTECTED -> {
+//                if (dialogueDrawer.infoButtonRect.contains(event.x.toInt(), event.y.toInt())) {
+//                    mapListener?.onCheckLocationTap()
+//                    dialogueData.state = DialogueDrawer.DialogState.NONE
+//                    invalidate()
+//                    return
+//                }
+//            }
+//            DialogueDrawer.DialogState.SERVER_CONNECT -> {
+//                if (dialogueDrawer.connectButtonRect.contains(event.x, event.y)) {
+//                    println("on connect button tap")
+//                    nearestServer?.let {
+//                        mapListener?.onConnectTap(it)
+//                    }
+//                    dialogueData.state = DialogueDrawer.DialogState.NONE
+//                    invalidate()
+//                    return
+//                }
+//            }
+//        }
+//        dialogueData.state = DialogueDrawer.DialogState.NONE
 
         locationData.location?.coordinate?.let {
-            val locationPointerRect = Rect()
-            with(locationPointerRect) {
-                left = (it.first - locationDrawer.locationMaxRadius - math.totalX).toInt()
-                right = (it.first + locationDrawer.locationMaxRadius - math.totalX).toInt()
-                top = (it.second - locationDrawer.locationMaxRadius - math.totalY).toInt()
-                bottom = (it.second + locationDrawer.locationMaxRadius - math.totalY).toInt()
-            }
+            val distance: Float = sqrt((it.first - math.totalX - event.x).pow(2)
+                    + (it.second - math.totalY - event.y).pow(2))
+//            val locationPointerRect = Rect()
+//            with(locationPointerRect) {
+//                left = (it.first - locationDrawer.locationMaxRadius - math.totalX).toInt()
+//                right = (it.first + locationDrawer.locationMaxRadius - math.totalX).toInt()
+//                top = (it.second - locationDrawer.locationMaxRadius - math.totalY).toInt()
+//                bottom = (it.second + locationDrawer.locationMaxRadius - math.totalY).toInt()
+//            }
 
-            if (locationPointerRect.contains(event.x.toInt(), event.y.toInt())) {
-                //ToDo Dialog state will be checked again after animation
+            if (distance < serverLocationDrawer.tapRadius) {
                 animator.centerLocation(math.totalX,
                         math.totalY,
                         DialogueDrawer.DialogState.PROTECTED,
@@ -239,51 +246,32 @@ class MapView @JvmOverloads constructor(
         }
 
         serverLocationDrawer.serverLocations?.let {
-            nearestServer = null
-            var minDistance = Float.MAX_VALUE
+            val servers = arrayListOf<ServerLocation>()
             var distance: Float
             for (serverLocation in it) {
                 distance = sqrt((serverLocation.x - math.totalX - event.x).pow(2)
                         + (serverLocation.y - math.totalY - event.y).pow(2))
 
                 if (distance < serverLocationDrawer.tapRadius) {
-                    if (distance < minDistance) {
-                        nearestServer = serverLocation
-                        minDistance = distance
-                    }
+                    servers.add(serverLocation)
+                    serverLocation.distanceToTap = distance
                 }
             }
+            Collections.sort(servers, ServerLocation.tapComparator)
+            nearestServers = servers
 
-            if (nearestServer != null) {
-                animator.centerLocation(math.totalX, math.totalY,
-                        DialogueDrawer.DialogState.SERVER_CONNECT,
-                        MapAnimator.MovementAnimationType.CENTER_GATEWAY
-                )
-                return
+            nearestServers?.let {nearestServersObj ->
+                if (nearestServersObj.isNotEmpty()) {
+                    animator.centerLocation(math.totalX, math.totalY,
+                            DialogueDrawer.DialogState.SERVER_CONNECT,
+                            MapAnimator.MovementAnimationType.CENTER_GATEWAY
+                    )
+                    return
+                }
             }
         }
 
         invalidate()
-    }
-
-    private fun openLocationDialogue() {
-        location?.let {
-            dialogueData.state = if (it.isConnected)
-                DialogueDrawer.DialogState.PROTECTED
-            else DialogueDrawer.DialogState.UNPROTECTED
-            dialogueData.dialogueLocationData = DialogueLocationData("${it.city}, ${it.country}", "${it.countryCode}")
-            dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
-            invalidate()
-        }
-    }
-
-    private fun openGatewayDialogue() {
-        nearestServer?.let {
-            dialogueData.state = DialogueDrawer.DialogState.SERVER_CONNECT
-            dialogueData.dialogueLocationData = DialogueLocationData(it.city, it.countryCode)
-            dialogueDrawer.prepareDimensionsFor(dialogueData.dialogueLocationData, dialogueData.state)
-            invalidate()
-        }
     }
 
     private fun drawMap(canvas: Canvas) {
@@ -299,23 +287,44 @@ class MapView @JvmOverloads constructor(
         val intersectionRect = Rect()
         val relativeRect = Rect()
 
-        for (list in bitmaps) {
-            for (tile in list) {
+        val fromX: Int = kotlin.math.max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
+        val toX: Int = ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt()
 
-                if (intersectionRect.setIntersect(tile.rect, srcRect)) {
-                    with(relativeRect) {
-                        left = (intersectionRect.left - math.totalX).toInt()
-                        right = (intersectionRect.right - math.totalX).toInt()
-                        top = (intersectionRect.top - math.totalY).toInt()
-                        bottom = (intersectionRect.bottom - math.totalY).toInt()
+        val fromY: Int = kotlin.math.max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
+        val toY: Int = ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt()
+
+        var tileRect: Rect
+
+        for (i in fromX..toX) {
+            for (j in fromY..toY) {
+                tileRect = Rect(
+                        MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
+                        MapMath.tileWidth * i,
+                        MapMath.tileHeight * j
+                )
+
+                getBitmap("$globalPath/row-${j}-col-${i}.png")?.also {bitmap ->
+                    if (intersectionRect.setIntersect(tileRect, srcRect)) {
+                        with(relativeRect) {
+                            left = (intersectionRect.left - math.totalX).toInt()
+                            right = (intersectionRect.right - math.totalX).toInt()
+                            top = (intersectionRect.top - math.totalY).toInt()
+                            bottom = (intersectionRect.bottom - math.totalY).toInt()
+                        }
+
+                        with(intersectionRect) {
+                            left -= tileRect.left
+                            left = bitmap.width * left / MapMath.tileWidth
+                            right -= tileRect.left
+                            right = bitmap.width * right / MapMath.tileWidth
+                            top -= tileRect.top
+                            top = bitmap.height * top / MapMath.tileHeight
+                            bottom -= tileRect.top
+                            bottom = bitmap.height * bottom / MapMath.tileHeight
+                        }
+
+                        canvas.drawBitmap(bitmap, intersectionRect, relativeRect, bitmapPaint)
                     }
-                    with(intersectionRect) {
-                        left -= tile.rect.left
-                        right -= tile.rect.left
-                        top -= tile.rect.top
-                        bottom -= tile.rect.top
-                    }
-                    canvas.drawBitmap(tile.bitmap, intersectionRect, relativeRect, bitmapPaint)
                 }
             }
         }
@@ -389,6 +398,7 @@ class MapView @JvmOverloads constructor(
                 location.x = pair.first
                 location.y = pair.second
             }
+            ServerLocationsHolder.createAndFillRect(it, context)
         }
         invalidate()
     }
@@ -487,6 +497,7 @@ class MapView @JvmOverloads constructor(
                 location.x = pair.first
                 location.y = pair.second
             }
+            ServerLocationsHolder.createAndFillRect(it, context)
         }
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
@@ -498,8 +509,54 @@ class MapView @JvmOverloads constructor(
         invalidate()
     }
 
+    var bitmapCache: LruCache<String, Bitmap>? = null
+    private var thumbnails: HashMap<String, Bitmap>? = null
     private fun initTiles() {
-        bitmaps = MapHolder.getTilesFor(resources.getString(R.string.path_to_tiles), context)
+        val path = resources.getString(R.string.path_to_tiles)
+        bitmapCache = MapHolder.getTilesFor(path, context)
+        thumbnails = MapHolder.getThumbnails(path, context)
+    }
+
+    val tasks = HashMap<String, BitmapWorkerTask>()
+    private fun getBitmap(assetPath: String): Bitmap? {
+        bitmapCache?.get(assetPath)?.also {
+            return it
+        } ?: run {
+            tasks[assetPath]?.also { taskObject ->
+                if (taskObject.status == AsyncTask.Status.FINISHED) {
+                    runNewTask(assetPath)
+                }
+            } ?: run {
+                runNewTask(assetPath)
+            }
+            thumbnails?.get(assetPath)
+        }
+        return thumbnails?.get(assetPath)
+    }
+
+    private fun runNewTask(assetPath: String) {
+        val task = BitmapWorkerTask()
+        task.execute(assetPath)
+        tasks[assetPath] = task
+    }
+
+    inner class BitmapWorkerTask : AsyncTask<String, Unit, Bitmap>() {
+
+        override fun doInBackground(vararg params: String?): Bitmap? {
+            return params[0]?.let { assetPath ->
+                getBitmapFrom(context, assetPath).also { bitmap ->
+                    bitmapCache?.put(assetPath, bitmap)
+                    postInvalidate()
+                }
+            }
+        }
+    }
+
+    private fun getBitmapFrom(context: Context, assetPath: String): Bitmap {
+        val drawable = Drawable.createFromStream(
+                context.assets.open(assetPath), null
+        )
+        return drawable.toBitmap(MapMath.tileWidth, MapMath.tileHeight, null)
     }
 
     private fun getAnimatorListener(): MapAnimator.AnimatorListener {
@@ -526,9 +583,9 @@ class MapView @JvmOverloads constructor(
                         }
                     }
                     MapAnimator.MovementAnimationType.CENTER_GATEWAY -> {
-                        nearestServer?.let {
-                            math.totalY = startY + (it.y - height / 2f - startY + panelHeight) * progress
-                            math.totalX = startX + (it.x - width / 2f - startX) * progress
+                        nearestServers?.let {nearestServersObj ->
+                            math.totalY = startY + (nearestServersObj.first().y - height / 2f - startY + panelHeight) * progress
+                            math.totalX = startX + (nearestServersObj.first().x - width / 2f - startX) * progress
                             invalidate()
                         }
                     }
@@ -559,8 +616,16 @@ class MapView @JvmOverloads constructor(
                     DialogueDrawer.DialogState.NONE -> {
                         return
                     }
-                    DialogueDrawer.DialogState.PROTECTED, DialogueDrawer.DialogState.UNPROTECTED -> openLocationDialogue()
-                    DialogueDrawer.DialogState.SERVER_CONNECT -> openGatewayDialogue()
+                    DialogueDrawer.DialogState.PROTECTED, DialogueDrawer.DialogState.UNPROTECTED -> {
+                        mapListener?.openLocationDialogue(location)
+                    }
+                    DialogueDrawer.DialogState.SERVER_CONNECT -> {
+                        mapListener?.let {
+                            nearestServers?.let {nearestServersObj ->
+                                it.openGatewayDialogue(nearestServersObj)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -570,6 +635,10 @@ class MapView @JvmOverloads constructor(
         fun onConnectTap(serverLocation: ServerLocation)
 
         fun onCheckLocationTap()
+
+        fun openLocationDialogue(location: Location?)
+
+        fun openGatewayDialogue(list: ArrayList<ServerLocation>)
     }
 
     companion object {
