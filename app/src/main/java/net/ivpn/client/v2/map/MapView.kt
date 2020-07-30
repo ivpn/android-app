@@ -632,9 +632,6 @@ class MapView @JvmOverloads constructor(
     }
 
     interface MapListener {
-        fun onConnectTap(serverLocation: ServerLocation)
-
-        fun onCheckLocationTap()
 
         fun openLocationDialogue(location: Location?)
 

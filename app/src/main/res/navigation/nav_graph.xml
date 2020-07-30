@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/connectFragment"
-        android:name="net.ivpn.client.v2.ConnectFragment"
+        android:name="net.ivpn.client.v2.connect.ConnectFragment"
         android:label="ConnectFragment">
         <action
             android:id="@+id/action_connectFragment_to_settingsFragment"
