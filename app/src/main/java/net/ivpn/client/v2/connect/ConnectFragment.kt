@@ -85,6 +85,26 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun initViews() {
+        initSlidingPanel()
+
+        multihop.navigator = this
+        connect.navigator = this
+
+        binding.location = location
+        binding.connection = connect
+        binding.servers = servers
+        binding.slidingPanel.antitracker = antiTracker
+        binding.slidingPanel.multihop = multihop
+        binding.slidingPanel.servers = servers
+        binding.slidingPanel.protocol = protocol
+        binding.slidingPanel.network = network
+        binding.slidingPanel.connect = connect
+        binding.slidingPanel.cards.location = location
+
+        initNavigation()
+    }
+
+    private fun initSlidingPanel() {
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
@@ -101,21 +121,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 }
             }
         })
+    }
 
-        multihop.navigator = this
-        connect.navigator = this
-
-        binding.location = location
-        binding.connection = connect
-        binding.servers = servers
-        binding.slidingPanel.antitracker = antiTracker
-        binding.slidingPanel.multihop = multihop
-        binding.slidingPanel.servers = servers
-        binding.slidingPanel.protocol = protocol
-        binding.slidingPanel.network = network
-        binding.slidingPanel.connect = connect
-        binding.slidingPanel.cards.location = location
-
+    private fun initNavigation() {
         binding.accountButton.setOnClickListener {
             if (account.authenticated.get()) {
                 openAccountScreen()
@@ -179,7 +187,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             binding.map.centerMap()
         }
 
-        location.addLocationListener(binding.map.locationListener)
         binding.map.mapListener = object : MapView.MapListener {
             override fun openLocationDialogue(location: Location?) {
                 view?.let {
@@ -202,7 +209,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onResume() {
-        println("Connect Fragment onResume")
+        LOGGER.info("onResume: Connect fragment")
         super.onResume()
         servers.onResume()
         account.onResume()
@@ -212,19 +219,16 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onStart() {
-        println("Connect Fragment onStart")
+        LOGGER.info("onStart: Connect fragment")
         super.onStart()
+        location.addLocationListener(binding.map.locationListener)
         network.onStart()
     }
 
     override fun onStop() {
-        println("Connect Fragment onStop")
+        LOGGER.info("onStop: Connect fragment")
         super.onStop()
         network.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         location.removeLocationListener(binding.map.locationListener)
     }
 
