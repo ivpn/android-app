@@ -35,7 +35,7 @@ class MultiHopController @Inject constructor(
     }
 
     fun isSupportedByPlan(): Boolean {
-        return userPreference.capabilityMultiHop && isAuthenticated()
+        return userPreference.capabilityMultiHop && isAuthenticated() && isMultihopAllowedByProtocol()
     }
 
     fun getIsEnabled(): Boolean {

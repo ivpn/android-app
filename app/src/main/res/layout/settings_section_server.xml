@@ -34,7 +34,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/textView10"
@@ -88,6 +89,7 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}"
                 android:background="@color/color_section_divider" />
 
             <LinearLayout

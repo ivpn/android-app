@@ -39,6 +39,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
+
+        const val RECONNECT_CODE = 121
     }
 
     private lateinit var binding: FragmentConnectBinding
@@ -246,6 +248,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
             ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
             }
+            RECONNECT_CODE -> {
+                connect.connectIfNot()
+            }
         }
     }
 
@@ -423,7 +428,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             openLoginScreen()
         } else {
             servers.setServerLocation(location)
-            connect.connectIfNot()
+            checkVPNPermission(RECONNECT_CODE)
+//            connect.connectIfNot()
         }
     }
 }
