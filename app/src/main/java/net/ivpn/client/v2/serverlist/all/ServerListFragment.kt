@@ -113,31 +113,6 @@ class ServerListFragment : Fragment(),
         viewmodel.cancel()
     }
 
-//    private fun checkVPNPermission(requestCode: Int) {
-//        LOGGER.info("checkVPNPermission")
-//        val intent: Intent?
-//        intent = try {
-//            VpnService.prepare(context)
-//        } catch (exception: Exception) {
-//            exception.printStackTrace()
-//            openErrorDialog(Dialogs.FIRMWARE_ERROR)
-//            return
-//        }
-//        if (intent != null) {
-//            try {
-//                startActivityForResult(intent, requestCode)
-//            } catch (ane: ActivityNotFoundException) {
-//                LOGGER.error("Error while checking VPN permission", ane)
-//            }
-//        } else {
-//            onActivityResult(requestCode, Activity.RESULT_OK, null)
-//        }
-//    }
-//
-//    private fun openErrorDialog(dialogs: Dialogs) {
-//        DialogBuilder.createNotificationDialog(context, dialogs)
-//    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {

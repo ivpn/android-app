@@ -1,10 +1,8 @@
 package net.ivpn.client.v2.connect
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.VpnService
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -251,7 +249,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
             CONNECT_BY_MAP -> {
                 connect.connectOrReconnect()
-//                connect.connectIfNot()
             }
         }
     }
@@ -268,33 +265,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     private fun checkLocationPermission() {
     }
 
-//    private fun checkVPNPermission(requestCode: Int) {
-//        LOGGER.info("checkVPNPermission")
-//        val intent: Intent?
-//        intent = try {
-//            VpnService.prepare(context)
-//        } catch (exception: Exception) {
-//            exception.printStackTrace()
-//            openErrorDialog(Dialogs.FIRMWARE_ERROR)
-//            return
-//        }
-//        if (intent != null) {
-//            try {
-//                startActivityForResult(intent, requestCode)
-//            } catch (ane: ActivityNotFoundException) {
-//                LOGGER.error("Error while checking VPN permission", ane)
-//            }
-//        } else {
-//            onActivityResult(requestCode, Activity.RESULT_OK, null)
-//        }
-//    }
-
     override fun onMultiHopStateChanged(state: Boolean) {
         recalculatePeekHeight()
     }
 
     override fun subscribe() {
-
     }
 
     override fun authenticate() {
