@@ -47,8 +47,8 @@ public class VpnBehaviorController {
         LOGGER.info("VPN controller is init");
         this.configManager = configManager;
 
-        OnServerChangedListener onServerChangedListener = this::onServerUpdated;
-        serversRepository.setOnServerChangedListener(onServerChangedListener);
+//        OnServerChangedListener onServerChangedListener = this::onServerUpdated;
+//        serversRepository.setOnServerChangedListener(onServerChangedListener);
 
         OnProtocolChangedListener onProtocolChangedListener = this::init;
         protocolController.addOnProtocolChangedListener(onProtocolChangedListener);
@@ -91,9 +91,11 @@ public class VpnBehaviorController {
         behavior.stop();
     }
 
-    public void onServerUpdated() {
+    public void onServerUpdated(Boolean forceConnect) {
         if (isVPNActive()) {
             behavior.reconnect();
+        } else if (forceConnect) {
+            behavior.startConnecting();
         }
     }
 

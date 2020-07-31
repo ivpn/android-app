@@ -73,6 +73,14 @@ class ConnectionViewModel @Inject constructor(
         }
     }
 
+    fun connectOrReconnect() {
+        vpnBehaviorController.onServerUpdated(true)
+    }
+
+    fun reconnectOrNothing() {
+        vpnBehaviorController.onServerUpdated(false)
+    }
+
     fun onPauseRequest() {
         vpnBehaviorController.pauseActionByUser()
     }

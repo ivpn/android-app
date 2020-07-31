@@ -22,7 +22,6 @@ import okhttp3.Request;
 public class HttpClientFactory {
     private static final String BASE_URL = BuildConfig.BASE_URL;
     private static OkHttpClient httpClient;
-    private LinkedList<String> ips;
 
     @Inject
     public HttpClientFactory() {
@@ -59,9 +58,10 @@ public class HttpClientFactory {
             requestBuilder.addHeader("Content-Type", "application/json");
             requestBuilder.addHeader("Accept", "application/json");
             requestBuilder.addHeader("User-Agent", "ivpn/android");
+//            requestBuilder.addHeader("Cache-Control", "no-cache");
             Request request = requestBuilder
                     .build();
-            Log.d("HttpClientFactory", "getInterceptor: request " + request);
+            Log.d("HttpClientFactory", "getInterceptor: request " + request + " \nrequestBuilder = " + requestBuilder);
             return chain.proceed(request);
         };
     }

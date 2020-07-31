@@ -1,6 +1,10 @@
 package net.ivpn.client.v2.serverlist.all
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.VpnService
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +14,29 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentServerListBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.connect.ConnectFragment
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
 import net.ivpn.client.v2.serverlist.dialog.Filters
+import net.ivpn.client.v2.viewmodel.ConnectionViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
+import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ServerListFragment : Fragment(),
         ServerListViewModel.ServerListNavigator, ServerListFilterViewModel.OnFilterChangedListener {
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
+        private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
+        private const val CONNECT_BY_SERVER_LIST = 122
+    }
+
     private lateinit var binding: FragmentServerListBinding
 
     @Inject
@@ -30,6 +44,9 @@ class ServerListFragment : Fragment(),
 
     @Inject
     lateinit var filterViewModel: ServerListFilterViewModel
+
+    @Inject
+    lateinit var connect: ConnectionViewModel
 
     lateinit var serverType: ServerType
     lateinit var adapter: AllServersRecyclerViewAdapter
@@ -96,12 +113,52 @@ class ServerListFragment : Fragment(),
         viewmodel.cancel()
     }
 
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
-        private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
+//    private fun checkVPNPermission(requestCode: Int) {
+//        LOGGER.info("checkVPNPermission")
+//        val intent: Intent?
+//        intent = try {
+//            VpnService.prepare(context)
+//        } catch (exception: Exception) {
+//            exception.printStackTrace()
+//            openErrorDialog(Dialogs.FIRMWARE_ERROR)
+//            return
+//        }
+//        if (intent != null) {
+//            try {
+//                startActivityForResult(intent, requestCode)
+//            } catch (ane: ActivityNotFoundException) {
+//                LOGGER.error("Error while checking VPN permission", ane)
+//            }
+//        } else {
+//            onActivityResult(requestCode, Activity.RESULT_OK, null)
+//        }
+//    }
+//
+//    private fun openErrorDialog(dialogs: Dialogs) {
+//        DialogBuilder.createNotificationDialog(context, dialogs)
+//    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            LOGGER.info("onActivityResult: RESULT_CANCELED")
+            return
+        }
+
+        LOGGER.info("onActivityResult: RESULT_OK")
+        when (requestCode) {
+            CONNECT_BY_SERVER_LIST -> {
+                connect.reconnectOrNothing()
+            }
+        }
     }
 
     override fun navigateBack() {
+        (parentFragment as ServerListTabFragment).navigateBack()
+    }
+
+    override fun onServerSelected() {
+        checkVPNPermission(CONNECT_BY_SERVER_LIST)
         (parentFragment as ServerListTabFragment).navigateBack()
     }
 

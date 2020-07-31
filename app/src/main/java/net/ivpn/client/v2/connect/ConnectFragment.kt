@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentConnectBinding
 import net.ivpn.client.rest.data.model.ServerLocation
@@ -40,7 +41,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
 
-        const val RECONNECT_CODE = 121
+        const val CONNECT_BY_MAP = 121
     }
 
     private lateinit var binding: FragmentConnectBinding
@@ -119,7 +120,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 if (newState == STATE_HIDDEN || newState == STATE_HALF_EXPANDED) {
                     bottomSheetBehavior.state = STATE_EXPANDED
                 } else if (newState == STATE_EXPANDED) {
-                    checkLocation()
+//                    checkLocation()
                 }
             }
         })
@@ -248,8 +249,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
             ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
             }
-            RECONNECT_CODE -> {
-                connect.connectIfNot()
+            CONNECT_BY_MAP -> {
+                connect.connectOrReconnect()
+//                connect.connectIfNot()
             }
         }
     }
@@ -266,26 +268,26 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     private fun checkLocationPermission() {
     }
 
-    private fun checkVPNPermission(requestCode: Int) {
-        LOGGER.info("checkVPNPermission")
-        val intent: Intent?
-        intent = try {
-            VpnService.prepare(context)
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-            openErrorDialog(Dialogs.FIRMWARE_ERROR)
-            return
-        }
-        if (intent != null) {
-            try {
-                startActivityForResult(intent, requestCode)
-            } catch (ane: ActivityNotFoundException) {
-                LOGGER.error("Error while checking VPN permission", ane)
-            }
-        } else {
-            onActivityResult(requestCode, Activity.RESULT_OK, null)
-        }
-    }
+//    private fun checkVPNPermission(requestCode: Int) {
+//        LOGGER.info("checkVPNPermission")
+//        val intent: Intent?
+//        intent = try {
+//            VpnService.prepare(context)
+//        } catch (exception: Exception) {
+//            exception.printStackTrace()
+//            openErrorDialog(Dialogs.FIRMWARE_ERROR)
+//            return
+//        }
+//        if (intent != null) {
+//            try {
+//                startActivityForResult(intent, requestCode)
+//            } catch (ane: ActivityNotFoundException) {
+//                LOGGER.error("Error while checking VPN permission", ane)
+//            }
+//        } else {
+//            onActivityResult(requestCode, Activity.RESULT_OK, null)
+//        }
+//    }
 
     override fun onMultiHopStateChanged(state: Boolean) {
         recalculatePeekHeight()
@@ -428,8 +430,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             openLoginScreen()
         } else {
             servers.setServerLocation(location)
-            checkVPNPermission(RECONNECT_CODE)
-//            connect.connectIfNot()
+            checkVPNPermission(CONNECT_BY_MAP)
         }
     }
 }

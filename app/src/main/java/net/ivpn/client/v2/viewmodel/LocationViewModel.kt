@@ -1,5 +1,6 @@
 package net.ivpn.client.v2.viewmodel
 
+import android.os.Handler
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,8 @@ import javax.inject.Inject
 @ApplicationScope
 class LocationViewModel @Inject constructor(
         private val serversRepository: ServersRepository,
-        settings: Settings,
-        httpClientFactory: HttpClientFactory,
+        private val settings: Settings,
+        private val httpClientFactory: HttpClientFactory,
         protocolController: ProtocolController,
         vpnBehaviorController: VpnBehaviorController
 ) : ViewModel() {
@@ -46,7 +47,7 @@ class LocationViewModel @Inject constructor(
 
     private var locationListeners = arrayListOf<CheckLocationListener>()
 
-    private var request: Request<LocationResponse> = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
+    private var request: Request<LocationResponse>? = null
 
     init {
         vpnBehaviorController.addVpnStateListener(getVpnStateListener())
@@ -68,6 +69,9 @@ class LocationViewModel @Inject constructor(
     }
 
     fun checkLocation() {
+        request?.cancel()
+        request = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
+        LOGGER.info("Checking location...")
         dataLoading.set(true)
         val location = homeLocation.get()
         val stateL = state
@@ -76,7 +80,7 @@ class LocationViewModel @Inject constructor(
                 listener.onSuccess(location, stateL)
             }
         }
-        request.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
+        request?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
                 LOGGER.info(response.toString())
                 this@LocationViewModel.onSuccess(response)
@@ -138,10 +142,11 @@ class LocationViewModel @Inject constructor(
     private fun getVpnStateListener(): VpnStateListener {
         return object : VpnStateListenerImpl() {
             override fun onConnectionStateChanged(state: ConnectionState) {
+                LOGGER.info("Get VPN connection state: $state")
                 this@LocationViewModel.state = state
                 when (state) {
                     ConnectionState.NOT_CONNECTED -> {
-                        checkLocation()
+                        checkLocationWithDelay()
                     }
                     ConnectionState.DISCONNECTING -> {
                         val location = homeLocation.get()
@@ -152,13 +157,20 @@ class LocationViewModel @Inject constructor(
                         }
                     }
                     ConnectionState.CONNECTED -> {
-                        checkLocation()
+                        checkLocationWithDelay()
                     }
                     else -> {
                     }
                 }
             }
         }
+    }
+
+    private fun checkLocationWithDelay() {
+        dataLoading.set(true)
+        Handler().postDelayed({
+            checkLocation()
+        }, 1000)
     }
 
     interface CheckLocationListener {

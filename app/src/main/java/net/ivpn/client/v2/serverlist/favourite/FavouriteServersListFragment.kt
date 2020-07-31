@@ -1,6 +1,10 @@
 package net.ivpn.client.v2.serverlist.favourite
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.VpnService
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentFavouriteServersListBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
+import net.ivpn.client.v2.serverlist.all.ServerListFragment
 import net.ivpn.client.v2.serverlist.dialog.Filters
+import net.ivpn.client.v2.viewmodel.ConnectionViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
 import org.slf4j.LoggerFactory
@@ -31,6 +38,9 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
 
     @Inject
     lateinit var filterViewModel: ServerListFilterViewModel
+
+    @Inject
+    lateinit var connect: ConnectionViewModel
 
     lateinit var adapter: FavouriteServerListRecyclerViewAdapter
 
@@ -102,7 +112,27 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         viewmodel.favouriteListeners.add(adapter)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            LOGGER.info("onActivityResult: RESULT_CANCELED")
+            return
+        }
+
+        LOGGER.info("onActivityResult: RESULT_OK")
+        when (requestCode) {
+            CONNECT_BY_SERVER_LIST -> {
+                connect.reconnectOrNothing()
+            }
+        }
+    }
+
     override fun navigateBack() {
+        (parentFragment as ServerListTabFragment).navigateBack()
+    }
+
+    override fun onServerSelected() {
+        checkVPNPermission(CONNECT_BY_SERVER_LIST)
         (parentFragment as ServerListTabFragment).navigateBack()
     }
 
@@ -119,6 +149,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
     companion object {
         private val LOGGER = LoggerFactory.getLogger(FavouriteServersListFragment::class.java)
         private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
+        private const val CONNECT_BY_SERVER_LIST = 122
     }
 
     override fun onFilterChanged(filter: Filters?) {

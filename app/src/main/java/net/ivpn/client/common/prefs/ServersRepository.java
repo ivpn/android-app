@@ -226,22 +226,28 @@ public class ServersRepository implements Serializable {
     public void serverSelected(Server server, ServerType type) {
         settings.enableFastestServerSetting(false);
         setCurrentServer(type, server);
-        if (type == ServerType.ENTRY) {
-            updateVPNSettingWith(server);
-        } else {
-            for (OnServerChangedListener listener : onServerChangedListeners) {
-                listener.onServerChanged();
-            }
+        for (OnServerChangedListener listener : onServerChangedListeners) {
+            listener.onServerChanged();
         }
+//        if (type == ServerType.ENTRY) {
+//            updateVPNSettingWith(server);
+//            for (OnServerChangedListener listener : onServerChangedListeners) {
+//                listener.onServerChanged();
+//            }
+//        } else {
+//            for (OnServerChangedListener listener : onServerChangedListeners) {
+//                listener.onServerChanged();
+//            }
+//        }
     }
 
-    public void setOnServerChangedListener(OnServerChangedListener listener) {
-        onServerChangedListeners.add(listener);
-    }
-
-    public void removeOnServerChangedListener(OnServerChangedListener listener) {
-        onServerChangedListeners.remove(listener);
-    }
+//    public void setOnServerChangedListener(OnServerChangedListener listener) {
+//        onServerChangedListeners.add(listener);
+//    }
+//
+//    public void removeOnServerChangedListener(OnServerChangedListener listener) {
+//        onServerChangedListeners.remove(listener);
+//    }
 
     public void tryUpdateServerListOffline() {
         LOGGER.info("Trying update server list offline from cache...");
