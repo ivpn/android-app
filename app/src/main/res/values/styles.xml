@@ -60,6 +60,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="AppTheme.PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+
     <style name="DialogMessageStyle" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/dialogue_text</item>
         <item name="android:lineSpacingExtra">8sp</item>

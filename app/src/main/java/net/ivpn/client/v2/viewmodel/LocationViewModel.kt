@@ -127,7 +127,9 @@ class LocationViewModel @Inject constructor(
             } else {
                 location.set(it.country)
             }
-            isp.set(it.isp)
+            isp.set(if (it.isIvpnServer) "IVPN" else it.isp)
+//            isp.set(it.isp)
+
         }
     }
 

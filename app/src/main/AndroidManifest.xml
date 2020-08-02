@@ -29,6 +29,7 @@
         android:largeHeap="true"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
+        android:extractNativeLibs="true"
         tools:ignore="GoogleAppIndexingWarning, HardcodedDebugMode">
 
         <meta-data

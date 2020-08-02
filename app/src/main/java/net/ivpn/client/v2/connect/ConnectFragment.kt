@@ -102,6 +102,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.connect = connect
         binding.slidingPanel.cards.location = location
 
+//        binding.slidingPanel.cards.internetProviderValue.isSelected = true
+
         initNavigation()
     }
 
@@ -203,6 +205,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                         MapDialogs.openGatewayDialog(it, list[0], topMargin, this@ConnectFragment)
                     } else {
                         MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+                    }
+                    if (!connect.isVpnActive()) {
+                        servers.setServerLocation(list[0])
                     }
                 }
             }
@@ -406,6 +411,12 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         } else {
             servers.setServerLocation(location)
             checkVPNPermission(CONNECT_BY_MAP)
+        }
+    }
+
+    override fun updateSelectionTo(location: ServerLocation) {
+        if (!connect.isVpnActive()) {
+            servers.setServerLocation(location)
         }
     }
 }

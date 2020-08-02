@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -11,8 +12,7 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="24dp"
@@ -37,7 +37,7 @@
                 android:layout_marginTop="16dp"
                 android:alpha="0.5"
                 android:letterSpacing="-0.03"
-                android:text="@{location.connected ? @string/map_dialog_connected_title : @string/map_dialog_not_connected_title}"
+                android:text="There should long string by default. Because of animation bug for Android 10."
                 android:textColor="@color/dialogue_title"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/country_flag"
                 app:layout_constraintEnd_toEndOf="parent"

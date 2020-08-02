@@ -1,6 +1,7 @@
 package net.ivpn.client.v2.connect
 
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ object MapDialogs {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
+        infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
         binding.connectButton.setOnClickListener {
             listener.connectTo(location)
@@ -57,15 +59,18 @@ object MapDialogs {
         binding.nextArrow.visibility = if (binding.viewPager.currentItem == locations.size - 1) View.INVISIBLE else View.VISIBLE
         binding.prevArrow.setOnClickListener {
             binding.viewPager.currentItem = max(0, binding.viewPager.currentItem - 1)
+            listener.updateSelectionTo(locations[binding.viewPager.currentItem])
         }
         binding.nextArrow.setOnClickListener {
             binding.viewPager.currentItem = min(locations.size - 1, binding.viewPager.currentItem + 1)
+            listener.updateSelectionTo(locations[binding.viewPager.currentItem])
         }
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.prevArrow.visibility = if (position == 0) View.INVISIBLE else View.VISIBLE
                 binding.nextArrow.visibility = if (position == locations.size - 1) View.INVISIBLE else View.VISIBLE
+                listener.updateSelectionTo(locations[binding.viewPager.currentItem])
                 super.onPageSelected(position)
             }
         })
@@ -73,6 +78,7 @@ object MapDialogs {
         val infoPopup = PopupWindow(binding.root,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
+        infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.isOutsideTouchable = true
         infoPopup.setBackgroundDrawable(ColorDrawable())
         binding.connectButton.setOnClickListener {
@@ -90,11 +96,23 @@ object MapDialogs {
                 R.layout.dialogue_location, null, false
         )
         binding.location = location
+        //The default width of view should big enough. Otherwise, enter animation will be broken for devices with Android 10
+        //Spent 4 hours of my life to fix it.
+        location?.let {
+            binding.description.text = parent.context.getString(
+                    if (it.isConnected) {
+                        R.string.map_dialog_connected_title
+                    } else {
+                        R.string.map_dialog_not_connected_title
+                    }
+            )
+        }
 
         val infoPopup = PopupWindow(binding.root,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
+        infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
 
         binding.info.setOnClickListener {
@@ -102,11 +120,15 @@ object MapDialogs {
             infoPopup.dismiss()
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            println("Enter transition = ${infoPopup.enterTransition}")
+        }
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
     }
 
     interface GatewayListener {
         fun connectTo(location: ServerLocation)
+        fun updateSelectionTo(location: ServerLocation)
     }
 
     interface LocationListener {

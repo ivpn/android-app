@@ -33,6 +33,7 @@
                 android:background="@color/sliding_panel_card_background">
 
                 <ProgressBar
+                    android:id="@+id/progressBar2"
                     style="?indeterminateProgressStyle"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -41,25 +42,34 @@
                     android:theme="@style/AppTheme.ProgressBar"
                     android:visibility="@{location.dataLoading? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/public_ip2"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/public_ip2"
+                    android:id="@+id/location_value"
                     style="@style/AppTheme.ServerNameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:gravity="end"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
                     android:text="@{location.location}"
                     android:visibility="@{location.dataLoading? View.GONE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/public_ip_title2"
+                    app:layout_constraintBottom_toBottomOf="@+id/location_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/public_ip_title2" />
+                    app:layout_constraintStart_toEndOf="@+id/location_title"
+                    app:layout_constraintTop_toTopOf="@+id/location_title" />
 
                 <TextView
-                    android:id="@+id/public_ip_title2"
+                    android:id="@+id/location_title"
                     style="@style/sliding_panel_card_text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,6 +181,7 @@
                 android:background="@color/sliding_panel_card_background">
 
                 <ProgressBar
+                    android:id="@+id/progressBar"
                     style="?indeterminateProgressStyle"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -179,7 +190,7 @@
                     android:theme="@style/AppTheme.ProgressBar"
                     android:visibility="@{location.dataLoading? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/public_ip3"
+                    app:layout_constraintEnd_toStartOf="@+id/internet_provider_value"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -192,6 +203,8 @@
                     android:layout_marginBottom="16dp"
                     android:text="@string/sliding_panel_internet_provider_title"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+                    app:layout_constraintEnd_toEndOf="@+id/progressBar"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toTopOf="@+id/imageView7"
                     app:layout_constraintVertical_bias="0.531" />
@@ -210,15 +223,25 @@
                     app:srcCompat="@drawable/ic_server" />
 
                 <TextView
-                    android:id="@+id/public_ip3"
+                    android:id="@+id/internet_provider_value"
                     style="@style/AppTheme.ServerNameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:text="@{location.isp}"
+                    android:gravity="end"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
                     android:visibility="@{location.dataLoading? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView7"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/public_ip_title4"
                     app:layout_constraintTop_toTopOf="@+id/imageView7"
                     app:layout_constraintVertical_bias="0.4" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,7 +58,11 @@ public class Peer implements Parcelable{
     private void addAllowedIPs(@Nullable final String[] allowedIPs) {
         if (allowedIPs != null && allowedIPs.length > 0) {
             for (final String allowedIP : allowedIPs) {
-                allowedIPsList.add(new InetNetwork(allowedIP));
+                try {
+                    allowedIPsList.add(InetNetwork.parse(allowedIP));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -14,20 +14,35 @@ public class InetNetwork {
     private final InetAddress address;
     private final int mask;
 
-    public InetNetwork(final String input) {
-        final int slash = input.lastIndexOf('/');
+    InetNetwork(final InetAddress address, final int mask) {
+        this.address = address;
+        this.mask = mask;
+    }
+
+    public static InetNetwork parse(final String network) throws ParseException {
+        final int slash = network.lastIndexOf('/');
+        final String maskString;
         final int rawMask;
         final String rawAddress;
         if (slash >= 0) {
-            rawMask = Integer.parseInt(input.substring(slash + 1), 10);
-            rawAddress = input.substring(0, slash);
+            maskString = network.substring(slash + 1);
+            try {
+                rawMask = Integer.parseInt(maskString, 10);
+            } catch (final NumberFormatException ignored) {
+                throw new ParseException(Integer.class, maskString);
+            }
+            rawAddress = network.substring(0, slash);
         } else {
+            maskString = "";
             rawMask = -1;
-            rawAddress = input;
+            rawAddress = network;
         }
-        address = InetAddresses.parse(rawAddress);
+        final InetAddress address = InetAddresses.parse(rawAddress);
         final int maxMask = (address instanceof Inet4Address) ? 32 : 128;
-        mask = rawMask >= 0 && rawMask <= maxMask ? rawMask : maxMask;
+        if (rawMask > maxMask)
+            throw new ParseException(InetNetwork.class, maskString, "Invalid network mask");
+        final int mask = rawMask >= 0 ? rawMask : maxMask;
+        return new InetNetwork(address, mask);
     }
 
     @Override
