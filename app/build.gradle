@@ -24,11 +24,11 @@ android {
         }
     }
 
-    compileSdkVersion 30
+    compileSdkVersion 29
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 80
         versionName "2.0"
 

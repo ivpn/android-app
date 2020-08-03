@@ -126,8 +126,10 @@ class ServersViewModel @Inject constructor(
             return
         }
         if (multiHopController.isEnabled) {
-            exitServer.set(serverToConnect)
-            serversRepository.serverSelected(serverToConnect, ServerType.EXIT)
+            if (serverToConnect.canBeUsedAsMultiHopWith(entryServer.get())) {
+                exitServer.set(serverToConnect)
+                serversRepository.serverSelected(serverToConnect, ServerType.EXIT)
+            }
         } else {
             entryServer.set(serverToConnect)
             serversRepository.serverSelected(serverToConnect, ServerType.ENTRY)
