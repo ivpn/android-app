@@ -57,6 +57,10 @@ class AccountViewModel @Inject constructor(
         subscriptionPlan.set(getSubscriptionPlan())
     }
 
+    fun updateSessionStatus() {
+        sessionController.updateSessionStatus()
+    }
+
     fun drawQR(foregroundColor: Int, backgroundColor: Int, dimension: Int) {
         qrCode.set(QRController.getQR(username.get(), foregroundColor, backgroundColor, dimension))
     }
@@ -68,6 +72,17 @@ class AccountViewModel @Inject constructor(
 
     fun cancel() {
         sessionController.cancel()
+    }
+
+    fun reset() {
+        username.set(getUsernameValue())
+        accountType.set(getUserAccountType())
+        isOnFreeTrial.set(isOnFreeTrial())
+        availableUntil.set(getAvailableUntilValue())
+        authenticated.set(isAuthenticated())
+        isNativeSubscription.set(isNativeSubscription())
+        subscriptionState.set(getSubscriptionState())
+        subscriptionPlan.set(getSubscriptionPlan())
     }
 
     override fun onRemoveSuccess() {
@@ -90,7 +105,6 @@ class AccountViewModel @Inject constructor(
     }
 
     override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
-        TODO("Not yet implemented")
     }
 
     private fun clearLocalCache() {

@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
+//        IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         LOGGER.info("onCreate");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
@@ -225,6 +225,11 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator, 
     @Override
     public void openCustomErrorDialogue(String title, String message) {
         DialogBuilder.createFullCustomNotificationDialog(this, title, message);
+    }
+
+    @Override
+    public void openAccountNotActiveBetaDialogue() {
+
     }
 
     @Override

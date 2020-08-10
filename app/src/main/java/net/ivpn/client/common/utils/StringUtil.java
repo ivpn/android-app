@@ -39,11 +39,17 @@ public class StringUtil {
         return noQuoteWifi.trim();
     }
 
-    public static String formatTimeUntilResumed(long timeUntilResumed) {
+    public static String formatTimeUntilResumedWithText(long timeUntilResumed) {
         Resources resources = IVPNApplication.getApplication().getResources();
         StringBuilder builder = new StringBuilder();
         builder.append(resources.getString(R.string.connect_resumed_in));
         builder.append(" ").append(DateUtil.formatTimerCountDown(timeUntilResumed));
+        return builder.toString();
+    }
+
+    public static String formatTimeUntilResumed(long timeUntilResumed) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(DateUtil.formatTimerCountDown(timeUntilResumed));
         return builder.toString();
     }
 }

@@ -97,6 +97,10 @@ class ConnectionViewModel @Inject constructor(
         vpnBehaviorController.disconnect()
     }
 
+    fun reset() {
+
+    }
+
     private fun createNewSession(force: Boolean) {
         connectionUserHint.set(context.getString(R.string.connect_hint_creating_session))
         sessionController.createSession(force)

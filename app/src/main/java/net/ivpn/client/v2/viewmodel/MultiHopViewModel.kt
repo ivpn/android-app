@@ -43,6 +43,11 @@ class MultiHopViewModel @Inject constructor(
         isSupported.set(multiHopController.isSupportedByPlan())
     }
 
+    fun reset() {
+        isEnabled.set(multiHopController.getIsEnabled())
+        isSupported.set(multiHopController.isSupportedByPlan())
+    }
+
     fun enableMultiHop(state: Boolean) {
         if (isEnabled.get() == state) return
         when (multiHopController.getState()) {

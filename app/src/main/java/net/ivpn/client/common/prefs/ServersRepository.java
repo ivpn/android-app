@@ -36,8 +36,9 @@ public class ServersRepository implements Serializable {
     private Settings settings;
     private ProtocolController protocolController;
     private ServersPreference serversPreference;
+    private HttpClientFactory httpClientFactory;
 
-    private Request<ServersListResponse> request;
+    private Request<ServersListResponse> request = null;
 
     @Inject
     public ServersRepository(Settings settings, HttpClientFactory httpClientFactory,
@@ -46,7 +47,7 @@ public class ServersRepository implements Serializable {
         this.settings = settings;
         this.protocolController = protocolController;
         this.serversPreference = serversPreference;
-        this.request = new Request<>(settings, httpClientFactory, this, Request.Duration.SHORT);
+        this.httpClientFactory = httpClientFactory;
 
         init();
     }
@@ -180,6 +181,7 @@ public class ServersRepository implements Serializable {
 
     public void updateServerList(final boolean isForced) {
         LOGGER.info("Updating server list, isForced = " + isForced);
+        request = new Request<>(settings, httpClientFactory, this, Request.Duration.SHORT);
         request.start(IVPNApi::getServers, new RequestListener<ServersListResponse>() {
             @Override
             public void onSuccess(ServersListResponse response) {
@@ -407,9 +409,9 @@ public class ServersRepository implements Serializable {
         }
     }
 
-    private void updateVPNSettingWith(Server server) {
-        for (OnServerChangedListener listener : onServerChangedListeners) {
-            listener.onServerChanged();
-        }
-    }
+//    private void updateVPNSettingWith(Server server) {
+//        for (OnServerChangedListener listener : onServerChangedListeners) {
+//            listener.onServerChanged();
+//        }
+//    }
 }

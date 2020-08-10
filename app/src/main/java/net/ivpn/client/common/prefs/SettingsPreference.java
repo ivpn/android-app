@@ -158,7 +158,7 @@ public class SettingsPreference {
 
     public int getRegenerationPeriod() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getInt(WIREGUARD_KEY_REGENERATION_PERIOD, 7);
+        return sharedPreferences.getInt(WIREGUARD_KEY_REGENERATION_PERIOD, 1);
     }
 
     public void putRegenerationPeriod(int regenerationPeriod) {

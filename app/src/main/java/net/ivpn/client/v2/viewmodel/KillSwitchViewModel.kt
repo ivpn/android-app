@@ -51,6 +51,10 @@ class KillSwitchViewModel @Inject constructor(
         settings.enableKillSwitch(value)
     }
 
+    fun reset() {
+        isEnabled.set(isKillSwitchEnabled())
+    }
+
     private fun tryEnable(value: Boolean) {
         navigator?.tryEnableKillSwitch(value, isAdvancedKillSwitchDialogEnabled())
     }

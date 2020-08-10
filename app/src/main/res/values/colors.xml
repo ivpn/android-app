@@ -190,4 +190,6 @@
     <color name="dialog_shadow_8">#40CCCCCC</color>
 
     <color name="dialog_shadow_no_opacity">#CCCCCC</color>
+
+    <color name="snackbar_background">#FFF</color>
 </resources>

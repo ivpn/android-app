@@ -142,7 +142,11 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
     }
 
     override fun openAccountNotActiveDialogue() {
-        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE);
+        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE)
+    }
+
+    override fun openAccountNotActiveBetaDialogue() {
+        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE_BETA)
     }
 
     override fun onLogin() {

@@ -1,19 +1,19 @@
 package net.ivpn.client.ui.startonboot;
 
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
+import androidx.databinding.DataBindingUtil;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.ActivityStartOnBootBinding;
-import net.ivpn.client.ui.alwaysonvpn.AlwaysOnVpnActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 public class StartOnBootActivity extends AppCompatActivity {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AlwaysOnVpnActivity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartOnBootActivity.class);
     private ActivityStartOnBootBinding binding;
     @Inject
     StartOnBootViewModel viewModel;

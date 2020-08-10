@@ -110,7 +110,7 @@ class MapView @JvmOverloads constructor(
     val locationListener = object : LocationViewModel.CheckLocationListener {
         override fun onSuccess(location: Location, connectionState: ConnectionState) {
             println("Location listener on Success connectionState = $connectionState")
-            if (connectionState == ConnectionState.NOT_CONNECTED) {
+            if (connectionState == ConnectionState.NOT_CONNECTED || connectionState == ConnectionState.PAUSED) {
                 setLocation(location)
             }
         }
@@ -201,39 +201,10 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun checkTap(event: MotionEvent) {
-//        when (dialogueData.state) {
-//            DialogueDrawer.DialogState.UNPROTECTED, DialogueDrawer.DialogState.PROTECTED -> {
-//                if (dialogueDrawer.infoButtonRect.contains(event.x.toInt(), event.y.toInt())) {
-//                    mapListener?.onCheckLocationTap()
-//                    dialogueData.state = DialogueDrawer.DialogState.NONE
-//                    invalidate()
-//                    return
-//                }
-//            }
-//            DialogueDrawer.DialogState.SERVER_CONNECT -> {
-//                if (dialogueDrawer.connectButtonRect.contains(event.x, event.y)) {
-//                    println("on connect button tap")
-//                    nearestServer?.let {
-//                        mapListener?.onConnectTap(it)
-//                    }
-//                    dialogueData.state = DialogueDrawer.DialogState.NONE
-//                    invalidate()
-//                    return
-//                }
-//            }
-//        }
-//        dialogueData.state = DialogueDrawer.DialogState.NONE
 
         locationData.location?.coordinate?.let {
             val distance: Float = sqrt((it.first - math.totalX - event.x).pow(2)
                     + (it.second - math.totalY - event.y).pow(2))
-//            val locationPointerRect = Rect()
-//            with(locationPointerRect) {
-//                left = (it.first - locationDrawer.locationMaxRadius - math.totalX).toInt()
-//                right = (it.first + locationDrawer.locationMaxRadius - math.totalX).toInt()
-//                top = (it.second - locationDrawer.locationMaxRadius - math.totalY).toInt()
-//                bottom = (it.second + locationDrawer.locationMaxRadius - math.totalY).toInt()
-//            }
 
             if (distance < serverLocationDrawer.tapRadius) {
                 animator.centerLocation(math.totalX,
@@ -369,19 +340,22 @@ class MapView @JvmOverloads constructor(
                 invalidate()
             }
             ConnectionState.PAUSING -> {
-                locationData.inProgress = true
-                if (gateway != null) {
-                    gateway.isConnected = true
-                    setLocation(gateway)
-                }
-                invalidate()
+//                locationData.inProgress = true
+//                if (gateway != null) {
+//                    gateway.isConnected = true
+//                    setLocation(gateway)
+//                }
+//                invalidate()
             }
             ConnectionState.PAUSED -> {
-                locationData.inProgress = true
-                if (gateway != null) {
-                    gateway.isConnected = true
-                    setLocation(gateway)
-                }
+//                locationData.inProgress = true
+//                if (gateway != null) {
+//                    gateway.isConnected = true
+//                    setLocation(gateway)
+//                }
+//                invalidate()
+                animator.stopWaveAnimation()
+                locationData.inProgress = false
                 invalidate()
             }
         }

@@ -6,20 +6,21 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import androidx.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GestureDetectorCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.todtenkopf.mvvm.MenuCommandBindings;
 import com.todtenkopf.mvvm.ViewModelActivity;
@@ -31,19 +32,14 @@ import net.ivpn.client.R;
 import net.ivpn.client.common.SnackbarUtil;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.utils.IntentUtils;
-import net.ivpn.client.common.utils.ViewUtil;
 import net.ivpn.client.databinding.ActivityConnectBinding;
 import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
-import net.ivpn.client.ui.network.NetworkAdapter;
 import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
-import net.ivpn.client.ui.serverlist.ServersListActivity;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.tutorial.TutorialActivity;
 import net.ivpn.client.ui.updates.UpdatesJobServiceUtil;
 import net.ivpn.client.vpn.ServiceConstants;
-import net.ivpn.client.vpn.model.NetworkState;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,9 +87,6 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
             // Be sure to call the superclass implementation
             return true;
         });
-//        binding.contentLayout.behaviorSpinner.setAdapter(
-//                new NetworkAdapter(this, NetworkState.getActiveState(),
-//                        viewModel.getDefaultNetworkState()));
 
         return viewModel;
     }
@@ -116,10 +109,6 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
         super.onResume();
         LOGGER.info("onResume");
         viewModel.onResume();
-//        binding.contentLayout.connectionHint.post(() -> ViewUtil.setStatusTopMargin(binding.contentLayout.connectionHint,
-//                binding.contentLayout.connectionView.getStatusTopMargin()));
-//        binding.contentLayout.pauseHint.post(() -> ViewUtil.setPauseTimerTopMargin(binding.contentLayout.pauseHint,
-//                binding.contentLayout.connectionView.getStatusTopMargin(), binding.contentLayout.connectionView.getHeight()));
         checkLocationPermission();
     }
 
@@ -191,9 +180,6 @@ public class ConnectActivity extends ViewModelActivity implements ConnectionNavi
     }
 
     public void openSettings() {
-        LOGGER.info("openSettings");
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startSingleTopActivity(intent);
     }
 
     public void openPrivateEmails() {

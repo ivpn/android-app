@@ -15,6 +15,7 @@ import net.ivpn.client.rest.data.session.*
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
 import net.ivpn.client.v2.viewmodel.AccountViewModel
+import net.ivpn.client.v2.viewmodel.ViewModelCleaner
 import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.VpnBehaviorController
@@ -26,16 +27,16 @@ class SessionController @Inject constructor(
         private val settings: Settings,
         private val vpnBehaviorController: VpnBehaviorController,
         private val protocolController: ProtocolController,
-        clientFactory: HttpClientFactory,
-        serversRepository: ServersRepository
+        private val clientFactory: HttpClientFactory,
+        private val serversRepository: ServersRepository
 ) {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
     }
 
-    private val deleteSessionRequest: Request<DeleteSessionResponse> = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
-    private val sessionStatusRequest: Request<SessionStatusResponse> = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
-    private val sessionNewRequest: Request<SessionNewResponse> = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+    private var deleteSessionRequest: Request<DeleteSessionResponse>? = null
+    private var sessionStatusRequest: Request<SessionStatusResponse>? = null
+    private var sessionNewRequest: Request<SessionNewResponse>? = null
 
     private val listeners = arrayListOf<SessionListener>()
 
@@ -45,7 +46,9 @@ class SessionController @Inject constructor(
 
     fun createSession(force: Boolean) {
         val body = SessionNewRequestBody(getUsername(), getWireGuardPublicKey(), force)
-        sessionNewRequest.start({ api: IVPNApi -> api.newSession(body) },
+        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+
+        sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
                     override fun onSuccess(response: SessionNewResponse) {
                         LOGGER.info(response.toString())
@@ -86,14 +89,16 @@ class SessionController @Inject constructor(
 
         val body = SessionStatusRequestBody(getSessionToken())
         LOGGER.info("SessionStatusRequestBody = $body")
+        sessionStatusRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
-        sessionStatusRequest.start({ api: IVPNApi -> api.sessionStatus(body) },
+        sessionStatusRequest?.start({ api: IVPNApi -> api.sessionStatus(body) },
                 object : RequestListener<SessionStatusResponse> {
                     override fun onSuccess(response: SessionStatusResponse) {
                         if (response.status != null && response.status == Responses.SUCCESS) {
                             LOGGER.info("Session status response received successfully")
                             LOGGER.info(response.toString())
                             saveSessionStatus(response.serviceStatus)
+                            onUpdateSuccess()
                         }
                     }
 
@@ -109,6 +114,10 @@ class SessionController @Inject constructor(
                             if (it.status == Responses.SERVICE_IS_NOT_ACTIVE){
                                 userPreference.putIsActive(false)
                             }
+                            if ((it.status == Responses.SESSION_NOT_FOUND)) {
+                                clearData()
+                                ViewModelCleaner()
+                            }
                         }
                         onUpdateError(null, errorResponse)
                     }
@@ -116,10 +125,13 @@ class SessionController @Inject constructor(
     }
 
     fun logOut() {
+        vpnBehaviorController.disconnect()
+
         val token = userPreference.sessionToken
         val requestBody = DeleteSessionRequestBody(token)
+        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
-        deleteSessionRequest.start({ api: IVPNApi -> api.deleteSession(requestBody) },
+        deleteSessionRequest?.start({ api: IVPNApi -> api.deleteSession(requestBody) },
                 object : RequestListener<DeleteSessionResponse?> {
                     override fun onSuccess(response: DeleteSessionResponse?) {
                         LOGGER.info("Deleting session from server state: SUCCESS")
@@ -140,7 +152,7 @@ class SessionController @Inject constructor(
     }
 
     fun cancel() {
-        deleteSessionRequest.cancel()
+        deleteSessionRequest?.cancel()
     }
 
     private fun onRemoveSuccess() {

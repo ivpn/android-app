@@ -6,9 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorOnSurface">@color/color_on_surface</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="colorControlNormal">@color/textColorPrimary</item>
+<!--        <item name="colorOnSurface">@color/color_on_surface</item>-->
+<!--        <item name="android:textColorPrimary">@color/textColorPrimary</item>-->
+<!--        <item name="colorControlNormal">@color/textColorPrimary</item>-->
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
         <!--<item name="textColorError"> @color/colorAccent </item>-->
     </style>
@@ -16,6 +16,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
     <style name="AppTheme.Transparent" parent="Theme.AppCompat.NoActionBar">

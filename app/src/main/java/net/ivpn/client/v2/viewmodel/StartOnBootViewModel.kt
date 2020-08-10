@@ -21,4 +21,8 @@ class StartOnBootViewModel @Inject constructor(
     fun onResume() {
         isStartOnBootEnabled.set(settings.isStartOnBootEnabled)
     }
+
+    fun reset() {
+        isStartOnBootEnabled.set(settings.isStartOnBootEnabled)
+    }
 }

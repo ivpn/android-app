@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
@@ -24,12 +24,12 @@
         android:name=".IVPNApplication"
         android:allowBackup="false"
         android:debuggable="false"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:extractNativeLibs="true"
         tools:ignore="GoogleAppIndexingWarning, HardcodedDebugMode">
 
         <meta-data
@@ -43,126 +43,14 @@
             android:name="io.sentry.anr.enable"
             android:value="false" />
 
-        <!--        <activity-->
-        <!--            android:name=".ui.tutorial.TutorialActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.login.LoginActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar"-->
-        <!--            android:windowSoftInputMode="adjustResize" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.signup.SignUpActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar"-->
-        <!--            android:windowSoftInputMode="adjustResize" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.connect.ConnectActivity"-->
-        <!--            android:launchMode="singleTop"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--            </intent-filter>-->
-
-        <!--            <meta-data-->
-        <!--                android:name="android.app.shortcuts"-->
-        <!--                android:resource="@xml/shortcuts" />-->
-        <!--        </activity>-->
-        <!--        <activity-->
-        <!--            android:name=".ui.serverlist.ServersListActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.serverlist.fastest.FastestSettingActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.split.SplitTunnelingActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.settings.SettingsActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.syncservers.SyncServersActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.policy.PrivacyPolicyActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.terms.TermsOfServiceActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.privateemails.PrivateEmailsActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.privateemails.edit.EditPrivateEmailActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".vpn.local.PermissionActivity"-->
-        <!--            android:theme="@style/AppTheme.Transparent" />-->
-                <activity
-                    android:name=".ui.timepicker.TimePickerActivity"
-                    android:screenOrientation="portrait"
-                    android:theme="@style/AppTheme.Transparent" />
-        <!--        <activity-->
-        <!--            android:name=".ui.alwaysonvpn.AlwaysOnVpnActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.startonboot.StartOnBootActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.surveillance.AntiSurveillanceActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.customdns.CustomDNSActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.network.NetworkActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.network.rules.NetworkRuleActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.updates.UpdatesActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.protocol.ProtocolActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar"-->
-        <!--            android:windowSoftInputMode="stateHidden" />-->
-        <!--        <activity-->
-        <!--            android:name=".common.shortcuts.ConnectionShortcutsActivity"-->
-        <!--            android:theme="@style/AppTheme.Transparent" />-->
-        <!--        <activity-->
-        <!--            android:name=".ui.subscription.SubscriptionActivity"-->
-        <!--            android:screenOrientation="portrait"-->
-        <!--            android:theme="@style/AppTheme.NoActionBar" />-->
-
-        <!--        <activity-->
-        <!--            android:name=".ui.billing.BillingActivity"-->
-        <!--            android:theme="@style/AppTheme.HalfTransparent" />-->
+        <activity
+            android:name=".ui.timepicker.TimePickerActivity"
+            android:theme="@style/AppTheme.Transparent" />
 
         <activity
             android:name=".v2.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -173,11 +61,12 @@
 
         <activity
             android:name=".vpn.local.PermissionActivity"
-            android:theme="@style/AppTheme.Transparent"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent" />
 
-        <activity android:name=".v2.qr.QRActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".v2.qr.QRActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".vpn.openvpn.IVPNService"

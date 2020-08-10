@@ -3,13 +3,11 @@ package net.ivpn.client.common.dagger;
 import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
-import net.ivpn.client.ui.alwaysonvpn.AlwaysOnVpnActivity;
 import net.ivpn.client.ui.billing.BillingActivity;
 import net.ivpn.client.ui.connect.ConnectActivity;
 import net.ivpn.client.ui.customdns.CustomDNSActivity;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.dialog.LocationDialogViewModel;
-import net.ivpn.client.ui.login.LoginActivity;
 import net.ivpn.client.ui.network.NetworkActivity;
 import net.ivpn.client.ui.network.rules.NetworkRuleActivity;
 import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
@@ -17,7 +15,6 @@ import net.ivpn.client.ui.privateemails.edit.EditPrivateEmailActivity;
 import net.ivpn.client.ui.protocol.ProtocolActivity;
 import net.ivpn.client.ui.serverlist.ServersListActivity;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingActivity;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.ui.signup.SignUpActivity;
 import net.ivpn.client.ui.split.SplitTunnelingActivity;
 import net.ivpn.client.ui.startonboot.StartOnBootActivity;
@@ -49,6 +46,7 @@ import net.ivpn.client.v2.serverlist.holders.ServerViewHolder;
 import net.ivpn.client.v2.settings.SettingsFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.v2.sync.SyncFragment;
+import net.ivpn.client.v2.viewmodel.ViewModelCleaner;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
 import net.ivpn.client.vpn.controller.WireGuardKeyBroadcastReceiver;
@@ -69,13 +67,9 @@ public interface ActivityComponent {
 
     void inject(SignUpActivity activity);
 
-    void inject(SettingsActivity activity);
-
     void inject(SplitTunnelingActivity activity);
 
     void inject(AntiSurveillanceActivity activity);
-
-    void inject(LoginActivity activity);
 
     void inject(ProtocolActivity activity);
 
@@ -86,8 +80,6 @@ public interface ActivityComponent {
     void inject(NetworkRuleActivity activity);
 
     void inject(UpdatesActivity activity);
-
-    void inject(AlwaysOnVpnActivity activity);
 
     void inject(CustomDNSActivity activity);
 
@@ -180,4 +172,6 @@ public interface ActivityComponent {
     void inject(AllServersRecyclerViewAdapter adapter);
 
     void inject(FavouriteServerListRecyclerViewAdapter adapter);
+
+    void inject(ViewModelCleaner clearer);
 }

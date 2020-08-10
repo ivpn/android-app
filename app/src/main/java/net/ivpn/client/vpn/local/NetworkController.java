@@ -14,7 +14,6 @@ import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.SettingsPreference;
 import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.model.KillSwitchRule;
@@ -466,10 +465,6 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void openSettings() {
-        Context context = IVPNApplication.getApplication();
-        Intent intent = new Intent(context, SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 
     private void registerReceiver() {

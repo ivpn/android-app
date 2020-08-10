@@ -15,8 +15,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.SnackbarUtil
 import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
+import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentConnectBinding
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.ui.connect.ConnectionNavigator
@@ -137,9 +139,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.networkLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openNetworkScreen()
+                return@setOnClickListener
             }
+
+            openNetworkScreen()
         }
         binding.settingsButton.setOnClickListener {
             openSettingsScreen()
@@ -147,9 +150,16 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.protocolLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openProtocolScreen()
+                return@setOnClickListener
             }
+
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_change_protocol_disconnect,
+                    R.string.snackbar_disconnect_first)
+                return@setOnClickListener
+            }
+
+            openProtocolScreen()
         }
         binding.slidingPanel.enterServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
@@ -194,22 +204,63 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             override fun openLocationDialogue(location: Location?) {
                 view?.let {
                     val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
-                    MapDialogs.openLocationDialogue(it, location, topMargin, this@ConnectFragment)
+                    if (connect.connectionState.get() != null && connect.connectionState.get() == ConnectionState.PAUSED) {
+                        MapDialogs.openPauseDialogue(it, connect, topMargin, this@ConnectFragment)
+                    } else {
+                        MapDialogs.openLocationDialogue(it, location, topMargin, this@ConnectFragment)
+                    }
                 }
             }
 
             override fun openGatewayDialogue(list: ArrayList<ServerLocation>) {
-                view?.let {
-                    val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
-                    if (list.size == 1) {
-                        MapDialogs.openGatewayDialog(it, list[0], topMargin, this@ConnectFragment)
-                    } else {
-                        MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
-                    }
-                    if (!connect.isVpnActive()) {
-                        servers.setServerLocation(list[0])
-                    }
+                if (list.size == 1) {
+                    handlePossibleLocation(list[0])
+                } else {
+                    handlePossibleLocationList(list)
                 }
+            }
+        }
+    }
+
+    private fun handlePossibleLocation(location: ServerLocation) {
+        view?.let {
+            val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+            if (servers.isLocationSuitable(location)) {
+                MapDialogs.openGatewayDialog(it, location, topMargin, this@ConnectFragment)
+            } else {
+                MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
+            }
+            if (!connect.isVpnActive()) {
+                servers.setServerLocation(location)
+            }
+        }
+    }
+
+    private fun handlePossibleLocationList(list: ArrayList<ServerLocation>) {
+        view?.let {
+            val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+
+            var forbiddenLocation: ServerLocation? = null
+            for (location in list) {
+                if (!servers.isLocationSuitable(location)) {
+                    forbiddenLocation = location
+                    break
+                }
+            }
+
+            forbiddenLocation?.also { forbiddenLocationObj ->
+                list.remove(forbiddenLocationObj)
+                if (list.size == 1) {
+                    MapDialogs.openGatewayDialog(it, list[0], topMargin, this@ConnectFragment)
+                } else {
+                    MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+                }
+            } ?: run {
+                MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+            }
+
+            if (!connect.isVpnActive()) {
+                servers.setServerLocation(list[0])
             }
         }
     }
@@ -222,6 +273,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         multihop.onResume()
         applySlidingPanelSide()
         checkLocationPermission()
+        account.updateSessionStatus()
     }
 
     override fun onStart() {
@@ -267,6 +319,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.state = STATE_EXPANDED
     }
 
+    override fun resumeConnection() {
+        connect.onConnectRequest()
+    }
+
     private fun checkLocationPermission() {
     }
 
@@ -281,6 +337,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun notifyUser(msgId: Int, actionId: Int) {
+        ToastUtil.toast(context, msgId)
     }
 
     var peekHeight: Float = 0f
@@ -376,6 +433,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun notifyAnotherPortUsedToConnect() {
+        Handler().postDelayed({
+            SnackbarUtil.show(binding.mainContent, R.string.snackbar_new_try_with_different_port,
+                    R.string.snackbar_disconnect_first, null)
+        }, 500)
     }
 
     override fun accountVerificationFailed() {
@@ -403,6 +464,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun logout() {
+        recalculatePeekHeight()
+//        account.logOut()
     }
 
     override fun connectTo(location: ServerLocation) {

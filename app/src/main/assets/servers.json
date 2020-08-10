@@ -7,7 +7,26 @@
       "city":"Dallas, TX",
       "latitude":32.7936,
       "longitude":-96.7662,
-      "hosts":[]
+      "hosts":[
+        {
+          "hostname":"us-tx1.wg.ivpn.net",
+          "host":"198.55.124.114",
+          "public_key":"JPT1veXLmasj2uQDstX24mpR7VWD+GmV8JDkidkz91Q=",
+          "local_ip":"172.16.0.1/12"
+        },
+        {
+          "hostname":"us-tx1.gw.ivpn.net",
+          "host":"96.44.189.197",
+          "public_key":"LvWf548mFddi8PTrIGL6uD1/l85LU8z0Rc8tpvw2Vls=",
+          "local_ip":"172.16.0.1/12"
+        },
+        {
+          "hostname":"us-tx2.gw.ivpn.net",
+          "host":"96.44.142.77",
+          "public_key":"om8hOGUcEvoOhHvJZoBHxNF4jxY/+Ml9Iy1WOSC/pFo=",
+          "local_ip":"172.16.0.1/12"
+        }
+      ]
     },
     {
       "gateway":"nl.wg.ivpn.net",

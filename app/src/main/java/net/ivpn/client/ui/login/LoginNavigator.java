@@ -10,4 +10,5 @@ public interface LoginNavigator {
     void openSessionLimitReachedDialogue();
     void openErrorDialogue(Dialogs dialogs);
     void openCustomErrorDialogue(String title, String message);
+    void openAccountNotActiveBetaDialogue();
 }

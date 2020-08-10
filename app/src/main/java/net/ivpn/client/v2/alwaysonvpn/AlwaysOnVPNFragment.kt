@@ -16,7 +16,6 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentAlwaysOnVpnBinding
-import net.ivpn.client.ui.alwaysonvpn.AlwaysOnVpnActivity
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel
@@ -26,7 +25,7 @@ import javax.inject.Inject
 class AlwaysOnVPNFragment: Fragment() {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(AlwaysOnVpnActivity::class.java)
+        private val LOGGER = LoggerFactory.getLogger(AlwaysOnVPNFragment::class.java)
     }
     private lateinit var binding: FragmentAlwaysOnVpnBinding
 

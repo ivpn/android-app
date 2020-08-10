@@ -22,9 +22,13 @@ class ServerListFilterViewModel @Inject constructor(
     private val selectedFilter = ObservableField<Filters>()
 
     var listeners = ArrayList<OnFilterChangedListener>()
-//    var navigator: OnFilterChangedListener? = null
 
     fun onResume() {
+        filter.set(settings.filter)
+        selectedFilter.set(settings.filter)
+    }
+
+    fun reset() {
         filter.set(settings.filter)
         selectedFilter.set(settings.filter)
     }
@@ -33,10 +37,6 @@ class ServerListFilterViewModel @Inject constructor(
         filter.set(selectedFilter.get())
         settings.filter = filter.get()
         listeners.forEach { it.onFilterChanged(filter.get()) }
-//        for (listener in listeners) {
-//            listener.onFilterChanged(filter.get())
-//        }
-//        navigator?.onFilterChanged(filter.get())
     }
 
     private fun onCheckedChanged(checkedId: Int) {

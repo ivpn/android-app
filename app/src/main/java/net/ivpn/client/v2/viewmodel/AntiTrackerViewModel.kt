@@ -29,6 +29,13 @@ class AntiTrackerViewModel @Inject constructor(
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
     }
 
+    fun reset() {
+        isAntiTrackerSupported.set(getAntiTrackerSupport())
+        isAntiSurveillanceEnabled.set(settings.isAntiSurveillanceEnabled)
+        isHardcoreModeEnabled.set(settings.isAntiSurveillanceHardcoreEnabled)
+        isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
+    }
+
     private fun getAntiTrackerSupport(): Boolean {
         return buildController.isAntiTrackerSupported
     }

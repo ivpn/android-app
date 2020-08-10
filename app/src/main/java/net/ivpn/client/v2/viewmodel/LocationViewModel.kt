@@ -59,7 +59,8 @@ class LocationViewModel @Inject constructor(
         locationListeners.add(listener)
         val location = homeLocation.get()
         val stateL = state
-        if (location != null && stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
+        if (location != null && stateL != null
+                && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
             listener.onSuccess(location, stateL)
         }
     }
@@ -75,7 +76,8 @@ class LocationViewModel @Inject constructor(
         dataLoading.set(true)
         val location = homeLocation.get()
         val stateL = state
-        if (location != null && stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
+        if (location != null && stateL != null
+                && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
             for (listener in locationListeners) {
                 listener.onSuccess(location, stateL)
             }
@@ -104,11 +106,15 @@ class LocationViewModel @Inject constructor(
         })
     }
 
+    fun reset() {
+    }
+
     private fun onSuccess(response: LocationResponse?) {
         dataLoading.set(false)
         response?.let {
             val stateL = state
-            if (stateL != null && stateL == ConnectionState.NOT_CONNECTED) {
+            if (stateL != null
+                    && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
                 val newLocation = Location(it.longitude.toFloat(),
                         it.latitude.toFloat(),
                         false,
@@ -159,6 +165,9 @@ class LocationViewModel @Inject constructor(
                         }
                     }
                     ConnectionState.CONNECTED -> {
+                        checkLocationWithDelay()
+                    }
+                    ConnectionState.PAUSED -> {
                         checkLocationWithDelay()
                     }
                     else -> {

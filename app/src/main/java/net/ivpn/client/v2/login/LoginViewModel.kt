@@ -129,6 +129,12 @@ class LoginViewModel @Inject constructor(
                 return
             }
         } ?: return
+        response.serviceStatus?.let {
+            if (!it.isActive) {
+                navigator?.openAccountNotActiveBetaDialogue()
+                return
+            }
+        }?: return
 
         LOGGER.info("Status = ${response.status}")
         putUserData(username, response)
@@ -136,11 +142,13 @@ class LoginViewModel @Inject constructor(
         if (userPreference.isActive) {
             navigator?.onLogin()
         } else {
-            if (buildController.isIAPEnabled) {
-                navigator?.openSubscriptionScreen()
-            } else {
-                navigator?.openSite()
-            }
+            navigator?.openAccountNotActiveBetaDialogue()
+            //Disable only for beta
+//            if (buildController.isIAPEnabled) {
+//                navigator?.openSubscriptionScreen()
+//            } else {
+//                navigator?.openSite()
+//            }
         }
     }
 

@@ -85,6 +85,10 @@ public class NetworkViewModel implements OnNetworkSourceChangedListener {
         this.navigator = navigator;
     }
 
+    public void reset() {
+
+    }
+
     private void init() {
         isNetworkFeatureEnabled.set(settings.isNetworkRulesEnabled());
         defaultState.set(networkProtectionPreference.getDefaultNetworkState());

@@ -15,4 +15,7 @@ class AlwaysOnVPNViewModel @Inject constructor(
     fun onResume() {
         isAlwaysOnVpnSupported.set(buildController.isAlwaysOnVpnSupported)
     }
+
+    fun reset() {
+    }
 }

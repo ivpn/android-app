@@ -458,6 +458,8 @@
 
     <string name="dialogs_account_not_active_title">Account not activated</string>
     <string name="dialogs_account_not_active_msg">This operation cannot be performed on a new account. Please complete the purchase first.</string>
+    <string name="dialogs_account_not_active_title_beta">Account not active</string>
+    <string name="dialogs_account_not_active_msg_beta">Only active user accounts are enabled in this beta version.</string>
 
     <string name="dialogs_custom_dns">Custom DNS Server</string>
     <string name="dialogs_custom_dns_dot">\.</string>

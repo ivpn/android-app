@@ -99,6 +99,9 @@ class ServerListViewModel @Inject constructor(
         serversRepository.addOnServersListUpdatedListener(listener)
     }
 
+    fun reset() {
+    }
+
     fun setServerType(serverType: ServerType?) {
         this.serverType = serverType
     }

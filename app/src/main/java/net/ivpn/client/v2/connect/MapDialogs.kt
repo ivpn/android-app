@@ -11,16 +11,33 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import net.ivpn.client.R
-import net.ivpn.client.databinding.DialogueLocationBinding
-import net.ivpn.client.databinding.DialogueServerListLocationBinding
-import net.ivpn.client.databinding.DialogueServerLocationBinding
+import net.ivpn.client.databinding.*
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.dialogue.ServerLocationDialogueAdapter
 import net.ivpn.client.v2.map.model.Location
+import net.ivpn.client.v2.viewmodel.ConnectionViewModel
 import kotlin.math.max
 import kotlin.math.min
 
 object MapDialogs {
+
+    fun openForbiddenGatewayDialog(parent: View, location: ServerLocation, topMargin: Float) {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: DialogueForbiddenLocationBinding = DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.dialogue_forbidden_location, null, false
+        )
+        binding.location = location
+
+        val infoPopup = PopupWindow(binding.root,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        infoPopup.isOutsideTouchable = true
+        infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
+        infoPopup.setBackgroundDrawable(ColorDrawable())
+
+        infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+    }
 
     fun openGatewayDialog(parent: View, location: ServerLocation, topMargin: Float, listener: GatewayListener) {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -119,9 +136,27 @@ object MapDialogs {
             listener.checkLocation()
             infoPopup.dismiss()
         }
+        infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            println("Enter transition = ${infoPopup.enterTransition}")
+    fun openPauseDialogue(parent: View, connection: ConnectionViewModel, topMargin: Float, listener: LocationListener) {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: DialoguePauseBinding = DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.dialogue_pause, null, false
+        )
+        binding.connection = connection
+
+        val infoPopup = PopupWindow(binding.root,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
+        infoPopup.isOutsideTouchable = true
+        infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
+        infoPopup.setBackgroundDrawable(ColorDrawable())
+
+        binding.resume.setOnClickListener {
+            listener.resumeConnection()
+            infoPopup.dismiss()
         }
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
     }
@@ -133,5 +168,7 @@ object MapDialogs {
 
     interface LocationListener {
         fun checkLocation()
+
+        fun resumeConnection()
     }
 }

@@ -16,6 +16,10 @@ class UpdatesViewModel @Inject constructor(
         isUpdatesSupported.set(getUpdateSupport())
     }
 
+    fun reset() {
+        isUpdatesSupported.set(getUpdateSupport())
+    }
+
     private fun getUpdateSupport(): Boolean {
         return buildController.isUpdatesSupported
     }

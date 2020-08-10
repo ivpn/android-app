@@ -13,7 +13,7 @@
     <color name="colorPrimary">#398FE6</color>
 <!--    <color name="colorPrimary">#292929</color>-->
     <color name="colorPrimaryDark">#1c1c1c</color>
-    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="textColorPrimary">#121212</color>
 
     <color name="accent_color">#398FE6</color>
 <!--    <color name="accent_color">#449CF8</color>-->
@@ -144,4 +144,6 @@
     <color name="dialog_shadow_8">#40000000</color>
 
     <color name="dialog_shadow_no_opacity">#000000</color>
+
+    <color name="snackbar_background">#FFF</color>
 </resources>

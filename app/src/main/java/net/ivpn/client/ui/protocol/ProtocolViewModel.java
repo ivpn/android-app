@@ -109,6 +109,10 @@ public class ProtocolViewModel {
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
     }
 
+    public void reset() {
+
+    }
+
     public void setNavigator(ProtocolNavigator navigator) {
         this.navigator = navigator;
     }

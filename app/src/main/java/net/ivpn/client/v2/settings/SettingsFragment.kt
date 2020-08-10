@@ -24,11 +24,11 @@ import net.ivpn.client.common.Constant
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.common.prefs.ServerType
+import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
-import net.ivpn.client.ui.settings.SettingsActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
@@ -40,7 +40,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         AdvancedKillSwitchActionListener, OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(SettingsActivity::class.java)
+        private val LOGGER = LoggerFactory.getLogger(SettingsFragment::class.java)
     }
 
     private lateinit var binding: FragmentSettingsBinding
@@ -50,6 +50,9 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     @Inject
     lateinit var servers: ServersViewModel
+
+    @Inject
+    lateinit var connect: ConnectionViewModel
 
     @Inject
     lateinit var multihop: MultiHopViewModel
@@ -142,9 +145,14 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.antiTrackerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openAntiTrackerScreen()
+                return@setOnClickListener
             }
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_use_antitracker_disconnect)
+                return@setOnClickListener
+            }
+
+            openAntiTrackerScreen()
         }
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
@@ -152,9 +160,14 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.splitTunnelingLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openSplitTunnelingScreen()
+                return@setOnClickListener
             }
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_use_split_tunneling_disconnect)
+                return@setOnClickListener
+            }
+
+            openSplitTunnelingScreen()
         }
         binding.contentLayout.sectionOther.alwaysOnVpn.setOnClickListener {
             if (!account.authenticated.get()) {
@@ -173,16 +186,26 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionServer.protocolLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openProtocolScreen()
+                return@setOnClickListener
             }
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_change_protocol_disconnect)
+                return@setOnClickListener
+            }
+
+            openProtocolScreen()
         }
         binding.contentLayout.sectionOther.customDns.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
-            } else {
-                openCustomDNSScreen()
+                return@setOnClickListener
             }
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_use_custom_dns_disconnect)
+                return@setOnClickListener
+            }
+
+            openCustomDNSScreen()
         }
         binding.contentLayout.sectionAbout.termsOfServiceLayout.setOnClickListener {
             openTermsOfServiceScreen()
@@ -313,6 +336,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         } else {
             onActivityResult(requestCode, Activity.RESULT_OK, null)
         }
+    }
+
+    private fun notifyUser(msgId: Int) {
+        ToastUtil.toast(context, msgId)
     }
 
     override fun subscribe() {

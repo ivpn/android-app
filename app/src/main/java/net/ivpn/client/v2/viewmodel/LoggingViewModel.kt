@@ -37,6 +37,12 @@ class LoggingViewModel @Inject constructor(
         return FileUtils.createLogFileUri(context)
     }
 
+    fun reset() {
+        isLoggingEnabled.set(getLoggingValue())
+        isCrashLoggingEnabled.set(isSentryEnabled())
+        isSentrySupported.set(getSentrySupport())
+    }
+
     private fun getLoggingValue(): Boolean {
         return settings.isLoggingEnabled
     }
