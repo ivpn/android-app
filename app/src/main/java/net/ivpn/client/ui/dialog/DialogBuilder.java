@@ -188,7 +188,6 @@ public class DialogBuilder {
 
         alertDialog.setOnCancelListener(dialogInterface -> {
             onDelayOptionSelected.onCancelAction();
-//                listener.onWatchedFeatureInfo();
         });
 
         if (((Activity) context).isFinishing()) {
