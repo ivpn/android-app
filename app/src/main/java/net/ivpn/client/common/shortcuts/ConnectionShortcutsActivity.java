@@ -5,14 +5,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.VpnService;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.ui.dialog.DialogBuilder;
 import net.ivpn.client.ui.dialog.Dialogs;
-import net.ivpn.client.ui.login.LoginActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +87,5 @@ public class ConnectionShortcutsActivity extends AppCompatActivity {
     }
 
     private void navigateToLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }

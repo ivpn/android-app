@@ -11,12 +11,13 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import net.ivpn.client.R;
 import net.ivpn.client.common.utils.NetworkUtil;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.model.NetworkSource;
 
@@ -197,7 +198,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     }
 
     private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return PendingIntent.getActivity(this, 0, intent, 0);
     }

@@ -1,6 +1,5 @@
 package net.ivpn.client.v2.login
 
-import android.app.TaskStackBuilder
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -25,7 +24,6 @@ import net.ivpn.client.ui.connect.CreateSessionNavigator
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
-import net.ivpn.client.ui.syncservers.SyncServersActivity
 import net.ivpn.client.v2.qr.QRActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -106,21 +104,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         }
     }
 
-    //ToDo Check this logic!!!
     override fun openSite() {
         LOGGER.info("openSite")
-        val webPage = Uri.parse("https://www.ivpn.net/signup/IVPN%20Pro/Annually")
-        val webIntent = Intent(Intent.ACTION_VIEW, webPage)
-        if (webIntent.resolveActivity(context!!.packageManager) != null) {
-            val syncIntent = Intent(context, SyncServersActivity::class.java)
-            val stackBuilder = TaskStackBuilder.create(context)
-            stackBuilder.addNextIntent(syncIntent)
-            stackBuilder.addNextIntent(webIntent)
-            stackBuilder.startActivities()
-            NavHostFragment.findNavController(this).popBackStack()
-        } else {
-            onLogin()
-        }
+        onLogin()
     }
 
     override fun openCustomErrorDialogue(title: String, message: String) {

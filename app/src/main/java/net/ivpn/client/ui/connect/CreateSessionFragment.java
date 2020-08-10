@@ -1,21 +1,22 @@
 package net.ivpn.client.ui.connect;
 
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.BottomSheetBinding;
-import net.ivpn.client.ui.login.LoginActivity;
 import net.ivpn.client.v2.login.LoginFragment;
 
 public class CreateSessionFragment extends BottomSheetDialogFragment {
@@ -29,9 +30,6 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ConnectActivity || context instanceof LoginActivity) {
-            navigator = (CreateSessionNavigator) context;
-        }
         if (getParentFragment() instanceof LoginFragment) {
             navigator = (CreateSessionNavigator) getParentFragment();
         }

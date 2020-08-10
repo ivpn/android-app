@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.databinding.DataBindingUtil;
-import android.os.SystemClock;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +12,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.databinding.DataBindingUtil;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.InputFilterMinMax;
 import net.ivpn.client.common.utils.DateUtil;
-import net.ivpn.client.databinding.DialogConnectionInfoBinding;
 import net.ivpn.client.databinding.DialogCustomDnsBinding;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.customdns.OnDNSChangedListener;
-import net.ivpn.client.ui.privateemails.PrivateEmailActionListener;
 import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener;
 import net.ivpn.client.ui.protocol.dialog.WireGuardDialogInfo;
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener;
@@ -181,32 +179,6 @@ public class DialogBuilder {
         }
     }
 
-    public static void createPrivateEmailNewFeatureDialog(Context context, final PrivateEmailActionListener listener) {
-        LOGGER.info("Create private email dialog");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.dialog_private_email_new_feature, null);
-
-        builder.setView(dialogView);
-
-        final AlertDialog alertDialog = builder.create();
-        dialogView.findViewById(R.id.got_it).setOnClickListener(view -> {
-            listener.onWatchedFeatureInfo();
-            alertDialog.dismiss();
-        });
-
-        alertDialog.setOnCancelListener(dialogInterface -> listener.onWatchedFeatureInfo());
-
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            alertDialog.show();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
     public static void createPredefinedTimePickerDialog(Context context,
                                                         final OnDelayOptionSelected onDelayOptionSelected) {
         LOGGER.info("Create time picker dialog");
@@ -354,38 +326,6 @@ public class DialogBuilder {
         }
         try {
             alertDialog.show();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public static void createConnectionInfoDialog(Context context) {
-        LOGGER.info("Create connection info dialog");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater == null) return;
-
-        LocationDialogViewModel viewModel =
-                IVPNApplication.getApplication().appComponent.provideActivityComponent().create().getLocationDialogueViewModel();
-
-        DialogConnectionInfoBinding binding = DataBindingUtil.inflate(inflater,
-                R.layout.dialog_connection_info, null, false);
-        binding.setViewmodel(viewModel);
-        View dialogView = binding.getRoot();
-
-        builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
-
-        binding.cancelAction.setOnClickListener(view -> alertDialog.dismiss());
-        binding.chronometer.setBase(SystemClock.elapsedRealtime() - viewModel.vpnBehaviorController.getConnectionTime());
-        binding.chronometer.start();
-
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            alertDialog.show();
-            viewModel.start();
         } catch (Exception exception) {
             exception.printStackTrace();
         }

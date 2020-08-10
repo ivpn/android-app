@@ -4,31 +4,15 @@ import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
 import net.ivpn.client.ui.billing.BillingActivity;
-import net.ivpn.client.ui.connect.ConnectActivity;
-import net.ivpn.client.ui.customdns.CustomDNSActivity;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
-import net.ivpn.client.ui.dialog.LocationDialogViewModel;
-import net.ivpn.client.ui.network.NetworkActivity;
-import net.ivpn.client.ui.network.rules.NetworkRuleActivity;
-import net.ivpn.client.ui.privateemails.PrivateEmailsActivity;
-import net.ivpn.client.ui.privateemails.edit.EditPrivateEmailActivity;
-import net.ivpn.client.ui.protocol.ProtocolActivity;
-import net.ivpn.client.ui.serverlist.ServersListActivity;
-import net.ivpn.client.ui.serverlist.fastest.FastestSettingActivity;
-import net.ivpn.client.ui.signup.SignUpActivity;
-import net.ivpn.client.ui.split.SplitTunnelingActivity;
-import net.ivpn.client.ui.startonboot.StartOnBootActivity;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.subscription.monthly.MonthlySubscriptionFragment;
 import net.ivpn.client.ui.subscription.yearly.YearlySubscriptionFragment;
-import net.ivpn.client.ui.surveillance.AntiSurveillanceActivity;
-import net.ivpn.client.ui.syncservers.SyncServersActivity;
 import net.ivpn.client.ui.timepicker.TimePickerActivity;
-import net.ivpn.client.ui.updates.UpdatesActivity;
-import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.account.AccountFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.client.v2.antitracker.AntiTrackerFragment;
+import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.map.MapView;
@@ -64,36 +48,6 @@ public interface ActivityComponent {
     interface Factory {
         ActivityComponent create();
     }
-
-    void inject(SignUpActivity activity);
-
-    void inject(SplitTunnelingActivity activity);
-
-    void inject(AntiSurveillanceActivity activity);
-
-    void inject(ProtocolActivity activity);
-
-    void inject(ConnectActivity activity);
-
-    void inject(NetworkActivity activity);
-
-    void inject(NetworkRuleActivity activity);
-
-    void inject(UpdatesActivity activity);
-
-    void inject(CustomDNSActivity activity);
-
-    void inject(PrivateEmailsActivity activity);
-
-    void inject(EditPrivateEmailActivity activity);
-
-    void inject(ServersListActivity activity);
-
-    void inject(SyncServersActivity activity);
-
-    void inject(FastestSettingActivity activity);
-
-    void inject(StartOnBootActivity activity);
 
     void inject(TimePickerActivity activity);
 
@@ -134,8 +88,6 @@ public interface ActivityComponent {
     void inject(Connection connection);
 
     DialogueCustomDNSViewModel getDialogueViewModel();
-
-    LocationDialogViewModel getLocationDialogueViewModel();
 
     //v2
 

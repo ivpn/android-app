@@ -25,7 +25,7 @@ import com.wireguard.android.util.SharedLibraryLoader;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.PackagesPreference;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
 
@@ -170,7 +170,7 @@ public final class GoBackend implements Backend {
             final WireGuardVpnService.Builder builder = service.getBuilder();
             builder.setSession(tunnel.getName());
 
-            final Intent configureIntent = new Intent(context, ConnectActivity.class);
+            final Intent configureIntent = new Intent(context, MainActivity.class);
             configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0));
 

@@ -7,9 +7,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.rest.data.privateemails.Email;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
-import net.ivpn.client.ui.privateemails.PrivateEmailsRecyclerViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
 import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
@@ -56,14 +54,6 @@ public class RecyclerViewItemsBindingAdapter {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setExcludedServers(excludedServers);
-        }
-    }
-
-    @BindingAdapter("emails")
-    public static void setEmails(RecyclerView recyclerView, List<Email> emails) {
-        PrivateEmailsRecyclerViewAdapter adapter = (PrivateEmailsRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setEmails(emails);
         }
     }
 
