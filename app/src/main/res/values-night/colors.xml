@@ -13,10 +13,8 @@
     <color name="colorPrimary">#398FE6</color>
 <!--    <color name="colorPrimary">#292929</color>-->
     <color name="colorPrimaryDark">#1c1c1c</color>
-    <color name="textColorPrimary">#121212</color>
 
-    <color name="accent_color">#398FE6</color>
-<!--    <color name="accent_color">#449CF8</color>-->
+    <!--    <color name="accent_color">#449CF8</color>-->
 
 <!--    <color name="wave_connected">#449CF8</color>-->
 <!--    <color name="wave_disconnected">#ed7e79</color>-->
@@ -29,7 +27,6 @@
     <color name="sliding_panel_icon">#FFFFFF</color>
     <color name="sliding_panel_line_color">#2B8B9AAB</color>
     <color name="sliding_panel_text_color">#ffffff</color>
-    <color name="sliding_panel_text_color_disabled">#B3FFFFFF</color>
     <color name="sliding_panel_arrow">#92949E</color>
     <color name="sliding_panel_gray_background">#121212</color>
     <color name="sliding_panel_gray_hint_text">#80FFFFFF</color>
@@ -58,7 +55,6 @@
     <color name="dialogue_button">#398FE6</color>
 
     <color name="settings_card_background">#202020</color>
-    <color name="settings_inner_background">#000000</color>
 
     <color name="settings_section_title">#398FE6</color>
 <!--    <color name="settings_section_title">#74b8ff</color>-->
@@ -85,7 +81,6 @@
 
     <color name="custom_dns_text_color">#FFFFFF</color>
     <color name="custom_dns_background">#121212</color>
-    <color name="custom_dns_card_background">#202020</color>
 
     <color name="servers_text_color">#FFFFFF</color>
     <color name="servers_text_color_hint">#80FFFFFF</color>
@@ -97,9 +92,6 @@
     <color name="login_text_color">#FFFFFF</color>
     <color name="login_text_color_invert">#121212</color>
     <color name="login_background">#121212</color>
-    <color name="login_icon_color">#80FFFFFF</color>
-    <color name="login_edit_text_box_background">#202020</color>
-    <color name="color_on_surface">#FFFFFF</color>
 
     <color name="error">#CF6679</color>
 
@@ -145,5 +137,4 @@
 
     <color name="dialog_shadow_no_opacity">#000000</color>
 
-    <color name="snackbar_background">#FFF</color>
 </resources>
