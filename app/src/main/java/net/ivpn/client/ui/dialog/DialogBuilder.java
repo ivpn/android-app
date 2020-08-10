@@ -45,7 +45,6 @@ public class DialogBuilder {
                                           DialogInterface.OnClickListener listener) {
         LOGGER.info("Create dialog " + dialogAttr);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
         if (dialogAttr.getPositiveBtnId() != -1) {
@@ -68,28 +67,8 @@ public class DialogBuilder {
     public static void createNotificationDialog(Context context, Dialogs dialogAttr) {
         LOGGER.info("Create dialog " + dialogAttr);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
-        builder.setNegativeButton(context.getString(dialogAttr.getNegativeBtnId()), null);
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            Dialog dialog = builder.show();
-
-            TextView messageView = dialog.getWindow().findViewById(android.R.id.message);
-            messageView.setTextAppearance(context, R.style.DialogMessageStyle);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public static void createCustomNotificationDialog(Context context, Dialogs dialogAttr, String msg) {
-        LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        builder.setTitle(context.getString(dialogAttr.getTitleId()));
-        builder.setMessage(msg);
         builder.setNegativeButton(context.getString(dialogAttr.getNegativeBtnId()), null);
         if (((Activity) context).isFinishing()) {
             return;
@@ -107,7 +86,6 @@ public class DialogBuilder {
     public static void createFullCustomNotificationDialog(Context context, String title, String msg) {
         LOGGER.info("Create dialog ");
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setNegativeButton(context.getString(R.string.dialogs_ok), null);
