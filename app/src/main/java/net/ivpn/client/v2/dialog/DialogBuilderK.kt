@@ -18,8 +18,6 @@ import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 
 object DialogBuilderK {
 
-    //Move listener to ThemeViewModel
-    //Maybe colorThemeViewModel should be gotten from AppComponent
     fun openDarkModeDialogue(context: Context, listener: OnNightModeChangedListener, colorThemeViewModel: ColorThemeViewModel) {
         val builder: AlertDialog.Builder =
                 AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)

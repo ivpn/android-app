@@ -33,7 +33,6 @@ public class RequestWrapper<T> implements Callback<T> {
     private static final String SLASH = "/";
 
     private LinkedList<String> ips;
-//    private String lastUsedIp;
     private String testingIp;
     private String startIp;
 
@@ -51,7 +50,7 @@ public class RequestWrapper<T> implements Callback<T> {
                    int timeOut) {
         this.settings = settings;
         this.serversRepository = serversRepository;
-        this.httpClient = httpClientFactory.getHttpClient(timeOut, getIps());
+        this.httpClient = httpClientFactory.getHttpClient(timeOut);
     }
 
     void setRequestListener(RequestListener listener) {
@@ -106,9 +105,7 @@ public class RequestWrapper<T> implements Callback<T> {
             return;
         }
 
-//        LOGGER.info("Perform with testingIp = " + testingIp);
         baseUrl = generateURL(testingIp);
-//        LOGGER.info("Perform with baseUrl = " + baseUrl);
         perform(baseUrl);
     }
 
@@ -164,18 +161,7 @@ public class RequestWrapper<T> implements Callback<T> {
         Call<T> createCall(IVPNApi api);
     }
 
-//    private String getLastUsedIp() {
-//        if (lastUsedIp == null) {
-//            lastUsedIp = settings.getLastUsedIp();
-//        }
-//
-//        return lastUsedIp;
-//    }
-
     private String getTestingIp() {
-//        if (testingIp == null) {
-//            testingIp = getLastUsedIp();
-//        }
         return testingIp;
     }
 

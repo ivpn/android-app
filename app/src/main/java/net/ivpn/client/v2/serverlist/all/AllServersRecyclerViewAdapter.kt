@@ -59,8 +59,10 @@ class AllServersRecyclerViewAdapter(
     }
 
     private var pings: ConcurrentHashMap<Server, PingResultFormatter>? = null
+
     @Volatile
     private var updates = HashMap<Server, PingResultFormatter>()
+
     @Volatile
     private var iterationUpdates = ConcurrentHashMap<Server, PingResultFormatter>()
     private var pingListener = OnPingFinishListener { server, status ->
@@ -69,20 +71,19 @@ class AllServersRecyclerViewAdapter(
             updates[server] = status
         }
         filter?.let {
-//            if (it == Filters.LATENCY) {
-                LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
-                if (isUpdateRunning) {
-                    needToUpdate = true
-                } else {
-                    isUpdateRunning = true
-                    postUpdate(0)
-                }
-//            }
+            LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
+            if (isUpdateRunning) {
+                needToUpdate = true
+            } else {
+                isUpdateRunning = true
+                postUpdate(0)
+            }
         }
     }
 
     @Volatile
     private var needToUpdate = false
+
     @Volatile
     private var isUpdateRunning = false
     private val updateHandler = Handler()
@@ -228,7 +229,6 @@ class AllServersRecyclerViewAdapter(
         updatePings(servers)
         sortServers(servers)
         this.servers = servers
-//        filteredServers = prepareDataToShow(servers)
         searchBinding?.search?.let {
             searchFilter.filter(it.query)
         } ?: run {
@@ -254,14 +254,14 @@ class AllServersRecyclerViewAdapter(
         pings = pingProvider.pingResults?.also { pingsObj ->
             for (server in servers) {
                 binding = bindings.filterValues { it == server }.keys.firstOrNull()
-                pingsObj[server]?.also {result ->
-                    binding?.let {bindingObj ->
+                pingsObj[server]?.also { result ->
+                    binding?.let { bindingObj ->
                         bindingObj.pingstatus = result
                         bindingObj.executePendingBindings()
                     }
                     server.latency = result.ping
                 } ?: run {
-                    binding?.let {bindingObj ->
+                    binding?.let { bindingObj ->
                         bindingObj.pingstatus = null
                         bindingObj.executePendingBindings()
                     }
@@ -320,23 +320,8 @@ class AllServersRecyclerViewAdapter(
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
             if (results.values is List<*>) {
-//                LOGGER.debug("PUBLISH RESULT")
-//                for (server in filteredServers) {
-//                    if (server is Server) {
-//                        LOGGER.debug("OLD LIST city = ${server.city} has ${server.latency}")
-//                    } else {
-//                        LOGGER.debug("OLD LIST server = ${server}")
-//                    }
-//                }
                 val oldList = filteredServers
                 filteredServers = prepareDataToShow(results.values as ArrayList<Server>)
-//                for (server in filteredServers) {
-//                    if (server is Server) {
-//                        LOGGER.debug("NEW LIST city = ${server.city} has ${server.latency}")
-//                    } else {
-//                        LOGGER.debug("NEW LIST server = ${server}")
-//                    }
-//                }
                 notifyChanges(oldList, filteredServers)
             }
         }
@@ -348,9 +333,7 @@ class AllServersRecyclerViewAdapter(
                 return oldList[oldItemPosition] == newList[newItemPosition]
             }
 
-            //ToDo добавить список серверов, которые надо обновить
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val item1 = oldList[oldItemPosition]
                 val item2 = newList[newItemPosition]
                 LOGGER.debug("Check is content the same oldItemPosition = $oldItemPosition newItemPosition = $newItemPosition")
                 if (item2 is Server) {
@@ -359,7 +342,6 @@ class AllServersRecyclerViewAdapter(
                     LOGGER.debug("Result = ${!iterationUpdates.contains(item2)}")
                     return !iterationUpdates.containsKey(item2)
                 }
-//                LOGGER.debug("Result = ${oldList[oldItemPosition] == newList[newItemPosition]}")
                 return oldList[oldItemPosition] == newList[newItemPosition]
             }
 
