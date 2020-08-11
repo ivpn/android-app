@@ -1,17 +1,10 @@
 package net.ivpn.client.ui.connect;
 
-import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.ui.dialog.Dialogs;
 
-interface ConnectionNavigator {
+public interface ConnectionNavigator {
 
-    void openSettings();
-
-    void openPrivateEmails();
-
-    void chooseServer(ServerType serverType);
-
-    void openInfoDialogue();
+    void askConnectionPermission();
 
     void onAuthFailed();
 
@@ -25,9 +18,9 @@ interface ConnectionNavigator {
 
     void accountVerificationFailed();
 
-    void onConnectionStateChanged(ConnectionState state);
-
     void openNoNetworkDialog();
 
     void openErrorDialog(Dialogs dialogs);
+
+    void onChangeConnectionStatus(ConnectionState state);
 }

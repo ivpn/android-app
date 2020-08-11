@@ -49,7 +49,7 @@ public class SyncServersViewModel extends BaseObservable {
         this.navigator = navigator;
     }
 
-    void syncServers() {
+    public void syncServers() {
         if (!needUpdateServersForeground()) {
             updateServersListBackground();
             return;
@@ -73,7 +73,7 @@ public class SyncServersViewModel extends BaseObservable {
         return !serversRepository.isServersListExist();
     }
 
-    void release() {
+    public void release() {
         serversRepository.removeOnServersListUpdatedListener(listener);
         listener = null;
     }

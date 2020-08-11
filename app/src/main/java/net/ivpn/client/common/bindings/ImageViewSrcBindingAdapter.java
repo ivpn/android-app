@@ -2,6 +2,8 @@ package net.ivpn.client.common.bindings;
 
 import android.content.Context;
 import androidx.databinding.BindingAdapter;
+
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -83,5 +85,14 @@ public class ImageViewSrcBindingAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @BindingAdapter("bitmap")
+    public static void setImageBitmap(ImageView imageView, Bitmap bitmap) {
+        if (bitmap == null) {
+            return;
+        }
+
+        imageView.setImageBitmap(bitmap);
     }
 }

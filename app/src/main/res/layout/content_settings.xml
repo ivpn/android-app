@@ -7,8 +7,40 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="multihop"
+            type="net.ivpn.client.v2.viewmodel.MultiHopViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
+
+        <variable
+            name="startOnBoot"
+            type="net.ivpn.client.v2.viewmodel.StartOnBootViewModel" />
+
+        <variable
+            name="alwaysOnVPN"
+            type="net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel" />
+
+        <variable
+            name="antiTracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
+
+        <variable
+            name="killSwitch"
+            type="net.ivpn.client.v2.viewmodel.KillSwitchViewModel" />
+
+        <variable
+            name="logging"
+            type="net.ivpn.client.v2.viewmodel.LoggingViewModel" />
+
+        <variable
+            name="updates"
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
+
+        <variable
+            name="colorTheme"
+            type="net.ivpn.client.v2.viewmodel.ColorThemeViewModel" />
     </data>
 
     <FrameLayout
@@ -32,127 +64,48 @@
                     android:orientation="vertical"
                     android:paddingTop="?attr/actionBarSize">
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_top_margin" />
+
                     <include
                         android:id="@+id/section_server"
                         layout="@layout/settings_section_server"
-                        app:viewmodel="@{viewmodel}" />
+                        app:multihop="@{multihop}"
+                        app:servers="@{servers}" />
 
-                    <Space
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/settings_sections_inner_margin" />
-
-                    <include
-                        android:id="@+id/section_account"
-                        android:visibility="@{viewmodel.authenticated ? View.VISIBLE : View.GONE}"
-                        layout="@layout/settings_section_account"
-                        app:viewmodel="@{viewmodel}" />
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:visibility="@{viewmodel.authenticated ? View.VISIBLE : View.GONE}"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
                         android:id="@+id/section_other"
                         layout="@layout/settings_section_advanced"
-                        app:viewmodel="@{viewmodel}" />
+                        app:alwaysOnVPN="@{alwaysOnVPN}"
+                        app:antiTracker="@{antiTracker}"
+                        app:killSwitch="@{killSwitch}"
+                        app:logging="@{logging}"
+                        app:startOnBoot="@{startOnBoot}" />
 
-                    <Space
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                    <include
+                        android:id="@+id/section_interface"
+                        layout="@layout/settings_section_interface"
+                        app:colorTheme="@{colorTheme}" />
+
+                    <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
                         android:id="@+id/section_about"
                         layout="@layout/settings_section_about"
-                        app:viewmodel="@{viewmodel}"/>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/settings_sections_inner_margin" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/logout"
-                            style="@style/SettingsAction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/settings_margin_left"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:onClick="onLogoutClick"
-                            android:visibility="@{viewmodel.authenticated ? View.VISIBLE : View.GONE}"
-                            android:text="@string/settings_logout" />
-
-                    </androidx.cardview.widget.CardView>
+                        app:updates="@{updates}" />
                 </LinearLayout>
             </ScrollView>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:elevation="5dp"
-                android:visibility="@{viewmodel.authenticated ? View.GONE : View.VISIBLE}">
-
-                <Button
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:theme="@style/AppTheme.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_margin="16dp"
-                    android:onClick="authenticate"
-                    android:text="@string/settings_login_and_sign_up"
-                    android:textColor="@android:color/white" />
-
-            </FrameLayout>
-
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_opacity_black_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ProgressBar
-                    style="?indeterminateProgressStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:theme="@style/AppTheme.ProgressBar" />
-
-                <TextView
-                    style="@style/SettingsOptionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:gravity="center"
-                    android:text="@string/protocol_delete_session_from_server" />
-
-                <TextView
-                    android:id="@+id/renew_action"
-                    style="@style/SettingsAction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:onClick="skip"
-                    android:text="@string/protocol_skip_process"
-                    android:textAllCaps="true" />
-            </LinearLayout>
-        </FrameLayout>
     </FrameLayout>
 </layout>

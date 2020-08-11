@@ -27,7 +27,7 @@ import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.DateUtil;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -561,7 +561,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
     }
 
     PendingIntent getGraphPendingIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

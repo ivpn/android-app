@@ -31,7 +31,7 @@ public class CustomDNSViewModel {
         dns.set(customDNS.isEmpty() ? EMPTY_DNS : customDNS);
     }
 
-    void setDnsAs(String dns) {
+    public void setDnsAs(String dns) {
         this.dns.set(dns);
     }
 

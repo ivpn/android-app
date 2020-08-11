@@ -10,6 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/account_background"
         android:paddingTop="?attr/actionBarSize">
 
         <WebView
@@ -17,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:url="@{Constant.TERMS_OF_SERVICE_URL}" />
+            android:background="@color/account_background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </FrameLayout>
 </layout>

@@ -1,19 +1,20 @@
 package net.ivpn.client.rest.data.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import net.ivpn.client.v2.serverlist.items.ConnectionOption;
+import net.ivpn.client.vpn.Protocol;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import net.ivpn.client.vpn.Protocol;
-
-public class Server {
+public class Server implements ConnectionOption {
 
     public static Comparator<Server> comparator = (server1, server2) -> {
         int countryCode = server1.countryCode.compareTo(server2.countryCode);
-        if (countryCode != 0){
+        if (countryCode != 0) {
             return countryCode;
         }
         return server1.city.compareTo(server2.city);
@@ -31,6 +32,13 @@ public class Server {
     @SerializedName("city")
     @Expose
     private String city;
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
+
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
     @SerializedName("ip_addresses")
     @Expose
     private List<String> ipAddresses = null;
@@ -40,6 +48,9 @@ public class Server {
     @SerializedName("protocol")
     @Expose
     private Protocol type;
+
+    private boolean isFavourite = false;
+    private long latency = Long.MAX_VALUE;
 
     public String getGateway() {
         return gateway;
@@ -101,6 +112,38 @@ public class Server {
         this.type = type;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
+
+    public long getLatency() {
+        return latency;
+    }
+
+    public void setLatency(long latency) {
+        this.latency = latency;
+    }
+
     public boolean canBeUsedAsMultiHopWith(Server server) {
         if (server == null) return true;
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
@@ -116,6 +159,7 @@ public class Server {
                 ", ipAddresses=" + ipAddresses +
                 ", hosts=" + hosts +
                 ", type=" + type +
+                ", latency = " + latency +
                 '}';
     }
 
@@ -128,10 +172,10 @@ public class Server {
             return false;
         }
         Server other = (Server) obj;
-        if (Objects.equals(this.gateway, other.gateway)) {
-            return true;
+        if (!Objects.equals(this.countryCode, other.countryCode)) {
+            return false;
         }
-        return false;
+        return Objects.equals(this.city, other.city);
     }
 
     @Override

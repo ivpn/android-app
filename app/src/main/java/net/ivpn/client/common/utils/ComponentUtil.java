@@ -10,6 +10,7 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.migration.MigrationController;
 import net.ivpn.client.common.prefs.Preference;
 import net.ivpn.client.common.prefs.ServersRepository;
+import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.updater.UpdateHelper;
 import net.ivpn.client.ui.updates.UpdatesJobServiceUtil;
 import net.ivpn.client.vpn.GlobalBehaviorController;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 public class ComponentUtil {
 
     private Context context;
+    private Settings settings;
     private UpdateHelper updateHelper;
     private Preference preference;
     private UpdatesJobServiceUtil updatesJobServiceUtil;
@@ -40,13 +42,14 @@ public class ComponentUtil {
     private SentryUtil sentryUtil;
 
     @Inject
-    ComponentUtil(Context context, UpdateHelper updateHelper, Preference preference,
+    ComponentUtil(Context context, UpdateHelper updateHelper, Preference preference, Settings settings,
                   UpdatesJobServiceUtil updatesJobServiceUtil, ServersRepository serversRepository,
                   GlobalBehaviorController globalBehaviorController, ProtocolController protocolController,
                   NetworkController networkController, ConfigManager configManager,
                   ProfileManager profileManager, MigrationController migrationController, SentryUtil sentryUtil) {
         this.context = context;
         this.updateHelper = updateHelper;
+        this.settings = settings;
         this.preference = preference;
         this.updatesJobServiceUtil = updatesJobServiceUtil;
         this.serversRepository = serversRepository;
@@ -69,6 +72,7 @@ public class ComponentUtil {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         migrationController.checkForUpdates();
         IVPNApplication.getApplication().appComponent.provideGlobalWireGuardAlarm();
+        AppCompatDelegate.setDefaultNightMode(settings.getNightMode().getSystemId());
     }
 
     public void resetComponents() {
@@ -88,6 +92,7 @@ public class ComponentUtil {
 
     private void initApiAccessImprovement() {
         serversRepository.tryUpdateIpList();
+        serversRepository.tryUpdateServerLocations();
     }
 
     private void initSentry() {

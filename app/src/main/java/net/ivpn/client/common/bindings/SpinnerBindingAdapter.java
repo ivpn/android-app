@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class SpinnerBindingAdapter {
 
-    @BindingAdapter("app:onChanged")
+    @BindingAdapter("onChanged")
     public static void setOnItemSelectedListener(AppCompatSpinner view,
                                                  final OnPortSelectedListener listener) {
         final PortAdapter adapter = (PortAdapter) view.getAdapter();
@@ -34,7 +34,7 @@ public class SpinnerBindingAdapter {
         });
     }
 
-    @BindingAdapter("app:onChanged")
+    @BindingAdapter("onChanged")
     public static void setOnItemSelectedListener(AppCompatSpinner view, final OnNetworkBehaviourChangedListener listener) {
         final NetworkAdapter adapter = (NetworkAdapter) view.getAdapter();
         view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -53,18 +53,18 @@ public class SpinnerBindingAdapter {
         });
     }
 
-    @BindingAdapter("app:onTouch")
+    @BindingAdapter("onTouch")
     public static void setOnTouchListener(AppCompatSpinner view,
                                                  final View.OnTouchListener listener) {
         view.setOnTouchListener(listener);
     }
 
-    @BindingAdapter("app:selectedItem")
+    @BindingAdapter("selectedItem")
     public static void setPort(AppCompatSpinner view, Port port) {
         view.setSelection(port.ordinalForProtocol());
     }
 
-    @BindingAdapter("app:selectedItem")
+    @BindingAdapter("selectedItem")
     public static void setNetworkState(AppCompatSpinner view, NetworkState state) {
         final NetworkAdapter adapter = (NetworkAdapter) view.getAdapter();
         if (state != null && adapter != null) {
@@ -73,7 +73,7 @@ public class SpinnerBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:default_network_state")
+    @BindingAdapter("default_network_state")
     public static void setDefaultNetworkState(AppCompatSpinner view, NetworkState state) {
         NetworkAdapter adapter = (NetworkAdapter) view.getAdapter();
         if (state != null && adapter != null) {

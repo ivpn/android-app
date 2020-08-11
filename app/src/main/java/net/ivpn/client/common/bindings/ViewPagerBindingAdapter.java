@@ -5,7 +5,7 @@ import androidx.viewpager.widget.ViewPager;
 
 public class ViewPagerBindingAdapter {
 
-    @BindingAdapter("app:isFavouritesEmpty")
+    @BindingAdapter("isFavouritesEmpty")
     public static void setSwipeRefreshLayoutOnRefreshListener(ViewPager viewPager,
                                                               boolean isFavouritesEmpty) {
         if (isFavouritesEmpty) {

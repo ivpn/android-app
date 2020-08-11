@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.sentry.android.gradle'
+
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 def keystoreProperties = new Properties()
 if (new File("keystore.properties").exists()) {
@@ -19,13 +24,13 @@ android {
         }
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 82
-        versionName "1.68"
+        targetSdkVersion 29
+        versionCode 80
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -103,6 +108,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
@@ -111,6 +119,14 @@ android {
         cmake {
             path 'CMakeLists.txt'
         }
+    }
+    androidExtensions {
+        experimental = true
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
     }
 
     splits {
@@ -155,20 +171,31 @@ ext {
     supportLibsVersion = '28.0.0'
     streamsupportVersion = '1.7.1'
 }
+kapt {
+    generateStubs = true
+}
 
 dependencies {
+    def nav_version = "2.3.0-alpha04"
+    def lifecycle_version = "2.2.0"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
     // JSON Parsing
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'com.google.android.material:material:1.2.0-alpha05'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
@@ -177,16 +204,34 @@ dependencies {
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
+    //Sliding up panel
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+//    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
+
 //    Purchases
-    implementation 'com.android.billingclient:billing:2.1.0'
+    implementation 'com.android.billingclient:billing:2.2.0'
     
     //For crash logging
     implementation 'io.sentry:sentry-android-core:2.0.+'
+
+    //QR support
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
 
     //Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
+
+    //Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //Navigation component dynamic feature module support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     implementation "junit:junit:$rootProject.ext.junitVersion"
 
@@ -198,6 +243,8 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
 
+    //Dagger
+    kapt 'com.google.dagger:dagger-compiler:2.24'
     implementation 'com.google.dagger:dagger:2.24'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
 

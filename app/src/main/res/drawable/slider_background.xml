@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <padding android:top="0.5dp" />
+
+            <solid android:color="@color/sliding_panel_shadow_1" />
+
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="0.5dp" />
+
+            <solid android:color="@color/sliding_panel_shadow_2" />
+
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="0.5dp" />
+
+            <solid android:color="@color/sliding_panel_shadow_3" />
+
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!--            <corners android:radius="6dp" />-->
+
+            <padding android:top="0.5dp" />
+
+            <solid android:color="@color/sliding_panel_shadow_4" />
+
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <!--            <corners android:radius="4dp" />-->
+
+            <padding android:top="0.5dp" />
+
+            <solid android:color="@color/sliding_panel_shadow_5" />
+
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="-2dp"
+        android:left="-3dp"
+        android:right="-3dp">
+        <shape>
+            <solid android:color="@color/sliding_panel_background" />
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
+        </shape>
+    </item>
+
+</layer-list>

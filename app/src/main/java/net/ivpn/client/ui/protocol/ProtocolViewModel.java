@@ -109,27 +109,39 @@ public class ProtocolViewModel {
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
     }
 
+    public void reset() {
+
+    }
+
     public void setNavigator(ProtocolNavigator navigator) {
         this.navigator = navigator;
     }
 
-    void copyWgKeyToClipboard(ClipboardManager clipboard) {
+    public void copyWgKeyToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_public_key", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    void copyWgIpToClipboard(ClipboardManager clipboard) {
+    public void copyWgIpToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_ip", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    WireGuardDialogInfo getWireGuardInfo() {
+    public WireGuardDialogInfo getWireGuardInfo() {
         String ipAddress = settings.getWireGuardIpAddress();
 
         long regenerationPeriod = keyController.getRegenerationPeriod();
         long lastGeneratedTime = settings.getGenerationTime();
 
         return new WireGuardDialogInfo(wireGuardPublicKey, ipAddress, lastGeneratedTime, regenerationPeriod);
+    }
+
+    public String getDescription() {
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
+            return "WireGuard" + ", " + wireGuardPort.get().toThumbnail();
+        } else {
+            return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();
+        }
     }
 
     private void tryEnableWgProtocol() {
@@ -142,7 +154,7 @@ public class ProtocolViewModel {
         setProtocol(Protocol.WIREGUARD);
     }
 
-    void reGenerateKeys() {
+    public void reGenerateKeys() {
         LOGGER.info(TAG, "Regenerate keys");
         keyController.regenerateKeys();
     }

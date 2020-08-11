@@ -51,9 +51,4 @@ public abstract class ViewModelActivity extends AppCompatActivity {
         }
         mMenuBindings.addBinding(menuId, cmd, enableBinding);
     }
-
-    public interface IMenuCallbackListener {
-        void onPrepareOptionsMenu(Menu menu);
-        void onOptionsItemSelected(int menuItemId);
-    }
 }

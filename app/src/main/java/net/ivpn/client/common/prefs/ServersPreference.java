@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.rest.data.model.Server;
+import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
 
@@ -18,6 +19,7 @@ public class ServersPreference {
     private static final String CURRENT_ENTER_SERVER = "CURRENT_ENTER_SERVER";
     private static final String CURRENT_EXIT_SERVER = "CURRENT_EXIT_SERVER";
     private static final String SERVERS_LIST = "SERVERS_LIST";
+    private static final String LOCATION_LIST = "LOCATION_LIST";
     private static final String FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST";
     private static final String EXCLUDED_FASTEST_SERVERS = "EXCLUDED_FASTEST_SERVERS";
 
@@ -51,6 +53,25 @@ public class ServersPreference {
         sharedPreferences.edit()
                 .putString(SERVERS_LIST, Mapper.stringFrom(servers))
                 .apply();
+    }
+
+    void putOpenVPNLocations(List<ServerLocation> locations) {
+        SharedPreferences sharedPreferences = preference.getServersSharedPreferences();
+        sharedPreferences.edit()
+                .putString(LOCATION_LIST, ServerLocation.Companion.stringFrom(locations))
+                .apply();
+    }
+
+    void putWireGuardLocations(List<ServerLocation> locations) {
+        SharedPreferences sharedPreferences = preference.getWireguardServersSharedPreferences();
+        sharedPreferences.edit()
+                .putString(LOCATION_LIST, ServerLocation.Companion.stringFrom(locations))
+                .apply();
+    }
+
+    List<ServerLocation> getServerLocations() {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        return ServerLocation.Companion.from(sharedPreferences.getString(LOCATION_LIST, null));
     }
 
     List<Server> getServersList() {

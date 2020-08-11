@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?><!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp" />
+            <solid android:color="@color/dialog_shadow_1" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp" />
+
+            <solid android:color="@color/dialog_shadow_2" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp" />
+
+            <solid android:color="@color/dialog_shadow_3" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp" />
+            <solid android:color="@color/dialog_shadow_4" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"/>
+            <solid android:color="@color/dialog_shadow_5" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"/>
+            <solid android:color="@color/dialog_shadow_6" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"/>
+            <solid android:color="@color/dialog_shadow_7" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <padding
+                android:bottom="1dp"
+                android:left="1dp"
+                android:right="1dp"
+                android:top="1dp" />
+
+            <solid android:color="@color/dialog_shadow_8" />
+
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+<!--    <item>-->
+<!--        <shape>-->
+<!--            <padding-->
+<!--                android:bottom="1dp"-->
+<!--                android:left="1dp"-->
+<!--                android:right="1dp"-->
+<!--                android:top="1dp" />-->
+
+<!--            <solid android:color="#80CCCCCC" />-->
+
+<!--            <corners android:radius="8dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+
+    <item>
+        <shape>
+            <solid android:color="@color/dialogue_map_background" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</layer-list>

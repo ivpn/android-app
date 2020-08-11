@@ -20,7 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/protocol_card_background">
 
             <TextView
                 style="@style/SettingsSectionTitle"
@@ -52,6 +53,7 @@
                         style="@style/SettingsOptionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/protocol_text_color"
                         android:text="@string/protocol_vpn_openvpn" />
 
                 </LinearLayout>
@@ -61,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:checked="@{viewmodel.protocol.equals(Protocol.OPENVPN) ? true : false}"
                     android:theme="@style/AppTheme.RadioButton"
+                    app:buttonTint="@color/dialogue_button"
                     app:onChanged="@{viewmodel.openVPNCheckedChangeListener}" />
             </LinearLayout>
 
@@ -94,6 +97,7 @@
                         style="@style/SettingsOptionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/protocol_text_color"
                         android:text="@string/protocol_vpn_wireguard" />
                 </LinearLayout>
 
@@ -102,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:checked="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? true : false}"
                     android:theme="@style/AppTheme.RadioButton"
+                    app:buttonTint="@color/dialogue_button"
                     app:onChanged="@{viewmodel.wireGuardCheckedChangeListener}" />
             </LinearLayout>
 
