@@ -277,7 +277,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     }
 
     private boolean isFastestServerEnabled() {
-        return settings.isFastestServerEnabled();
+        return serversRepository.getSettingFastestServer();
     }
 
     @Override

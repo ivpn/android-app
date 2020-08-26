@@ -22,6 +22,7 @@ public class ServersPreference {
     private static final String LOCATION_LIST = "LOCATION_LIST";
     private static final String FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST";
     private static final String EXCLUDED_FASTEST_SERVERS = "EXCLUDED_FASTEST_SERVERS";
+    private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
 
     private Preference preference;
     private ProtocolController protocolController;
@@ -142,6 +143,18 @@ public class ServersPreference {
         SharedPreferences sharedPreferences = getProperSharedPreference();
         List<Server> servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null));
         return servers != null ? servers : new ArrayList<>();
+    }
+
+    public boolean getSettingFastestServer() {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true);
+    }
+
+    public void putSettingFastestServer(boolean value) {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        sharedPreferences.edit()
+                .putBoolean(SETTINGS_FASTEST_SERVER, value)
+                .apply();
     }
 
     private SharedPreferences getProperSharedPreference() {

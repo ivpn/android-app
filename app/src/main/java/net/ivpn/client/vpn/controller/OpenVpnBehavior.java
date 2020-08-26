@@ -478,7 +478,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private boolean isFastestServerEnabled() {
-        return settings.isFastestServerEnabled();
+        return serversRepository.getSettingFastestServer();
     }
 
     private void sendConnectionState() {

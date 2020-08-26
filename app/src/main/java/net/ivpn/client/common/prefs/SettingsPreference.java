@@ -16,7 +16,6 @@ import javax.inject.Inject;
 @ApplicationScope
 public class SettingsPreference {
 
-    private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
     private static final String SETTINGS_LOGGING = "SETTINGS_LOGGING";
     private static final String SETTINGS_SENTRY = "SETTINGS_SENTRY";
     private static final String SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP";
@@ -67,11 +66,6 @@ public class SettingsPreference {
     public boolean getSettingMultiHop() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false);
-    }
-
-    public boolean getSettingFastestServer() {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true);
     }
 
     public boolean getSettingKillSwitch() {
@@ -193,13 +187,6 @@ public class SettingsPreference {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_CUSTOM_DNS, value)
-                .apply();
-    }
-
-    public void putSettingFastestServer(boolean value) {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply();
     }
 

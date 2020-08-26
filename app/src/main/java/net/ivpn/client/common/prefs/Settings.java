@@ -66,9 +66,9 @@ public class Settings {
         settingsPreference.putSettingAdvancedKillSwitch(value);
     }
 
-    public void enableFastestServerSetting(boolean value) {
-        settingsPreference.putSettingFastestServer(value);
-    }
+//    public void enableFastestServerSetting(boolean value) {
+//        settingsPreference.putSettingFastestServer(value);
+//    }
 
     public void enableAntiSurveillance(boolean value) {
         settingsPreference.putAntiSurveillance(value);
@@ -138,9 +138,9 @@ public class Settings {
         return settingsPreference.getIsAntiSurveillanceHardcoreEnabled();
     }
 
-    public boolean isFastestServerEnabled() {
-        return settingsPreference.getSettingFastestServer();
-    }
+//    public boolean isFastestServerEnabled() {
+//        return settingsPreference.getSettingFastestServer();
+//    }
 
     public boolean isAdvancedKillSwitchDialogEnabled() {
         return settingsPreference.getIsAdvancedKillSwitchDialogEnabled();

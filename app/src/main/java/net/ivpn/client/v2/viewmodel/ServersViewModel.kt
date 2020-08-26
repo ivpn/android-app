@@ -80,7 +80,7 @@ class ServersViewModel @Inject constructor(
             return false
         }
 
-        return settings.isFastestServerEnabled
+        return serversRepository.settingFastestServer
     }
 
     private fun getVPNStateListener(): VpnStateListener {
@@ -146,7 +146,7 @@ class ServersViewModel @Inject constructor(
         mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
     }
 
-    fun getServerFor(serverLocation: ServerLocation): Server? {
+    private fun getServerFor(serverLocation: ServerLocation): Server? {
         var serverForLocation: Server? = null
         for (server in serversRepository.getServers(false)) {
             if (serverLocation.city == server.city) {
