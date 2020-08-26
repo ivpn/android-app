@@ -18,6 +18,8 @@ import net.ivpn.client.rest.data.session.SessionNewRequestBody;
 import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.session.SessionStatusRequestBody;
 import net.ivpn.client.rest.data.session.SessionStatusResponse;
+import net.ivpn.client.rest.data.subscription.NewAccountRequestBody;
+import net.ivpn.client.rest.data.subscription.NewAccountResponse;
 import net.ivpn.client.rest.data.subscription.SubscriptionRequestBody;
 import net.ivpn.client.rest.data.subscription.SubscriptionResponse;
 import net.ivpn.client.rest.data.subscription.ValidateAccountRequestBody;
@@ -69,5 +71,8 @@ public interface IVPNApi {
 
     @POST("/subscriptions/validate")
     Call<ValidateAccountResponse> validateAccount(@Body ValidateAccountRequestBody body);
+
+    @POST("v4/account/new")
+    Call<NewAccountResponse> newAccount(@Body NewAccountRequestBody body);
 
 }

@@ -58,9 +58,6 @@ public class BillingViewModel implements BillingListener {
                 dataLoading.set(false);
                 break;
             case PURCHASING:
-                dataLoading.set(true);
-                processDescription.set(context.getString(R.string.billing_validating));
-                break;
             case VALIDATING:
                 dataLoading.set(true);
                 processDescription.set(context.getString(R.string.billing_validating));

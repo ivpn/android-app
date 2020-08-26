@@ -151,7 +151,7 @@ public class BillingManager implements PurchasesUpdatedListener {
             BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skuDetails)
                     .setOldSku(oldSku)
-                    .setReplaceSkusProrationMode(proration)
+//                    .setReplaceSkusProrationMode(proration)
                     .build();
             billingClient.launchBillingFlow(activity, purchaseParams);
         };

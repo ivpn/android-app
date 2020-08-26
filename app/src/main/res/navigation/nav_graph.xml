@@ -128,6 +128,9 @@
             android:id="@+id/action_loginFragment_to_syncFragment"
             app:destination="@id/syncFragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
@@ -141,4 +144,16 @@
         android:id="@+id/antiTrackerFragment"
         android:name="net.ivpn.client.v2.antitracker.AntiTrackerFragment"
         android:label="AntiTracker" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpProductFragment"
+        android:label="Select IVPN Product" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpPeriodFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
+        android:label="Add funds to account" />
 </navigation>

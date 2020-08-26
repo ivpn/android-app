@@ -109,6 +109,10 @@
     <color name="login_text_color_invert">#FFFFFF</color>
     <color name="login_background">#FFFFFF</color>
 
+    <color name="sign_up_text_color">#2A394B</color>
+    <color name="sign_up_text_color_invert">#FFFFFF</color>
+    <color name="sign_up_background">#FFFFFF</color>
+
     <color name="bottom_sheet_background">#FFFFFF</color>
     <color name="bottom_sheet_text">#2A394B</color>
 

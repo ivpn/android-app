@@ -82,6 +82,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         binding.contentLayout.loginButton.setOnClickListener {
             viewModel.login(false)
         }
+        binding.contentLayout.signUpButton.setOnClickListener {
+            openSignUpProductScreen()
+        }
         binding.contentLayout.outlinedTextField.setEndIconOnClickListener {
             openQRScanner()
         }
@@ -102,6 +105,11 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
             setPrompt("Place a QR code inside viewfinder to scan Account Id.")
             initiateScan()
         }
+    }
+
+    private fun openSignUpProductScreen() {
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+        NavHostFragment.findNavController(this).navigate(action)
     }
 
     override fun openSite() {

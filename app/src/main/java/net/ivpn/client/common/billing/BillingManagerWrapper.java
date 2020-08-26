@@ -17,6 +17,8 @@ import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.Responses;
+import net.ivpn.client.rest.data.subscription.NewAccountRequestBody;
+import net.ivpn.client.rest.data.subscription.NewAccountResponse;
 import net.ivpn.client.rest.data.subscription.SubscriptionRequestBody;
 import net.ivpn.client.rest.data.subscription.SubscriptionResponse;
 import net.ivpn.client.rest.requests.common.Request;
@@ -39,6 +41,9 @@ public class BillingManagerWrapper {
     private PurchasePreference purchasePreference;
     private UserPreference userPreference;
     private Settings settings;
+    private HttpClientFactory httpClientFactory;
+    private ServersRepository serversRepository;
+
     private Request<SubscriptionResponse> request;
     private List<BillingListener> listeners;
 
@@ -56,8 +61,10 @@ public class BillingManagerWrapper {
         this.purchasePreference = purchasePreference;
         this.userPreference = userPreference;
         this.settings = settings;
+        this.httpClientFactory = httpClientFactory;
+        this.serversRepository = serversRepository;
 
-        request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+//        request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
         listeners = new ArrayList<>();
         isInit = false;
         setPurchaseState(PurchaseState.NONE);
@@ -72,7 +79,7 @@ public class BillingManagerWrapper {
                 LOGGER.info("On billing client setup finished");
                 isInit = true;
 
-                for (BillingListener listener: listeners) {
+                for (BillingListener listener : listeners) {
                     listener.onInitStateChanged(isInit, error);
                 }
             }
@@ -103,8 +110,7 @@ public class BillingManagerWrapper {
         LOGGER.info("Purchasing...");
         setPurchaseState(PurchaseState.PURCHASING);
         String currentSku = purchase != null ? purchase.getSku() : null;
-        billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku,
-                getProrationMode(currentSku, skuDetails.getSku()));
+        billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku, 0);
     }
 
     public void checkSkuDetails() {
@@ -115,7 +121,21 @@ public class BillingManagerWrapper {
             LOGGER.info("Sku details, result = " + billingResult.getResponseCode());
             LOGGER.info("Sku details, error = " + billingResult.getDebugMessage());
             LOGGER.info("Sku details, listeners size = " + billingResult.getDebugMessage());
-            for (BillingListener listener: listeners) {
+            for (BillingListener listener : listeners) {
+                listener.onCheckingSkuDetailsSuccess(skuDetailsList);
+            }
+        });
+    }
+
+    public void checkSkuDetails(List<String> skuList) {
+        LOGGER.info("Query sku details...");
+
+        billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, skuList, (billingResult, skuDetailsList) -> {
+            //ToDo Check all available billing results;
+            LOGGER.info("Sku details, result = " + billingResult.getResponseCode());
+            LOGGER.info("Sku details, error = " + billingResult.getDebugMessage());
+            LOGGER.info("Sku details, listeners size = " + billingResult.getDebugMessage());
+            for (BillingListener listener : listeners) {
                 listener.onCheckingSkuDetailsSuccess(skuDetailsList);
             }
         });
@@ -123,7 +143,7 @@ public class BillingManagerWrapper {
 
     private void startValidatingActivity(Purchase purchase) {
         this.purchase = purchase;
-        if (purchase.isAcknowledged()){
+        if (purchase.isAcknowledged()) {
             LOGGER.info("Purchase is acknowledged");
             return;
         }
@@ -135,17 +155,48 @@ public class BillingManagerWrapper {
     }
 
     public void validatePurchase() {
+        String login = userPreference.getUserLogin();
+        if (login == null || login.isEmpty()) {
+            startNewPurchase();
+        } else {
+            addFundsRequest();
+        }
+
         setPurchaseState(PurchaseState.VALIDATING);
         saveSensitiveData(purchase);
 
-        SubscriptionRequestBody requestBody = getSubscriptionRequestBody(purchase);
-        //ToDo remove it!!!!!!
-//        LOGGER.info("SubscriptionRequestBody = " + requestBody);
-        request.start(api -> api.processPurchase(requestBody), new RequestListener<SubscriptionResponse>() {
+//        SubscriptionRequestBody requestBody = getSubscriptionRequestBody(purchase);
+//        //ToDo remove it!!!!!!
+////        LOGGER.info("SubscriptionRequestBody = " + requestBody);
+//        request.start(api -> api.processPurchase(requestBody), new RequestListener<SubscriptionResponse>() {
+//            @Override
+//            public void onSuccess(SubscriptionResponse response) {
+//                LOGGER.info("SUCCESS, response = " + response);
+//                processSubscriptionResponse(response);
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//                LOGGER.error("ERROR, throwable = " + throwable);
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                LOGGER.error("ERROR, error = " + error);
+//            }
+//        });
+    }
+
+    private void startNewPurchase() {
+        //ToDo SET REAL VALUE
+        NewAccountRequestBody requestBody = new NewAccountRequestBody("IVPN Standard");
+        Request<NewAccountResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        request.start(api -> api.newAccount(requestBody), new RequestListener<NewAccountResponse>() {
             @Override
-            public void onSuccess(SubscriptionResponse response) {
+            public void onSuccess(NewAccountResponse response) {
                 LOGGER.info("SUCCESS, response = " + response);
-                processSubscriptionResponse(response);
+                initialPayment(response);
+//                processSubscriptionResponse(response);
             }
 
             @Override
@@ -158,6 +209,14 @@ public class BillingManagerWrapper {
                 LOGGER.error("ERROR, error = " + error);
             }
         });
+    }
+
+    private void initialPayment(NewAccountResponse response) {
+
+    }
+
+    private void addFundsRequest() {
+
     }
 
     private SubscriptionRequestBody getSubscriptionRequestBody(Purchase purchase) {
@@ -183,7 +242,7 @@ public class BillingManagerWrapper {
 //                    userPreference.putUserLogin(response.getData().getUsername());
 //                }
                 setPurchaseState(PurchaseState.NONE);
-                for (BillingListener listener: listeners) {
+                for (BillingListener listener : listeners) {
                     listener.onPurchaseAlreadyDone();
                 }
                 break;
@@ -230,13 +289,13 @@ public class BillingManagerWrapper {
     }
 
     private void setPurchaseState(PurchaseState newState) {
-        for (BillingListener listener: listeners) {
+        for (BillingListener listener : listeners) {
             listener.onPurchaseStateChanged(newState);
         }
     }
 
     private void setPurchaseError(int errorCode, String errorMessage) {
-        for (BillingListener listener: listeners) {
+        for (BillingListener listener : listeners) {
             listener.onPurchaseError(errorCode, errorMessage);
         }
     }

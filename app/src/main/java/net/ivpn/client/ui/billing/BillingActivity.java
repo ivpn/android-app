@@ -61,7 +61,6 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     @Override
     public void onSuccessBilling() {
         LOGGER.info("onSuccessBilling");
-
         finish();
     }
 
@@ -72,7 +71,6 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
 
     @Override
     public void onPurchaseAlreadyDone() {
-
         finish();
     }
 
