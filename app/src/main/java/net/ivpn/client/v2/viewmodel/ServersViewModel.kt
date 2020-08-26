@@ -160,7 +160,7 @@ class ServersViewModel @Inject constructor(
     fun isLocationSuitable(serverLocation: ServerLocation): Boolean {
         if (multiHopController.isEnabled) {
             entryServer.get()?.let {
-                return it.city != serverLocation.city
+                return it.city != serverLocation.city && it.countryCode != serverLocation.countryCode
             }
         }
 
