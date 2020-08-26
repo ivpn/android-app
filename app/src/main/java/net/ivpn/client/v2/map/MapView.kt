@@ -201,7 +201,6 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun checkTap(event: MotionEvent) {
-
         locationData.location?.coordinate?.let {
             val distance: Float = sqrt((it.first - math.totalX - event.x).pow(2)
                     + (it.second - math.totalY - event.y).pow(2))
@@ -378,6 +377,7 @@ class MapView @JvmOverloads constructor(
     }
 
     fun centerMap() {
+        scroller.forceFinished(true)
         dialogueData.state = DialogueDrawer.DialogState.NONE
         animator.centerLocation(math.totalX,
                 math.totalY,
