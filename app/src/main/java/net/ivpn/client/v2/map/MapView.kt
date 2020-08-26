@@ -339,20 +339,8 @@ class MapView @JvmOverloads constructor(
                 invalidate()
             }
             ConnectionState.PAUSING -> {
-//                locationData.inProgress = true
-//                if (gateway != null) {
-//                    gateway.isConnected = true
-//                    setLocation(gateway)
-//                }
-//                invalidate()
             }
             ConnectionState.PAUSED -> {
-//                locationData.inProgress = true
-//                if (gateway != null) {
-//                    gateway.isConnected = true
-//                    setLocation(gateway)
-//                }
-//                invalidate()
                 animator.stopWaveAnimation()
                 locationData.inProgress = false
                 invalidate()
