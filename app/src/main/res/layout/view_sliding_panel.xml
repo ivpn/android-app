@@ -197,7 +197,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(false)}">
+                        android:onClick="@{() -> multihop.enableMultiHop(false)}"
+                        app:onTouch="@{multihop.multiHopTouchListener}">
 
                         <TextView
                             style="@style/AppTheme.MultiHopText"
@@ -205,6 +206,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:text="@string/single_hop"
+                            app:isBold="@{!multihop.isEnabled()}"
                             android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_passive : @color/sliding_panel_multi_hop_active}" />
 
                     </FrameLayout>
@@ -214,7 +216,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(true)}">
+                        android:onClick="@{() -> multihop.enableMultiHop(true)}"
+                        app:onTouch="@{multihop.multiHopTouchListener}">
 
                         <TextView
                             android:id="@+id/textView4"
@@ -223,7 +226,9 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:text="@string/multi_hop"
-                            android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_active : @color/sliding_panel_multi_hop_passive}" />
+                            app:isBold="@{multihop.isEnabled()}"
+                            android:textColor="@{multihop.isEnabled() ? @color/sliding_panel_multi_hop_active : @color/sliding_panel_multi_hop_passive}" />
+
 
                     </FrameLayout>
 
@@ -241,59 +246,59 @@
                     android:orientation="vertical"
                     android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/enter_server_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="4dp">
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        style="@style/AppTheme.ServerHintText"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:contentDescription="@string/content_description_entry_server_flag"
-                        android:src="@{servers.entryServer}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        style="@style/AppTheme.ServerNameText"
-                        android:layout_marginStart="8dp"
-                        android:text="@{servers.entryServer.description}"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintStart_toEndOf="@+id/imageView"
-                        app:layout_constraintTop_toTopOf="@+id/imageView"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/enter_server_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/content_description_choose_entry_server"
-                        android:tint="@color/sliding_panel_arrow"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView5"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="4dp">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            style="@style/AppTheme.ServerHintText"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/content_description_entry_server_flag"
+                            android:src="@{servers.entryServer}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            style="@style/AppTheme.ServerNameText"
+                            android:layout_marginStart="8dp"
+                            android:text="@{servers.entryServer.description}"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="@+id/imageView"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="@string/content_description_choose_entry_server"
+                            android:tint="@color/sliding_panel_arrow"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView5"
+                            app:srcCompat="@drawable/ic_arrow_right" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -371,8 +376,8 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="parent"
                     android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="parent"
                     tools:layout_editor_absoluteX="4dp">
 
                     <TextView
@@ -392,10 +397,10 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:contentDescription="@string/content_description_entry_server_flag"
-                        android:tint="@color/settings_option_description_text"
                         android:src="@drawable/ic_fastest_server"
+                        android:tint="@color/settings_option_description_text"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
                         android:id="@+id/fastest_label"
