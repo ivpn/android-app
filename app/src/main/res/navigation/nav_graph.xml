@@ -4,9 +4,156 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/connectFragment">
 
-
     <fragment
         android:id="@+id/connectFragment"
-        android:name="net.ivpn.client.v2.ConnectFragment"
-        android:label="ConnectFragment" />
+        android:name="net.ivpn.client.v2.connect.ConnectFragment"
+        android:label="ConnectFragment">
+        <action
+            android:id="@+id/action_connectFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_networkProtectionFragment"
+            app:destination="@id/networkProtectionFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="net.ivpn.client.v2.settings.SettingsFragment"
+        android:label="Settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_splitTunnelingFragment"
+            app:destination="@id/splitTunnelingFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_alwaysOnVPNFragment"
+            app:destination="@id/alwaysOnVPNFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_networkProtectionFragment"
+            app:destination="@id/networkProtectionFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_customDNSFragment"
+            app:destination="@id/customDNSFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_policyFragment"
+            app:destination="@id/policyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_antiTrackerFragment"
+            app:destination="@id/antiTrackerFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splitTunnelingFragment"
+        android:name="net.ivpn.client.v2.splittunneling.SplitTunnelingFragment"
+        android:label="Split Tunneling" />
+    <fragment
+        android:id="@+id/alwaysOnVPNFragment"
+        android:name="net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment"
+        android:label="Always-on VPN" />
+    <fragment
+        android:id="@+id/networkProtectionFragment"
+        android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
+        android:label="Network Protection">
+        <action
+            android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"
+            app:destination="@id/networkProtectionRulesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/networkProtectionRulesFragment"
+        android:name="net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment"
+        android:label="Protection Rules" />
+    <fragment
+        android:id="@+id/protocolFragment"
+        android:name="net.ivpn.client.v2.protocol.ProtocolFragment"
+        android:label="Protocol" />
+    <fragment
+        android:id="@+id/customDNSFragment"
+        android:name="net.ivpn.client.v2.customdns.CustomDNSFragment"
+        android:label="Custom DNS" />
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="net.ivpn.client.v2.terms.TermsFragment"
+        android:label="Terms of Service" />
+    <fragment
+        android:id="@+id/policyFragment"
+        android:name="net.ivpn.client.v2.policy.PolicyFragment"
+        android:label="Privacy Policy" />
+    <fragment
+        android:id="@+id/serverListFragment"
+        android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"
+        android:label="ServerListFragment">
+        <argument
+            android:name="serverType"
+            android:defaultValue="ENTRY"
+            app:argType="net.ivpn.client.common.prefs.ServerType" />
+        <action
+            android:id="@+id/action_serverListFragment_to_fastestSettingFragment"
+            app:destination="@id/fastestSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fastestSettingFragment"
+        android:name="net.ivpn.client.v2.serverlist.fastest.FastestSettingFragment"
+        android:label="Fastest Setting" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="net.ivpn.client.v2.login.LoginFragment"
+        android:label="Log in">
+        <action
+            android:id="@+id/action_loginFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/syncFragment"
+        android:name="net.ivpn.client.v2.sync.SyncFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="net.ivpn.client.v2.account.AccountFragment"
+        android:label="Account details" />
+    <fragment
+        android:id="@+id/antiTrackerFragment"
+        android:name="net.ivpn.client.v2.antitracker.AntiTrackerFragment"
+        android:label="AntiTracker" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpProductFragment"
+        android:label="Select IVPN Product" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpPeriodFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
+        android:label="Add funds to account" />
 </navigation>

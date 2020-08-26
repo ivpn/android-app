@@ -11,6 +11,8 @@ public interface Responses {
     int WIREGUARD_KEY_LIMIT_REACHED = 425;
     int WIREGUARD_KEY_NOT_PROVIDED = 426;
 
+    int ACCOUNT_NOT_ACTIVE = 11005;
+
     int GEO_LOOKUP_DB_ERROR = 501;
     int GEO_LOOKUP_IP_INVALID = 502;
     int GEO_LOOKUP_IP_NOT_FOUND = 503;

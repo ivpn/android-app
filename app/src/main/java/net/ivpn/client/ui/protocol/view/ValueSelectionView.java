@@ -67,19 +67,20 @@ public class ValueSelectionView extends View {
 
         actionPaint = new Paint();
         actionPaint.setStyle(Paint.Style.FILL);
-        actionPaint.setColor(resources.getColor(R.color.colorPrimary));
+        actionPaint.setColor(resources.getColor(R.color.primary));
 
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(resources.getDimension(R.dimen.regeneration_value_text_size));
+        textPaint.setColor(resources.getColor(R.color.protocol_text_color));
 
         Drawable addNDrawable = resources.getDrawable(R.drawable.ic_add);
         incrementDrawable = DrawableCompat.wrap(addNDrawable);
-        DrawableCompat.setTint(incrementDrawable, Color.WHITE);
+        DrawableCompat.setTint(incrementDrawable, resources.getColor(R.color.protocol_card_background));
 
         Drawable removeNDrawable = resources.getDrawable(R.drawable.ic_remove);
         decrementDrawable = DrawableCompat.wrap(removeNDrawable);
-        DrawableCompat.setTint(decrementDrawable, Color.WHITE);
+        DrawableCompat.setTint(decrementDrawable, resources.getColor(R.color.protocol_card_background));
 
         gestureDetector = new GestureDetector(this.getContext(), getGestureDetector());
         setOnTouchListener((view, motionEvent) -> gestureDetector.onTouchEvent(motionEvent));

@@ -7,14 +7,20 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class SwitchButtonBindingAdapter {
 
-    @BindingAdapter("app:onChanged")
+    @BindingAdapter("onChanged")
     public static void setOnChangedSwitchButtonListener(SwitchCompat view,
                                                         OnCheckedChangeListener listener) {
         view.setOnCheckedChangeListener(listener);
     }
 
-    @BindingAdapter("app:onTouch")
+    @BindingAdapter("onTouch")
     public static void setOnTouchListener(SwitchCompat view,
+                                          final View.OnTouchListener listener) {
+        view.setOnTouchListener(listener);
+    }
+
+    @BindingAdapter("onTouch")
+    public static void setOnTouchListener(View view,
                                           final View.OnTouchListener listener) {
         view.setOnTouchListener(listener);
     }

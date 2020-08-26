@@ -26,16 +26,18 @@ public class WireGuardKeyController {
     private WireGuardKeysEventsListener keysEventsListener;
     private Settings settings;
     private UserPreference userPreference;
+    private HttpClientFactory clientFactory;
+    private ServersRepository serversRepository;
 
-    private Request<AddWireGuardPublicKeyResponse> addKeyRequest;
+    private Request<AddWireGuardPublicKeyResponse> addKeyRequest = null;
 
     @Inject
     public WireGuardKeyController(Settings settings, UserPreference userPreference,
                                   HttpClientFactory clientFactory, ServersRepository serversRepository) {
         this.settings = settings;
         this.userPreference = userPreference;
-
-        addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT);
+        this.clientFactory = clientFactory;
+        this.serversRepository = serversRepository;
     }
 
     public void setKeysEventsListener(WireGuardKeysEventsListener keysEventsListener) {
@@ -113,6 +115,7 @@ public class WireGuardKeyController {
         AddWireGuardPublicKeyRequestBody requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
                 keys.getPublicKey(), oldPublicKey);
 
+        addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT);
         addKeyRequest.start(api -> api.setWireGuardPublicKey(requestBody),
                 new RequestListener<AddWireGuardPublicKeyResponse>() {
             @Override

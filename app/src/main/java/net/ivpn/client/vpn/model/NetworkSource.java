@@ -1,6 +1,7 @@
 package net.ivpn.client.vpn.model;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
@@ -40,6 +41,15 @@ public enum NetworkSource {
     }
 
     public NetworkState getState() {
+        return state;
+    }
+
+    public NetworkState getFinalState() {
+        Log.d("NetworkSource", "getFinalState: state = " + state + " defaultState = " + defaultState);
+        if (state == NetworkState.DEFAULT) {
+            return defaultState;
+        }
+
         return state;
     }
 

@@ -2,12 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-<!--            <corners android:radius="4dp" />-->
+            <padding android:top="0.5dp" />
 
-            <padding
-                android:top="1dp" />
-
-            <solid android:color="#00CCCCCC" />
+            <solid android:color="@color/sliding_panel_shadow_1" />
 
             <corners
                 android:bottomLeftRadius="0dp"
@@ -18,14 +15,9 @@
     </item>
     <item>
         <shape>
-<!--            <corners android:radius="4dp" />-->
+            <padding android:top="0.5dp" />
 
-            <padding
-                android:left="1dp"
-                android:right="1dp"
-                android:top="1dp" />
-
-            <solid android:color="#10CCCCCC" />
+            <solid android:color="@color/sliding_panel_shadow_2" />
 
             <corners
                 android:bottomLeftRadius="0dp"
@@ -36,12 +28,9 @@
     </item>
     <item>
         <shape>
-<!--            <corners android:radius="4dp" />-->
+            <padding android:top="0.5dp" />
 
-            <padding
-                android:top="1dp" />
-
-            <solid android:color="#20d5d5d5" />
+            <solid android:color="@color/sliding_panel_shadow_3" />
 
             <corners
                 android:bottomLeftRadius="0dp"
@@ -52,12 +41,11 @@
     </item>
     <item>
         <shape>
-<!--            <corners android:radius="6dp" />-->
+            <!--            <corners android:radius="6dp" />-->
 
-            <padding
-                android:top="1dp" />
+            <padding android:top="0.5dp" />
 
-            <solid android:color="#30cbcbcb" />
+            <solid android:color="@color/sliding_panel_shadow_4" />
 
             <corners
                 android:bottomLeftRadius="0dp"
@@ -68,12 +56,11 @@
     </item>
     <item>
         <shape>
-<!--            <corners android:radius="4dp" />-->
+            <!--            <corners android:radius="4dp" />-->
 
-            <padding
-                android:top="1dp" />
+            <padding android:top="0.5dp" />
 
-            <solid android:color="#50bababa" />
+            <solid android:color="@color/sliding_panel_shadow_5" />
 
             <corners
                 android:bottomLeftRadius="0dp"
@@ -88,9 +75,6 @@
         android:right="-3dp">
         <shape>
             <solid android:color="@color/sliding_panel_background" />
-<!--            <stroke-->
-<!--                android:width="1dp"-->
-<!--                android:color="#a4a2a2" />-->
             <corners
                 android:bottomLeftRadius="0dp"
                 android:bottomRightRadius="0dp"

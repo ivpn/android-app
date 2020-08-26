@@ -7,12 +7,12 @@ import net.ivpn.client.ui.protocol.view.ValueSelectionView;
 
 public class ValueSelectionBindingAdapter {
 
-    @BindingAdapter("app:value")
+    @BindingAdapter("value")
     public static void setValue(ValueSelectionView view, String value) {
         view.setValue(Integer.valueOf(value));
     }
 
-    @BindingAdapter("app:listener")
+    @BindingAdapter("listener")
     public static void setListener(ValueSelectionView imageView, OnValueChangeListener listener) {
         imageView.setOnValueChangedListener(listener);
     }

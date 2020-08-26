@@ -11,13 +11,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
+import com.wireguard.android.crypto.KeyEncoding;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Represents a wg-quick configuration file, its name, and its connection state.
@@ -97,8 +101,39 @@ public class Config implements Parcelable{
         return peers;
     }
 
+    public Peer gerRandomPeer() {
+        return peers.get(new Random().nextInt(peers.size()));
+    }
+
     public void setPeers(List<Peer> peers) {
         this.peers = peers;
+    }
+
+    public String format() throws Exception {
+        Peer peer;
+
+        try (final Formatter fmt = new Formatter(new StringBuilder())) {
+            fmt.format("replace_peers=true\n");
+            if (interfaceSection.getPrivateKey() != null)
+                fmt.format("private_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(interfaceSection.getPrivateKey())));
+            if (interfaceSection.getListenPort() != 0)
+                fmt.format("listen_port=%d\n", interfaceSection.getListenPort());
+
+            peer = gerRandomPeer();
+            if (peer.getPublicKey() != null)
+                fmt.format("public_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.getPublicKey())));
+            if (peer.getPreSharedKey() != null)
+                fmt.format("preshared_key=%s\n", KeyEncoding.keyToHex(KeyEncoding.keyFromBase64(peer.getPreSharedKey())));
+            if (peer.getEndpoint() != null)
+                fmt.format("endpoint=%s\n", peer.getResolvedEndpointString());
+            if (peer.getPersistentKeepalive() != 0)
+                fmt.format("persistent_keepalive_interval=%d\n", peer.getPersistentKeepalive());
+            for (final InetNetwork addr : peer.getAllowedIPs()) {
+                fmt.format("allowed_ip=%s\n", addr.toString());
+            }
+
+            return fmt.toString();
+        }
     }
 
     @Override

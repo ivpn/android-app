@@ -1,12 +1,15 @@
 package net.ivpn.client.v2.map
 
-import kotlin.math.PI
+import net.ivpn.client.v2.map.model.Location
 import kotlin.math.ln
 import kotlin.math.tan
 
 class MapMath {
     //Coordinates that are used to understand what part on map should be shown.
+    @Volatile
     var totalX: Float = 0f
+
+    @Volatile
     var totalY: Float = 0f
 
     //Final width and height of map's bitmap
@@ -16,8 +19,12 @@ class MapMath {
     var screenWidth: Float = 0f
     var screenHeight: Float = 0f
 
+
+
     //(longitude, latitude) latitude from - 90 to 90, longitude from -180 to 180;y from -90 to 90; x from -180 t0 180
     //longitude will transform into x coordinate and latitude into y coordinate
+    init {
+    }
 
     fun appendX(distanceX: Float) {
         totalX += distanceX
@@ -29,7 +36,7 @@ class MapMath {
         validateYCoordinate()
     }
 
-    fun setX(distanceX: Float){
+    fun setX(distanceX: Float) {
         totalX = distanceX
         validateXCoordinate()
     }
@@ -46,6 +53,9 @@ class MapMath {
 
         bitmapWidth = (tileWidth * tilesCount).toFloat()
         bitmapHeight = (tileHeight * tilesCount).toFloat()
+
+        totalX = (bitmapWidth - screenWidth) / 2f
+        totalY = (bitmapHeight - screenHeight) / 2f
         println("bitmapWidth = $bitmapWidth bitmapHeight = $bitmapHeight")
     }
 
@@ -67,33 +77,31 @@ class MapMath {
         }
     }
 
-    fun getCoordinatesBy(longitude: Float, latitude: Float) : Pair<Float, Float> {
-        var y: Float
+    fun getCoordinatesBy(longitude: Float, latitude: Float): Pair<Float, Float> {
+        var x: Double = toRadian(longitude) - 0.18
+        var y: Double = toRadian(latitude).toDouble()
 
-        val blackMagicCoef: Float
+        val yStretch = 0.542
+        val yOffset = 0.053
 
-        //Using this coefficients to compensate for the curvature of the map
-        val xMapCoefficient = 0.026f
-        val yMapCoefficient = 0.965f
+        y = yStretch * ln(tan(0.25 * Math.PI + 0.4 * y)) + yOffset
 
-        //Logic to convert longitude, latitude into x, y. It's enough when we will have a accurate map
-        var x: Float = ((longitude + 180.0) * (bitmapWidth / 360.0)).toFloat()
-        val latRadius: Float = (latitude * Math.PI / 180f).toFloat()
-        blackMagicCoef = ln(tan((Math.PI / 4) + (latRadius / 2))).toFloat()
-        y = ((bitmapHeight / 2) - (bitmapWidth * blackMagicCoef / (2 * PI))).toFloat()
+        x = ((bitmapWidth) / 2) + (bitmapWidth / (2 * Math.PI)) * x
+        y = (bitmapHeight / 2) - (bitmapHeight / 2) * y
 
-        //Trying to compensate for the curvature of the map
-        x -= bitmapWidth * xMapCoefficient
-        if (y < bitmapHeight / 2) {
-            y *= yMapCoefficient
-        }
+        return Pair(x.toFloat(), y.toFloat())
+    }
 
-        return Pair(x, y)
+    private fun toRadian(value: Float): Float {
+        return (value * Math.PI / 180.0f).toFloat()
     }
 
     companion object {
-        const val tileHeight = 615
-        const val tileWidth = 818
-        const val tilesCount = 14
+        const val tileHeight = 515
+        const val tileWidth = 706
+
+        //        const val tileHeight = 574
+//        const val tileWidth = 763
+        const val tilesCount = 16
     }
 }

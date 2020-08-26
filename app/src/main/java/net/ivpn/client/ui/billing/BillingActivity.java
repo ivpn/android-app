@@ -1,18 +1,16 @@
 package net.ivpn.client.ui.billing;
 
-import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.MenuItem;
+import androidx.databinding.DataBindingUtil;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.ActivityBillingBinding;
-import net.ivpn.client.ui.connect.ConnectActivity;
 import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.login.LoginActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,10 +61,6 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     @Override
     public void onSuccessBilling() {
         LOGGER.info("onSuccessBilling");
-        Intent intent = new Intent(this, ConnectActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
         finish();
     }
 
@@ -77,10 +71,6 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
 
     @Override
     public void onPurchaseAlreadyDone() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
         finish();
     }
 

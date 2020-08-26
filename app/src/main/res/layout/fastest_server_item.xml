@@ -7,7 +7,7 @@
 
         <variable
             name="navigator"
-            type="net.ivpn.client.ui.serverlist.ServersListNavigator" />
+            type="net.ivpn.client.ui.serverlist.AdapterListener" />
         
         <variable
             name="isServerListEmpty"
@@ -16,12 +16,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@{isServerListEmpty, default = wrap_content}"
+        android:layout_height="wrap_content"
+        android:background="@color/servers_card_background"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="64dp"
             android:background="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
 
@@ -38,18 +39,19 @@
                     android:id="@+id/server_flag"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="18dp"
+                    android:layout_marginStart="20dp"
+                    android:tint="@color/servers_icon_color"
                     android:src="@drawable/ic_fastest_server" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:layout_marginStart="14dp"
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/connect_fastest_server"
-                    android:textColor="@color/color_server_name_active"
-                    android:textSize="16sp"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="15sp"
                     android:textStyle="normal" />
 
                 <Space
@@ -59,82 +61,19 @@
             </LinearLayout>
 
             <FrameLayout
-                android:layout_width="56dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="@{() -> navigator.onFastestServerSettings()}">
+                android:onClick="@{() -> navigator.onFastestServerSettingsClick()}">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_settings"
-                    android:tint="#B4C1CC" />
+                    android:src="@drawable/ic_settings_filled"
+                    android:tint="@color/servers_icon_color" />
             </FrameLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#4cb4c1cc" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:visibility="@{isServerListEmpty ? View.VISIBLE : View.GONE}"
-            android:orientation="vertical">
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6" />
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/empty_locations" />
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="8sp"
-                android:text="@string/favourites_no_title"
-                android:textColor="#26394d"
-                android:textSize="20sp"
-                android:textStyle="normal" />
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="8sp"
-                android:text="@string/favourites_no_description"
-                android:textColor="#6b8299"
-                android:textSize="16sp"
-                android:textStyle="normal" />
-
-            <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6" />
-
         </LinearLayout>
     </LinearLayout>
 </layout>

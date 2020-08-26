@@ -2,6 +2,10 @@ package net.ivpn.client.vpn.controller;
 
 import android.os.CountDownTimer;
 
+import net.ivpn.client.ui.connect.ConnectionState;
+
+import org.jetbrains.annotations.Nullable;
+
 class PauseTimer {
     private static final long TICK = 1000L;
 
@@ -11,6 +15,15 @@ class PauseTimer {
 
     PauseTimer(PauseTimerListener listener) {
         this.listener = listener;
+    }
+
+    VpnStateListener getListener() {
+        return new VpnStateListenerImpl() {
+            @Override
+            public void onConnectionStateChanged(@Nullable ConnectionState state) {
+                super.onConnectionStateChanged(state);
+            }
+        };
     }
 
     void stopTimer() {

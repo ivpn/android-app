@@ -3,71 +3,48 @@
     <color name="colorPrimary">#398FE6</color>
     <color name="colorPrimaryDark">#0062b3</color>
     <color name="colorAccent">#FB3841</color>
+    <color name="colorControlNormal">#7D91A5</color>
+    <color name="colorOnSurface">#000000</color>
+
+    <color name="color_toolbar">#398FE6</color>
+    <color name="error">#b00020</color>
 
     <color name="color_tutorial_link">#6b8299</color>
-    <color name="color_tutorial_descr">#374D66</color>
-    <color name="color_tutorial_title">#335266</color>
     <color name="color_tutorial_circle_active">#334C66</color>
     <color name="color_tutorial_circle_passive">#32334C66</color>
     <color name="color_opacity_black_background">#b0ffffff</color>
-
-    <color name="color_trial_link">#6B8299</color>
-    <color name="color_trial_common">#374D66</color>
 
     <color name="green_light">#21D06A</color>
     <color name="yellow_light">#FFC933</color>
     <color name="red_light">#FA2F38</color>
 
     <!--Settings-->
-    <color name="color_section_text">#98A5B3</color>
     <color name="color_section_divider">#4CB4C1CC</color>
-    <color name="color_section_fill">#F5F9FC</color>
-    <color name="color_arrow_right">#98A5B3</color>
     <color name="color_description_text">#335266</color>
-    <color name="color_settings_option_description_text">#98a5b3</color>
-    <color name="color_settings_action">#398FE6</color>
-    <color name="color_switch_btn">#21D074</color>
     <color name="color_settings_background">#F5F9FC</color>
 
     <!--Servers Sync-->
     <color name="servers_sync">#6B8299</color>
 
     <!--Connect-->
-    <color name="color_connect_subscription_trial_background">#F3F3F3</color>
-    <color name="color_connect_subscription_font">#3F576D</color>
     <color name="color_connect_connection_status">#B4C1CC</color>
-    <color name="color_connection_user_hint">#98A5B3</color>
 
     <!--Networks Behaviour-->
-    <color name="color_default_background">#f7f7f7</color>
-    <color name="color_trusted_background">#bbf0d4</color>
-    <color name="color_untrusted_background">#f0bbbb</color>
-    <color name="color_default_untrusted_background">#fbf2f2</color>
-    <color name="color_default_trusted_background">#edffed</color>
-    <color name="color_trusted_text">#559341</color>
-    <color name="color_untrusted_text">#D35353</color>
-    <color name="color_default_text">#335266</color>
-    <color name="color_none_text">#335266</color>
+
+    <color name="color_trusted_text">#398FE6</color>
+    <color name="color_untrusted_text">#FF6258</color>
+    <color name="color_default_text">#949CA5</color>
+    <color name="color_none_text">#949CA5</color>
 
     <!--ConnectAnimation-->
     <color name="color_animation_gray">#B4C1CC</color>
     <color name="color_animation_main">#398FE6</color>
-    <color name="color_animation_shadow_color">#40000000</color>
     <color name="color_animation_main_opacity">#80398FE6</color>
     <color name="color_animation_white">#FFFFFF</color>
     <color name="color_animation_background">#F5F9FC</color>
 
-    <!--Servers list-->
-    <color name="color_server_name_active">#335166</color>
-    <color name="color_server_name_passive">#98a5b3</color>
-
-    <!--Private Emails-->
-    <color name="color_private_email_passive">#b4c1cc</color>
-
-    <!--Version 2-->
-    <color name="accent_color">#449CF8</color>
-
-    <color name="wave_connected">#449CF8</color>
+    <color name="wave_connected">#398FE6</color>
+    <color name="wave_progress">#425D6D</color>
     <color name="wave_disconnected">#FF6258</color>
     
     <color name="sliding_panel_drag_view">#D3DFE6</color>
@@ -75,7 +52,6 @@
     <color name="sliding_panel_icon">#2A394B</color>
     <color name="sliding_panel_line_color">#2B8B9AAB</color>
     <color name="sliding_panel_text_color">#2A394B</color>
-    <color name="sliding_panel_text_color_disabled">#B32A394B</color>
     <color name="sliding_panel_arrow">#8B9AAB</color>
     <color name="sliding_panel_gray_background">#F2F3F6</color>
     <color name="sliding_panel_gray_hint_text">#8494A5</color>
@@ -87,7 +63,100 @@
     <color name="connect_map_fab_icon">#96A7BB</color>
     <color name="sliding_panel_card_background">#FFFFFF</color>
 
-    <color name="primary">#4C8BF5</color>
+    <color name="primary">#398FE6</color>
     <color name="accent">#FF6258</color>
+
+    <color name="disabled">#8D8D8E</color>
+
+    <!--Dialog-->
+    <color name="dialogue_map_background">#ffffff</color>
+    <color name="dialogue_background">#ffffff</color>
+    <color name="dialogue_title">#DE2A394B</color>
+    <color name="dialogue_button_text">#ffffff</color>
+    <color name="dialogue_text">#DE2A394B</color>
+    <color name="dialogue_button">#4C8BF5</color>
+
+    <color name="settings_card_background">#FFFFFF</color>
+
+    <color name="settings_section_title">#4C8BF5</color>
+    <color name="settings_option_title_text">#2A394B</color>
+    <color name="settings_option_description_text">#802A394B</color>
+
+    <color name="split_item_background">#ffffff</color>
+    <color name="split_text_color">#2A394B</color>
+    <color name="split_line_color">#2B8B9AAB</color>
+
+    <color name="always_on_background">#ffffff</color>
+    <color name="always_on_title">#335266</color>
+
+    <color name="network_protection_text_color_opacity">#992A394B</color>
+    <color name="network_protection_text_color">#2A394B</color>
+    <color name="network_protection_background">#F5F9FC</color>
+    <color name="network_protection_card_background">#FFFFFF</color>
+
+    <color name="protocol_text_color">#2A394B</color>
+    <color name="protocol_background">#F5F9FC</color>
+    <color name="protocol_card_background">#FFFFFF</color>
+
+    <color name="custom_dns_text_color">#2A394B</color>
+    <color name="custom_dns_background">#FFFFFF</color>
+
+    <color name="servers_text_color">#2A394B</color>
+    <color name="servers_text_color_hint">#802A394B</color>
+    <color name="servers_background">#F2F3F6</color>
+    <color name="servers_card_background">#FFFFFF</color>
+    <color name="servers_icon_color">#98A5B3</color>
+
+    <color name="login_text_color">#2A394B</color>
+    <color name="login_text_color_invert">#FFFFFF</color>
+    <color name="login_background">#FFFFFF</color>
+    <color name="login_color_on_surface">#2A394B</color>
+
+    <color name="sign_up_text_color">#2A394B</color>
+    <color name="sign_up_text_color_invert">#FFFFFF</color>
+    <color name="sign_up_background">#FFFFFF</color>
+
+    <color name="bottom_sheet_background">#FFFFFF</color>
+    <color name="bottom_sheet_text">#2A394B</color>
+
+    <color name="sync_background">#FFFFFF</color>
+    <color name="sync_text">#2A394B</color>
+
+    <color name="account_text">#2A394B</color>
+    <color name="account_background">#FFFFFF</color>
+    <color name="account_active_background">#4caf50</color>
+    <color name="account_text_invert">#FFFFFF</color>
+    <color name="account_line">#2B8B9AAB</color>
+
+    <color name="tab_text_color">#99FFFFFF</color>
+    <color name="tab_selected_text_color">#FFFFFF</color>
+
+    <color name="web_view_background">#FFFFFF</color>
+
+    <color name="antitracker_text">#2A394B</color>
+    <color name="antitracker_background">#FFFFFF</color>
+    <color name="antitracker_card_background">#FFFFFF</color>
+
+    <color name="map_label">#6B6B6B</color>
+    <color name="map_label_shadow">#FFFFFF</color>
+    <color name="map_background">#CBD2D3</color>
+    <color name="map_dialogue_location_disabled_indicator">#4D2A394B</color>
+
+    <color name="sliding_panel_shadow_1">#00CCCCCC</color>
+    <color name="sliding_panel_shadow_2">#10CCCCCC</color>
+    <color name="sliding_panel_shadow_3">#20d5d5d5</color>
+    <color name="sliding_panel_shadow_4">#30cbcbcb</color>
+    <color name="sliding_panel_shadow_5">#50bababa</color>
+
+    <color name="dialog_shadow_1">#00CCCCCC</color>
+    <color name="dialog_shadow_2">#10CCCCCC</color>
+    <color name="dialog_shadow_3">#15CCCCCC</color>
+    <color name="dialog_shadow_4">#20CCCCCC</color>
+    <color name="dialog_shadow_5">#25CCCCCC</color>
+    <color name="dialog_shadow_6">#30CCCCCC</color>
+    <color name="dialog_shadow_7">#35CCCCCC</color>
+    <color name="dialog_shadow_8">#40CCCCCC</color>
+
+    <color name="dialog_shadow_no_opacity">#CCCCCC</color>
 
 </resources>

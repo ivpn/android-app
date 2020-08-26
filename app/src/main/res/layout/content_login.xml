@@ -8,149 +8,142 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.login.LoginViewModel" />
+            type="net.ivpn.client.v2.login.LoginViewModel" />
 
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/login_background"
         android:paddingTop="?attr/actionBarSize">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Space
+                android:id="@+id/space1"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:fillViewport="true"
-                android:orientation="vertical"
-                android:overScrollMode="never">
+                app:layout_constraintBottom_toTopOf="@+id/textView13"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1"
+                app:layout_optimizationLevel="chains" />
 
-                    <androidx.legacy.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.7"
-                        android:minHeight="20dp" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0.6"
+                android:text="@string/auth_log_in_label"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:chainUseRtl="false"
+                app:layout_constraintBottom_toTopOf="@+id/outlinedTextField"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/space1"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1"
+                app:layout_optimizationLevel="chains" />
 
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/login_image" />
-
-                    <androidx.legacy.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.7"
-                        android:minHeight="20dp" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:hint="@string/sign_in_username_hint"
-                        android:theme="@style/TextInputLayoutAppTheme"
-                        app:error="@{viewmodel.usernameError}"
-                        app:errorEnabled="true">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/login"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="textVisiblePassword"
-                            android:text="@={viewmodel.username}"
-                            android:theme="@style/EditTextTheme" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:id="@+id/description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="14sp"
-                        android:textColor="#98AABA"
-                        android:letterSpacing="-0.03"/>
-
-                    <androidx.legacy.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:minHeight="5dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:textSize="14sp"
-                        android:textColor="#98AABA"
-                        android:letterSpacing="-0.03"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/login_no_account"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_gravity="center_horizontal"
-                        android:textAllCaps="true"
-                        android:textSize="14sp"
-                        android:textColor="#398FE6"
-                        android:onClick="signUp"
-                        android:text="@string/login_switch_to_sign_up"/>
-
-                    <androidx.legacy.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.5"
-                        android:minHeight="5dp" />
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/login_btn"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextField"
+                style="@style/EditText.OutlinedBox"
+                android:theme="@style/TextInputLayoutAppTheme"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorPrimary"
-                android:elevation="5dp"
-                android:onClick="login">
+                android:layout_marginEnd="16dp"
+                android:hint="@string/sign_in_username_hint"
+                android:orientation="vertical"
+                app:chainUseRtl="false"
+                app:endIconDrawable="@drawable/ic_qr_code"
+                app:endIconMode="custom"
+                app:endIconTint="@color/primary"
+                app:error="@{viewmodel.usernameError}"
+                app:errorIconDrawable="@null"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/error"
+                app:errorIconTint="@color/error"
+                app:layout_constraintBottom_toTopOf="@+id/space2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_optimizationLevel="chains">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-medium"
-                    android:letterSpacing="0.04"
-                    android:text="@string/sign_in_btn_login"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-            </FrameLayout>
+                    android:imeOptions="actionDone"
+                    android:inputType="textVisiblePassword"
+                    android:text="@={viewmodel.username}"
+                    android:textColor="@color/login_text_color" />
 
-        </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/auth_log_in"
+                app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/space2"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_optimizationLevel="chains" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_up_button"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/auth_create_new_account"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_button"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_optimizationLevel="chains" />
+
+            <Space
+                android:id="@+id/space2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/login_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outlinedTextField"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1"
+                app:layout_optimizationLevel="chains" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/color_opacity_black_background"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/color_opacity_black_background"
             android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
 
             <ProgressBar

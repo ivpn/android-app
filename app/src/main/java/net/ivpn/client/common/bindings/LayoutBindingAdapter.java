@@ -8,9 +8,9 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.vpn.model.NetworkState;
 
 public class LayoutBindingAdapter {
-    @BindingAdapter({"app:currentState", "app:defaultState"})
+    @BindingAdapter({"currentState", "defaultState"})
     public static void setBackgroundColor(LinearLayout view, NetworkState currentState, NetworkState defaultState) {
         Resources resources = IVPNApplication.getApplication().getResources();
-        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
+//        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
     }
 }

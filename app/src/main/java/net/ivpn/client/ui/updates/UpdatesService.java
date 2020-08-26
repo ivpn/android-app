@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import net.ivpn.client.R;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -167,7 +168,7 @@ public class UpdatesService extends Service implements ServiceConstants {
     }
 
     private PendingIntent getContentIntent() {
-        Intent intent = new Intent(this, UpdatesActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

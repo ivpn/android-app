@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 import javax.inject.Inject;
 
+import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +33,10 @@ public class RequestWrapper<T> implements Callback<T> {
     private static final String SLASH = "/";
 
     private LinkedList<String> ips;
-    private String lastUsedIp;
     private String testingIp;
+    private String startIp;
 
-    private boolean isCancelled;
+    private volatile boolean isCancelled;
 
     private CallBuilder<T> callBuilder;
     private OkHttpClient httpClient;
@@ -61,8 +62,11 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     void perform() {
+        testingIp = getIps().getFirst();
+        startIp = testingIp;
         LOGGER.info("Perform with testingIp = " + testingIp);
         String baseUrl = generateURL(testingIp);
+        LOGGER.info("Perform with baseUrl = " + baseUrl);
         perform(baseUrl);
     }
 
@@ -95,13 +99,12 @@ public class RequestWrapper<T> implements Callback<T> {
             testingIp = getIps().get(indexOf + 1);
         }
 
-        if ((testingIp == null && getLastUsedIp() == null)
-                || (testingIp != null && testingIp.equals(getLastUsedIp()))) {
+        if ((testingIp == null && startIp == null)
+                || (testingIp != null && testingIp.equals(startIp))) {
             listener.onError(throwable);
             return;
         }
 
-        LOGGER.info("Perform with testingIp = " + testingIp);
         baseUrl = generateURL(testingIp);
         perform(baseUrl);
     }
@@ -126,11 +129,11 @@ public class RequestWrapper<T> implements Callback<T> {
         LOGGER.info("Response received");
         if (isCancelled || response == null || listener == null) return;
 
-        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
-        if ((getTestingIp() == null && getLastUsedIp() != null) || (getTestingIp() != null && !getTestingIp().equals(getLastUsedIp()))) {
-            LOGGER.info("Set " + getTestingIp() + " as stable");
-            settings.setLastUsedIp(getTestingIp());
-        }
+//        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
+//        if ((getTestingIp() == null && getLastUsedIp() != null) || (getTestingIp() != null && !getTestingIp().equals(getLastUsedIp()))) {
+//            LOGGER.info("Set " + getTestingIp() + " as stable");
+//            settings.setLastUsedIp(getTestingIp());
+//        }
 
         if (response.code() == Responses.SUCCESS) {
             listener.onSuccess(response.body());
@@ -158,19 +161,7 @@ public class RequestWrapper<T> implements Callback<T> {
         Call<T> createCall(IVPNApi api);
     }
 
-    private String getLastUsedIp() {
-        if (lastUsedIp == null) {
-            lastUsedIp = settings.getLastUsedIp();
-        }
-
-        return lastUsedIp;
-    }
-
     private String getTestingIp() {
-        if (testingIp == null) {
-            testingIp = getLastUsedIp();
-        }
-
         return testingIp;
     }
 

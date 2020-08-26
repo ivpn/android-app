@@ -139,7 +139,12 @@ public class Ping {
                 }
 
                 if (pingListener != null) {
-                    pingListener.onFinished(new PingStats(Ping.this.address, pingsCompleted, noLostPackets, totalPingTime, minPingTime, maxPingTime));
+                    pingListener.onFinished(
+                            new PingStats(
+                                    Ping.this.address, pingsCompleted, noLostPackets,
+                                    totalPingTime, minPingTime, maxPingTime
+                            )
+                    );
                 }
 
             }

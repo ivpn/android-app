@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.VpnService;
 import android.os.Build;
-import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.local.KillSwitchService;
 import net.ivpn.client.vpn.local.PermissionActivity;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -316,11 +313,6 @@ public class GlobalBehaviorController implements ServiceConstants {
     }
 
     private void openSettings() {
-        Context context = IVPNApplication.getApplication();
-
-        Intent intent = new Intent(context, SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 
     private boolean isKillSwitchEnabled() {

@@ -11,7 +11,7 @@
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="6sp"
         android:text="@string/dialogs_time_picker_title"
-        android:textColor="#335266"
+        android:textColor="@color/dialogue_title"
         android:textSize="18sp"
         android:textStyle="normal" />
 
@@ -21,7 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner" />
+        android:timePickerMode="spinner"
+        android:numbersTextColor="@color/primary"/>
 
     <LinearLayout
         android:layout_width="match_parent"

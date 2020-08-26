@@ -8,13 +8,13 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.serverlist.all.ServersListViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ServerListViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@color/servers_background">
 
         <ProgressBar
             style="?indeterminateProgressStyle"
@@ -28,6 +28,7 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:onRefresh="@{viewmodel}"
             android:visibility="@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}"
             app:refreshing="@{viewmodel.dataRefreshing}">
@@ -37,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:forbiddenItem="@{viewmodel.forbiddenServer}"
-                app:items="@{viewmodel.obsServers}" />
+                app:items="@{viewmodel.all}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </FrameLayout>

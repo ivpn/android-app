@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.v2.viewmodel.SignUpViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/sign_up_background"
+        android:paddingTop="?attr/actionBarSize">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/choose_product_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_description"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider_1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#4798A5B3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choose_product_description" />
+
+            <TextView
+                android:id="@+id/standard_plan_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.04"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/sign_up_text_color"
+                android:text="@string/sign_up_product_standard_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_2_devices"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/standard_plan_title" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_7_devices"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/pro_plan_title" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView18"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView18"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView20"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/textView20"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView16"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView27"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/textView27"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView17"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView28"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/textView28"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView19"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView19"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView18"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView23"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/textView21"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView26"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/textView26"
+                app:layout_constraintVertical_bias="0.499999"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_openvpn"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_wireguard"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_openvpn"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_wireguard"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/standard_plan_title" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_multihop"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView21"
+                app:layout_constraintTop_toBottomOf="@+id/pro_plan_title" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_port_forwarding"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_antitracker"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:alpha="0.6"
+                android:text="@string/sign_up_product_antitracker"
+                android:textColor="@color/login_text_color"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+            <Button
+                android:id="@+id/standard_plan_button"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Select"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+            <Button
+                android:id="@+id/pro_plan_button"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Select"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.04"
+                android:text="From: $5/month"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/sign_up_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.04"
+                android:text="From: $5/month"
+                android:textColor="@color/sign_up_text_color"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+            <View
+                android:id="@+id/divider_2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="#4798A5B3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/standard_plan_button" />
+
+            <TextView
+                android:id="@+id/pro_plan_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:letterSpacing="0.04"
+                android:text="@string/sign_up_product_pro_title"
+                android:textAllCaps="true"
+                android:textColor="@color/sign_up_text_color"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_2" />
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView24"
+                app:flow_verticalBias="0.5"
+                app:srcCompat="@drawable/ic_multiply" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="16dp"
+                android:tint="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/textView25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView25"
+                app:srcCompat="@drawable/ic_multiply" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

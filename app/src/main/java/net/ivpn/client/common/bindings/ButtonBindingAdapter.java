@@ -5,7 +5,7 @@ import android.widget.Button;
 
 public class ButtonBindingAdapter {
 
-    @BindingAdapter("app:enabled")
+    @BindingAdapter("enabled")
     public static void setImageUri(Button view, boolean isEnabled) {
         view.setEnabled(isEnabled);
     }

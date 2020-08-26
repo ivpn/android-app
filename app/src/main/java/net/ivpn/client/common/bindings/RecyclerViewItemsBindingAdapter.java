@@ -1,21 +1,20 @@
 package net.ivpn.client.common.bindings;
 
-import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.rest.data.privateemails.Email;
-import net.ivpn.client.ui.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
-import net.ivpn.client.ui.privateemails.PrivateEmailsRecyclerViewAdapter;
-import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
 import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
 import net.ivpn.client.ui.split.SplitTunnelingRecyclerViewAdapter;
 import net.ivpn.client.ui.split.data.ApplicationItem;
+import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
+import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
@@ -26,23 +25,23 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class RecyclerViewItemsBindingAdapter {
 
-    @BindingAdapter("app:items")
+    @BindingAdapter("items")
     public static void setItems(RecyclerView recyclerView, List<Server> items) {
-        ServersRecyclerViewAdapter adapter = (ServersRecyclerViewAdapter) recyclerView.getAdapter();
+        ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.replaceData(items);
         }
     }
 
-    @BindingAdapter("app:forbiddenItem")
+    @BindingAdapter("forbiddenItem")
     public static void setForbiddenItem(RecyclerView recyclerView, Server server) {
-        ServersRecyclerViewAdapter adapter = (ServersRecyclerViewAdapter) recyclerView.getAdapter();
+        ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setForbiddenServer(server);
         }
     }
 
-    @BindingAdapter("app:servers")
+    @BindingAdapter("servers")
     public static void setServerItems(RecyclerView recyclerView, List<Server> servers) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -50,7 +49,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:excludedServers")
+    @BindingAdapter("excludedServers")
     public static void setExcludedItems(RecyclerView recyclerView, List<Server> excludedServers) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -58,15 +57,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:emails")
-    public static void setEmails(RecyclerView recyclerView, List<Email> emails) {
-        PrivateEmailsRecyclerViewAdapter adapter = (PrivateEmailsRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setEmails(emails);
-        }
-    }
-
-    @BindingAdapter("app:apps")
+    @BindingAdapter("apps")
     public static void setApplicationsList(RecyclerView recyclerView, List<ApplicationItem> apps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -74,7 +65,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:not_allowed_apps")
+    @BindingAdapter("not_allowed_apps")
     public static void setNotAllowedAppsList(RecyclerView recyclerView, List<String> notAllowedApps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -82,7 +73,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:selection_listener")
+    @BindingAdapter("selection_listener")
     public static void setSelectionChangedListener(RecyclerView recyclerView, OnApplicationItemSelectionChangedListener listener) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -90,7 +81,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:fastest_setting_listener")
+    @BindingAdapter("fastest_setting_listener")
     public static void setSelectionChangedListener(RecyclerView recyclerView,
                                                    OnFastestSettingChangedListener listener) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
@@ -99,7 +90,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:wifi_list")
+    @BindingAdapter("wifi_list")
     public static void setWifiList(RecyclerView recyclerView, List<WifiItem> wifiList) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -107,7 +98,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:is_network_feature_enabled")
+    @BindingAdapter("is_network_feature_enabled")
     public static void setIsUntrustedWifiEnabled(RecyclerView recyclerView, boolean isEnabled) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -115,7 +106,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:default_network_state")
+    @BindingAdapter("default_network_state")
     public static void setDefaultNetworkState(RecyclerView recyclerView, NetworkState defaultState) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -123,7 +114,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:mobile_data_state")
+    @BindingAdapter("mobile_data_state")
     public static void setMobileDataNetworkState(RecyclerView recyclerView, NetworkState mobileDataState) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -131,7 +122,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:network_feature_listener")
+    @BindingAdapter("network_feature_listener")
     public static void setNetworkFeatureTouchListener(RecyclerView recyclerView,
                                                       OnNetworkFeatureStateChanged onNetworkFeatureStateChanged) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();

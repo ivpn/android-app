@@ -1,5 +1,7 @@
 package net.ivpn.client.common;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -49,6 +51,7 @@ public class Mapper {
         return new Gson().toJson(ips);
     }
 
+    @Nullable
     public static ErrorResponse errorResponseFrom(String json) {
         if (json == null || json.isEmpty()) return null;
         try {

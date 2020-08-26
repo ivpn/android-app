@@ -14,19 +14,18 @@ import net.ivpn.client.common.Constant
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.ui.updates.UpdatesActivity
 import net.ivpn.client.ui.updates.UpdatesService
 import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import java.net.URL
-import javax.inject.Inject
 import java.util.*
+import javax.inject.Inject
 
 @ApplicationScope
 class UpdateHelper @Inject constructor(
         private val settings: Settings) {
 
-    private val LOGGER = LoggerFactory.getLogger(UpdateHelper::class.java!!)
+    private val LOGGER = LoggerFactory.getLogger(UpdateHelper::class.java)
     private var notificationActionReceiver: BroadcastReceiver? = null
 
     private val currentVersion: String = BuildConfig.VERSION_NAME
@@ -137,9 +136,6 @@ class UpdateHelper @Inject constructor(
 
         val context = IVPNApplication.getApplication()
 
-        val intent = Intent(context, UpdatesActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        context.startActivity(intent)
         skipUpdate()
     }
 

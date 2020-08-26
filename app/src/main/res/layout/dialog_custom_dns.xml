@@ -12,7 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/dialogue_background">
 
         <TextView
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:text="@string/dialogs_custom_dns"
-            android:textColor="#335266"
+            android:textColor="@color/custom_dns_text_color"
             android:textSize="18sp"
             android:textStyle="normal" />
 
@@ -43,6 +44,7 @@
                 android:imeOptions="actionNext"
                 android:gravity="center_horizontal"
                 android:theme="@style/EditTextTheme"
+                android:textColor="@color/custom_dns_text_color"
                 android:text="@={viewmodel.first}"/>
             
             <Space
@@ -55,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dialogs_custom_dns_dot"
                 android:textSize="20sp"
-                android:textColor="#6126394d"
+                android:textColor="@color/custom_dns_text_color"
                 android:translationY="8dp"
                 android:layout_gravity="bottom"
                 android:textStyle="bold"/>
@@ -70,6 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:textColor="@color/custom_dns_text_color"
                 android:inputType="number|textNoSuggestions"
                 android:imeOptions="actionNext"
                 android:gravity="center_horizontal"
@@ -87,7 +90,7 @@
                 android:text="@string/dialogs_custom_dns_dot"
                 android:textSize="20sp"
                 android:translationY="8dp"
-                android:textColor="#6126394d"
+                android:textColor="@color/custom_dns_text_color"
                 android:textStyle="bold"/>
 
             <Space
@@ -102,6 +105,7 @@
                 android:layout_weight="5"
                 android:inputType="number|textNoSuggestions"
                 android:imeOptions="actionNext"
+                android:textColor="@color/custom_dns_text_color"
                 android:gravity="center_horizontal"
                 android:theme="@style/EditTextTheme"
                 android:text="@={viewmodel.third}"/>
@@ -117,7 +121,7 @@
                 android:text="@string/dialogs_custom_dns_dot"
                 android:textSize="20sp"
                 android:translationY="8dp"
-                android:textColor="#6126394d"
+                android:textColor="@color/custom_dns_text_color"
                 android:textStyle="bold"/>
 
             <Space
@@ -132,6 +136,7 @@
                 android:layout_weight="5"
                 android:inputType="number|textNoSuggestions"
                 android:imeOptions="actionDone"
+                android:textColor="@color/custom_dns_text_color"
                 android:gravity="center_horizontal"
                 android:theme="@style/EditTextTheme"
                 android:text="@={viewmodel.forth}"/>
@@ -160,7 +165,7 @@
                 android:padding="5dp"
                 android:text="@string/dialogs_custom_dns_cancel"
                 android:textAllCaps="true"
-                android:textColor="#398fe6"
+                android:textColor="@color/primary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
 
@@ -175,7 +180,7 @@
                 android:padding="5dp"
                 android:text="@string/dialogs_custom_dns_apply"
                 android:textAllCaps="true"
-                android:textColor="#398fe6"
+                android:textColor="@color/primary"
                 android:textSize="14sp"
                 android:textStyle="normal" />
         </LinearLayout>

@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 public class TextInputLayoutBindingAdapter {
 
-    @BindingAdapter("app:error")
+    @BindingAdapter("error")
     public static void setPort(TextInputLayout view, String error) {
         view.setError(error);
     }

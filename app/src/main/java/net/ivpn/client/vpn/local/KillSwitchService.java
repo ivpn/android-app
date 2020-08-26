@@ -12,7 +12,7 @@ import android.os.ParcelFileDescriptor;
 import androidx.core.app.NotificationCompat;
 
 import net.ivpn.client.R;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -218,7 +218,7 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
     }
 
     PendingIntent getGraphPendingIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.rest.data.model.Server;
+import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
 
@@ -18,8 +19,10 @@ public class ServersPreference {
     private static final String CURRENT_ENTER_SERVER = "CURRENT_ENTER_SERVER";
     private static final String CURRENT_EXIT_SERVER = "CURRENT_EXIT_SERVER";
     private static final String SERVERS_LIST = "SERVERS_LIST";
+    private static final String LOCATION_LIST = "LOCATION_LIST";
     private static final String FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST";
     private static final String EXCLUDED_FASTEST_SERVERS = "EXCLUDED_FASTEST_SERVERS";
+    private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
 
     private Preference preference;
     private ProtocolController protocolController;
@@ -51,6 +54,25 @@ public class ServersPreference {
         sharedPreferences.edit()
                 .putString(SERVERS_LIST, Mapper.stringFrom(servers))
                 .apply();
+    }
+
+    void putOpenVPNLocations(List<ServerLocation> locations) {
+        SharedPreferences sharedPreferences = preference.getServersSharedPreferences();
+        sharedPreferences.edit()
+                .putString(LOCATION_LIST, ServerLocation.Companion.stringFrom(locations))
+                .apply();
+    }
+
+    void putWireGuardLocations(List<ServerLocation> locations) {
+        SharedPreferences sharedPreferences = preference.getWireguardServersSharedPreferences();
+        sharedPreferences.edit()
+                .putString(LOCATION_LIST, ServerLocation.Companion.stringFrom(locations))
+                .apply();
+    }
+
+    List<ServerLocation> getServerLocations() {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        return ServerLocation.Companion.from(sharedPreferences.getString(LOCATION_LIST, null));
     }
 
     List<Server> getServersList() {
@@ -121,6 +143,18 @@ public class ServersPreference {
         SharedPreferences sharedPreferences = getProperSharedPreference();
         List<Server> servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null));
         return servers != null ? servers : new ArrayList<>();
+    }
+
+    public boolean getSettingFastestServer() {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true);
+    }
+
+    public void putSettingFastestServer(boolean value) {
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        sharedPreferences.edit()
+                .putBoolean(SETTINGS_FASTEST_SERVER, value)
+                .apply();
     }
 
     private SharedPreferences getProperSharedPreference() {

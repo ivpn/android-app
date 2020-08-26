@@ -26,7 +26,7 @@ public class SnackbarUtil {
         Snackbar snackbar = Snackbar.make(rootView, msg, Snackbar.LENGTH_LONG);
         if (listener != null) {
             snackbar.setAction(action, listener)
-                    .setActionTextColor(resources.getColor(R.color.colorPrimary));
+                    .setActionTextColor(resources.getColor(R.color.primary));
         }
 
         snackbar.show();

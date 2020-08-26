@@ -75,7 +75,7 @@ public class NetworkAdapter extends ArrayAdapter<NetworkState> {
 
         NetworkState state = states[position];
         holder.networkBehavior.setText(state.getTextRes());
-        holder.networkBehavior.setTextColor(context.getResources().getColor(state.getTextColor()));
+        holder.networkBehavior.setTextColor(context.getResources().getColor(state.getColor()));
         if (state.equals(NetworkState.DEFAULT)) {
             holder.networkBehaviorExtra.setVisibility(View.VISIBLE);
             holder.networkBehaviorExtra.setText(defaultState.getTextRes());

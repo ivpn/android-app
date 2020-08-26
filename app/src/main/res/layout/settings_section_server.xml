@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -7,8 +8,12 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="multihop"
+            type="net.ivpn.client.v2.viewmodel.MultiHopViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,6 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/settings_card_background"
             android:orientation="vertical">
 
             <TextView
@@ -26,80 +32,84 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_server" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="14dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/SettingsOptionTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_multi_hop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_multi_hop" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/settings_multi_hop_description"
-                        android:textAlignment="viewStart"
-                        android:textColor="#98a5b3"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/settings_multi_hop_description"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/settings_option_description_text"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_multi_hop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:layout_marginStart="10dp"
-                    android:checked="@{viewmodel.multiHop}"
-                    android:enabled="@{viewmodel.isMultiHopEnabled}"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{multihop.isEnabled}"
+                    android:enabled="@{multihop.isSupported}"
+                    android:thumb="@drawable/common_thumb_selector"
                     android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableMultiHopListener}"
-                    app:onTouch="@{viewmodel.multiHopTouchListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-
-            </LinearLayout>
+                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView10"
+                    app:onChanged="@{multihop.enableMultiHopListener}"
+                    app:onTouch="@{multihop.multiHopTouchListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}"
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="@{viewmodel.fastestServer ? View.GONE : View.VISIBLE}">
+                android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
 
                 <LinearLayout
+                    android:id="@+id/entry_server_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_section_height"
                     android:gravity="center_vertical"
-                    android:onClick="chooseEntryServer"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="@dimen/settings_icon_size"
                         android:layout_height="@dimen/settings_icon_size"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:src="@{viewmodel.enterServer}" />
+                        android:src="@{servers.entryServer}" />
 
                     <TextView
                         android:id="@+id/enter_server_description"
@@ -107,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:text="@{viewmodel.enterServer.getDescription}" />
+                        android:text="@{servers.entryServer.getDescription}" />
 
                     <Space
                         android:layout_width="0dp"
@@ -118,7 +128,7 @@
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@{viewmodel.pingResultEnterServer.getAppropriateLight}" />
+                        android:src="@{servers.pingResultEnterServer.getAppropriateLight}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -127,7 +137,7 @@
                         android:fontFamily="sans-serif"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="5sp"
-                        android:text="@{viewmodel.pingResultEnterServer.formatPing}"
+                        android:text="@{servers.pingResultEnterServer.formatPing}"
                         android:textColor="#98a5b3"
                         android:textSize="15sp"
                         android:textStyle="normal" />
@@ -138,21 +148,21 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
                     android:background="@color/color_section_divider"
-                    android:visibility="@{viewmodel.multiHop ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
 
                 <LinearLayout
+                    android:id="@+id/exit_server_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_section_height"
+                    android:layout_height="85dp"
                     android:gravity="center_vertical"
-                    android:onClick="chooseExitServer"
                     android:orientation="horizontal"
-                    android:visibility="@{viewmodel.multiHop ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{multihop.isEnabled()  ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="@dimen/settings_icon_size"
                         android:layout_height="@dimen/settings_icon_size"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:src="@{viewmodel.exitServer}" />
+                        android:src="@{servers.exitServer}" />
 
                     <TextView
                         android:id="@+id/exit_server_description"
@@ -160,7 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/settings_margin_left"
-                        android:text="@{viewmodel.exitServer.getDescription}" />
+                        android:text="@{servers.exitServer.getDescription}" />
 
                     <Space
                         android:layout_width="0dp"
@@ -171,7 +181,7 @@
                         android:layout_width="8dp"
                         android:layout_height="8dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@{viewmodel.pingResultExitServer.getAppropriateLight}" />
+                        android:src="@{servers.pingResultExitServer.getAppropriateLight}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,7 +190,7 @@
                         android:fontFamily="sans-serif"
                         android:letterSpacing="-0.03"
                         android:lineSpacingExtra="5sp"
-                        android:text="@{viewmodel.pingResultExitServer.formatPing}"
+                        android:text="@{servers.pingResultExitServer.formatPing}"
                         android:textColor="#98a5b3"
                         android:textSize="15sp"
                         android:textStyle="normal" />
@@ -188,17 +198,18 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/fastest_server_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="chooseEntryServer"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.fastestServer ? View.VISIBLE : View.GONE}">
+                android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
 
                 <ImageView
                     android:layout_width="@dimen/settings_icon_size"
                     android:layout_height="@dimen/settings_icon_size"
                     android:layout_marginStart="@dimen/settings_margin_left"
+                    android:tint="@color/settings_option_description_text"
                     android:src="@drawable/ic_fastest_server" />
 
                 <TextView
@@ -220,15 +231,16 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/protocol_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/settings_margin_left"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:onClick="vpnProtocol"
-                android:background="?android:attr/selectableItemBackground"
                 android:orientation="vertical"
-                android:paddingBottom="14dp"
-                android:paddingTop="14dp">
+                android:paddingStart="@dimen/settings_margin_left"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
 
                 <TextView
                     style="@style/SettingsOptionTitle"
@@ -240,8 +252,8 @@
                     style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="1dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/settings_protocol_selection_description"
                     android:textAlignment="viewStart" />
 
