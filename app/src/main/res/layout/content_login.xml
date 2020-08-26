@@ -55,6 +55,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outlinedTextField"
                 style="@style/EditText.OutlinedBox"
+                android:theme="@style/TextInputLayoutAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -98,7 +99,6 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/auth_log_in"
-                android:textColor="@color/login_text_color_invert"
                 app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

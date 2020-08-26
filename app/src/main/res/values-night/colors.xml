@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorOnSurface">#FFFFFF</color>
     <!--Networks Behaviour-->
     <color name="color_trusted_text">#398FE6</color>
     <color name="color_untrusted_text">#ed7e79</color>
     <color name="color_default_text">#99FFFFFF</color>
     <color name="color_none_text">#99FFFFFF</color>
+    <color name="colorControlNormal">#7D91A5</color>
 
     <color name="color_settings_background">#000000</color>
 
@@ -93,6 +95,7 @@
     <color name="login_text_color">#FFFFFF</color>
     <color name="login_text_color_invert">#121212</color>
     <color name="login_background">#121212</color>
+    <color name="login_color_on_surface">#FFFFFF</color>
 
     <color name="sign_up_text_color">#FFFFFF</color>
     <color name="sign_up_text_color_invert">#121212</color>

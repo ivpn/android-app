@@ -6,9 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-<!--        <item name="colorOnSurface">@color/color_on_surface</item>-->
-<!--        <item name="android:textColorPrimary">@color/textColorPrimary</item>-->
-<!--        <item name="colorControlNormal">@color/textColorPrimary</item>-->
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="android:textColorPrimary">@color/colorControlNormal</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
         <!--<item name="textColorError"> @color/colorAccent </item>-->
     </style>
@@ -150,18 +150,12 @@
         <item name="android:textColor">#26394D</item>
     </style>
 
-    <style name="TextInputLayoutAppTheme" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <!-- Hint color and label color in FALSE initState -->
-        <item name="android:textColorHint">#6126394d</item>
-        <!-- Label color in TRUE initState and bar color FALSE and TRUE InitState -->
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlNormal">#6126394d</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+    <style name="TextInputLayoutAppTheme">
+        <item name="colorOnSurface">@color/login_color_on_surface</item>
     </style>
 
     <style name="EditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintEnabled">true</item>
-        <item name="hintTextAppearance">@style/EditText.HintText</item>
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="colorPrimary">@color/primary</item>
