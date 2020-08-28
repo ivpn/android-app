@@ -18,6 +18,8 @@
     <color name="yellow_light">#FFC933</color>
     <color name="red_light">#FA2F38</color>
 
+    <color name="dialogScrim">#80323232</color>
+
     <!--Settings-->
     <color name="color_section_divider">#4CB4C1CC</color>
     <color name="color_description_text">#335266</color>

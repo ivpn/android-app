@@ -472,6 +472,8 @@
     <string name="sign_up_period_3_year">3 year</string>
     <string name="sign_up_period_continue_to_payment">Continue to payment</string>
     <string name="sign_up_progress">Querying available products…</string>
+    
+    <string name="sign_up_account_created">Your account has been created.</string>
 
     <string name="account_label">Account Id</string>
     <string name="account_active">Active</string>

@@ -28,6 +28,7 @@ import net.ivpn.client.v2.serverlist.favourite.FavouriteServerListRecyclerViewAd
 import net.ivpn.client.v2.serverlist.favourite.FavouriteServersListFragment;
 import net.ivpn.client.v2.serverlist.holders.ServerViewHolder;
 import net.ivpn.client.v2.settings.SettingsFragment;
+import net.ivpn.client.v2.signup.SignUpFinishFragment;
 import net.ivpn.client.v2.signup.SignUpPeriodFragment;
 import net.ivpn.client.v2.signup.SignUpProductFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
@@ -124,6 +125,8 @@ public interface ActivityComponent {
     void inject(SignUpProductFragment fragment);
 
     void inject(SignUpPeriodFragment fragment);
+
+    void inject(SignUpFinishFragment fragment);
 
     void inject(MapView map);
 

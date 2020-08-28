@@ -9,11 +9,10 @@
             type="net.ivpn.client.ui.billing.BillingViewModel" />
     </data>
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/dialogScrim"
         android:clickable="true"
         android:focusable="true"
         android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
@@ -22,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/dialog_background"
             android:orientation="vertical">
 
             <ProgressBar

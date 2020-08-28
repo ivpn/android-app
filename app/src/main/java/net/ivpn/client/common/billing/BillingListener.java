@@ -17,4 +17,8 @@ public interface BillingListener {
 
     void onPurchaseAlreadyDone();
 
+    void onCreateAccountFinish();
+
+    void onAddFundsFinish();
+
 }

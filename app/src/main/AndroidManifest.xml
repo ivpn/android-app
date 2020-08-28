@@ -67,7 +67,7 @@
         <activity
             android:name=".ui.billing.BillingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
+            android:theme="@style/AppTheme.DialogNoActionBar" />
 
         <activity
             android:name=".v2.qr.QRActivity"

@@ -113,6 +113,7 @@ public class BillingManagerWrapper {
         billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku, 0);
     }
 
+    //ToDo It's obsolete logic, remove in future
     public void checkSkuDetails() {
         LOGGER.info("Query sku details...");
 
@@ -157,7 +158,8 @@ public class BillingManagerWrapper {
     public void validatePurchase() {
         String login = userPreference.getUserLogin();
         if (login == null || login.isEmpty()) {
-            startNewPurchase();
+            LOGGER.info("Start new purchase");
+            createNewAccount();
         } else {
             addFundsRequest();
         }
@@ -187,7 +189,7 @@ public class BillingManagerWrapper {
 //        });
     }
 
-    private void startNewPurchase() {
+    private void createNewAccount() {
         //ToDo SET REAL VALUE
         NewAccountRequestBody requestBody = new NewAccountRequestBody("IVPN Standard");
         Request<NewAccountResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
@@ -202,17 +204,23 @@ public class BillingManagerWrapper {
             @Override
             public void onError(Throwable throwable) {
                 LOGGER.error("ERROR, throwable = " + throwable);
+                setPurchaseState(PurchaseState.DONE);
             }
 
             @Override
             public void onError(String error) {
                 LOGGER.error("ERROR, error = " + error);
+                setPurchaseState(PurchaseState.DONE);
             }
         });
     }
 
     private void initialPayment(NewAccountResponse response) {
-
+        if (response.getStatus() == Responses.SUCCESS) {
+            userPreference.putUserLogin(response.getAccountId());
+            setPurchaseState(PurchaseState.DONE);
+        }
+        setPurchaseState(PurchaseState.DONE);
     }
 
     private void addFundsRequest() {
@@ -300,6 +308,12 @@ public class BillingManagerWrapper {
         }
     }
 
+    private void finishCreateAccount() {
+        for (BillingListener listener : listeners) {
+            listener.onCreateAccountFinish();
+        }
+    }
+
     private void saveSensitiveData(Purchase purchase) {
         purchasePreference.putPurchaseProductId(purchase.getSku());
         purchasePreference.putPurchaseToken(purchase.getPurchaseToken());
@@ -357,7 +371,9 @@ public class BillingManagerWrapper {
     }
 
     public void setBillingListener(BillingListener listener) {
-        listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
 
         listener.onInitStateChanged(isInit, error);
     }

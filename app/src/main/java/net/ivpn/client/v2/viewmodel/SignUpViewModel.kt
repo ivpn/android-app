@@ -35,10 +35,6 @@ class SignUpViewModel @Inject constructor(
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
 
-    init {
-//        billingManager.setBillingListener(this)
-    }
-
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
     }
@@ -52,7 +48,6 @@ class SignUpViewModel @Inject constructor(
         twoYear.set(null)
         threeYear.set(null)
 
-        //ToDo Придумать другое решение, listener не удаляеться и накапливается
         billingManager.setBillingListener(this)
     }
 
@@ -129,6 +124,7 @@ class SignUpViewModel @Inject constructor(
                     }
                 }
             }
+
             calculateYearDiscount()
             calculateTwoYearDiscount()
             calculateThreeYearDiscount()

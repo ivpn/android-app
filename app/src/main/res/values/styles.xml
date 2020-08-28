@@ -19,6 +19,15 @@
 <!--        <item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
+    <style name="AppTheme.DialogNoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--        <item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+
     <style name="AppTheme.Transparent" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
