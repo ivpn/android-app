@@ -8,9 +8,6 @@ public class SessionNewRequestBody {
     @SerializedName("username")
     @Expose
     private String username;
-//    @SerializedName("password")
-//    @Expose
-//    private String password;
     @SerializedName("wg_public_key")
     @Expose
     private String wgPublicKey;
@@ -23,7 +20,6 @@ public class SessionNewRequestBody {
 
     public SessionNewRequestBody(String username, String wgPublicKey, Boolean force) {
         this.username = username;
-//        this.password = password;
         this.wgPublicKey = wgPublicKey;
         this.appName = "IVPN for Android";
         this.force = force;
@@ -35,30 +31,6 @@ public class SessionNewRequestBody {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-//    public String getPassword() {
-//        return password;
-//    }
-
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-
-    public String getWgPublicKey() {
-        return wgPublicKey;
-    }
-
-    public void setWgPublicKey(String wgPublicKey) {
-        this.wgPublicKey = wgPublicKey;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
     }
 
     public Boolean getForce() {
@@ -73,7 +45,6 @@ public class SessionNewRequestBody {
     public String toString() {
         return "SessionNewRequestBody{" +
                 "username='" + username + '\'' +
-//                ", password='" + password + '\'' +
                 ", wgPublicKey='" + wgPublicKey + '\'' +
                 ", appName='" + appName + '\'' +
                 ", force=" + force +

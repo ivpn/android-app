@@ -12,6 +12,7 @@ import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
+import net.ivpn.client.common.session.SessionListenerImpl
 import net.ivpn.client.rest.data.session.SessionNewResponse
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import org.slf4j.LoggerFactory
@@ -22,7 +23,7 @@ class AccountViewModel @Inject constructor(
         private val userPreference: UserPreference,
         private val billingManager: BillingManagerWrapper,
         private val sessionController: SessionController
-) : ViewModel(), SessionController.SessionListener {
+) : ViewModel() {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
@@ -43,7 +44,17 @@ class AccountViewModel @Inject constructor(
     var navigator: AccountNavigator? = null
 
     init {
-        sessionController.subscribe(this)
+        sessionController.subscribe(object : SessionListenerImpl() {
+            override fun onRemoveSuccess() {
+                dataLoading.set(false)
+                clearLocalCache()
+            }
+
+            override fun onRemoveError() {
+                dataLoading.set(false)
+                clearLocalCache()
+            }
+        })
     }
 
     fun onResume() {
@@ -83,28 +94,6 @@ class AccountViewModel @Inject constructor(
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
-    }
-
-    override fun onRemoveSuccess() {
-        dataLoading.set(false)
-        clearLocalCache()
-    }
-
-    override fun onRemoveError() {
-        dataLoading.set(false)
-        clearLocalCache()
-    }
-
-    override fun onCreateSuccess(response: SessionNewResponse) {
-    }
-
-    override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
-    }
-
-    override fun onUpdateSuccess() {
-    }
-
-    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
     }
 
     private fun clearLocalCache() {

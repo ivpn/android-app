@@ -1,4 +1,4 @@
-package net.ivpn.client.rest.data.subscription
+package net.ivpn.client.rest.data.addfunds
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

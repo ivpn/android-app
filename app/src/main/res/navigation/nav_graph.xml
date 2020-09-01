@@ -155,5 +155,14 @@
     <fragment
         android:id="@+id/signUpPeriodFragment"
         android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
-        android:label="Add funds to account" />
+        android:label="Add funds to account" >
+        <action
+            android:id="@+id/action_signUpPeriodFragment_to_signUpFinishFragment"
+            app:destination="@id/signUpFinishFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFinishFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpFinishFragment"
+        android:label="Hooray!" />
 </navigation>

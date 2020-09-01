@@ -172,7 +172,10 @@
     <string name="subscription_free_trial">3-days free trial then</string>
     
     <string name="billing_validating">Validating purchase…</string>
-    <string name="billing_error_message">Error retrieving information from Google Play services. Please try again later or use the website to purchase a subscription.</string>
+    <string name="billing_creating_account">Creating account…</string>
+    <string name="billing_creating_new_session">Creating new session…</string>
+    <string name="billing_error_message">Error retrieving information from Google Play services.
+        Please try again later or use the website to purchase a subscription.</string>
 
     <!--Private Emails-->
 
@@ -480,6 +483,9 @@
     <string name="account_type">Account type</string>
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
+    <string name="account_keep_safe">Please make sure you save your Account ID in a safe place, you will use it to connect to the VPN.</string>
+    <string name="account_continue">Continue</string>
+    <string name="account_clipboard">Account ID copied</string>
     
     <string name="map_dialog_not_connected_title">Everyone knows about your location</string>
     <string name="map_dialog_connected_title">No one knows about your location</string>

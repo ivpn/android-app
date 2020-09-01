@@ -57,10 +57,19 @@ public class BillingViewModel implements BillingListener {
             case NONE:
                 dataLoading.set(false);
                 break;
+            case INITIAL_PAYMENT:
             case PURCHASING:
             case VALIDATING:
                 dataLoading.set(true);
                 processDescription.set(context.getString(R.string.billing_validating));
+                break;
+            case CREATE_ACCOUNT:
+                dataLoading.set(true);
+                processDescription.set(context.getString(R.string.billing_creating_account));
+                break;
+            case CREATE_SESSION:
+                dataLoading.set(true);
+                processDescription.set(context.getString(R.string.billing_creating_new_session));
                 break;
             case DONE:
                 dataLoading.set(false);
@@ -83,6 +92,20 @@ public class BillingViewModel implements BillingListener {
     @Override
     public void onPurchaseAlreadyDone() {
         navigator.onPurchaseAlreadyDone();
+    }
+
+    @Override
+    public void onCreateAccountFinish() {
+        if (navigator != null) {
+            navigator.onAccountCreated();
+        }
+    }
+
+    @Override
+    public void onAddFundsFinish() {
+        if (navigator != null) {
+            navigator.onAddFundsFinish();
+        }
     }
 
     public void release() {

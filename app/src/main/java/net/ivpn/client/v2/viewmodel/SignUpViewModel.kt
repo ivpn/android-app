@@ -9,13 +9,17 @@ import net.ivpn.client.common.billing.BillingManagerWrapper
 import net.ivpn.client.common.billing.addfunds.Period
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.UserPreference
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import kotlin.math.floor
 
+//Поправить прогресс (1-ая часть)
+//Использовать одинаковый реквест при логине(Создание сессии)
 @ApplicationScope
 class SignUpViewModel @Inject constructor(
-        private val billingManager: BillingManagerWrapper
+        private val billingManager: BillingManagerWrapper,
+        private val userPreference: UserPreference
 ) : BillingListener {
 
     companion object {
@@ -34,6 +38,10 @@ class SignUpViewModel @Inject constructor(
     val oneYearDiscount = ObservableField<String>()
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
+
+    val userId = ObservableField<String>()
+
+    var navigator: SignUpNavigator? = null
 
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
@@ -54,16 +62,13 @@ class SignUpViewModel @Inject constructor(
     fun purchase(activity: Activity) {
         getProperSkuDetail()?.let {
             billingManager.setSkuDetails(it)
+            billingManager.setProductName(getProperProductName())
             billingManager.startPurchase(activity)
         }
     }
 
     fun getPrice(skuDetails: SkuDetails?): String? {
-        if (skuDetails == null) {
-            return null
-        }
-
-        return skuDetails.price
+        return skuDetails?.price
     }
 
     private fun getProperSkuDetail(): SkuDetails? {
@@ -75,6 +80,14 @@ class SignUpViewModel @Inject constructor(
             Period.THREE_YEARS -> threeYear.get()
             null -> null
         }
+    }
+
+    private fun getProperProductName(): String? {
+        return selectedPlan.get()?.productName
+    }
+
+    fun updateUserId() {
+        userId.set(userPreference.userLogin)
     }
 
     private fun checkSkuDetails() {
@@ -99,35 +112,34 @@ class SignUpViewModel @Inject constructor(
     override fun onCheckingSkuDetailsSuccess(skuDetailsList: MutableList<SkuDetails>?) {
         LOGGER.info("processSkuDetails")
         dataLoading.set(false)
-        if (skuDetailsList == null) {
-            return
-        }
 
-        selectedPlan.get()?.let { plan ->
-            for (skuDetails in skuDetailsList) {
-                LOGGER.info("Check ${skuDetails.sku}")
-                when (skuDetails.sku) {
-                    plan.skuPath + Period.ONE_WEEK.skuPath -> {
-                        oneWeek.set(skuDetails)
-                    }
-                    plan.skuPath + Period.ONE_MONTH.skuPath -> {
-                        oneMonth.set(skuDetails)
-                    }
-                    plan.skuPath + Period.ONE_YEAR.skuPath -> {
-                        oneYear.set(skuDetails)
-                    }
-                    plan.skuPath + Period.TWO_YEARS.skuPath -> {
-                        twoYear.set(skuDetails)
-                    }
-                    plan.skuPath + Period.THREE_YEARS.skuPath -> {
-                        threeYear.set(skuDetails)
+        skuDetailsList?.let {details ->
+            selectedPlan.get()?.let { plan ->
+                for (skuDetails in details) {
+                    LOGGER.info("Check ${skuDetails.sku}")
+                    when (skuDetails.sku) {
+                        plan.skuPath + Period.ONE_WEEK.skuPath -> {
+                            oneWeek.set(skuDetails)
+                        }
+                        plan.skuPath + Period.ONE_MONTH.skuPath -> {
+                            oneMonth.set(skuDetails)
+                        }
+                        plan.skuPath + Period.ONE_YEAR.skuPath -> {
+                            oneYear.set(skuDetails)
+                        }
+                        plan.skuPath + Period.TWO_YEARS.skuPath -> {
+                            twoYear.set(skuDetails)
+                        }
+                        plan.skuPath + Period.THREE_YEARS.skuPath -> {
+                            threeYear.set(skuDetails)
+                        }
                     }
                 }
-            }
 
-            calculateYearDiscount()
-            calculateTwoYearDiscount()
-            calculateThreeYearDiscount()
+                calculateYearDiscount()
+                calculateTwoYearDiscount()
+                calculateThreeYearDiscount()
+            }
         }
     }
 
@@ -135,6 +147,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     override fun onPurchaseAlreadyDone() {
+    }
+
+    override fun onCreateAccountFinish() {
+        navigator?.onCreateAccountFinish()
+    }
+
+    override fun onAddFundsFinish() {
+        navigator?.onAddFundsFinish()
     }
 
     override fun onPurchaseStateChanged(state: BillingManagerWrapper.PurchaseState?) {
@@ -190,5 +210,11 @@ class SignUpViewModel @Inject constructor(
         }
         val discount = floor(100 * (1 - threeYearsPrice / (monthPrice * 36.0)))
         threeYearDiscount.set("-${discount.toInt()}%")
+    }
+
+    interface SignUpNavigator {
+        fun onCreateAccountFinish()
+
+        fun onAddFundsFinish()
     }
 }

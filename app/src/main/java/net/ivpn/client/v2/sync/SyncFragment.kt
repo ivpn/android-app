@@ -59,9 +59,6 @@ class SyncFragment: Fragment(), SyncServersNavigator {
 
     override fun onGetServers() {
         LOGGER.info("Servers information was updated")
-//        val action = SyncFragmentDirections.actionSyncFragmentToConnectFragment()
-//        NavHostFragment.findNavController(this).navigate(action)
-//        NavHostFragment.findNavController(this).popBackStack(R.id.connectFragment, false)
         NavHostFragment.findNavController(this).popBackStack()
     }
 }

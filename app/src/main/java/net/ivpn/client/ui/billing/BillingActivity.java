@@ -84,4 +84,14 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
                     BillingActivity.this.finish();
                 });
     }
+
+    @Override
+    public void onAccountCreated() {
+        finish();
+    }
+
+    @Override
+    public void onAddFundsFinish() {
+        finish();
+    }
 }

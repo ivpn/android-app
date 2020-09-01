@@ -9,4 +9,8 @@ public interface BillingNavigator {
     void onPurchaseAlreadyDone();
 
     void createPurchaseErrorDialog(int errorCode, String errorMessage);
+
+    void onAccountCreated();
+
+    void onAddFundsFinish();
 }

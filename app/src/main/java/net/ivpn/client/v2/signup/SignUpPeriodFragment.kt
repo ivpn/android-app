@@ -18,7 +18,7 @@ import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class SignUpPeriodFragment : Fragment() {
+class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SignUpPeriodFragment::class.java)
@@ -45,6 +45,11 @@ class SignUpPeriodFragment : Fragment() {
         initToolbar()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.navigator = this
+    }
+
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
 
@@ -69,5 +74,13 @@ class SignUpPeriodFragment : Fragment() {
 
     private fun stepBack() {
         NavHostFragment.findNavController(this).popBackStack()
+    }
+
+    override fun onCreateAccountFinish() {
+        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToSignUpFinishFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onAddFundsFinish() {
     }
 }

@@ -1,9 +1,14 @@
 package net.ivpn.client.v2.signup
 
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -12,11 +17,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSignUpFinishBinding
-import net.ivpn.client.databinding.FragmentSignUpPeriodBinding
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
+
 
 class SignUpFinishFragment : Fragment() {
 
@@ -48,16 +54,14 @@ class SignUpFinishFragment : Fragment() {
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
 
-        binding.contentLayout.changeButton.setOnClickListener {
-            stepBack()
+        binding.contentLayout.continueButton.setOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
         }
-        binding.contentLayout.continuePurchase.setOnClickListener {
-            activity?.let {
-                viewModel.purchase(it)
-            }
+        binding.contentLayout.copyBtn.setOnClickListener {
+            copyUserId()
         }
 
-        viewModel.initOffers()
+        viewModel.updateUserId()
     }
 
     private fun initToolbar() {
@@ -67,7 +71,13 @@ class SignUpFinishFragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun stepBack() {
-        NavHostFragment.findNavController(this).popBackStack()
+    private fun copyUserId(){
+        viewModel.userId.get()?.let {userId ->
+            val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClip: ClipData = ClipData.newPlainText("User Id", userId)
+            myClipboard.setPrimaryClip(myClip)
+
+            ToastUtil.toast(R.string.account_clipboard)
+        }
     }
 }

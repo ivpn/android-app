@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:background="@color/dialogScrim"
         android:clickable="true"
+        android:fitsSystemWindows="true"
         android:focusable="true"
         android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
 
@@ -28,8 +29,8 @@
                 style="?indeterminateProgressStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:theme="@style/AppTheme.ProgressBar" />
 
             <TextView
