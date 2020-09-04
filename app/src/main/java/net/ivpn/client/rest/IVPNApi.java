@@ -1,6 +1,8 @@
 package net.ivpn.client.rest;
 
 import net.ivpn.client.rest.data.ServersListResponse;
+import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
+import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
 import net.ivpn.client.rest.data.privateemails.GenerateEmailRequestBody;
@@ -65,5 +67,8 @@ public interface IVPNApi {
 
     @POST("/v4/account/payment/android/initial")
     Call<InitialPaymentResponse> initialPayment(@Body InitialPaymentRequestBody body);
+
+    @POST("/v4/account/payment/android/add")
+    Call<AddFundsResponse> addFunds(@Body AddFundsRequestBody body);
 
 }

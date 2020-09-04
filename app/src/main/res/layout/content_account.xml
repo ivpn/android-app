@@ -12,173 +12,308 @@
             name="account"
             type="net.ivpn.client.v2.viewmodel.AccountViewModel" />
 
+
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/account_background"
-            android:paddingTop="?attr/actionBarSize">
+            android:fillViewport="true">
 
-            <ImageView
-                android:id="@+id/qr"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                app:bitmap="@{account.qrCode}"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_max="160dp"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/username"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_max="160dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/account_background">
 
-            <TextView
-                android:id="@+id/account_id_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:alpha="0.7"
-                android:text="@string/account_label"
-                android:textColor="@color/account_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/qr"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/account_qr_code"
+                    app:bitmap="@{account.qrCode}"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_max="160dp"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/username"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="160dp" />
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="2dp"
-                android:letterSpacing="-0.01"
-                android:text="@{account.username}"
-                android:textColor="@color/account_text"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_id_label" />
+                <TextView
+                    android:id="@+id/account_id_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:alpha="0.7"
+                    android:text="@string/account_label"
+                    android:textColor="@color/account_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/active"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/active_text_background"
-                android:letterSpacing="0.1"
-                android:paddingStart="8dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="4dp"
-                android:text="@string/account_active"
-                android:textAllCaps="true"
-                android:textColor="@color/account_text_invert"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:letterSpacing="-0.01"
+                    android:text="@{account.username}"
+                    android:textColor="@color/account_text"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_id_label" />
 
-            <View
-                android:id="@+id/line"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/account_line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/qr" />
+                <TextView
+                    android:id="@+id/active"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@{account.isActive() ? @drawable/active_text_background : @drawable/inactive_text_background}"
+                    android:letterSpacing="0.1"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="@{account.isActive() ? @string/account_active : @string/account_inactive}"
+                    android:textAllCaps="true"
+                    android:textColor="@{account.isActive() ? @color/account_text_active : @color/account_text_inactive}"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/username" />
 
-            <TextView
-                android:id="@+id/account_type_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:alpha="0.7"
-                android:text="@string/account_type"
-                android:textColor="@color/account_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line" />
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/account_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/copy_btn" />
 
-            <TextView
-                android:id="@+id/account_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:letterSpacing="-0.03"
-                android:text="@{account.accountType}"
-                android:textColor="@color/account_text"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_type_label" />
+                <TextView
+                    android:id="@+id/account_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:alpha="0.7"
+                    android:text="@string/account_type"
+                    android:textColor="@color/account_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line" />
 
-            <View
-                android:id="@+id/line2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/account_line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_label" />
+                <TextView
+                    android:id="@+id/account_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:letterSpacing="-0.03"
+                    android:text="@{account.accountType}"
+                    android:textColor="@color/account_text"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_type_label" />
 
-            <TextView
-                android:id="@+id/active_until_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:alpha="0.7"
-                android:text="@string/account_active_until"
-                android:textColor="@color/account_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line2" />
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/account_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/plan_details" />
 
-            <TextView
-                android:id="@+id/active_until"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:letterSpacing="-0.03"
-                android:text="@{DateUtil.formatDate(account.availableUntil)}"
-                android:textColor="@color/account_text"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/active_until_label" />
+                <TextView
+                    android:id="@+id/active_until_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:alpha="0.7"
+                    android:text="@string/account_active_until"
+                    android:textColor="@color/account_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line2" />
 
-            <View
-                android:id="@+id/line3"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/account_line"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/active_until" />
+                <TextView
+                    android:id="@+id/active_until"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:letterSpacing="-0.03"
+                    android:text="@{account.isActive() ? DateUtil.formatDate(account.availableUntil) : @string/account_no_active_subscription}"
+                    android:textColor="@color/account_text"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/active_until_label" />
 
-            <TextView
-                android:id="@+id/log_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:letterSpacing="0.1"
-                android:padding="4dp"
-                android:text="@string/account_log_out"
-                android:textAllCaps="true"
-                android:textColor="@color/primary"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/account_line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/active_until" />
+
+                <TextView
+                    android:id="@+id/log_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:letterSpacing="0.1"
+                    android:padding="8dp"
+                    android:text="@string/account_log_out"
+                    android:textAllCaps="true"
+                    android:textColor="@color/account_logout"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/add_funds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:letterSpacing="-0.03"
+                    android:padding="6dp"
+                    android:text="@string/account_add_more_time"
+                    android:textColor="@color/primary"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/active_until"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/active_until_label" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/copy_btn"
+                    style="@style/AppTheme.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/account_copy_account_id"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/account_type_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/qr"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/plan_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/plan_details_background"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_label">
+
+                    <!--                    android:text="@{account.isAccountPro ? @string/account_pro_plan_title : @string/account_standard_plan_title}"-->
+
+                    <TextView
+                        android:id="@+id/textView32"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.03"
+                        android:textColor="@color/account_plan_details_text"
+                        android:textSize="12sp"
+                        app:html="@{account.isAccountPro ? @string/account_pro_plan_title : @string/account_standard_plan_title}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:tint="@color/account_plan_details_text"
+                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView33"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView33"
+                        app:srcCompat="@drawable/ic_multiply" />
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:tint="@color/account_plan_details_text"
+                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView34"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView34"
+                        app:srcCompat="@drawable/ic_multiply" />
+
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:letterSpacing="-0.03"
+                        android:textColor="@color/account_plan_details_text"
+                        android:textSize="12sp"
+                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        app:html="@{@string/account_pro_devices_benefits}"
+                        app:layout_constraintStart_toEndOf="@+id/imageView11"
+                        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:letterSpacing="-0.03"
+                        android:textColor="@color/account_plan_details_text"
+                        android:textSize="12sp"
+                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        app:html="@{@string/account_pro_multihop_benefits}"
+                        app:layout_constraintStart_toEndOf="@+id/imageView12"
+                        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+                    <TextView
+                        android:id="@+id/textView36"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:letterSpacing="-0.03"
+                        android:text="@string/account_standard_plan_title"
+                        android:textColor="@color/account_plan_details_text"
+                        android:textSize="12sp"
+                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"

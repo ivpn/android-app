@@ -2,6 +2,7 @@ package net.ivpn.client.common.bindings
 
 import android.graphics.Typeface
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import net.ivpn.client.vpn.model.NetworkState
 
@@ -21,4 +22,9 @@ fun setText(view: TextView, state: NetworkState?) {
 @BindingAdapter("isBold")
 fun setBold(view: TextView, isBold: Boolean) {
     view.setTypeface(null, if (isBold) Typeface.BOLD else Typeface.NORMAL)
+}
+
+@BindingAdapter("html")
+fun setHtml(view: TextView, html: String) {
+    view.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY))
 }

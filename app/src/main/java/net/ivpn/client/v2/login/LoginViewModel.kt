@@ -37,6 +37,7 @@ class LoginViewModel @Inject constructor(
     var navigator: LoginNavigator? = null
 
     init {
+        dataLoading.set(false)
         sessionController.subscribe(object : SessionListenerImpl() {
             override fun onCreateSuccess(response: SessionNewResponse) {
                 LOGGER.info("Login process: SUCCESS. Response = $response")
@@ -102,12 +103,12 @@ class LoginViewModel @Inject constructor(
                 return
             }
         } ?: return
-        response.serviceStatus?.let {
-            if (!it.isActive) {
-                navigator?.openAccountNotActiveBetaDialogue()
-                return
-            }
-        } ?: return
+//        response.serviceStatus?.let {
+//            if (!it.isActive) {
+//                navigator?.openAccountNotActiveBetaDialogue()
+//                return
+//            }
+//        } ?: return
 
         LOGGER.info("Status = ${response.status}")
         username.get()?.let { accountId ->
@@ -115,17 +116,17 @@ class LoginViewModel @Inject constructor(
                 userPreference.putUserLogin(accountId)
             }
         }
-        if (userPreference.isActive) {
-            navigator?.onLogin()
-        } else {
-            navigator?.openAccountNotActiveBetaDialogue()
-            //Disable only for beta
+//        if (userPreference.isActive) {
+        navigator?.onLogin()
+//        } else {
+//            navigator?.openAccountNotActiveBetaDialogue()
+        //Disable only for beta
 //            if (buildController.isIAPEnabled) {
 //                navigator?.openSubscriptionScreen()
 //            } else {
 //                navigator?.openSite()
 //            }
-        }
+//        }
     }
 
     private fun handleErrorResponse(errorResponse: ErrorResponse?) {

@@ -107,9 +107,16 @@
 
     <color name="account_text">#FFFFFF</color>
     <color name="account_background">#121212</color>
-    <color name="account_active_background">#80e27e</color>
-    <color name="account_text_invert">#121212</color>
+    <color name="account_active_background">#B6CBA2</color>
+    <color name="account_inactive_background">#FF6258</color>
+    <color name="account_text_active">#486D17</color>
+    <color name="account_text_inactive">#FFFFFF</color>
     <color name="account_line">#2B8B9AAB</color>
+    <color name="account_outlined_button_stroke">#1C1C1E</color>
+    <color name="account_outlined_button_text">#FFFFFF</color>
+    <color name="account_logout">#99FFFFFF</color>
+    <color name="account_plan_details_background">#5183B5</color>
+    <color name="account_plan_details_text">#FFFFFF</color>
 
     <color name="tab_text_color">#99FFFFFF</color>
     <color name="tab_selected_text_color">#FFFFFF</color>

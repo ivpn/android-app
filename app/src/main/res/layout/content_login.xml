@@ -10,6 +10,10 @@
             name="viewmodel"
             type="net.ivpn.client.v2.login.LoginViewModel" />
 
+        <variable
+            name="signUp"
+            type="net.ivpn.client.v2.viewmodel.SignUpViewModel" />
+
     </data>
 
     <FrameLayout
@@ -144,7 +148,7 @@
             android:background="@color/color_opacity_black_background"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewmodel.dataLoading || signUp.dataLoading ? View.VISIBLE : View.GONE}">
 
             <ProgressBar
                 style="?indeterminateProgressStyle"

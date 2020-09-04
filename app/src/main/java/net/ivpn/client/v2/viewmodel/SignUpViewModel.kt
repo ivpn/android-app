@@ -9,7 +9,16 @@ import net.ivpn.client.common.billing.BillingManagerWrapper
 import net.ivpn.client.common.billing.addfunds.Period
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.ServersRepository
+import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.rest.HttpClientFactory
+import net.ivpn.client.rest.IVPNApi
+import net.ivpn.client.rest.RequestListener
+import net.ivpn.client.rest.Responses
+import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody
+import net.ivpn.client.rest.data.addfunds.NewAccountResponse
+import net.ivpn.client.rest.requests.common.Request
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import kotlin.math.floor
@@ -19,7 +28,10 @@ import kotlin.math.floor
 @ApplicationScope
 class SignUpViewModel @Inject constructor(
         private val billingManager: BillingManagerWrapper,
-        private val userPreference: UserPreference
+        private val userPreference: UserPreference,
+        private val settings: Settings,
+        private val serversRepository: ServersRepository,
+        private val httpClientFactory: HttpClientFactory
 ) : BillingListener {
 
     companion object {
@@ -42,6 +54,11 @@ class SignUpViewModel @Inject constructor(
     val userId = ObservableField<String>()
 
     var navigator: SignUpNavigator? = null
+    var creationNavigator: CreateAccountNavigator? = null
+
+    init {
+        dataLoading.set(false)
+    }
 
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
@@ -69,6 +86,36 @@ class SignUpViewModel @Inject constructor(
 
     fun getPrice(skuDetails: SkuDetails?): String? {
         return skuDetails?.price
+    }
+
+    fun createNewAccount() {
+        dataLoading.set(true)
+        val requestBody = NewAccountRequestBody("IVPN Standard")
+        val request = Request<NewAccountResponse>(settings, httpClientFactory, serversRepository, Request.Duration.LONG)
+        request.start({ api: IVPNApi -> api.newAccount(requestBody) }, object : RequestListener<NewAccountResponse> {
+            override fun onSuccess(response: NewAccountResponse) {
+                LOGGER.info("SUCCESS, response = $response")
+                dataLoading.set(false)
+                if (response.status == Responses.SUCCESS) {
+                    userPreference.putBlankUsername(response.accountId)
+                    creationNavigator?.onAccountCreationSuccess()
+                } else {
+                    creationNavigator?.onAccountCreationError()
+                }
+            }
+
+            override fun onError(throwable: Throwable) {
+                LOGGER.error("ERROR, throwable = $throwable")
+                dataLoading.set(false)
+                creationNavigator?.onAccountCreationError()
+            }
+
+            override fun onError(error: String) {
+                LOGGER.error("ERROR, error = $error")
+                dataLoading.set(false)
+                creationNavigator?.onAccountCreationError()
+            }
+        })
     }
 
     private fun getProperSkuDetail(): SkuDetails? {
@@ -113,7 +160,7 @@ class SignUpViewModel @Inject constructor(
         LOGGER.info("processSkuDetails")
         dataLoading.set(false)
 
-        skuDetailsList?.let {details ->
+        skuDetailsList?.let { details ->
             selectedPlan.get()?.let { plan ->
                 for (skuDetails in details) {
                     LOGGER.info("Check ${skuDetails.sku}")
@@ -139,6 +186,8 @@ class SignUpViewModel @Inject constructor(
                 calculateYearDiscount()
                 calculateTwoYearDiscount()
                 calculateThreeYearDiscount()
+
+                selectedPeriod.set(Period.ONE_WEEK)
             }
         }
     }
@@ -216,5 +265,11 @@ class SignUpViewModel @Inject constructor(
         fun onCreateAccountFinish()
 
         fun onAddFundsFinish()
+    }
+
+    interface CreateAccountNavigator {
+        fun onAccountCreationSuccess()
+
+        fun onAccountCreationError()
     }
 }

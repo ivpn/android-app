@@ -1,6 +1,7 @@
 package net.ivpn.client.ui.billing;
 
 import android.content.Context;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
@@ -71,6 +72,18 @@ public class BillingViewModel implements BillingListener {
                 dataLoading.set(true);
                 processDescription.set(context.getString(R.string.billing_creating_new_session));
                 break;
+            case INITIAL_PAYMENT_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("Error", "There was an error while creating your account. Contact our support or reopen the application to try again.");
+                break;
+            case ADD_FUNDS_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("Error", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
+                break;
+            case UPDATE_SESSION_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("Error", "There was an error while updating your session. Contact our support or reopen the application to try again.");
+                break;
             case DONE:
                 dataLoading.set(false);
                 navigator.onSuccessBilling();
@@ -85,8 +98,7 @@ public class BillingViewModel implements BillingListener {
 
     @Override
     public void onPurchaseError(int errorCode, String errorMessage) {
-        navigator.createPurchaseErrorDialog(errorCode, errorMessage);
-
+        navigator.createPurchaseErrorDialog(String.valueOf(errorCode), errorMessage);
     }
 
     @Override

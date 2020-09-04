@@ -40,6 +40,7 @@ class AccountViewModel @Inject constructor(
     val isOnFreeTrial = ObservableBoolean()
     val isNativeSubscription = ObservableBoolean()
     val availableUntil = ObservableLong()
+    val isActive = ObservableBoolean()
 
     var navigator: AccountNavigator? = null
 
@@ -66,6 +67,7 @@ class AccountViewModel @Inject constructor(
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
+        isActive.set(isActive())
     }
 
     fun updateSessionStatus() {
@@ -94,6 +96,14 @@ class AccountViewModel @Inject constructor(
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
+    }
+
+    fun isAccountPro(): Boolean {
+        return accountType.get()?.equals("IVPN Pro") ?: false
+    }
+
+    fun isAccountNewStyle(): Boolean {
+        return username.get()?.startsWith("i-") ?: false
     }
 
     private fun clearLocalCache() {
@@ -160,6 +170,10 @@ class AccountViewModel @Inject constructor(
             plan += " (cancelled)"
         }
         return plan
+    }
+
+    private fun isActive(): Boolean {
+        return userPreference.isActive
     }
 
     interface AccountNavigator {

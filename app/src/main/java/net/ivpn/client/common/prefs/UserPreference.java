@@ -19,6 +19,8 @@ public class UserPreference {
     private static final String SESSION_VPN_USERNAME = "SESSION_VPN_USERNAME";
     private static final String SESSION_VPN_PASSWORD = "SESSION_VPN_PASSWORD";
 
+    private static final String BLANK_USERNAME = "BLANK_USERNAME";
+
     private Preference preference;
 
     @Inject
@@ -37,6 +39,13 @@ public class UserPreference {
         SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
         sharedPreferences.edit()
                 .putString(SESSION_VPN_USERNAME, sessionVpnUsername)
+                .apply();
+    }
+
+    public void putBlankUsername(String blankUsername) {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        sharedPreferences.edit()
+                .putString(BLANK_USERNAME, blankUsername)
                 .apply();
     }
 
@@ -96,6 +105,11 @@ public class UserPreference {
     public String getSessionVpnUsername() {
         SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
         return sharedPreferences.getString(SESSION_VPN_USERNAME, "");
+    }
+
+    public String getBlankUsername() {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        return sharedPreferences.getString(BLANK_USERNAME, "");
     }
 
     public String getSessionVpnPassword() {

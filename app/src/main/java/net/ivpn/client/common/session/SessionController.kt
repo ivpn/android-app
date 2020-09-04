@@ -234,8 +234,7 @@ class SessionController @Inject constructor(
     }
 
     private fun saveSessionStatus(serviceStatus: ServiceStatus) {
-        if (serviceStatus.isOnFreeTrial == null
-                || serviceStatus.activeUntil == 0L) {
+        if (serviceStatus.isOnFreeTrial == null) {
             return
         }
         userPreference.putIsUserOnTrial(java.lang.Boolean.valueOf(serviceStatus.isOnFreeTrial))

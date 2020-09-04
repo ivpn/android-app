@@ -77,7 +77,7 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     }
 
     @Override
-    public void createPurchaseErrorDialog(int errorCode, String errorMessage) {
+    public void createPurchaseErrorDialog(String errorCode, String errorMessage) {
         DialogBuilder.createFullCustomNotificationDialog(this,
                 this.getString(R.string.dialogs_error) + " " + errorCode,
                 errorMessage != null ? errorMessage : "", dialog -> {

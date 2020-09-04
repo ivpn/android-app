@@ -1,7 +1,6 @@
 package net.ivpn.client.v2.login
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,10 +24,12 @@ import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
 import net.ivpn.client.v2.qr.QRActivity
+import net.ivpn.client.v2.viewmodel.SignUpViewModel
+import net.ivpn.client.v2.viewmodel.SignUpViewModel.*
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
+class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, CreateAccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
@@ -38,6 +39,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     @Inject
     lateinit var viewModel: LoginViewModel
+
+    @Inject
+    lateinit var signUp: SignUpViewModel
+
     private var createSessionFragment: CreateSessionFragment? = null
 
     override fun onCreateView(
@@ -70,7 +75,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
+        binding.contentLayout.signUp = signUp
         viewModel.navigator = this
+        signUp.creationNavigator = this
 
         binding.contentLayout.inputView.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -83,7 +90,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
             viewModel.login(false)
         }
         binding.contentLayout.signUpButton.setOnClickListener {
-            openSignUpProductScreen()
+            createBlankAccount()
         }
         binding.contentLayout.outlinedTextField.setEndIconOnClickListener {
             openQRScanner()
@@ -107,9 +114,8 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         }
     }
 
-    private fun openSignUpProductScreen() {
-        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+    private fun createBlankAccount() {
+        signUp.createNewAccount()
     }
 
     override fun openSite() {
@@ -160,5 +166,14 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     override fun cancel() {
         createSessionFragment?.dismissAllowingStateLoss()
+    }
+
+    override fun onAccountCreationSuccess() {
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onAccountCreationError() {
+        DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
     }
 }

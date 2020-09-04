@@ -19,6 +19,8 @@ import net.ivpn.client.common.session.SessionListenerImpl;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.Responses;
+import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
+import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
 import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody;
@@ -45,6 +47,8 @@ import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION_ERROR;
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT;
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_ERROR;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION_ERROR;
 
 @ApplicationScope
 public class BillingManagerWrapper {
@@ -160,69 +164,21 @@ public class BillingManagerWrapper {
     }
 
     public void validatePurchase() {
-        String login = userPreference.getUserLogin();
-        if (login == null || login.isEmpty()) {
+        String sessionToken = userPreference.getSessionToken();
+        if (sessionToken == null || sessionToken.isEmpty()) {
             LOGGER.info("Start new purchase");
-            createNewAccount();
+            initialPayment();
         } else {
-            addFundsRequest();
+            addFundsRequest(sessionToken);
         }
 
-//        setPurchaseState(PurchaseState.VALIDATING);
         saveSensitiveData(purchase);
-
-//        SubscriptionRequestBody requestBody = getSubscriptionRequestBody(purchase);
-//        //ToDo remove it!!!!!!
-////        LOGGER.info("SubscriptionRequestBody = " + requestBody);
-//        request.start(api -> api.processPurchase(requestBody), new RequestListener<SubscriptionResponse>() {
-//            @Override
-//            public void onSuccess(SubscriptionResponse response) {
-//                LOGGER.info("SUCCESS, response = " + response);
-//                processSubscriptionResponse(response);
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                LOGGER.error("ERROR, throwable = " + throwable);
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                LOGGER.error("ERROR, error = " + error);
-//            }
-//        });
     }
 
-    private void createNewAccount() {
-        setPurchaseState(CREATE_ACCOUNT);
-        NewAccountRequestBody requestBody = new NewAccountRequestBody(productName);
-        Request<NewAccountResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
-        request.start(api -> api.newAccount(requestBody), new RequestListener<NewAccountResponse>() {
-            @Override
-            public void onSuccess(NewAccountResponse response) {
-                LOGGER.info("SUCCESS, response = " + response);
-                initialPayment(response);
-//                processSubscriptionResponse(response);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                LOGGER.error("ERROR, throwable = " + throwable);
-                setPurchaseState(PurchaseState.DONE);
-            }
-
-            @Override
-            public void onError(String error) {
-                LOGGER.error("ERROR, error = " + error);
-                setPurchaseState(PurchaseState.DONE);
-            }
-        });
-    }
-
-    private void initialPayment(NewAccountResponse response) {
+    private void initialPayment() {
         setPurchaseState(INITIAL_PAYMENT);
-        final String accountId = response.getAccountId();
-        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(response.getAccountId(), purchase.getSku(), purchase.getPurchaseToken());
+        final String accountId = userPreference.getBlankUsername();
+        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSku(), purchase.getPurchaseToken());
         LOGGER.info(requestBody.toString());
         Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
@@ -274,8 +230,55 @@ public class BillingManagerWrapper {
         sessionController.createSession(false, accountId);
     }
 
-    private void addFundsRequest() {
+    private void addFundsRequest(String sessionToken) {
+        setPurchaseState(INITIAL_PAYMENT);
+        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSku(), purchase.getPurchaseToken());
+        LOGGER.info(requestBody.toString());
+        Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
+            @Override
+            public void onSuccess(AddFundsResponse response) {
+                LOGGER.info(response.toString());
+                if (response.getStatus() == Responses.SUCCESS) {
+                    updateSession();
+                } else {
+                    setPurchaseState(INITIAL_PAYMENT_ERROR);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
+            }
+
+            @Override
+            public void onError(String string) {
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
+            }
+        });
+    }
+
+    private void updateSession() {
+        setPurchaseState(UPDATE_SESSION);
+        sessionController.subscribe(new SessionListenerImpl() {
+            @Override
+            public void onUpdateSuccess() {
+                LOGGER.info("On update session success: ");
+                sessionController.unSubscribe(this);
+                for (BillingListener listener : listeners) {
+                    listener.onAddFundsFinish();
+                }
+            }
+
+            @Override
+            public void onUpdateError(@Nullable Throwable throwable, @Nullable ErrorResponse errorResponse) {
+                LOGGER.info("On create session Error: " + throwable + "/n" + errorResponse);
+                sessionController.unSubscribe(this);
+                setPurchaseState(UPDATE_SESSION_ERROR);
+            }
+        });
+        sessionController.updateSessionStatus();
     }
 
     private SubscriptionRequestBody getSubscriptionRequestBody(Purchase purchase) {
@@ -448,6 +451,9 @@ public class BillingManagerWrapper {
         INITIAL_PAYMENT,
         INITIAL_PAYMENT_ERROR,
         CREATE_SESSION,
-        CREATE_SESSION_ERROR
+        CREATE_SESSION_ERROR,
+        UPDATE_SESSION,
+        UPDATE_SESSION_ERROR,
+        ADD_FUNDS_ERROR
     }
 }

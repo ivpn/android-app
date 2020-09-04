@@ -139,7 +139,11 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="net.ivpn.client.v2.account.AccountFragment"
-        android:label="Account details" />
+        android:label="Account details" >
+        <action
+            android:id="@+id/action_accountFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/antiTrackerFragment"
         android:name="net.ivpn.client.v2.antitracker.AntiTrackerFragment"
@@ -159,6 +163,10 @@
         <action
             android:id="@+id/action_signUpPeriodFragment_to_signUpFinishFragment"
             app:destination="@id/signUpFinishFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_signUpPeriodFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
             app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment

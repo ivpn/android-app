@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/account_outlined_button_text</item>
+        <item name="backgroundTint">@color/account_outlined_button_stroke</item>
+    </style>
+</resources>

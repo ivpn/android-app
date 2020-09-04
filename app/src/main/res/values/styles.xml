@@ -125,7 +125,13 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="AppTheme.TimePicker"></style>
+    <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/account_outlined_button_stroke</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/account_outlined_button_text</item>
+        <item name="android:background">@android:color/holo_blue_bright</item>
+        <item name="background">@android:color/holo_blue_bright</item>
+    </style>
 
     <style name="SubscriptionPlanTitle">
         <item name="android:padding">4dp</item>

@@ -371,6 +371,8 @@
     <string name="dialogs_change_status_default">Default</string>
     <string name="dialogs_change_status_none">None</string>
 
+    <string name="dialogs_create_account_error_message">There was a problem with creating a new account.</string>
+
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
     <string name="purchases_guide_second_step">Select billing cycle and enter your payment information</string>
@@ -473,13 +475,14 @@
     <string name="sign_up_period_1_year">1 year</string>
     <string name="sign_up_period_2_year">2 year</string>
     <string name="sign_up_period_3_year">3 year</string>
-    <string name="sign_up_period_continue_to_payment">Continue to payment</string>
+    <string name="sign_up_period_continue_to_payment">Pay</string>
     <string name="sign_up_progress">Querying available products…</string>
     
     <string name="sign_up_account_created">Your account has been created.</string>
 
     <string name="account_label">Account Id</string>
     <string name="account_active">Active</string>
+    <string name="account_inactive">Inactive</string>
     <string name="account_type">Account type</string>
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
@@ -491,4 +494,14 @@
     <string name="map_dialog_connected_title">No one knows about your location</string>
     <string name="map_dialog_server">Protect yourself by connecting to</string>
     <string name="map_dialog_button_text">CONNECT TO SERVER</string>
+
+    <string name="account_add_more_time">Add more time</string>
+    <string name="account_copy_account_id">Copy account id</string>
+    <string name="account_change_plan_description">Login to the website to change subscription plan</string>
+    <string name="account_qr_code">QR code</string>
+    <string name="account_pro_plan_title"><![CDATA[<b>IVPN PRO</b> gives you more possibilities to stay safe and protected:]]></string>
+    <string name="account_standard_plan_title">Login to the website to change subscription plan</string>
+    <string name="account_pro_devices_benefits"><![CDATA[Connect up to <b>7 devices</b>]]></string>
+    <string name="account_pro_multihop_benefits"><![CDATA[Use <b>Multi-Hop</b> connections]]></string>
+    <string name="account_no_active_subscription">No active subscription</string>
 </resources>
