@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.ivpn.client.vpn.model.NetworkState" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.v2.network.NetworkViewModel" />
+
+        <variable
+            name="formatter"
+            type="net.ivpn.client.v2.network.NetworkStateFormatter" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/network_protection_background"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/network_protection_background"
+            android:paddingTop="?attr/actionBarSize">
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.6"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/network_protection_top_hint"
+                android:textColor="@color/network_protection_text_color"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/network_protection_card_background"
+                app:layout_constraintTop_toBottomOf="@+id/textView35"
+                tools:layout_editor_absoluteX="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/common_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/network_protection_card_background">
+
+                    <TextView
+                        android:id="@+id/textView37"
+                        style="@style/SettingsSectionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/network_protection_settings"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/network_trusted_feature"
+                        android:textColor="@color/network_protection_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        app:layout_constraintEnd_toStartOf="@+id/wifi_main_switcher"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:alpha="0.6"
+                        android:fontFamily="sans-serif"
+                        android:lineSpacingExtra="3dp"
+                        android:text="@string/network_trusted_feature_description"
+                        android:textColor="@color/network_protection_text_color"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/wifi_main_switcher"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView11"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/rules_action"
+                        style="@style/SettingsAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="10dp"
+                        android:padding="6dp"
+                        android:text="@string/network_rules"
+                        android:textAllCaps="true"
+                        android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/wifi_main_switcher"
+                        android:layout_width="48dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="16dp"
+                        android:checked="@{viewmodel.isNetworkFeatureEnabled()}"
+                        android:thumb="@drawable/common_thumb_selector"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView11"
+                        app:onChanged="@{viewmodel.onCheckedChangeListener}"
+                        app:track="@drawable/common_track_selector" />
+
+                    <View
+                        android:id="@+id/view8"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#4cb4c1cc"
+                        android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rules_action" />
+
+                    <LinearLayout
+                        android:id="@+id/default_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view8">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/default_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:ellipsize="end"
+                                android:fontFamily="sans-serif"
+                                android:letterSpacing="-0.03"
+                                android:maxLines="1"
+                                android:text="@string/network_default"
+                                android:textColor="@color/network_protection_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+
+                        <!--                    android:textColor="@{viewmodel.defaultState.getColor(viewmodel.defaultState)}"-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.04"
+                            android:text="@{viewmodel.defaultState.textRes}"
+                            android:textAllCaps="true"
+                            android:textColor="@{formatter.getColor(viewmodel.defaultState)}"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view9"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:background="#4cb4c1cc"
+                        android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/default_layout" />
+
+                    <LinearLayout
+                        android:id="@+id/mobile_content_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:baselineAligned="false"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view9">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/mobile_data_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:ellipsize="end"
+                                android:fontFamily="sans-serif"
+                                android:letterSpacing="-0.03"
+                                android:lineSpacingExtra="8sp"
+                                android:maxLines="1"
+                                android:text="@string/network_mobile_data"
+                                android:textColor="@color/network_protection_text_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="16dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <!--                        android:textColor="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.getColor(viewmodel.defaultState) : viewmodel.mobileDataState.getColor(viewmodel.mobileDataState)}"-->
+                            <TextView
+                                android:id="@+id/network_behaviour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="sans-serif-medium"
+                                android:gravity="center"
+                                android:letterSpacing="0.04"
+                                android:text="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.textRes : viewmodel.mobileDataState.textRes}"
+                                android:textAllCaps="true"
+                                android:textColor="@{formatter.getCurrentStateColor(viewmodel.mobileDataState, viewmodel.defaultState)}"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+
+<!--                            android:text="@{NetworkState.DEFAULT.textRes}"-->
+                            <TextView
+                                android:id="@+id/network_behaviour_extra"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="sans-serif"
+                                android:letterSpacing="-0.01"
+                                android:text="@string/network_default"
+                                android:textColor="@{formatter.getCurrentStateColor(viewmodel.mobileDataState, viewmodel.defaultState)}"
+                                android:textSize="12sp"
+                                android:visibility="@{viewmodel.mobileDataState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/view10"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/color_settings_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/networks_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/network_protection_card_background"
+                android:visibility="@{viewmodel.isNetworkFeatureEnabled ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="@+id/view10"
+                tools:layout_editor_absoluteX="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/sliding_tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/network_tab_layout_height"
+                        android:background="@color/network_tabs_background"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabIndicatorColor="@color/network_tabs_indicator"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/network_tabs_selected_text"
+                        app:tabTextColor="@color/network_tabs_passive_text" />
+
+                    <net.ivpn.client.common.views.WrapContentHeightViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/network_protection_card_background"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/sliding_tabs" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

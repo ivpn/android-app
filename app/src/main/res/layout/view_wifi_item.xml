@@ -8,8 +8,16 @@
         <import type="net.ivpn.client.vpn.model.NetworkState" />
 
         <variable
+            name="wifi"
+            type="net.ivpn.client.vpn.model.WifiItem" />
+
+        <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.network.NetworkItemViewModel" />
+            type="net.ivpn.client.v2.network.NetworkViewModel" />
+
+        <variable
+            name="formatter"
+            type="net.ivpn.client.v2.network.NetworkStateFormatter" />
     </data>
 
     <LinearLayout
@@ -34,7 +42,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_wifi"
-                android:tint="@{viewmodel.getCurrentStateColor}" />
+                android:tint="@{formatter.getCurrentStateColor(wifi.networkState, viewmodel.defaultState)}" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -51,7 +59,7 @@
                     android:letterSpacing="-0.03"
                     android:lineSpacingExtra="8sp"
                     android:maxLines="1"
-                    android:text="@{viewmodel.wifiItem.getTitle}"
+                    android:text="@{wifi.getTitle}"
                     android:textColor="@color/network_protection_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />
@@ -73,11 +81,13 @@
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:letterSpacing="0.04"
-                    android:text="@{viewmodel.getCurrentStateText()}"
+                    android:text="@{wifi.networkState.equals(NetworkState.DEFAULT) ? viewmodel.defaultState.textRes : wifi.networkState.textRes}"
                     android:textAllCaps="true"
-                    android:textColor="@{viewmodel.getCurrentStateColor}"
+                    android:textColor="@{formatter.getCurrentStateColor(wifi.networkState, viewmodel.defaultState)}"
                     android:textSize="14sp"
                     android:textStyle="normal" />
+
+<!--                android:textColor="@{formatter.getCurrentStateColor(viewmodel.wifiItem, formatter.defaultState)"-->
 
                 <TextView
                     android:id="@+id/network_behaviour_extra"
@@ -86,10 +96,10 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif"
                     android:letterSpacing="-0.01"
-                    android:text="@{viewmodel.getDefaultText}"
-                    android:textColor="@{viewmodel.getCurrentStateColor}"
+                    android:textColor="@{formatter.getCurrentStateColor(wifi.networkState, viewmodel.defaultState)}"
+                    android:text="@string/network_default"
                     android:textSize="12sp"
-                    android:visibility="@{viewmodel.currentState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{wifi.networkState.equals(NetworkState.DEFAULT) ? View.VISIBLE : View.GONE}" />
             </LinearLayout>
 
         </LinearLayout>

@@ -17,10 +17,10 @@ open class NetworkItemViewModel @Inject constructor(
 ) {
 
     var wifiItem = ObservableField<WifiItem>()
-    val currentState = ObservableField<NetworkState>()
+    var currentState: NetworkState? = null
 
-    val defaultState = ObservableField<NetworkState>()
-    val selectedState = ObservableField<NetworkState>()
+    var defaultState: NetworkState? = null
+    var selectedState: NetworkState? = null
 
     var networkStateListener = RadioGroup.OnCheckedChangeListener {
         _: RadioGroup?, checkedId: Int ->
@@ -35,32 +35,34 @@ open class NetworkItemViewModel @Inject constructor(
 
     fun setWifiItem(wifiItem: WifiItem) {
         this.wifiItem.set(wifiItem)
-        currentState.set(wifiItem.networkState)
-        selectedState.set(wifiItem.networkState)
+        currentState = wifiItem.networkState.get()
+        selectedState = wifiItem.networkState.get()
     }
 
     fun getCurrentStateColor(): Int {
-        return if (currentState.get() == NetworkState.DEFAULT) {
-            getColor(defaultState.get())
+        return if (currentState == NetworkState.DEFAULT) {
+            println("Return default color for ${wifiItem.get()} default = ${defaultState}")
+            getColor(defaultState)
         } else {
-            getColor(currentState.get())
+            println("Return current color for ${wifiItem.get()} currentState = ${currentState}")
+            getColor(currentState)
         }
     }
 
     fun getCurrentStateText(): String? {
-        return if (currentState.get() == NetworkState.DEFAULT) {
-            defaultState.get()?.let {
+        return if (currentState == NetworkState.DEFAULT) {
+            defaultState?.let {
                 context.getString(it.textRes)
             }
         } else {
-            currentState.get()?.let {
+            currentState?.let {
                 context.getString(it.textRes)
             }
         }
     }
 
     fun getDefaultText(): String? {
-        return defaultState.get()?.let {
+        return defaultState?.let {
             context.getString(it.textRes)
         }
     }
@@ -87,29 +89,29 @@ open class NetworkItemViewModel @Inject constructor(
 
     private fun onCheckedChanged(checkedId: Int) {
         val networkState = NetworkState.getById(checkedId)
-        if (networkState == this.selectedState.get()) {
+        if (networkState == this.selectedState) {
             return
         }
 
-        this.selectedState.set(networkState)
+        this.selectedState = networkState
     }
 
     open fun applyState() {
         wifiItem.get()?.let {
-            networkController.changeMarkFor(it.ssid, currentState.get(), selectedState.get())
-            it.networkState = selectedState.get()
+            networkController.changeMarkFor(it.ssid, currentState, selectedState)
+            it.networkState.set(selectedState)
         }
 
-        currentState.set(selectedState.get())
+        currentState = selectedState
     }
 
-    fun setDefaultState(defaultState: NetworkState) {
-        this.defaultState.set(defaultState)
+    fun setDefaultStateV(defaultState: NetworkState) {
+        this.defaultState = defaultState
     }
 
-    fun setCurrentState(currentState: NetworkState) {
-        this.currentState.set(currentState)
-        selectedState.set(currentState)
+    fun setCurrentStateV(currentState: NetworkState) {
+        this.currentState = currentState
+        selectedState = currentState
     }
 
     val title: String

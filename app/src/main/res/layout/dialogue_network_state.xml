@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="network"
-            type="net.ivpn.client.ui.network.NetworkItemViewModel" />
+            name="viewmodel"
+            type="net.ivpn.client.v2.network.dialog.NetworkChangeDialogViewModel" />
     </data>
 
     <LinearLayout
@@ -35,8 +35,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:orientation="vertical"
-            app:checked="@{network.currentState}"
-            app:listener="@{network.networkStateListener}">
+            app:checked="@{viewmodel.currentState}"
+            app:listener="@{viewmodel.networkStateListener}">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/trusted_state"

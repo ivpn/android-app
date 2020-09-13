@@ -13,6 +13,7 @@ import net.ivpn.client.databinding.DialogueNetworkStateBinding
 import net.ivpn.client.databinding.DialogueNightModeBinding
 import net.ivpn.client.ui.network.CommonBehaviourItemViewModel
 import net.ivpn.client.ui.network.NetworkItemViewModel
+import net.ivpn.client.v2.network.dialog.NetworkChangeDialogViewModel
 import net.ivpn.client.v2.viewmodel.ColorThemeViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 
@@ -81,7 +82,7 @@ object DialogBuilderK {
         alertDialog.show()
     }
 
-    fun openChangeNetworkStatusDialogue(context: Context, wifiItemViewModel: NetworkItemViewModel) {
+    fun openChangeNetworkStatusDialogue(context: Context, dialogViewModel: NetworkChangeDialogViewModel) {
         val builder: AlertDialog.Builder =
                 AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
         val inflater =
@@ -92,7 +93,7 @@ object DialogBuilderK {
                 R.layout.dialogue_network_state, null, false
         )
 
-        binding.network = wifiItemViewModel
+        binding.viewmodel = dialogViewModel
         builder.setView(binding.root)
         val alertDialog = builder.create()
         binding.cancelButton.setOnClickListener {
@@ -100,7 +101,7 @@ object DialogBuilderK {
         }
         binding.applyButton.setOnClickListener {
             alertDialog.dismiss()
-            wifiItemViewModel.applyState()
+            dialogViewModel.apply()
         }
 
         if ((context as Activity).isFinishing) {
@@ -110,7 +111,7 @@ object DialogBuilderK {
         alertDialog.show()
     }
 
-    fun openChangeDefaultNetworkStatusDialogue(context: Context, defaultViewModel: CommonBehaviourItemViewModel) {
+    fun openChangeDefaultNetworkStatusDialogue(context: Context, dialogViewModel: NetworkChangeDialogViewModel) {
         val builder: AlertDialog.Builder =
                 AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
         val inflater =
@@ -121,7 +122,7 @@ object DialogBuilderK {
                 R.layout.dialogue_default_network_state, null, false
         )
 
-        binding.network = defaultViewModel
+        binding.network = dialogViewModel
         builder.setView(binding.root)
         val alertDialog = builder.create()
         binding.cancelButton.setOnClickListener {
@@ -129,7 +130,7 @@ object DialogBuilderK {
         }
         binding.applyButton.setOnClickListener {
             alertDialog.dismiss()
-            defaultViewModel.applyState()
+            dialogViewModel.apply()
         }
 
         if ((context as Activity).isFinishing) {

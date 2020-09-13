@@ -16,9 +16,11 @@ import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.map.MapView;
-import net.ivpn.client.v2.network.NetworkProtectionFragment;
+import net.ivpn.client.v2.network.NetworkCommonFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
+import net.ivpn.client.v2.network.saved.SavedNetworksFragment;
+import net.ivpn.client.v2.network.scanned.ScannedNetworksFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
 import net.ivpn.client.v2.serverlist.ServerListTabFragment;
 import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter;
@@ -80,8 +82,6 @@ public interface ActivityComponent {
 
     void inject(AlwaysOnVpnService service);
 
-    void inject(NetworkRecyclerViewAdapter.CommonNetworkViewHolder viewHolder);
-
     void inject(NetworkRecyclerViewAdapter.WifiItemViewHolder viewHolder);
 
 //    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
@@ -102,7 +102,7 @@ public interface ActivityComponent {
 
     void inject(AlwaysOnVPNFragment fragment);
 
-    void inject(NetworkProtectionFragment fragment);
+    void inject(NetworkCommonFragment fragment);
 
     void inject(NetworkProtectionRulesFragment fragment);
 
@@ -128,11 +128,17 @@ public interface ActivityComponent {
 
     void inject(SignUpFinishFragment fragment);
 
+    void inject(SavedNetworksFragment fragment);
+
+    void inject(ScannedNetworksFragment fragment);
+
     void inject(MapView map);
 
     void inject(AllServersRecyclerViewAdapter adapter);
 
     void inject(FavouriteServerListRecyclerViewAdapter adapter);
+
+    void inject(NetworkRecyclerViewAdapter adapter);
 
     void inject(ViewModelCleaner clearer);
 }

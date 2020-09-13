@@ -8,8 +8,8 @@ class MobileDataItemViewModel @Inject constructor(
 ) : NetworkItemViewModel(networkController) {
 
     override fun applyState() {
-        currentState.set(selectedState.get())
-        networkController.updateMobileDataState(selectedState.get())
+        currentState = selectedState
+        networkController.updateMobileDataState(selectedState)
     }
 
 }

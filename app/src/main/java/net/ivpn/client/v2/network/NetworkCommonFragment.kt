@@ -19,7 +19,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
@@ -27,22 +26,26 @@ import net.ivpn.client.databinding.FragmentNetworkBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.network.NetworkNavigator
-import net.ivpn.client.v2.settings.SettingsFragmentDirections
+import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeDefaultNetworkStatusDialogue
+import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeNetworkStatusDialogue
+import net.ivpn.client.v2.network.dialog.NetworkChangeDialogViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class NetworkProtectionFragment : Fragment(), NetworkNavigator {
+class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(NetworkProtectionFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(NetworkCommonFragment::class.java)
         private const val LOCATION_PERMISSION_CODE = 132
     }
 
     private lateinit var binding: FragmentNetworkBinding
-    private var adapter: NetworkRecyclerViewAdapter? = null
+//    private var adapter: NetworkRecyclerViewAdapter? = null
 
     @Inject
     lateinit var network: NetworkViewModel
+
+    lateinit var adapter: NetworksPagerAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -62,6 +65,7 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
                                             grantResults: IntArray) {
+        LOGGER.info("onRequestPermissionsResult requestCode = $requestCode")
         when (requestCode) {
             LOCATION_PERMISSION_CODE -> {
                 if (grantResults.isEmpty()) {
@@ -85,12 +89,45 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
         checkLocationPermission()
     }
 
+    override fun onStart() {
+        super.onStart()
+        network.onStart()
+        network.scanWifiNetworks()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        network.onStop()
+    }
+
     private fun initViews() {
         network.setNavigator(this)
-        adapter = NetworkRecyclerViewAdapter(activity)
+        adapter = NetworksPagerAdapter(requireContext(), childFragmentManager)
+        binding.contentLayout.pager.adapter = adapter
+        binding.contentLayout.slidingTabs.setupWithViewPager(binding.contentLayout.pager)
+
+//        adapter = NetworkRecyclerViewAdapter(activity)
         binding.contentLayout.viewmodel = network
-        binding.contentLayout.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.contentLayout.recyclerView.adapter = adapter
+        binding.contentLayout.formatter = NetworkStateFormatter(requireContext())
+        binding.contentLayout.mobileContentLayout.setOnClickListener {
+            network.mobileDataState.get()?.let {state ->
+                openChangeNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state){
+                    override fun apply() {
+                        network.setMobileNetworkStateAs(selectedState.get())
+                    }
+                })
+            }
+        }
+
+        binding.contentLayout.defaultLayout.setOnClickListener {
+            network.defaultState.get()?.let {state ->
+                openChangeDefaultNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state){
+                    override fun apply() {
+                        network.setDefaultNetworkStateAs(selectedState.get())
+                    }
+                })
+            }
+        }
     }
 
     private fun initToolbar() {
@@ -113,6 +150,7 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
             return
         }
         val isPermissionGranted: Boolean = isPermissionGranted()
+        LOGGER.info("isPermissionGranted = $isPermissionGranted")
         val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
         if (!isEnabled) {
             return
@@ -154,27 +192,27 @@ class NetworkProtectionFragment : Fragment(), NetworkNavigator {
     private fun showInformationDialog() {
         LOGGER.info("showInformationDialog")
         DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.LOCATION_PERMISSION_INFO,
-                null, DialogInterface.OnCancelListener { askPermission() })
+                null, { askPermission() })
     }
 
     private fun isPermissionGranted(): Boolean {
         return (ContextCompat.checkSelfPermission(activity!!,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun shouldRequestRationale(): Boolean {
         return ActivityCompat.shouldShowRequestPermissionRationale(activity!!,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     private fun askPermission() {
-        ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+        ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_CODE)
     }
 
     private fun openNetworkProtectionRulesScreen() {
-        val action = NetworkProtectionFragmentDirections.actionNetworkProtectionFragmentToNetworkProtectionRulesFragment()
+        val action = NetworkCommonFragmentDirections.actionNetworkProtectionFragmentToNetworkProtectionRulesFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 }

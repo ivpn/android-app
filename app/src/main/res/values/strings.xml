@@ -452,6 +452,10 @@
     <string name="network_protection_top_hint">Decide which networks do you trust. IVPN connection will be turned on automatically for untrusted networks</string>
     <string name="network_protection_default_mobile_data">Default &amp; Mobile Data</string>
     <string name="network_protection_wifi">Wi-Fi networks</string>
+    <string name="network_saved_wifi_list">Saved Wi-Fi networks</string>
+    <string name="network_protection_settings">Settings</string>
+    <string name="network_protection_scanned">SCANNED</string>
+    <string name="network_protection_saved">SAVED</string>
     
     <string name="auth_log_in_label">Enter your Account ID</string>
     <string name="auth_create_new_account">Create a new account</string>

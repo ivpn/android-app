@@ -13,8 +13,6 @@ import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.session.SessionListenerImpl
-import net.ivpn.client.rest.data.session.SessionNewResponse
-import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -67,7 +65,7 @@ class AccountViewModel @Inject constructor(
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
-        isActive.set(isActive())
+        isActive.set(getIsActiveValue())
     }
 
     fun updateSessionStatus() {
@@ -172,7 +170,7 @@ class AccountViewModel @Inject constructor(
         return plan
     }
 
-    private fun isActive(): Boolean {
+    private fun getIsActiveValue(): Boolean {
         return userPreference.isActive
     }
 

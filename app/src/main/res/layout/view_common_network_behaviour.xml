@@ -165,24 +165,24 @@
             android:layout_height="20dp"
             android:background="@color/color_settings_background" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="-1dp"
+            android:paddingRight="-1dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/network_protection_card_background">
+
+                <TextView
+                    style="@style/SettingsSectionTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="-1dp"
-                    android:paddingLeft="-1dp">
+                    android:text="@string/network_protection_wifi" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/network_protection_card_background">
-
-                        <TextView
-                            style="@style/SettingsSectionTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/network_protection_wifi" />
-
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </layout>

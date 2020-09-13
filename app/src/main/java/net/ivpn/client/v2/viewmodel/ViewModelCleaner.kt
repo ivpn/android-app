@@ -68,7 +68,6 @@ class ViewModelCleaner {
         servers.reset()
         startOnBoot.reset()
         protocol.reset()
-        network.reset()
         updates.reset()
     }
 }

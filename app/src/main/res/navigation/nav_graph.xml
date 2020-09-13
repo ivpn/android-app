@@ -78,7 +78,7 @@
         android:label="Always-on VPN" />
     <fragment
         android:id="@+id/networkProtectionFragment"
-        android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
+        android:name="net.ivpn.client.v2.network.NetworkCommonFragment"
         android:label="Network Protection">
         <action
             android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"

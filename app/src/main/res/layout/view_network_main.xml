@@ -110,7 +110,6 @@
                     app:track="@drawable/common_track_selector" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
 
         <View
