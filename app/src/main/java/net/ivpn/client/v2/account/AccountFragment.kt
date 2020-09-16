@@ -107,7 +107,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     private fun addFunds() {
         if (account.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
-            signUp.updateUserId()
 
             val action = AccountFragmentDirections.actionAccountFragmentToSignUpPeriodFragment()
             NavHostFragment.findNavController(this).navigate(action)

@@ -49,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:text="@{viewmodel.userId}"
+            android:text="@{viewmodel.blankAccountID}"
             android:letterSpacing="-0.01"
             android:textColor="@color/sign_up_text_color"
             app:layout_constraintStart_toStartOf="parent"

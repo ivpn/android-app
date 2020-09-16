@@ -24,10 +24,9 @@ import net.ivpn.client.ui.connect.CreateSessionNavigator
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
-import net.ivpn.client.v2.account.AccountFragmentDirections
 import net.ivpn.client.v2.qr.QRActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
-import net.ivpn.client.v2.viewmodel.SignUpViewModel.*
+import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -117,7 +116,15 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     }
 
     private fun createBlankAccount() {
-        signUp.createNewAccount()
+        signUp.blankAccountID.get()?.let { accountID ->
+            if (accountID.isEmpty()) {
+                signUp.createNewAccount()
+            } else {
+                onAccountCreationSuccess()
+            }
+        } ?: kotlin.run {
+            signUp.createNewAccount()
+        }
     }
 
     override fun openSite() {
@@ -159,7 +166,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     override fun onLoginWithInactiveAccount() {
         if (viewModel.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
-            signUp.updateUserId()
+//            signUp.updateUserId()
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
             NavHostFragment.findNavController(this).navigate(action)
@@ -183,7 +190,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     }
 
     override fun onAccountCreationSuccess() {
-        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

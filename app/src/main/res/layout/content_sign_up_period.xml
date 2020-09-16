@@ -37,7 +37,7 @@
                 android:text="@string/sign_up_period_description"
                 android:textColor="@color/login_text_color"
                 android:textSize="14sp"
-                android:visibility="@{viewmodel.userId == null? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewmodel.blankAccountID == null? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="24dp"
                 android:background="#4798A5B3"
-                android:visibility="@{viewmodel.userId == null? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewmodel.blankAccountID == null? View.VISIBLE : View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/choose_product_description" />
@@ -98,7 +98,7 @@
                 android:text="@string/sign_up_period_change"
                 android:textColor="@color/primary"
                 android:textSize="16sp"
-                android:visibility="@{viewmodel.userId == null? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewmodel.blankAccountID == null? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@+id/standard_plan_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/standard_plan_title" />

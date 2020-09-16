@@ -138,12 +138,12 @@
             app:destination="@id/syncFragment"
             app:popUpTo="@+id/connectFragment"/>
         <action
-            android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_signUpPeriodFragment"
             app:destination="@id/signUpPeriodFragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFinishFragment"
+            app:destination="@id/signUpFinishFragment" />
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
@@ -174,18 +174,18 @@
         android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
         android:label="Add funds to account" >
         <action
-            android:id="@+id/action_signUpPeriodFragment_to_signUpFinishFragment"
-            app:destination="@id/signUpFinishFragment"
-            app:popUpTo="@+id/connectFragment"/>
-        <action
             android:id="@+id/action_signUpPeriodFragment_to_accountFragment"
             app:destination="@id/accountFragment"
             app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment
         android:id="@+id/signUpFinishFragment"
-        android:name="net.ivpn.client.v2.signup.SignUpFinishFragment"
-        android:label="Hooray!" />
+        android:name="net.ivpn.client.v2.signup.SignUpAccountCreatedFragment"
+        android:label="Account Created" >
+        <action
+            android:id="@+id/action_signUpFinishFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updatesFragment"
         android:name="net.ivpn.client.v2.updates.UpdatesFragment"

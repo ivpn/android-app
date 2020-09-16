@@ -429,7 +429,6 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     private fun openAddFundsScreen() {
         if (account.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
-            signUp.updateUserId()
 
             val action = SettingsFragmentDirections.actionSettingsFragmentToSignUpPeriodFragment()
             NavHostFragment.findNavController(this).navigate(action)

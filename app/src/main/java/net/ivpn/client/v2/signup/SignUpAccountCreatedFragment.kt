@@ -1,6 +1,5 @@
 package net.ivpn.client.v2.signup
 
-import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -24,10 +22,10 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 
-class SignUpFinishFragment : Fragment() {
+class SignUpAccountCreatedFragment : Fragment() {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(SignUpFinishFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(SignUpAccountCreatedFragment::class.java)
     }
 
     lateinit var binding: FragmentSignUpFinishBinding
@@ -55,13 +53,13 @@ class SignUpFinishFragment : Fragment() {
         binding.contentLayout.viewmodel = viewModel
 
         binding.contentLayout.continueButton.setOnClickListener {
-            NavHostFragment.findNavController(this).popBackStack()
+            continuePurchase()
         }
         binding.contentLayout.copyBtn.setOnClickListener {
             copyUserId()
         }
 
-        viewModel.updateUserId()
+//        viewModel.updateUserId()
     }
 
     private fun initToolbar() {
@@ -72,12 +70,17 @@ class SignUpFinishFragment : Fragment() {
     }
 
     private fun copyUserId(){
-        viewModel.userId.get()?.let {userId ->
+        viewModel.blankAccountID.get()?.let { userId ->
             val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 
             ToastUtil.toast(R.string.account_clipboard)
         }
+    }
+
+    private fun continuePurchase() {
+        val action = SignUpAccountCreatedFragmentDirections.actionSignUpFinishFragmentToSignUpFragment()
+        NavHostFragment.findNavController(this).navigate(action)
     }
 }

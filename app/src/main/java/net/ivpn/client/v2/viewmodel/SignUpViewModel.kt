@@ -23,8 +23,6 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import kotlin.math.floor
 
-//Поправить прогресс (1-ая часть)
-//Использовать одинаковый реквест при логине(Создание сессии)
 @ApplicationScope
 class SignUpViewModel @Inject constructor(
         private val billingManager: BillingManagerWrapper,
@@ -51,13 +49,14 @@ class SignUpViewModel @Inject constructor(
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
 
-    val userId = ObservableField<String>()
+    val blankAccountID = ObservableField<String>()
 
     var navigator: SignUpNavigator? = null
     var creationNavigator: CreateAccountNavigator? = null
 
     init {
         dataLoading.set(false)
+        blankAccountID.set(userPreference.blankUsername)
     }
 
     fun selectPeriod(period: Period) {
@@ -98,6 +97,7 @@ class SignUpViewModel @Inject constructor(
                 dataLoading.set(false)
                 if (response.status == Responses.SUCCESS) {
                     userPreference.putBlankUsername(response.accountId)
+                    blankAccountID.set(response.accountId)
                     creationNavigator?.onAccountCreationSuccess()
                 } else {
                     creationNavigator?.onAccountCreationError()
@@ -131,10 +131,6 @@ class SignUpViewModel @Inject constructor(
 
     private fun getProperProductName(): String? {
         return selectedPlan.get()?.productName
-    }
-
-    fun updateUserId() {
-        userId.set(userPreference.userLogin)
     }
 
     private fun checkSkuDetails() {
@@ -187,7 +183,7 @@ class SignUpViewModel @Inject constructor(
                 calculateTwoYearDiscount()
                 calculateThreeYearDiscount()
 
-                selectedPeriod.set(Period.ONE_WEEK)
+                selectedPeriod.set(Period.ONE_YEAR)
             }
         }
     }
@@ -199,6 +195,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     override fun onCreateAccountFinish() {
+        blankAccountID.set(null)
+        userPreference.putBlankUsername(null)
         navigator?.onCreateAccountFinish()
     }
 

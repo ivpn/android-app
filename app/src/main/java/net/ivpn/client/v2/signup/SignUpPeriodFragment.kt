@@ -77,7 +77,7 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
     }
 
     override fun onCreateAccountFinish() {
-        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToSignUpFinishFragment()
+        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 

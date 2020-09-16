@@ -96,8 +96,8 @@ class AccountViewModel @Inject constructor(
         subscriptionPlan.set(getSubscriptionPlan())
     }
 
-    fun isAccountPro(): Boolean {
-        return accountType.get()?.equals("IVPN Pro") ?: false
+    fun isAccountStandard(): Boolean {
+        return accountType.get()?.equals("IVPN Standard") ?: false
     }
 
     fun isAccountNewStyle(): Boolean {

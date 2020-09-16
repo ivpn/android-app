@@ -233,8 +233,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_label">
 
-                    <!--                    android:text="@{account.isAccountPro ? @string/account_pro_plan_title : @string/account_standard_plan_title}"-->
-
                     <TextView
                         android:id="@+id/textView32"
                         android:layout_width="0dp"
@@ -242,7 +240,7 @@
                         android:letterSpacing="-0.03"
                         android:textColor="@color/account_plan_details_text"
                         android:textSize="12sp"
-                        app:html="@{account.isAccountPro ? @string/account_pro_plan_title : @string/account_standard_plan_title}"
+                        app:html="@{account.accountStandard ? @string/account_pro_plan_title : @string/account_standard_plan_title}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -252,7 +250,7 @@
                         android:layout_width="6dp"
                         android:layout_height="6dp"
                         android:tint="@color/account_plan_details_text"
-                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/textView33"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView33"
@@ -263,7 +261,7 @@
                         android:layout_width="6dp"
                         android:layout_height="6dp"
                         android:tint="@color/account_plan_details_text"
-                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/textView34"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView34"
@@ -278,7 +276,7 @@
                         android:letterSpacing="-0.03"
                         android:textColor="@color/account_plan_details_text"
                         android:textSize="12sp"
-                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:html="@{@string/account_pro_devices_benefits}"
                         app:layout_constraintStart_toEndOf="@+id/imageView11"
                         app:layout_constraintTop_toBottomOf="@+id/textView32" />
@@ -292,7 +290,7 @@
                         android:letterSpacing="-0.03"
                         android:textColor="@color/account_plan_details_text"
                         android:textSize="12sp"
-                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:html="@{@string/account_pro_multihop_benefits}"
                         app:layout_constraintStart_toEndOf="@+id/imageView12"
                         app:layout_constraintTop_toBottomOf="@+id/textView33" />
@@ -306,7 +304,7 @@
                         android:text="@string/account_standard_plan_title"
                         android:textColor="@color/account_plan_details_text"
                         android:textSize="12sp"
-                        android:visibility="@{account.isAccountPro ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView34" />

@@ -613,7 +613,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     private fun openAddFundsScreen() {
         if (account.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
-            signUp.updateUserId()
 
             val action = ConnectFragmentDirections.actionConnectFragmentToSignUpPeriodFragment()
             NavHostFragment.findNavController(this).navigate(action)
