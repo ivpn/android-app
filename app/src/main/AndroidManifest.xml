@@ -61,7 +61,6 @@
 
         <activity
             android:name=".vpn.local.PermissionActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
