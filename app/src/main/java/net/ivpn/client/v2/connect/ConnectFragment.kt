@@ -23,6 +23,7 @@ import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.SnackbarUtil
+import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.utils.ToastUtil
@@ -34,9 +35,9 @@ import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.login.LoginFragmentDirections
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
-import net.ivpn.client.v2.network.NetworkCommonFragment
 import net.ivpn.client.v2.network.NetworkViewModel
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
@@ -80,6 +81,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     @Inject
     lateinit var connect: ConnectionViewModel
+
+    @Inject
+    lateinit var signUp: SignUpViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -162,6 +166,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.accountButton.setOnClickListener {
             if (account.authenticated.get()) {
                 openAccountScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openLoginScreen()
             }
@@ -169,6 +175,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.networkLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+                return@setOnClickListener
+            }
+
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
                 return@setOnClickListener
             }
 
@@ -183,9 +194,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 return@setOnClickListener
             }
 
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnClickListener
+            }
+
             if (connect.isVpnActive()) {
                 notifyUser(R.string.snackbar_to_change_protocol_disconnect,
-                    R.string.snackbar_disconnect_first)
+                        R.string.snackbar_disconnect_first)
                 return@setOnClickListener
             }
 
@@ -194,6 +210,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.enterServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openEnterServerSelectionScreen()
             }
@@ -201,6 +219,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.exitServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openExitServerSelectionScreen()
             }
@@ -208,6 +228,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.fastestServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openEnterServerSelectionScreen()
             }
@@ -215,6 +237,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.pauseButton.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 connect.onPauseRequest()
             }
@@ -222,6 +246,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.resumeButton.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 connect.onConnectRequest()
             }
@@ -524,6 +550,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     override fun askConnectionPermission() {
         if (!account.authenticated.get()) {
             openLoginScreen()
+        } else if (!account.isActive.get()) {
+            openAddFundsScreen()
         } else {
             checkVPNPermission(ServiceConstants.IVPN_REQUEST_CODE)
         }
@@ -568,6 +596,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     override fun connectTo(location: ServerLocation) {
         if (!account.authenticated.get()) {
             openLoginScreen()
+        } else if (!account.isActive.get()) {
+            openAddFundsScreen()
         } else {
             servers.setServerLocation(location)
             checkVPNPermission(CONNECT_BY_MAP)
@@ -578,5 +608,24 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         if (!connect.isVpnActive()) {
             servers.setServerLocation(location)
         }
+    }
+
+    private fun openAddFundsScreen() {
+        if (account.isAccountNewStyle()) {
+            signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
+            signUp.updateUserId()
+
+            val action = ConnectFragmentDirections.actionConnectFragmentToSignUpPeriodFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            openAddFundsSite()
+        }
+    }
+
+    private fun openAddFundsSite() {
+        val url = "https://www.ivpn.net/account/login"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

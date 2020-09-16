@@ -17,12 +17,14 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.account.AccountFragmentDirections
 import net.ivpn.client.v2.qr.QRActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel.*
@@ -152,6 +154,18 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()
         NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onLoginWithInactiveAccount() {
+        if (viewModel.isAccountNewStyle()) {
+            signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
+            signUp.updateUserId()
+
+            val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            onLogin()
+        }
     }
 
     override fun onForceLogout() {

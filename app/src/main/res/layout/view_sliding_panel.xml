@@ -479,6 +479,8 @@
                         android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
                         android:thumb="@drawable/common_thumb_selector"
+                        android:checked="@{antitracker.isAntiSurveillanceEnabled}"
+                        app:onChanged="@{antitracker.enableAntiSurveillance}"
                         app:layout_constraintBottom_toBottomOf="@+id/antitracker_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/antitracker_title"

@@ -154,5 +154,9 @@
 
     <color name="dialog_shadow_no_opacity">#000000</color>
 
+    <color name="updates_text_color_opacity">#99FFFFFF</color>
+    <color name="updates_text_color">#FFFFFF</color>
+    <color name="updates_background">#121212</color>
+    <color name="updates_card_background">#202020</color>
 
 </resources>

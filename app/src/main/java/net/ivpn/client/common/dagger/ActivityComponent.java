@@ -35,6 +35,7 @@ import net.ivpn.client.v2.signup.SignUpPeriodFragment;
 import net.ivpn.client.v2.signup.SignUpProductFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.v2.sync.SyncFragment;
+import net.ivpn.client.v2.updates.UpdatesFragment;
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
@@ -131,6 +132,8 @@ public interface ActivityComponent {
     void inject(SavedNetworksFragment fragment);
 
     void inject(ScannedNetworksFragment fragment);
+
+    void inject(UpdatesFragment fragment);
 
     void inject(MapView map);
 

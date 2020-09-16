@@ -59,7 +59,6 @@ class NetworkViewModel @Inject internal constructor(
             if (isChecked == isNetworkFeatureEnabled.get()) {
                 return
             }
-//            isNetworkFeatureEnabled.set(isChecked)
             handleNetworkFeatureState(isChecked)
         }
     }
@@ -151,7 +150,6 @@ class NetworkViewModel @Inject internal constructor(
             if (configuration.SSID == null || configuration.SSID.isEmpty()) {
                 continue
             }
-            LOGGER.info("Wi-Fi item: " + configuration.SSID)
             item = WifiItem(configuration.SSID, ObservableField(NetworkState.DEFAULT))
             if (trustedWifiItems.contains(configuration.SSID)) {
                 item.networkState.set(NetworkState.TRUSTED)

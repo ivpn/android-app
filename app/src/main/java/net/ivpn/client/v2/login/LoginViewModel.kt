@@ -89,6 +89,14 @@ class LoginViewModel @Inject constructor(
         sessionController.createSession(force, username)
     }
 
+    fun isAccountNewStyle(): Boolean {
+        return username.get()?.startsWith("i-") ?: false
+    }
+
+    fun getAccountType(): String? {
+        return userPreference.currentPlan
+    }
+
     fun cancel() {
         LOGGER.info("cancel")
         dataLoading.set(false)
@@ -116,10 +124,11 @@ class LoginViewModel @Inject constructor(
                 userPreference.putUserLogin(accountId)
             }
         }
-//        if (userPreference.isActive) {
-        navigator?.onLogin()
-//        } else {
-//            navigator?.openAccountNotActiveBetaDialogue()
+        if (userPreference.isActive) {
+            navigator?.onLogin()
+        } else {
+            navigator?.onLoginWithInactiveAccount()
+        }
         //Disable only for beta
 //            if (buildController.isIAPEnabled) {
 //                navigator?.openSubscriptionScreen()

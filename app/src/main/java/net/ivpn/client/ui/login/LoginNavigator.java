@@ -4,6 +4,7 @@ import net.ivpn.client.ui.dialog.Dialogs;
 
 public interface LoginNavigator {
     void onLogin();
+    void onLoginWithInactiveAccount();
     void openSubscriptionScreen();
     void openSite();
     void openAccountNotActiveDialogue();

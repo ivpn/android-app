@@ -32,6 +32,9 @@
             android:id="@+id/action_connectFragment_to_networkProtectionFragment"
             app:destination="@id/networkProtectionFragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -67,6 +70,12 @@
         <action
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_updatesFragment"
+            app:destination="@id/updatesFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -131,6 +140,10 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment"
+            app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
@@ -173,4 +186,8 @@
         android:id="@+id/signUpFinishFragment"
         android:name="net.ivpn.client.v2.signup.SignUpFinishFragment"
         android:label="Hooray!" />
+    <fragment
+        android:id="@+id/updatesFragment"
+        android:name="net.ivpn.client.v2.updates.UpdatesFragment"
+        android:label="Updates" />
 </navigation>

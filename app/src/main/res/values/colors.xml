@@ -174,4 +174,9 @@
 
     <color name="dialog_shadow_no_opacity">#CCCCCC</color>
 
+    <color name="updates_text_color_opacity">#992A394B</color>
+    <color name="updates_text_color">#2A394B</color>
+    <color name="updates_background">#F5F9FC</color>
+    <color name="updates_card_background">#FFFFFF</color>
+
 </resources>
