@@ -13,6 +13,7 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.SettingsPreference;
 import net.ivpn.client.common.utils.NetworkUtil;
+import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.ServiceConstants;
@@ -174,6 +175,9 @@ public class NetworkController implements ServiceConstants {
         if (source != null && source.getState() != null && source.getState().equals(DEFAULT)) {
             applyNetworkStateBehaviour(defaultState);
             source.setDefaultState(defaultState);
+            if (networkSourceChangedListener != null) {
+                networkSourceChangedListener.onNetworkSourceChanged(source);
+            }
         }
         if (networkSourceChangedListener != null) {
             networkSourceChangedListener.onDefaultNetworkStateChanged(defaultState);
@@ -194,6 +198,10 @@ public class NetworkController implements ServiceConstants {
             startWifiWatcherService();
         } else {
             stopWifiWatcherService();
+        }
+        if (source != null && source == WIFI && ssid.equals(StringUtil.formatWifiSSID(source.getSsid()))) {
+            source.setState(newState);
+            networkSourceChangedListener.onNetworkSourceChanged(source);
         }
     }
 
@@ -397,6 +405,7 @@ public class NetworkController implements ServiceConstants {
         LOGGER.info("updateMobileDataState: networkState = " + networkState);
         source.setState(networkState);
         applyNetworkStateBehaviour(networkState);
+        networkSourceChangedListener.onNetworkSourceChanged(source);
     }
 
     private void applyTrustedBehaviour() {

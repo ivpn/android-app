@@ -42,7 +42,8 @@ class ScannedNetworksFragment : Fragment() {
         binding.viewmodel = network
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.setEmptyView(binding.emptyView)
 
-        network.scanWifiNetworks()
+//        network.scanWifiNetworks()
     }
 }

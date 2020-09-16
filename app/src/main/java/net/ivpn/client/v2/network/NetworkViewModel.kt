@@ -41,6 +41,9 @@ class NetworkViewModel @Inject internal constructor(
     val mobileDataState = ObservableField<NetworkState>()
     val scannedWifiList = ObservableArrayList<WifiItem>()
     val savedWifiList = ObservableArrayList<WifiItem>()
+
+    //Current network
+    val networkSource = ObservableField<NetworkSource>()
     val networkTitle = ObservableField<String>()
     val networkState = ObservableField<NetworkState>()
 
@@ -50,15 +53,14 @@ class NetworkViewModel @Inject internal constructor(
 
     var lastScanResult = ArrayList<ScanResult>()
 
-//    val defaultStateListeners = mutableListOf<OnDefaultStateChanged>()
-
     val onCheckedChangeListener: CompoundButton.OnCheckedChangeListener = object : CompoundButton.OnCheckedChangeListener {
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
             Log.d("NetworkFeature", "onCheckedChanged: isChecked = $isChecked")
             if (isChecked == isNetworkFeatureEnabled.get()) {
                 return
             }
-            isNetworkFeatureEnabled.set(isChecked)
+//            isNetworkFeatureEnabled.set(isChecked)
+            handleNetworkFeatureState(isChecked)
         }
     }
 
@@ -80,6 +82,8 @@ class NetworkViewModel @Inject internal constructor(
     }
 
     init {
+        networkController.setNetworkSourceChangedListener(this)
+
         isNetworkFeatureEnabled.set(settings.isNetworkRulesEnabled)
         defaultState.set(networkProtectionPreference.defaultNetworkState)
         mobileDataState.set(networkProtectionPreference.mobileDataNetworkState)
@@ -91,21 +95,17 @@ class NetworkViewModel @Inject internal constructor(
         updateSavedWifiItems()
     }
 
-    fun onStart() {
-        LOGGER.info("onStart: add network listener to NetworkViewModel ")
-        networkController.setNetworkSourceChangedListener(this)
-    }
-
-    fun onStop() {
-        LOGGER.info("onStop: Remove network listener from NetworkViewModel ")
-        networkController.removeNetworkSourceListener()
-    }
-
     fun setNavigator(navigator: NetworkNavigator?) {
         this.navigator = navigator
     }
 
-    fun scanWifiNetworks() {
+    fun updateNetworkSource(context: Context?) {
+        networkController.updateNetworkSource(context)
+    }
+
+    fun scanWifiNetworks(context: Context?) {
+        updateNetworkSource(context)
+
         val trustedWifiList = networkProtectionPreference.trustedWifiList
         val untrustedWifiList = networkProtectionPreference.untrustedWifiList
         val noneWifiList = networkProtectionPreference.noneWifiList
@@ -199,12 +199,12 @@ class NetworkViewModel @Inject internal constructor(
         if (source == NetworkSource.WIFI) {
             Log.d("NetworkController", "onNetworkSourceChanged: ssid = " + source.ssid)
         }
+        networkSource.set(source)
         networkState.set(source.finalState)
         networkTitle.set(source.title)
     }
 
     override fun onDefaultNetworkStateChanged(defaultState: NetworkState) {
-
     }
 
     fun setMobileNetworkStateAs(state: NetworkState?) {

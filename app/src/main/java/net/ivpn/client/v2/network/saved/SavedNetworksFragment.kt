@@ -43,7 +43,6 @@ class SavedNetworksFragment: Fragment() {
         binding.viewmodel = network
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
-
-        network.scanWifiNetworks()
+        binding.recyclerView.setEmptyView(binding.emptyView)
     }
 }

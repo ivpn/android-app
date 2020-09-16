@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -40,7 +41,6 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     }
 
     private lateinit var binding: FragmentNetworkBinding
-//    private var adapter: NetworkRecyclerViewAdapter? = null
 
     @Inject
     lateinit var network: NetworkViewModel
@@ -73,6 +73,7 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
                 }
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     network.applyNetworkFeatureState(true)
+                    network.scanWifiNetworks(context)
                     return
                 }
                 if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
@@ -91,13 +92,9 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     override fun onStart() {
         super.onStart()
-        network.onStart()
-        network.scanWifiNetworks()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        network.onStop()
+        if (isPermissionGranted()) {
+            network.scanWifiNetworks(context)
+        }
     }
 
     private fun initViews() {
@@ -110,8 +107,8 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         binding.contentLayout.viewmodel = network
         binding.contentLayout.formatter = NetworkStateFormatter(requireContext())
         binding.contentLayout.mobileContentLayout.setOnClickListener {
-            network.mobileDataState.get()?.let {state ->
-                openChangeNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state){
+            network.mobileDataState.get()?.let { state ->
+                openChangeNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state) {
                     override fun apply() {
                         network.setMobileNetworkStateAs(selectedState.get())
                     }
@@ -120,13 +117,17 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         }
 
         binding.contentLayout.defaultLayout.setOnClickListener {
-            network.defaultState.get()?.let {state ->
-                openChangeDefaultNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state){
+            network.defaultState.get()?.let { state ->
+                openChangeDefaultNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state) {
                     override fun apply() {
                         network.setDefaultNetworkStateAs(selectedState.get())
                     }
                 })
             }
+        }
+
+        binding.contentLayout.rulesAction.setOnClickListener {
+            toRules()
         }
     }
 
@@ -149,12 +150,12 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
             return
         }
-        val isPermissionGranted: Boolean = isPermissionGranted()
-        LOGGER.info("isPermissionGranted = $isPermissionGranted")
         val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
         if (!isEnabled) {
             return
         }
+        val isPermissionGranted: Boolean = isPermissionGranted()
+        LOGGER.info("isPermissionGranted = $isPermissionGranted")
         if (isPermissionGranted) {
             network.applyNetworkFeatureState(true)
             return
@@ -196,19 +197,17 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     }
 
     private fun isPermissionGranted(): Boolean {
-        return (ContextCompat.checkSelfPermission(activity!!,
+        return (checkSelfPermission(activity!!,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun shouldRequestRationale(): Boolean {
-        return ActivityCompat.shouldShowRequestPermissionRationale(activity!!,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        return shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     private fun askPermission() {
-        ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_CODE)
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
     }
 
     private fun openNetworkProtectionRulesScreen() {

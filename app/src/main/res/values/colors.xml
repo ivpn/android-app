@@ -37,6 +37,7 @@
     <color name="network_tabs_indicator">@color/primary</color>
     <color name="network_tabs_selected_text">#2A394B</color>
     <color name="network_tabs_passive_text">#A62A394B</color>
+    <color name="network_current_state">#98A5B3</color>
 
     <color name="color_trusted_text">#398FE6</color>
     <color name="color_untrusted_text">#FF6258</color>

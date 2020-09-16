@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.ObservableField
 import net.ivpn.client.R
+import net.ivpn.client.common.utils.StringUtil
+import net.ivpn.client.vpn.model.NetworkSource
 import net.ivpn.client.vpn.model.NetworkState
 import net.ivpn.client.vpn.model.WifiItem
 
@@ -35,6 +37,23 @@ class NetworkStateFormatter(val context: Context) {
         return defaultState?.let {
             context.getString(it.textRes)
         }
+    }
+
+    fun isWiFiCurrentStateVisible(source: NetworkSource?, ssid: String?): Boolean {
+        println("isWiFiCurrentStateVisible for $source and $ssid")
+        source?.let { sourceObj ->
+            ssid?.let { ssidObj ->
+                println("sourceObj.ssid = ${sourceObj.ssid} ssidObj = $ssidObj")
+                println("return ${sourceObj == NetworkSource.WIFI && ssidObj == sourceObj.ssid}")
+                return sourceObj == NetworkSource.WIFI && ssidObj == StringUtil.formatWifiSSID(sourceObj.ssid)
+            } ?: return false
+        } ?: return false
+    }
+
+    fun isMobileDataCurrentStateVisible(source: NetworkSource?): Boolean {
+        source?.let { sourceObj ->
+                return sourceObj == NetworkSource.MOBILE_DATA
+        } ?: return false
     }
 
     fun getColor(state: NetworkState?): Int {

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import net.ivpn.client.R
+import kotlin.math.min
 
 class WrapContentHeightViewPager : ViewPager {
     constructor(context: Context) : super(context) {}
@@ -21,13 +22,11 @@ class WrapContentHeightViewPager : ViewPager {
             if (h > height) height = h
         }
 
-        println("WrapContentHeightViewPager content max size = $height")
-        println("WrapContentHeightViewPager screen size = ${getScreenHeight()}")
         val screenHeight = getScreenHeight()
         val toolbarHeight = resources.getDimension(R.dimen.network_default_toolbar_height)
         val tabsHeight = resources.getDimension(R.dimen.network_tab_layout_height)
         val statusBarHeight = resources.getDimension(R.dimen.network_status_bar_height)
-        val finalHeight = Math.min(height, (screenHeight - toolbarHeight - tabsHeight - statusBarHeight).toInt())
+        val finalHeight = min(height, (screenHeight - toolbarHeight - tabsHeight - statusBarHeight).toInt())
 
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

@@ -1,18 +1,25 @@
 package net.ivpn.client.v2.connect
 
+import android.Manifest
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.SnackbarUtil
@@ -29,6 +36,7 @@ import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
+import net.ivpn.client.v2.network.NetworkCommonFragment
 import net.ivpn.client.v2.network.NetworkViewModel
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
@@ -40,6 +48,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
+        private const val LOCATION_PERMISSION_CODE = 133
 
         const val CONNECT_BY_MAP = 121
     }
@@ -85,6 +94,27 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         super.onViewCreated(view, savedInstanceState)
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
+                                            grantResults: IntArray) {
+        LOGGER.info("onRequestPermissionsResult requestCode = $requestCode")
+        when (requestCode) {
+            LOCATION_PERMISSION_CODE -> {
+                if (grantResults.isEmpty()) {
+                    return
+                }
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    network.applyNetworkFeatureState(true)
+                    network.updateNetworkSource(context)
+                    return
+                }
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    network.applyNetworkFeatureState(false)
+                    return
+                }
+            }
+        }
     }
 
     private fun initViews() {
@@ -274,19 +304,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         applySlidingPanelSide()
         checkLocationPermission()
         account.updateSessionStatus()
+        checkLocationPermission()
     }
 
     override fun onStart() {
         LOGGER.info("onStart: Connect fragment")
         super.onStart()
         location.addLocationListener(binding.map.locationListener)
-        network.onStart()
+        if (isPermissionGranted()) {
+            network.updateNetworkSource(context)
+        }
     }
 
     override fun onStop() {
         LOGGER.info("onStop: Connect fragment")
         super.onStop()
-        network.onStop()
         location.removeLocationListener(binding.map.locationListener)
     }
 
@@ -324,6 +356,71 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun checkLocationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
+            return
+        }
+        val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
+        if (!isEnabled) {
+            return
+        }
+        val isPermissionGranted: Boolean = isPermissionGranted()
+        LOGGER.info("isPermissionGranted = $isPermissionGranted")
+        if (isPermissionGranted) {
+            network.applyNetworkFeatureState(true)
+            return
+        }
+        askPermissionRationale()
+    }
+
+    fun shouldAskForLocationPermission(): Boolean {
+        LOGGER.info("shouldAskForLocationPermission")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
+            return false
+        }
+        if (isPermissionGranted()) {
+            return false
+        }
+        if (shouldRequestRationale()) {
+            askPermissionRationale()
+        } else {
+            showInformationDialog()
+        }
+        return true
+    }
+
+    private fun askPermissionRationale() {
+        LOGGER.info("askPermissionRationale")
+        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.ASK_LOCATION_PERMISSION,
+                { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
+                { network.applyNetworkFeatureState(false) })
+    }
+
+    private fun showInformationDialog() {
+        LOGGER.info("showInformationDialog")
+        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.LOCATION_PERMISSION_INFO,
+                null, { askPermission() })
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        return (ContextCompat.checkSelfPermission(activity!!,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+    }
+
+    private fun shouldRequestRationale(): Boolean {
+        return shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    private fun askPermission() {
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
+    }
+
+    private fun goToAndroidAppSettings() {
+        LOGGER.info("goToAndroidAppSettings")
+        val action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri = Uri.parse(getString(R.string.settings_package) + BuildConfig.APPLICATION_ID)
+        val intent = Intent(action, uri)
+        startActivity(intent)
     }
 
     override fun onMultiHopStateChanged(state: Boolean) {

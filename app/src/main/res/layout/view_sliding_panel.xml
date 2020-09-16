@@ -568,7 +568,7 @@
                         android:paddingBottom="3dp"
                         android:text="@{network.networkState}"
                         android:textAllCaps="true"
-                        android:textColor="@color/account_text_active"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"
                         android:visibility="@{network.networkState == null ? View.GONE : View.VISIBLE}"
                         app:background="@{network.networkState.backgroundId}"
