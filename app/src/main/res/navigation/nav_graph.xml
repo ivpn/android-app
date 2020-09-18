@@ -144,6 +144,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFinishFragment"
             app:destination="@id/signUpFinishFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/syncFragment"

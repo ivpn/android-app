@@ -101,7 +101,6 @@ class LoginViewModel @Inject constructor(
         LOGGER.info("cancel")
         dataLoading.set(false)
         sessionController.cancel()
-//        request.cancel()
     }
 
     private fun onSuccess(response: SessionNewResponse) {
@@ -111,12 +110,6 @@ class LoginViewModel @Inject constructor(
                 return
             }
         } ?: return
-//        response.serviceStatus?.let {
-//            if (!it.isActive) {
-//                navigator?.openAccountNotActiveBetaDialogue()
-//                return
-//            }
-//        } ?: return
 
         LOGGER.info("Status = ${response.status}")
         username.get()?.let { accountId ->
@@ -129,13 +122,6 @@ class LoginViewModel @Inject constructor(
         } else {
             navigator?.onLoginWithInactiveAccount()
         }
-        //Disable only for beta
-//            if (buildController.isIAPEnabled) {
-//                navigator?.openSubscriptionScreen()
-//            } else {
-//                navigator?.openSite()
-//            }
-//        }
     }
 
     private fun handleErrorResponse(errorResponse: ErrorResponse?) {
@@ -148,7 +134,7 @@ class LoginViewModel @Inject constructor(
 
         when (errorResponse.status) {
             Responses.ACCOUNT_NOT_ACTIVE -> {
-                navigator?.onLoginWithInactiveAccount()
+                navigator?.onLoginWithBlankAccount()
             }
             Responses.INVALID_CREDENTIALS -> {
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)

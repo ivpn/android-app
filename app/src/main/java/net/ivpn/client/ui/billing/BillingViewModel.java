@@ -74,15 +74,15 @@ public class BillingViewModel implements BillingListener {
                 break;
             case INITIAL_PAYMENT_ERROR:
                 dataLoading.set(false);
-                navigator.createPurchaseErrorDialog("Error", "There was an error while creating your account. Contact our support or reopen the application to try again.");
+                navigator.createPurchaseErrorDialog("", "There was an error while creating your account. Contact our support or reopen the application to try again.");
                 break;
             case ADD_FUNDS_ERROR:
                 dataLoading.set(false);
-                navigator.createPurchaseErrorDialog("Error", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
+                navigator.createPurchaseErrorDialog("", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
                 break;
             case UPDATE_SESSION_ERROR:
                 dataLoading.set(false);
-                navigator.createPurchaseErrorDialog("Error", "There was an error while updating your session. Contact our support or reopen the application to try again.");
+                navigator.createPurchaseErrorDialog("", "There was an error while updating your session. Contact our support or reopen the application to try again.");
                 break;
             case DONE:
                 dataLoading.set(false);

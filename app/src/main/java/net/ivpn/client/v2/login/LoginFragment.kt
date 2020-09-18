@@ -163,6 +163,17 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         NavHostFragment.findNavController(this).navigate(action)
     }
 
+    override fun onLoginWithBlankAccount() {
+        if (viewModel.isAccountNewStyle()) {
+            signUp.blankAccountID.set(viewModel.username.get())
+
+            val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            onLogin()
+        }
+    }
+
     override fun onLoginWithInactiveAccount() {
         if (viewModel.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
