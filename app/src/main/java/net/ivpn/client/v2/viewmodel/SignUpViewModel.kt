@@ -12,6 +12,7 @@ import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.common.utils.DateUtil
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
@@ -50,6 +51,7 @@ class SignUpViewModel @Inject constructor(
     val threeYearDiscount = ObservableField<String>()
 
     val blankAccountID = ObservableField<String>()
+    var blankAccountGeneratedDate = 0L
 
     var navigator: SignUpNavigator? = null
     var creationNavigator: CreateAccountNavigator? = null
@@ -57,6 +59,7 @@ class SignUpViewModel @Inject constructor(
     init {
         dataLoading.set(false)
         blankAccountID.set(userPreference.blankUsername)
+        blankAccountGeneratedDate = userPreference.blankUsernameGeneratedDate
     }
 
     fun selectPeriod(period: Period) {
@@ -87,6 +90,22 @@ class SignUpViewModel @Inject constructor(
         return skuDetails?.price
     }
 
+    fun isBlankAccountFresh(): Boolean {
+        return System.currentTimeMillis() - blankAccountGeneratedDate < DateUtil.WEEK
+    }
+
+    fun reset() {
+        dataLoading.set(false)
+        selectedPeriod.set(null)
+        oneWeek.set(null)
+        oneMonth.set(null)
+        oneYear.set(null)
+        twoYear.set(null)
+        threeYear.set(null)
+        blankAccountID.set(null)
+        blankAccountGeneratedDate = 0L
+    }
+
     fun createNewAccount() {
         dataLoading.set(true)
         val requestBody = NewAccountRequestBody("IVPN Standard")
@@ -97,6 +116,8 @@ class SignUpViewModel @Inject constructor(
                 dataLoading.set(false)
                 if (response.status == Responses.SUCCESS) {
                     userPreference.putBlankUsername(response.accountId)
+                    userPreference.putBlankUsernameGenerationDate(System.currentTimeMillis())
+                    blankAccountGeneratedDate = System.currentTimeMillis()
                     blankAccountID.set(response.accountId)
                     creationNavigator?.onAccountCreationSuccess()
                 } else {
@@ -147,7 +168,7 @@ class SignUpViewModel @Inject constructor(
         LOGGER.info("Is billing manager init? - $isInit, errorCode = $errorCode")
         if (isInit) {
             checkSkuDetails()
-        } else if (errorCode != 0) {
+        } else {
             handleError(errorCode)
         }
     }
@@ -209,6 +230,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun handleError(error: Int) {
         dataLoading.set(false)
+        navigator?.onGoogleConnectFailure()
     }
 
     private fun calculateYearDiscount() {
@@ -263,6 +285,8 @@ class SignUpViewModel @Inject constructor(
         fun onCreateAccountFinish()
 
         fun onAddFundsFinish()
+
+        fun onGoogleConnectFailure()
     }
 
     interface CreateAccountNavigator {

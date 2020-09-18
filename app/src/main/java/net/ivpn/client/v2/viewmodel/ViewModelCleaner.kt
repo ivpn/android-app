@@ -52,6 +52,9 @@ class ViewModelCleaner {
     @Inject
     lateinit var updates: UpdatesViewModel
 
+    @Inject
+    lateinit var signUp: SignUpViewModel
+
     init {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
 
@@ -69,5 +72,6 @@ class ViewModelCleaner {
         startOnBoot.reset()
         protocol.reset()
         updates.reset()
+        signUp.reset()
     }
 }

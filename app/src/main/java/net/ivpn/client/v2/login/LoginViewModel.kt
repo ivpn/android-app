@@ -148,7 +148,7 @@ class LoginViewModel @Inject constructor(
 
         when (errorResponse.status) {
             Responses.ACCOUNT_NOT_ACTIVE -> {
-                navigator?.openAccountNotActiveDialogue()
+                navigator?.onLoginWithInactiveAccount()
             }
             Responses.INVALID_CREDENTIALS -> {
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)

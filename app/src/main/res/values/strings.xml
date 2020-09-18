@@ -493,7 +493,7 @@
     <string name="account_type">Account type</string>
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
-    <string name="account_keep_safe">Please make sure you save your Account ID in a safe place, you will use it to connect to the VPN.</string>
+    <string name="account_keep_safe">Please save your account ID in a safe place, you will use it to connect on another IVPN App or log in to the client area of the IVPN website. You can find this account ID later in the IVPN App Account screen.</string>
     <string name="account_continue">Select your plan to continue</string>
     <string name="account_clipboard">Account ID copied</string>
     

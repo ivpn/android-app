@@ -117,7 +117,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private fun createBlankAccount() {
         signUp.blankAccountID.get()?.let { accountID ->
-            if (accountID.isEmpty()) {
+            if (accountID.isEmpty()  || !signUp.isBlankAccountFresh()) {
                 signUp.createNewAccount()
             } else {
                 onAccountCreationSuccess()

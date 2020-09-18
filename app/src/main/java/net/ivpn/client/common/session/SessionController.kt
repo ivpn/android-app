@@ -69,17 +69,17 @@ class SessionController @Inject constructor(
                         LOGGER.error("On create session error = $error")
                         val errorResponse = Mapper.errorResponseFrom(error)
 
-                        if (errorResponse == null || errorResponse.status == null) {
-                            vpnBehaviorController.connectionActionByUser()
-                            return
-                        }
-                        when (errorResponse.status) {
-                            Responses.INVALID_CREDENTIALS, Responses.SESSION_TOO_MANY -> {
-                            }
-                            else -> {
-                                vpnBehaviorController.connectionActionByUser()
-                            }
-                        }
+//                        if (errorResponse == null || errorResponse.status == null) {
+////                            vpnBehaviorController.connectionActionByUser()
+//                            return
+//                        }
+//                        when (errorResponse.status) {
+//                            Responses.INVALID_CREDENTIALS, Responses.SESSION_TOO_MANY -> {
+//                            }
+//                            else -> {
+//                                vpnBehaviorController.connectionActionByUser()
+//                            }
+//                        }
 
                         onCreateError(null, errorResponse)
                     }

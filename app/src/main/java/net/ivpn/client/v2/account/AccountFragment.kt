@@ -84,6 +84,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     }
 
     override fun onLogOut() {
+        signUp.reset()
+
         NavHostFragment.findNavController(this).popBackStack()
     }
 

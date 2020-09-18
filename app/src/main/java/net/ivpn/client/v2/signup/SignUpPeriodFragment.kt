@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSignUpPeriodBinding
-import net.ivpn.client.databinding.FragmentSignUpProductBinding
+import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -28,6 +28,8 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     @Inject
     lateinit var viewModel: SignUpViewModel
+
+    private var isAccountCreated = false
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -47,7 +49,16 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     override fun onResume() {
         super.onResume()
+        if (isAccountCreated) {
+            val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.navigator = this
+        viewModel.initOffers()
     }
 
     private fun initViews() {
@@ -62,7 +73,6 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
             }
         }
 
-        viewModel.initOffers()
     }
 
     private fun initToolbar() {
@@ -77,12 +87,23 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
     }
 
     override fun onCreateAccountFinish() {
-        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        isAccountCreated = true
+//        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
+//        NavHostFragment.findNavController(this).navigate(action)
     }
 
     override fun onAddFundsFinish() {
-        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        isAccountCreated = true
+//        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
+//        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onGoogleConnectFailure() {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, getString(R.string.dialogs_error),
+                    getString(R.string.billing_error_message)) {
+                NavHostFragment.findNavController(this).popBackStack()
+            }
+        }
     }
 }

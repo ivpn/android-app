@@ -125,6 +125,11 @@ public class BillingManagerWrapper {
             public void onBillingError(int error) {
                 LOGGER.info("Error code =" + error + " received");
                 BillingManagerWrapper.this.error = error;
+                isInit = false;
+
+                for (BillingListener listener : listeners) {
+                    listener.onInitStateChanged(isInit, error);
+                }
             }
         });
     }
@@ -402,6 +407,12 @@ public class BillingManagerWrapper {
 
     private void clearSensitiveData() {
         purchasePreference.clear();
+    }
+
+    public void forceInit() {
+        if (!isInit) {
+            init();
+        }
     }
 
     public void setEmail(String email) {
