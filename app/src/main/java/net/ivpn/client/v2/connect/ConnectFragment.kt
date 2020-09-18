@@ -269,56 +269,44 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
 
             override fun openGatewayDialogue(list: ArrayList<ServerLocation>) {
-                if (list.size == 1) {
-                    handlePossibleLocation(list[0])
-                } else {
-                    handlePossibleLocationList(list)
+                var filteredList = filterLocation(list)
+
+                view?.let {
+                    val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+
+                    val location: ServerLocation
+                    when(filteredList.size) {
+                        0 -> {
+                            location = list[0]
+                            MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
+                        }
+                        1 -> {
+                            location = filteredList[0]
+                            MapDialogs.openGatewayDialog(it, filteredList[0], topMargin, this@ConnectFragment)
+                        }
+                        else -> {
+                            location = filteredList[0]
+                            MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+                        }
+                    }
+
+                    if (!connect.isVpnActive()) {
+                        servers.setServerLocation(location)
+                    }
                 }
             }
         }
     }
 
-    private fun handlePossibleLocation(location: ServerLocation) {
-        view?.let {
-            val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+    private fun filterLocation(list: ArrayList<ServerLocation>): ArrayList<ServerLocation> {
+        val filteredList = ArrayList<ServerLocation>()
+        for (location in list) {
             if (servers.isLocationSuitable(location)) {
-                MapDialogs.openGatewayDialog(it, location, topMargin, this@ConnectFragment)
-            } else {
-                MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
-            }
-            if (!connect.isVpnActive()) {
-                servers.setServerLocation(location)
+                filteredList.add(location)
             }
         }
-    }
 
-    private fun handlePossibleLocationList(list: ArrayList<ServerLocation>) {
-        view?.let {
-            val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
-
-            var forbiddenLocation: ServerLocation? = null
-            for (location in list) {
-                if (!servers.isLocationSuitable(location)) {
-                    forbiddenLocation = location
-                    break
-                }
-            }
-
-            forbiddenLocation?.also { forbiddenLocationObj ->
-                list.remove(forbiddenLocationObj)
-                if (list.size == 1) {
-                    MapDialogs.openGatewayDialog(it, list[0], topMargin, this@ConnectFragment)
-                } else {
-                    MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
-                }
-            } ?: run {
-                MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
-            }
-
-            if (!connect.isVpnActive()) {
-                servers.setServerLocation(list[0])
-            }
-        }
+        return filteredList
     }
 
     override fun onResume() {
@@ -396,22 +384,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             return
         }
         askPermissionRationale()
-    }
-
-    fun shouldAskForLocationPermission(): Boolean {
-        LOGGER.info("shouldAskForLocationPermission")
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
-            return false
-        }
-        if (isPermissionGranted()) {
-            return false
-        }
-        if (shouldRequestRationale()) {
-            askPermissionRationale()
-        } else {
-            showInformationDialog()
-        }
-        return true
     }
 
     private fun askPermissionRationale() {
