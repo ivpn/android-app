@@ -179,4 +179,7 @@
     <color name="updates_background">#F5F9FC</color>
     <color name="updates_card_background">#FFFFFF</color>
 
+    <color name="alerts_background_color">#F3E2A3</color>
+    <color name="alerts_text">#776832</color>
+
 </resources>

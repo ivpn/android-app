@@ -13,6 +13,7 @@ import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.session.SessionListenerImpl
+import net.ivpn.client.common.utils.DateUtil
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -40,6 +41,10 @@ class AccountViewModel @Inject constructor(
     val availableUntil = ObservableLong()
     val isActive = ObservableBoolean()
 
+    val isExpired = ObservableBoolean()
+    val isExpiredIn = ObservableBoolean()
+    val textIsExpiredIn = ObservableField<String>()
+
     var navigator: AccountNavigator? = null
 
     init {
@@ -66,6 +71,8 @@ class AccountViewModel @Inject constructor(
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
         isActive.set(getIsActiveValue())
+
+        updateExpireData()
     }
 
     fun updateSessionStatus() {
@@ -107,6 +114,27 @@ class AccountViewModel @Inject constructor(
     private fun clearLocalCache() {
         authenticated.set(false)
         navigator?.onLogOut()
+    }
+
+    private fun updateExpireData() {
+        val currentTime = System.currentTimeMillis()
+        val expireTime = availableUntil.get() * 1000
+
+        when {
+            expireTime < currentTime -> {
+                isExpired.set(true)
+                isExpiredIn.set(false)
+            }
+            (expireTime - currentTime) < DateUtil.DAYS_4 -> {
+                isExpired.set(false)
+                isExpiredIn.set(true)
+                textIsExpiredIn.set("Subscription will expire in ${DateUtil.formatSubscriptionTimeLeft(expireTime)}")
+            }
+            else -> {
+                isExpired.set(false)
+                isExpiredIn.set(false)
+            }
+        }
     }
 
     private fun getUsernameValue(): String? {

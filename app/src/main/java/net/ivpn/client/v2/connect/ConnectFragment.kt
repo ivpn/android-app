@@ -130,6 +130,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.location = location
         binding.connection = connect
         binding.servers = servers
+        binding.account = account
         binding.slidingPanel.antitracker = antiTracker
         binding.slidingPanel.multihop = multihop
         binding.slidingPanel.servers = servers
@@ -254,6 +255,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
         binding.centerLocation.setOnClickListener {
             binding.map.centerMap()
+        }
+
+        binding.renew1.setOnClickListener {
+            openAddFundsScreen()
+        }
+
+        binding.renew2.setOnClickListener {
+            openAddFundsScreen()
         }
 
         binding.map.mapListener = object : MapView.MapListener {
@@ -455,6 +464,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
         binding.map.setPanelHeight(peekHeight)
         binding.centerLocation.animate().translationY(-peekHeight)
+        binding.alertsLayout.animate().translationY(-peekHeight)
     }
 
     private fun openSettingsScreen() {

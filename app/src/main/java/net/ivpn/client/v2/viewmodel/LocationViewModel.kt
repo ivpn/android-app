@@ -45,6 +45,8 @@ class LocationViewModel @Inject constructor(
     val location = ObservableField<String>()
     val isp = ObservableField<String>()
 
+    val isLocationAPIError = ObservableBoolean()
+
     private var locationListeners = arrayListOf<CheckLocationListener>()
 
     private var request: Request<LocationResponse>? = null
@@ -70,6 +72,7 @@ class LocationViewModel @Inject constructor(
     }
 
     fun checkLocation() {
+        isLocationAPIError.set(false)
         request?.cancel()
         request = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
         LOGGER.info("Checking location...")
@@ -141,6 +144,11 @@ class LocationViewModel @Inject constructor(
 
     private fun onError() {
         dataLoading.set(false)
+        isLocationAPIError.set(true)
+
+        ip.set("Connection error")
+        isp.set("Connection error")
+        location.set("Connection error")
     }
 
     private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
