@@ -83,13 +83,17 @@ class NetworkViewModel @Inject internal constructor(
     init {
         networkController.setNetworkSourceChangedListener(this)
 
-        isNetworkFeatureEnabled.set(settings.isNetworkRulesEnabled)
-        defaultState.set(networkProtectionPreference.defaultNetworkState)
-        mobileDataState.set(networkProtectionPreference.mobileDataNetworkState)
-
         val intentFilter = IntentFilter()
         intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         context.registerReceiver(wifiScanReceiver, intentFilter)
+
+        initStates()
+    }
+
+    fun initStates() {
+        isNetworkFeatureEnabled.set(settings.isNetworkRulesEnabled)
+        defaultState.set(networkProtectionPreference.defaultNetworkState)
+        mobileDataState.set(networkProtectionPreference.mobileDataNetworkState)
 
         updateSavedWifiItems()
     }
@@ -236,5 +240,13 @@ class NetworkViewModel @Inject internal constructor(
         lastScanResult.clear()
         lastScanResult.addAll(wifiManager.scanResults)
         updateNetworksRules(lastScanResult)
+    }
+
+    fun reset() {
+        isNetworkFeatureEnabled.set(false)
+        networkSource.set(null)
+        networkTitle.set(null)
+        networkState.set(null)
+
     }
 }

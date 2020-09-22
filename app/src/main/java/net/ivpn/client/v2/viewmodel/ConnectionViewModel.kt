@@ -18,6 +18,7 @@ import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.ui.connect.ConnectionNavigator
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.connect.MapDialogs
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
@@ -58,6 +59,7 @@ class ConnectionViewModel @Inject constructor(
     }
 
     var navigator: ConnectionNavigator? = null
+    var resumeDialog: MapDialogs.ResumeDialogListener? = null
 
     init {
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
@@ -65,6 +67,10 @@ class ConnectionViewModel @Inject constructor(
 
     fun onConnectRequest() {
         vpnBehaviorController.connectionActionByUser()
+    }
+
+    fun resume() {
+        vpnBehaviorController.resumeActionByUser()
     }
 
     fun connectIfNot() {
@@ -98,7 +104,6 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun reset() {
-
     }
 
     private fun createNewSession(force: Boolean) {
@@ -118,6 +123,10 @@ class ConnectionViewModel @Inject constructor(
 
             override fun onTimeTick(millisUntilResumed: Long) {
                 timeUntilResumed.set(StringUtil.formatTimeUntilResumed(millisUntilResumed))
+            }
+
+            override fun onTimerFinish() {
+                resumeDialog?.onTimerFinish()
             }
 
             override fun notifyAnotherPortUsedToConnect() {
@@ -159,7 +168,6 @@ class ConnectionViewModel @Inject constructor(
                         isConnected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(true)
-//                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_connected))
                         connectionUserHint.set(context.getString(R.string.connect_hint_connected))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_connected))
@@ -182,7 +190,6 @@ class ConnectionViewModel @Inject constructor(
                         isConnected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
-//                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_not_connected))
                         connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
                         connectionViewHint.set(context.getString(R.string.connect_state_hint_not_connected))

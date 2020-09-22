@@ -92,6 +92,7 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     override fun onStart() {
         super.onStart()
+        network.initStates()
         if (isPermissionGranted()) {
             network.scanWifiNetworks(context)
         }
@@ -147,9 +148,6 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     }
 
     private fun checkLocationPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
-            return
-        }
         val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
         if (!isEnabled) {
             return
@@ -169,9 +167,6 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     override fun shouldAskForLocationPermission(): Boolean {
         LOGGER.info("shouldAskForLocationPermission")
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
-            return false
-        }
         if (isPermissionGranted()) {
             return false
         }

@@ -73,5 +73,6 @@ class ViewModelCleaner {
         protocol.reset()
         updates.reset()
         signUp.reset()
+        network.reset()
     }
 }

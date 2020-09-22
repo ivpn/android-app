@@ -375,7 +375,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun resumeConnection() {
-        connect.onConnectRequest()
+        connect.resume()
     }
 
     private fun checkLocationPermission() {

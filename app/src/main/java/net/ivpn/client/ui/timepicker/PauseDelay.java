@@ -8,8 +8,9 @@ public enum PauseDelay {
     ONE_HOUR(PauseDelay.HOUR, R.string.dialogs_one_hour),
     CUSTOM_DELAY(0, R.string.dialogs_custom_delay);
 
-    private static final long MINUTE = 60 * 1000;
-    private static final long HOUR = 60 * 60 * 1000;
+    private static final long SECOND = 1000;
+    private static final long MINUTE = 60 * SECOND;
+    private static final long HOUR = 60 * MINUTE;
 
     private long delay;
     private int labelId;

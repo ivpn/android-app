@@ -90,6 +90,9 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             public void onFinish() {
                 LOGGER.info("Should be resumed");
                 resume();
+                for (VpnStateListener listener: listeners) {
+                    listener.onTimerFinish();
+                }
             }
         });
         state = NOT_CONNECTED;

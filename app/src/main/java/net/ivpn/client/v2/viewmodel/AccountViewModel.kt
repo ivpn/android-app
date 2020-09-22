@@ -120,6 +120,12 @@ class AccountViewModel @Inject constructor(
         val currentTime = System.currentTimeMillis()
         val expireTime = availableUntil.get() * 1000
 
+        if (!authenticated.get()) {
+            isExpired.set(false)
+            isExpiredIn.set(false)
+            return
+        }
+
         when {
             expireTime < currentTime -> {
                 isExpired.set(true)

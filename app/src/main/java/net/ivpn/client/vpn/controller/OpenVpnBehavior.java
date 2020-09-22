@@ -125,6 +125,9 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             @Override
             public void onFinish() {
                 resume();
+                for (VpnStateListener listener: listeners) {
+                    listener.onTimerFinish();
+                }
             }
         });
         registerReceivers();

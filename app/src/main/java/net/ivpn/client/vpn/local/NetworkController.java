@@ -136,7 +136,7 @@ public class NetworkController implements ServiceConstants {
             case WIFI: {
                 String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
                 if (currentWiFiSsid != null) {
-                    onWifiChanged(currentWiFiSsid);
+                    onWifiChanged(StringUtil.formatWifiSSID(currentWiFiSsid));
                 } else {
                     onNoNetwork();
                 }
@@ -462,7 +462,7 @@ public class NetworkController implements ServiceConstants {
                 openSettings();
                 break;
             case WIFI_CHANGED_ACTION:
-                onWifiChanged(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE));
+                onWifiChanged(StringUtil.formatWifiSSID(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE)));
                 break;
             case ON_MOBILE_DATA_ACTION:
                 onMobileData();
@@ -581,7 +581,7 @@ public class NetworkController implements ServiceConstants {
                         String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
                         LOGGER.info("onReceive: currentWiFiSsid = " + currentWiFiSsid);
                         if (currentWiFiSsid != null) {
-                            onWifiChanged(currentWiFiSsid);
+                            onWifiChanged(StringUtil.formatWifiSSID(currentWiFiSsid));
                         } else {
                             onNoNetwork();
                         }

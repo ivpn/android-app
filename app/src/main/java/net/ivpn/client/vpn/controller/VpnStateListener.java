@@ -8,6 +8,7 @@ public interface VpnStateListener {
     void onConnectionStateChanged(ConnectionState state);
     void onAuthFailed();
     void onTimeTick(long millisUntilResumed);
+    void onTimerFinish();
     void notifyAnotherPortUsedToConnect();
     void onTimeOut();
     void onFindingFastestServer();

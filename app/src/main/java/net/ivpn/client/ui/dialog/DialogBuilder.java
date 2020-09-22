@@ -109,11 +109,11 @@ public class DialogBuilder {
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setOnCancelListener(cancelListener);
-            builder.setNegativeButton(context.getString(R.string.dialogs_ok), (dialog, which) -> {
-                if (cancelListener != null) {
-                    cancelListener.onCancel(dialog);
-                }
-            });
+        builder.setNegativeButton(context.getString(R.string.dialogs_ok), (dialog, which) -> {
+            if (cancelListener != null) {
+                cancelListener.onCancel(dialog);
+            }
+        });
         if (((Activity) context).isFinishing()) {
             return;
         }

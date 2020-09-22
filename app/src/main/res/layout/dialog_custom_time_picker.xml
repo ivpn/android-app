@@ -17,11 +17,15 @@
 
     <TimePicker
         android:id="@+id/time_picker"
+        style="@style/AppTheme.TimePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner"
-        android:numbersTextColor="@color/primary"/>
+        android:numbersTextColor="@android:color/holo_blue_bright"
+        android:numbersInnerTextColor="@android:color/holo_blue_bright"
+        android:amPmTextColor="@android:color/holo_blue_bright"
+        android:numbersSelectorColor="@android:color/holo_blue_bright"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

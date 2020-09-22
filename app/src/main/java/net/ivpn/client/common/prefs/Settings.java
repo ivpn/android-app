@@ -329,11 +329,11 @@ public class Settings {
     }
 
     public void setNightMode(NightMode mode) {
-        settingsPreference.setNightMode(mode.name());
+        stickyPreference.setNightMode(mode.name());
     }
 
     public NightMode getNightMode() {
-        String name = settingsPreference.getNightMode();
+        String name = stickyPreference.getNightMode();
 
         if (name != null) {
             return NightMode.valueOf(name);
