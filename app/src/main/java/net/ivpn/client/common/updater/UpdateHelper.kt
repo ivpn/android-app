@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
+import androidx.navigation.NavDeepLinkBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
+import net.ivpn.client.R
 import net.ivpn.client.common.Constant
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.dagger.ApplicationScope
@@ -134,7 +136,9 @@ class UpdateHelper @Inject constructor(
     private fun openSettings() {
         LOGGER.info("Open settings")
 
-        val context = IVPNApplication.getApplication()
+        NavDeepLinkBuilder(IVPNApplication.getApplication())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.updatesFragment).createTaskStackBuilder().startActivities()
 
         skipUpdate()
     }

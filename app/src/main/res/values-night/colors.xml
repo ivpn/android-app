@@ -76,7 +76,7 @@
 
     <color name="network_protection_text_color_opacity">#99FFFFFF</color>
     <color name="network_protection_text_color">#FFFFFF</color>
-    <color name="network_protection_background">#121212</color>
+    <color name="network_protection_background">#000000</color>
     <color name="network_protection_card_background">#202020</color>
 
     <color name="protocol_text_color">#FFFFFF</color>

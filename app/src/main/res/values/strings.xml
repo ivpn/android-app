@@ -199,10 +199,17 @@
 
     <string name="connect_status_paused">Paused</string>
     <string name="connect_status_pausing">Pausing</string>
-    <string name="connect_status_not_connected">Unprotected</string>
-    <string name="connect_status_connecting">Establishing</string>
-    <string name="connect_status_connected">Protected</string>
-    <string name="connect_status_disconnecting">Disconnecting from</string>
+    <string name="connect_status_not_connected">Disconnected</string>
+    <string name="connect_status_connecting">Connecting</string>
+    <string name="connect_status_connected">Connected</string>
+    <string name="connect_status_disconnecting">Disconnecting</string>
+
+    <string name="connect_server_hint_paused">Connect to</string>
+    <string name="connect_server_hint_pausing">Connect to</string>
+    <string name="connect_server_hint_disconnected">Connect to</string>
+    <string name="connect_server_hint_connecting">Connecting to</string>
+    <string name="connect_server_hint_connected">Connected to</string>
+    <string name="connect_server_hint_disconnecting">Disconnecting from</string>
 
     <string name="connect_hint_paused">TAP TO RESUME</string>
     <string name="connect_hint_pausing">PAUSING…</string>
@@ -432,7 +439,7 @@
     </plurals>
 
     <!--v2-->
-    <string name="your_network_is">Your network is</string>
+    <string name="your_status_is">Your status is</string>
     <string name="single_hop">Single-hop</string>
     <string name="multi_hop">Multi-hop</string>
     <string name="connect_to">Connect to</string>
@@ -447,7 +454,7 @@
     <string name="sliding_panel_antitracker">AntiTracker</string>
     <string name="sliding_panel_antitracker_description">AntiTracker will block all trackers on the web pages</string>
     <string name="sliding_panel_wifi_title">Wi-Fi network</string>
-    <string name="sliding_panel_protocol_port_name">Protocol/Port</string>
+    <string name="sliding_panel_protocol_port_name">Protocol, Port</string>
     <string name="sliding_panel_your_ip_title">Your IP</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>

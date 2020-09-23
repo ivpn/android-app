@@ -541,8 +541,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun notifyAnotherPortUsedToConnect() {
         Handler().postDelayed({
-            SnackbarUtil.show(binding.mainContent, R.string.snackbar_new_try_with_different_port,
-                    R.string.snackbar_disconnect_first, null)
+            ToastUtil.toast(context, R.string.snackbar_new_try_with_different_port)
         }, 500)
     }
 
@@ -572,7 +571,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun logout() {
         recalculatePeekHeight()
-//        account.logOut()
     }
 
     override fun connectTo(location: ServerLocation) {

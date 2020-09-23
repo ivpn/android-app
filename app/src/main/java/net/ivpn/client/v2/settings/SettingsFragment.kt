@@ -127,6 +127,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         colorTheme.onResume()
     }
 
+    override fun onStart() {
+        super.onStart()
+        killSwitch.navigator = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        killSwitch.navigator = null
+    }
+
     private fun initViews() {
         initToolbar()
 
@@ -390,7 +400,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         LOGGER.info("enableKillSwitch = $state isAdvancedKillSwitchDialogEnabled = $advancedKillSwitchState")
         if (state) {
             checkVPNPermission(ServiceConstants.ENABLE_KILL_SWITCH)
-            if (killSwitch.isAdvancedModeSupported) {
+            if (killSwitch.isAdvancedModeSupported && advancedKillSwitchState) {
                 DialogBuilder.createAdvancedKillSwitchDialog(context, this)
             }
         } else {

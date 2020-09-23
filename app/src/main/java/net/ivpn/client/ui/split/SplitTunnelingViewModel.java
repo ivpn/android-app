@@ -2,13 +2,12 @@ package net.ivpn.client.ui.split;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableList;
-import android.os.AsyncTask;
-
-import com.todtenkopf.mvvm.ViewModelBase;
 
 import net.ivpn.client.common.prefs.PackagesPreference;
 import net.ivpn.client.ui.split.data.ApplicationItem;
@@ -20,9 +19,10 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class SplitTunnelingViewModel extends ViewModelBase {
+public class SplitTunnelingViewModel {
 
     public final ObservableBoolean dataLoading = new ObservableBoolean();
+    public final ObservableBoolean isAllItemsAllowed = new ObservableBoolean();
     public final ObservableList<ApplicationItem> apps = new ObservableArrayList<>();
     public final ObservableList<String> disallowedApps = new ObservableArrayList<String>();
     public final ObservableField<SplitTunnelingRecyclerViewAdapter> adapter = new ObservableField<>();
@@ -38,38 +38,37 @@ public class SplitTunnelingViewModel extends ViewModelBase {
 
         @Override
         public void onItemsSelectionStateChanged(boolean isAllItemSelected) {
-            SplitTunnelingViewModel.this.isAllItemsAllowed = isAllItemSelected;
-            refreshCommands();
+            SplitTunnelingViewModel.this.isAllItemsAllowed.set(isAllItemSelected);
+//            refreshCommands();
         }
     };
-    public CommandVM selectAllCommand = new CommandVM() {
-        @Override
-        public void execute() {
-            allowAllPackages();
-            menuHandler.selectAll();
-        }
-
-        @Override
-        public void refresh() {
-            isEnabled(!isAllItemsAllowed);
-        }
-    };
-
-    public CommandVM deselectAllCommand = new CommandVM() {
-        @Override
-        public void execute() {
-            disallowAllApps(new HashSet<>(apps));
-            menuHandler.deselectAll();
-        }
-
-        @Override
-        public void refresh() {
-            isEnabled(isAllItemsAllowed);
-        }
-    };
+//    public CommandVM selectAllCommand = new CommandVM() {
+//        @Override
+//        public void execute() {
+//            allowAllPackages();
+//            menuHandler.selectAll();
+//        }
+//
+//        @Override
+//        public void refresh() {
+//            isEnabled(!isAllItemsAllowed);
+//        }
+//    };
+//
+//    public CommandVM deselectAllCommand = new CommandVM() {
+//        @Override
+//        public void execute() {
+//            disallowAllApps(new HashSet<>(apps));
+//            menuHandler.deselectAll();
+//        }
+//
+//        @Override
+//        public void refresh() {
+//            isEnabled(isAllItemsAllowed);
+//        }
+//    };
 
     private SplitTunnelingRecyclerViewAdapter.MenuHandler menuHandler;
-    private boolean isAllItemsAllowed;
     private PackagesPreference preference;
 
     @Inject
@@ -80,11 +79,23 @@ public class SplitTunnelingViewModel extends ViewModelBase {
 
         disallowedApps.clear();
         disallowedApps.addAll(getDisallowedPackages());
-        updateMenuFlag();
+
+        isAllItemsAllowed.set(disallowedApps.size() == 0);
+//        updateMenuFlag();
     }
 
     public void getApplicationsList(PackageManager packageManager) {
         new InflateApplicationInfoAsyncTask(packageManager).execute();
+    }
+
+    public void selectAll() {
+        allowAllPackages();
+        menuHandler.selectAll();
+    }
+
+    public void deselectAll() {
+        disallowAllApps(new HashSet<>(apps));
+        menuHandler.deselectAll();
     }
 
     private void disallowAllApps(Set<ApplicationItem> applicationItems) {
@@ -96,11 +107,11 @@ public class SplitTunnelingViewModel extends ViewModelBase {
     }
 
     private void updateMenuFlag() {
-        isAllItemsAllowed = disallowedApps.size() == 0;
-        refreshCommands();
+//        isAllItemsAllowed = disallowedApps.size() == 0;
+//        refreshCommands();
     }
 
-    private void allowAllPackages() {
+    void allowAllPackages() {
         preference.allowAllPackages();
     }
 

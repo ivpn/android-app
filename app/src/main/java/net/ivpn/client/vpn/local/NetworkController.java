@@ -8,7 +8,10 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.navigation.NavDeepLinkBuilder;
+
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.SettingsPreference;
@@ -474,6 +477,9 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void openSettings() {
+        new NavDeepLinkBuilder(IVPNApplication.getApplication())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.networkProtectionFragment).createTaskStackBuilder().startActivities();
     }
 
     private void registerReceiver() {

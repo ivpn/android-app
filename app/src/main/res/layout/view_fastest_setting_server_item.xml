@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/servers_background">
+        android:background="@color/servers_card_background">
 
         <LinearLayout
             android:id="@+id/content_layout"

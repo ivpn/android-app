@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
                         android:letterSpacing="-0.02"
-                        android:text="@string/your_network_is"
+                        android:text="@string/your_status_is"
                         android:textColor="@color/sliding_panel_text_color"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -256,12 +256,13 @@
                         app:layout_constraintTop_toBottomOf="parent"
                         tools:layout_editor_absoluteX="4dp">
 
+<!--                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"-->
                         <TextView
                             android:id="@+id/textView5"
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
+                            android:text="@{multihop.isEnabled() ? @string/entry_server : connect.serverConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
