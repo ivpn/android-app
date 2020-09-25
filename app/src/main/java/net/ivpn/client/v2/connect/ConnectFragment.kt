@@ -12,7 +12,9 @@ import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.FOCUS_UP
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -22,7 +24,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.common.SnackbarUtil
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
@@ -35,7 +36,6 @@ import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
-import net.ivpn.client.v2.login.LoginFragmentDirections
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
@@ -91,6 +91,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
+
         return binding.root
     }
 
@@ -139,25 +140,34 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.connect = connect
         binding.slidingPanel.cards.location = location
 
-//        binding.slidingPanel.cards.internetProviderValue.isSelected = true
-
         initNavigation()
     }
 
     private fun initSlidingPanel() {
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
+        bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.setExpandedOffset(100)
+        bottomSheetBehavior.setExpandedOffset(resources.getDimension(R.dimen.slider_panel_top_offset).toInt())
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == STATE_HIDDEN || newState == STATE_HALF_EXPANDED) {
-                    bottomSheetBehavior.state = STATE_EXPANDED
-                } else if (newState == STATE_EXPANDED) {
-//                    checkLocation()
+                when(newState) {
+                    STATE_HIDDEN, STATE_HALF_EXPANDED -> {
+                        bottomSheetBehavior.state = STATE_EXPANDED
+                    }
+                    STATE_EXPANDED -> {
+//                        binding.slidingPanel.shownContent.requestDisallowInterceptTouchEvent(false)
+                    }
+                    STATE_COLLAPSED -> {
+                        binding.slidingPanel.bottomSheet.fullScroll(FOCUS_UP)
+//                        binding.slidingPanel.shownContent.requestDisallowInterceptTouchEvent(true)
+                    }
+                    else -> {
+
+                    }
                 }
             }
         })
@@ -324,10 +334,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         servers.onResume()
         account.onResume()
         multihop.onResume()
-        applySlidingPanelSide()
-        checkLocationPermission()
+//        checkLocationPermission()
         account.updateSessionStatus()
         checkLocationPermission()
+        applySlidingPanelSide()
     }
 
     override fun onStart() {
@@ -451,7 +461,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
-            peekHeight += resources.getDimension(R.dimen.slider_layout_exit_layout_height)
+            peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
             binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         } else {
             Handler().postDelayed({
@@ -461,6 +471,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)
         }
+        LOGGER.info("peekHeight = $peekHeight")
         bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
         binding.map.setPanelHeight(peekHeight)
         binding.centerLocation.animate().translationY(-peekHeight)

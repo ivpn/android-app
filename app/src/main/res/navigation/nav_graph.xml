@@ -167,7 +167,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="net.ivpn.client.v2.signup.SignUpProductFragment"
-        android:label="Select IVPN Product" >
+        android:label="Select IVPN Plan" >
         <action
             android:id="@+id/action_signUpFragment_to_signUpPeriodFragment"
             app:destination="@id/signUpPeriodFragment" />
@@ -175,7 +175,7 @@
     <fragment
         android:id="@+id/signUpPeriodFragment"
         android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
-        android:label="Add funds to account" >
+        android:label="Add funds to your account" >
         <action
             android:id="@+id/action_signUpPeriodFragment_to_accountFragment"
             app:destination="@id/accountFragment"

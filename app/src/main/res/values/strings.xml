@@ -197,12 +197,12 @@
 
     <!--Connect screen-->
 
-    <string name="connect_status_paused">Paused</string>
-    <string name="connect_status_pausing">Pausing</string>
-    <string name="connect_status_not_connected">Disconnected</string>
-    <string name="connect_status_connecting">Connecting</string>
-    <string name="connect_status_connected">Connected</string>
-    <string name="connect_status_disconnecting">Disconnecting</string>
+    <string name="connect_status_paused">paused</string>
+    <string name="connect_status_pausing">pausing</string>
+    <string name="connect_status_not_connected">disconnected</string>
+    <string name="connect_status_connecting">connecting</string>
+    <string name="connect_status_connected">connected</string>
+    <string name="connect_status_disconnecting">disconnecting</string>
 
     <string name="connect_server_hint_paused">Connect to</string>
     <string name="connect_server_hint_pausing">Connect to</string>
@@ -452,7 +452,7 @@
     
     <string name="sliding_panel_connection_details">Connection details</string>
     <string name="sliding_panel_antitracker">AntiTracker</string>
-    <string name="sliding_panel_antitracker_description">AntiTracker will block all trackers on the web pages</string>
+    <string name="sliding_panel_antitracker_description">AntiTracker blocks all known data trackers</string>
     <string name="sliding_panel_wifi_title">Wi-Fi network</string>
     <string name="sliding_panel_protocol_port_name">Protocol, Port</string>
     <string name="sliding_panel_your_ip_title">Your IP</string>
@@ -504,8 +504,8 @@
     <string name="account_continue">Select your plan to continue</string>
     <string name="account_clipboard">Account ID copied</string>
     
-    <string name="map_dialog_not_connected_title">Everyone knows about your location</string>
-    <string name="map_dialog_connected_title">No one knows about your location</string>
+    <string name="map_dialog_not_connected_title">Your current location</string>
+    <string name="map_dialog_connected_title">Connected to</string>
     <string name="map_dialog_server">Protect yourself by connecting to</string>
     <string name="map_dialog_button_text">CONNECT TO SERVER</string>
 

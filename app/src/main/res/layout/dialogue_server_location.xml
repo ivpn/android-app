@@ -28,34 +28,17 @@
             android:layout_marginTop="22dp"
             android:background="@drawable/dialogue_background_2">
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:alpha="0.5"
-                android:letterSpacing="-0.03"
-                android:text="Protect yourself by connecting to"
-                android:textColor="@color/dialogue_title"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/country_flag"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:src="@{location.countryCode}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -64,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{location.city}"
+                android:text="@{location.description}"
                 android:textColor="@color/dialogue_title"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/country_flag"
@@ -78,9 +61,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
                 android:maxLines="1"
                 android:text="Connect to server"
                 app:layout_constraintBottom_toBottomOf="parent"

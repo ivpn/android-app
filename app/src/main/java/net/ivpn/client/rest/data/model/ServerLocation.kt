@@ -21,6 +21,10 @@ data class ServerLocation(
     var pointRect: Rect? = null
     var labelRect: Rect? = null
 
+    fun getDescription(): String {
+        return "$city, $countryCode"
+    }
+
 //    var comparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
 //        location1.distanceToTap.compareTo(location2.distanceToTap)
 //    }

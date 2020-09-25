@@ -51,17 +51,23 @@
             android:name=".v2.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
             android:name=".vpn.local.PermissionActivity"
             android:theme="@style/AppTheme.Transparent" />
+
+        <activity android:name=".common.shortcuts.ConnectionShortcutsActivity"
+            android:theme="@style/AppTheme.Transparent"/>
 
         <activity
             android:name=".ui.billing.BillingActivity"

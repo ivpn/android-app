@@ -26,6 +26,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:minWidth="200dp"
             android:layout_marginTop="22dp"
             android:background="@drawable/dialogue_background_2">
 
@@ -37,7 +38,6 @@
                 android:layout_marginTop="16dp"
                 android:alpha="0.5"
                 android:letterSpacing="-0.03"
-                android:text="There should long string by default. Because of animation bug for Android 10."
                 android:textColor="@color/dialogue_title"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/country_flag"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/barrier"
                 app:layout_constraintTop_toTopOf="@+id/country_flag"
                 app:srcCompat="@drawable/ic_info" />

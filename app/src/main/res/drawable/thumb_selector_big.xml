@@ -4,8 +4,8 @@
     <item android:state_checked="false">
         <shape android:shape="oval">
             <solid android:color="@color/sliding_panel_background"/>
-            <size android:width="40dp"
-                android:height="40dp"/>
+            <size android:width="36dp"
+                android:height="36dp"/>
             <stroke android:width="4dp"
                 android:color="@color/accent"/>
         </shape>
@@ -13,8 +13,8 @@
     <item android:state_checked="true">
         <shape android:shape="oval">
             <solid android:color="@color/sliding_panel_background"/>
-            <size android:width="40dp"
-                android:height="40dp"/>
+            <size android:width="36dp"
+                android:height="36dp"/>
             <stroke android:width="4dp"
                 android:color="@color/primary"/>
         </shape>

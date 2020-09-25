@@ -2,9 +2,7 @@ package net.ivpn.client.v2.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -46,6 +44,12 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private var createSessionFragment: CreateSessionFragment? = null
 
+    private var originalMode : Int? = null
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -53,6 +57,19 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        originalMode = activity?.window?.getSoftInputMode()
+        activity?.window?.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -207,5 +224,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationError() {
         DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
+    }
+
+    fun Window.getSoftInputMode() : Int {
+        return attributes.softInputMode
     }
 }
