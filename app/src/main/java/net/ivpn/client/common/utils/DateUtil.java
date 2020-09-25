@@ -23,7 +23,6 @@ public class DateUtil {
     public static final long WEEK = DAY * 7;
     public static final long DAYS_4 = DAY * 4;
 
-    //To test
     public static final long H7 = HOUR * 7;
     public static final long H40 = HOUR * 40;
 

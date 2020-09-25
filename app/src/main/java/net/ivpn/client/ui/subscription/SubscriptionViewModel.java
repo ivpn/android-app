@@ -109,7 +109,6 @@ public class SubscriptionViewModel implements BillingListener {
     public void onInitStateChanged(boolean isInit, int errorCode) {
         LOGGER.info("Is billing manager init? - " + isInit + " , errorCode = " + errorCode);
         if (isInit) {
-//            billingManagerWrapper.checkSkuDetails();
         } else if (errorCode != 0) {
             handleError(errorCode);
         }

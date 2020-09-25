@@ -88,14 +88,10 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     override fun onCreateAccountFinish() {
         isAccountCreated = true
-//        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
-//        NavHostFragment.findNavController(this).navigate(action)
     }
 
     override fun onAddFundsFinish() {
         isAccountCreated = true
-//        val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
-//        NavHostFragment.findNavController(this).navigate(action)
     }
 
     override fun onGoogleConnectFailure() {

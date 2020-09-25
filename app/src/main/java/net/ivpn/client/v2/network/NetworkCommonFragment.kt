@@ -104,7 +104,6 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         binding.contentLayout.pager.adapter = adapter
         binding.contentLayout.slidingTabs.setupWithViewPager(binding.contentLayout.pager)
 
-//        adapter = NetworkRecyclerViewAdapter(activity)
         binding.contentLayout.viewmodel = network
         binding.contentLayout.formatter = NetworkStateFormatter(requireContext())
         binding.contentLayout.mobileContentLayout.setOnClickListener {

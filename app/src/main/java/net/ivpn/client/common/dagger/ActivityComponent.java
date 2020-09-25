@@ -85,8 +85,6 @@ public interface ActivityComponent {
 
     void inject(NetworkRecyclerViewAdapter.WifiItemViewHolder viewHolder);
 
-//    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
-
     void inject(ServerViewHolder viewHolder);
 
     void inject(Connection connection);

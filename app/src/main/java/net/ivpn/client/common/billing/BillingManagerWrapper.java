@@ -145,7 +145,6 @@ public class BillingManagerWrapper {
         LOGGER.info("Query sku details...");
 
         billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, skuList, (billingResult, skuDetailsList) -> {
-            //ToDo Check all available billing results;
             LOGGER.info("Sku details, result = " + billingResult.getResponseCode());
             LOGGER.info("Sku details, error = " + billingResult.getDebugMessage());
             LOGGER.info("Sku details, listeners size = " + billingResult.getDebugMessage());
@@ -305,9 +304,6 @@ public class BillingManagerWrapper {
                 setPurchaseState(PurchaseState.DONE);
                 break;
             case Responses.SUBSCRIPTION_ALREADY_REGISTERED:
-//                if (response.getData() != null && response.getData().getUsername() != null) {
-//                    userPreference.putUserLogin(response.getData().getUsername());
-//                }
                 setPurchaseState(PurchaseState.NONE);
                 for (BillingListener listener : listeners) {
                     listener.onPurchaseAlreadyDone();

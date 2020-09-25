@@ -58,8 +58,6 @@ class SignUpAccountCreatedFragment : Fragment() {
         binding.contentLayout.copyBtn.setOnClickListener {
             copyUserId()
         }
-
-//        viewModel.updateUserId()
     }
 
     private fun initToolbar() {

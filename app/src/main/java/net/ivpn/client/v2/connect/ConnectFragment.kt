@@ -159,14 +159,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                         bottomSheetBehavior.state = STATE_EXPANDED
                     }
                     STATE_EXPANDED -> {
-//                        binding.slidingPanel.shownContent.requestDisallowInterceptTouchEvent(false)
                     }
                     STATE_COLLAPSED -> {
                         binding.slidingPanel.bottomSheet.fullScroll(FOCUS_UP)
-//                        binding.slidingPanel.shownContent.requestDisallowInterceptTouchEvent(true)
                     }
                     else -> {
-
                     }
                 }
             }
@@ -334,7 +331,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         servers.onResume()
         account.onResume()
         multihop.onResume()
-//        checkLocationPermission()
         account.updateSessionStatus()
         checkLocationPermission()
         applySlidingPanelSide()

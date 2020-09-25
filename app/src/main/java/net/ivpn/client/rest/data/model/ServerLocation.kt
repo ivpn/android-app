@@ -25,10 +25,6 @@ data class ServerLocation(
         return "$city, $countryCode"
     }
 
-//    var comparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
-//        location1.distanceToTap.compareTo(location2.distanceToTap)
-//    }
-
     companion object {
         var tapComparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
             location1.distanceToTap.compareTo(location2.distanceToTap)

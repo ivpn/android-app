@@ -39,34 +39,8 @@ public class SplitTunnelingViewModel {
         @Override
         public void onItemsSelectionStateChanged(boolean isAllItemSelected) {
             SplitTunnelingViewModel.this.isAllItemsAllowed.set(isAllItemSelected);
-//            refreshCommands();
         }
     };
-//    public CommandVM selectAllCommand = new CommandVM() {
-//        @Override
-//        public void execute() {
-//            allowAllPackages();
-//            menuHandler.selectAll();
-//        }
-//
-//        @Override
-//        public void refresh() {
-//            isEnabled(!isAllItemsAllowed);
-//        }
-//    };
-//
-//    public CommandVM deselectAllCommand = new CommandVM() {
-//        @Override
-//        public void execute() {
-//            disallowAllApps(new HashSet<>(apps));
-//            menuHandler.deselectAll();
-//        }
-//
-//        @Override
-//        public void refresh() {
-//            isEnabled(isAllItemsAllowed);
-//        }
-//    };
 
     private SplitTunnelingRecyclerViewAdapter.MenuHandler menuHandler;
     private PackagesPreference preference;
@@ -81,7 +55,6 @@ public class SplitTunnelingViewModel {
         disallowedApps.addAll(getDisallowedPackages());
 
         isAllItemsAllowed.set(disallowedApps.size() == 0);
-//        updateMenuFlag();
     }
 
     public void getApplicationsList(PackageManager packageManager) {
@@ -104,11 +77,6 @@ public class SplitTunnelingViewModel {
             disallowedPackages.add(app.getPackageName());
         }
         disallowAllPackages(disallowedPackages);
-    }
-
-    private void updateMenuFlag() {
-//        isAllItemsAllowed = disallowedApps.size() == 0;
-//        refreshCommands();
     }
 
     void allowAllPackages() {

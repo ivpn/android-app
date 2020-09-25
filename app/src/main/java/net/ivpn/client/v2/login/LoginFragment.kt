@@ -194,7 +194,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     override fun onLoginWithInactiveAccount() {
         if (viewModel.isAccountNewStyle()) {
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
-//            signUp.updateUserId()
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
             NavHostFragment.findNavController(this).navigate(action)

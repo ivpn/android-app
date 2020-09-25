@@ -153,8 +153,6 @@ public class BillingManager implements PurchasesUpdatedListener {
             LOGGER.info("Launching in-app purchase flow. Replace old SKU? " + (oldSku != null));
             BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skuDetails)
-//                    .setOldSku(oldSku)
-//                    .setReplaceSkusProrationMode(proration)
                     .build();
             billingClient.launchBillingFlow(activity, purchaseParams);
         };
