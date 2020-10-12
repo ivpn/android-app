@@ -1,11 +1,8 @@
 package net.ivpn.client.v2.login
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -18,6 +15,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
@@ -25,10 +23,12 @@ import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
 import net.ivpn.client.v2.qr.QRActivity
+import net.ivpn.client.v2.viewmodel.SignUpViewModel
+import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
+class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, CreateAccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
@@ -38,7 +38,17 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     @Inject
     lateinit var viewModel: LoginViewModel
+
+    @Inject
+    lateinit var signUp: SignUpViewModel
+
     private var createSessionFragment: CreateSessionFragment? = null
+
+    private var originalMode : Int? = null
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -47,6 +57,19 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        originalMode = activity?.window?.getSoftInputMode()
+        activity?.window?.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +93,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
+        binding.contentLayout.signUp = signUp
         viewModel.navigator = this
+        signUp.creationNavigator = this
 
         binding.contentLayout.inputView.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -81,6 +106,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         }
         binding.contentLayout.loginButton.setOnClickListener {
             viewModel.login(false)
+        }
+        binding.contentLayout.signUpButton.setOnClickListener {
+            createBlankAccount()
         }
         binding.contentLayout.outlinedTextField.setEndIconOnClickListener {
             openQRScanner()
@@ -101,6 +129,18 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
             setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
             setPrompt("Place a QR code inside viewfinder to scan Account Id.")
             initiateScan()
+        }
+    }
+
+    private fun createBlankAccount() {
+        signUp.blankAccountID.get()?.let { accountID ->
+            if (accountID.isEmpty()  || !signUp.isBlankAccountFresh()) {
+                signUp.createNewAccount()
+            } else {
+                onAccountCreationSuccess()
+            }
+        } ?: kotlin.run {
+            signUp.createNewAccount()
         }
     }
 
@@ -140,6 +180,28 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
         NavHostFragment.findNavController(this).navigate(action)
     }
 
+    override fun onLoginWithBlankAccount() {
+        if (viewModel.isAccountNewStyle()) {
+            signUp.blankAccountID.set(viewModel.username.get())
+
+            val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            onLogin()
+        }
+    }
+
+    override fun onLoginWithInactiveAccount() {
+        if (viewModel.isAccountNewStyle()) {
+            signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
+
+            val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            onLogin()
+        }
+    }
+
     override fun onForceLogout() {
         viewModel.login(true)
         createSessionFragment?.dismissAllowingStateLoss()
@@ -152,5 +214,18 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator {
 
     override fun cancel() {
         createSessionFragment?.dismissAllowingStateLoss()
+    }
+
+    override fun onAccountCreationSuccess() {
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onAccountCreationError() {
+        DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
+    }
+
+    fun Window.getSoftInputMode() : Int {
+        return attributes.softInputMode
     }
 }

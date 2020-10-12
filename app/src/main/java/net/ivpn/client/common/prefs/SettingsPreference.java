@@ -16,7 +16,6 @@ import javax.inject.Inject;
 @ApplicationScope
 public class SettingsPreference {
 
-    private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
     private static final String SETTINGS_LOGGING = "SETTINGS_LOGGING";
     private static final String SETTINGS_SENTRY = "SETTINGS_SENTRY";
     private static final String SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP";
@@ -38,7 +37,6 @@ public class SettingsPreference {
     private static final String SETTINGS_CUSTOM_DNS_VALUE = "SETTINGS_CUSTOM_DNS_VALUE";
     private static final String SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE";
     private static final String SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION";
-    private static final String SETTINGS_NIGHT_MODE = "NIGHT_MODE";
     private static final String SETTINGS_FILTER =  "SETTINGS_FILTER";
 
     private static final String OV_PORT = "OV_PORT";
@@ -67,11 +65,6 @@ public class SettingsPreference {
     public boolean getSettingMultiHop() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false);
-    }
-
-    public boolean getSettingFastestServer() {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true);
     }
 
     public boolean getSettingKillSwitch() {
@@ -193,13 +186,6 @@ public class SettingsPreference {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_CUSTOM_DNS, value)
-                .apply();
-    }
-
-    public void putSettingFastestServer(boolean value) {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply();
     }
 
@@ -451,18 +437,6 @@ public class SettingsPreference {
     public boolean isSentryEnabled() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         return sharedPreferences.getBoolean(SETTINGS_SENTRY, true);
-    }
-
-    public String getNightMode() {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getString(SETTINGS_NIGHT_MODE, null);
-    }
-
-    public void setNightMode(String mode) {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        sharedPreferences.edit()
-                .putString(SETTINGS_NIGHT_MODE, mode)
-                .apply();
     }
 
     public String getFilter() {

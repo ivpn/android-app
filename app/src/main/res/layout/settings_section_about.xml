@@ -29,10 +29,10 @@
                 android:text="@string/settings_about" />
 
             <LinearLayout
+                android:id="@+id/check_updates_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="checkUpdates"
                 android:orientation="horizontal"
                 android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}">
 

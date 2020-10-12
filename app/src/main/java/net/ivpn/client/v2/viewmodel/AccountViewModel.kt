@@ -12,8 +12,8 @@ import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
-import net.ivpn.client.rest.data.session.SessionNewResponse
-import net.ivpn.client.rest.data.wireguard.ErrorResponse
+import net.ivpn.client.common.session.SessionListenerImpl
+import net.ivpn.client.common.utils.DateUtil
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class AccountViewModel @Inject constructor(
         private val userPreference: UserPreference,
         private val billingManager: BillingManagerWrapper,
         private val sessionController: SessionController
-) : ViewModel(), SessionController.SessionListener {
+) : ViewModel() {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
@@ -39,11 +39,26 @@ class AccountViewModel @Inject constructor(
     val isOnFreeTrial = ObservableBoolean()
     val isNativeSubscription = ObservableBoolean()
     val availableUntil = ObservableLong()
+    val isActive = ObservableBoolean()
+
+    val isExpired = ObservableBoolean()
+    val isExpiredIn = ObservableBoolean()
+    val textIsExpiredIn = ObservableField<String>()
 
     var navigator: AccountNavigator? = null
 
     init {
-        sessionController.subscribe(this)
+        sessionController.subscribe(object : SessionListenerImpl() {
+            override fun onRemoveSuccess() {
+                dataLoading.set(false)
+                clearLocalCache()
+            }
+
+            override fun onRemoveError() {
+                dataLoading.set(false)
+                clearLocalCache()
+            }
+        })
     }
 
     fun onResume() {
@@ -55,6 +70,9 @@ class AccountViewModel @Inject constructor(
         isNativeSubscription.set(isNativeSubscription())
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
+        isActive.set(getIsActiveValue())
+
+        updateExpireData()
     }
 
     fun updateSessionStatus() {
@@ -85,31 +103,44 @@ class AccountViewModel @Inject constructor(
         subscriptionPlan.set(getSubscriptionPlan())
     }
 
-    override fun onRemoveSuccess() {
-        dataLoading.set(false)
-        clearLocalCache()
+    fun isAccountStandard(): Boolean {
+        return accountType.get()?.equals("IVPN Standard") ?: false
     }
 
-    override fun onRemoveError() {
-        dataLoading.set(false)
-        clearLocalCache()
-    }
-
-    override fun onCreateSuccess(response: SessionNewResponse) {
-    }
-
-    override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
-    }
-
-    override fun onUpdateSuccess() {
-    }
-
-    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    fun isAccountNewStyle(): Boolean {
+        return username.get()?.startsWith("i-") ?: false
     }
 
     private fun clearLocalCache() {
         authenticated.set(false)
         navigator?.onLogOut()
+    }
+
+    private fun updateExpireData() {
+        val currentTime = System.currentTimeMillis()
+        val expireTime = availableUntil.get() * 1000
+
+        if (!authenticated.get()) {
+            isExpired.set(false)
+            isExpiredIn.set(false)
+            return
+        }
+
+        when {
+            expireTime < currentTime -> {
+                isExpired.set(true)
+                isExpiredIn.set(false)
+            }
+            (expireTime - currentTime) < DateUtil.DAYS_4 -> {
+                isExpired.set(false)
+                isExpiredIn.set(true)
+                textIsExpiredIn.set("Subscription will expire in ${DateUtil.formatSubscriptionTimeLeft(expireTime)}")
+            }
+            else -> {
+                isExpired.set(false)
+                isExpiredIn.set(false)
+            }
+        }
     }
 
     private fun getUsernameValue(): String? {
@@ -171,6 +202,10 @@ class AccountViewModel @Inject constructor(
             plan += " (cancelled)"
         }
         return plan
+    }
+
+    private fun getIsActiveValue(): Boolean {
+        return userPreference.isActive
     }
 
     interface AccountNavigator {

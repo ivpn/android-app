@@ -9,6 +9,8 @@ import com.android.billingclient.api.BillingClient.BillingResponseCode;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
@@ -107,18 +109,19 @@ public class BillingManager implements PurchasesUpdatedListener {
     private void queryPurchases() {
         Runnable queryToExecute = () -> {
             long time = System.currentTimeMillis();
-            Purchase.PurchasesResult purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.SUBS);
-            LOGGER.info("Querying subscription elapsed time: " + (System.currentTimeMillis() - time)
-                    + "ms");
-            LOGGER.info("Querying subscriptions result code: "
-                    + purchasesResult.getResponseCode()
-                    + " res: " + (purchasesResult.getPurchasesList() != null ? purchasesResult.getPurchasesList().size() : null));
+            Purchase.PurchasesResult products = billingClient.queryPurchases(BillingClient.SkuType.INAPP);
 
-            if (purchasesResult.getResponseCode() != BillingResponseCode.OK) {
-                LOGGER.info("Got an error response trying to query subscription purchases");
+            LOGGER.info("Querying products elapsed time: " + (System.currentTimeMillis() - time)
+                    + "ms");
+            LOGGER.info("Querying products result code: "
+                    + products.getResponseCode()
+                    + " res: " + (products.getPurchasesList() != null ? products.getPurchasesList().size() : null));
+
+            if (products.getResponseCode() != BillingResponseCode.OK) {
+                LOGGER.info("Got an error response trying to query products purchases");
             }
 
-            onQueryPurchasesFinished(purchasesResult);
+            onQueryPurchasesFinished(products);
         };
 
         executeServiceRequest(queryToExecute);
@@ -150,13 +153,26 @@ public class BillingManager implements PurchasesUpdatedListener {
             LOGGER.info("Launching in-app purchase flow. Replace old SKU? " + (oldSku != null));
             BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skuDetails)
-                    .setOldSku(oldSku)
-                    .setReplaceSkusProrationMode(proration)
                     .build();
             billingClient.launchBillingFlow(activity, purchaseParams);
         };
 
         executeServiceRequest(purchaseFlowRequest);
+    }
+
+    public void consumePurchase(Purchase purchase) {
+        ConsumeParams consumeParams =
+                ConsumeParams.newBuilder()
+                        .setPurchaseToken(purchase.getPurchaseToken())
+                        .build();
+
+        ConsumeResponseListener listener = (billingResult, purchaseToken) -> {
+            if (billingResult.getResponseCode() == BillingResponseCode.OK) {
+                //Nothing to do here
+            }
+        };
+
+        billingClient.consumeAsync(consumeParams, listener);
     }
 
     private void executeServiceRequest(Runnable runnable) {

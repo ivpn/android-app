@@ -23,6 +23,9 @@ open class VpnStateListenerImpl: VpnStateListener {
     override fun onTimeTick(millisUntilResumed: Long) {
     }
 
+    override fun onTimerFinish() {
+    }
+
     override fun onRegeneratingKeys() {
     }
 

@@ -1,6 +1,7 @@
 package net.ivpn.client.ui.billing;
 
 import android.content.Context;
+
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
@@ -57,13 +58,31 @@ public class BillingViewModel implements BillingListener {
             case NONE:
                 dataLoading.set(false);
                 break;
+            case INITIAL_PAYMENT:
             case PURCHASING:
-                dataLoading.set(true);
-                processDescription.set(context.getString(R.string.billing_validating));
-                break;
             case VALIDATING:
                 dataLoading.set(true);
                 processDescription.set(context.getString(R.string.billing_validating));
+                break;
+            case CREATE_ACCOUNT:
+                dataLoading.set(true);
+                processDescription.set(context.getString(R.string.billing_creating_account));
+                break;
+            case CREATE_SESSION:
+                dataLoading.set(true);
+                processDescription.set(context.getString(R.string.billing_creating_new_session));
+                break;
+            case INITIAL_PAYMENT_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("", "There was an error while creating your account. Contact our support or reopen the application to try again.");
+                break;
+            case ADD_FUNDS_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
+                break;
+            case UPDATE_SESSION_ERROR:
+                dataLoading.set(false);
+                navigator.createPurchaseErrorDialog("", "There was an error while updating your session. Contact our support or reopen the application to try again.");
                 break;
             case DONE:
                 dataLoading.set(false);
@@ -79,13 +98,26 @@ public class BillingViewModel implements BillingListener {
 
     @Override
     public void onPurchaseError(int errorCode, String errorMessage) {
-        navigator.createPurchaseErrorDialog(errorCode, errorMessage);
-
+        navigator.createPurchaseErrorDialog(String.valueOf(errorCode), errorMessage);
     }
 
     @Override
     public void onPurchaseAlreadyDone() {
         navigator.onPurchaseAlreadyDone();
+    }
+
+    @Override
+    public void onCreateAccountFinish() {
+        if (navigator != null) {
+            navigator.onAccountCreated();
+        }
+    }
+
+    @Override
+    public void onAddFundsFinish() {
+        if (navigator != null) {
+            navigator.onAddFundsFinish();
+        }
     }
 
     public void release() {

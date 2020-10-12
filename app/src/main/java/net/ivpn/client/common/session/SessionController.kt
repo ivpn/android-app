@@ -44,9 +44,14 @@ class SessionController @Inject constructor(
         listeners.add(listener)
     }
 
-    fun createSession(force: Boolean) {
-        val body = SessionNewRequestBody(getUsername(), getWireGuardPublicKey(), force)
+    fun unSubscribe(listener: SessionListener) {
+        listeners.remove(listener)
+    }
+
+    fun createSession(force: Boolean, username: String? = getUsername()) {
+        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force)
         sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+        LOGGER.info(body.toString())
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
@@ -63,19 +68,6 @@ class SessionController @Inject constructor(
                     override fun onError(error: String) {
                         LOGGER.error("On create session error = $error")
                         val errorResponse = Mapper.errorResponseFrom(error)
-
-                        if (errorResponse == null || errorResponse.status == null) {
-                            vpnBehaviorController.connectionActionByUser()
-                            return
-                        }
-                        when (errorResponse.status) {
-                            Responses.INVALID_CREDENTIALS, Responses.SESSION_TOO_MANY -> {
-                            }
-                            else -> {
-                                vpnBehaviorController.connectionActionByUser()
-                            }
-                        }
-
                         onCreateError(null, errorResponse)
                     }
                 })
@@ -153,6 +145,8 @@ class SessionController @Inject constructor(
 
     fun cancel() {
         deleteSessionRequest?.cancel()
+        sessionNewRequest?.cancel()
+        sessionStatusRequest?.cancel()
     }
 
     private fun onRemoveSuccess() {
@@ -171,14 +165,12 @@ class SessionController @Inject constructor(
 
     private fun onCreateSuccess(response: SessionNewResponse) {
         if (response.status == null) {
-            vpnBehaviorController.connectionActionByUser()
             return
         }
 
         if (response.status == Responses.SUCCESS) {
             putUserData(response)
             handleWireGuardResponse(response.wireGuard)
-            vpnBehaviorController.connectionActionByUser()
         }
 
         for (listener in listeners) {
@@ -206,6 +198,7 @@ class SessionController @Inject constructor(
 
     private fun clearData() {
         IVPNApplication.getApplication().appComponent.provideComponentUtil().resetComponents()
+        ViewModelCleaner()
     }
 
     private fun getUsername(): String? {
@@ -229,8 +222,7 @@ class SessionController @Inject constructor(
     }
 
     private fun saveSessionStatus(serviceStatus: ServiceStatus) {
-        if (serviceStatus.isOnFreeTrial == null
-                || serviceStatus.activeUntil == 0L) {
+        if (serviceStatus.isOnFreeTrial == null) {
             return
         }
         userPreference.putIsUserOnTrial(java.lang.Boolean.valueOf(serviceStatus.isOnFreeTrial))
@@ -251,7 +243,6 @@ class SessionController @Inject constructor(
     private fun handleWireGuardResponse(wireGuard: WireGuard?) {
         LOGGER.info("Handle WireGuard response: $wireGuard")
         if (wireGuard == null || wireGuard.status == null) {
-            //ignore it right now
             resetWireGuard()
             return
         }

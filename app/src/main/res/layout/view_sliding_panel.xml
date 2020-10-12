@@ -49,8 +49,8 @@
                 android:id="@+id/view"
                 android:layout_width="58dp"
                 android:layout_height="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/drag_view_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,8 @@
                 android:id="@+id/shown_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:descendantFocusability="blocksDescendants">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -84,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
                         android:letterSpacing="-0.02"
-                        android:text="@string/your_network_is"
+                        android:text="@string/your_status_is"
                         android:textColor="@color/sliding_panel_text_color"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -108,7 +109,6 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:letterSpacing="-0.01"
                         android:text="@{connect.connectionStatus}"
                         android:textColor="@color/sliding_panel_text_color"
@@ -119,10 +119,11 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch1"
-                        android:layout_width="80dp"
-                        android:layout_height="40dp"
+                        android:layout_width="72dp"
+                        android:layout_height="36dp"
                         android:checked="@{connect.isConnected}"
                         android:elevation="2dp"
+                        android:layout_marginBottom="2dp"
                         android:thumb="@drawable/thumb_selector_big"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -169,7 +170,7 @@
                         android:id="@+id/view2"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:background="@color/sliding_panel_line_color"
                         android:visibility="@{multihop.isSupported()? View.VISIBLE : View.INVISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -181,7 +182,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5"
+                        app:layout_constraintGuide_begin="206dp"
                         app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -197,14 +198,16 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(false)}">
+                        android:onClick="@{() -> multihop.enableMultiHop(false)}"
+                        app:onTouch="@{multihop.multiHopTouchListener}">
 
                         <TextView
                             style="@style/AppTheme.MultiHopText"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
                             android:text="@string/single_hop"
+                            app:isBold="@{!multihop.isEnabled()}"
                             android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_passive : @color/sliding_panel_multi_hop_active}" />
 
                     </FrameLayout>
@@ -214,16 +217,19 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(true)}">
+                        android:onClick="@{() -> multihop.enableMultiHop(true)}"
+                        app:onTouch="@{multihop.multiHopTouchListener}">
 
                         <TextView
                             android:id="@+id/textView4"
                             style="@style/AppTheme.MultiHopText"
                             android:layout_gravity="center"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
                             android:text="@string/multi_hop"
-                            android:textColor="@{multihop.isEnabled()? @color/sliding_panel_multi_hop_active : @color/sliding_panel_multi_hop_passive}" />
+                            app:isBold="@{multihop.isEnabled()}"
+                            android:textColor="@{multihop.isEnabled() ? @color/sliding_panel_multi_hop_active : @color/sliding_panel_multi_hop_passive}" />
+
 
                     </FrameLayout>
 
@@ -241,66 +247,67 @@
                     android:orientation="vertical"
                     android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/enter_server_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="4dp">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/enter_server_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/slider_layout_server_layout_height"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="4dp">
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        style="@style/AppTheme.ServerHintText"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"-->
+                        <TextView
+                            android:id="@+id/textView5"
+                            style="@style/AppTheme.ServerHintText"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@{multihop.isEnabled() ? @string/entry_server : connect.serverConnectionHint}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:contentDescription="@string/content_description_entry_server_flag"
-                        android:src="@{servers.entryServer}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="16dp"
+                            android:contentDescription="@string/content_description_entry_server_flag"
+                            android:src="@{servers.entryServer}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-                    <TextView
-                        android:id="@+id/textView6"
-                        style="@style/AppTheme.ServerNameText"
-                        android:layout_marginStart="8dp"
-                        android:text="@{servers.entryServer.description}"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintStart_toEndOf="@+id/imageView"
-                        app:layout_constraintTop_toTopOf="@+id/imageView"
-                        app:layout_constraintVertical_bias="0.0" />
+                        <TextView
+                            android:id="@+id/textView6"
+                            style="@style/AppTheme.ServerNameText"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginBottom="2dp"
+                            android:text="@{servers.entryServer.description}"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/content_description_choose_entry_server"
-                        android:tint="@color/sliding_panel_arrow"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView5"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:contentDescription="@string/content_description_choose_entry_server"
+                            android:tint="@color/sliding_panel_arrow"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/textView5"
+                            app:srcCompat="@drawable/ic_arrow_right" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/exit_server_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/slider_layout_server_layout_height"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
@@ -318,10 +325,10 @@
 
                         <ImageView
                             android:id="@+id/exit_server_flag"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:layout_marginBottom="16dp"
                             android:contentDescription="@string/content_description_entry_server_flag"
                             android:src="@{servers.exitServer}"
@@ -333,6 +340,7 @@
                             android:id="@+id/exit_server_description"
                             style="@style/AppTheme.ServerNameText"
                             android:layout_marginStart="8dp"
+                            android:layout_marginBottom="2dp"
                             android:text="@{servers.exitServer.description}"
                             app:layout_constraintBottom_toBottomOf="@+id/exit_server_flag"
                             app:layout_constraintStart_toEndOf="@+id/exit_server_flag"
@@ -367,12 +375,12 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/fastest_server_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="85dp"
+                    android:layout_height="@dimen/slider_layout_server_layout_height"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="parent"
                     android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="parent"
                     tools:layout_editor_absoluteX="4dp">
 
                     <TextView
@@ -386,16 +394,17 @@
 
                     <ImageView
                         android:id="@+id/fastest_image"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="16dp"
                         android:contentDescription="@string/content_description_entry_server_flag"
-                        android:tint="@color/settings_option_description_text"
                         android:src="@drawable/ic_fastest_server"
+                        android:tint="@color/settings_option_description_text"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/connect_to_fastest" />
 
                     <TextView
                         android:id="@+id/fastest_label"
@@ -474,6 +483,8 @@
                         android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
                         android:thumb="@drawable/common_thumb_selector"
+                        android:checked="@{antitracker.isAntiSurveillanceEnabled}"
+                        app:onChanged="@{antitracker.enableAntiSurveillance}"
                         app:layout_constraintBottom_toBottomOf="@+id/antitracker_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/antitracker_title"
@@ -484,7 +495,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:alpha="0.5"
                         android:letterSpacing="-0.02"
                         android:text="@string/sliding_panel_antitracker_description"
@@ -510,7 +521,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:text="@{network.networkTitle}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/wifi_label" />
@@ -563,7 +574,7 @@
                         android:paddingBottom="3dp"
                         android:text="@{network.networkState}"
                         android:textAllCaps="true"
-                        android:textColor="@color/account_text_invert"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"
                         android:visibility="@{network.networkState == null ? View.GONE : View.VISIBLE}"
                         app:background="@{network.networkState.backgroundId}"
@@ -596,7 +607,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:text="@{protocol.description}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/protocol_port_label" />

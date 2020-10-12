@@ -90,6 +90,9 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             public void onFinish() {
                 LOGGER.info("Should be resumed");
                 resume();
+                for (VpnStateListener listener: listeners) {
+                    listener.onTimerFinish();
+                }
             }
         });
         state = NOT_CONNECTED;
@@ -277,7 +280,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     }
 
     private boolean isFastestServerEnabled() {
-        return settings.isFastestServerEnabled();
+        return serversRepository.getSettingFastestServer();
     }
 
     @Override

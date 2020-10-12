@@ -10,6 +10,10 @@
             name="viewmodel"
             type="net.ivpn.client.v2.login.LoginViewModel" />
 
+        <variable
+            name="signUp"
+            type="net.ivpn.client.v2.viewmodel.SignUpViewModel" />
+
     </data>
 
     <FrameLayout
@@ -55,6 +59,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outlinedTextField"
                 style="@style/EditText.OutlinedBox"
+                android:theme="@style/TextInputLayoutAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -96,10 +101,9 @@
                 android:layout_height="56dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/auth_log_in"
-                android:textColor="@color/login_text_color_invert"
-                app:layout_constraintBottom_toTopOf="@+id/button2"
+                app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/space2"
@@ -107,7 +111,7 @@
                 app:layout_optimizationLevel="chains" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button2"
+                android:id="@+id/sign_up_button"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -116,7 +120,6 @@
                 android:layout_marginBottom="32dp"
                 android:text="@string/auth_create_new_account"
                 android:textSize="14sp"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +148,7 @@
             android:background="@color/color_opacity_black_background"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewmodel.dataLoading || signUp.dataLoading ? View.VISIBLE : View.GONE}">
 
             <ProgressBar
                 style="?indeterminateProgressStyle"

@@ -7,6 +7,7 @@ import android.util.Patterns;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
+import net.ivpn.client.common.billing.addfunds.Plan;
 
 import java.util.regex.Matcher;
 
@@ -51,5 +52,12 @@ public class StringUtil {
         StringBuilder builder = new StringBuilder();
         builder.append(DateUtil.formatTimerCountDown(timeUntilResumed));
         return builder.toString();
+    }
+
+    public static String formatPlanName(Plan plan) {
+        if (plan == null) {
+            return "";
+        }
+        return "IVPN " + plan.toString();
     }
 }

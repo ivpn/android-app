@@ -1,7 +1,5 @@
 package net.ivpn.client.common.pinger;
 
-import android.util.Log;
-
 import net.ivpn.client.rest.data.model.Server;
 
 import java.util.ArrayList;
@@ -53,15 +51,6 @@ class PingFuture {
                             }
                             listeners.clear();
                         }
-                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
-                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
-//                        if (PingFuture.this.listener != null) {
-//                            PingFuture.this.listener.forEach({
-//                                    onPingFinish(server, result);
-//                            });onPingFinish(server, result);
-//                        }
-//                        Log.d(TAG, "onFinished: pingStats = " + pingStats);
-//                        Log.d(TAG, "onFinished: ip = " + ipAddress + " ping = " + pingStats.getMinTimeTaken());
                     }
 
                     @Override
@@ -74,12 +63,6 @@ class PingFuture {
                             }
                             listeners.clear();
                         }
-//                        for (OnPingFinishListener listener: listeners) {
-//                            listener.onPingFinish(server, result);
-//                        }
-//                        if (PingFuture.this.listener != null) {
-//                            PingFuture.this.listener.onPingFinish(server, result);
-//                        }
                         e.printStackTrace();
                     }
                 }));
@@ -103,7 +86,5 @@ class PingFuture {
                 }
             }
         }
-//        listeners.add(listener);
-//        this.listener = listener;
     }
 }

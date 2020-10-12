@@ -16,9 +16,11 @@ import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.map.MapView;
-import net.ivpn.client.v2.network.NetworkProtectionFragment;
+import net.ivpn.client.v2.network.NetworkCommonFragment;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
+import net.ivpn.client.v2.network.saved.SavedNetworksFragment;
+import net.ivpn.client.v2.network.scanned.ScannedNetworksFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
 import net.ivpn.client.v2.serverlist.ServerListTabFragment;
 import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter;
@@ -28,8 +30,12 @@ import net.ivpn.client.v2.serverlist.favourite.FavouriteServerListRecyclerViewAd
 import net.ivpn.client.v2.serverlist.favourite.FavouriteServersListFragment;
 import net.ivpn.client.v2.serverlist.holders.ServerViewHolder;
 import net.ivpn.client.v2.settings.SettingsFragment;
+import net.ivpn.client.v2.signup.SignUpAccountCreatedFragment;
+import net.ivpn.client.v2.signup.SignUpPeriodFragment;
+import net.ivpn.client.v2.signup.SignUpProductFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.v2.sync.SyncFragment;
+import net.ivpn.client.v2.updates.UpdatesFragment;
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
 import net.ivpn.client.vpn.OnBootBroadcastReceiver;
@@ -77,11 +83,7 @@ public interface ActivityComponent {
 
     void inject(AlwaysOnVpnService service);
 
-    void inject(NetworkRecyclerViewAdapter.CommonNetworkViewHolder viewHolder);
-
     void inject(NetworkRecyclerViewAdapter.WifiItemViewHolder viewHolder);
-
-//    void inject(ServersRecyclerViewAdapter.ServerViewHolder viewHolder);
 
     void inject(ServerViewHolder viewHolder);
 
@@ -99,7 +101,7 @@ public interface ActivityComponent {
 
     void inject(AlwaysOnVPNFragment fragment);
 
-    void inject(NetworkProtectionFragment fragment);
+    void inject(NetworkCommonFragment fragment);
 
     void inject(NetworkProtectionRulesFragment fragment);
 
@@ -119,11 +121,25 @@ public interface ActivityComponent {
 
     void inject(AntiTrackerFragment fragment);
 
+    void inject(SignUpProductFragment fragment);
+
+    void inject(SignUpPeriodFragment fragment);
+
+    void inject(SignUpAccountCreatedFragment fragment);
+
+    void inject(SavedNetworksFragment fragment);
+
+    void inject(ScannedNetworksFragment fragment);
+
+    void inject(UpdatesFragment fragment);
+
     void inject(MapView map);
 
     void inject(AllServersRecyclerViewAdapter adapter);
 
     void inject(FavouriteServerListRecyclerViewAdapter adapter);
+
+    void inject(NetworkRecyclerViewAdapter adapter);
 
     void inject(ViewModelCleaner clearer);
 }

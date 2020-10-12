@@ -149,6 +149,9 @@
     <string name="network_trusted_action">Perform the following actions when joining trusted networks:</string>
     <string name="network_disconnect_from_vpn">Disconnect from IVPN</string>
     <string name="network_disable_killswitch">Disable kill-switch</string>
+    <string name="network_saved_empty_state_title">Mark one of the scanned network as TRUSTED or UNTRUSTED to add it here</string>
+    <string name="network_scanned_empty_state_title">Once we find a WiFi networks they will be displayed here</string>
+    <string name="network_current_network">Current network</string>
 
     <!--Validation Screen-->
 
@@ -172,7 +175,10 @@
     <string name="subscription_free_trial">3-days free trial then</string>
     
     <string name="billing_validating">Validating purchase…</string>
-    <string name="billing_error_message">Error retrieving information from Google Play services. Please try again later or use the website to purchase a subscription.</string>
+    <string name="billing_creating_account">Creating account…</string>
+    <string name="billing_creating_new_session">Creating new session…</string>
+    <string name="billing_error_message">Error retrieving information from Google Play services.
+        Please try again later or use the website to purchase a subscription.</string>
 
     <!--Private Emails-->
 
@@ -191,12 +197,19 @@
 
     <!--Connect screen-->
 
-    <string name="connect_status_paused">Paused</string>
-    <string name="connect_status_pausing">Pausing</string>
-    <string name="connect_status_not_connected">Unprotected</string>
-    <string name="connect_status_connecting">Establishing</string>
-    <string name="connect_status_connected">Protected</string>
-    <string name="connect_status_disconnecting">Disconnecting from</string>
+    <string name="connect_status_paused">paused</string>
+    <string name="connect_status_pausing">pausing</string>
+    <string name="connect_status_not_connected">disconnected</string>
+    <string name="connect_status_connecting">connecting</string>
+    <string name="connect_status_connected">connected</string>
+    <string name="connect_status_disconnecting">disconnecting</string>
+
+    <string name="connect_server_hint_paused">Connect to</string>
+    <string name="connect_server_hint_pausing">Connect to</string>
+    <string name="connect_server_hint_disconnected">Connect to</string>
+    <string name="connect_server_hint_connecting">Connecting to</string>
+    <string name="connect_server_hint_connected">Connected to</string>
+    <string name="connect_server_hint_disconnecting">Disconnecting from</string>
 
     <string name="connect_hint_paused">TAP TO RESUME</string>
     <string name="connect_hint_pausing">PAUSING…</string>
@@ -368,6 +381,8 @@
     <string name="dialogs_change_status_default">Default</string>
     <string name="dialogs_change_status_none">None</string>
 
+    <string name="dialogs_create_account_error_message">There was a problem with creating a new account.</string>
+
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
     <string name="purchases_guide_second_step">Select billing cycle and enter your payment information</string>
@@ -424,7 +439,7 @@
     </plurals>
 
     <!--v2-->
-    <string name="your_network_is">Your network is</string>
+    <string name="your_status_is">Your status is</string>
     <string name="single_hop">Single-hop</string>
     <string name="multi_hop">Multi-hop</string>
     <string name="connect_to">Connect to</string>
@@ -437,9 +452,9 @@
     
     <string name="sliding_panel_connection_details">Connection details</string>
     <string name="sliding_panel_antitracker">AntiTracker</string>
-    <string name="sliding_panel_antitracker_description">AntiTracker will block all trackers on the web pages</string>
+    <string name="sliding_panel_antitracker_description">AntiTracker blocks all known data trackers</string>
     <string name="sliding_panel_wifi_title">Wi-Fi network</string>
-    <string name="sliding_panel_protocol_port_name">Protocol/Port</string>
+    <string name="sliding_panel_protocol_port_name">Protocol, Port</string>
     <string name="sliding_panel_your_ip_title">Your IP</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>
@@ -447,19 +462,60 @@
     <string name="network_protection_top_hint">Decide which networks do you trust. IVPN connection will be turned on automatically for untrusted networks</string>
     <string name="network_protection_default_mobile_data">Default &amp; Mobile Data</string>
     <string name="network_protection_wifi">Wi-Fi networks</string>
+    <string name="network_saved_wifi_list">Saved Wi-Fi networks</string>
+    <string name="network_protection_settings">Settings</string>
+    <string name="network_protection_scanned">SCANNED</string>
+    <string name="network_protection_saved">SAVED</string>
     
     <string name="auth_log_in_label">Enter your Account ID</string>
     <string name="auth_create_new_account">Create a new account</string>
     <string name="auth_log_in">Log in</string>
 
+    <string name="sign_up_product_description">We offer different products to better suit your needs. Please select one. You’ll be able to change it any time in the future.</string>
+    <string name="sign_up_product_standard_title">IVPN standard</string>
+    <string name="sign_up_product_pro_title">IVPN pro</string>
+    <string name="sign_up_product_2_devices">2 devices</string>
+    <string name="sign_up_product_7_devices">7 devices</string>
+    <string name="sign_up_product_openvpn">OpenVPN</string>
+    <string name="sign_up_product_wireguard">WireGuard</string>
+    <string name="sign_up_product_antitracker">AntiTracker</string>
+    <string name="sign_up_product_multihop">Multi-Hop</string>
+    <string name="sign_up_product_port_forwarding">Port Forwarding</string>
+
+    <string name="sign_up_period_description">Add funds to your account to start using IVPN.</string>
+    <string name="sign_up_period_change">Change</string>
+    <string name="sign_up_period_1_week">1 week</string>
+    <string name="sign_up_period_1_month">1 month</string>
+    <string name="sign_up_period_1_year">1 year</string>
+    <string name="sign_up_period_2_year">2 year</string>
+    <string name="sign_up_period_3_year">3 year</string>
+    <string name="sign_up_period_continue_to_payment">Pay</string>
+    <string name="sign_up_progress">Querying available products…</string>
+    
+    <string name="sign_up_account_created">Your account has been created.</string>
+
     <string name="account_label">Account Id</string>
     <string name="account_active">Active</string>
+    <string name="account_inactive">Inactive</string>
     <string name="account_type">Account type</string>
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
+    <string name="account_keep_safe">Please save your account ID in a safe place, you will use it to connect on another IVPN App or log in to the client area of the IVPN website. You can find this account ID later in the IVPN App Account screen.</string>
+    <string name="account_continue">Select your plan to continue</string>
+    <string name="account_clipboard">Account ID copied</string>
     
-    <string name="map_dialog_not_connected_title">Everyone knows about your location</string>
-    <string name="map_dialog_connected_title">No one knows about your location</string>
+    <string name="map_dialog_not_connected_title">Your current location</string>
+    <string name="map_dialog_connected_title">Connected to</string>
     <string name="map_dialog_server">Protect yourself by connecting to</string>
     <string name="map_dialog_button_text">CONNECT TO SERVER</string>
+
+    <string name="account_add_more_time">Add more time</string>
+    <string name="account_copy_account_id">Copy account id</string>
+    <string name="account_change_plan_description">Login to the website to change subscription plan</string>
+    <string name="account_qr_code">QR code</string>
+    <string name="account_pro_plan_title"><![CDATA[<b>IVPN PRO</b> gives you more possibilities to stay safe and protected:]]></string>
+    <string name="account_standard_plan_title">Login to the website to change subscription plan</string>
+    <string name="account_pro_devices_benefits"><![CDATA[Connect up to <b>7 devices</b>]]></string>
+    <string name="account_pro_multihop_benefits"><![CDATA[Use <b>Multi-Hop</b> connections]]></string>
+    <string name="account_no_active_subscription">No active subscription</string>
 </resources>

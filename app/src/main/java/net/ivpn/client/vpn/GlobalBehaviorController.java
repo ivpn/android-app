@@ -7,7 +7,10 @@ import android.content.IntentFilter;
 import android.net.VpnService;
 import android.os.Build;
 
+import androidx.navigation.NavDeepLinkBuilder;
+
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
@@ -313,6 +316,9 @@ public class GlobalBehaviorController implements ServiceConstants {
     }
 
     private void openSettings() {
+        new NavDeepLinkBuilder(IVPNApplication.getApplication())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.settingsFragment).createTaskStackBuilder().startActivities();
     }
 
     private boolean isKillSwitchEnabled() {

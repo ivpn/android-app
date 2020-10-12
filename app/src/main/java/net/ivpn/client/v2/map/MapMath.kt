@@ -100,8 +100,6 @@ class MapMath {
         const val tileHeight = 515
         const val tileWidth = 706
 
-        //        const val tileHeight = 574
-//        const val tileWidth = 763
         const val tilesCount = 16
     }
 }

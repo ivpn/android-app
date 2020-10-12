@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.todtenkopf.mvvm.MenuCommandBindings
-import com.todtenkopf.mvvm.ViewModelBase
-import com.todtenkopf.mvvm.ViewModelFragment
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSplitTunnelingBinding
 import net.ivpn.client.ui.split.SplitTunnelingViewModel
 import javax.inject.Inject
 
-class SplitTunnelingFragment : ViewModelFragment() {
+class SplitTunnelingFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: SplitTunnelingViewModel
@@ -45,15 +43,11 @@ class SplitTunnelingFragment : ViewModelFragment() {
         init()
     }
 
-    override fun createViewModel(): ViewModelBase {
-        addMenuBinding(R.id.action_select_all, viewModel.selectAllCommand, MenuCommandBindings.EnableBinding.Visible)
-        addMenuBinding(R.id.action_deselect_all, viewModel.deselectAllCommand, MenuCommandBindings.EnableBinding.Visible)
-        return viewModel
-    }
-
     private fun init() {
+        binding.viewmodel = viewModel
         binding.contentLayout.viewmodel = viewModel
         binding.contentLayout.recyclerView.layoutManager = LinearLayoutManager(context)
+
         getAllApplications()
     }
 

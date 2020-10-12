@@ -21,8 +21,8 @@ public class DateUtil {
     public static final long FIVE_MINUTES = MINUTE * 5;
     public static final long DAY = HOUR * 24;
     public static final long WEEK = DAY * 7;
+    public static final long DAYS_4 = DAY * 4;
 
-    //To test
     public static final long H7 = HOUR * 7;
     public static final long H40 = HOUR * 40;
 
@@ -72,7 +72,7 @@ public class DateUtil {
     }
 
     public static String formatSubscriptionTimeLeft(long activeUntilUnixTimeStamp) {
-        long activeUntilTimeStamp = activeUntilUnixTimeStamp * 1000;
+        long activeUntilTimeStamp = activeUntilUnixTimeStamp;
         long timeLeft = activeUntilTimeStamp - System.currentTimeMillis();
         if (((int) timeLeft / DAY) > 0) {
             return daysInTimeMillis(timeLeft);

@@ -18,6 +18,7 @@ import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.ui.connect.ConnectionNavigator
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.connect.MapDialogs
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
@@ -28,9 +29,7 @@ import javax.inject.Inject
 @ApplicationScope
 class ConnectionViewModel @Inject constructor(
         private val context: Context,
-        private val sessionController: SessionController,
-        private val vpnBehaviorController: VpnBehaviorController,
-        private val userPreference: UserPreference
+        private val vpnBehaviorController: VpnBehaviorController
 ) : ViewModel(), SessionController.SessionListener {
 
     companion object {
@@ -39,12 +38,12 @@ class ConnectionViewModel @Inject constructor(
 
     val isConnected = ObservableBoolean()
     val connectionStatus = ObservableField<String>()
+    val serverConnectionHint = ObservableField<String>()
+
     val connectionState = ObservableField<ConnectionState>()
-    val connectionUserHint = ObservableField<String>()
     val isPauseAvailable = ObservableBoolean()
     val isPaused = ObservableBoolean()
     val timeUntilResumed = ObservableField<String>()
-    val connectionViewHint = ObservableField<String>()
 
     var touchListener = View.OnTouchListener { _, motionEvent ->
         if (motionEvent.action == MotionEvent.ACTION_DOWN) {
@@ -58,6 +57,7 @@ class ConnectionViewModel @Inject constructor(
     }
 
     var navigator: ConnectionNavigator? = null
+    var resumeDialog: MapDialogs.ResumeDialogListener? = null
 
     init {
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
@@ -65,6 +65,10 @@ class ConnectionViewModel @Inject constructor(
 
     fun onConnectRequest() {
         vpnBehaviorController.connectionActionByUser()
+    }
+
+    fun resume() {
+        vpnBehaviorController.resumeActionByUser()
     }
 
     fun connectIfNot() {
@@ -98,16 +102,6 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun reset() {
-
-    }
-
-    private fun createNewSession(force: Boolean) {
-        connectionUserHint.set(context.getString(R.string.connect_hint_creating_session))
-        sessionController.createSession(force)
-    }
-
-    private fun isTokenExist(): Boolean {
-        return userPreference.sessionToken.isNotEmpty()
     }
 
     private fun getVPNStateListener(): VpnStateListener {
@@ -120,6 +114,10 @@ class ConnectionViewModel @Inject constructor(
                 timeUntilResumed.set(StringUtil.formatTimeUntilResumed(millisUntilResumed))
             }
 
+            override fun onTimerFinish() {
+                resumeDialog?.onTimerFinish()
+            }
+
             override fun notifyAnotherPortUsedToConnect() {
                 navigator?.notifyAnotherPortUsedToConnect()
             }
@@ -128,20 +126,7 @@ class ConnectionViewModel @Inject constructor(
                 navigator?.onTimeOut()
             }
 
-            override fun onFindingFastestServer() {
-                connectionUserHint.set(context.getString(R.string.connect_hint_finding_fastest))
-            }
-
-            override fun onRegeneratingKeys() {
-                connectionUserHint.set(context.getString(R.string.connect_hint_regeneration_wg_key))
-            }
-
-            override fun onRegenerationSuccess() {
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
-            }
-
             override fun onRegenerationError(errorDialog: Dialogs?) {
-                connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
                 navigator?.openErrorDialog(errorDialog)
             }
 
@@ -159,46 +144,38 @@ class ConnectionViewModel @Inject constructor(
                         isConnected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(true)
-//                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_connected))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_connected))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_connected))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_connecting))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_connecting))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_connecting))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_connecting))
                     }
                     ConnectionState.DISCONNECTING -> {
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_disconnecting))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_disconnecting))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_disconnecting))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnecting))
                     }
                     ConnectionState.NOT_CONNECTED -> {
                         isConnected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
-//                        navigator?.onChangeConnectionStatus(state)
                         connectionStatus.set(context.getString(R.string.connect_status_not_connected))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_not_connected))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                     }
                     ConnectionState.PAUSING -> {
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_pausing))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_pausing))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_pausing))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_pausing))
                     }
                     ConnectionState.PAUSED -> {
                         isPaused.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_paused))
-                        connectionUserHint.set(context.getString(R.string.connect_hint_paused))
-                        connectionViewHint.set(context.getString(R.string.connect_state_hint_paused))
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_paused))
                     }
                 }
             }
@@ -212,7 +189,6 @@ class ConnectionViewModel @Inject constructor(
     }
 
     override fun onCreateSuccess(response: SessionNewResponse) {
-        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
         if (response.status == null) {
             return
         }
@@ -224,8 +200,6 @@ class ConnectionViewModel @Inject constructor(
     }
 
     override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
-        connectionUserHint.set(context.getString(R.string.connect_hint_not_connected))
-
         if (!ConnectivityUtil.isOnline(context)) {
             navigator?.openErrorDialog(Dialogs.CONNECTION_ERROR)
             return

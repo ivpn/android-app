@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.updates.UpdatesViewModel" />
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/updates_card_background">
 
             <TextView
                 style="@style/SettingsSectionTitle"

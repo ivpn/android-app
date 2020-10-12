@@ -1,7 +1,6 @@
 package net.ivpn.client.v2.connect
 
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -158,7 +157,16 @@ object MapDialogs {
             listener.resumeConnection()
             infoPopup.dismiss()
         }
+        infoPopup.setOnDismissListener {
+            connection.resumeDialog = null
+        }
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+
+        connection.resumeDialog = object : ResumeDialogListener {
+            override fun onTimerFinish() {
+                infoPopup.dismiss()
+            }
+        }
     }
 
     interface GatewayListener {
@@ -170,5 +178,9 @@ object MapDialogs {
         fun checkLocation()
 
         fun resumeConnection()
+    }
+
+    interface ResumeDialogListener {
+        fun onTimerFinish()
     }
 }

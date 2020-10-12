@@ -52,9 +52,10 @@
     <dimen name="location_label_shift">5dp</dimen>
     <dimen name="location_distance_from_dot">4dp</dimen>
 
-    <dimen name="slider_layout_basic_height">208dp</dimen>
-    <dimen name="slider_layout_multihop_switch_height">44dp</dimen>
-    <dimen name="slider_layout_exit_layout_height">85dp</dimen>
+    <dimen name="slider_layout_basic_height">192dp</dimen>
+    <dimen name="slider_layout_multihop_switch_height">36dp</dimen>
+    <dimen name="slider_layout_server_layout_height">78dp</dimen>
+    <dimen name="slider_panel_top_offset">36dp</dimen>
 
     <dimen name="map_dialog_side_margin">16dp</dimen>
     <dimen name="map_dialog_title_text_size">12sp</dimen>
@@ -68,5 +69,8 @@
     <dimen name="map_dialog_inner_horizontal_margin">8dp</dimen>
     <dimen name="map_dialog_y_shift">2dp</dimen>
     <dimen name="map_dialog_button_height">42dp</dimen>
-    
+
+    <dimen name="network_tab_layout_height">48dp</dimen>
+    <dimen name="network_default_toolbar_height">56dp</dimen>
+    <dimen name="network_status_bar_height">24dp</dimen>
 </resources>

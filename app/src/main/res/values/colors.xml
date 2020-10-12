@@ -3,6 +3,8 @@
     <color name="colorPrimary">#398FE6</color>
     <color name="colorPrimaryDark">#0062b3</color>
     <color name="colorAccent">#FB3841</color>
+    <color name="colorControlNormal">#7D91A5</color>
+    <color name="colorOnSurface">#000000</color>
 
     <color name="color_toolbar">#398FE6</color>
     <color name="error">#b00020</color>
@@ -16,6 +18,8 @@
     <color name="yellow_light">#FFC933</color>
     <color name="red_light">#FA2F38</color>
 
+    <color name="dialogScrim">#80323232</color>
+
     <!--Settings-->
     <color name="color_section_divider">#4CB4C1CC</color>
     <color name="color_description_text">#335266</color>
@@ -28,6 +32,12 @@
     <color name="color_connect_connection_status">#B4C1CC</color>
 
     <!--Networks Behaviour-->
+
+    <color name="network_tabs_background">#FFFFFF</color>
+    <color name="network_tabs_indicator">@color/primary</color>
+    <color name="network_tabs_selected_text">#2A394B</color>
+    <color name="network_tabs_passive_text">#A62A394B</color>
+    <color name="network_current_state">#98A5B3</color>
 
     <color name="color_trusted_text">#398FE6</color>
     <color name="color_untrusted_text">#FF6258</color>
@@ -108,6 +118,11 @@
     <color name="login_text_color">#2A394B</color>
     <color name="login_text_color_invert">#FFFFFF</color>
     <color name="login_background">#FFFFFF</color>
+    <color name="login_color_on_surface">#2A394B</color>
+
+    <color name="sign_up_text_color">#2A394B</color>
+    <color name="sign_up_text_color_invert">#FFFFFF</color>
+    <color name="sign_up_background">#FFFFFF</color>
 
     <color name="bottom_sheet_background">#FFFFFF</color>
     <color name="bottom_sheet_text">#2A394B</color>
@@ -117,9 +132,16 @@
 
     <color name="account_text">#2A394B</color>
     <color name="account_background">#FFFFFF</color>
-    <color name="account_active_background">#4caf50</color>
-    <color name="account_text_invert">#FFFFFF</color>
+    <color name="account_active_background">#45B1E47D</color>
+    <color name="account_inactive_background">#FF6258</color>
+    <color name="account_text_active">#64AD07</color>
+    <color name="account_text_inactive">#FFFFFF</color>
     <color name="account_line">#2B8B9AAB</color>
+    <color name="account_outlined_button_stroke">#7D91A5</color>
+    <color name="account_outlined_button_text">#6D849A</color>
+    <color name="account_logout">#8B9AAB</color>
+    <color name="account_plan_details_background">#1A398FE6</color>
+    <color name="account_plan_details_text">#3E6894</color>
 
     <color name="tab_text_color">#99FFFFFF</color>
     <color name="tab_selected_text_color">#FFFFFF</color>
@@ -151,5 +173,13 @@
     <color name="dialog_shadow_8">#40CCCCCC</color>
 
     <color name="dialog_shadow_no_opacity">#CCCCCC</color>
+
+    <color name="updates_text_color_opacity">#992A394B</color>
+    <color name="updates_text_color">#2A394B</color>
+    <color name="updates_background">#F5F9FC</color>
+    <color name="updates_card_background">#FFFFFF</color>
+
+    <color name="alerts_background_color">#F3E2A3</color>
+    <color name="alerts_text">#776832</color>
 
 </resources>

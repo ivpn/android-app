@@ -21,6 +21,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.Constant
+import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.common.prefs.ServerType
@@ -78,6 +79,9 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     @Inject
     lateinit var colorTheme: ColorThemeViewModel
 
+    @Inject
+    lateinit var signUp: SignUpViewModel
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -123,6 +127,16 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         colorTheme.onResume()
     }
 
+    override fun onStart() {
+        super.onStart()
+        killSwitch.navigator = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        killSwitch.navigator = null
+    }
+
     private fun initViews() {
         initToolbar()
 
@@ -147,6 +161,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
                 openLoginScreen()
                 return@setOnClickListener
             }
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnClickListener
+            }
             if (connect.isVpnActive()) {
                 notifyUser(R.string.snackbar_to_use_antitracker_disconnect)
                 return@setOnClickListener
@@ -162,6 +180,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
                 openLoginScreen()
                 return@setOnClickListener
             }
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnClickListener
+            }
             if (connect.isVpnActive()) {
                 notifyUser(R.string.snackbar_to_use_split_tunneling_disconnect)
                 return@setOnClickListener
@@ -172,6 +194,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.alwaysOnVpn.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openAlwaysOnVPNScreen()
             }
@@ -179,6 +203,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.networkProtectionLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openNetworkProtectionScreen()
             }
@@ -186,6 +212,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionServer.protocolLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+                return@setOnClickListener
+            }
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
                 return@setOnClickListener
             }
             if (connect.isVpnActive()) {
@@ -198,6 +228,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionOther.customDns.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+                return@setOnClickListener
+            }
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
                 return@setOnClickListener
             }
             if (connect.isVpnActive()) {
@@ -213,12 +247,17 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionAbout.privacyPolicyLayout.setOnClickListener {
             openPrivacyPolicyScreen()
         }
+        binding.contentLayout.sectionAbout.checkUpdatesLayout.setOnClickListener {
+            openUpdatesScreen()
+        }
         binding.contentLayout.sectionOther.sendLogsLayout.setOnClickListener {
             sendLogs()
         }
         binding.contentLayout.sectionServer.entryServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openEntryServerScreen()
             }
@@ -226,6 +265,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionServer.fastestServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openEntryServerScreen()
             }
@@ -233,6 +274,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.sectionServer.exitServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
             } else {
                 openExitServerScreen()
             }
@@ -287,6 +330,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openPrivacyPolicyScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
+        NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    private fun openUpdatesScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToUpdatesFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 
@@ -352,7 +400,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         LOGGER.info("enableKillSwitch = $state isAdvancedKillSwitchDialogEnabled = $advancedKillSwitchState")
         if (state) {
             checkVPNPermission(ServiceConstants.ENABLE_KILL_SWITCH)
-            if (killSwitch.isAdvancedModeSupported) {
+            if (killSwitch.isAdvancedModeSupported && advancedKillSwitchState) {
                 DialogBuilder.createAdvancedKillSwitchDialog(context, this)
             }
         } else {
@@ -386,5 +434,23 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     override fun onNightModeCancelClicked() {
+    }
+
+    private fun openAddFundsScreen() {
+        if (account.isAccountNewStyle()) {
+            signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
+
+            val action = SettingsFragmentDirections.actionSettingsFragmentToSignUpPeriodFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        } else {
+            openAddFundsSite()
+        }
+    }
+
+    private fun openAddFundsSite() {
+        val url = "https://www.ivpn.net/account/login"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

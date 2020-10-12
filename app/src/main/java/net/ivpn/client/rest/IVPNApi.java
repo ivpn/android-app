@@ -1,8 +1,10 @@
 package net.ivpn.client.rest;
 
-import net.ivpn.client.rest.data.LoginRequestBody;
-import net.ivpn.client.rest.data.LoginResponse;
 import net.ivpn.client.rest.data.ServersListResponse;
+import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
+import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
 import net.ivpn.client.rest.data.privateemails.GenerateEmailRequestBody;
 import net.ivpn.client.rest.data.privateemails.GenerateEmailResponse;
 import net.ivpn.client.rest.data.privateemails.PrivateEmailsListRequestBody;
@@ -18,6 +20,8 @@ import net.ivpn.client.rest.data.session.SessionNewRequestBody;
 import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.session.SessionStatusRequestBody;
 import net.ivpn.client.rest.data.session.SessionStatusResponse;
+import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody;
+import net.ivpn.client.rest.data.addfunds.NewAccountResponse;
 import net.ivpn.client.rest.data.subscription.SubscriptionRequestBody;
 import net.ivpn.client.rest.data.subscription.SubscriptionResponse;
 import net.ivpn.client.rest.data.subscription.ValidateAccountRequestBody;
@@ -28,8 +32,6 @@ import net.ivpn.client.rest.data.wireguard.AddWireGuardPublicKeyResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface IVPNApi {
@@ -52,22 +54,21 @@ public interface IVPNApi {
     @POST("v4/session/wg/set")
     Call<AddWireGuardPublicKeyResponse> setWireGuardPublicKey(@Body AddWireGuardPublicKeyRequestBody body);
 
-    @POST("v4/session/pe/list")
-    Call<PrivateEmailsListResponse> getPrivateEmails(@Body PrivateEmailsListRequestBody body);
-
-    @POST("v4/session/pe/generate")
-    Call<GenerateEmailResponse> generatePrivateEmail(@Body GenerateEmailRequestBody body);
-
-    @POST("v4/session/pe/delete")
-    Call<RemovePrivateEmailResponse> removePrivateEmail(@Body RemovePrivateEmailRequestBody body);
-
-    @POST("v4/session/pe/update")
-    Call<UpdatePrivateEmailResponse> updatePrivateEmail(@Body UpdatePrivateEmailRequestBody body);
-
+    //old logic for subscriptions
     @POST("/subscriptions/android")
     Call<SubscriptionResponse> processPurchase(@Body SubscriptionRequestBody body);
 
     @POST("/subscriptions/validate")
     Call<ValidateAccountResponse> validateAccount(@Body ValidateAccountRequestBody body);
+
+    //new add funds logic
+    @POST("v4/account/new")
+    Call<NewAccountResponse> newAccount(@Body NewAccountRequestBody body);
+
+    @POST("/v4/account/payment/android/initial")
+    Call<InitialPaymentResponse> initialPayment(@Body InitialPaymentRequestBody body);
+
+    @POST("/v4/account/payment/android/add")
+    Call<AddFundsResponse> addFunds(@Body AddFundsRequestBody body);
 
 }

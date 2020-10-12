@@ -21,9 +21,9 @@ data class ServerLocation(
     var pointRect: Rect? = null
     var labelRect: Rect? = null
 
-//    var comparator = Comparator { location1: ServerLocation, location2: ServerLocation ->
-//        location1.distanceToTap.compareTo(location2.distanceToTap)
-//    }
+    fun getDescription(): String {
+        return "$city, $countryCode"
+    }
 
     companion object {
         var tapComparator = Comparator { location1: ServerLocation, location2: ServerLocation ->

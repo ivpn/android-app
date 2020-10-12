@@ -18,4 +18,10 @@ public class SwitchButtonBindingAdapter {
                                           final View.OnTouchListener listener) {
         view.setOnTouchListener(listener);
     }
+
+    @BindingAdapter("onTouch")
+    public static void setOnTouchListener(View view,
+                                          final View.OnTouchListener listener) {
+        view.setOnTouchListener(listener);
+    }
 }

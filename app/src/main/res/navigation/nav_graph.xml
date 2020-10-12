@@ -32,6 +32,9 @@
             android:id="@+id/action_connectFragment_to_networkProtectionFragment"
             app:destination="@id/networkProtectionFragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -67,6 +70,12 @@
         <action
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_updatesFragment"
+            app:destination="@id/updatesFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -78,7 +87,7 @@
         android:label="Always-on VPN" />
     <fragment
         android:id="@+id/networkProtectionFragment"
-        android:name="net.ivpn.client.v2.network.NetworkProtectionFragment"
+        android:name="net.ivpn.client.v2.network.NetworkCommonFragment"
         android:label="Network Protection">
         <action
             android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"
@@ -128,6 +137,16 @@
             android:id="@+id/action_loginFragment_to_syncFragment"
             app:destination="@id/syncFragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFinishFragment"
+            app:destination="@id/signUpFinishFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
@@ -136,9 +155,42 @@
     <fragment
         android:id="@+id/accountFragment"
         android:name="net.ivpn.client.v2.account.AccountFragment"
-        android:label="Account details" />
+        android:label="Account details" >
+        <action
+            android:id="@+id/action_accountFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/antiTrackerFragment"
         android:name="net.ivpn.client.v2.antitracker.AntiTrackerFragment"
         android:label="AntiTracker" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpProductFragment"
+        android:label="Select IVPN Plan" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpPeriodFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpPeriodFragment"
+        android:label="Add funds to your account" >
+        <action
+            android:id="@+id/action_signUpPeriodFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFinishFragment"
+        android:name="net.ivpn.client.v2.signup.SignUpAccountCreatedFragment"
+        android:label="Account Created" >
+        <action
+            android:id="@+id/action_signUpFinishFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatesFragment"
+        android:name="net.ivpn.client.v2.updates.UpdatesFragment"
+        android:label="Updates" />
 </navigation>

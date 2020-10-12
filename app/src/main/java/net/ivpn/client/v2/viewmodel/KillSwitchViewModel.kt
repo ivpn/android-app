@@ -9,34 +9,36 @@ import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.vpn.GlobalBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class KillSwitchViewModel @Inject constructor(
         private val settings: Settings,
         private val userPreference: UserPreference,
-        private val buildController: BuildController
+        private val buildController: BuildController,
+        private val globalBehaviorController: GlobalBehaviorController
 ) : ViewModel() {
 
     val isEnabled = ObservableBoolean()
     var enableKillSwitch = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> tryEnable(value) }
-    var touchListener = OnTouchListener { _, motionEvent ->
+    var touchListener = OnTouchListener { view, motionEvent ->
         if (motionEvent.action == MotionEvent.ACTION_DOWN) {
             if (!isAuthenticated()) {
                 navigator?.authenticate()
             } else if (!isActive()) {
                 navigator?.subscribe()
+            } else {
+                view.performClick()
             }
-
-            return@OnTouchListener true
         }
 
-        false
+        true
     }
 
     var isAdvancedModeSupported: Boolean = buildController.isAdvancedKillSwitchModeSupported
 
-    private var navigator: KillSwitchNavigator? = null
+    var navigator: KillSwitchNavigator? = null
 
     fun onResume() {
         isEnabled.set(isKillSwitchEnabled())
@@ -49,6 +51,11 @@ class KillSwitchViewModel @Inject constructor(
     fun enable(value: Boolean) {
         isEnabled.set(value)
         settings.enableKillSwitch(value)
+        if (value) {
+            globalBehaviorController.enableKillSwitch()
+        } else {
+            globalBehaviorController.disableKillSwitch()
+        }
     }
 
     fun reset() {

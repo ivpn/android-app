@@ -20,6 +20,8 @@ import net.ivpn.client.vpn.model.WifiItem;
 
 import java.util.List;
 
+import kotlin.Pair;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -94,40 +96,7 @@ public class RecyclerViewItemsBindingAdapter {
     public static void setWifiList(RecyclerView recyclerView, List<WifiItem> wifiList) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
-            adapter.setWifiItemList(wifiList);
-        }
-    }
-
-    @BindingAdapter("is_network_feature_enabled")
-    public static void setIsUntrustedWifiEnabled(RecyclerView recyclerView, boolean isEnabled) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setNetworkRulesEnabled(isEnabled);
-        }
-    }
-
-    @BindingAdapter("default_network_state")
-    public static void setDefaultNetworkState(RecyclerView recyclerView, NetworkState defaultState) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setDefaultNetworkState(defaultState);
-        }
-    }
-
-    @BindingAdapter("mobile_data_state")
-    public static void setMobileDataNetworkState(RecyclerView recyclerView, NetworkState mobileDataState) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setMobileDataState(mobileDataState);
-        }
-    }
-
-    @BindingAdapter("network_feature_listener")
-    public static void setNetworkFeatureTouchListener(RecyclerView recyclerView,
-                                                      OnNetworkFeatureStateChanged onNetworkFeatureStateChanged) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setOnNetworkFeatureStateChanged(onNetworkFeatureStateChanged);
+            adapter.setWiFiList(wifiList);
         }
     }
 

@@ -66,10 +66,6 @@ public class Settings {
         settingsPreference.putSettingAdvancedKillSwitch(value);
     }
 
-    public void enableFastestServerSetting(boolean value) {
-        settingsPreference.putSettingFastestServer(value);
-    }
-
     public void enableAntiSurveillance(boolean value) {
         settingsPreference.putAntiSurveillance(value);
     }
@@ -136,10 +132,6 @@ public class Settings {
 
     public boolean isAntiSurveillanceHardcoreEnabled() {
         return settingsPreference.getIsAntiSurveillanceHardcoreEnabled();
-    }
-
-    public boolean isFastestServerEnabled() {
-        return settingsPreference.getSettingFastestServer();
     }
 
     public boolean isAdvancedKillSwitchDialogEnabled() {
@@ -329,11 +321,11 @@ public class Settings {
     }
 
     public void setNightMode(NightMode mode) {
-        settingsPreference.setNightMode(mode.name());
+        stickyPreference.setNightMode(mode.name());
     }
 
     public NightMode getNightMode() {
-        String name = settingsPreference.getNightMode();
+        String name = stickyPreference.getNightMode();
 
         if (name != null) {
             return NightMode.valueOf(name);

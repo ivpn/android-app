@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
@@ -51,18 +51,27 @@
             android:name=".v2.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <activity
             android:name=".vpn.local.PermissionActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent" />
+
+        <activity android:name=".common.shortcuts.ConnectionShortcutsActivity"
+            android:theme="@style/AppTheme.Transparent"/>
+
+        <activity
+            android:name=".ui.billing.BillingActivity"
+            android:theme="@style/AppTheme.DialogNoActionBar" />
 
         <activity
             android:name=".v2.qr.QRActivity"

@@ -8,21 +8,19 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.updates.UpdatesViewModel" />
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
     </data>
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@color/updates_card_background">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_margin_left"
-            android:layout_marginEnd="16dp"
             android:layout_weight="1"
+            android:background="@color/updates_card_background"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -30,13 +28,15 @@
                 style="@style/SettingsSectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/updates_updates_settings" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:gravity="center_vertical"
                 android:minHeight="64dp"
                 android:orientation="horizontal">
@@ -47,7 +47,7 @@
                     android:fontFamily="sans-serif"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/update_check_auto_for_update"
-                    android:textColor="#335266"
+                    android:textColor="@color/updates_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
@@ -58,12 +58,13 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_anti_surveillance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="10dp"
+                    android:thumb="@drawable/common_thumb_selector"
                     android:checked="@{viewmodel.isAutoUpdateEnabled}"
-                    android:translationX="3dp"
                     app:onChanged="@{viewmodel.enableAutoUpdates}"
+                    app:track="@drawable/common_track_selector"
                     app:theme="@style/AppTheme.SwitchCompat" />
 
             </LinearLayout>

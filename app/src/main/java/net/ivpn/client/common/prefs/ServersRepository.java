@@ -219,37 +219,19 @@ public class ServersRepository implements Serializable {
     }
 
     public void fastestServerSelected() {
-        settings.enableFastestServerSetting(true);
+        serversPreference.putSettingFastestServer(true);
         for (OnServerChangedListener listener : onServerChangedListeners) {
             listener.onServerChanged();
         }
     }
 
     public void serverSelected(Server server, ServerType type) {
-        settings.enableFastestServerSetting(false);
+        serversPreference.putSettingFastestServer(false);
         setCurrentServer(type, server);
         for (OnServerChangedListener listener : onServerChangedListeners) {
             listener.onServerChanged();
         }
-//        if (type == ServerType.ENTRY) {
-//            updateVPNSettingWith(server);
-//            for (OnServerChangedListener listener : onServerChangedListeners) {
-//                listener.onServerChanged();
-//            }
-//        } else {
-//            for (OnServerChangedListener listener : onServerChangedListeners) {
-//                listener.onServerChanged();
-//            }
-//        }
     }
-
-//    public void setOnServerChangedListener(OnServerChangedListener listener) {
-//        onServerChangedListeners.add(listener);
-//    }
-//
-//    public void removeOnServerChangedListener(OnServerChangedListener listener) {
-//        onServerChangedListeners.remove(listener);
-//    }
 
     public void tryUpdateServerListOffline() {
         LOGGER.info("Trying update server list offline from cache...");
@@ -312,8 +294,6 @@ public class ServersRepository implements Serializable {
             ));
         }
         serversPreference.putWireGuardLocations(locations);
-
-//        setServerList(response.getOpenVpnServerList(), response.getWireGuardServerList());
     }
 
     public void setLocationList(List<ServerLocation> openVpnLocations, List<ServerLocation> wireguardLocations) {
@@ -340,6 +320,14 @@ public class ServersRepository implements Serializable {
 
     public List<Server> getExcludedServersList() {
         return serversPreference.getExcludedServersList();
+    }
+
+    public boolean getSettingFastestServer() {
+        return serversPreference.getSettingFastestServer();
+    }
+
+    public void putFastestServerSetting(boolean isEnabled) {
+        serversPreference.putSettingFastestServer(isEnabled);
     }
 
     public List<Server> getPossibleServersList() {
@@ -408,10 +396,4 @@ public class ServersRepository implements Serializable {
             listener.notifyFavouriteServerRemoved(server);
         }
     }
-
-//    private void updateVPNSettingWith(Server server) {
-//        for (OnServerChangedListener listener : onServerChangedListeners) {
-//            listener.onServerChanged();
-//        }
-//    }
 }

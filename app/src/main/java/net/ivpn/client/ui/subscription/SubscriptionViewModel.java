@@ -109,7 +109,6 @@ public class SubscriptionViewModel implements BillingListener {
     public void onInitStateChanged(boolean isInit, int errorCode) {
         LOGGER.info("Is billing manager init? - " + isInit + " , errorCode = " + errorCode);
         if (isInit) {
-            billingManagerWrapper.checkSkuDetails();
         } else if (errorCode != 0) {
             handleError(errorCode);
         }
@@ -133,6 +132,16 @@ public class SubscriptionViewModel implements BillingListener {
 
     @Override
     public void onPurchaseAlreadyDone() {
+    }
+
+    @Override
+    public void onCreateAccountFinish() {
+
+    }
+
+    @Override
+    public void onAddFundsFinish() {
+
     }
 
     private void handleError(int error) {

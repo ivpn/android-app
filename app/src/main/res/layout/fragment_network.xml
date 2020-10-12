@@ -24,7 +24,7 @@
 
         <include
             android:id="@+id/content_layout"
-            layout="@layout/content_network"/>
+            layout="@layout/content_common_network"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

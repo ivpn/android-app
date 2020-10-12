@@ -125,6 +125,9 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             @Override
             public void onFinish() {
                 resume();
+                for (VpnStateListener listener: listeners) {
+                    listener.onTimerFinish();
+                }
             }
         });
         registerReceivers();
@@ -478,7 +481,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private boolean isFastestServerEnabled() {
-        return settings.isFastestServerEnabled();
+        return serversRepository.getSettingFastestServer();
     }
 
     private void sendConnectionState() {
