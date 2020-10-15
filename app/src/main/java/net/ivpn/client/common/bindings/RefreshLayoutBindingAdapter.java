@@ -5,7 +5,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import net.ivpn.client.v2.viewmodel.ServerListViewModel;
 
-
 public class RefreshLayoutBindingAdapter {
 
     /**
