@@ -53,6 +53,8 @@ class NetworkViewModel @Inject internal constructor(
 
     var lastScanResult = ArrayList<ScanResult>()
 
+    var isWaitingForPermission = false
+
     val onCheckedChangeListener: CompoundButton.OnCheckedChangeListener = object : CompoundButton.OnCheckedChangeListener {
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
             Log.d("NetworkFeature", "onCheckedChanged: isChecked = $isChecked")

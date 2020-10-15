@@ -44,6 +44,9 @@ public class DialogBuilder {
     public static void createOptionDialog(Context context, Dialogs dialogAttr,
                                           DialogInterface.OnClickListener listener) {
         LOGGER.info("Create dialog " + dialogAttr);
+        if (context == null) {
+            return;
+        }
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
@@ -66,6 +69,9 @@ public class DialogBuilder {
 
     public static void createNotificationDialog(Context context, Dialogs dialogAttr) {
         LOGGER.info("Create dialog " + dialogAttr);
+        if (context == null) {
+            return;
+        }
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
@@ -85,6 +91,9 @@ public class DialogBuilder {
 
     public static void createFullCustomNotificationDialog(Context context, String title, String msg) {
         LOGGER.info("Create dialog ");
+        if (context == null) {
+            return;
+        }
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -105,6 +114,9 @@ public class DialogBuilder {
     public static void createFullCustomNotificationDialog(Context context, String title, String msg,
                                                           final DialogInterface.OnCancelListener cancelListener) {
         LOGGER.info("Create dialog ");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -130,6 +142,9 @@ public class DialogBuilder {
     public static void createNonCancelableDialog(Context context, Dialogs dialogAttr, DialogInterface.OnClickListener listener,
                                                  final DialogInterface.OnCancelListener cancelListener) {
         LOGGER.info("Create dialog " + dialogAttr);
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
@@ -160,6 +175,9 @@ public class DialogBuilder {
     public static void createPredefinedTimePickerDialog(Context context,
                                                         final OnDelayOptionSelected onDelayOptionSelected) {
         LOGGER.info("Create time picker dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_predefined_time_picker, null);
@@ -203,6 +221,9 @@ public class DialogBuilder {
     public static void createCustomTimePickerDialog(Context context,
                                                     final OnDelayOptionSelected onDelayOptionSelected) {
         LOGGER.info("Create custom time picker dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_custom_time_picker, null);
@@ -239,6 +260,9 @@ public class DialogBuilder {
 
     public static void createAdvancedKillSwitchDialog(Context context, final AdvancedKillSwitchActionListener listener) {
         LOGGER.info("Create advanced killswitch dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;
@@ -277,6 +301,9 @@ public class DialogBuilder {
     public static void createWireGuardDetailsDialog(Context context, WireGuardDialogInfo info,
                                                     final WireGuardDetailsDialogListener listener) {
         LOGGER.info("Create wireguard details dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;
@@ -310,6 +337,9 @@ public class DialogBuilder {
 
     public static void createCustomDNSDialogue(Context context, OnDNSChangedListener listener) {
         LOGGER.info("Create connection info dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;

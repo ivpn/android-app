@@ -3,6 +3,7 @@ package net.ivpn.client.v2.map.animation
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
+import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
 
@@ -19,8 +20,43 @@ class MapAnimator(val listener: AnimatorListener) {
     var animationState = AnimationState.NONE
     var isWavesEnabled = false
 
+    fun centerGateway(
+            startX: Float,
+            startY: Float,
+            locations: ArrayList<ServerLocation>,
+            dialogState: DialogueDrawer.DialogState
+    ) {
+        animationState = AnimationState.MOVEMENT
+        this.startX = startX
+        this.startY = startY
+        val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
+        movementAnimator.duration = MapView.CENTER_ANIMATION_DURATION
+        movementAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                animationState = AnimationState.NONE
+                listener.onCenterAnimationFinish(locations, dialogState)
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+        })
+        movementAnimator.addUpdateListener { valueAnimator ->
+            movementProgress = valueAnimator.animatedValue as Float
+            listener.updateCenterGatewayProgress(movementProgress, startX, startY, locations.first())
+        }
+        movementAnimator.start()
+    }
+
     fun centerLocation(
-            startX: Float, startY: Float,
+            startX: Float,
+            startY: Float,
             dialogState: DialogueDrawer.DialogState,
             animationType: MovementAnimationType) {
         animationState = AnimationState.MOVEMENT
@@ -34,7 +70,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
             override fun onAnimationEnd(animation: Animator?) {
                 animationState = AnimationState.NONE
-                listener.onCenterAnimationFinish(dialogState)
+                listener.onCenterAnimationFinish(null, dialogState)
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -163,6 +199,8 @@ class MapAnimator(val listener: AnimatorListener) {
 
         fun updateMovementProgress(progress: Float, startX: Float, startY: Float, animationType: MovementAnimationType)
 
+        fun updateCenterGatewayProgress(progress: Float, startX: Float, startY: Float, location: ServerLocation)
+
         fun onEndMovementAnimation()
 
         fun updateAppearProgress(progress: Float)
@@ -171,7 +209,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
         fun updateWaveProgress(progress: Float)
 
-        fun onCenterAnimationFinish(dialogState: DialogueDrawer.DialogState)
+        fun onCenterAnimationFinish(locations: ArrayList<ServerLocation>?, dialogState: DialogueDrawer.DialogState)
     }
 
     enum class AnimationState {

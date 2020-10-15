@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
 import net.ivpn.client.common.dagger.ApplicationScope
@@ -36,6 +37,7 @@ class ConnectionViewModel @Inject constructor(
         private val LOGGER = LoggerFactory.getLogger(ConnectionViewModel::class.java)
     }
 
+    val isProtected = ObservableBoolean()
     val isConnected = ObservableBoolean()
     val connectionStatus = ObservableField<String>()
     val serverConnectionHint = ObservableField<String>()
@@ -141,6 +143,7 @@ class ConnectionViewModel @Inject constructor(
                 connectionState.set(state)
                 when (state) {
                     ConnectionState.CONNECTED -> {
+                        isProtected.set(true)
                         isConnected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(true)
@@ -148,18 +151,21 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
+                        isProtected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_connecting))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connecting))
                     }
                     ConnectionState.DISCONNECTING -> {
+                        isProtected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_disconnecting))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnecting))
                     }
                     ConnectionState.NOT_CONNECTED -> {
+                        isProtected.set(false)
                         isConnected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
@@ -167,11 +173,13 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                     }
                     ConnectionState.PAUSING -> {
+                        isProtected.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_pausing))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_pausing))
                     }
                     ConnectionState.PAUSED -> {
+                        isProtected.set(true)
                         isPaused.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_paused))

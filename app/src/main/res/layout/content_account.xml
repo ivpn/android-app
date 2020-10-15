@@ -12,7 +12,6 @@
             name="account"
             type="net.ivpn.client.v2.viewmodel.AccountViewModel" />
 
-
     </data>
 
     <FrameLayout
@@ -208,6 +207,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/copy_btn"
                     style="@style/AppTheme.OutlinedButton"
+                    android:theme="@style/Theme.MaterialComponents"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginStart="16dp"
@@ -250,23 +250,23 @@
                         android:id="@+id/imageView11"
                         android:layout_width="6dp"
                         android:layout_height="6dp"
-                        android:tint="@color/account_plan_details_text"
                         android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/textView33"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView33"
-                        app:srcCompat="@drawable/ic_multiply" />
+                        app:srcCompat="@drawable/ic_multiply"
+                        app:tint="@color/account_plan_details_text" />
 
                     <ImageView
                         android:id="@+id/imageView12"
                         android:layout_width="6dp"
                         android:layout_height="6dp"
-                        android:tint="@color/account_plan_details_text"
                         android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/textView34"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView34"
-                        app:srcCompat="@drawable/ic_multiply" />
+                        app:srcCompat="@drawable/ic_multiply"
+                        app:tint="@color/account_plan_details_text" />
 
                     <TextView
                         android:id="@+id/textView33"

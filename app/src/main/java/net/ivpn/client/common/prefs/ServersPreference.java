@@ -9,6 +9,9 @@ import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,6 +158,53 @@ public class ServersPreference {
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply();
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServersRepository.class);
+    //Need to be done on upgrade to version 2.0
+    public void updateCurrentServersWithLocation() {
+        updateCurrentServersWithLocationFor(preference.getWireguardServersSharedPreferences());
+        updateCurrentServersWithLocationFor(preference.getServersSharedPreferences());
+    }
+
+    private void updateCurrentServersWithLocationFor(SharedPreferences preference) {
+        List<Server> servers = Mapper.serverListFrom(preference.getString(SERVERS_LIST, null));
+        if (servers == null || servers.isEmpty()) {
+            return;
+        }
+
+        Server entryServer = Mapper.from(preference.getString(CURRENT_ENTER_SERVER, null));
+        Server exitServer = Mapper.from(preference.getString(CURRENT_EXIT_SERVER, null));
+
+        if (entryServer != null && Double.compare(entryServer.getLatitude(), 0) == 0
+                && Double.compare(entryServer.getLongitude(), 0) == 0) {
+            for (Server server: servers) {
+                if (server.equals(entryServer)) {
+                    LOGGER.info("Found Entry server and set correct coordinates");
+                    LOGGER.info("Before = " + entryServer);
+                    LOGGER.info("After  = " + server);
+                    preference.edit()
+                            .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
+                            .apply();
+                    break;
+                }
+            }
+        }
+
+        if (exitServer != null && Double.compare(exitServer.getLatitude(), 0) == 0
+                && Double.compare(exitServer.getLongitude(), 0) == 0) {
+            for (Server server: servers) {
+                if (server.equals(exitServer)) {
+                    LOGGER.info("Found EXIT server and set correct coordinates");
+                    LOGGER.info("Before = " + entryServer);
+                    LOGGER.info("After  = " + server);
+                    preference.edit()
+                            .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
+                            .apply();
+                    break;
+                }
+            }
+        }
     }
 
     private SharedPreferences getProperSharedPreference() {

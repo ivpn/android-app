@@ -1,7 +1,10 @@
 package net.ivpn.client.v2.map
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.util.AttributeSet
@@ -49,8 +52,7 @@ class MapView @JvmOverloads constructor(
 
     private val bitmapPaint = Paint()
 
-    private var dialogueDrawer: DialogueDrawer
-    private var dialogueData = DialogueData()
+//    private var dialogueData = DialogueData()
 
     private var serverLocationDrawer = ServerLocationDrawer(resources)
     private var serverLocationsData = ServerLocationsData()
@@ -86,7 +88,7 @@ class MapView @JvmOverloads constructor(
         ): Boolean {
             math.appendX(distanceX)
             math.appendY(distanceY)
-            dialogueData.state = DialogueDrawer.DialogState.NONE
+//            dialogueData.state = DialogueDrawer.DialogState.NONE
 
             invalidate()
             return true
@@ -129,9 +131,6 @@ class MapView @JvmOverloads constructor(
             isAntiAlias = true
             style = Paint.Style.FILL
         }
-
-        val dialogueUtil = DialogueUtil(resources)
-        dialogueDrawer = DialogueDrawer(dialogueUtil, context)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -196,8 +195,6 @@ class MapView @JvmOverloads constructor(
             bottom = (math.totalY + height).toInt()
         }
         locationDrawer.draw(canvas, locationData)
-
-        dialogueDrawer.draw(canvas, dialogueData)
     }
 
     private fun checkTap(event: MotionEvent) {
@@ -230,11 +227,12 @@ class MapView @JvmOverloads constructor(
             Collections.sort(servers, ServerLocation.tapComparator)
             nearestServers = servers
 
-            nearestServers?.let {nearestServersObj ->
+            nearestServers?.let { nearestServersObj ->
                 if (nearestServersObj.isNotEmpty()) {
-                    animator.centerLocation(math.totalX, math.totalY,
-                            DialogueDrawer.DialogState.SERVER_CONNECT,
-                            MapAnimator.MovementAnimationType.CENTER_GATEWAY
+                    animator.centerGateway(math.totalX,
+                            math.totalY,
+                            ArrayList(nearestServersObj),
+                            DialogueDrawer.DialogState.SERVER_CONNECT
                     )
                     return
                 }
@@ -273,7 +271,7 @@ class MapView @JvmOverloads constructor(
                         MapMath.tileHeight * j
                 )
 
-                getBitmap("$globalPath/row-${j}-col-${i}.png")?.also {bitmap ->
+                getBitmap("$globalPath/row-${j}-col-${i}.png")?.also { bitmap ->
                     if (intersectionRect.setIntersect(tileRect, srcRect)) {
                         with(relativeRect) {
                             left = (intersectionRect.left - math.totalX).toInt()
@@ -307,7 +305,7 @@ class MapView @JvmOverloads constructor(
             return
         }
 
-        dialogueData.state = DialogueDrawer.DialogState.NONE
+//        dialogueData.state = DialogueDrawer.DialogState.NONE
         this.connectionState = state
         when (state) {
             ConnectionState.CONNECTED -> {
@@ -366,7 +364,7 @@ class MapView @JvmOverloads constructor(
 
     fun centerMap() {
         scroller.forceFinished(true)
-        dialogueData.state = DialogueDrawer.DialogState.NONE
+//        dialogueData.state = DialogueDrawer.DialogState.NONE
         animator.centerLocation(math.totalX,
                 math.totalY,
                 DialogueDrawer.DialogState.NONE,
@@ -415,10 +413,10 @@ class MapView @JvmOverloads constructor(
     fun setPanelHeight(padding: Float) {
         math.totalY = math.totalY - (panelHeight - padding / 2f)
         this.panelHeight = padding / 2f
-        with(dialogueData) {
-            x = width / 2f
-            y = height / 2f - panelHeight
-        }
+//        with(dialogueData) {
+//            x = width / 2f
+//            y = height / 2f - panelHeight
+//        }
 
         invalidate()
     }
@@ -431,10 +429,10 @@ class MapView @JvmOverloads constructor(
             return
         }
 
-        with(dialogueData) {
-            x = width / 2f
-            y = height / 2f - panelHeight
-        }
+//        with(dialogueData) {
+//            x = width / 2f
+//            y = height / 2f - panelHeight
+//        }
 
         job = GlobalScope.launch {
             println("Start to init map")
@@ -545,13 +543,24 @@ class MapView @JvmOverloads constructor(
                         }
                     }
                     MapAnimator.MovementAnimationType.CENTER_GATEWAY -> {
-                        nearestServers?.let {nearestServersObj ->
-                            math.totalY = startY + (nearestServersObj.first().y - height / 2f - startY + panelHeight) * progress
-                            math.totalX = startX + (nearestServersObj.first().x - width / 2f - startX) * progress
-                            invalidate()
+                        nearestServers?.let { nearestServersObj ->
+                            if (nearestServersObj.isNotEmpty()) {
+                                math.totalY = startY + (nearestServersObj.first().y - height / 2f - startY + panelHeight) * progress
+                                math.totalX = startX + (nearestServersObj.first().x - width / 2f - startX) * progress
+                                invalidate()
+                            }
                         }
                     }
                 }
+            }
+
+            override fun updateCenterGatewayProgress(progress: Float,
+                                                     startX: Float,
+                                                     startY: Float,
+                                                     location: ServerLocation) {
+                math.totalY = startY + (location.y - height / 2f - startY + panelHeight) * progress
+                math.totalX = startX + (location.x - width / 2f - startX) * progress
+                invalidate()
             }
 
             override fun onEndMovementAnimation() {
@@ -573,7 +582,7 @@ class MapView @JvmOverloads constructor(
                 locationData.waveAnimationProgress = progress
             }
 
-            override fun onCenterAnimationFinish(dialogState: DialogueDrawer.DialogState) {
+            override fun onCenterAnimationFinish(locations: ArrayList<ServerLocation>?, dialogState: DialogueDrawer.DialogState) {
                 when (dialogState) {
                     DialogueDrawer.DialogState.NONE -> {
                         return
@@ -583,10 +592,11 @@ class MapView @JvmOverloads constructor(
                     }
                     DialogueDrawer.DialogState.SERVER_CONNECT -> {
                         mapListener?.let {
-                            nearestServers?.let {nearestServersObj ->
-                                it.openGatewayDialogue(nearestServersObj)
+                            locations?.let { locationsObj ->
+                                it.openGatewayDialogue(locationsObj)
                             }
                         }
+
                     }
                 }
             }
@@ -594,7 +604,6 @@ class MapView @JvmOverloads constructor(
     }
 
     interface MapListener {
-
         fun openLocationDialogue(location: Location?)
 
         fun openGatewayDialogue(list: ArrayList<ServerLocation>)

@@ -16,6 +16,7 @@ import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
@@ -161,6 +162,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     }
 
     override fun openSessionLimitReachedDialogue() {
+        if (!isAdded) {
+            return
+        }
         createSessionFragment = CreateSessionFragment()
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
@@ -177,7 +181,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        findNavControllerSafely()?.navigate(action)
     }
 
     override fun onLoginWithBlankAccount() {
@@ -185,7 +189,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.blankAccountID.set(viewModel.username.get())
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            findNavControllerSafely()?.navigate(action)
         } else {
             onLogin()
         }
@@ -196,7 +200,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            findNavControllerSafely()?.navigate(action)
         } else {
             onLogin()
         }
@@ -218,7 +222,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationSuccess() {
         val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        findNavControllerSafely()?.navigate(action)
     }
 
     override fun onAccountCreationError() {

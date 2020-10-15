@@ -43,6 +43,8 @@ public enum Dialogs {
     ALWAYS_ON_VPN_NOT_SUPPORTED(R.string.dialogs_error, R.string.dialogs_setting_not_supported, -1, R.string.dialogs_ok),
     ASK_LOCATION_PERMISSION(R.string.dialogs_permission_title, R.string.dialogs_location_permission_message,
             R.string.dialogs_permission_action_settings, R.string.dialogs_permission_action_deny),
+    ASK_BACKGROUND_LOCATION_PERMISSION(R.string.dialogs_permission_title, R.string.dialogs_background_location_permission_message,
+            R.string.dialogs_permission_action_settings, R.string.dialogs_permission_action_deny),
     LOCATION_PERMISSION_INFO(R.string.dialogs_permission_title, R.string.dialogs_location_permission_info_message, -1, R.string.dialogs_ok),
     WG_DELETE_KEY_ERROR(R.string.dialogs_failed_remove_key_title, R.string.protocol_wg_deleting_key_error, -1, R.string.dialogs_ok),
     WG_UPLOADING_KEY_ERROR(R.string.dialogs_failed_create_key_title, R.string.protocol_wg_uploading_key_error, -1, R.string.dialogs_ok),

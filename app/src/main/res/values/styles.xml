@@ -10,7 +10,6 @@
         <item name="android:textColorPrimary">@color/colorControlNormal</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
-        <!--<item name="textColorError"> @color/colorAccent </item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -132,11 +131,11 @@
     </style>
 
     <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="rippleColor">#1F398FE6</item>
+        <item name="colorPrimary">@color/primary</item>
         <item name="strokeColor">@color/account_outlined_button_stroke</item>
         <item name="strokeWidth">1dp</item>
         <item name="android:textColor">@color/account_outlined_button_text</item>
-        <item name="android:background">@android:color/holo_blue_bright</item>
-        <item name="background">@android:color/holo_blue_bright</item>
     </style>
 
     <style name="SubscriptionPlanTitle">
@@ -176,7 +175,9 @@
     </style>
 
     <style name="EditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="expandedHintEnabled">true</item>
         <item name="hintEnabled">true</item>
+        <item name="hintAnimationEnabled">true</item>
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="colorPrimary">@color/primary</item>

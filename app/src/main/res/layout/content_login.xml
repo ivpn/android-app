@@ -56,10 +56,11 @@
                 app:layout_constraintVertical_weight="1"
                 app:layout_optimizationLevel="chains" />
 
+<!--            android:theme="@style/TextInputLayoutAppTheme"-->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outlinedTextField"
                 style="@style/EditText.OutlinedBox"
-                android:theme="@style/TextInputLayoutAppTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

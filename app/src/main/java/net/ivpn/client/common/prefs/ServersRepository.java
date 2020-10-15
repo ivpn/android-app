@@ -265,9 +265,11 @@ public class ServersRepository implements Serializable {
     }
 
     public void tryUpdateServerLocations() {
+        LOGGER.info("tryUpdateServerLocations BEFORE");
         if (serversPreference.getServerLocations() != null) {
             return;
         }
+        LOGGER.info("tryUpdateServerLocations AFTER");
 
         ServersListResponse response = Mapper.getProtocolServers(ServersLoader.load());
         response.markServerTypes();
@@ -294,6 +296,17 @@ public class ServersRepository implements Serializable {
             ));
         }
         serversPreference.putWireGuardLocations(locations);
+
+        setServerList(response.getOpenVpnServerList(), response.getWireGuardServerList());
+
+        updateCurrentServersWithLocation();
+
+        currentServers.put(Protocol.OPENVPN, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.WIREGUARD, new EnumMap<>(ServerType.class));
+    }
+
+    private void updateCurrentServersWithLocation() {
+        serversPreference.updateCurrentServersWithLocation();
     }
 
     public void setLocationList(List<ServerLocation> openVpnLocations, List<ServerLocation> wireguardLocations) {

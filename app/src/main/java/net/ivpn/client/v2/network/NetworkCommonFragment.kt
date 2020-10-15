@@ -11,8 +11,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -68,9 +67,11 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         LOGGER.info("onRequestPermissionsResult requestCode = $requestCode")
         when (requestCode) {
             LOCATION_PERMISSION_CODE -> {
+                LOGGER.info("onRequestPermissionsResult grantResults.isEmpty() = ${grantResults.isEmpty()}")
                 if (grantResults.isEmpty()) {
                     return
                 }
+                LOGGER.info("onRequestPermissionsResult grantResults[0] = ${grantResults[0]}")
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     network.applyNetworkFeatureState(true)
                     network.scanWifiNetworks(context)
@@ -93,8 +94,14 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     override fun onStart() {
         super.onStart()
         network.initStates()
-        if (isPermissionGranted()) {
-            network.scanWifiNetworks(context)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (isBackgroundLocationPermissionGranted()) {
+                network.scanWifiNetworks(context)
+            }
+        } else {
+            if (isPermissionGranted()) {
+                network.scanWifiNetworks(context)
+            }
         }
     }
 
@@ -148,16 +155,43 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     private fun checkLocationPermission() {
         val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
+        LOGGER.info("checkLocationPermission isEnabled = $isEnabled")
         if (!isEnabled) {
+            if (network.isWaitingForPermission) {
+                network.isWaitingForPermission = false
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (isBackgroundLocationPermissionGranted()) {
+                        network.applyNetworkFeatureState(true)
+                    }
+                }
+            }
             return
         }
-        val isPermissionGranted: Boolean = isPermissionGranted()
-        LOGGER.info("isPermissionGranted = $isPermissionGranted")
-        if (isPermissionGranted) {
-            network.applyNetworkFeatureState(true)
-            return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (isBackgroundLocationPermissionGranted()) {
+                network.applyNetworkFeatureState(true)
+                return
+            }
+
+            askPermissionRationale()
+        } else {
+            val isPermissionGranted: Boolean = isPermissionGranted()
+            LOGGER.info("isPermissionGranted = $isPermissionGranted")
+            if (isPermissionGranted) {
+                network.applyNetworkFeatureState(true)
+                return
+            }
+            askPermissionRationale()
         }
-        askPermissionRationale()
+//        val isPermissionGranted: Boolean = isPermissionGranted()
+//        LOGGER.info("isPermissionGranted = $isPermissionGranted")
+//        if (isPermissionGranted) {
+//            network.applyNetworkFeatureState(true)
+//            return
+//        }
+//        askPermissionRationale()
     }
 
     override fun toRules() {
@@ -165,42 +199,113 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     }
 
     override fun shouldAskForLocationPermission(): Boolean {
-        LOGGER.info("shouldAskForLocationPermission")
-        if (isPermissionGranted()) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return askForBackgroundLocationPermission()
+        } else {
+            askForLocationPermission()
+        }
+//        LOGGER.info("shouldAskForLocationPermission")
+//        val isPermissionGranted: Boolean = isPermissionGranted()
+//        LOGGER.info("isPermissionGranted = $isPermissionGranted")
+//        if (isPermissionGranted) {
+//            return false
+//        }
+//        val shouldRequestRationale: Boolean = shouldRequestRationale()
+//        LOGGER.info("shouldRequestRationale = $shouldRequestRationale")
+//        if (shouldRequestRationale) {
+//            askPermissionRationale()
+//        } else {
+//            showInformationDialog()
+//        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun askForBackgroundLocationPermission(): Boolean {
+        LOGGER.info("askForBackgroundLocationPermission")
+        val isBackgroundPermissionGranted: Boolean = isBackgroundLocationPermissionGranted()
+        LOGGER.info("isPermissionGranted = $isBackgroundPermissionGranted")
+        if (isBackgroundPermissionGranted) {
             return false
         }
-        if (shouldRequestRationale()) {
+        askBackgroundPermissionRationale()
+
+        return true
+    }
+
+    private fun askForLocationPermission(): Boolean {
+        val isPermissionGranted: Boolean = isPermissionGranted()
+
+        LOGGER.info("isPermissionGranted = $isPermissionGranted")
+        if (isPermissionGranted) {
+            return false
+        }
+        val shouldRequestRationale: Boolean = shouldRequestRationale()
+        LOGGER.info("shouldRequestRationale = $shouldRequestRationale")
+        if (shouldRequestRationale) {
             askPermissionRationale()
         } else {
             showInformationDialog()
         }
+
         return true
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun askBackgroundPermissionRationale() {
+        LOGGER.info("askBackgroundPermissionRationale")
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
+                { _: DialogInterface?, _: Int ->
+                    network.isWaitingForPermission = true
+                    goToAndroidAppSettings()
+                },
+                { network.applyNetworkFeatureState(false) })
     }
 
     private fun askPermissionRationale() {
         LOGGER.info("askPermissionRationale")
-        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.ASK_LOCATION_PERMISSION,
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_LOCATION_PERMISSION,
                 { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
                 { network.applyNetworkFeatureState(false) })
     }
 
     private fun showInformationDialog() {
         LOGGER.info("showInformationDialog")
-        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.LOCATION_PERMISSION_INFO,
-                null, { askPermission() })
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.LOCATION_PERMISSION_INFO,
+                null, { askForegroundLocationPermission() })
+    }
+
+    private fun isForegroundLocationPermissionGranted(): Boolean {
+        return (checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun isBackgroundLocationPermissionGranted(): Boolean {
+        return (checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun isPermissionGranted(): Boolean {
-        return (checkSelfPermission(activity!!,
+        return (checkSelfPermission(requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun shouldRequestRationale(): Boolean {
-        return shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            LOGGER.info("Fine location permission ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
+            LOGGER.info("Background location permission ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)}")
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+                    || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        } else {
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
     }
 
-    private fun askPermission() {
+    private fun askForegroundLocationPermission() {
+        LOGGER.info("Ask Location Permission")
         requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
     }
 

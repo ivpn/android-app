@@ -156,10 +156,13 @@ public class Server implements ConnectionOption {
                 ", countryCode='" + countryCode + '\'' +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", ipAddresses=" + ipAddresses +
                 ", hosts=" + hosts +
                 ", type=" + type +
-                ", latency = " + latency +
+                ", isFavourite=" + isFavourite +
+                ", latency=" + latency +
                 '}';
     }
 

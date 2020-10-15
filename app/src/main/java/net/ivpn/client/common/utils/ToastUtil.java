@@ -16,6 +16,8 @@ public class ToastUtil {
     }
 
     public static void toast(Context context, int msgId) {
-        toast(context, context.getString(msgId));
+        if (context != null) {
+            toast(context, context.getString(msgId));
+        }
     }
 }

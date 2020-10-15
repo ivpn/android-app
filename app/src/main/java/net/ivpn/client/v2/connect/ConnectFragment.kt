@@ -15,6 +15,7 @@ import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -97,6 +98,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        LOGGER.info("On view created")
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
     }
@@ -144,6 +146,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun initSlidingPanel() {
+        LOGGER.info("Init sliding panel")
         bottomSheetBehavior = from(binding.slidingPanel.sheetLayout)
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
@@ -285,7 +288,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
 
             override fun openGatewayDialogue(list: ArrayList<ServerLocation>) {
-                var filteredList = filterLocation(list)
+                if (list.isEmpty()) {
+                    return
+                }
+                
+                val filteredList = filterLocation(list)
 
                 view?.let {
                     val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
@@ -334,6 +341,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         account.updateSessionStatus()
         checkLocationPermission()
         applySlidingPanelSide()
+
+        LOGGER.info("translationY = ${binding.slidingPanel.sheetLayout.translationY}")
     }
 
     override fun onStart() {
@@ -394,28 +403,57 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
         val isPermissionGranted: Boolean = isPermissionGranted()
         LOGGER.info("isPermissionGranted = $isPermissionGranted")
-        if (isPermissionGranted) {
-            network.applyNetworkFeatureState(true)
-            return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val isBackgroundPermissionGranted: Boolean = isBackgroundLocationPermissionGranted()
+            if (isBackgroundPermissionGranted) {
+                network.applyNetworkFeatureState(true)
+                return
+            }
+            askBackgroundPermissionRationale()
+        } else {
+            if (isForegroundLocationPermissionGranted()) {
+                network.applyNetworkFeatureState(true)
+                return
+            }
+            askPermissionRationale()
         }
-        askPermissionRationale()
+    }
+
+    private fun isForegroundLocationPermissionGranted(): Boolean {
+        return (ContextCompat.checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun isBackgroundLocationPermissionGranted(): Boolean {
+        return (ContextCompat.checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun askPermissionRationale() {
         LOGGER.info("askPermissionRationale")
-        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.ASK_LOCATION_PERMISSION,
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_LOCATION_PERMISSION,
+                { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
+                { network.applyNetworkFeatureState(false) })
+    }
+
+    private fun askBackgroundPermissionRationale() {
+        LOGGER.info("askPermissionRationale")
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
                 { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
                 { network.applyNetworkFeatureState(false) })
     }
 
     private fun showInformationDialog() {
         LOGGER.info("showInformationDialog")
-        DialogBuilder.createNonCancelableDialog(activity!!, Dialogs.LOCATION_PERMISSION_INFO,
+        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.LOCATION_PERMISSION_INFO,
                 null, { askPermission() })
     }
 
     private fun isPermissionGranted(): Boolean {
-        return (ContextCompat.checkSelfPermission(activity!!,
+        return (ContextCompat.checkSelfPermission(requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED)
     }
@@ -548,7 +586,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun notifyAnotherPortUsedToConnect() {
         Handler().postDelayed({
-            ToastUtil.toast(context, R.string.snackbar_new_try_with_different_port)
+            if (context != null) {
+                ToastUtil.toast(context, R.string.snackbar_new_try_with_different_port)
+            }
         }, 500)
     }
 

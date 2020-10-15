@@ -5,6 +5,8 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.VpnService
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 
@@ -28,5 +30,13 @@ fun Fragment.checkVPNPermission(requestCode: Int) {
         }
     } else {
         onActivityResult(requestCode, Activity.RESULT_OK, null)
+    }
+}
+
+fun Fragment.findNavControllerSafely(): NavController? {
+    return if (isAdded) {
+        findNavController()
+    } else {
+        null
     }
 }

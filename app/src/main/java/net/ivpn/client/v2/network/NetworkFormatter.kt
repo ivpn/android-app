@@ -21,17 +21,17 @@ class NetworkStateFormatter(val context: Context) {
         }
     }
 
-    fun getCurrentStateText(wifiItem: WifiItem, defaultState: NetworkState?): String? {
-        return if (wifiItem.networkState == NetworkState.DEFAULT) {
-            defaultState?.let {
-                context.getString(it.textRes)
-            }
-        } else {
-            wifiItem.networkState.get()?.let {
-                context.getString(it.textRes)
-            }
-        }
-    }
+//    fun getCurrentStateText(wifiItem: WifiItem, defaultState: NetworkState?): String? {
+//        return if (wifiItem.networkState == NetworkState.DEFAULT) {
+//            defaultState?.let {
+//                context.getString(it.textRes)
+//            }
+//        } else {
+//            wifiItem.networkState.get()?.let {
+//                context.getString(it.textRes)
+//            }
+//        }
+//    }
 
     fun getDefaultText(defaultState: NetworkState?): String? {
         return defaultState?.let {

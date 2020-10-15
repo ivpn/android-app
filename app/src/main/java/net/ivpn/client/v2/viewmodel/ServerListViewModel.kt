@@ -5,6 +5,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.multihop.MultiHopController
 import net.ivpn.client.common.prefs.OnServerListUpdatedListener
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @ApplicationScope
 class ServerListViewModel @Inject constructor(
         val settings: Settings,
-        val serversRepository: ServersRepository
+        val serversRepository: ServersRepository,
+        val multiHopController: MultiHopController
 ) : ViewModel() {
 
     val all = ObservableArrayList<Server>()
@@ -176,7 +178,8 @@ class ServerListViewModel @Inject constructor(
     }
 
     fun isFastestServerAllowed(): Boolean {
-        return !settings.isMultiHopEnabled
+//        return !settings.isMultiHopEnabled
+        return !multiHopController.getIsEnabled()
     }
 
     private fun getCachedServersList(): List<Server> {

@@ -333,8 +333,9 @@
     <string name="dialogs_failed_upgrade_message">Cannot connect using WireGuard protocol: regenerating WireGuard keys failed. This is likely because of no access to an IVPN API server. You can retry connection, regenerate keys manually from preferences, or select another protocol. Please contact support if this error persists.</string>
 
     <string name="dialogs_permission_title">Permission</string>
-    <string name="dialogs_location_permission_message">To identify the current Wi-Fi network, IVPN Client requires Location permission..</string>
+    <string name="dialogs_location_permission_message">To identify the current Wi-Fi network, IVPN Client requires Location permission.</string>
     <string name="dialogs_location_permission_info_message">To use a trusted/untrusted network feature, IVPN Client requires Location permission. It will allow identifying your current Wi-Fi.</string>
+    <string name="dialogs_background_location_permission_message">To identify the current Wi-Fi network, IVPN Client requires Background Location permission. Please choose the option \"Allow all the time.\"  In other cases, network protection won\'t work.</string>
     <string name="dialogs_permission_action_settings">Settings</string>
     <string name="dialogs_permission_action_deny">Deny</string>
 
