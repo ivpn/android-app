@@ -6,18 +6,21 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="updates"
+            type="net.ivpn.client.v2.viewmodel.UpdatesViewModel" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/settings_card_background">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/settings_card_background">
 
             <TextView
                 style="@style/SettingsSectionTitle"
@@ -26,12 +29,12 @@
                 android:text="@string/settings_about" />
 
             <LinearLayout
+                android:id="@+id/check_updates_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="checkUpdates"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isUpdatesEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/updates"
@@ -46,9 +49,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{updates.isUpdatesSupported ? View.VISIBLE : View.GONE}"/>
 
             <LinearLayout
+                android:id="@+id/terms_of_service_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
@@ -70,10 +74,10 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/privacy_policy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="readPrivacyPolicy"
                 android:orientation="horizontal">
 
                 <TextView

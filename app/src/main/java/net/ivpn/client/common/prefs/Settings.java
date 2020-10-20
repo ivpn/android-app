@@ -1,17 +1,41 @@
 package net.ivpn.client.common.prefs;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.util.Log;
 
 import com.wireguard.android.crypto.Keypair;
 
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.common.BuildController;
 import net.ivpn.client.common.alarm.GlobalWireGuardAlarm;
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.nightmode.NightMode;
 import net.ivpn.client.common.utils.LogUtil;
 import net.ivpn.client.ui.protocol.port.Port;
+import net.ivpn.client.v2.serverlist.dialog.Filters;
 import net.ivpn.client.vpn.Protocol;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 import javax.inject.Inject;
@@ -22,11 +46,14 @@ public class Settings {
     private static final String TAG = Settings.class.getSimpleName();
     private SettingsPreference settingsPreference;
     private StickyPreference stickyPreference;
+    private BuildController buildController;
 
     @Inject
-    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference) {
+    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference,
+             BuildController buildController) {
         this.settingsPreference = settingsPreference;
         this.stickyPreference = stickyPreference;
+        this.buildController = buildController;
     }
 
     public void enableLogging(boolean value) {
@@ -59,10 +86,6 @@ public class Settings {
 
     public void enableAdvancedKillSwitchDialog(boolean value) {
         settingsPreference.putSettingAdvancedKillSwitch(value);
-    }
-
-    public void enableFastestServerSetting(boolean value) {
-        settingsPreference.putSettingFastestServer(value);
     }
 
     public void enableAntiSurveillance(boolean value) {
@@ -131,10 +154,6 @@ public class Settings {
 
     public boolean isAntiSurveillanceHardcoreEnabled() {
         return settingsPreference.getIsAntiSurveillanceHardcoreEnabled();
-    }
-
-    public boolean isFastestServerEnabled() {
-        return settingsPreference.getSettingFastestServer();
     }
 
     public boolean isAdvancedKillSwitchDialogEnabled() {
@@ -321,5 +340,37 @@ public class Settings {
         }
 
         return null;
+    }
+
+    public void setNightMode(NightMode mode) {
+        stickyPreference.setNightMode(mode.name());
+    }
+
+    public NightMode getNightMode() {
+        String name = stickyPreference.getNightMode();
+
+        if (name != null) {
+            return NightMode.valueOf(name);
+        }
+
+        if (buildController.isSystemDefaultNightModeSupported) {
+            return NightMode.SYSTEM_DEFAULT;
+        } else {
+            return NightMode.BY_BATTERY_SAVER;
+        }
+    }
+
+    public void setFilter(Filters filter) {
+        settingsPreference.setFilter(filter.name());
+    }
+
+    public Filters getFilter() {
+        String name = settingsPreference.getFilter();
+
+        if (name != null) {
+            return Filters.valueOf(name);
+        }
+
+        return Filters.COUNTRY;
     }
 }

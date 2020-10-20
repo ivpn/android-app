@@ -1,18 +1,38 @@
 package net.ivpn.client.ui.billing;
 
-import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.MenuItem;
+import androidx.databinding.DataBindingUtil;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.ActivityBillingBinding;
-import net.ivpn.client.ui.connect.ConnectActivity;
 import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.login.LoginActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,10 +83,6 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     @Override
     public void onSuccessBilling() {
         LOGGER.info("onSuccessBilling");
-        Intent intent = new Intent(this, ConnectActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
         finish();
     }
 
@@ -77,19 +93,25 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
 
     @Override
     public void onPurchaseAlreadyDone() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
         finish();
     }
 
     @Override
-    public void createPurchaseErrorDialog(int errorCode, String errorMessage) {
+    public void createPurchaseErrorDialog(String errorCode, String errorMessage) {
         DialogBuilder.createFullCustomNotificationDialog(this,
                 this.getString(R.string.dialogs_error) + " " + errorCode,
                 errorMessage != null ? errorMessage : "", dialog -> {
                     BillingActivity.this.finish();
                 });
+    }
+
+    @Override
+    public void onAccountCreated() {
+        finish();
+    }
+
+    @Override
+    public void onAddFundsFinish() {
+        finish();
     }
 }

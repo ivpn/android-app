@@ -1,5 +1,27 @@
 package net.ivpn.client.vpn.local;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +30,16 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.navigation.NavDeepLinkBuilder;
+
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.SettingsPreference;
 import net.ivpn.client.common.utils.NetworkUtil;
+import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.model.KillSwitchRule;
@@ -136,7 +161,7 @@ public class NetworkController implements ServiceConstants {
             case WIFI: {
                 String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
                 if (currentWiFiSsid != null) {
-                    onWifiChanged(currentWiFiSsid);
+                    onWifiChanged(StringUtil.formatWifiSSID(currentWiFiSsid));
                 } else {
                     onNoNetwork();
                 }
@@ -175,6 +200,9 @@ public class NetworkController implements ServiceConstants {
         if (source != null && source.getState() != null && source.getState().equals(DEFAULT)) {
             applyNetworkStateBehaviour(defaultState);
             source.setDefaultState(defaultState);
+            if (networkSourceChangedListener != null) {
+                networkSourceChangedListener.onNetworkSourceChanged(source);
+            }
         }
         if (networkSourceChangedListener != null) {
             networkSourceChangedListener.onDefaultNetworkStateChanged(defaultState);
@@ -195,6 +223,10 @@ public class NetworkController implements ServiceConstants {
             startWifiWatcherService();
         } else {
             stopWifiWatcherService();
+        }
+        if (source != null && source == WIFI && ssid.equals(StringUtil.formatWifiSSID(source.getSsid()))) {
+            source.setState(newState);
+            networkSourceChangedListener.onNetworkSourceChanged(source);
         }
     }
 
@@ -258,6 +290,7 @@ public class NetworkController implements ServiceConstants {
 
     public void setNetworkSourceChangedListener(OnNetworkSourceChangedListener listener) {
         networkSourceChangedListener = listener;
+        networkSourceChangedListener.onNetworkSourceChanged(source);
     }
 
     public void removeNetworkSourceListener() {
@@ -397,6 +430,7 @@ public class NetworkController implements ServiceConstants {
         LOGGER.info("updateMobileDataState: networkState = " + networkState);
         source.setState(networkState);
         applyNetworkStateBehaviour(networkState);
+        networkSourceChangedListener.onNetworkSourceChanged(source);
     }
 
     private void applyTrustedBehaviour() {
@@ -453,7 +487,7 @@ public class NetworkController implements ServiceConstants {
                 openSettings();
                 break;
             case WIFI_CHANGED_ACTION:
-                onWifiChanged(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE));
+                onWifiChanged(StringUtil.formatWifiSSID(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE)));
                 break;
             case ON_MOBILE_DATA_ACTION:
                 onMobileData();
@@ -465,10 +499,9 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void openSettings() {
-        Context context = IVPNApplication.getApplication();
-        Intent intent = new Intent(context, SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        new NavDeepLinkBuilder(IVPNApplication.getApplication())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.networkProtectionFragment).createTaskStackBuilder().startActivities();
     }
 
     private void registerReceiver() {
@@ -576,7 +609,7 @@ public class NetworkController implements ServiceConstants {
                         String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
                         LOGGER.info("onReceive: currentWiFiSsid = " + currentWiFiSsid);
                         if (currentWiFiSsid != null) {
-                            onWifiChanged(currentWiFiSsid);
+                            onWifiChanged(StringUtil.formatWifiSSID(currentWiFiSsid));
                         } else {
                             onNoNetwork();
                         }

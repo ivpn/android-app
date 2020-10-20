@@ -7,7 +7,7 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="@color/bottom_sheet_background"
         android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="90dp"
@@ -28,7 +28,8 @@
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="8sp"
                 android:text="You have exceeded the maximum number of sessions"
-                android:textColor="#8a000000"
+                android:textColor="@color/bottom_sheet_text"
+                android:alpha="0.8"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -47,7 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_exit"
-                android:tint="#757575" />
+                android:alpha="0.9"
+                android:tint="@color/bottom_sheet_text" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,7 +57,7 @@
                 android:layout_marginStart="24dp"
                 android:fontFamily="sans-serif"
                 android:text="Log out of all other devices"
-                android:textColor="#de000000"
+                android:textColor="@color/bottom_sheet_text"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -74,7 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_refresh"
-                android:tint="#757575" />
+                android:alpha="0.9"
+                android:tint="@color/bottom_sheet_text" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +85,7 @@
                 android:layout_marginStart="24dp"
                 android:fontFamily="sans-serif"
                 android:text="Try again"
-                android:textColor="#de000000"
+                android:textColor="@color/bottom_sheet_text"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -100,8 +103,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.9"
                 android:src="@drawable/ic_close"
-                android:tint="#757575" />
+                android:tint="@color/bottom_sheet_text" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,7 +113,7 @@
                 android:layout_marginStart="24dp"
                 android:fontFamily="sans-serif"
                 android:text="Close"
-                android:textColor="#de000000"
+                android:textColor="@color/bottom_sheet_text"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 

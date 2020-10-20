@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.alwaysonvpn.AlwaysOnVpnViewModel" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/always_on_background"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
@@ -32,7 +23,7 @@
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="8sp"
                 android:text="@string/settings_always_on_vpn_title"
-                android:textColor="#335266"
+                android:textColor="@color/always_on_title"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -48,17 +39,17 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/to_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/settings_margin_left"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.04"
-            android:onClick="deviceVpnSettings"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="@string/settings_always_on_vpn_action"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/primary"
             android:textSize="14sp"
             android:textStyle="normal" />
     </LinearLayout>

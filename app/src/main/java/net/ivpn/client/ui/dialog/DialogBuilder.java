@@ -1,13 +1,31 @@
 package net.ivpn.client.ui.dialog;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.databinding.DataBindingUtil;
-import android.os.SystemClock;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +34,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.databinding.DataBindingUtil;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.InputFilterMinMax;
 import net.ivpn.client.common.utils.DateUtil;
-import net.ivpn.client.databinding.DialogConnectionInfoBinding;
 import net.ivpn.client.databinding.DialogCustomDnsBinding;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.customdns.OnDNSChangedListener;
-import net.ivpn.client.ui.privateemails.PrivateEmailActionListener;
 import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener;
 import net.ivpn.client.ui.protocol.dialog.WireGuardDialogInfo;
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener;
@@ -44,7 +66,10 @@ public class DialogBuilder {
     public static void createOptionDialog(Context context, Dialogs dialogAttr,
                                           DialogInterface.OnClickListener listener) {
         LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        if (context == null) {
+            return;
+        }
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
         if (dialogAttr.getPositiveBtnId() != -1) {
@@ -66,7 +91,10 @@ public class DialogBuilder {
 
     public static void createNotificationDialog(Context context, Dialogs dialogAttr) {
         LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        if (context == null) {
+            return;
+        }
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
         builder.setNegativeButton(context.getString(dialogAttr.getNegativeBtnId()), null);
@@ -83,28 +111,12 @@ public class DialogBuilder {
         }
     }
 
-    public static void createCustomNotificationDialog(Context context, Dialogs dialogAttr, String msg) {
-        LOGGER.info("Create dialog " + dialogAttr);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        builder.setTitle(context.getString(dialogAttr.getTitleId()));
-        builder.setMessage(msg);
-        builder.setNegativeButton(context.getString(dialogAttr.getNegativeBtnId()), null);
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            Dialog dialog = builder.show();
-
-            TextView messageView = dialog.getWindow().findViewById(android.R.id.message);
-            messageView.setTextAppearance(context, R.style.DialogMessageStyle);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
     public static void createFullCustomNotificationDialog(Context context, String title, String msg) {
         LOGGER.info("Create dialog ");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
+        if (context == null) {
+            return;
+        }
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setNegativeButton(context.getString(R.string.dialogs_ok), null);
@@ -124,15 +136,18 @@ public class DialogBuilder {
     public static void createFullCustomNotificationDialog(Context context, String title, String msg,
                                                           final DialogInterface.OnCancelListener cancelListener) {
         LOGGER.info("Create dialog ");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setOnCancelListener(cancelListener);
-            builder.setNegativeButton(context.getString(R.string.dialogs_ok), (dialog, which) -> {
-                if (cancelListener != null) {
-                    cancelListener.onCancel(dialog);
-                }
-            });
+        builder.setNegativeButton(context.getString(R.string.dialogs_ok), (dialog, which) -> {
+            if (cancelListener != null) {
+                cancelListener.onCancel(dialog);
+            }
+        });
         if (((Activity) context).isFinishing()) {
             return;
         }
@@ -149,6 +164,9 @@ public class DialogBuilder {
     public static void createNonCancelableDialog(Context context, Dialogs dialogAttr, DialogInterface.OnClickListener listener,
                                                  final DialogInterface.OnCancelListener cancelListener) {
         LOGGER.info("Create dialog " + dialogAttr);
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         builder.setTitle(context.getString(dialogAttr.getTitleId()));
         builder.setMessage(context.getString(dialogAttr.getMessageId()));
@@ -176,35 +194,12 @@ public class DialogBuilder {
         }
     }
 
-    public static void createPrivateEmailNewFeatureDialog(Context context, final PrivateEmailActionListener listener) {
-        LOGGER.info("Create private email dialog");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.dialog_private_email_new_feature, null);
-
-        builder.setView(dialogView);
-
-        final AlertDialog alertDialog = builder.create();
-        dialogView.findViewById(R.id.got_it).setOnClickListener(view -> {
-            listener.onWatchedFeatureInfo();
-            alertDialog.dismiss();
-        });
-
-        alertDialog.setOnCancelListener(dialogInterface -> listener.onWatchedFeatureInfo());
-
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            alertDialog.show();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
     public static void createPredefinedTimePickerDialog(Context context,
                                                         final OnDelayOptionSelected onDelayOptionSelected) {
         LOGGER.info("Create time picker dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_predefined_time_picker, null);
@@ -233,7 +228,6 @@ public class DialogBuilder {
 
         alertDialog.setOnCancelListener(dialogInterface -> {
             onDelayOptionSelected.onCancelAction();
-//                listener.onWatchedFeatureInfo();
         });
 
         if (((Activity) context).isFinishing()) {
@@ -249,6 +243,9 @@ public class DialogBuilder {
     public static void createCustomTimePickerDialog(Context context,
                                                     final OnDelayOptionSelected onDelayOptionSelected) {
         LOGGER.info("Create custom time picker dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dialog_custom_time_picker, null);
@@ -285,6 +282,9 @@ public class DialogBuilder {
 
     public static void createAdvancedKillSwitchDialog(Context context, final AdvancedKillSwitchActionListener listener) {
         LOGGER.info("Create advanced killswitch dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;
@@ -323,6 +323,9 @@ public class DialogBuilder {
     public static void createWireGuardDetailsDialog(Context context, WireGuardDialogInfo info,
                                                     final WireGuardDetailsDialogListener listener) {
         LOGGER.info("Create wireguard details dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;
@@ -354,40 +357,11 @@ public class DialogBuilder {
         }
     }
 
-    public static void createConnectionInfoDialog(Context context) {
-        LOGGER.info("Create connection info dialog");
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (inflater == null) return;
-
-        LocationDialogViewModel viewModel =
-                IVPNApplication.getApplication().appComponent.provideActivityComponent().create().getLocationDialogueViewModel();
-
-        DialogConnectionInfoBinding binding = DataBindingUtil.inflate(inflater,
-                R.layout.dialog_connection_info, null, false);
-        binding.setViewmodel(viewModel);
-        View dialogView = binding.getRoot();
-
-        builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
-
-        binding.cancelAction.setOnClickListener(view -> alertDialog.dismiss());
-        binding.chronometer.setBase(SystemClock.elapsedRealtime() - viewModel.vpnBehaviorController.getConnectionTime());
-        binding.chronometer.start();
-
-        if (((Activity) context).isFinishing()) {
-            return;
-        }
-        try {
-            alertDialog.show();
-            viewModel.start();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
     public static void createCustomDNSDialogue(Context context, OnDNSChangedListener listener) {
         LOGGER.info("Create connection info dialog");
+        if (context == null) {
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialog);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) return;

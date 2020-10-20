@@ -1,11 +1,6 @@
+
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="keyboard_height">150dp</dimen>
 
     <!--Tutorial-->
     <dimen name="tutorial_small_descr">16sp</dimen>
@@ -15,50 +10,31 @@
     <dimen name="tutorial_log_in_margin_top">8dp</dimen>
     <dimen name="tutorial_indicator_margin_bottom">0dp</dimen>
     <dimen name="tutorial_indicator_margin_top">0dp</dimen>
-    <dimen name="tutorial_vpn_logo_margin_top">20dp</dimen>
-    <dimen name="tutorial_vpn_logo_margin_bottom">10dp</dimen>
     <dimen name="tutorial_vpn_title_margin_top">0dp</dimen>
 
     <!--Login-->
-    <dimen name="sign_in_side_margin">16dp</dimen>
-    <dimen name="auth_logo_width">98dp</dimen>
-    <dimen name="auth_logo_height">40dp</dimen>
 
     <!--Settings-->
     <dimen name="settings_section_height">68dp</dimen>
-    <dimen name="settings_section_font_size">16sp</dimen>
     <dimen name="settings_margin_left">16dp</dimen>
     <dimen name="settings_margin_right">16dp</dimen>
     <dimen name="settings_margin_right_extended">16dp</dimen>
     <dimen name="settings_icon_size">20dp</dimen>
-    <dimen name="settings_arrow_size">24dp</dimen>
     <dimen name="settings_option_title_text_size">16sp</dimen>
     <dimen name="settings_sections_inner_margin">12dp</dimen>
-    <dimen name="settings_inner_margin">30dp</dimen>
-    <dimen name="settings_renew_button_width">100dp</dimen>
+    <dimen name="settings_sections_top_margin">6dp</dimen>
     <dimen name="settings_option_description_text_size">14sp</dimen>
-
-    <dimen name="snackbar_msg_text_size">14sp</dimen>
-    <dimen name="snackbar_line_spacing_extra">6sp</dimen>
-    <dimen name="snackbar_line_spacing_extra_action">10sp</dimen>
-    <dimen name="snackbar_letter_spacing">0.04sp</dimen>
 
     <!--Sync Servers-->
     <dimen name="sync_servers_font_size">20sp</dimen>
 
     <!--Connect-->
-    <dimen name="connect_subscription_side_margin">16dp</dimen>
-    <dimen name="connect_vertical_margin">16dp</dimen>
-    <dimen name="connect_subscription_upgrade_button_width">100dp</dimen>
-    <dimen name="connect_subscription_font_size">18sp</dimen>
     <dimen name="connect_connection_status_size">14sp</dimen>
     <dimen name="connect_connection_status_margin_top">20dp</dimen>
     <dimen name="connect_connection_status_margin_bottom">2dp</dimen>
-    <dimen name="connect_margin_left">16dp</dimen>
     <dimen name="connect_flag_margin_left">20dp</dimen>
     <dimen name='connect_server_description_text_size'>18sp</dimen>
-    <dimen name="connect_user_hint_text_size">14sp</dimen>
-    
+
     <!--Key regeneration period view-->
     <dimen name="regeneration_view_height">36dp</dimen>
     <dimen name="regeneration_view_action_width">48dp</dimen>
@@ -66,4 +42,35 @@
     <dimen name="regeneration_view_round_radius">6dp</dimen>
     <dimen name="regeneration_icon_size">24dp</dimen>
     <dimen name="regeneration_value_text_size">16sp</dimen>
+
+    <!--V2-->
+    <dimen name="location_anim_max_radius">40dp</dimen>
+    <dimen name="point_radius">4dp</dimen>
+    <dimen name="location_point_radius">5dp</dimen>
+    <dimen name="location_name">10sp</dimen>
+    <dimen name="server_tap_radius">20dp</dimen>
+    <dimen name="location_label_shift">5dp</dimen>
+    <dimen name="location_distance_from_dot">4dp</dimen>
+
+    <dimen name="slider_layout_basic_height">192dp</dimen>
+    <dimen name="slider_layout_multihop_switch_height">36dp</dimen>
+    <dimen name="slider_layout_server_layout_height">78dp</dimen>
+    <dimen name="slider_panel_top_offset">36dp</dimen>
+
+    <dimen name="map_dialog_side_margin">16dp</dimen>
+    <dimen name="map_dialog_title_text_size">12sp</dimen>
+    <dimen name="map_dialog_location_text_size">14sp</dimen>
+    <dimen name="map_dialog_icon_size">24dp</dimen>
+    <dimen name="map_dialog_arrow_height">10dp</dimen>
+    <dimen name="map_dialog_arrow_width">20dp</dimen>
+    <dimen name="map_dialog_outer_top_margin">15dp</dimen>
+    <dimen name="map_dialog_corner_radius">10dp</dimen>
+    <dimen name="map_dialog_inner_vertical_margin">8dp</dimen>
+    <dimen name="map_dialog_inner_horizontal_margin">8dp</dimen>
+    <dimen name="map_dialog_y_shift">2dp</dimen>
+    <dimen name="map_dialog_button_height">42dp</dimen>
+
+    <dimen name="network_tab_layout_height">48dp</dimen>
+    <dimen name="network_default_toolbar_height">56dp</dimen>
+    <dimen name="network_status_bar_height">24dp</dimen>
 </resources>

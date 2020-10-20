@@ -1,5 +1,27 @@
 package net.ivpn.client.ui.protocol.view;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -67,19 +89,20 @@ public class ValueSelectionView extends View {
 
         actionPaint = new Paint();
         actionPaint.setStyle(Paint.Style.FILL);
-        actionPaint.setColor(resources.getColor(R.color.colorPrimary));
+        actionPaint.setColor(resources.getColor(R.color.primary));
 
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(resources.getDimension(R.dimen.regeneration_value_text_size));
+        textPaint.setColor(resources.getColor(R.color.protocol_text_color));
 
         Drawable addNDrawable = resources.getDrawable(R.drawable.ic_add);
         incrementDrawable = DrawableCompat.wrap(addNDrawable);
-        DrawableCompat.setTint(incrementDrawable, Color.WHITE);
+        DrawableCompat.setTint(incrementDrawable, resources.getColor(R.color.protocol_card_background));
 
         Drawable removeNDrawable = resources.getDrawable(R.drawable.ic_remove);
         decrementDrawable = DrawableCompat.wrap(removeNDrawable);
-        DrawableCompat.setTint(decrementDrawable, Color.WHITE);
+        DrawableCompat.setTint(decrementDrawable, resources.getColor(R.color.protocol_card_background));
 
         gestureDetector = new GestureDetector(this.getContext(), getGestureDetector());
         setOnTouchListener((view, motionEvent) -> gestureDetector.onTouchEvent(motionEvent));

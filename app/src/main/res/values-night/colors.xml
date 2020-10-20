@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorOnSurface">#FFFFFF</color>
+    <!--Networks Behaviour-->
+    <color name="network_tabs_background">#202020</color>
+    <color name="network_tabs_indicator">@color/primary</color>
+    <color name="network_tabs_selected_text">#FFFFFF</color>
+    <color name="network_tabs_passive_text">#A6FFFFFF</color>
+    <color name="network_current_state">#80FFFFFF</color>
+
+    <color name="color_trusted_text">#398FE6</color>
+    <color name="color_untrusted_text">#ed7e79</color>
+    <color name="color_default_text">#99FFFFFF</color>
+    <color name="color_none_text">#99FFFFFF</color>
+    <color name="colorControlNormal">#7D91A5</color>
+
+    <color name="color_settings_background">#000000</color>
+
+    <color name="color_toolbar">#292929</color>
+    <color name="colorPrimary">#398FE6</color>
+    <color name="colorPrimaryDark">#1c1c1c</color>
+    <color name="dialogScrim">#80bebebe</color>
+
+    <color name="wave_connected">#398FE6</color>
+    <color name="wave_progress">#d3d3d3</color>
+    <color name="wave_disconnected">#FF6258</color>
+
+    <color name="sliding_panel_drag_view">#49494B</color>
+    <color name="sliding_panel_background">#202020</color>
+    <color name="sliding_panel_icon">#FFFFFF</color>
+    <color name="sliding_panel_line_color">#2B8B9AAB</color>
+    <color name="sliding_panel_text_color">#ffffff</color>
+    <color name="sliding_panel_arrow">#92949E</color>
+    <color name="sliding_panel_gray_background">#121212</color>
+    <color name="sliding_panel_gray_hint_text">#80FFFFFF</color>
+
+    <color name="sliding_panel_multi_hop_active">#FFFFFF</color>
+    <color name="sliding_panel_multi_hop_passive">#B3FFFFFF</color>
+
+    <color name="connect_fab_background">#323232</color>
+    <color name="connect_map_fab_icon">#ffffff</color>
+    <color name="sliding_panel_card_background">#323232</color>
+
+<!--    <color name="primary">#74b8ff</color>-->
+<!--    <color name="accent">#ed7e79</color>-->
+    <color name="primary">#398FE6</color>
+    <color name="accent">#FF6258</color>
+
+    <color name="disabled">#8D8D8E</color>
+
+    <color name="dialogue_map_background">#1c1c1c</color>
+    <color name="map_dialogue_location_disabled_indicator">#4Dffffff</color>
+    <color name="dialogue_background">#383838</color>
+    <color name="dialogue_title">#FFFFFF</color>
+    <color name="dialogue_text">#DEFFFFFF</color>
+
+<!--    <color name="dialogue_button">#74b8ff</color>-->
+    <color name="dialogue_button">#398FE6</color>
+
+    <color name="settings_card_background">#202020</color>
+
+    <color name="settings_section_title">#398FE6</color>
+<!--    <color name="settings_section_title">#74b8ff</color>-->
+    <color name="settings_option_title_text">#FFFFFF</color>
+    <color name="settings_option_description_text">#80FFFFFF</color>
+    <color name="color_section_divider">#2B8B9AAB</color>
+
+    <!--Split Tunneling-->
+    <color name="split_item_background">#121212</color>
+    <color name="split_text_color">#DEFFFFFF</color>
+    <color name="split_line_color">#2B8B9AAB</color>
+
+    <color name="always_on_background">#121212</color>
+    <color name="always_on_title">#DEFFFFFF</color>
+
+    <color name="network_protection_text_color_opacity">#99FFFFFF</color>
+    <color name="network_protection_text_color">#FFFFFF</color>
+    <color name="network_protection_background">#000000</color>
+    <color name="network_protection_card_background">#202020</color>
+
+    <color name="protocol_text_color">#FFFFFF</color>
+    <color name="protocol_background">#121212</color>
+    <color name="protocol_card_background">#202020</color>
+
+    <color name="custom_dns_text_color">#FFFFFF</color>
+    <color name="custom_dns_background">#121212</color>
+
+    <color name="servers_text_color">#FFFFFF</color>
+    <color name="servers_text_color_hint">#80FFFFFF</color>
+    <color name="servers_background">#060606</color>
+    <color name="servers_card_background">#202020</color>
+    <color name="servers_icon_color">#98A5B3</color>
+
+    <color name="color_opacity_black_background">#b0000000</color>
+
+    <color name="login_text_color">#FFFFFF</color>
+    <color name="login_text_color_invert">#121212</color>
+    <color name="login_background">#121212</color>
+    <color name="login_color_on_surface">#FFFFFF</color>
+
+    <color name="sign_up_text_color">#FFFFFF</color>
+    <color name="sign_up_text_color_invert">#121212</color>
+    <color name="sign_up_background">#121212</color>
+
+    <color name="error">#CF6679</color>
+
+    <color name="bottom_sheet_background">#202020</color>
+    <color name="bottom_sheet_text">#FFFFFF</color>
+
+    <color name="sync_background">#121212</color>
+    <color name="sync_text">#FFFFFF</color>
+
+    <color name="account_text">#FFFFFF</color>
+    <color name="account_background">#121212</color>
+    <color name="account_active_background">#B6CBA2</color>
+    <color name="account_inactive_background">#FF6258</color>
+    <color name="account_text_active">#486D17</color>
+    <color name="account_text_inactive">#FFFFFF</color>
+    <color name="account_line">#2B8B9AAB</color>
+    <color name="account_outlined_button_stroke">#1C1C1E</color>
+    <color name="account_outlined_button_text">#FFFFFF</color>
+    <color name="account_logout">#99FFFFFF</color>
+    <color name="account_plan_details_background">#5183B5</color>
+    <color name="account_plan_details_text">#FFFFFF</color>
+
+    <color name="tab_text_color">#99FFFFFF</color>
+    <color name="tab_selected_text_color">#FFFFFF</color>
+
+    <color name="web_view_background">#121212</color>
+
+    <color name="antitracker_text">#FFFFFF</color>
+    <color name="antitracker_background">#121212</color>
+    <color name="antitracker_card_background">#202020</color>
+
+    <color name="map_label">#CFCBCB</color>
+    <color name="map_label_shadow">#121212</color>
+    <color name="map_background">#181818</color>
+
+    <color name="sliding_panel_shadow_1">#00000000</color>
+    <color name="sliding_panel_shadow_2">#10000000</color>
+    <color name="sliding_panel_shadow_3">#20000000</color>
+    <color name="sliding_panel_shadow_4">#30000000</color>
+    <color name="sliding_panel_shadow_5">#50000000</color>
+
+    <color name="dialog_shadow_1">#00000000</color>
+    <color name="dialog_shadow_2">#10000000</color>
+    <color name="dialog_shadow_3">#15000000</color>
+    <color name="dialog_shadow_4">#20000000</color>
+    <color name="dialog_shadow_5">#25000000</color>
+    <color name="dialog_shadow_6">#30000000</color>
+    <color name="dialog_shadow_7">#35000000</color>
+    <color name="dialog_shadow_8">#40000000</color>
+
+    <color name="dialog_shadow_no_opacity">#000000</color>
+
+    <color name="updates_text_color_opacity">#99FFFFFF</color>
+    <color name="updates_text_color">#FFFFFF</color>
+    <color name="updates_background">#121212</color>
+    <color name="updates_card_background">#202020</color>
+
+    <color name="alerts_background_color">#F3E2A3</color>
+    <color name="alerts_text">#776832</color>
+
+    <color name="connecting_state_switcher">#26476a</color>
+    <color name="disconnecting_state_switcher">#8d3f3b</color>
+    <color name="pausing_state_switcher">#49494b</color>
+    <color name="paused_state_switcher">#49494b</color>
+
+</resources>

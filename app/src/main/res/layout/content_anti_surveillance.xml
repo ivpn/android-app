@@ -7,31 +7,28 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.surveillance.AntiSurveillanceViewModel" />
+            name="antitracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_settings_background"
+        android:background="@color/antitracker_background"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/settings_margin_left"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:padding="16dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
+                android:background="@color/antitracker_card_background"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -46,7 +43,7 @@
                         android:fontFamily="sans-serif"
                         android:lineSpacingExtra="8sp"
                         android:text="@string/anti_surveillance_enable_title"
-                        android:textColor="#335266"
+                        android:textColor="@color/antitracker_text"
                         android:textSize="16sp"
                         android:textStyle="normal" />
 
@@ -60,10 +57,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:checked="@{viewmodel.isAntiSurveillanceEnabled}"
-                        android:translationX="3dp"
-                        app:onChanged="@{viewmodel.enableAntiSurveillance}"
-                        app:theme="@style/AppTheme.SwitchCompat" />
+                        android:checked="@{antitracker.isAntiSurveillanceEnabled}"
+                        app:onChanged="@{antitracker.enableAntiSurveillance}"
+                        android:thumb="@drawable/common_thumb_selector"
+                        app:track="@drawable/common_track_selector"/>
 
                 </LinearLayout>
 
@@ -73,17 +70,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:lineSpacingExtra="3sp"
+                    android:textColor="@color/antitracker_text"
+                    android:alpha="0.6"
                     android:text="@string/anti_surveillance_description"
                     android:textAlignment="viewStart"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/read_more_antitracker"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="4dp"
-                    android:onClick="readMore"
                     android:text="@string/anti_surveillance_read_more"
                     android:textAllCaps="true" />
 
@@ -96,16 +95,13 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/settings_margin_left"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:background="@color/antitracker_card_background"
+                android:padding="16dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -122,7 +118,7 @@
                         android:fontFamily="sans-serif"
                         android:lineSpacingExtra="8sp"
                         android:text="@string/anti_surveillance_hardcore"
-                        android:textColor="#335266"
+                        android:textColor="@color/antitracker_text"
                         android:textSize="16sp"
                         android:textStyle="normal" />
 
@@ -136,11 +132,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:checked="@{viewmodel.isHardcoreModeEnabled}"
-                        android:enabled="@{viewmodel.isHardcoreModeUIEnabled}"
-                        android:translationX="3dp"
-                        app:onChanged="@{viewmodel.enableHardcoreMode}"
-                        app:theme="@style/AppTheme.SwitchCompat" />
+                        android:checked="@{antitracker.isHardcoreModeEnabled}"
+                        android:enabled="@{antitracker.isHardcoreModeUIEnabled}"
+                        app:onChanged="@{antitracker.enableHardcoreMode}"
+                        android:thumb="@drawable/common_thumb_selector"
+                        app:track="@drawable/common_track_selector" />
                 </LinearLayout>
 
                 <TextView
@@ -149,11 +145,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:lineSpacingExtra="3sp"
+                    android:textColor="@color/antitracker_text"
+                    android:alpha="0.6"
                     android:text="@string/anti_surveillance_hardcore_description"
                     android:textAlignment="viewStart"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/read_more_hardcore"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

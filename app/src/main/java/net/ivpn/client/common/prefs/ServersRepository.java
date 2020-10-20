@@ -1,5 +1,27 @@
 package net.ivpn.client.common.prefs;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import androidx.annotation.Nullable;
 
 import net.ivpn.client.common.Mapper;
@@ -7,8 +29,9 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.IVPNApi;
 import net.ivpn.client.rest.RequestListener;
-import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.ServersListResponse;
+import net.ivpn.client.rest.data.model.Server;
+import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
@@ -35,8 +58,9 @@ public class ServersRepository implements Serializable {
     private Settings settings;
     private ProtocolController protocolController;
     private ServersPreference serversPreference;
+    private HttpClientFactory httpClientFactory;
 
-    private Request<ServersListResponse> request;
+    private Request<ServersListResponse> request = null;
 
     @Inject
     public ServersRepository(Settings settings, HttpClientFactory httpClientFactory,
@@ -45,7 +69,7 @@ public class ServersRepository implements Serializable {
         this.settings = settings;
         this.protocolController = protocolController;
         this.serversPreference = serversPreference;
-        this.request = new Request<>(settings, httpClientFactory, this, Request.Duration.SHORT);
+        this.httpClientFactory = httpClientFactory;
 
         init();
     }
@@ -121,6 +145,36 @@ public class ServersRepository implements Serializable {
         return servers;
     }
 
+    public List<ServerLocation> getLocations() {
+        List<ServerLocation> locations = serversPreference.getServerLocations();
+        if (locations == null) {
+            updateLocations();
+            locations = serversPreference.getServerLocations();
+        }
+
+        return locations;
+    }
+
+    private void updateLocations() {
+        List<Server> servers = serversPreference.getServersList();
+        List<ServerLocation> locations = new ArrayList<>();
+
+        for (Server server : servers) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
+        }
+
+        if (protocolController.getCurrentProtocol() == Protocol.OPENVPN) {
+            serversPreference.putOpenVPNLocations(locations);
+        } else {
+            serversPreference.putWireGuardLocations(locations);
+        }
+    }
+
     public List<Server> getFavouritesServers() {
         return serversPreference.getFavouritesServersList();
     }
@@ -149,6 +203,7 @@ public class ServersRepository implements Serializable {
 
     public void updateServerList(final boolean isForced) {
         LOGGER.info("Updating server list, isForced = " + isForced);
+        request = new Request<>(settings, httpClientFactory, this, Request.Duration.SHORT);
         request.start(IVPNApi::getServers, new RequestListener<ServersListResponse>() {
             @Override
             public void onSuccess(ServersListResponse response) {
@@ -186,30 +241,18 @@ public class ServersRepository implements Serializable {
     }
 
     public void fastestServerSelected() {
-        settings.enableFastestServerSetting(true);
-        for (OnServerChangedListener listener: onServerChangedListeners) {
+        serversPreference.putSettingFastestServer(true);
+        for (OnServerChangedListener listener : onServerChangedListeners) {
             listener.onServerChanged();
         }
     }
 
     public void serverSelected(Server server, ServerType type) {
-        settings.enableFastestServerSetting(false);
+        serversPreference.putSettingFastestServer(false);
         setCurrentServer(type, server);
-        if (type == ServerType.ENTRY) {
-            updateVPNSettingWith(server);
-        } else {
-            for (OnServerChangedListener listener: onServerChangedListeners) {
-                listener.onServerChanged();
-            }
+        for (OnServerChangedListener listener : onServerChangedListeners) {
+            listener.onServerChanged();
         }
-    }
-
-    public void setOnServerChangedListener(OnServerChangedListener listener) {
-        onServerChangedListeners.add(listener);
-    }
-
-    public void removeOnServerChangedListener(OnServerChangedListener listener) {
-        onServerChangedListeners.remove(listener);
     }
 
     public void tryUpdateServerListOffline() {
@@ -243,6 +286,57 @@ public class ServersRepository implements Serializable {
         settings.setIpList(Mapper.stringFromIps(response.getConfig().getApi().getIps()));
     }
 
+    public void tryUpdateServerLocations() {
+        LOGGER.info("tryUpdateServerLocations BEFORE");
+        if (serversPreference.getServerLocations() != null) {
+            return;
+        }
+        LOGGER.info("tryUpdateServerLocations AFTER");
+
+        ServersListResponse response = Mapper.getProtocolServers(ServersLoader.load());
+        response.markServerTypes();
+
+        List<ServerLocation> locations = new ArrayList<>();
+
+        for (Server server : response.getOpenVpnServerList()) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
+        }
+        serversPreference.putOpenVPNLocations(locations);
+        locations.clear();
+
+        for (Server server : response.getWireGuardServerList()) {
+            locations.add(new ServerLocation(
+                    server.getCity(),
+                    server.getCountryCode(),
+                    server.getLatitude(),
+                    server.getLongitude()
+            ));
+        }
+        serversPreference.putWireGuardLocations(locations);
+
+        setServerList(response.getOpenVpnServerList(), response.getWireGuardServerList());
+
+        updateCurrentServersWithLocation();
+
+        currentServers.put(Protocol.OPENVPN, new EnumMap<>(ServerType.class));
+        currentServers.put(Protocol.WIREGUARD, new EnumMap<>(ServerType.class));
+    }
+
+    private void updateCurrentServersWithLocation() {
+        serversPreference.updateCurrentServersWithLocation();
+    }
+
+    public void setLocationList(List<ServerLocation> openVpnLocations, List<ServerLocation> wireguardLocations) {
+        LOGGER.info("Putting locations, OpenVPN locations list size = " + openVpnLocations.size() + " WireGuard = " + wireguardLocations.size());
+        serversPreference.putOpenVPNLocations(openVpnLocations);
+        serversPreference.putWireGuardLocations(wireguardLocations);
+    }
+
     public void setServerList(List<Server> openvpnServers, List<Server> wireguardServers) {
         LOGGER.info("Putting servers, OpenVpn servers list size = " + openvpnServers.size() + " WireGuard = " + wireguardServers.size());
         serversPreference.putOpenVpnServerList(openvpnServers);
@@ -261,6 +355,14 @@ public class ServersRepository implements Serializable {
 
     public List<Server> getExcludedServersList() {
         return serversPreference.getExcludedServersList();
+    }
+
+    public boolean getSettingFastestServer() {
+        return serversPreference.getSettingFastestServer();
+    }
+
+    public void putFastestServerSetting(boolean isEnabled) {
+        serversPreference.putSettingFastestServer(isEnabled);
     }
 
     public List<Server> getPossibleServersList() {
@@ -283,7 +385,6 @@ public class ServersRepository implements Serializable {
         }
 
         return possibleServersList;
-
     }
 
     public void addFavouriteServerListener(OnFavouriteServersChangedListener listener) {
@@ -328,12 +429,6 @@ public class ServersRepository implements Serializable {
     private void notifyFavouriteServerRemoved(Server server) {
         for (OnFavouriteServersChangedListener listener : onFavouritesChangedListeners) {
             listener.notifyFavouriteServerRemoved(server);
-        }
-    }
-
-    private void updateVPNSettingWith(Server server) {
-        for (OnServerChangedListener listener: onServerChangedListeners) {
-            listener.onServerChanged();
         }
     }
 }

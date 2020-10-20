@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="location"
+            type="net.ivpn.client.v2.viewmodel.LocationViewModel" />
+
+        <variable
+            name="connection"
+            type="net.ivpn.client.v2.viewmodel.ConnectionViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.client.v2.viewmodel.ServersViewModel" />
+
+        <variable
+            name="account"
+            type="net.ivpn.client.v2.viewmodel.AccountViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/map_background">
+
+            <net.ivpn.client.v2.map.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:locations="@{location.locations}"
+                app:connectionState="@{connection.connectionState}"
+                app:gateway="@{servers.mapServer}"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/account_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_gravity="top|start"
+                app:tint="@color/connect_map_fab_icon"
+                app:backgroundTint="@color/connect_fab_background"
+                android:src="@drawable/ic_account"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="top|end"
+                app:tint="@color/connect_map_fab_icon"
+                app:backgroundTint="@color/connect_fab_background"
+                android:src="@drawable/ic_settings_fab"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/center_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_crosshair"
+                app:backgroundTint="@color/connect_fab_background"
+                app:tint="@color/connect_map_fab_icon" />
+
+            <FrameLayout
+                android:id="@+id/alerts_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:elevation="12dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/alerts_background">
+
+                <LinearLayout
+                    android:id="@+id/expire_in_days_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{account.isExpiredIn() ? View.VISIBLE : View.GONE}"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_alert_triangle"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp"
+                        android:letterSpacing="-0.03"
+                        android:text="@{account.textIsExpiredIn}"/>
+
+                    <TextView
+                        android:id="@+id/renew_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Renew"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:textColor="@color/alerts_text"
+                        android:letterSpacing="-0.03"
+                        android:textAllCaps="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/expired_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{account.isExpired() ? View.VISIBLE : View.GONE}"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_alert_triangle"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp"
+                        android:letterSpacing="-0.03"
+                        android:text="Subscription is expired"/>
+
+                    <TextView
+                        android:id="@+id/renew_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Renew"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:textColor="@color/alerts_text"
+                        android:letterSpacing="-0.03"
+                        android:textAllCaps="true"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/api_error_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="@{location.isLocationAPIError ? View.VISIBLE : View.GONE}"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_alert_triangle"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp"
+                        android:letterSpacing="-0.03"
+                        android:text="Loading connection info failed"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Retry"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:paddingHorizontal="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> location.checkLocation()}"
+                        android:textColor="@color/alerts_text"
+                        android:letterSpacing="-0.03"
+                        android:textAllCaps="true"/>
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+
+        <include android:id="@+id/sliding_panel"
+            layout="@layout/view_sliding_panel"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

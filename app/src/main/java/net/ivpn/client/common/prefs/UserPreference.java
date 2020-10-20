@@ -1,5 +1,27 @@
 package net.ivpn.client.common.prefs;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.SharedPreferences;
 
 import javax.inject.Inject;
@@ -19,6 +41,9 @@ public class UserPreference {
     private static final String SESSION_VPN_USERNAME = "SESSION_VPN_USERNAME";
     private static final String SESSION_VPN_PASSWORD = "SESSION_VPN_PASSWORD";
 
+    private static final String BLANK_USERNAME = "BLANK_USERNAME";
+    private static final String BLANK_USERNAME_GENERATED_DATE = "BLANK_USERNAME_GENERATED_DATE";
+
     private Preference preference;
 
     @Inject
@@ -37,6 +62,20 @@ public class UserPreference {
         SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
         sharedPreferences.edit()
                 .putString(SESSION_VPN_USERNAME, sessionVpnUsername)
+                .apply();
+    }
+
+    public void putBlankUsername(String blankUsername) {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        sharedPreferences.edit()
+                .putString(BLANK_USERNAME, blankUsername)
+                .apply();
+    }
+
+    public void putBlankUsernameGenerationDate(long timestamp) {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        sharedPreferences.edit()
+                .putLong(BLANK_USERNAME_GENERATED_DATE, timestamp)
                 .apply();
     }
 
@@ -96,6 +135,16 @@ public class UserPreference {
     public String getSessionVpnUsername() {
         SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
         return sharedPreferences.getString(SESSION_VPN_USERNAME, "");
+    }
+
+    public String getBlankUsername() {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        return sharedPreferences.getString(BLANK_USERNAME, "");
+    }
+
+    public long getBlankUsernameGeneratedDate() {
+        SharedPreferences sharedPreferences = preference.getAccountSharedPreferences();
+        return sharedPreferences.getLong(BLANK_USERNAME_GENERATED_DATE, 0);
     }
 
     public String getSessionVpnPassword() {

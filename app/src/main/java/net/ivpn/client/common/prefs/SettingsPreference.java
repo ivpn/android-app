@@ -1,5 +1,27 @@
 package net.ivpn.client.common.prefs;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -16,7 +38,6 @@ import javax.inject.Inject;
 @ApplicationScope
 public class SettingsPreference {
 
-    private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
     private static final String SETTINGS_LOGGING = "SETTINGS_LOGGING";
     private static final String SETTINGS_SENTRY = "SETTINGS_SENTRY";
     private static final String SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP";
@@ -38,6 +59,8 @@ public class SettingsPreference {
     private static final String SETTINGS_CUSTOM_DNS_VALUE = "SETTINGS_CUSTOM_DNS_VALUE";
     private static final String SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE";
     private static final String SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION";
+    private static final String SETTINGS_FILTER =  "SETTINGS_FILTER";
+
     private static final String OV_PORT = "OV_PORT";
     private static final String WG_PORT = "WG_PORT";
     private static final String WIREGUARD_KEY_GENERATION_TIME = "WIREGUARD_KEY_GENERATION_TIME";
@@ -64,11 +87,6 @@ public class SettingsPreference {
     public boolean getSettingMultiHop() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false);
-    }
-
-    public boolean getSettingFastestServer() {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true);
     }
 
     public boolean getSettingKillSwitch() {
@@ -155,7 +173,7 @@ public class SettingsPreference {
 
     public int getRegenerationPeriod() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        return sharedPreferences.getInt(WIREGUARD_KEY_REGENERATION_PERIOD, 7);
+        return sharedPreferences.getInt(WIREGUARD_KEY_REGENERATION_PERIOD, 1);
     }
 
     public void putRegenerationPeriod(int regenerationPeriod) {
@@ -190,13 +208,6 @@ public class SettingsPreference {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_CUSTOM_DNS, value)
-                .apply();
-    }
-
-    public void putSettingFastestServer(boolean value) {
-        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply();
     }
 
@@ -448,5 +459,17 @@ public class SettingsPreference {
     public boolean isSentryEnabled() {
         SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
         return sharedPreferences.getBoolean(SETTINGS_SENTRY, true);
+    }
+
+    public String getFilter() {
+        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
+        return sharedPreferences.getString(SETTINGS_FILTER, null);
+    }
+
+    public void setFilter(String filter) {
+        SharedPreferences sharedPreferences = preference.getSettingsSharedPreferences();
+        sharedPreferences.edit()
+                .putString(SETTINGS_FILTER, filter)
+                .apply();
     }
 }

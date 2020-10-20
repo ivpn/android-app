@@ -1,5 +1,28 @@
 package net.ivpn.client.common.billing;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+
 import android.app.Activity;
 import android.content.Intent;
 
@@ -14,14 +37,26 @@ import net.ivpn.client.common.prefs.PurchasePreference;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.prefs.UserPreference;
+import net.ivpn.client.common.session.SessionController;
+import net.ivpn.client.common.session.SessionListenerImpl;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.Responses;
+import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
+import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
+import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody;
+import net.ivpn.client.rest.data.addfunds.NewAccountResponse;
+import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.subscription.SubscriptionRequestBody;
 import net.ivpn.client.rest.data.subscription.SubscriptionResponse;
+import net.ivpn.client.rest.data.wireguard.ErrorResponse;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.ui.billing.BillingActivity;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +64,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_ACCOUNT;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION_ERROR;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_ERROR;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION;
+import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION_ERROR;
 
 @ApplicationScope
 public class BillingManagerWrapper {
@@ -39,25 +82,31 @@ public class BillingManagerWrapper {
     private PurchasePreference purchasePreference;
     private UserPreference userPreference;
     private Settings settings;
-    private Request<SubscriptionResponse> request;
+    private HttpClientFactory httpClientFactory;
+    private ServersRepository serversRepository;
+    private SessionController sessionController;
+
     private List<BillingListener> listeners;
 
     private SkuDetails skuDetails;
     private Purchase purchase;
+    private String productName;
 
     private boolean isInit;
     private int error = 0;
 
     @Inject
     BillingManagerWrapper(PurchasePreference purchasePreference, BillingManager billingManager,
-                          UserPreference userPreference,
+                          UserPreference userPreference, SessionController sessionController,
                           Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository) {
         this.billingManager = billingManager;
         this.purchasePreference = purchasePreference;
         this.userPreference = userPreference;
         this.settings = settings;
+        this.httpClientFactory = httpClientFactory;
+        this.serversRepository = serversRepository;
+        this.sessionController = sessionController;
 
-        request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
         listeners = new ArrayList<>();
         isInit = false;
         setPurchaseState(PurchaseState.NONE);
@@ -72,7 +121,7 @@ public class BillingManagerWrapper {
                 LOGGER.info("On billing client setup finished");
                 isInit = true;
 
-                for (BillingListener listener: listeners) {
+                for (BillingListener listener : listeners) {
                     listener.onInitStateChanged(isInit, error);
                 }
             }
@@ -87,6 +136,10 @@ public class BillingManagerWrapper {
 
                 for (Purchase purchase : purchases) {
                     LOGGER.info(purchase.toString());
+                    if (purchase.isAcknowledged()
+                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSku())) {
+                        billingManager.consumePurchase(purchase);
+                    }
                 }
                 startValidatingActivity(purchases.get(0));
             }
@@ -95,6 +148,11 @@ public class BillingManagerWrapper {
             public void onBillingError(int error) {
                 LOGGER.info("Error code =" + error + " received");
                 BillingManagerWrapper.this.error = error;
+                isInit = false;
+
+                for (BillingListener listener : listeners) {
+                    listener.onInitStateChanged(isInit, error);
+                }
             }
         });
     }
@@ -103,19 +161,17 @@ public class BillingManagerWrapper {
         LOGGER.info("Purchasing...");
         setPurchaseState(PurchaseState.PURCHASING);
         String currentSku = purchase != null ? purchase.getSku() : null;
-        billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku,
-                getProrationMode(currentSku, skuDetails.getSku()));
+        billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku, 0);
     }
 
-    public void checkSkuDetails() {
+    public void checkSkuDetails(List<String> skuList) {
         LOGGER.info("Query sku details...");
 
-        billingManager.querySkuDetailsAsync(BillingClient.SkuType.SUBS, Sku.getAllSku(), (billingResult, skuDetailsList) -> {
-            //ToDo Check all available billing results;
+        billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, skuList, (billingResult, skuDetailsList) -> {
             LOGGER.info("Sku details, result = " + billingResult.getResponseCode());
             LOGGER.info("Sku details, error = " + billingResult.getDebugMessage());
             LOGGER.info("Sku details, listeners size = " + billingResult.getDebugMessage());
-            for (BillingListener listener: listeners) {
+            for (BillingListener listener : listeners) {
                 listener.onCheckingSkuDetailsSuccess(skuDetailsList);
             }
         });
@@ -123,7 +179,7 @@ public class BillingManagerWrapper {
 
     private void startValidatingActivity(Purchase purchase) {
         this.purchase = purchase;
-        if (purchase.isAcknowledged()){
+        if (purchase.isAcknowledged()) {
             LOGGER.info("Purchase is acknowledged");
             return;
         }
@@ -135,29 +191,121 @@ public class BillingManagerWrapper {
     }
 
     public void validatePurchase() {
-        setPurchaseState(PurchaseState.VALIDATING);
-        saveSensitiveData(purchase);
+        String sessionToken = userPreference.getSessionToken();
+        if (sessionToken == null || sessionToken.isEmpty()) {
+            LOGGER.info("Start new purchase");
+            initialPayment();
+        } else {
+            addFundsRequest(sessionToken);
+        }
 
-        SubscriptionRequestBody requestBody = getSubscriptionRequestBody(purchase);
-        //ToDo remove it!!!!!!
-//        LOGGER.info("SubscriptionRequestBody = " + requestBody);
-        request.start(api -> api.processPurchase(requestBody), new RequestListener<SubscriptionResponse>() {
+        saveSensitiveData(purchase);
+    }
+
+    private void initialPayment() {
+        setPurchaseState(INITIAL_PAYMENT);
+        final String accountId = userPreference.getBlankUsername();
+        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSku(), purchase.getPurchaseToken());
+        LOGGER.info(requestBody.toString());
+        Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
+
             @Override
-            public void onSuccess(SubscriptionResponse response) {
-                LOGGER.info("SUCCESS, response = " + response);
-                processSubscriptionResponse(response);
+            public void onSuccess(InitialPaymentResponse response) {
+                LOGGER.info(response.toString());
+                if (response.getStatus() == Responses.SUCCESS) {
+                    createSession(accountId);
+
+                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSku())) {
+                        billingManager.consumePurchase(purchase);
+                    }
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("ERROR, throwable = " + throwable);
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
             }
 
             @Override
-            public void onError(String error) {
-                LOGGER.error("ERROR, error = " + error);
+            public void onError(String string) {
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
             }
         });
+    }
+
+    private void createSession(String accountId) {
+        userPreference.putUserLogin(accountId);
+        setPurchaseState(CREATE_SESSION);
+        sessionController.subscribe(new SessionListenerImpl() {
+            @Override
+            public void onCreateSuccess(@NotNull SessionNewResponse response) {
+                LOGGER.info("On create session success: " + response.toString());
+                sessionController.unSubscribe(this);
+                for (BillingListener listener : listeners) {
+                    listener.onCreateAccountFinish();
+                }
+            }
+
+            @Override
+            public void onCreateError(@Nullable Throwable throwable, @Nullable ErrorResponse errorResponse) {
+                LOGGER.info("On create session Error: " + throwable + "/n" + errorResponse);
+                sessionController.unSubscribe(this);
+                setPurchaseState(CREATE_SESSION_ERROR);
+            }
+        });
+        sessionController.createSession(false, accountId);
+    }
+
+    private void addFundsRequest(String sessionToken) {
+        setPurchaseState(INITIAL_PAYMENT);
+        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSku(), purchase.getPurchaseToken());
+        LOGGER.info(requestBody.toString());
+        Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
+
+            @Override
+            public void onSuccess(AddFundsResponse response) {
+                LOGGER.info(response.toString());
+                if (response.getStatus() == Responses.SUCCESS) {
+                    updateSession();
+                } else {
+                    setPurchaseState(INITIAL_PAYMENT_ERROR);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
+            }
+
+            @Override
+            public void onError(String string) {
+                setPurchaseState(INITIAL_PAYMENT_ERROR);
+            }
+        });
+    }
+
+    private void updateSession() {
+        setPurchaseState(UPDATE_SESSION);
+        sessionController.subscribe(new SessionListenerImpl() {
+            @Override
+            public void onUpdateSuccess() {
+                LOGGER.info("On update session success: ");
+                sessionController.unSubscribe(this);
+                for (BillingListener listener : listeners) {
+                    listener.onAddFundsFinish();
+                }
+            }
+
+            @Override
+            public void onUpdateError(@Nullable Throwable throwable, @Nullable ErrorResponse errorResponse) {
+                LOGGER.info("On create session Error: " + throwable + "/n" + errorResponse);
+                sessionController.unSubscribe(this);
+                setPurchaseState(UPDATE_SESSION_ERROR);
+            }
+        });
+        sessionController.updateSessionStatus();
     }
 
     private SubscriptionRequestBody getSubscriptionRequestBody(Purchase purchase) {
@@ -179,11 +327,8 @@ public class BillingManagerWrapper {
                 setPurchaseState(PurchaseState.DONE);
                 break;
             case Responses.SUBSCRIPTION_ALREADY_REGISTERED:
-//                if (response.getData() != null && response.getData().getUsername() != null) {
-//                    userPreference.putUserLogin(response.getData().getUsername());
-//                }
                 setPurchaseState(PurchaseState.NONE);
-                for (BillingListener listener: listeners) {
+                for (BillingListener listener : listeners) {
                     listener.onPurchaseAlreadyDone();
                 }
                 break;
@@ -230,14 +375,20 @@ public class BillingManagerWrapper {
     }
 
     private void setPurchaseState(PurchaseState newState) {
-        for (BillingListener listener: listeners) {
+        for (BillingListener listener : listeners) {
             listener.onPurchaseStateChanged(newState);
         }
     }
 
     private void setPurchaseError(int errorCode, String errorMessage) {
-        for (BillingListener listener: listeners) {
+        for (BillingListener listener : listeners) {
             listener.onPurchaseError(errorCode, errorMessage);
+        }
+    }
+
+    private void finishCreateAccount() {
+        for (BillingListener listener : listeners) {
+            listener.onCreateAccountFinish();
         }
     }
 
@@ -277,6 +428,12 @@ public class BillingManagerWrapper {
         purchasePreference.clear();
     }
 
+    public void forceInit() {
+        if (!isInit) {
+            init();
+        }
+    }
+
     public void setEmail(String email) {
         purchasePreference.putUserEmail(email);
     }
@@ -289,6 +446,10 @@ public class BillingManagerWrapper {
         this.skuDetails = skuDetails;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public Purchase getPurchase() {
         return purchase;
     }
@@ -298,7 +459,9 @@ public class BillingManagerWrapper {
     }
 
     public void setBillingListener(BillingListener listener) {
-        listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
 
         listener.onInitStateChanged(isInit, error);
     }
@@ -311,6 +474,16 @@ public class BillingManagerWrapper {
         NONE,
         PURCHASING,
         VALIDATING,
-        DONE
+        DONE,
+
+        CREATE_ACCOUNT,
+        CREATE_ACCOUNT_ERROR,
+        INITIAL_PAYMENT,
+        INITIAL_PAYMENT_ERROR,
+        CREATE_SESSION,
+        CREATE_SESSION_ERROR,
+        UPDATE_SESSION,
+        UPDATE_SESSION_ERROR,
+        ADD_FUNDS_ERROR
     }
 }

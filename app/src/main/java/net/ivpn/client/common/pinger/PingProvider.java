@@ -1,9 +1,32 @@
 package net.ivpn.client.common.pinger;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.os.Handler;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,7 +75,7 @@ public class PingProvider {
         pingExecutor = Executors.newFixedThreadPool(THREAD_COUNTS);
 
         serversRepository.addOnServersListUpdatedListener(getOnServerListUpdatedListener());
-        protocolController.setOnProtocolChangedListener(getOnProtocolChangedListener());
+        protocolController.addOnProtocolChangedListener(getOnProtocolChangedListener());
     }
 
     public void pingAll(boolean shouldUseHardReset) {
@@ -85,14 +108,30 @@ public class PingProvider {
             } else {
                 ipAddress = server.getHosts().get(0).getHost();
             }
-            featureExecutor.execute(pingFutures.getPingRunnable(ipAddress, listener));
+            featureExecutor.execute(pingFutures.getPingRunnable(server, ipAddress, listener));
             pings.put(server, pingFutures);
         } else if (pingFutures.isFinished()) {
-            if (listener != null)
-                listener.onPingFinish(pingFutures.getResult());
+            if (listener != null) {
+                listener.onPingFinish(server, pingFutures.getResult());
+            }
         } else {
-            pingFutures.updateOnPingFinishListener(listener);
+            pingFutures.addOnPingFinishListener(listener);
         }
+    }
+
+    public ConcurrentHashMap<Server, PingResultFormatter> getPingResults() {
+        ConcurrentHashMap<Server, PingResultFormatter> result = new ConcurrentHashMap<>();
+        PingFuture pingFuture;
+        for (Server server: pings.keySet()) {
+            pingFuture = pings.get(server);
+            if (pingFuture == null || !pingFuture.isFinished()) {
+                continue;
+            }
+
+            result.put(server, pingFuture.getResult());
+        }
+
+        return result;
     }
 
     public void findFastestServer(final OnFastestServerDetectorListener listener) {

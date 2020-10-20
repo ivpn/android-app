@@ -1,43 +1,57 @@
 package net.ivpn.client.ui.serverlist;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.Context;
-import androidx.databinding.ObservableBoolean;
+
 import androidx.databinding.ObservableField;
 
 import net.ivpn.client.R;
 import net.ivpn.client.common.pinger.PingProvider;
 import net.ivpn.client.common.prefs.ServerType;
-import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.rest.data.model.Server;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class ServersListCommonViewModel {
 
-    public final ObservableBoolean isFavouriteServersListEmpty = new ObservableBoolean();
     public final ObservableField<String> title = new ObservableField<>();
 
     private Settings settings;
-    private ServersRepository serversRepository;
     private PingProvider pingProvider;
 
     @Inject
-    ServersListCommonViewModel(ServersRepository serversRepository, Settings settings,
+    ServersListCommonViewModel(Settings settings,
                                PingProvider pingProvider) {
         this.settings = settings;
-        this.serversRepository = serversRepository;
         this.pingProvider = pingProvider;
     }
 
-    void onResume() {
+    public void onResume() {
         pingProvider.pingAll(false);
     }
 
-    void start(Context context, ServerType serverType) {
-        isFavouriteServersListEmpty.set(getFavouriteServersList().isEmpty());
+    public void start(Context context, ServerType serverType) {
         boolean isMultiHopEnabled = isMultiHopEnabled();
         String titleStr;
         if (isMultiHopEnabled) {
@@ -50,10 +64,6 @@ public class ServersListCommonViewModel {
             titleStr = context.getString(R.string.servers_list_title);
         }
         title.set(titleStr);
-    }
-
-    private List<Server> getFavouriteServersList() {
-        return serversRepository.getFavouritesServers();
     }
 
     private boolean isMultiHopEnabled() {
