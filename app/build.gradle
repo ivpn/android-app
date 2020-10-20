@@ -30,7 +30,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 87
-        versionName "2.0.2"
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
