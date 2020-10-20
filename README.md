@@ -1,7 +1,7 @@
 # IVPN for Android
 
 **IVPN for Android** is a native app built using Java and Kotlin languages. Some of the features include: multiple protocols (OpenVPN, WireGuard), Kill-switch, Multi-Hop, Trusted Networks, AntiTracker, Custom DNS, Always-on VPN, Start on boot and etc.
-IVPN Android app is distributed on the [Google Play Store](https://play.google.com/store/apps/details?id=net.ivpn.client).
+IVPN Android app is distributed on the [Google Play Store](https://play.google.com/store/apps/details?id=net.ivpn.client) and [F-Droid](https://f-droid.org/packages/net.ivpn.client/).
 
 * [About this Repo](#about-repo)
 * [Installation](#installation)
