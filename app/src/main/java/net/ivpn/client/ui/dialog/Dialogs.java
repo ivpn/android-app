@@ -1,5 +1,27 @@
 package net.ivpn.client.ui.dialog;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import net.ivpn.client.R;
 
 public enum Dialogs {
@@ -42,6 +64,8 @@ public enum Dialogs {
     NO_VPN_SETTINGS(R.string.dialogs_error, R.string.dialogs_no_vpn_settings, -1, R.string.dialogs_ok),
     ALWAYS_ON_VPN_NOT_SUPPORTED(R.string.dialogs_error, R.string.dialogs_setting_not_supported, -1, R.string.dialogs_ok),
     ASK_LOCATION_PERMISSION(R.string.dialogs_permission_title, R.string.dialogs_location_permission_message,
+            R.string.dialogs_permission_action_settings, R.string.dialogs_permission_action_deny),
+    ASK_BACKGROUND_LOCATION_PERMISSION(R.string.dialogs_permission_title, R.string.dialogs_background_location_permission_message,
             R.string.dialogs_permission_action_settings, R.string.dialogs_permission_action_deny),
     LOCATION_PERMISSION_INFO(R.string.dialogs_permission_title, R.string.dialogs_location_permission_info_message, -1, R.string.dialogs_ok),
     WG_DELETE_KEY_ERROR(R.string.dialogs_failed_remove_key_title, R.string.protocol_wg_deleting_key_error, -1, R.string.dialogs_ok),

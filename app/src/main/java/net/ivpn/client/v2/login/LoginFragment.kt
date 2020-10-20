@@ -1,5 +1,27 @@
 package net.ivpn.client.v2.login
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -16,6 +38,7 @@ import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
@@ -161,6 +184,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     }
 
     override fun openSessionLimitReachedDialogue() {
+        if (!isAdded) {
+            return
+        }
         createSessionFragment = CreateSessionFragment()
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
@@ -177,7 +203,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        findNavControllerSafely()?.navigate(action)
     }
 
     override fun onLoginWithBlankAccount() {
@@ -185,7 +211,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.blankAccountID.set(viewModel.username.get())
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            findNavControllerSafely()?.navigate(action)
         } else {
             onLogin()
         }
@@ -196,7 +222,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            findNavControllerSafely()?.navigate(action)
         } else {
             onLogin()
         }
@@ -218,7 +244,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationSuccess() {
         val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        findNavControllerSafely()?.navigate(action)
     }
 
     override fun onAccountCreationError() {

@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false">
-        <shape android:shape="rectangle">
-            <corners android:radius="100dp" />
-            <solid android:color="@color/accent" />
-            <size android:height="20dp" />
-        </shape>
-    </item>
-    <item android:state_checked="true">
-        <shape android:shape="rectangle">
-            <corners android:radius="100dp" />
-            <solid android:color="@color/primary" />
-            <size android:height="20dp" />
-        </shape>
-    </item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--    <item android:state_checked="false">-->
+    <!--        <shape android:shape="rectangle">-->
+    <!--            <corners android:radius="100dp" />-->
+    <!--            <solid android:color="@color/accent" />-->
+    <!--            <size android:height="20dp" />-->
+    <!--        </shape>-->
+    <!--    </item>-->
+    <!--    <item android:state_checked="true">-->
+    <!--        <shape android:shape="rectangle">-->
+    <!--            <corners android:radius="100dp" />-->
+    <!--            <solid android:color="@color/primary" />-->
+    <!--            <size android:height="20dp" />-->
+    <!--        </shape>-->
+    <!--    </item>-->
+
+    <!--DISCONNECTING    -->
+<!--    <item app:connectionState="3">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="100dp" />-->
+<!--            <solid android:color="@color/disconnecting_state_switcher" />-->
+<!--            <size android:height="20dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;CONNECTING    &ndash;&gt;-->
+<!--    <item app:connectionState="1">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="100dp" />-->
+<!--            <solid android:color="@color/connecting_state_switcher" />-->
+<!--            <size android:height="20dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;CONNECTED&ndash;&gt;-->
+<!--    <item app:connectionState="2">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="100dp" />-->
+<!--            <solid android:color="@color/primary" />-->
+<!--            <size android:height="20dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;    NOT_CONNECTED and DEFAULT&ndash;&gt;-->
+<!--    <item>-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="100dp" />-->
+<!--            <solid android:color="@color/accent" />-->
+<!--            <size android:height="20dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
 </selector>

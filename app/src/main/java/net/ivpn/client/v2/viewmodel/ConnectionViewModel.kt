@@ -1,10 +1,33 @@
 package net.ivpn.client.v2.viewmodel
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.Context
 import android.view.MotionEvent
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
 import net.ivpn.client.common.dagger.ApplicationScope
@@ -36,6 +59,7 @@ class ConnectionViewModel @Inject constructor(
         private val LOGGER = LoggerFactory.getLogger(ConnectionViewModel::class.java)
     }
 
+    val isProtected = ObservableBoolean()
     val isConnected = ObservableBoolean()
     val connectionStatus = ObservableField<String>()
     val serverConnectionHint = ObservableField<String>()
@@ -141,6 +165,7 @@ class ConnectionViewModel @Inject constructor(
                 connectionState.set(state)
                 when (state) {
                     ConnectionState.CONNECTED -> {
+                        isProtected.set(true)
                         isConnected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(true)
@@ -148,18 +173,21 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
+                        isProtected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_connecting))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connecting))
                     }
                     ConnectionState.DISCONNECTING -> {
+                        isProtected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_disconnecting))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnecting))
                     }
                     ConnectionState.NOT_CONNECTED -> {
+                        isProtected.set(false)
                         isConnected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
@@ -167,11 +195,13 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                     }
                     ConnectionState.PAUSING -> {
+                        isProtected.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_pausing))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_pausing))
                     }
                     ConnectionState.PAUSED -> {
+                        isProtected.set(true)
                         isPaused.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_paused))

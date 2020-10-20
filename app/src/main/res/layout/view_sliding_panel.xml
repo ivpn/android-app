@@ -121,16 +121,14 @@
                         android:id="@+id/switch1"
                         android:layout_width="72dp"
                         android:layout_height="36dp"
-                        android:checked="@{connect.isConnected}"
+                        android:checked="@{connect.isProtected}"
                         android:elevation="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:thumb="@drawable/thumb_selector_big"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintEnd_toStartOf="@+id/guideline2"
                         app:layout_constraintTop_toTopOf="@+id/textView"
                         app:layout_constraintVertical_bias="0.5"
                         app:onTouch="@{connect.touchListener}"
-                        app:track="@drawable/track_selector" />
+                        app:connectionState="@{connect.connectionState}"/>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/pause_button"

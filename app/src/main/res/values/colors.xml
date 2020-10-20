@@ -182,4 +182,9 @@
     <color name="alerts_background_color">#F3E2A3</color>
     <color name="alerts_text">#776832</color>
 
+    <color name="connecting_state_switcher">#c7e1fd</color>
+    <color name="disconnecting_state_switcher">#ffd0cd</color>
+    <color name="pausing_state_switcher">#c7e1fd</color>
+    <color name="paused_state_switcher">#c7e1fd</color>
+
 </resources>

@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:focusable="true"
             android:background="@color/account_background"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior=
+                "@string/appbar_scrolling_view_behavior" />
 
     </FrameLayout>
 </layout>

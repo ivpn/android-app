@@ -1,5 +1,27 @@
 package net.ivpn.client.common.prefs;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+ <p>
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+ <p>
+ This file is part of the IVPN Android app.
+ <p>
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+ <p>
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+ <p>
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.SharedPreferences;
 
 import net.ivpn.client.common.Mapper;
@@ -8,6 +30,9 @@ import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.model.ServerLocation;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +180,53 @@ public class ServersPreference {
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply();
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServersRepository.class);
+    //Need to be done on upgrade to version 2.0
+    public void updateCurrentServersWithLocation() {
+        updateCurrentServersWithLocationFor(preference.getWireguardServersSharedPreferences());
+        updateCurrentServersWithLocationFor(preference.getServersSharedPreferences());
+    }
+
+    private void updateCurrentServersWithLocationFor(SharedPreferences preference) {
+        List<Server> servers = Mapper.serverListFrom(preference.getString(SERVERS_LIST, null));
+        if (servers == null || servers.isEmpty()) {
+            return;
+        }
+
+        Server entryServer = Mapper.from(preference.getString(CURRENT_ENTER_SERVER, null));
+        Server exitServer = Mapper.from(preference.getString(CURRENT_EXIT_SERVER, null));
+
+        if (entryServer != null && Double.compare(entryServer.getLatitude(), 0) == 0
+                && Double.compare(entryServer.getLongitude(), 0) == 0) {
+            for (Server server: servers) {
+                if (server.equals(entryServer)) {
+                    LOGGER.info("Found Entry server and set correct coordinates");
+                    LOGGER.info("Before = " + entryServer);
+                    LOGGER.info("After  = " + server);
+                    preference.edit()
+                            .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
+                            .apply();
+                    break;
+                }
+            }
+        }
+
+        if (exitServer != null && Double.compare(exitServer.getLatitude(), 0) == 0
+                && Double.compare(exitServer.getLongitude(), 0) == 0) {
+            for (Server server: servers) {
+                if (server.equals(exitServer)) {
+                    LOGGER.info("Found EXIT server and set correct coordinates");
+                    LOGGER.info("Before = " + entryServer);
+                    LOGGER.info("After  = " + server);
+                    preference.edit()
+                            .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
+                            .apply();
+                    break;
+                }
+            }
+        }
     }
 
     private SharedPreferences getProperSharedPreference() {
