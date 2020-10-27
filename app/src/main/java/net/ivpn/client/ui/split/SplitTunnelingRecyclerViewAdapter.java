@@ -17,17 +17,17 @@ package net.ivpn.client.ui.split;
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.ivpn.client.R;
 import net.ivpn.client.databinding.ApplicationItemBinding;

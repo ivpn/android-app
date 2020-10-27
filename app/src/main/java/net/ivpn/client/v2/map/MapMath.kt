@@ -41,8 +41,6 @@ class MapMath {
     var screenWidth: Float = 0f
     var screenHeight: Float = 0f
 
-
-
     //(longitude, latitude) latitude from - 90 to 90, longitude from -180 to 180;y from -90 to 90; x from -180 t0 180
     //longitude will transform into x coordinate and latitude into y coordinate
     init {
@@ -94,8 +92,11 @@ class MapMath {
         if (totalY < 0f) {
             totalY = 0f
         }
-        if (totalY > tileHeight * tilesCount - screenHeight) {
-            totalY = tileHeight * tilesCount - screenHeight
+//        if (totalY > tileHeight * tilesCount - screenHeight) {
+//            totalY = tileHeight * tilesCount - screenHeight
+//        }
+        if (totalY > tileHeight * visibleYCount - screenHeight) {
+            totalY = tileHeight * visibleYCount - screenHeight
         }
     }
 
@@ -123,5 +124,6 @@ class MapMath {
         const val tileWidth = 706
 
         const val tilesCount = 16
+        const val visibleYCount = 14
     }
 }
