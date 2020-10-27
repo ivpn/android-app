@@ -74,7 +74,7 @@ class SplitTunnelingFragment : Fragment() {
     }
 
     private fun getAllApplications() {
-        viewModel.getApplicationsList(context!!.packageManager)
+        viewModel.getApplicationsList(requireContext().packageManager)
     }
 
     private fun initToolbar() {
