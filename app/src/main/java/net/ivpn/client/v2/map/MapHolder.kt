@@ -32,10 +32,8 @@ import kotlin.system.measureTimeMillis
 
 object MapHolder {
 
-    //    private var tiles: HashMap<String, Array<Array<Tile>>> = hashMapOf()
     var memoryCache: LruCache<String, Bitmap>? = null
 
-    //    Array<Array<Tile>>
     fun getTilesFor(path: String, context: Context): LruCache<String, Bitmap> {
         memoryCache?.let {
             return it
@@ -62,32 +60,6 @@ object MapHolder {
         memoryCache = memoryCacheImpl
 
         return memoryCacheImpl
-//        if (tiles.containsKey(path)) {
-//            return tiles[path]!!
-//        }
-//
-//        var bitmaps: Array<Array<Tile>> = arrayOf()
-////        val path = context.resources.getString(R.string.path_to_tiles)
-//        val executionTime = measureTimeMillis {
-//            var array: Array<Tile>
-//            for (i in 1..MapMath.tilesCount) {
-//                array = arrayOf()
-//                for (j in 1..MapMath.tilesCount) {
-//                    array += Tile(
-//                            Rect(
-//                                    MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
-//                                    MapMath.tileWidth * i,
-//                                    MapMath.tileHeight * j
-//                            ),
-//                            getBitmapFrom(context,"$path/row-${j}-col-${i}.png")
-//                    )
-//                }
-//                bitmaps += array
-//            }
-//        }
-//        println("Bitmap init time = $executionTime")
-//        tiles[path] = bitmaps
-//        return bitmaps
     }
 
     private var thumbnailsKey: String? = null
@@ -102,10 +74,10 @@ object MapHolder {
 
         thumbnailsKey = path
 
-        var thumbnailsImpl = HashMap<String, Bitmap>()
+        val thumbnailsImpl = HashMap<String, Bitmap>()
         val executionTime = measureTimeMillis {
             for (i in 1..MapMath.tilesCount) {
-                for (j in 1..MapMath.tilesCount) {
+                for (j in 1..MapMath.visibleYCount) {
                     thumbnailsImpl["$path/row-${j}-col-${i}.png"] = getBitmapFrom(context,"$path/row-${j}-col-${i}.png")
                 }
             }
@@ -125,32 +97,6 @@ object MapHolder {
         val drawable = Drawable.createFromStream(
                 context.assets.open(assetPath), null
         )
-
-//        val bitmap = BitmapFactory.decodeStream(context.assets.open(assetPath))
-//
-//        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, MapMath.tileWidth / 4,
-//                MapMath.tileHeight / 4, true)
-//        bitmap.recycle()
-//
-//        return scaledBitmap
-//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-////            drawable.toBitmap(MapMath.tileWidth, MapMath.tileHeight, Bitmap.Config.HARDWARE)
           return drawable.toBitmap(MapMath.tileWidth / 4, MapMath.tileHeight / 4, null)
-//        } else {
-//            drawable.toBitmap(MapMath.tileWidth, MapMath.tileHeight, null)
-//        }
-//        val options = BitmapFactory.Options()
-//        options.inPreferredConfig = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            Bitmap.Config.HARDWARE
-//        } else {
-//            Bitmap.Config.RGB_565
-//        }
-//
-//        return BitmapFactory.decodeStream(context.assets.open(assetPath), null, options)
-
-//        return Bitmap.createScaledBitmap(
-//                BitmapFactory.decodeStream(context.assets.open(assetPath), null, options), MapMath.tileWidth,
-//                MapMath.tileHeight, true
-//        )
     }
 }
