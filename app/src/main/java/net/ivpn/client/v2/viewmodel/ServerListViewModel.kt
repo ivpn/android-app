@@ -64,14 +64,14 @@ class ServerListViewModel @Inject constructor(
 
             setCurrentServer(availableServers.random())
             if (navigators.isNotEmpty()) {
-                navigators[0].onServerSelected()
+                navigators[0].navigateBack()
             }
 
         }
 
         override fun onFastestServerSettingsClick() {
             if (navigators.isNotEmpty()) {
-                navigators[0].openFastestSetting()
+                navigators[0].navigateBack()
             }
         }
 
@@ -79,7 +79,7 @@ class ServerListViewModel @Inject constructor(
             if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
                 setCurrentServer(server)
                 if (navigators.isNotEmpty()) {
-                    navigators[0].onServerSelected()
+                    navigators[0].navigateBack()
                 }
             } else {
                 if (navigators.isNotEmpty()) {
@@ -95,7 +95,7 @@ class ServerListViewModel @Inject constructor(
         override fun onFastestServerSelected() {
             setSettingFastestServer()
             if (navigators.isNotEmpty()) {
-                navigators[0].onServerSelected()
+                navigators[0].navigateBack()
             }
         }
     }
@@ -218,8 +218,6 @@ class ServerListViewModel @Inject constructor(
 
     interface ServerListNavigator {
         fun navigateBack()
-
-        fun onServerSelected()
 
         fun showDialog(dialogs: Dialogs)
 
