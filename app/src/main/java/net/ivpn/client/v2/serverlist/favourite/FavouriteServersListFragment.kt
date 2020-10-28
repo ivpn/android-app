@@ -153,11 +153,6 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         (parentFragment as ServerListTabFragment).navigateBack()
     }
 
-    override fun onServerSelected() {
-        checkVPNPermission(CONNECT_BY_SERVER_LIST)
-        (parentFragment as ServerListTabFragment).navigateBack()
-    }
-
     override fun showDialog(dialogs: Dialogs) {
         DialogBuilder.createNotificationDialog(this.context, Dialogs.INCOMPATIBLE_SERVERS)
     }
