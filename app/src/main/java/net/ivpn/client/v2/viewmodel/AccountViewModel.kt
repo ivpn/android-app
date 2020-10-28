@@ -66,6 +66,7 @@ class AccountViewModel @Inject constructor(
     val isExpired = ObservableBoolean()
     val isExpiredIn = ObservableBoolean()
     val textIsExpiredIn = ObservableField<String>()
+    var paymentMethod: String? = null
 
     var navigator: AccountNavigator? = null
 
@@ -93,6 +94,7 @@ class AccountViewModel @Inject constructor(
         subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
         isActive.set(getIsActiveValue())
+        paymentMethod = getPaymentMethodValue()
 
         updateExpireData()
     }
@@ -130,7 +132,9 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountNewStyle(): Boolean {
-        return username.get()?.startsWith("i-") ?: false
+        return paymentMethod?.let {
+            it == "prepaid"
+        } ?: false
     }
 
     private fun clearLocalCache() {
@@ -228,6 +232,10 @@ class AccountViewModel @Inject constructor(
 
     private fun getIsActiveValue(): Boolean {
         return userPreference.isActive
+    }
+
+    private fun getPaymentMethodValue(): String {
+        return userPreference.paymentMethod
     }
 
     interface AccountNavigator {

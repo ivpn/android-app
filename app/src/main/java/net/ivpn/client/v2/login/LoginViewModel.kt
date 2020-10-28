@@ -56,6 +56,8 @@ class LoginViewModel @Inject constructor(
     val usernameError = ObservableField<String>()
     val dataLoading = ObservableBoolean()
 
+    var paymentMethod: String? = null
+
     var navigator: LoginNavigator? = null
 
     init {
@@ -89,6 +91,10 @@ class LoginViewModel @Inject constructor(
         username.set(userPreference.userLogin)
     }
 
+    fun onResume() {
+        paymentMethod = getPaymentMethodValue()
+    }
+
     fun login(force: Boolean) {
         LOGGER.info("Trying to login")
         username.get()?.let {
@@ -112,7 +118,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun isAccountNewStyle(): Boolean {
-        return username.get()?.startsWith("i-") ?: false
+        return paymentMethod?.let {
+            it == "prepaid"
+        } ?: false
     }
 
     fun getAccountType(): String? {
@@ -177,5 +185,9 @@ class LoginViewModel @Inject constructor(
 
     private fun resetErrors() {
         usernameError.set(null)
+    }
+
+    private fun getPaymentMethodValue(): String {
+        return userPreference.paymentMethod
     }
 }

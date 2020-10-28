@@ -82,6 +82,11 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
     override fun onStart() {
         super.onStart()
         originalMode = activity?.window?.getSoftInputMode()

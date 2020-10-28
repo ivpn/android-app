@@ -22,7 +22,6 @@ package net.ivpn.client.common.billing;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.Nullable;
