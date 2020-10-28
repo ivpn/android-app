@@ -2,17 +2,54 @@
 
 All notable changes to this project will be documented in this file.  
 
-## Version 2.0 - [Unreleased, Public beta]  
+## Version 2.0.2 - 2020-10-12
 
-[NEW] Redesigned UI  
-[NEW] Interactive map  
+[IMPROVED] Display connection status
+[FIXED] Network protection in background state
+[FIXED] Missing applications for Split tunneling
+[FIXED] Crash while manipulating map
+[FIXED] Crash when canceling login or other communication with server
+[FIXED] Crash trying to open dialog while app is in background state
+
+[Download IVPN Client v. 2.0.2](https://cdn.ivpn.net/releases/android/IVPNv2.0.2site.apk)  
+SHA256: 751a7db841e85d749b6ab908aaa9c983a7375f404afdc9221cdc3a371af545ad
+
+## Version 2.0.0 - 2020-09-29
+
+[NEW] Redesigned UI
+[NEW] Interactive map
 [NEW] Control panel  
-[NEW] Dedicated account screen  
-[NEW] Dark theme  
+[NEW] Dedicated account screen
+[NEW] Dark theme
 [IMPROVED] Search and sort on the servers list  
 
-Feedback and support:  
-beta@ivpn.net  
+[Download IVPN Client v. 2.0.0](https://cdn.ivpn.net/releases/android/IVPNv2.0site.apk)  
+SHA256: f867b5176dd028abe75826b1488f689406303ec93abe44d5b971edc30bbac06d
+
+## Version 1.68 - 2020-06-24
+
+[Improved] Account Id validation logic
+
+[Download IVPN Client v. 1.68](https://cdn.ivpn.net/releases/android/IVPNv1.68site.apk)  
+SHA256: 2817cf67578592d6a24248de50cd5d1f15e2063d2ae62e0340ba472f99c755a6
+
+## Version 1.67.3 - 2020-05-05
+
+[Improved] Control channel cipher for OpenVPN  
+[Improved] Remove WireGuard beta warning  
+[New] Implement load balancer for WireGuard 
+
+[Download IVPN Client v. 1.67.3](https://cdn.ivpn.net/releases/android/IVPNv1.67.3site.apk)  
+SHA256: d931b00defeafbcd08037c9d4fa244fc6750c67902ce93dff643d0bb6fe6c7e7
+
+## Version 1.66.2 - 2020-04-16
+
+[Improved] OpenVPN certificate authority was updated  
+[Improved] OpenVPN and OpenSSL libraries were upgraded to the latest  
+[Improved] WireGuard library was upgraded to the latest  
+
+[Download IVPN Client v. 1.66.2](https://cdn.ivpn.net/releases/android/IVPNv1.66.2site.apk)  
+SHA256: cdb2071c29ea805494b8c608a6c585abd7e6e99724d84341cb2eb9cd576e446c  
 
 ## Version 1.65 - 2020-02-27
 
