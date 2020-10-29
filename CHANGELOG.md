@@ -18,7 +18,7 @@ SHA256: 751a7db841e85d749b6ab908aaa9c983a7375f404afdc9221cdc3a371af545ad
 
 [NEW] Redesigned UI
 [NEW] Interactive map
-[NEW] Control panel  
+[NEW] Control panel
 [NEW] Dedicated account screen
 [NEW] Dark theme
 [IMPROVED] Search and sort on the servers list  

@@ -44,7 +44,7 @@
     <dimen name="regeneration_value_text_size">16sp</dimen>
 
     <!--V2-->
-    <dimen name="location_anim_max_radius">40dp</dimen>
+    <dimen name="location_anim_max_radius">50dp</dimen>
     <dimen name="point_radius">4dp</dimen>
     <dimen name="location_point_radius">5dp</dimen>
     <dimen name="location_name">10sp</dimen>

@@ -74,8 +74,6 @@ class MapView @JvmOverloads constructor(
 
     private val bitmapPaint = Paint()
 
-//    private var dialogueData = DialogueData()
-
     private var serverLocationDrawer = ServerLocationDrawer(resources)
     private var serverLocationsData = ServerLocationsData()
     private var nearestServers: ArrayList<ServerLocation>? = null
@@ -110,7 +108,6 @@ class MapView @JvmOverloads constructor(
         ): Boolean {
             math.appendX(distanceX)
             math.appendY(distanceY)
-//            dialogueData.state = DialogueDrawer.DialogState.NONE
 
             invalidate()
             return true
@@ -145,10 +142,9 @@ class MapView @JvmOverloads constructor(
 
     var mapListener: MapListener? = null
 
-    var globalPath: String
+    private var globalPath: String = context.resources.getString(R.string.path_to_tiles)
 
     init {
-        globalPath = context.resources.getString(R.string.path_to_tiles)
         with(bitmapPaint) {
             isAntiAlias = true
             style = Paint.Style.FILL
@@ -216,6 +212,7 @@ class MapView @JvmOverloads constructor(
             right = (math.totalX + width).toInt()
             bottom = (math.totalY + height).toInt()
         }
+        locationData.locationAnimationState = animator.animationState
         locationDrawer.draw(canvas, locationData)
     }
 
@@ -356,7 +353,6 @@ class MapView @JvmOverloads constructor(
             }
             ConnectionState.DISCONNECTING -> {
                 locationData.inProgress = true
-                invalidate()
             }
             ConnectionState.PAUSING -> {
             }
@@ -428,17 +424,13 @@ class MapView @JvmOverloads constructor(
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
-            animator.startMovementAnimation(math.totalX, math.totalY)
+            animator.startHideAnimation(math.totalX, math.totalY)
         }
     }
 
     fun setPanelHeight(padding: Float) {
         math.totalY = math.totalY - (panelHeight - padding / 2f)
         this.panelHeight = padding / 2f
-//        with(dialogueData) {
-//            x = width / 2f
-//            y = height / 2f - panelHeight
-//        }
 
         invalidate()
     }
@@ -450,11 +442,6 @@ class MapView @JvmOverloads constructor(
         if (width == 0 || height == 0) {
             return
         }
-
-//        with(dialogueData) {
-//            x = width / 2f
-//            y = height / 2f - panelHeight
-//        }
 
         job = GlobalScope.launch {
             println("Start to init map")
@@ -551,6 +538,10 @@ class MapView @JvmOverloads constructor(
                 locationData.drawCurrentLocation = false
             }
 
+            override fun updateHideProgress(progress: Float) {
+                locationData.hideAnimationProgress = progress
+            }
+
             override fun updateMovementProgress(progress: Float,
                                                 startX: Float,
                                                 startY: Float,
@@ -633,8 +624,9 @@ class MapView @JvmOverloads constructor(
 
     companion object {
         const val WAVE_ANIMATION_DURATION = 2000L
-        const val MOVEMENT_ANIMATION_DURATION = 1000L
-        const val APPEAR_ANIMATION_DURATION = 10L
+        const val HIDE_ANIMATION_DURATION = 500L
+        const val MOVEMENT_ANIMATION_DURATION = 550L
+        const val APPEAR_ANIMATION_DURATION = 700L
         const val CENTER_ANIMATION_DURATION = 300L
 
         const val MAX_ALPHA = 255

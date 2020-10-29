@@ -24,7 +24,6 @@ package net.ivpn.client.v2.map.animation
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.view.animation.LinearInterpolator
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
@@ -37,6 +36,7 @@ class MapAnimator(val listener: AnimatorListener) {
     private var startY: Float = 0f
     private var appearProgress = 0f
     private var movementProgress = 0f
+    private var hideProgress = 0f
     private var waveProgress = 0f
 
     var animationState = AnimationState.NONE
@@ -109,7 +109,40 @@ class MapAnimator(val listener: AnimatorListener) {
         movementAnimator.start()
     }
 
-    fun startMovementAnimation(startX: Float, startY: Float) {
+    fun startHideAnimation(startX: Float, startY: Float) {
+        animationState = AnimationState.HIDE
+        listener.updateHideProgress(0f)
+        val hideAnimator = ValueAnimator.ofFloat(0f, 1f)
+        hideAnimator.duration = MapView.HIDE_ANIMATION_DURATION
+        hideAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                startMovementAnimation(startX, startY)
+//                listener.onEndMovementAnimation()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                isWavesEnabled = false
+                if (waveAnimator.isRunning) {
+                    waveAnimator.cancel()
+                }
+            }
+
+        })
+        hideAnimator.addUpdateListener { valueAnimator ->
+            hideProgress = valueAnimator.animatedValue as Float
+            listener.updateHideProgress(hideProgress)
+            listener.redraw()
+        }
+        hideAnimator.start()
+    }
+
+    private fun startMovementAnimation(startX: Float, startY: Float) {
         animationState = AnimationState.MOVEMENT
         this.startX = startX
         this.startY = startY
@@ -219,6 +252,8 @@ class MapAnimator(val listener: AnimatorListener) {
 
         fun onStartMovementAnimation()
 
+        fun updateHideProgress(progress: Float)
+
         fun updateMovementProgress(progress: Float, startX: Float, startY: Float, animationType: MovementAnimationType)
 
         fun updateCenterGatewayProgress(progress: Float, startX: Float, startY: Float, location: ServerLocation)
@@ -236,6 +271,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
     enum class AnimationState {
         NONE,
+        HIDE,
         MOVEMENT,
         APPEAR
     }
