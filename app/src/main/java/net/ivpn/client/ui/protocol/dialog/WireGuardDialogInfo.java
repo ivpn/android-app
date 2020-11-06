@@ -47,14 +47,14 @@ public class WireGuardDialogInfo {
     }
 
     public String getLastGenerated() {
-        return DateUtil.formatDateTime(lastGeneratedTime);
+        return DateUtil.formatWireGuardKeyDate(lastGeneratedTime);
     }
 
     public String getNextRegenerationDate() {
-        return DateUtil.formatDateTime(lastGeneratedTime + regenerationPeriod * DateUtil.DAY);
+        return DateUtil.formatWireGuardKeyDate(lastGeneratedTime + regenerationPeriod * DateUtil.DAY);
     }
 
     public String getValidUntil() {
-        return DateUtil.formatDateTime(lastGeneratedTime + 40 * DateUtil.DAY);
+        return DateUtil.formatWireGuardKeyDate(lastGeneratedTime + 40 * DateUtil.DAY);
     }
 }

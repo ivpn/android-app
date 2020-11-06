@@ -56,27 +56,26 @@
                 app:layout_constraintVertical_weight="1"
                 app:layout_optimizationLevel="chains" />
 
-<!--            android:theme="@style/TextInputLayoutAppTheme"-->
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outlinedTextField"
-                style="@style/EditText.OutlinedBox"
+                style="@style/AppTheme.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/sign_in_username_hint"
-                android:orientation="vertical"
                 app:chainUseRtl="false"
                 app:endIconDrawable="@drawable/ic_qr_code"
                 app:endIconMode="custom"
                 app:endIconTint="@color/primary"
                 app:error="@{viewmodel.usernameError}"
-                app:errorIconDrawable="@null"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/error"
+                app:errorIconDrawable="@null"
                 app:errorIconTint="@color/error"
+                app:errorTextColor="@color/error"
+                app:hintAnimationEnabled="false"
+                app:hintTextAppearance="@style/AppTheme.HintText"
                 app:layout_constraintBottom_toTopOf="@+id/space2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -93,7 +92,6 @@
                     android:inputType="textVisiblePassword"
                     android:text="@={viewmodel.username}"
                     android:textColor="@color/login_text_color" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

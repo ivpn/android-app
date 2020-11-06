@@ -240,14 +240,14 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         sendConnectionState();
     }
 
-    @Override
-    public long getConnectionTime() {
-        if (state == null || !state.equals(CONNECTED)) {
-            return -1;
-        } else {
-            return System.currentTimeMillis()  - connectionTime;
-        }
-    }
+//    @Override
+//    public long getConnectionTime() {
+//        if (state == null || !state.equals(CONNECTED)) {
+//            return -1;
+//        } else {
+//            return System.currentTimeMillis()  - connectionTime;
+//        }
+//    }
 
     @Override
     public void actionByUser() {

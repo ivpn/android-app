@@ -49,7 +49,9 @@ import net.ivpn.client.v2.qr.QRActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
+import java.lang.reflect.Field
 import javax.inject.Inject
+
 
 class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, CreateAccountNavigator {
 
@@ -171,6 +173,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.createNewAccount()
         }
     }
+
+//    private fun fixHintTextSize() {
+//        binding.contentLayout.outlinedTextField.setHintTextAppearance(R.style.AppTheme_HintText)
+//    }
 
     override fun openSite() {
         LOGGER.info("openSite")

@@ -127,10 +127,7 @@ class MapAnimator(val listener: AnimatorListener) {
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                isWavesEnabled = false
-                if (waveAnimator.isRunning) {
-                    waveAnimator.cancel()
-                }
+                stopWaveAnimation()
             }
 
         })
@@ -161,10 +158,7 @@ class MapAnimator(val listener: AnimatorListener) {
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                isWavesEnabled = false
-                if (waveAnimator.isRunning) {
-                    waveAnimator.cancel()
-                }
+                stopWaveAnimation()
                 listener.onStartMovementAnimation()
             }
 
@@ -234,8 +228,10 @@ class MapAnimator(val listener: AnimatorListener) {
         })
         waveAnimator.addUpdateListener { valueAnimator ->
             waveProgress = valueAnimator.animatedValue as Float
-            listener.updateWaveProgress(waveProgress)
-            listener.redraw()
+            if (isWavesEnabled) {
+                listener.updateWaveProgress(waveProgress)
+                listener.redraw()
+            }
         }
         waveAnimator.start()
     }
@@ -244,6 +240,7 @@ class MapAnimator(val listener: AnimatorListener) {
         isWavesEnabled = false
         if (waveAnimator.isRunning) {
             waveAnimator.cancel()
+            listener.updateWaveProgress(0f)
         }
     }
 

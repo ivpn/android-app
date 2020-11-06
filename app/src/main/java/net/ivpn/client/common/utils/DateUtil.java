@@ -31,8 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateUtil {
-
-    private static final SimpleDateFormat dateFormat =  new SimpleDateFormat("MMM d, yyyy");
+    private static final SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MMM-d");
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
     private static final SimpleDateFormat fileNameFormat = new SimpleDateFormat("MdyyyyHHmmss");
     private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MMM d, HH:mm");
@@ -134,5 +133,10 @@ public class DateUtil {
     public static String formatDateTime(long timeStamp) {
         Date date = new Date(timeStamp);
         return dateTimeFormat.format(date);
+    }
+
+    public static String formatWireGuardKeyDate(long timeStamp) {
+        Date date = new Date(timeStamp);
+        return dateFormat.format(date);
     }
 }

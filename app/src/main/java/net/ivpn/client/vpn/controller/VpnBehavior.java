@@ -50,5 +50,5 @@ public interface VpnBehavior {
 
     void notifyVpnState();
 
-    long getConnectionTime();
+//    long getConnectionTime();
 }

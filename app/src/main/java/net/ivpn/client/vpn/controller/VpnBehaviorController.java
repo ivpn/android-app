@@ -153,9 +153,9 @@ public class VpnBehaviorController {
         behavior.removeStateListener(stateListener);
     }
 
-    public long getConnectionTime() {
-        return behavior.getConnectionTime();
-    }
+//    public long getConnectionTime() {
+//        return behavior.getConnectionTime();
+//    }
 
     public boolean isVPNActive() {
         if (protocol == Protocol.OPENVPN) {

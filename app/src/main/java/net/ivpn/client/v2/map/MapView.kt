@@ -329,9 +329,9 @@ class MapView @JvmOverloads constructor(
         when (state) {
             ConnectionState.CONNECTED -> {
                 locationData.inProgress = false
-                if (animator.animationState == MapAnimator.AnimationState.NONE) {
-                    animator.startWaveAnimation()
-                }
+//                if (animator.animationState == MapAnimator.AnimationState.NONE) {
+//                    animator.startWaveAnimation()
+//                }
                 if (gateway != null) {
                     gateway.isConnected = true
                     setLocation(gateway)
@@ -409,9 +409,12 @@ class MapView @JvmOverloads constructor(
         }
 
         if (this.location?.isConnected == location?.isConnected) {
+            this.oldLocation = this.location
             this.location = location
             this.location?.let {
                 it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+
+                animator.startHideAnimation(math.totalX, math.totalY)
             }
             return
         }
