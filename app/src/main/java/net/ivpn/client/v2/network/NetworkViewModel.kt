@@ -143,7 +143,7 @@ class NetworkViewModel @Inject internal constructor(
         untrustedWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
         noneWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
-        savedWifiItems.sortWith(Comparator { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) })
+        savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
         savedWifiList.clear()
         savedWifiList.addAll(savedWifiItems)
@@ -163,7 +163,7 @@ class NetworkViewModel @Inject internal constructor(
         unTrustedWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
         noneWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
-        savedWifiItems.sortWith(Comparator { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) })
+        savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
         savedWifiList.clear()
         savedWifiList.addAll(savedWifiItems)
@@ -189,7 +189,7 @@ class NetworkViewModel @Inject internal constructor(
             scannedWifiItems.add(item)
         }
 
-        scannedWifiItems.sortWith(Comparator { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) })
+        scannedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
         scannedWifiList.clear()
         scannedWifiList.addAll(scannedWifiItems)
@@ -252,18 +252,27 @@ class NetworkViewModel @Inject internal constructor(
 
     private fun scanSuccess() {
         LOGGER.info("Scan success")
-        lastScanResult.clear()
-        lastScanResult.addAll(wifiManager.scanResults)
-        updateNetworksRules(lastScanResult)
+
+        navigator?.let {
+            if (it.isLocationPermissionGranted) {
+                lastScanResult.clear()
+                lastScanResult.addAll(wifiManager.scanResults)
+                updateNetworksRules(lastScanResult)
+            }
+        }
     }
 
     private fun scanFailure() {
         LOGGER.info("Scan failure")
         // handle failure: new scan did NOT succeed
         // consider using old scan results: these are the OLD results!
-        lastScanResult.clear()
-        lastScanResult.addAll(wifiManager.scanResults)
-        updateNetworksRules(lastScanResult)
+        navigator?.let {
+            if (it.isLocationPermissionGranted) {
+                lastScanResult.clear()
+                lastScanResult.addAll(wifiManager.scanResults)
+                updateNetworksRules(lastScanResult)
+            }
+        }
     }
 
     fun reset() {
@@ -271,6 +280,5 @@ class NetworkViewModel @Inject internal constructor(
         networkSource.set(null)
         networkTitle.set(null)
         networkState.set(null)
-
     }
 }
