@@ -222,6 +222,9 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     }
 
     override fun isLocationPermissionGranted(): Boolean {
+        if (!isAdded) {
+            return false
+        }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return isBackgroundLocationPermissionGranted()
         } else {

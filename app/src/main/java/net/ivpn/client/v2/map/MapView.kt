@@ -57,9 +57,7 @@ import net.ivpn.client.v2.viewmodel.LocationViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.math.ceil
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class MapView @JvmOverloads constructor(
         context: Context,
@@ -274,11 +272,11 @@ class MapView @JvmOverloads constructor(
         val intersectionRect = Rect()
         val relativeRect = Rect()
 
-        val fromX: Int = kotlin.math.max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
-        val toX: Int = ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt()
+        val fromX: Int = max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
+        val toX: Int = min(ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt(), MapMath.tilesCount)
 
-        val fromY: Int = kotlin.math.max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
-        val toY: Int = ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt()
+        val fromY: Int = max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
+        val toY: Int = min(ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt(), MapMath.visibleYCount)
 
         var tileRect: Rect
 
