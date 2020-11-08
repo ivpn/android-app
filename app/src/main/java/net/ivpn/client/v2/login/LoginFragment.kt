@@ -29,7 +29,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -38,7 +37,7 @@ import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
-import net.ivpn.client.common.extension.findNavControllerSafely
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
@@ -49,9 +48,7 @@ import net.ivpn.client.v2.qr.QRActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
-import java.lang.reflect.Field
 import javax.inject.Inject
-
 
 class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, CreateAccountNavigator {
 
@@ -69,7 +66,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private var createSessionFragment: CreateSessionFragment? = null
 
-    private var originalMode : Int? = null
+    private var originalMode: Int? = null
 
     override fun onDestroy() {
         super.onDestroy()
@@ -164,7 +161,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private fun createBlankAccount() {
         signUp.blankAccountID.get()?.let { accountID ->
-            if (accountID.isEmpty()  || !signUp.isBlankAccountFresh()) {
+            if (accountID.isEmpty() || !signUp.isBlankAccountFresh()) {
                 signUp.createNewAccount()
             } else {
                 onAccountCreationSuccess()
@@ -173,10 +170,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.createNewAccount()
         }
     }
-
-//    private fun fixHintTextSize() {
-//        binding.contentLayout.outlinedTextField.setHintTextAppearance(R.style.AppTheme_HintText)
-//    }
 
     override fun openSite() {
         LOGGER.info("openSite")
@@ -214,7 +207,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()
-        findNavControllerSafely()?.navigate(action)
+        navigate(action)
     }
 
     override fun onLoginWithBlankAccount() {
@@ -222,7 +215,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.blankAccountID.set(viewModel.username.get())
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            findNavControllerSafely()?.navigate(action)
+            navigate(action)
         } else {
             onLogin()
         }
@@ -233,7 +226,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
-            findNavControllerSafely()?.navigate(action)
+            navigate(action)
         } else {
             onLogin()
         }
@@ -255,14 +248,14 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationSuccess() {
         val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
-        findNavControllerSafely()?.navigate(action)
+        navigate(action)
     }
 
     override fun onAccountCreationError() {
         DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
     }
 
-    fun Window.getSoftInputMode() : Int {
+    fun Window.getSoftInputMode(): Int {
         return attributes.softInputMode
     }
 }
