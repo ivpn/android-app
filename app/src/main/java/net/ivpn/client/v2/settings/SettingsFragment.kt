@@ -44,6 +44,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.Constant
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.nightmode.NightMode
 import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.common.prefs.ServerType
@@ -317,47 +318,47 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openSplitTunnelingScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToSplitTunnelingFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openAlwaysOnVPNScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToAlwaysOnVPNFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openNetworkProtectionScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToNetworkProtectionFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openAntiTrackerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToAntiTrackerFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openProtocolScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToProtocolFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openCustomDNSScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToCustomDNSFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openTermsOfServiceScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToTermsFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openPrivacyPolicyScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openUpdatesScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToUpdatesFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun sendLogs() {
@@ -375,17 +376,17 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     private fun openEntryServerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.ENTRY)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openExitServerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.EXIT)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openLoginScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun checkVPNPermission(requestCode: Int) {
@@ -463,7 +464,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
 
             val action = SettingsFragmentDirections.actionSettingsFragmentToSignUpPeriodFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navigate(action)
         } else {
             openAddFundsSite()
         }
