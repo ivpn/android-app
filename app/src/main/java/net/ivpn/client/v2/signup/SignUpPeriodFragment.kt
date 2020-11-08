@@ -34,6 +34,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.findNavControllerSafely
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentSignUpPeriodBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
@@ -73,7 +75,7 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
         super.onResume()
         if (isAccountCreated) {
             val action = SignUpPeriodFragmentDirections.actionSignUpPeriodFragmentToAccountFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navigate(action)
         }
     }
 
@@ -105,7 +107,7 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
     }
 
     private fun stepBack() {
-        NavHostFragment.findNavController(this).popBackStack()
+        findNavControllerSafely()?.popBackStack()
     }
 
     override fun onCreateAccountFinish() {
@@ -120,7 +122,7 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
         if (activity != null) {
             DialogBuilder.createFullCustomNotificationDialog(activity, getString(R.string.dialogs_error),
                     getString(R.string.billing_error_message)) {
-                NavHostFragment.findNavController(this).popBackStack()
+                findNavControllerSafely()?.popBackStack()
             }
         }
     }
