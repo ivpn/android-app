@@ -226,7 +226,6 @@
     </style>
 
     <style name="AppTheme.SwitchCompat">
-        <item name="colorAccent">@color/primary</item>
     </style>
 
     <style name="AppTheme.MultiHopText">

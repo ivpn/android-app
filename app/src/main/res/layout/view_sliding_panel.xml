@@ -480,13 +480,13 @@
                         android:layout_width="48dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
-                        android:thumb="@drawable/common_thumb_selector"
+                        android:theme="@style/AppTheme.SwitchCompat"
                         android:checked="@{antitracker.isAntiSurveillanceEnabled}"
                         app:onChanged="@{antitracker.enableAntiSurveillance}"
                         app:layout_constraintBottom_toBottomOf="@+id/antitracker_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/antitracker_title"
-                        app:track="@drawable/common_track_selector" />
+                        app:antitrackerState="@{antitracker.state}"/>
 
                     <TextView
                         android:id="@+id/antitracker_description"

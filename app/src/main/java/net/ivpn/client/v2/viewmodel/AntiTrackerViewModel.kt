@@ -24,6 +24,7 @@ package net.ivpn.client.v2.viewmodel
 
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.dagger.ApplicationScope
@@ -41,21 +42,26 @@ class AntiTrackerViewModel @Inject constructor(
     val isHardcoreModeEnabled = ObservableBoolean()
     val isHardcoreModeUIEnabled = ObservableBoolean()
 
+    val state = ObservableField<AntiTrackerState>()
+
     var enableAntiSurveillance = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAntiSurveillance(value) }
     var enableHardcoreMode = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableHardcoreMode(value) }
 
     init {
-        isAntiTrackerSupported.set(getAntiTrackerSupport())
-        isAntiSurveillanceEnabled.set(settings.isAntiSurveillanceEnabled)
-        isHardcoreModeEnabled.set(settings.isAntiSurveillanceHardcoreEnabled)
-        isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
+        initStates()
     }
 
     fun reset() {
+        initStates()
+    }
+
+    private fun initStates() {
         isAntiTrackerSupported.set(getAntiTrackerSupport())
         isAntiSurveillanceEnabled.set(settings.isAntiSurveillanceEnabled)
         isHardcoreModeEnabled.set(settings.isAntiSurveillanceHardcoreEnabled)
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
+
+        getAntiTrackerState()
     }
 
     private fun getAntiTrackerSupport(): Boolean {
@@ -66,14 +72,31 @@ class AntiTrackerViewModel @Inject constructor(
         isAntiSurveillanceEnabled.set(value)
         settings.enableAntiSurveillance(value)
         isHardcoreModeUIEnabled.set(value)
-        if (!value) {
-            isHardcoreModeEnabled.set(false)
-            settings.enableAntiSurveillanceHardcore(false)
-        }
+//        if (!value) {
+//            isHardcoreModeEnabled.set(false)
+//            settings.enableAntiSurveillanceHardcore(false)
+//        }
+        getAntiTrackerState()
     }
 
     private fun enableHardcoreMode(value: Boolean) {
         isHardcoreModeEnabled.set(value)
         settings.enableAntiSurveillanceHardcore(value)
+        getAntiTrackerState()
+    }
+
+    private fun getAntiTrackerState() {
+        if (!isAntiSurveillanceEnabled.get()) {
+            state.set(AntiTrackerState.DISABLED)
+            return
+        }
+
+        state.set(if(isHardcoreModeEnabled.get()) AntiTrackerState.HARDCORE else AntiTrackerState.NORMAL)
+    }
+
+    enum class AntiTrackerState {
+        DISABLED,
+        NORMAL,
+        HARDCORE
     }
 }
