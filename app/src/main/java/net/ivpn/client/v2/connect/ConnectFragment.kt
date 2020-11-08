@@ -27,7 +27,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,7 +36,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -50,6 +48,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.checkVPNPermission
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentConnectBinding
@@ -180,7 +179,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
+                when (newState) {
                     STATE_HIDDEN, STATE_HALF_EXPANDED -> {
                         bottomSheetBehavior.state = STATE_EXPANDED
                     }
@@ -314,14 +313,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 if (list.isEmpty()) {
                     return
                 }
-                
+
                 val filteredList = filterLocation(list)
 
                 view?.let {
                     val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
 
                     val location: ServerLocation
-                    when(filteredList.size) {
+                    when (filteredList.size) {
                         0 -> {
                             location = list[0]
                             MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
@@ -537,37 +536,37 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openNetworkScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToNetworkProtectionFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openLoginScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openAccountScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToAccountFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openProtocolScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToProtocolFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openEnterServerSelectionScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openExitServerSelectionScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.EXIT)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun disconnectVpnService(needToReset: Boolean, dialog: Dialogs?,
@@ -587,11 +586,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onAuthFailed() {
         LOGGER.info("onAuthFailed")
-        disconnectVpnService(true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR,
-                DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
-                    LOGGER.info("onClick: ")
-                    logout()
-                })
+        disconnectVpnService(true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR
+        ) { _: DialogInterface?, _: Int ->
+            LOGGER.info("onClick: ")
+            logout()
+        }
     }
 
     override fun onChangeConnectionStatus(state: ConnectionState) {
@@ -665,7 +664,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
 
             val action = ConnectFragmentDirections.actionConnectFragmentToSignUpPeriodFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navigate(action)
         } else {
             openAddFundsSite()
         }
