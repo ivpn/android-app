@@ -68,7 +68,8 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
-        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener {
+        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
+        LocationViewModel.LocationUpdatesUIListener {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -151,6 +152,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
         multihop.navigator = this
         connect.navigator = this
+        location.uiListener = this
 
         binding.location = location
         binding.connection = connect
@@ -173,7 +175,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.setExpandedOffset(resources.getDimension(R.dimen.slider_panel_top_offset).toInt())
+        bottomSheetBehavior.expandedOffset = resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
@@ -515,6 +517,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         if (context == null) {
             return
         }
+        var alertHeight = 0f
+        if (account.isExpiredIn.get() || account.isExpired.get() || location.isLocationAPIError.get()) {
+            alertHeight = resources.getDimension(R.dimen.map_alert_height) + resources.getDimension(R.dimen.map_alert_vertical_margin)
+        }
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
@@ -530,7 +536,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("peekHeight = $peekHeight")
         bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
         binding.map.setPanelHeight(peekHeight)
-        binding.centerLocation.animate().translationY(-peekHeight)
+        binding.centerLocation.animate().translationY(-peekHeight - alertHeight)
         binding.alertsLayout.animate().translationY(-peekHeight)
     }
 
@@ -675,5 +681,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
+    }
+
+    override fun onLocationUpdated() {
+        recalculatePeekHeight()
     }
 }
