@@ -40,7 +40,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.BuildConfig
@@ -297,6 +296,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
         binding.renew2.setOnClickListener {
             openAddFundsScreen()
+        }
+
+        binding.slidingPanel.antitrackerSwitch.setOnTouchListener { _, _ ->
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                ToastUtil.toast(context, R.string.snackbar_to_use_antitracker_disconnect)
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
         }
 
         binding.map.mapListener = object : MapView.MapListener {

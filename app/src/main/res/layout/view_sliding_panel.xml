@@ -292,11 +292,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:contentDescription="@string/content_description_choose_entry_server"
-                            android:tint="@color/sliding_panel_arrow"
                             app:layout_constraintBottom_toBottomOf="@+id/imageView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/textView5"
-                            app:srcCompat="@drawable/ic_arrow_right" />
+                            app:srcCompat="@drawable/ic_arrow_right"
+                            app:tint="@color/sliding_panel_arrow" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -348,11 +348,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:contentDescription="@string/content_description_choose_entry_server"
-                            android:tint="@color/sliding_panel_arrow"
                             app:layout_constraintBottom_toBottomOf="@+id/exit_server_flag"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/exit_server_hint"
-                            app:srcCompat="@drawable/ic_arrow_right" />
+                            app:srcCompat="@drawable/ic_arrow_right"
+                            app:tint="@color/sliding_panel_arrow" />
 
                         <View
                             android:id="@+id/exit_server_top_line"
@@ -397,10 +397,10 @@
                         android:layout_marginBottom="16dp"
                         android:contentDescription="@string/content_description_entry_server_flag"
                         android:src="@drawable/ic_fastest_server"
-                        android:tint="@color/settings_option_description_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/connect_to_fastest" />
+                        app:layout_constraintTop_toBottomOf="@+id/connect_to_fastest"
+                        app:tint="@color/settings_option_description_text" />
 
                     <TextView
                         android:id="@+id/fastest_label"
@@ -417,11 +417,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:contentDescription="@string/content_description_choose_entry_server"
-                        android:tint="@color/sliding_panel_arrow"
                         app:layout_constraintBottom_toBottomOf="@+id/fastest_image"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/connect_to_fastest"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/sliding_panel_arrow" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -541,11 +541,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:tint="@color/sliding_panel_arrow"
                         app:layout_constraintBottom_toBottomOf="@+id/wifi_ssid"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/wifi_label"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/sliding_panel_arrow" />
 
                     <View
                         android:id="@+id/view4"
@@ -627,11 +627,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:tint="@color/sliding_panel_arrow"
                         app:layout_constraintBottom_toBottomOf="@+id/protocol_port"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/protocol_port_label"
-                        app:srcCompat="@drawable/ic_arrow_right" />
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/sliding_panel_arrow" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include

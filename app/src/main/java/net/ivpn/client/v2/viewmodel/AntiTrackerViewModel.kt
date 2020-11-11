@@ -22,13 +22,18 @@ package net.ivpn.client.v2.viewmodel
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.view.MotionEvent
+import android.view.View
 import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.multihop.MultiHopController
 import net.ivpn.client.common.prefs.Settings
+import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.vpn.controller.VpnBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
