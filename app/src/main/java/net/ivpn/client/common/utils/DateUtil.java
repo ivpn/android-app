@@ -130,6 +130,11 @@ public class DateUtil {
         return String.format(resources.getQuantityString(R.plurals.regeneration_in_days, daysI), daysI);
     }
 
+    public static String formatDateTimeNotUnix(long timeStamp) {
+        Date date = new Date(timeStamp);
+        return dateFormat.format(date);
+    }
+
     public static String formatDateTime(long timeStamp) {
         Date date = new Date(timeStamp);
         return dateTimeFormat.format(date);

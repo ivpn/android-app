@@ -1,5 +1,7 @@
 package net.ivpn.client.common.billing.addfunds
 
+import net.ivpn.client.common.utils.DateUtil
+
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
