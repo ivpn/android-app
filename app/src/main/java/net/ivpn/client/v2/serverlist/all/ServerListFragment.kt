@@ -152,6 +152,11 @@ class ServerListFragment : Fragment(),
         }
     }
 
+    override fun onServerSelected() {
+        connect.reconnectOrNothing()
+        (parentFragment as ServerListTabFragment).navigateBack()
+    }
+
     override fun navigateBack() {
         (parentFragment as ServerListTabFragment).navigateBack()
     }

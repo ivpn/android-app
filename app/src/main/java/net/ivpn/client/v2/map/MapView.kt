@@ -128,8 +128,9 @@ class MapView @JvmOverloads constructor(
 
     val locationListener = object : LocationViewModel.CheckLocationListener {
         override fun onSuccess(location: Location, connectionState: ConnectionState) {
-            println("Location listener on Success connectionState = $connectionState")
-            if (connectionState == ConnectionState.NOT_CONNECTED || connectionState == ConnectionState.PAUSED) {
+            println("Location listener on Success connectionState = $connectionState location = ${location.city}")
+            if (connectionState == ConnectionState.NOT_CONNECTED
+                    || connectionState == ConnectionState.PAUSED) {
                 setLocation(location)
             }
         }
@@ -327,9 +328,6 @@ class MapView @JvmOverloads constructor(
         when (state) {
             ConnectionState.CONNECTED -> {
                 locationData.inProgress = false
-//                if (animator.animationState == MapAnimator.AnimationState.NONE) {
-//                    animator.startWaveAnimation()
-//                }
                 if (gateway != null) {
                     gateway.isConnected = true
                     setLocation(gateway)

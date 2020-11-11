@@ -72,6 +72,7 @@ class MultiHopViewModel @Inject constructor(
 
     fun enableMultiHop(state: Boolean) {
         if (isEnabled.get() == state) return
+        applyActionFor(multiHopController.getState())
         when (multiHopController.getState()) {
             MultiHopController.State.NOT_AUTHENTICATED,
             MultiHopController.State.SUBSCRIPTION_NOT_ACTIVE,

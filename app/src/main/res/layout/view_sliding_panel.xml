@@ -196,8 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(false)}"
-                        app:onTouch="@{multihop.multiHopTouchListener}">
+                        android:onClick="@{() -> multihop.enableMultiHop(false)}">
 
                         <TextView
                             style="@style/AppTheme.MultiHopText"
@@ -215,8 +214,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="@{() -> multihop.enableMultiHop(true)}"
-                        app:onTouch="@{multihop.multiHopTouchListener}">
+                        android:onClick="@{() -> multihop.enableMultiHop(true)}">
 
                         <TextView
                             android:id="@+id/textView4"

@@ -90,7 +90,7 @@ class SignUpAccountCreatedFragment : Fragment() {
 
     private fun copyUserId(){
         viewModel.blankAccountID.get()?.let { userId ->
-            val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 

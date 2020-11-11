@@ -149,6 +149,11 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         }
     }
 
+    override fun onServerSelected() {
+        connect.reconnectOrNothing()
+        (parentFragment as ServerListTabFragment).navigateBack()
+    }
+
     override fun navigateBack() {
         (parentFragment as ServerListTabFragment).navigateBack()
     }
