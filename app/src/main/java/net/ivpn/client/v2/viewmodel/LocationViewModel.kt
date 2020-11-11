@@ -69,6 +69,8 @@ class LocationViewModel @Inject constructor(
 
     val isLocationAPIError = ObservableBoolean()
 
+    var uiListener: LocationUpdatesUIListener? = null
+
     private var locationListeners = arrayListOf<CheckLocationListener>()
 
     private var request: Request<LocationResponse>? = null
@@ -95,6 +97,7 @@ class LocationViewModel @Inject constructor(
 
     fun checkLocation() {
         isLocationAPIError.set(false)
+        uiListener?.onLocationUpdated()
         request?.cancel()
         request = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
         LOGGER.info("Checking location...")
@@ -111,6 +114,7 @@ class LocationViewModel @Inject constructor(
             override fun onSuccess(response: LocationResponse?) {
                 LOGGER.info(response.toString())
                 this@LocationViewModel.onSuccess(response)
+                uiListener?.onLocationUpdated()
             }
 
             override fun onError(throwable: Throwable) {
@@ -171,6 +175,7 @@ class LocationViewModel @Inject constructor(
         ip.set("Connection error")
         isp.set("Connection error")
         location.set("Connection error")
+        uiListener?.onLocationUpdated()
     }
 
     private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
@@ -218,5 +223,9 @@ class LocationViewModel @Inject constructor(
         fun onSuccess(location: Location, connectionState: ConnectionState)
 
         fun onError()
+    }
+
+    interface LocationUpdatesUIListener {
+        fun onLocationUpdated()
     }
 }

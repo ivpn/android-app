@@ -43,7 +43,10 @@ import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody
 import net.ivpn.client.rest.data.addfunds.NewAccountResponse
 import net.ivpn.client.rest.requests.common.Request
 import org.slf4j.LoggerFactory
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.math.floor
 
 @ApplicationScope
@@ -71,6 +74,14 @@ class SignUpViewModel @Inject constructor(
     val oneYearDiscount = ObservableField<String>()
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
+
+    val standardWeek = ObservableField<String>()
+    val standardMonth = ObservableField<String>()
+    val standardYear = ObservableField<String>()
+
+    val proWeek = ObservableField<String>()
+    val proMonth = ObservableField<String>()
+    val proYear = ObservableField<String>()
 
     val blankAccountID = ObservableField<String>()
     var blankAccountGeneratedDate = 0L
@@ -177,13 +188,13 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun checkSkuDetails() {
-        selectedPlan.get()?.let { plan ->
-            val skuList = ArrayList<String>()
+        val skuList = ArrayList<String>()
+        for (plan in Plan.values()) {
             for (period in Period.values()) {
                 skuList.add(plan.skuPath + period.skuPath)
             }
-            billingManager.checkSkuDetails(skuList)
         }
+        billingManager.checkSkuDetails(skuList)
     }
 
     override fun onInitStateChanged(isInit: Boolean, errorCode: Int) {
@@ -228,7 +239,34 @@ class SignUpViewModel @Inject constructor(
 
                 selectedPeriod.set(Period.ONE_YEAR)
             }
+
+            for (skuDetails in details) {
+                when (skuDetails.sku) {
+                    Plan.STANDARD.skuPath + Period.ONE_WEEK.skuPath -> {
+                        standardWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                    }
+                    Plan.STANDARD.skuPath + Period.ONE_MONTH.skuPath -> {
+                        standardMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                    }
+                    Plan.STANDARD.skuPath + Period.ONE_YEAR.skuPath -> {
+                        standardYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_WEEK.skuPath -> {
+                        proWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_MONTH.skuPath -> {
+                        proMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_YEAR.skuPath -> {
+                        proYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                    }
+                }
+            }
         }
+    }
+
+    private fun getPricePerPeriodString(skuDetails: SkuDetails, period: String): String {
+        return "${skuDetails.price} / $period"
     }
 
     override fun onPurchaseError(errorStatus: Int, errorMessage: String?) {

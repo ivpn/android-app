@@ -109,7 +109,9 @@ class ServerListFragment : Fragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        viewmodel.favouriteListeners.remove(adapter)
+        if (this::adapter.isInitialized) {
+            viewmodel.favouriteListeners.remove(adapter)
+        }
         filterViewModel.listeners.remove(this)
     }
 
@@ -148,6 +150,11 @@ class ServerListFragment : Fragment(),
                 connect.reconnectOrNothing()
             }
         }
+    }
+
+    override fun onServerSelected() {
+        connect.reconnectOrNothing()
+        (parentFragment as ServerListTabFragment).navigateBack()
     }
 
     override fun navigateBack() {

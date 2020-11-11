@@ -70,6 +70,9 @@
     <dimen name="map_dialog_y_shift">2dp</dimen>
     <dimen name="map_dialog_button_height">42dp</dimen>
 
+    <dimen name="map_alert_height">40dp</dimen>
+    <dimen name="map_alert_vertical_margin">16dp</dimen>
+
     <dimen name="network_tab_layout_height">48dp</dimen>
     <dimen name="network_default_toolbar_height">56dp</dimen>
     <dimen name="network_status_bar_height">24dp</dimen>

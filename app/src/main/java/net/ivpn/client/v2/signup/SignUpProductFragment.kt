@@ -35,12 +35,14 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.databinding.FragmentSignUpProductBinding
+import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class SignUpProductFragment : Fragment() {
+class SignUpProductFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SignUpProductFragment::class.java)
@@ -67,6 +69,12 @@ class SignUpProductFragment : Fragment() {
         initToolbar()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.navigator = this
+        viewModel.initOffers()
+    }
+
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
 
@@ -90,5 +98,20 @@ class SignUpProductFragment : Fragment() {
     private fun openAddFundAccount() {
         val action = SignUpProductFragmentDirections.actionSignUpFragmentToSignUpPeriodFragment()
         NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onCreateAccountFinish() {
+    }
+
+    override fun onAddFundsFinish() {
+    }
+
+    override fun onGoogleConnectFailure() {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, getString(R.string.dialogs_error),
+                    getString(R.string.billing_error_message)) {
+                findNavControllerSafely()?.popBackStack()
+            }
+        }
     }
 }

@@ -472,7 +472,7 @@
     <string name="auth_create_new_account">Create a new account</string>
     <string name="auth_log_in">Log in</string>
 
-    <string name="sign_up_product_description">We offer different products to better suit your needs. Please select one. You’ll be able to change it any time in the future.</string>
+    <string name="sign_up_product_description">We offer different plans to better suit your needs. Please select one. You’ll be able to change it any time in the future.</string>
     <string name="sign_up_product_standard_title">IVPN standard</string>
     <string name="sign_up_product_pro_title">IVPN pro</string>
     <string name="sign_up_product_2_devices">2 devices</string>
@@ -482,6 +482,9 @@
     <string name="sign_up_product_antitracker">AntiTracker</string>
     <string name="sign_up_product_multihop">Multi-Hop</string>
     <string name="sign_up_product_port_forwarding">Port Forwarding</string>
+    <string name="sign_up_continue">Continue to payment options</string>
+
+    <string name="sign_up_all_protocols">All protocols</string>
 
     <string name="sign_up_period_description">Add funds to your account to start using IVPN.</string>
     <string name="sign_up_period_change">Change</string>

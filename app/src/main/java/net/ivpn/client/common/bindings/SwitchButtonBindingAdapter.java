@@ -23,13 +23,16 @@ package net.ivpn.client.common.bindings;
 */
 
 
-import androidx.databinding.BindingAdapter;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.databinding.BindingAdapter;
+
 import net.ivpn.client.R;
 import net.ivpn.client.ui.connect.ConnectionState;
+
+import static net.ivpn.client.v2.viewmodel.AntiTrackerViewModel.AntiTrackerState;
 
 public class SwitchButtonBindingAdapter {
 
@@ -77,6 +80,30 @@ public class SwitchButtonBindingAdapter {
             case PAUSED:
                 thumbRes = R.drawable.thumb_paused;
                 trackRes = R.drawable.track_paused;
+                break;
+        }
+
+        switchView.setThumbResource(thumbRes);
+        switchView.setTrackResource(trackRes);
+    }
+
+    @BindingAdapter("antitrackerState")
+    public static void setAntiTrackerState(SwitchCompat switchView, AntiTrackerState state) {
+        int thumbRes = 0;
+        int trackRes = 0;
+
+        switch (state) {
+            case DISABLED:
+                thumbRes = R.drawable.thumb_antitracker_disabled;
+                trackRes = R.drawable.track_antitracker_disabled;
+                break;
+            case NORMAL:
+                thumbRes = R.drawable.thumb_antitracker_normal;
+                trackRes = R.drawable.track_antitracker_normal;
+                break;
+            case HARDCORE:
+                thumbRes = R.drawable.thumb_antitracker_hardcore;
+                trackRes = R.drawable.track_antitracker_hardcore;
                 break;
         }
 

@@ -209,7 +209,7 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 
     //Constraint layout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.3"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 
 //    Purchases
     implementation 'com.android.billingclient:billing:2.2.0'

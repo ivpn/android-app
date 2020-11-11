@@ -207,13 +207,6 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
             }
             askPermissionRationale()
         }
-//        val isPermissionGranted: Boolean = isPermissionGranted()
-//        LOGGER.info("isPermissionGranted = $isPermissionGranted")
-//        if (isPermissionGranted) {
-//            network.applyNetworkFeatureState(true)
-//            return
-//        }
-//        askPermissionRationale()
     }
 
     override fun toRules() {
@@ -226,19 +219,17 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         } else {
             askForLocationPermission()
         }
-//        LOGGER.info("shouldAskForLocationPermission")
-//        val isPermissionGranted: Boolean = isPermissionGranted()
-//        LOGGER.info("isPermissionGranted = $isPermissionGranted")
-//        if (isPermissionGranted) {
-//            return false
-//        }
-//        val shouldRequestRationale: Boolean = shouldRequestRationale()
-//        LOGGER.info("shouldRequestRationale = $shouldRequestRationale")
-//        if (shouldRequestRationale) {
-//            askPermissionRationale()
-//        } else {
-//            showInformationDialog()
-//        }
+    }
+
+    override fun isLocationPermissionGranted(): Boolean {
+        if (!isAdded) {
+            return false
+        }
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return isBackgroundLocationPermissionGranted()
+        } else {
+            isPermissionGranted()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -296,11 +287,7 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
                 null, { askForegroundLocationPermission() })
     }
 
-    private fun isForegroundLocationPermissionGranted(): Boolean {
-        return (checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED)
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun isBackgroundLocationPermissionGranted(): Boolean {

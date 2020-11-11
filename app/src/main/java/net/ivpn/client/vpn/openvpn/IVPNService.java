@@ -564,6 +564,12 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         builder.setSession(serviceConfiguration.getSessionFormatted(this, session));
         builder.setConfigureIntent(getGraphPendingIntent());
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            builder.setMetered(false);
+        }
+
+        builder.setBlocking(true);
+
         try {
             ParcelFileDescriptor tun = builder.establish();
             if (tun == null)
