@@ -22,6 +22,9 @@ package net.ivpn.client.vpn.controller;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.client.common.prefs.ServerType;
+import net.ivpn.client.rest.data.model.Server;
+
 public interface VpnBehavior {
 
     void pause(long pauseDuration);
@@ -50,5 +53,8 @@ public interface VpnBehavior {
 
     void notifyVpnState();
 
-//    long getConnectionTime();
+    interface OnRandomServerSelectionListener {
+        void onRandomServerSelected(Server server, ServerType serverType);
+    }
+
 }

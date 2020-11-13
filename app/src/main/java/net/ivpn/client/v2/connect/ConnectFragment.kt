@@ -268,6 +268,24 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 openEnterServerSelectionScreen()
             }
         }
+        binding.slidingPanel.entryRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openEnterServerSelectionScreen()
+            }
+        }
+        binding.slidingPanel.exitRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openExitServerSelectionScreen()
+            }
+        }
         binding.slidingPanel.pauseButton.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -538,11 +556,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
-            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+//            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         } else {
-            Handler().postDelayed({
-                binding.slidingPanel.exitServerLayout.visibility = View.GONE
-            }, 50)
+//            Handler().postDelayed({
+//                binding.slidingPanel.exitServerLayout.visibility = View.GONE
+//            }, 50)
         }
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)

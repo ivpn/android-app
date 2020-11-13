@@ -77,7 +77,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private ConnectionStatus status;
     private ConnectionState state;
-    private List<VpnStateListener> listeners = new ArrayList<>();
+    private final List<VpnStateListener> listeners = new ArrayList<>();
     private PauseTimer timer;
     private GlobalBehaviorController globalBehaviorController;
     private ServersRepository serversRepository;
@@ -86,7 +86,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     private PingProvider pingProvider;
     private DomainResolver domainResolver;
     private BroadcastReceiver connectionStatusReceiver;
-    private long connectionTime;
 
     private Handler handler;
     private Runnable commonRunnable = () -> {
@@ -131,10 +130,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     private void init() {
         if (isVpnActive()) {
             state = CONNECTED;
-            connectionTime = System.currentTimeMillis();
         } else {
             state = NOT_CONNECTED;
-            connectionTime = 0;
         }
         timer = new PauseTimer(new PauseTimer.PauseTimerListener() {
             @Override
@@ -203,6 +200,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             if (isFastestServerEnabled()) {
                 startConnectWithFastestServer();
             } else {
+                checkRandomServerOptions();
                 startConnectProcess();
             }
         }
@@ -265,6 +263,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         if (isFastestServerEnabled()) {
             startReconnectWithFastestServer();
         } else {
+            checkRandomServerOptions();
             startReconnectProcess();
         }
     }
@@ -343,6 +342,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             if (isFastestServerEnabled()) {
                 startConnectWithFastestServer();
             } else {
+                checkRandomServerOptions();
                 startConnectProcess();
             }
         }
@@ -400,7 +400,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             listener.onAuthFailed();
         }
         state = NOT_CONNECTED;
-        connectionTime = 0;
         sendConnectionState();
     }
 
@@ -412,7 +411,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             listener.onCheckSessionState();
         }
         sendConnectionState();
-        connectionTime = 0;
     }
 
     private void tryAnotherPort() {
@@ -453,7 +451,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             case LEVEL_CONNECTED:
                 globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
                 state = CONNECTED;
-                connectionTime = System.currentTimeMillis();
                 sendConnectionState();
                 handler.removeCallbacksAndMessages(null);
                 break;
@@ -470,7 +467,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
                 if (state.equals(PAUSING)) {
                     state = PAUSED;
                 } else {
-                    connectionTime = 0;
                     state = NOT_CONNECTED;
                     for (VpnStateListener listener: listeners) {
                         listener.onCheckSessionState();
@@ -504,6 +500,23 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private boolean isFastestServerEnabled() {
         return serversRepository.getSettingFastestServer();
+    }
+
+    private void checkRandomServerOptions() {
+        if (isRandomEntryServerEnabled()) {
+            serversRepository.getRandomServerFor(ServerType.ENTRY, getRandomServerSelectionListener());
+        }
+        if (isRandomExitServerEnabled()) {
+            serversRepository.getRandomServerFor(ServerType.EXIT, getRandomServerSelectionListener());
+        }
+    }
+
+    private boolean isRandomEntryServerEnabled() {
+        return serversRepository.getSettingRandomServer(ServerType.ENTRY);
+    }
+
+    private boolean isRandomExitServerEnabled() {
+        return serversRepository.getSettingRandomServer(ServerType.EXIT);
     }
 
     private void sendConnectionState() {
@@ -613,6 +626,14 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
                 } else {
                     startConnectProcess();
                 }
+            }
+        };
+    }
+
+    private OnRandomServerSelectionListener getRandomServerSelectionListener() {
+        return (server, serverType) -> {
+            for (VpnStateListener listener: listeners) {
+                listener.notifyServerAsRandom(server, serverType);
             }
         };
     }
