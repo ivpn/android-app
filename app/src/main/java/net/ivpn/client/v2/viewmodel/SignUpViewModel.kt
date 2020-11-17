@@ -98,15 +98,7 @@ class SignUpViewModel @Inject constructor(
 
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
-        val calendar = Calendar.getInstance()
-        when(period) {
-            Period.ONE_WEEK -> calendar.add(Calendar.DAY_OF_YEAR, 7)
-            Period.ONE_MONTH -> calendar.add(Calendar.MONTH, 1)
-            Period.ONE_YEAR -> calendar.add(Calendar.YEAR, 1)
-            Period.TWO_YEARS -> calendar.add(Calendar.YEAR, 2)
-            Period.THREE_YEARS -> calendar.add(Calendar.YEAR, 3)
-        }
-        activeUntil.set("(Will be active until ${DateUtil.formatDateTimeNotUnix(calendar.timeInMillis)})")
+        activeUntil.set(getActiveUntilString(period))
     }
 
     fun initOffers() {
@@ -191,6 +183,23 @@ class SignUpViewModel @Inject constructor(
             Period.THREE_YEARS -> threeYear.get()
             null -> null
         }
+    }
+
+    private fun getActiveUntilString(period: Period): String {
+        val activeUntil = userPreference.availableUntil * 1000
+        val calendar = Calendar.getInstance()
+        if (userPreference.isActive && (activeUntil > System.currentTimeMillis())) {
+            calendar.timeInMillis = activeUntil
+        }
+
+        when(period) {
+            Period.ONE_WEEK -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+            Period.ONE_MONTH -> calendar.add(Calendar.MONTH, 1)
+            Period.ONE_YEAR -> calendar.add(Calendar.YEAR, 1)
+            Period.TWO_YEARS -> calendar.add(Calendar.YEAR, 2)
+            Period.THREE_YEARS -> calendar.add(Calendar.YEAR, 3)
+        }
+        return "(Will be active until ${DateUtil.formatDateTimeNotUnix(calendar.timeInMillis)})"
     }
 
     private fun getProperProductName(): String? {
