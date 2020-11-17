@@ -84,8 +84,7 @@
                 android:elevation="12dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/alerts_background">
+                android:layout_gravity="bottom">
 
                 <LinearLayout
                     android:id="@+id/expire_in_days_layout"
@@ -94,6 +93,7 @@
                     android:orientation="horizontal"
                     android:visibility="@{account.isExpiredIn() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/alerts_background"
                     android:gravity="center_vertical">
 
                     <ImageView
@@ -134,7 +134,8 @@
                     android:orientation="horizontal"
                     android:visibility="@{account.isExpired() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/alerts_background">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -174,7 +175,8 @@
                     android:orientation="horizontal"
                     android:visibility="@{location.isLocationAPIError ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/alerts_background">
 
                     <ImageView
                         android:layout_width="wrap_content"
