@@ -77,10 +77,6 @@ class AntiTrackerViewModel @Inject constructor(
         isAntiSurveillanceEnabled.set(value)
         settings.enableAntiSurveillance(value)
         isHardcoreModeUIEnabled.set(value)
-//        if (!value) {
-//            isHardcoreModeEnabled.set(false)
-//            settings.enableAntiSurveillanceHardcore(false)
-//        }
         getAntiTrackerState()
     }
 

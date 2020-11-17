@@ -33,6 +33,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
@@ -316,15 +317,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             openAddFundsScreen()
         }
 
-        binding.slidingPanel.antitrackerSwitch.setOnTouchListener { _, _ ->
+        binding.slidingPanel.antitrackerSwitch.setOnTouchListener { _, event ->
             if (!account.authenticated.get()) {
-                openLoginScreen()
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
                 return@setOnTouchListener true
             } else if (!account.isActive.get()) {
-                openAddFundsScreen()
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
                 return@setOnTouchListener true
             } else if (connect.isVpnActive()) {
-                ToastUtil.toast(context, R.string.snackbar_to_use_antitracker_disconnect)
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_use_antitracker_disconnect)
+                }
                 return@setOnTouchListener true
             }
 
