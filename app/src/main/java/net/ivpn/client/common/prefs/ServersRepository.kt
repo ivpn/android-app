@@ -1,22 +1,5 @@
 package net.ivpn.client.common.prefs
 
-import net.ivpn.client.common.Mapper
-import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.rest.HttpClientFactory
-import net.ivpn.client.rest.IVPNApi
-import net.ivpn.client.rest.RequestListener
-import net.ivpn.client.rest.data.ServersListResponse
-import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.rest.requests.common.Request
-import net.ivpn.client.vpn.Protocol
-import net.ivpn.client.vpn.ProtocolController
-import net.ivpn.client.vpn.controller.VpnBehavior.OnRandomServerSelectionListener
-import org.slf4j.LoggerFactory
-import java.io.Serializable
-import java.util.*
-import javax.inject.Inject
-
 /*
 IVPN Android app
 https://github.com/ivpn/android-app
@@ -38,6 +21,23 @@ details.
 You should have received a copy of the GNU General Public License
 along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
+
+import net.ivpn.client.common.Mapper
+import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.rest.HttpClientFactory
+import net.ivpn.client.rest.IVPNApi
+import net.ivpn.client.rest.RequestListener
+import net.ivpn.client.rest.data.ServersListResponse
+import net.ivpn.client.rest.data.model.Server
+import net.ivpn.client.rest.data.model.ServerLocation
+import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.vpn.Protocol
+import net.ivpn.client.vpn.ProtocolController
+import net.ivpn.client.vpn.controller.VpnBehavior.OnRandomServerSelectionListener
+import org.slf4j.LoggerFactory
+import java.io.Serializable
+import java.util.*
+import javax.inject.Inject
 
 @ApplicationScope
 class ServersRepository @Inject constructor(

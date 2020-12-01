@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.  
 
+## Version 2.0.2 - 2020-12-01
+
+[IMPROVED] Display connection status
+[FIXED] Network protection in background state
+[FIXED] Missing applications for Split tunneling
+[FIXED] Crash while manipulating map
+[FIXED] Crash when canceling login or other communication with server
+[FIXED] Crash trying to open dialog while app is in background state
+
+[Download IVPN Client v. 2.1.0](https://cdn.ivpn.net/releases/android/IVPNv2.1.0site.apk)
+SHA256: b07512e5e27b336bd7a9f5098b2f9db76ec481d40236416dc417671724c3e05e
+
 ## Version 2.0.2 - 2020-10-12
 
 [IMPROVED] Display connection status
