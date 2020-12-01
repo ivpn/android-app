@@ -261,7 +261,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     private void resumeVpn() {
         LOGGER.info("resumeVpn: state = " + state);
         startWireGuard();
-//        connectionTime = System.currentTimeMillis();
     }
 
     @Override
@@ -277,13 +276,10 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
             return;
         }
 
-//        if (!(state == NOT_CONNECTED || state == PAUSED)) {
-//            return;
-//        }
-
         if (isFastestServerEnabled()) {
             findFastestServerAndConnect();
         } else {
+            checkRandomServerOptions();
             connect();
         }
     }
@@ -291,11 +287,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     private void connect() {
         LOGGER.info("connect: state = " + state);
         timer.stopTimer();
-//        setState(CONNECTING);
-//        updateNotification();
         startWireGuard();
-//        connectionTime = System.currentTimeMillis();
-//        globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
     }
 
     private void startWireGuard() {
@@ -304,8 +296,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         setState(CONNECTING);
         updateNotification();
         configManager.startWireGuard();
-//        setState(CONNECTED);
-//        updateNotification();
     }
 
     private boolean isFastestServerEnabled() {
@@ -326,7 +316,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         LOGGER.info("startDisconnectProcess: state = " + state);
         setState(DISCONNECTING);
         updateNotification();
-//        updateNotification();
         globalBehaviorController.onDisconnectingFromVpn();
         stopVpn();
     }
@@ -344,8 +333,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         setState(PAUSING);
         updateNotification(pauseDuration);
         configManager.stopWireGuard();
-//        setState(PAUSED);
-//        updateNotification(pauseDuration);
     }
 
     @Override
@@ -358,27 +345,17 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     private void stopVpn() {
         LOGGER.info("stopVpn: state = " + state);
         stopWireGuard();
-//        connectionTime = 0;
-//        globalBehaviorController.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
     }
 
     public void reconnect() {
         LOGGER.info("reconnect: state = " + state);
-//        setState(DISCONNECTING);
         setState(CONNECTING);
         updateNotification();
         startConnecting();
-//        stopWireGuard();
-//        new Handler().postDelayed(this::startConnecting, 1000);
     }
 
     private void stopWireGuard() {
         configManager.stopWireGuard();
-//        setState(NOT_CONNECTED);
-//        updateNotification();
-//        for (VpnStateListener listener : listeners) {
-//            listener.onCheckSessionState();
-//        }
     }
 
     @Override
@@ -437,6 +414,16 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         }
     }
 
+    private void checkRandomServerOptions() {
+        if (isRandomEntryServerEnabled()) {
+            serversRepository.getRandomServerFor(ServerType.ENTRY, getRandomServerSelectionListener());
+        }
+    }
+
+    private boolean isRandomEntryServerEnabled() {
+        return serversRepository.getSettingRandomServer(ServerType.ENTRY);
+    }
+
     private OnFastestServerDetectorListener getFastestServerDetectorListener() {
         return new OnFastestServerDetectorListener() {
             @Override
@@ -460,6 +447,14 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
 
                 serversRepository.setCurrentServer(ServerType.ENTRY, server);
                 connect();
+            }
+        };
+    }
+
+    private OnRandomServerSelectionListener getRandomServerSelectionListener() {
+        return (server, serverType) -> {
+            for (VpnStateListener listener: listeners) {
+                listener.notifyServerAsRandom(server, serverType);
             }
         };
     }
@@ -555,10 +550,8 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         } else {
             if (state == PAUSING) {
                 setState(PAUSED);
-//                state = PAUSED;
             } else {
                 setState(NOT_CONNECTED);
-//                state = NOT_CONNECTED;
             }
             sendConnectionState();
             for (VpnStateListener listener : listeners) {
@@ -568,7 +561,5 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         }
 
         updateNotification();
-
-//        sendConnectionState();
     }
 }

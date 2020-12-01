@@ -33,6 +33,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
@@ -40,7 +41,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.BuildConfig
@@ -269,6 +269,24 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 openEnterServerSelectionScreen()
             }
         }
+        binding.slidingPanel.entryRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openEnterServerSelectionScreen()
+            }
+        }
+        binding.slidingPanel.exitRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openExitServerSelectionScreen()
+            }
+        }
         binding.slidingPanel.pauseButton.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -297,6 +315,27 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
         binding.renew2.setOnClickListener {
             openAddFundsScreen()
+        }
+
+        binding.slidingPanel.antitrackerSwitch.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_use_antitracker_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
         }
 
         binding.map.mapListener = object : MapView.MapListener {
@@ -524,11 +563,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
-            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+//            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         } else {
-            Handler().postDelayed({
-                binding.slidingPanel.exitServerLayout.visibility = View.GONE
-            }, 50)
+//            Handler().postDelayed({
+//                binding.slidingPanel.exitServerLayout.visibility = View.GONE
+//            }, 50)
         }
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)

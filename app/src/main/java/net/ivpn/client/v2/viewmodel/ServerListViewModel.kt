@@ -60,18 +60,18 @@ class ServerListViewModel @Inject constructor(
         }
 
         override fun onRandomServerSelected() {
-            val availableServers = all.filter { it != forbiddenServer }
+//            val availableServers = all.filter { it != forbiddenServer }
 
-            setCurrentServer(availableServers.random())
+//            setCurrentServer(availableServers.random())
+            setSettingRandomServer()
             if (navigators.isNotEmpty()) {
                 navigators[0].onServerSelected()
             }
-
         }
 
         override fun onFastestServerSettingsClick() {
             if (navigators.isNotEmpty()) {
-                navigators[0].onServerSelected()
+                navigators[0].openFastestSetting()
             }
         }
 
@@ -131,8 +131,8 @@ class ServerListViewModel @Inject constructor(
     }
 
     fun setCurrentServer(server: Server?) {
-        if (serverType != null) {
-            serversRepository.serverSelected(server, serverType)
+        serverType?.let {
+            serversRepository.serverSelected(server, it)
         }
     }
 
@@ -140,7 +140,7 @@ class ServerListViewModel @Inject constructor(
         this.serverType = serverType
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
-        favourites.addAll(serversRepository.favouritesServers)
+        favourites.addAll(serversRepository.getFavouritesServers())
         if (isServersListExist()) {
             all.clear()
             all.addAll(getCachedServersList())
@@ -199,6 +199,12 @@ class ServerListViewModel @Inject constructor(
         serversRepository.fastestServerSelected()
     }
 
+    fun setSettingRandomServer() {
+        serverType?.let {
+            serversRepository.randomServerSelected(it)
+        }
+    }
+
     fun isFastestServerAllowed(): Boolean {
 //        return !settings.isMultiHopEnabled
         return !multiHopController.getIsEnabled()
@@ -213,7 +219,7 @@ class ServerListViewModel @Inject constructor(
     }
 
     private fun isServersListExist(): Boolean {
-        return serversRepository.isServersListExist
+        return serversRepository.isServersListExist()
     }
 
     interface ServerListNavigator {

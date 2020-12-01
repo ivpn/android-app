@@ -40,13 +40,14 @@ import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChangedListener {
 
     companion object {
-        val LOGGER = LoggerFactory.getLogger(ServerListTabFragment::class.java)
+        val LOGGER: Logger = LoggerFactory.getLogger(ServerListTabFragment::class.java)
     }
 
     lateinit var binding: FragmentTabsServerListBinding
@@ -107,14 +108,10 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
     }
 
     private fun openFilterDialogue() {
-        DialogBuilderK.openSortServerDialogue(context!!, this, filterViewModel)
+        DialogBuilderK.openSortServerDialogue(requireContext(), this, filterViewModel)
     }
 
     fun navigateBack() {
-        NavHostFragment.findNavController(this).popBackStack()
-    }
-
-    fun onFastestServerSelected() {
         NavHostFragment.findNavController(this).popBackStack()
     }
 
@@ -128,6 +125,5 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
     }
 
     override fun onFilterChanged(filter: Filters?) {
-
     }
 }

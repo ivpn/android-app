@@ -22,6 +22,7 @@ package net.ivpn.client.vpn.controller
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.ui.dialog.Dialogs
@@ -40,6 +41,9 @@ open class DefaultVPNStateListener: VpnStateListener {
     }
 
     override fun notifyServerAsFastest(server: Server) {
+    }
+
+    override fun notifyServerAsRandom(server: Server, serverType: ServerType) {
     }
 
     override fun onTimeTick(millisUntilResumed: Long) {

@@ -46,7 +46,6 @@ import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.math.floor
 
 @ApplicationScope
@@ -83,6 +82,8 @@ class SignUpViewModel @Inject constructor(
     val proMonth = ObservableField<String>()
     val proYear = ObservableField<String>()
 
+    val activeUntil = ObservableField<String>()
+
     val blankAccountID = ObservableField<String>()
     var blankAccountGeneratedDate = 0L
 
@@ -97,6 +98,7 @@ class SignUpViewModel @Inject constructor(
 
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
+        activeUntil.set(getActiveUntilString(period))
     }
 
     fun initOffers() {
@@ -183,6 +185,23 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun getActiveUntilString(period: Period): String {
+        val activeUntil = userPreference.availableUntil * 1000
+        val calendar = Calendar.getInstance()
+        if (userPreference.isActive && (activeUntil > System.currentTimeMillis())) {
+            calendar.timeInMillis = activeUntil
+        }
+
+        when(period) {
+            Period.ONE_WEEK -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+            Period.ONE_MONTH -> calendar.add(Calendar.MONTH, 1)
+            Period.ONE_YEAR -> calendar.add(Calendar.YEAR, 1)
+            Period.TWO_YEARS -> calendar.add(Calendar.YEAR, 2)
+            Period.THREE_YEARS -> calendar.add(Calendar.YEAR, 3)
+        }
+        return "(Will be active until ${DateUtil.formatDateTimeNotUnix(calendar.timeInMillis)})"
+    }
+
     private fun getProperProductName(): String? {
         return selectedPlan.get()?.productName
     }
@@ -237,7 +256,7 @@ class SignUpViewModel @Inject constructor(
                 calculateTwoYearDiscount()
                 calculateThreeYearDiscount()
 
-                selectedPeriod.set(Period.ONE_YEAR)
+                selectPeriod(Period.ONE_YEAR)
             }
 
             for (skuDetails in details) {
