@@ -2,14 +2,19 @@
 
 All notable changes to this project will be documented in this file.  
 
-## Version 2.0.2 - 2020-12-01
+## Version 2.1.0 - 2020-12-01
 
-[IMPROVED] Display connection status
-[FIXED] Network protection in background state
-[FIXED] Missing applications for Split tunneling
-[FIXED] Crash while manipulating map
-[FIXED] Crash when canceling login or other communication with server
-[FIXED] Crash trying to open dialog while app is in background state
+[New] Antitracker switcher state for hardcore mode
+[New] Provide additional information for a subscription plan
+[Improved] Date format
+[Improved] Cases when the Antitracker can be enabled
+[Improved] Random server selection logic
+[Improved] Map animation
+[Improved] Optimize map size, removed unused parts
+[Improved] Update the WireGuard library to the latest
+[Fixed] VPN connection counted as metered
+[Fixed] Crash on destroying the server list
+[Fixed] Crashes on double navigation actions
 
 [Download IVPN Client v. 2.1.0](https://cdn.ivpn.net/releases/android/IVPNv2.1.0site.apk)
 SHA256: b07512e5e27b336bd7a9f5098b2f9db76ec481d40236416dc417671724c3e05e
