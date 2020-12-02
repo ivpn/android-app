@@ -3,21 +3,21 @@ package net.ivpn.client.common.prefs;
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -48,6 +48,9 @@ public class ServersPreference {
     private static final String FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST";
     private static final String EXCLUDED_FASTEST_SERVERS = "EXCLUDED_FASTEST_SERVERS";
     private static final String SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER";
+
+    private static final String SETTINGS_RANDOM_ENTER_SERVER = "SETTINGS_RANDOM_ENTER_SERVER";
+    private static final String SETTINGS_RANDOM_EXIT_SERVER = "SETTINGS_RANDOM_EXIT_SERVER";
 
     private Preference preference;
     private ProtocolController protocolController;
@@ -182,8 +185,22 @@ public class ServersPreference {
                 .apply();
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServersRepository.class);
-    //Need to be done on upgrade to version 2.0
+    public void putSettingRandomServer(boolean value, ServerType serverType) {
+        String key = serverType == ServerType.ENTRY ? SETTINGS_RANDOM_ENTER_SERVER : SETTINGS_RANDOM_EXIT_SERVER;
+
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        sharedPreferences.edit()
+                .putBoolean(key, value)
+                .apply();
+    }
+
+    public boolean getSettingRandomServer(ServerType serverType) {
+        String key = serverType == ServerType.ENTRY ? SETTINGS_RANDOM_ENTER_SERVER : SETTINGS_RANDOM_EXIT_SERVER;
+
+        SharedPreferences sharedPreferences = getProperSharedPreference();
+        return sharedPreferences.getBoolean(key, false);
+    }
+
     public void updateCurrentServersWithLocation() {
         updateCurrentServersWithLocationFor(preference.getWireguardServersSharedPreferences());
         updateCurrentServersWithLocationFor(preference.getServersSharedPreferences());
@@ -202,9 +219,6 @@ public class ServersPreference {
                 && Double.compare(entryServer.getLongitude(), 0) == 0) {
             for (Server server: servers) {
                 if (server.equals(entryServer)) {
-                    LOGGER.info("Found Entry server and set correct coordinates");
-                    LOGGER.info("Before = " + entryServer);
-                    LOGGER.info("After  = " + server);
                     preference.edit()
                             .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
                             .apply();
@@ -217,9 +231,6 @@ public class ServersPreference {
                 && Double.compare(exitServer.getLongitude(), 0) == 0) {
             for (Server server: servers) {
                 if (server.equals(exitServer)) {
-                    LOGGER.info("Found EXIT server and set correct coordinates");
-                    LOGGER.info("Before = " + entryServer);
-                    LOGGER.info("After  = " + server);
                     preference.edit()
                             .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
                             .apply();

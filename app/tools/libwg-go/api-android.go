@@ -11,10 +11,6 @@ import "C"
 
 import (
 	"bufio"
-	"golang.org/x/sys/unix"
-	"golang.zx2c4.com/wireguard/device"
-	"golang.zx2c4.com/wireguard/ipc"
-	"golang.zx2c4.com/wireguard/tun"
 	"bytes"
 	"log"
 	"math"
@@ -24,6 +20,12 @@ import (
 	"runtime"
 	"strings"
 	"unsafe"
+
+	"golang.org/x/sys/unix"
+	"golang.zx2c4.com/wireguard/conn"
+	"golang.zx2c4.com/wireguard/device"
+	"golang.zx2c4.com/wireguard/ipc"
+	"golang.zx2c4.com/wireguard/tun"
 )
 
 type AndroidLogger struct {
@@ -44,7 +46,6 @@ type TunnelHandle struct {
 var tunnelHandles map[int32]TunnelHandle
 
 func init() {
-	device.RoamingDisabled = true
 	tunnelHandles = make(map[int32]TunnelHandle)
 	signals := make(chan os.Signal)
 	signal.Notify(signals, unix.SIGUSR2)
@@ -89,6 +90,7 @@ func wgTurnOn(ifnameRef string, tunFd int32, settings string) int32 {
 		logger.Error.Println(setError)
 		return -1
 	}
+	device.DisableSomeRoamingForBrokenMobileSemantics()
 
 	var uapi net.Listener
 
@@ -149,7 +151,11 @@ func wgGetSocketV4(tunnelHandle int32) int32 {
 	if !ok {
 		return -1
 	}
-	fd, err := handle.device.PeekLookAtSocketFd4()
+	bind, _ := handle.device.Bind().(conn.PeekLookAtSocketFd)
+	if bind == nil {
+		return -1
+	}
+	fd, err := bind.PeekLookAtSocketFd4()
 	if err != nil {
 		return -1
 	}
@@ -162,7 +168,11 @@ func wgGetSocketV6(tunnelHandle int32) int32 {
 	if !ok {
 		return -1
 	}
-	fd, err := handle.device.PeekLookAtSocketFd6()
+	bind, _ := handle.device.Bind().(conn.PeekLookAtSocketFd)
+	if bind == nil {
+		return -1
+	}
+	fd, err := bind.PeekLookAtSocketFd6()
 	if err != nil {
 		return -1
 	}

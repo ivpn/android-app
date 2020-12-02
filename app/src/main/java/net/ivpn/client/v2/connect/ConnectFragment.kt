@@ -3,21 +3,21 @@ package net.ivpn.client.v2.connect
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -33,15 +33,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import net.ivpn.client.BuildConfig
@@ -49,6 +48,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.checkVPNPermission
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentConnectBinding
@@ -68,7 +68,8 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
-        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener {
+        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
+        LocationViewModel.LocationUpdatesUIListener {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -151,6 +152,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
         multihop.navigator = this
         connect.navigator = this
+        location.uiListener = this
 
         binding.location = location
         binding.connection = connect
@@ -173,13 +175,13 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.setExpandedOffset(resources.getDimension(R.dimen.slider_panel_top_offset).toInt())
+        bottomSheetBehavior.expandedOffset = resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
+                when (newState) {
                     STATE_HIDDEN, STATE_HALF_EXPANDED -> {
                         bottomSheetBehavior.state = STATE_EXPANDED
                     }
@@ -267,6 +269,24 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 openEnterServerSelectionScreen()
             }
         }
+        binding.slidingPanel.entryRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openEnterServerSelectionScreen()
+            }
+        }
+        binding.slidingPanel.exitRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openExitServerSelectionScreen()
+            }
+        }
         binding.slidingPanel.pauseButton.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -297,6 +317,27 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             openAddFundsScreen()
         }
 
+        binding.slidingPanel.antitrackerSwitch.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_use_antitracker_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
+        }
+
         binding.map.mapListener = object : MapView.MapListener {
             override fun openLocationDialogue(location: Location?) {
                 view?.let {
@@ -313,14 +354,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 if (list.isEmpty()) {
                     return
                 }
-                
+
                 val filteredList = filterLocation(list)
 
                 view?.let {
                     val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
 
                     val location: ServerLocation
-                    when(filteredList.size) {
+                    when (filteredList.size) {
                         0 -> {
                             location = list[0]
                             MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
@@ -515,14 +556,18 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         if (context == null) {
             return
         }
+        var alertHeight = 0f
+        if (account.isExpiredIn.get() || account.isExpired.get() || location.isLocationAPIError.get()) {
+            alertHeight = resources.getDimension(R.dimen.map_alert_height) + resources.getDimension(R.dimen.map_alert_vertical_margin)
+        }
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
-            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
+//            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
         } else {
-            Handler().postDelayed({
-                binding.slidingPanel.exitServerLayout.visibility = View.GONE
-            }, 50)
+//            Handler().postDelayed({
+//                binding.slidingPanel.exitServerLayout.visibility = View.GONE
+//            }, 50)
         }
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)
@@ -530,43 +575,43 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("peekHeight = $peekHeight")
         bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
         binding.map.setPanelHeight(peekHeight)
-        binding.centerLocation.animate().translationY(-peekHeight)
+        binding.centerLocation.animate().translationY(-peekHeight - alertHeight)
         binding.alertsLayout.animate().translationY(-peekHeight)
     }
 
     private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openNetworkScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToNetworkProtectionFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openLoginScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openAccountScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToAccountFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openProtocolScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToProtocolFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openEnterServerSelectionScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun openExitServerSelectionScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.EXIT)
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     private fun disconnectVpnService(needToReset: Boolean, dialog: Dialogs?,
@@ -586,11 +631,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onAuthFailed() {
         LOGGER.info("onAuthFailed")
-        disconnectVpnService(true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR,
-                DialogInterface.OnClickListener { _: DialogInterface?, _: Int ->
-                    LOGGER.info("onClick: ")
-                    logout()
-                })
+        disconnectVpnService(true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR
+        ) { _: DialogInterface?, _: Int ->
+            LOGGER.info("onClick: ")
+            logout()
+        }
     }
 
     override fun onChangeConnectionStatus(state: ConnectionState) {
@@ -664,7 +709,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
 
             val action = ConnectFragmentDirections.actionConnectFragmentToSignUpPeriodFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navigate(action)
         } else {
             openAddFundsSite()
         }
@@ -675,5 +720,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
+    }
+
+    override fun onLocationUpdated() {
+        recalculatePeekHeight()
     }
 }

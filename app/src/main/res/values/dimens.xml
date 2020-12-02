@@ -44,7 +44,7 @@
     <dimen name="regeneration_value_text_size">16sp</dimen>
 
     <!--V2-->
-    <dimen name="location_anim_max_radius">40dp</dimen>
+    <dimen name="location_anim_max_radius">50dp</dimen>
     <dimen name="point_radius">4dp</dimen>
     <dimen name="location_point_radius">5dp</dimen>
     <dimen name="location_name">10sp</dimen>
@@ -69,6 +69,9 @@
     <dimen name="map_dialog_inner_horizontal_margin">8dp</dimen>
     <dimen name="map_dialog_y_shift">2dp</dimen>
     <dimen name="map_dialog_button_height">42dp</dimen>
+
+    <dimen name="map_alert_height">40dp</dimen>
+    <dimen name="map_alert_vertical_margin">16dp</dimen>
 
     <dimen name="network_tab_layout_height">48dp</dimen>
     <dimen name="network_default_toolbar_height">56dp</dimen>

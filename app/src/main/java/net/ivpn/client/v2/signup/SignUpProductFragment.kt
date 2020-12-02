@@ -3,21 +3,21 @@ package net.ivpn.client.v2.signup
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+ 
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+ 
  This file is part of the IVPN Android app.
- <p>
+ 
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+ 
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+ 
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -35,12 +35,14 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.databinding.FragmentSignUpProductBinding
+import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class SignUpProductFragment : Fragment() {
+class SignUpProductFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SignUpProductFragment::class.java)
@@ -67,6 +69,12 @@ class SignUpProductFragment : Fragment() {
         initToolbar()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.navigator = this
+        viewModel.initOffers()
+    }
+
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
 
@@ -90,5 +98,20 @@ class SignUpProductFragment : Fragment() {
     private fun openAddFundAccount() {
         val action = SignUpProductFragmentDirections.actionSignUpFragmentToSignUpPeriodFragment()
         NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun onCreateAccountFinish() {
+    }
+
+    override fun onAddFundsFinish() {
+    }
+
+    override fun onGoogleConnectFailure() {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, getString(R.string.dialogs_error),
+                    getString(R.string.billing_error_message)) {
+                findNavControllerSafely()?.popBackStack()
+            }
+        }
     }
 }

@@ -3,21 +3,21 @@ package net.ivpn.client.v2.login
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -56,6 +56,8 @@ class LoginViewModel @Inject constructor(
     val usernameError = ObservableField<String>()
     val dataLoading = ObservableBoolean()
 
+    var paymentMethod: String? = null
+
     var navigator: LoginNavigator? = null
 
     init {
@@ -89,6 +91,10 @@ class LoginViewModel @Inject constructor(
         username.set(userPreference.userLogin)
     }
 
+    fun onResume() {
+        paymentMethod = getPaymentMethodValue()
+    }
+
     fun login(force: Boolean) {
         LOGGER.info("Trying to login")
         username.get()?.let {
@@ -112,7 +118,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun isAccountNewStyle(): Boolean {
-        return username.get()?.startsWith("i-") ?: false
+        return paymentMethod?.let {
+            it == "prepaid"
+        } ?: false
     }
 
     fun getAccountType(): String? {
@@ -177,5 +185,9 @@ class LoginViewModel @Inject constructor(
 
     private fun resetErrors() {
         usernameError.set(null)
+    }
+
+    private fun getPaymentMethodValue(): String {
+        return userPreference.paymentMethod
     }
 }

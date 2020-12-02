@@ -3,21 +3,21 @@ package net.ivpn.client.v2.viewmodel
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+ 
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+ 
  This file is part of the IVPN Android app.
- <p>
+ 
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+ 
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+ 
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -43,7 +43,9 @@ import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody
 import net.ivpn.client.rest.data.addfunds.NewAccountResponse
 import net.ivpn.client.rest.requests.common.Request
 import org.slf4j.LoggerFactory
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.math.floor
 
 @ApplicationScope
@@ -72,6 +74,16 @@ class SignUpViewModel @Inject constructor(
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
 
+    val standardWeek = ObservableField<String>()
+    val standardMonth = ObservableField<String>()
+    val standardYear = ObservableField<String>()
+
+    val proWeek = ObservableField<String>()
+    val proMonth = ObservableField<String>()
+    val proYear = ObservableField<String>()
+
+    val activeUntil = ObservableField<String>()
+
     val blankAccountID = ObservableField<String>()
     var blankAccountGeneratedDate = 0L
 
@@ -86,6 +98,7 @@ class SignUpViewModel @Inject constructor(
 
     fun selectPeriod(period: Period) {
         selectedPeriod.set(period)
+        activeUntil.set(getActiveUntilString(period))
     }
 
     fun initOffers() {
@@ -172,18 +185,35 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    private fun getActiveUntilString(period: Period): String {
+        val activeUntil = userPreference.availableUntil * 1000
+        val calendar = Calendar.getInstance()
+        if (userPreference.isActive && (activeUntil > System.currentTimeMillis())) {
+            calendar.timeInMillis = activeUntil
+        }
+
+        when(period) {
+            Period.ONE_WEEK -> calendar.add(Calendar.DAY_OF_YEAR, 7)
+            Period.ONE_MONTH -> calendar.add(Calendar.MONTH, 1)
+            Period.ONE_YEAR -> calendar.add(Calendar.YEAR, 1)
+            Period.TWO_YEARS -> calendar.add(Calendar.YEAR, 2)
+            Period.THREE_YEARS -> calendar.add(Calendar.YEAR, 3)
+        }
+        return "(Will be active until ${DateUtil.formatDateTimeNotUnix(calendar.timeInMillis)})"
+    }
+
     private fun getProperProductName(): String? {
         return selectedPlan.get()?.productName
     }
 
     private fun checkSkuDetails() {
-        selectedPlan.get()?.let { plan ->
-            val skuList = ArrayList<String>()
+        val skuList = ArrayList<String>()
+        for (plan in Plan.values()) {
             for (period in Period.values()) {
                 skuList.add(plan.skuPath + period.skuPath)
             }
-            billingManager.checkSkuDetails(skuList)
         }
+        billingManager.checkSkuDetails(skuList)
     }
 
     override fun onInitStateChanged(isInit: Boolean, errorCode: Int) {
@@ -226,9 +256,36 @@ class SignUpViewModel @Inject constructor(
                 calculateTwoYearDiscount()
                 calculateThreeYearDiscount()
 
-                selectedPeriod.set(Period.ONE_YEAR)
+                selectPeriod(Period.ONE_YEAR)
+            }
+
+            for (skuDetails in details) {
+                when (skuDetails.sku) {
+                    Plan.STANDARD.skuPath + Period.ONE_WEEK.skuPath -> {
+                        standardWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                    }
+                    Plan.STANDARD.skuPath + Period.ONE_MONTH.skuPath -> {
+                        standardMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                    }
+                    Plan.STANDARD.skuPath + Period.ONE_YEAR.skuPath -> {
+                        standardYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_WEEK.skuPath -> {
+                        proWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_MONTH.skuPath -> {
+                        proMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                    }
+                    Plan.PRO.skuPath + Period.ONE_YEAR.skuPath -> {
+                        proYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                    }
+                }
             }
         }
+    }
+
+    private fun getPricePerPeriodString(skuDetails: SkuDetails, period: String): String {
+        return "${skuDetails.price} / $period"
     }
 
     override fun onPurchaseError(errorStatus: Int, errorMessage: String?) {

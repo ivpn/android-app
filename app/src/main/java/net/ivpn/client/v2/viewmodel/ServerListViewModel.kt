@@ -3,21 +3,21 @@ package net.ivpn.client.v2.viewmodel
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+ 
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+ 
  This file is part of the IVPN Android app.
- <p>
+ 
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+ 
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+ 
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -60,13 +60,13 @@ class ServerListViewModel @Inject constructor(
         }
 
         override fun onRandomServerSelected() {
-            val availableServers = all.filter { it != forbiddenServer }
+//            val availableServers = all.filter { it != forbiddenServer }
 
-            setCurrentServer(availableServers.random())
+//            setCurrentServer(availableServers.random())
+            setSettingRandomServer()
             if (navigators.isNotEmpty()) {
                 navigators[0].onServerSelected()
             }
-
         }
 
         override fun onFastestServerSettingsClick() {
@@ -131,8 +131,8 @@ class ServerListViewModel @Inject constructor(
     }
 
     fun setCurrentServer(server: Server?) {
-        if (serverType != null) {
-            serversRepository.serverSelected(server, serverType)
+        serverType?.let {
+            serversRepository.serverSelected(server, it)
         }
     }
 
@@ -140,7 +140,7 @@ class ServerListViewModel @Inject constructor(
         this.serverType = serverType
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
-        favourites.addAll(serversRepository.favouritesServers)
+        favourites.addAll(serversRepository.getFavouritesServers())
         if (isServersListExist()) {
             all.clear()
             all.addAll(getCachedServersList())
@@ -199,6 +199,12 @@ class ServerListViewModel @Inject constructor(
         serversRepository.fastestServerSelected()
     }
 
+    fun setSettingRandomServer() {
+        serverType?.let {
+            serversRepository.randomServerSelected(it)
+        }
+    }
+
     fun isFastestServerAllowed(): Boolean {
 //        return !settings.isMultiHopEnabled
         return !multiHopController.getIsEnabled()
@@ -213,13 +219,13 @@ class ServerListViewModel @Inject constructor(
     }
 
     private fun isServersListExist(): Boolean {
-        return serversRepository.isServersListExist
+        return serversRepository.isServersListExist()
     }
 
     interface ServerListNavigator {
-        fun navigateBack()
-
         fun onServerSelected()
+
+        fun navigateBack()
 
         fun showDialog(dialogs: Dialogs)
 

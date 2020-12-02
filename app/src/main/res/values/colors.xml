@@ -74,7 +74,10 @@
     <color name="primary">#398FE6</color>
     <color name="accent">#FF6258</color>
 
+    <color name="switcher_state_off">#FF6258</color>
+    <color name="switcher_state_off_disabled">#8D8D8E</color>
     <color name="disabled">#8D8D8E</color>
+    <color name="antitracker_hardcore">#77152a</color>
 
     <!--Dialog-->
     <color name="dialogue_map_background">#ffffff</color>

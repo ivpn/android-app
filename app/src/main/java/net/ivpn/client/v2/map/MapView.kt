@@ -3,21 +3,21 @@ package net.ivpn.client.v2.map
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+ 
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+ 
  This file is part of the IVPN Android app.
- <p>
+ 
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+ 
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+ 
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -57,9 +57,7 @@ import net.ivpn.client.v2.viewmodel.LocationViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.math.ceil
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 class MapView @JvmOverloads constructor(
         context: Context,
@@ -73,8 +71,6 @@ class MapView @JvmOverloads constructor(
     private var panelHeight: Float = 0f
 
     private val bitmapPaint = Paint()
-
-//    private var dialogueData = DialogueData()
 
     private var serverLocationDrawer = ServerLocationDrawer(resources)
     private var serverLocationsData = ServerLocationsData()
@@ -110,7 +106,6 @@ class MapView @JvmOverloads constructor(
         ): Boolean {
             math.appendX(distanceX)
             math.appendY(distanceY)
-//            dialogueData.state = DialogueDrawer.DialogState.NONE
 
             invalidate()
             return true
@@ -133,8 +128,9 @@ class MapView @JvmOverloads constructor(
 
     val locationListener = object : LocationViewModel.CheckLocationListener {
         override fun onSuccess(location: Location, connectionState: ConnectionState) {
-            println("Location listener on Success connectionState = $connectionState")
-            if (connectionState == ConnectionState.NOT_CONNECTED || connectionState == ConnectionState.PAUSED) {
+            println("Location listener on Success connectionState = $connectionState location = ${location.city}")
+            if (connectionState == ConnectionState.NOT_CONNECTED
+                    || connectionState == ConnectionState.PAUSED) {
                 setLocation(location)
             }
         }
@@ -145,10 +141,9 @@ class MapView @JvmOverloads constructor(
 
     var mapListener: MapListener? = null
 
-    var globalPath: String
+    private var globalPath: String = context.resources.getString(R.string.path_to_tiles)
 
     init {
-        globalPath = context.resources.getString(R.string.path_to_tiles)
         with(bitmapPaint) {
             isAntiAlias = true
             style = Paint.Style.FILL
@@ -216,6 +211,7 @@ class MapView @JvmOverloads constructor(
             right = (math.totalX + width).toInt()
             bottom = (math.totalY + height).toInt()
         }
+        locationData.locationAnimationState = animator.animationState
         locationDrawer.draw(canvas, locationData)
     }
 
@@ -277,11 +273,11 @@ class MapView @JvmOverloads constructor(
         val intersectionRect = Rect()
         val relativeRect = Rect()
 
-        val fromX: Int = kotlin.math.max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
-        val toX: Int = ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt()
+        val fromX: Int = max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
+        val toX: Int = min(ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt(), MapMath.tilesCount)
 
-        val fromY: Int = kotlin.math.max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
-        val toY: Int = ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt()
+        val fromY: Int = max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
+        val toY: Int = min(ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt(), MapMath.visibleYCount)
 
         var tileRect: Rect
 
@@ -332,9 +328,6 @@ class MapView @JvmOverloads constructor(
         when (state) {
             ConnectionState.CONNECTED -> {
                 locationData.inProgress = false
-                if (animator.animationState == MapAnimator.AnimationState.NONE) {
-                    animator.startWaveAnimation()
-                }
                 if (gateway != null) {
                     gateway.isConnected = true
                     setLocation(gateway)
@@ -356,7 +349,6 @@ class MapView @JvmOverloads constructor(
             }
             ConnectionState.DISCONNECTING -> {
                 locationData.inProgress = true
-                invalidate()
             }
             ConnectionState.PAUSING -> {
             }
@@ -413,9 +405,12 @@ class MapView @JvmOverloads constructor(
         }
 
         if (this.location?.isConnected == location?.isConnected) {
+            this.oldLocation = this.location
             this.location = location
             this.location?.let {
                 it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+
+                animator.startHideAnimation(math.totalX, math.totalY)
             }
             return
         }
@@ -428,17 +423,13 @@ class MapView @JvmOverloads constructor(
         location?.let {
             it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
 
-            animator.startMovementAnimation(math.totalX, math.totalY)
+            animator.startHideAnimation(math.totalX, math.totalY)
         }
     }
 
     fun setPanelHeight(padding: Float) {
         math.totalY = math.totalY - (panelHeight - padding / 2f)
         this.panelHeight = padding / 2f
-//        with(dialogueData) {
-//            x = width / 2f
-//            y = height / 2f - panelHeight
-//        }
 
         invalidate()
     }
@@ -450,11 +441,6 @@ class MapView @JvmOverloads constructor(
         if (width == 0 || height == 0) {
             return
         }
-
-//        with(dialogueData) {
-//            x = width / 2f
-//            y = height / 2f - panelHeight
-//        }
 
         job = GlobalScope.launch {
             println("Start to init map")
@@ -551,6 +537,10 @@ class MapView @JvmOverloads constructor(
                 locationData.drawCurrentLocation = false
             }
 
+            override fun updateHideProgress(progress: Float) {
+                locationData.hideAnimationProgress = progress
+            }
+
             override fun updateMovementProgress(progress: Float,
                                                 startX: Float,
                                                 startY: Float,
@@ -633,8 +623,9 @@ class MapView @JvmOverloads constructor(
 
     companion object {
         const val WAVE_ANIMATION_DURATION = 2000L
-        const val MOVEMENT_ANIMATION_DURATION = 1000L
-        const val APPEAR_ANIMATION_DURATION = 10L
+        const val HIDE_ANIMATION_DURATION = 500L
+        const val MOVEMENT_ANIMATION_DURATION = 550L
+        const val APPEAR_ANIMATION_DURATION = 700L
         const val CENTER_ANIMATION_DURATION = 300L
 
         const val MAX_ALPHA = 255

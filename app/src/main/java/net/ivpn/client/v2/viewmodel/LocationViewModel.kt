@@ -3,21 +3,21 @@ package net.ivpn.client.v2.viewmodel
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -27,11 +27,13 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
+import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
@@ -69,6 +71,8 @@ class LocationViewModel @Inject constructor(
 
     val isLocationAPIError = ObservableBoolean()
 
+    var uiListener: LocationUpdatesUIListener? = null
+
     private var locationListeners = arrayListOf<CheckLocationListener>()
 
     private var request: Request<LocationResponse>? = null
@@ -95,6 +99,7 @@ class LocationViewModel @Inject constructor(
 
     fun checkLocation() {
         isLocationAPIError.set(false)
+        uiListener?.onLocationUpdated()
         request?.cancel()
         request = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
         LOGGER.info("Checking location...")
@@ -111,6 +116,7 @@ class LocationViewModel @Inject constructor(
             override fun onSuccess(response: LocationResponse?) {
                 LOGGER.info(response.toString())
                 this@LocationViewModel.onSuccess(response)
+                uiListener?.onLocationUpdated()
             }
 
             override fun onError(throwable: Throwable) {
@@ -171,6 +177,7 @@ class LocationViewModel @Inject constructor(
         ip.set("Connection error")
         isp.set("Connection error")
         location.set("Connection error")
+        uiListener?.onLocationUpdated()
     }
 
     private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
@@ -218,5 +225,9 @@ class LocationViewModel @Inject constructor(
         fun onSuccess(location: Location, connectionState: ConnectionState)
 
         fun onError()
+    }
+
+    interface LocationUpdatesUIListener {
+        fun onLocationUpdated()
     }
 }

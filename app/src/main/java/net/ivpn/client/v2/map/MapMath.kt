@@ -3,21 +3,21 @@ package net.ivpn.client.v2.map
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -40,8 +40,6 @@ class MapMath {
 
     var screenWidth: Float = 0f
     var screenHeight: Float = 0f
-
-
 
     //(longitude, latitude) latitude from - 90 to 90, longitude from -180 to 180;y from -90 to 90; x from -180 t0 180
     //longitude will transform into x coordinate and latitude into y coordinate
@@ -94,8 +92,11 @@ class MapMath {
         if (totalY < 0f) {
             totalY = 0f
         }
-        if (totalY > tileHeight * tilesCount - screenHeight) {
-            totalY = tileHeight * tilesCount - screenHeight
+//        if (totalY > tileHeight * tilesCount - screenHeight) {
+//            totalY = tileHeight * tilesCount - screenHeight
+//        }
+        if (totalY > tileHeight * visibleYCount - screenHeight) {
+            totalY = tileHeight * visibleYCount - screenHeight
         }
     }
 
@@ -123,5 +124,6 @@ class MapMath {
         const val tileWidth = 706
 
         const val tilesCount = 16
+        const val visibleYCount = 14
     }
 }

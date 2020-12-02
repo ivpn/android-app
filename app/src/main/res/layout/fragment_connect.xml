@@ -80,20 +80,20 @@
                 android:id="@+id/alerts_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="@dimen/map_alert_vertical_margin"
                 android:elevation="12dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/alerts_background">
+                android:layout_gravity="bottom">
 
                 <LinearLayout
                     android:id="@+id/expire_in_days_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/map_alert_height"
                     android:orientation="horizontal"
                     android:visibility="@{account.isExpiredIn() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/alerts_background"
                     android:gravity="center_vertical">
 
                     <ImageView
@@ -130,11 +130,12 @@
                 <LinearLayout
                     android:id="@+id/expired_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/map_alert_height"
                     android:orientation="horizontal"
                     android:visibility="@{account.isExpired() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/alerts_background">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -170,11 +171,12 @@
                 <LinearLayout
                     android:id="@+id/api_error_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/map_alert_height"
                     android:orientation="horizontal"
                     android:visibility="@{location.isLocationAPIError ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/alerts_background">
 
                     <ImageView
                         android:layout_width="wrap_content"

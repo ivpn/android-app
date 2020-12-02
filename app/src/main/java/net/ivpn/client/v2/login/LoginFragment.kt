@@ -3,21 +3,21 @@ package net.ivpn.client.v2.login
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -29,7 +29,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -38,7 +37,7 @@ import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
-import net.ivpn.client.common.extension.findNavControllerSafely
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.connect.CreateSessionNavigator
@@ -67,7 +66,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private var createSessionFragment: CreateSessionFragment? = null
 
-    private var originalMode : Int? = null
+    private var originalMode: Int? = null
 
     override fun onDestroy() {
         super.onDestroy()
@@ -80,6 +79,11 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
     override fun onStart() {
@@ -157,7 +161,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private fun createBlankAccount() {
         signUp.blankAccountID.get()?.let { accountID ->
-            if (accountID.isEmpty()  || !signUp.isBlankAccountFresh()) {
+            if (accountID.isEmpty() || !signUp.isBlankAccountFresh()) {
                 signUp.createNewAccount()
             } else {
                 onAccountCreationSuccess()
@@ -203,7 +207,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()
-        findNavControllerSafely()?.navigate(action)
+        navigate(action)
     }
 
     override fun onLoginWithBlankAccount() {
@@ -211,7 +215,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.blankAccountID.set(viewModel.username.get())
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            findNavControllerSafely()?.navigate(action)
+            navigate(action)
         } else {
             onLogin()
         }
@@ -222,7 +226,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             signUp.selectedPlan.set(Plan.getPlanByProductName(viewModel.getAccountType()))
 
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpPeriodFragment()
-            findNavControllerSafely()?.navigate(action)
+            navigate(action)
         } else {
             onLogin()
         }
@@ -244,14 +248,14 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationSuccess() {
         val action = LoginFragmentDirections.actionLoginFragmentToSignUpFinishFragment()
-        findNavControllerSafely()?.navigate(action)
+        navigate(action)
     }
 
     override fun onAccountCreationError() {
         DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
     }
 
-    fun Window.getSoftInputMode() : Int {
+    fun Window.getSoftInputMode(): Int {
         return attributes.softInputMode
     }
 }

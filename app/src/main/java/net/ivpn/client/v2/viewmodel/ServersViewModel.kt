@@ -3,21 +3,21 @@ package net.ivpn.client.v2.viewmodel
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -53,7 +53,12 @@ class ServersViewModel @Inject constructor(
         val pingProvider: PingProvider
 ) : ViewModel() {
 
+    val entryRandomServer = ObservableBoolean()
+    val exitRandomServer = ObservableBoolean()
     val fastestServer = ObservableBoolean()
+    val entryServerVisibility = ObservableBoolean()
+    val exitServerVisibility = ObservableBoolean()
+
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
     val mapServer = ObservableField<Server>()
@@ -66,25 +71,24 @@ class ServersViewModel @Inject constructor(
     }
 
     fun onResume() {
-        entryServer.set(getCurrentServer(ServerType.ENTRY))
-        exitServer.set(getCurrentServer(ServerType.EXIT))
-        mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
-
-        fastestServer.set(isFastestServerEnabled())
-
-        pingResultExitServer.set(null)
-        pingResultEnterServer.set(null)
-
-        ping(entryServer.get(), getPingFinishListener(ServerType.ENTRY))
-        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT))
+        initStates()
     }
 
     fun reset() {
+        initStates()
+    }
+
+    private fun initStates() {
         entryServer.set(getCurrentServer(ServerType.ENTRY))
         exitServer.set(getCurrentServer(ServerType.EXIT))
         mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
 
         fastestServer.set(isFastestServerEnabled())
+        entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
+        exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
+
+        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        exitServerVisibility.set(!exitRandomServer.get())
 
         pingResultExitServer.set(null)
         pingResultEnterServer.set(null)
@@ -97,12 +101,20 @@ class ServersViewModel @Inject constructor(
         return serversRepository.getCurrentServer(serverType)
     }
 
+    private fun getSettingsRandomServer(serverType: ServerType): Boolean {
+        if (isVpnActive()) {
+            return false
+        }
+
+        return serversRepository.getSettingRandomServer(serverType)
+    }
+
     private fun isFastestServerEnabled(): Boolean {
         if (multiHopController.isEnabled || isVpnActive()) {
             return false
         }
 
-        return serversRepository.settingFastestServer
+        return serversRepository.getSettingFastestServer()
     }
 
     private fun getVPNStateListener(): VpnStateListener {
@@ -112,18 +124,31 @@ class ServersViewModel @Inject constructor(
                 if (state == null) {
                     return
                 }
-                updateFastestServer(state)
+                updateServerVisibility()
             }
 
             override fun notifyServerAsFastest(server: Server) {
                 entryServer.set(server)
                 mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
             }
+
+            override fun notifyServerAsRandom(server: Server, serverType: ServerType) {
+                when(serverType) {
+                    ServerType.ENTRY -> entryServer.set(server)
+                    ServerType.EXIT -> exitServer.set(server)
+                }
+                mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
+            }
         }
     }
 
-    private fun updateFastestServer(state: ConnectionState) {
+    private fun updateServerVisibility() {
         fastestServer.set(isFastestServerEnabled())
+        entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
+        exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
+
+        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        exitServerVisibility.set(!exitRandomServer.get())
     }
 
     private fun isVpnActive(): Boolean {
@@ -137,7 +162,7 @@ class ServersViewModel @Inject constructor(
     private fun getOnMultihopValueChanges(): MultiHopController.OnValueChangeListener {
         return object : MultiHopController.OnValueChangeListener {
             override fun onValueChange(value: Boolean) {
-                fastestServer.set(isFastestServerEnabled())
+                updateServerVisibility()
                 mapServer.set(if (value) exitServer.get() else entryServer.get())
             }
         }

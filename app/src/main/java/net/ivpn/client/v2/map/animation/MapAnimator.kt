@@ -3,28 +3,27 @@ package net.ivpn.client.v2.map.animation
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- <p>
+
  Created by Oleksandr Mykhailenko.
  Copyright (c) 2020 Privatus Limited.
- <p>
+
  This file is part of the IVPN Android app.
- <p>
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- <p>
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- <p>
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import android.animation.Animator
 import android.animation.ValueAnimator
-import android.view.animation.LinearInterpolator
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
@@ -37,6 +36,7 @@ class MapAnimator(val listener: AnimatorListener) {
     private var startY: Float = 0f
     private var appearProgress = 0f
     private var movementProgress = 0f
+    private var hideProgress = 0f
     private var waveProgress = 0f
 
     var animationState = AnimationState.NONE
@@ -109,7 +109,37 @@ class MapAnimator(val listener: AnimatorListener) {
         movementAnimator.start()
     }
 
-    fun startMovementAnimation(startX: Float, startY: Float) {
+    fun startHideAnimation(startX: Float, startY: Float) {
+        animationState = AnimationState.HIDE
+        listener.updateHideProgress(0f)
+        val hideAnimator = ValueAnimator.ofFloat(0f, 1f)
+        hideAnimator.duration = MapView.HIDE_ANIMATION_DURATION
+        hideAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                startMovementAnimation(startX, startY)
+//                listener.onEndMovementAnimation()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                stopWaveAnimation()
+            }
+
+        })
+        hideAnimator.addUpdateListener { valueAnimator ->
+            hideProgress = valueAnimator.animatedValue as Float
+            listener.updateHideProgress(hideProgress)
+            listener.redraw()
+        }
+        hideAnimator.start()
+    }
+
+    private fun startMovementAnimation(startX: Float, startY: Float) {
         animationState = AnimationState.MOVEMENT
         this.startX = startX
         this.startY = startY
@@ -128,10 +158,7 @@ class MapAnimator(val listener: AnimatorListener) {
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                isWavesEnabled = false
-                if (waveAnimator.isRunning) {
-                    waveAnimator.cancel()
-                }
+                stopWaveAnimation()
                 listener.onStartMovementAnimation()
             }
 
@@ -201,8 +228,10 @@ class MapAnimator(val listener: AnimatorListener) {
         })
         waveAnimator.addUpdateListener { valueAnimator ->
             waveProgress = valueAnimator.animatedValue as Float
-            listener.updateWaveProgress(waveProgress)
-            listener.redraw()
+            if (isWavesEnabled) {
+                listener.updateWaveProgress(waveProgress)
+                listener.redraw()
+            }
         }
         waveAnimator.start()
     }
@@ -211,6 +240,7 @@ class MapAnimator(val listener: AnimatorListener) {
         isWavesEnabled = false
         if (waveAnimator.isRunning) {
             waveAnimator.cancel()
+            listener.updateWaveProgress(0f)
         }
     }
 
@@ -218,6 +248,8 @@ class MapAnimator(val listener: AnimatorListener) {
         fun redraw()
 
         fun onStartMovementAnimation()
+
+        fun updateHideProgress(progress: Float)
 
         fun updateMovementProgress(progress: Float, startX: Float, startY: Float, animationType: MovementAnimationType)
 
@@ -236,6 +268,7 @@ class MapAnimator(val listener: AnimatorListener) {
 
     enum class AnimationState {
         NONE,
+        HIDE,
         MOVEMENT,
         APPEAR
     }
