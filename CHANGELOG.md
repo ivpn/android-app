@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Version 2.1.0 - 2020-12-01
 
-[New] Antitracker switcher state for hardcore mode
+[New] Antitracker switcher state for hardcore mode  
 [New] Provide additional information for a subscription plan
 [Improved] Date format
 [Improved] Cases when the Antitracker can be enabled
@@ -38,7 +38,7 @@ SHA256: 751a7db841e85d749b6ab908aaa9c983a7375f404afdc9221cdc3a371af545ad
 [NEW] Control panel
 [NEW] Dedicated account screen
 [NEW] Dark theme
-[IMPROVED] Search and sort on the servers list  
+[IMPROVED] Search and sort on the servers list
 
 [Download IVPN Client v. 2.0.0](https://cdn.ivpn.net/releases/android/IVPNv2.0site.apk)  
 SHA256: f867b5176dd028abe75826b1488f689406303ec93abe44d5b971edc30bbac06d
