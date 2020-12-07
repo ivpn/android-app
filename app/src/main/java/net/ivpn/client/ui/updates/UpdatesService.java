@@ -34,8 +34,11 @@ import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
+import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
@@ -114,14 +117,14 @@ public class UpdatesService extends Service implements ServiceConstants {
 
     private void closeSystemDialogs() {
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(intent);
     }
 
     private int doSendActionBroadcast(String action) {
         Intent vpnAction = new Intent();
         vpnAction.setAction(UPDATE_NOTIFICATION_ACTION);
         vpnAction.putExtra(UPDATE_NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(vpnAction);
         return START_NOT_STICKY;
     }
 

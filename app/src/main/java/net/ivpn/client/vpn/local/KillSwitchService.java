@@ -32,6 +32,7 @@ import android.net.VpnService;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.client.R;
 import net.ivpn.client.v2.MainActivity;
@@ -257,7 +258,7 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
         Intent vpnStatus = new Intent();
         vpnStatus.setAction(ServiceConstants.KILL_SWITCH_ACTION);
         vpnStatus.putExtra(ServiceConstants.KILL_SWITCH_ACTION_EXTRA, action);
-        sendBroadcast(vpnStatus);
+        LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(vpnStatus);
         return START_NOT_STICKY;
     }
 }

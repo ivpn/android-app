@@ -36,7 +36,9 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.v2.MainActivity;
@@ -153,7 +155,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ServiceConstants.APP_SETTINGS_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
         return START_NOT_STICKY;
     }
 
@@ -162,21 +164,21 @@ public class WifiWatcherService extends Service implements ServiceConstants {
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, WIFI_CHANGED_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_VALUE, ssid);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendOnMobileDataBroadcast() {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ON_MOBILE_DATA_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendNoNetworkBroadcast() {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, NO_NETWORK_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     //ToDo Need to refactor, think how to make this code clean

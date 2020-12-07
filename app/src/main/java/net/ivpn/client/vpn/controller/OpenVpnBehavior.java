@@ -31,6 +31,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.pinger.OnFastestServerDetectorListener;
@@ -300,11 +302,11 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         intentFilter.addAction(VPN_STATUS);
         intentFilter.addAction(NOTIFICATION_ACTION);
 
-        IVPNApplication.getApplication().registerReceiver(connectionStatusReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(connectionStatusReceiver, intentFilter);
     }
 
     private void unregisterReceivers() {
-        IVPNApplication.getApplication().unregisterReceiver(connectionStatusReceiver);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(connectionStatusReceiver);
         globalBehaviorController.removeConnectionStatusListener(this);
     }
 

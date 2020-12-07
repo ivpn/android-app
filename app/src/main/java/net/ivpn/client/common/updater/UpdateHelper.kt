@@ -28,6 +28,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavDeepLinkBuilder
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -180,15 +181,18 @@ class UpdateHelper @Inject constructor(
 
         val intentFilter = IntentFilter()
         intentFilter.addAction(ServiceConstants.UPDATE_NOTIFICATION_ACTION)
-
-        IVPNApplication.getApplication().registerReceiver(notificationActionReceiver, intentFilter)
+        notificationActionReceiver?.let {
+            LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(it, intentFilter)
+        }
     }
 
     private fun unregisterReceivers() {
         LOGGER.info("Unregister receiver")
 
-        if (notificationActionReceiver == null) return
-        IVPNApplication.getApplication().unregisterReceiver(notificationActionReceiver)
+        notificationActionReceiver?.let {
+            LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(it)
+        } ?: return
+
         notificationActionReceiver = null
     }
 

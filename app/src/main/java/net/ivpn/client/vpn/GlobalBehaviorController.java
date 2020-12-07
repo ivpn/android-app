@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.net.VpnService;
 import android.os.Build;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavDeepLinkBuilder;
 
 import net.ivpn.client.IVPNApplication;
@@ -290,7 +291,7 @@ public class GlobalBehaviorController implements ServiceConstants {
     public void release() {
         LOGGER.info("release");
         finishAll();
-        IVPNApplication.getApplication().unregisterReceiver(securityGuardActionsReceiver);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(securityGuardActionsReceiver);
     }
 
     public void finishAll() {
@@ -317,7 +318,7 @@ public class GlobalBehaviorController implements ServiceConstants {
             }
         };
 
-        IVPNApplication.getApplication().registerReceiver(securityGuardActionsReceiver,
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(securityGuardActionsReceiver,
                 new IntentFilter(KILL_SWITCH_ACTION));
     }
 

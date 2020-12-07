@@ -28,6 +28,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.wireguard.android.backend.WireGuardUiService;
 import com.wireguard.android.model.Tunnel;
 
@@ -201,11 +203,11 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NOTIFICATION_ACTION);
 
-        IVPNApplication.getApplication().registerReceiver(notificationActionReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(notificationActionReceiver, intentFilter);
     }
 
     private void unregisterReceivers() {
-        IVPNApplication.getApplication().unregisterReceiver(notificationActionReceiver);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(notificationActionReceiver);
     }
 
     private void onNotificationAction(Intent intent) {
