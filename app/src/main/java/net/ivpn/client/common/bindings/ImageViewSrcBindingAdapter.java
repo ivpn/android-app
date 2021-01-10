@@ -27,8 +27,11 @@ import android.content.Context;
 import androidx.databinding.BindingAdapter;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -116,6 +119,16 @@ public class ImageViewSrcBindingAdapter {
             return;
         }
 
+        imageView.setImageBitmap(bitmap);
+    }
+
+    @BindingAdapter("app:srcBase")
+    public static void setBase64(ImageView imageView, String base64) {
+        Log.d("TAG", "setBase64: " + base64);
+        String replaced = base64.replaceFirst("data:image/png;base64,", "");
+        Log.d("TAG", "replaced: " + replaced);
+        byte[] decodedString = Base64.decode(replaced, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         imageView.setImageBitmap(bitmap);
     }
 }

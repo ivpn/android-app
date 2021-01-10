@@ -70,8 +70,46 @@ class SessionController @Inject constructor(
         listeners.remove(listener)
     }
 
+    fun createSessionWith2FAToken(force: Boolean, username: String? = getUsername(), token: String) {
+        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, token)
+
+        innerCreateSession(body)
+    }
+
+    fun createSessionWithCaptcha(force: Boolean, username: String? = getUsername(), captchaId: String, captchaValue: String) {
+        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, captchaId, captchaValue)
+
+        innerCreateSession(body)
+    }
+
     fun createSession(force: Boolean, username: String? = getUsername()) {
         val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force)
+
+        innerCreateSession(body)
+//        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+//        LOGGER.info(body.toString())
+//
+//        sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
+//                object : RequestListener<SessionNewResponse> {
+//                    override fun onSuccess(response: SessionNewResponse) {
+//                        LOGGER.info(response.toString())
+//                        onCreateSuccess(response)
+//                    }
+//
+//                    override fun onError(throwable: Throwable) {
+//                        LOGGER.error("On create session throwable = $throwable")
+//                        onCreateError(throwable, null)
+//                    }
+//
+//                    override fun onError(error: String) {
+//                        LOGGER.error("On create session error = $error")
+//                        val errorResponse = Mapper.errorResponseFrom(error)
+//                        onCreateError(null, errorResponse)
+//                    }
+//                })
+    }
+
+    private fun innerCreateSession(body: SessionNewRequestBody) {
         sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
         LOGGER.info(body.toString())
 

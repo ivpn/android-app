@@ -34,6 +34,8 @@ import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSyncBinding
 import net.ivpn.client.ui.syncservers.SyncServersNavigator
 import net.ivpn.client.ui.syncservers.SyncServersViewModel
+import net.ivpn.client.v2.MainActivity
+import net.ivpn.client.v2.connect.ConnectFragment
 import net.ivpn.client.v2.login.LoginFragment
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -62,6 +64,15 @@ class SyncFragment: Fragment(), SyncServersNavigator {
         super.onViewCreated(view, savedInstanceState)
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setAdjustNothingMode()
+            }
+        }
     }
 
     override fun onResume() {

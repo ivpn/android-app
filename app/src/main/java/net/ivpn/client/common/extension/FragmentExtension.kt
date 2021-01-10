@@ -26,6 +26,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.VpnService
+import android.view.Window
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -69,4 +70,15 @@ fun Fragment.findNavControllerSafely(): NavController? {
     } else {
         null
     }
+}
+
+fun Window.getSoftInputMode(): Int {
+    return attributes.softInputMode
+}
+
+fun Fragment.getNavigationResultBoolean(key: String = "result") =
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(key)
+
+fun Fragment.setNavigationResultBoolean(result: Boolean, key: String = "result") {
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
 }

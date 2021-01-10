@@ -42,6 +42,18 @@ public class IVPNApplication extends Application implements ServiceConstants {
     @Override
     public void onCreate() {
         super.onCreate();
+
+//        try {
+//            ProviderInstaller.installIfNeeded(getApplicationContext());
+//            SSLContext sslContext;
+//            sslContext = SSLContext.getInstance("TLSv1.2");
+//            sslContext.init(null, null, null);
+//            sslContext.createSSLEngine();
+//        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException
+//                | NoSuchAlgorithmException | KeyManagementException e) {
+//            e.printStackTrace();
+//        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             appComponent.provideNotificationUtil().createNotificationChannels();
         }

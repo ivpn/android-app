@@ -265,6 +265,7 @@ class ServersRepository @Inject constructor(
     }
 
     fun tryUpdateIpList() {
+        println("settings.ipList = ${settings.ipList}")
         if (settings.ipList != null) {
             return
         }

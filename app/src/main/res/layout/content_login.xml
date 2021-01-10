@@ -5,6 +5,7 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="net.ivpn.client.v2.login.LoginViewModel.InputState" />
 
         <variable
             name="viewmodel"
@@ -49,50 +50,124 @@
                 android:textColor="@color/login_text_color"
                 android:textSize="14sp"
                 app:chainUseRtl="false"
-                app:layout_constraintBottom_toTopOf="@+id/outlinedTextField"
+                app:layout_constraintBottom_toTopOf="@+id/input_field"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/space1"
                 app:layout_constraintVertical_chainStyle="spread"
                 app:layout_constraintVertical_weight="1"
                 app:layout_optimizationLevel="chains" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/outlinedTextField"
-                style="@style/AppTheme.OutlinedBox"
-                android:layout_width="match_parent"
+<!--            app:hintTextAppearance="@style/AppTheme.HintText"-->
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--            <net.ivpn.client.common.views.CustomTextInputLayout-->
+<!--                android:id="@+id/outlinedTextField"-->
+<!--                style="@style/AppTheme.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:hint="@string/sign_in_username_hint"-->
+<!--                app:chainUseRtl="false"-->
+<!--                app:endIconDrawable="@drawable/ic_qr_code"-->
+<!--                app:endIconMode="custom"-->
+<!--                app:endIconTint="@color/primary"-->
+<!--                app:error="@{viewmodel.error}"-->
+<!--                app:errorEnabled="true"-->
+<!--                app:errorIconDrawable="@null"-->
+<!--                app:errorIconTint="@color/error"-->
+<!--                app:errorTextColor="@color/error"-->
+<!--                app:hintAnimationEnabled="false"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/space2"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textView13"-->
+<!--                app:layout_constraintVertical_chainStyle="spread"-->
+<!--                app:layout_optimizationLevel="chains">-->
+<!--&lt;!&ndash;                app:mainHintTextSize="16sp"&ndash;&gt;-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/input_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:imeOptions="actionDone"-->
+<!--                    android:hint="@string/sign_in_username_hint"-->
+<!--                    android:inputType="textVisiblePassword"-->
+<!--                    android:text="@={viewmodel.username}"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:textColor="@color/login_text_color" />-->
+<!--            </net.ivpn.client.common.views.CustomTextInputLayout>-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <FrameLayout
+                android:id="@+id/input_field"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/login_upper_background"
+                android:layout_marginHorizontal="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/error"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:input_state="@{viewmodel.loginInputState}">
+
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:layout_gravity="center"
+                    android:hint="@string/auth_hint"
+                    android:text="@={viewmodel.username}"
+                    android:inputType="textVisiblePassword"
+                    android:textSize="16sp"
+                    android:textColor="@color/login_text_color"
+                    android:textColorHint="@color/login_text_color_hint"
+                    android:theme="@style/EditTextTheme"
+                    android:layout_marginHorizontal="16dp"/>
+
+                <ImageView
+                    android:id="@+id/qr_code"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_qr_code"
+                    android:contentDescription="Login with QR code" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:hint="@string/sign_in_username_hint"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/auth_log_in_error"
+                android:textColor="@color/error"
+                android:textSize="14sp"
+                android:visibility="@{viewmodel.loginInputState == InputState.ERROR ? View.VISIBLE : View.GONE}"
                 app:chainUseRtl="false"
-                app:endIconDrawable="@drawable/ic_qr_code"
-                app:endIconMode="custom"
-                app:endIconTint="@color/primary"
-                app:error="@{viewmodel.usernameError}"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@null"
-                app:errorIconTint="@color/error"
-                app:errorTextColor="@color/error"
-                app:hintAnimationEnabled="false"
-                app:hintTextAppearance="@style/AppTheme.HintText"
                 app:layout_constraintBottom_toTopOf="@+id/space2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                app:layout_constraintTop_toBottomOf="@+id/input_field"
                 app:layout_constraintVertical_chainStyle="spread"
-                app:layout_optimizationLevel="chains">
+                app:layout_constraintVertical_weight="1"
+                app:layout_optimizationLevel="chains" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="textVisiblePassword"
-                    android:text="@={viewmodel.username}"
-                    android:textColor="@color/login_text_color" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Space
+                android:id="@+id/space2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/login_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/error"
+                app:layout_constraintVertical_chainStyle="spread"
+                app:layout_constraintVertical_weight="1"
+                app:layout_optimizationLevel="chains" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_button"
@@ -125,18 +200,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/login_button"
                 app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintVertical_chainStyle="spread"
-                app:layout_optimizationLevel="chains" />
-
-            <Space
-                android:id="@+id/space2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/login_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outlinedTextField"
-                app:layout_constraintVertical_chainStyle="spread"
-                app:layout_constraintVertical_weight="1"
                 app:layout_optimizationLevel="chains" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

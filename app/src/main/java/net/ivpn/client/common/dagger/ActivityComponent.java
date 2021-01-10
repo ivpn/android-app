@@ -34,6 +34,7 @@ import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.v2.account.AccountFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.client.v2.antitracker.AntiTrackerFragment;
+import net.ivpn.client.v2.captcha.CaptchaFragment;
 import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
 import net.ivpn.client.v2.login.LoginFragment;
@@ -57,6 +58,7 @@ import net.ivpn.client.v2.signup.SignUpPeriodFragment;
 import net.ivpn.client.v2.signup.SignUpProductFragment;
 import net.ivpn.client.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.client.v2.sync.SyncFragment;
+import net.ivpn.client.v2.tfa.TFAFragment;
 import net.ivpn.client.v2.updates.UpdatesFragment;
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner;
 import net.ivpn.client.vpn.AlwaysOnVpnService;
@@ -154,6 +156,10 @@ public interface ActivityComponent {
     void inject(ScannedNetworksFragment fragment);
 
     void inject(UpdatesFragment fragment);
+
+    void inject(TFAFragment fragment);
+
+    void inject(CaptchaFragment fragment);
 
     void inject(MapView map);
 
