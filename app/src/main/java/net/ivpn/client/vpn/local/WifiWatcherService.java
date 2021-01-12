@@ -160,6 +160,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     }
 
     private void sendWifiConnectionBroadcast(String ssid) {
+        LOGGER.info("sendWifiConnectionBroadcast ssid = " + ssid);
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, WIFI_CHANGED_ACTION);
@@ -168,6 +169,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     }
 
     private void sendOnMobileDataBroadcast() {
+        LOGGER.info("sendOnMobileDataBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ON_MOBILE_DATA_ACTION);
@@ -240,6 +242,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            LOGGER.info("On receive");
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
                 NetworkSource source = NetworkUtil.getCurrentSource(context);

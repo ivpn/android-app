@@ -30,6 +30,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavDeepLinkBuilder;
 
 import net.ivpn.client.IVPNApplication;
@@ -505,7 +506,6 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void registerReceiver() {
-
         BroadcastReceiver wifiWatcherBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -513,7 +513,7 @@ public class NetworkController implements ServiceConstants {
             }
         };
 
-        IVPNApplication.getApplication().registerReceiver(wifiWatcherBroadcastReceiver,
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(wifiWatcherBroadcastReceiver,
                 new IntentFilter(WIFI_WATCHER_ACTION));
 
         if (isWifiWatcherSettingEnabled && !shouldWifiWatchedBeEnabled()) {

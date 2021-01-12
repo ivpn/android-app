@@ -23,13 +23,25 @@ package net.ivpn.client;
 */
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Build;
+
+import androidx.annotation.NonNull;
 
 import net.ivpn.client.common.dagger.ApplicationComponent;
 import net.ivpn.client.common.dagger.DaggerApplicationComponent;
+import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.vpn.ServiceConstants;
+import net.ivpn.client.vpn.openvpn.IVPNService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IVPNApplication extends Application implements ServiceConstants {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IVPNApplication.class);
 
     private static IVPNApplication instance;
 
@@ -42,17 +54,6 @@ public class IVPNApplication extends Application implements ServiceConstants {
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        try {
-//            ProviderInstaller.installIfNeeded(getApplicationContext());
-//            SSLContext sslContext;
-//            sslContext = SSLContext.getInstance("TLSv1.2");
-//            sslContext.init(null, null, null);
-//            sslContext.createSSLEngine();
-//        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException
-//                | NoSuchAlgorithmException | KeyManagementException e) {
-//            e.printStackTrace();
-//        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             appComponent.provideNotificationUtil().createNotificationChannels();
