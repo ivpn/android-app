@@ -22,6 +22,8 @@ package net.ivpn.client.rest;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.util.Log;
+
 import net.ivpn.client.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -31,6 +33,7 @@ import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 
+import okhttp3.CertificatePinner;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,11 +47,12 @@ public class HttpClientFactory {
     }
 
     public OkHttpClient getHttpClient(int timeOut) {
-
+        Log.d("HttpClientFactory", "getHttpClient: BASE_URL = " + BASE_URL);
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
 
         httpClientBuilder.hostnameVerifier(getHostnameVerifier());
+        httpClientBuilder.certificatePinner(getCertificatePinner());
         httpClientBuilder.readTimeout(timeOut, TimeUnit.SECONDS);
         httpClientBuilder.connectTimeout(3, TimeUnit.SECONDS);
 
@@ -65,6 +69,13 @@ public class HttpClientFactory {
                     .build();
             return chain.proceed(request);
         };
+    }
+
+    private CertificatePinner getCertificatePinner() {
+        return new CertificatePinner.Builder()
+                .add( BASE_URL,"sha256/g6WEFnt9DyTi70nW/fufsZNw83vFpcmIhMuDPQ1MFcI=")
+//                .add( BASE_URL,"sha256/Jl+pK4qpKGVHQAUOvJOpuu3blkJeZNqHrHKTJTvslDY=")
+                .build();
     }
 
     private HostnameVerifier getHostnameVerifier() {

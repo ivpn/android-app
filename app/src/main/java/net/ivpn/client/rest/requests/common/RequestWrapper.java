@@ -84,7 +84,7 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     void perform() {
-        testingIp = getIps().getFirst();
+        testingIp = getIps().isEmpty() ? null : getIps().getFirst();
         startIp = testingIp;
         LOGGER.info("Perform with testingIp = " + testingIp);
         String baseUrl = generateURL(testingIp);
