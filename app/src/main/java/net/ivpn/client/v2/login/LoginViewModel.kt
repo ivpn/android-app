@@ -177,36 +177,44 @@ class LoginViewModel @Inject constructor(
 
     fun submit2FAToken() {
         LOGGER.info("submit2FAToken")
-        captcha.get()?.let {
-//            if (it.length != 6 || !it.isDigitsOnly()) {
-//                captchaInputState.set(InputState.ERROR)
-//                return
-//            }
-            username.get()?.let {usernameObj ->
+        tfaToken.get()?.let {
+            if (it.length != 6 || !it.isDigitsOnly()) {
+                error.set("Please enter 6-digit verification code")
+                tfaInputState.set(InputState.ERROR)
+                return
+            }
+            username.get()?.let { usernameObj ->
                 dataLoading.set(true)
                 sessionController.createSessionWith2FAToken(false, usernameObj, it)
             }
             resetErrors()
         } ?: kotlin.run {
-            captchaInputState.set(InputState.ERROR)
+            error.set("Please enter 6-digit verification code")
+            tfaInputState.set(InputState.ERROR)
         }
     }
 
     fun submitCaptcha() {
         LOGGER.info("submitCaptcha navigator = $navigator")
         captcha.get()?.let {
-            if (it.length != 6 || !it.isDigitsOnly()) {
+            if (it.isEmpty()) {
+                error.set("Please enter 6-digit verification code")
                 captchaInputState.set(InputState.ERROR)
                 return
             }
-            username.get()?.let {usernameObj ->
-                captchaId?.let {captchaIdObj ->
+//            if (it.length != 6 || !it.isDigitsOnly()) {
+//                captchaInputState.set(InputState.ERROR)
+//                return
+//            }
+            username.get()?.let { usernameObj ->
+                captchaId?.let { captchaIdObj ->
                     dataLoading.set(true)
                     sessionController.createSessionWithCaptcha(false, usernameObj, captchaIdObj, it)
                 }
             }
             resetErrors()
         } ?: kotlin.run {
+            error.set("Please enter 6-digit verification code")
             captchaInputState.set(InputState.ERROR)
         }
     }
@@ -267,6 +275,11 @@ class LoginViewModel @Inject constructor(
             Responses.ENTER_TOTP_TOKEN -> {
                 navigator?.openTFAScreen()
             }
+            Responses.INVALID_TOTP_TOKEN -> {
+                tfaToken.set(null)
+                error.set("Specified two-factor authentication token is not valid")
+                tfaInputState.set(InputState.ERROR)
+            }
             Responses.INVALID_CREDENTIALS -> {
                 navigator?.onInvalidAccount()
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)
@@ -274,7 +287,17 @@ class LoginViewModel @Inject constructor(
             Responses.SESSION_TOO_MANY -> {
                 navigator?.openSessionLimitReachedDialogue()
             }
-            Responses.CAPTCHA_REQUIRED, Responses.INVALID_CAPTCHA -> {
+            Responses.INVALID_CAPTCHA -> {
+                error.set("Invalid captcha, please try again")
+                captchaInputState.set(InputState.ERROR)
+                captcha.set(null)
+                captchaId = errorResponse.captchaId
+                captchaImage.set(errorResponse.captchaImage)
+                println("captchaId = $captchaId")
+                println("captchaImage = $captchaImage")
+                navigator?.openCaptcha()
+            }
+            Responses.CAPTCHA_REQUIRED -> {
                 captchaId = errorResponse.captchaId
                 captchaImage.set(errorResponse.captchaImage)
                 println("captchaId = $captchaId")
@@ -290,6 +313,15 @@ class LoginViewModel @Inject constructor(
                         if (errorResponse.message != null) errorResponse.message else "")
             }
         }
+    }
+
+    fun reset() {
+        error.set(null)
+        captcha.set(null)
+        tfaToken.set(null)
+        captchaInputState.set(InputState.NORMAL)
+        tfaInputState.set(InputState.NORMAL)
+        loginInputState.set(InputState.NORMAL)
     }
 
     private fun resetErrors() {
