@@ -107,6 +107,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             }
         }
         viewModel.navigator = this
+        viewModel.reset()
     }
 //
 //    override fun onStop() {

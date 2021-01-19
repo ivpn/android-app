@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/tfa_token_error"
+                android:text="@{viewmodel.error}"
                 android:textColor="@color/error"
                 android:textSize="14sp"
                 android:visibility="@{viewmodel.tfaInputState == InputState.ERROR ? View.VISIBLE : View.GONE}"

@@ -36,6 +36,7 @@ import net.ivpn.client.rest.data.model.WireGuard
 import net.ivpn.client.rest.data.session.*
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.v2.login.LoginViewModel
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner
 import net.ivpn.client.vpn.Protocol
@@ -53,7 +54,7 @@ class SessionController @Inject constructor(
         private val serversRepository: ServersRepository
 ) {
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
+        private val LOGGER = LoggerFactory.getLogger(LoginViewModel::class.java)
     }
 
     private var deleteSessionRequest: Request<DeleteSessionResponse>? = null
