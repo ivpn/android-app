@@ -26,6 +26,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
@@ -371,7 +373,20 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constant.SUPPORT_EMAIL))
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivity(intent)
+        activity?.let {
+            val possibleActivitiesList: List<ResolveInfo> =
+                    it.packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                val chooser = resources.getString(R.string.send_logs).let { title ->
+                    Intent.createChooser(intent, title)
+                }
+                startActivity(chooser)
+            } else if (intent.resolveActivity(it.packageManager) != null) {
+                startActivity(intent)
+            }
+        } ?: kotlin.run {
+            startActivity(intent)
+        }
     }
 
     private fun openEntryServerScreen() {

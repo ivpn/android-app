@@ -113,7 +113,7 @@ public class RequestWrapper<T> implements Callback<T> {
 
         String baseUrl;
         if (testingIp == null) {
-            testingIp = getIps().getFirst();
+            testingIp = getIps().isEmpty() ? null : getIps().getFirst();
         } else if (testingIp.equals(getIps().getLast())) {
             testingIp = null;
         } else {

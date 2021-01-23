@@ -266,7 +266,10 @@ class LoginViewModel @Inject constructor(
                 navigator?.openErrorDialogue(Dialogs.SERVER_ERROR)
                 return
             }
-        } ?: return
+        } ?: kotlin.run {
+            navigator?.openErrorDialogue(Dialogs.CREATE_SESSION_ERROR)
+            return
+        }
 
         when (errorResponse.status) {
             Responses.ACCOUNT_NOT_ACTIVE -> {

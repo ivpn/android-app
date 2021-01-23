@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">IVPN</string>
 
+    <string name="send_logs">Send an email with logs via</string>
+
     <!--Tutorial-->
     <string name="tutorial_page_title_locations">Popular locations</string>
     <string name="tutorial_page_title_access">All device access</string>
@@ -382,7 +384,8 @@
     <string name="dialogs_change_status_default">Default</string>
     <string name="dialogs_change_status_none">None</string>
 
-    <string name="dialogs_create_account_error_message">There was a problem with creating a new account.</string>
+    <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
+    <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>

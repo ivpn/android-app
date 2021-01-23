@@ -41,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IVPNApplication extends Application implements ServiceConstants {
-    private static final Logger LOGGER = LoggerFactory.getLogger(IVPNApplication.class);
 
     private static IVPNApplication instance;
 

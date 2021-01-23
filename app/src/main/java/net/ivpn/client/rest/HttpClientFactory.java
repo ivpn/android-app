@@ -73,8 +73,17 @@ public class HttpClientFactory {
 
     private CertificatePinner getCertificatePinner() {
         return new CertificatePinner.Builder()
-                .add( BASE_URL,"sha256/g6WEFnt9DyTi70nW/fufsZNw83vFpcmIhMuDPQ1MFcI=")
-//                .add( BASE_URL,"sha256/Jl+pK4qpKGVHQAUOvJOpuu3blkJeZNqHrHKTJTvslDY=")
+//                Production
+//                .add(BASE_URL,
+//                        "sha256/Jl+pK4qpKGVHQAUOvJOpuu3blkJeZNqHrHKTJTvslDY=",
+//                        "sha256/U9XDB04u2rzA7daBcxHKzCtePOhDSp1x1LY6rf2TRXU=",
+//                        "sha256/3cEBzcOsAm+pfk5F24jbWulvqtS4ECzAYSjEqOKm4Pw=",
+//                        "sha256/sTkDAlpsHzTakpXj8SGCE1rXL8qlmYW77vn4WWHnLLc=")
+                .add(BASE_URL,
+                        "sha256/g6WEFnt9DyTi70nW/fufsZNw83vFpcmIhMuDPQ1MFcI=",
+                        "sha256/KCcpK9y22OrlapwO1/oP8q3LrcDM9Jy9lcfngg2r+Pk=",
+                        "sha256/iRHkSbdOY/YD8EE5fpl8W0P8EqmfkBRTADEegR2/Wnc=",
+                        "sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=")
                 .build();
     }
 

@@ -94,6 +94,7 @@ public class ComponentUtil {
         migrationController.checkForUpdates();
         IVPNApplication.getApplication().appComponent.provideGlobalWireGuardAlarm();
         AppCompatDelegate.setDefaultNightMode(settings.getNightMode().getSystemId());
+        initUpdateService();
     }
 
     public void resetComponents() {
@@ -109,6 +110,10 @@ public class ComponentUtil {
         profileManager.readDefaultProfile();
         globalBehaviorController.init();
         networkController.init();
+    }
+
+    private void initUpdateService() {
+        updatesJobServiceUtil.pushUpdateJob(IVPNApplication.getApplication());
     }
 
     private void initApiAccessImprovement() {

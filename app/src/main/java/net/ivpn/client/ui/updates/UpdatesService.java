@@ -22,7 +22,6 @@ package net.ivpn.client.ui.updates;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -117,7 +116,7 @@ public class UpdatesService extends Service implements ServiceConstants {
 
     private void closeSystemDialogs() {
         Intent intent = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     private int doSendActionBroadcast(String action) {
