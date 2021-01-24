@@ -22,10 +22,11 @@ package net.ivpn.client.ui.network.rules;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import androidx.databinding.ObservableBoolean;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import net.ivpn.client.common.prefs.SettingsPreference;
+import androidx.databinding.ObservableBoolean;
+
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.vpn.local.NetworkController;
 
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class NetworkRuleViewModel {
     public final ObservableBoolean isDisconnectFromVpnRuleApplied = new ObservableBoolean();
     public final ObservableBoolean isDisableKillSwitchRuleApplied = new ObservableBoolean();
 
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private NetworkController networkController;
 
     public final OnCheckedChangeListener connectToVpnRuleChangeListener = (buttonView, isChecked) -> {
@@ -63,7 +64,7 @@ public class NetworkRuleViewModel {
     };
 
     @Inject
-    NetworkRuleViewModel(SettingsPreference settingsPreference, NetworkController networkController) {
+    NetworkRuleViewModel(EncryptedSettingsPreference settingsPreference, NetworkController networkController) {
         this.settingsPreference = settingsPreference;
         this.networkController = networkController;
 

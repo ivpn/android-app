@@ -177,7 +177,7 @@ kapt {
 }
 
 dependencies {
-    def nav_version = "2.3.1"
+    def nav_version = "2.3.2"
     def lifecycle_version = "2.2.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -220,6 +220,9 @@ dependencies {
     //QR support
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
+
+    //Encrypted shared preference
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
 
     //Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'

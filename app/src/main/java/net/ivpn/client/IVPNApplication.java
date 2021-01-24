@@ -23,22 +23,11 @@ package net.ivpn.client;
 */
 
 import android.app.Application;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.os.Build;
-
-import androidx.annotation.NonNull;
 
 import net.ivpn.client.common.dagger.ApplicationComponent;
 import net.ivpn.client.common.dagger.DaggerApplicationComponent;
-import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.vpn.ServiceConstants;
-import net.ivpn.client.vpn.openvpn.IVPNService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class IVPNApplication extends Application implements ServiceConstants {
 

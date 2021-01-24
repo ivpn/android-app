@@ -25,9 +25,9 @@ package net.ivpn.client.vpn.controller;
 import com.wireguard.android.crypto.Keypair;
 
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.common.prefs.EncryptedUserPreference;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.utils.DateUtil;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
@@ -47,14 +47,14 @@ public class WireGuardKeyController {
 
     private WireGuardKeysEventsListener keysEventsListener;
     private Settings settings;
-    private UserPreference userPreference;
+    private EncryptedUserPreference userPreference;
     private HttpClientFactory clientFactory;
     private ServersRepository serversRepository;
 
     private Request<AddWireGuardPublicKeyResponse> addKeyRequest = null;
 
     @Inject
-    public WireGuardKeyController(Settings settings, UserPreference userPreference,
+    public WireGuardKeyController(Settings settings, EncryptedUserPreference userPreference,
                                   HttpClientFactory clientFactory, ServersRepository serversRepository) {
         this.settings = settings;
         this.userPreference = userPreference;

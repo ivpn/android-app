@@ -26,10 +26,10 @@ import androidx.annotation.Nullable;
 
 import net.ivpn.client.common.ProfileStorage;
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.prefs.EncryptedUserPreference;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.rest.data.model.Server;
 
@@ -49,12 +49,12 @@ public class ProfileManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileManager.class);
     private VpnProfile currentProfile;
 
-    private UserPreference userPreference;
+    private EncryptedUserPreference userPreference;
     private Settings settings;
     private ServersRepository serversRepository;
 
     @Inject
-    public ProfileManager(UserPreference userPreference, Settings settings, ServersRepository serversRepository) {
+    public ProfileManager(EncryptedUserPreference userPreference, Settings settings, ServersRepository serversRepository) {
         this.userPreference = userPreference;
         this.settings = settings;
         this.serversRepository = serversRepository;

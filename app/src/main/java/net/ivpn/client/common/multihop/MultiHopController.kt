@@ -23,15 +23,15 @@ package net.ivpn.client.common.multihop
 */
 
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class MultiHopController @Inject constructor(
-        val userPreference: UserPreference,
+        val userPreference: EncryptedUserPreference,
         val vpnBehaviorController: VpnBehaviorController,
         val protocolController: ProtocolController,
         val settings: Settings
@@ -57,7 +57,7 @@ class MultiHopController @Inject constructor(
     }
 
     fun isSupportedByPlan(): Boolean {
-        return userPreference.capabilityMultiHop && isAuthenticated() && isMultihopAllowedByProtocol()
+        return userPreference.getCapabilityMultiHop() && isAuthenticated() && isMultihopAllowedByProtocol()
     }
 
     fun getIsEnabled(): Boolean {
@@ -95,12 +95,12 @@ class MultiHopController @Inject constructor(
     }
 
     private fun isAuthenticated() : Boolean {
-        val token: String = userPreference.sessionToken
+        val token: String = userPreference.getSessionToken()
         return token.isNotEmpty()
     }
 
     private fun isActive(): Boolean {
-        return userPreference.isActive
+        return userPreference.getIsActive()
     }
 
     private fun isVpnActive(): Boolean {

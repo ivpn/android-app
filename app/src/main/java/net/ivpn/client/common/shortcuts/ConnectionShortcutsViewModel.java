@@ -22,18 +22,18 @@ package net.ivpn.client.common.shortcuts;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.common.prefs.UserPreference;
+import net.ivpn.client.common.prefs.EncryptedUserPreference;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 
 import javax.inject.Inject;
 
 public class ConnectionShortcutsViewModel {
 
-    private UserPreference userPreference;
+    private EncryptedUserPreference userPreference;
     private VpnBehaviorController vpnBehaviorController;
 
     @Inject
-    ConnectionShortcutsViewModel(UserPreference userPreference, VpnBehaviorController vpnBehaviorController) {
+    ConnectionShortcutsViewModel(EncryptedUserPreference userPreference, VpnBehaviorController vpnBehaviorController) {
         this.userPreference = userPreference;
         this.vpnBehaviorController = vpnBehaviorController;
     }

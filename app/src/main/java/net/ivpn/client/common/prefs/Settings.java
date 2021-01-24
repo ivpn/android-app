@@ -44,12 +44,12 @@ import javax.inject.Inject;
 public class Settings {
 
     private static final String TAG = Settings.class.getSimpleName();
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private StickyPreference stickyPreference;
     private BuildController buildController;
 
     @Inject
-    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference,
+    Settings(EncryptedSettingsPreference settingsPreference, StickyPreference stickyPreference,
              BuildController buildController) {
         this.settingsPreference = settingsPreference;
         this.stickyPreference = stickyPreference;
@@ -140,10 +140,6 @@ public class Settings {
         return settingsPreference.getSettingStartOnBoot();
     }
 
-    public boolean isNewForPrivateEmails() {
-        return settingsPreference.getIsNewForPrivateEmails();
-    }
-
     public boolean isSentryEnabled() {
         return settingsPreference.isSentryEnabled();
     }
@@ -158,10 +154,6 @@ public class Settings {
 
     public boolean isAdvancedKillSwitchDialogEnabled() {
         return settingsPreference.getIsAdvancedKillSwitchDialogEnabled();
-    }
-
-    public void setIsNewForPrivateEmails(boolean isNewForPrivateEmails) {
-        settingsPreference.putIsNewForPrivateEmails(isNewForPrivateEmails);
     }
 
     public void setAntiTrackerDefaultDNS(String dns) {

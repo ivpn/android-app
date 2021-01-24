@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavDeepLinkBuilder;
@@ -36,8 +35,8 @@ import androidx.navigation.NavDeepLinkBuilder;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
-import net.ivpn.client.common.prefs.SettingsPreference;
 import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
@@ -81,13 +80,13 @@ public class NetworkController implements ServiceConstants {
     private Set<String> trustedWiFis;
     private Set<String> untrustedWiFis;
 
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private NetworkProtectionPreference networkProtectionPreference;
     private GlobalBehaviorController globalBehaviorController;
 
     @Inject
     public NetworkController(NetworkProtectionPreference networkProtectionPreference,
-                             SettingsPreference settingsPreference, GlobalBehaviorController globalBehaviorController) {
+                             EncryptedSettingsPreference settingsPreference, GlobalBehaviorController globalBehaviorController) {
         this.networkProtectionPreference = networkProtectionPreference;
         this.settingsPreference = settingsPreference;
         this.globalBehaviorController = globalBehaviorController;

@@ -30,7 +30,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
 import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.session.SessionListenerImpl
 import net.ivpn.client.common.utils.ConnectivityUtil
@@ -46,7 +46,7 @@ import javax.inject.Inject
 @ApplicationScope
 class LoginViewModel @Inject constructor(
         private val context: Context,
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val sessionController: SessionController
 ) : ViewModel() {
 
@@ -69,8 +69,6 @@ class LoginViewModel @Inject constructor(
     var captchaImage = ObservableField<String>()
 
     val dataLoading = ObservableBoolean()
-
-//    var usernameInProcess: String? = null
 
     var paymentMethod: String? = null
 
@@ -146,7 +144,7 @@ class LoginViewModel @Inject constructor(
             }
         })
 
-        username.set(userPreference.userLogin)
+        username.set(userPreference.getUserLogin())
     }
 
     fun onResume() {
@@ -202,10 +200,6 @@ class LoginViewModel @Inject constructor(
                 captchaInputState.set(InputState.ERROR)
                 return
             }
-//            if (it.length != 6 || !it.isDigitsOnly()) {
-//                captchaInputState.set(InputState.ERROR)
-//                return
-//            }
             username.get()?.let { usernameObj ->
                 captchaId?.let { captchaIdObj ->
                     dataLoading.set(true)
@@ -230,7 +224,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun getAccountType(): String? {
-        return userPreference.currentPlan
+        return userPreference.getCurrentPlan()
     }
 
     fun cancel() {
@@ -253,7 +247,7 @@ class LoginViewModel @Inject constructor(
                 userPreference.putUserLogin(accountId)
             }
         }
-        if (userPreference.isActive) {
+        if (userPreference.getIsActive()) {
             navigator?.onLogin()
         } else {
             navigator?.onLoginWithInactiveAccount()
@@ -335,7 +329,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun getPaymentMethodValue(): String {
-        return userPreference.paymentMethod
+        return userPreference.getPaymentMethod()
     }
 
     enum class InputState {

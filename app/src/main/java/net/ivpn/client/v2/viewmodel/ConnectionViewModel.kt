@@ -27,11 +27,9 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
 import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.utils.ConnectivityUtil
 import net.ivpn.client.common.utils.StringUtil

@@ -27,16 +27,14 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
-import net.ivpn.client.common.prefs.PurchasePreference;
+import net.ivpn.client.common.prefs.EncryptedUserPreference;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.session.SessionController;
 import net.ivpn.client.common.session.SessionListenerImpl;
 import net.ivpn.client.rest.HttpClientFactory;
@@ -46,11 +44,7 @@ import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
 import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
 import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
-import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody;
-import net.ivpn.client.rest.data.addfunds.NewAccountResponse;
 import net.ivpn.client.rest.data.session.SessionNewResponse;
-import net.ivpn.client.rest.data.subscription.SubscriptionRequestBody;
-import net.ivpn.client.rest.data.subscription.SubscriptionResponse;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.ui.billing.BillingActivity;
@@ -65,7 +59,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_ACCOUNT;
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION;
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION_ERROR;
 import static net.ivpn.client.common.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT;
@@ -79,8 +72,7 @@ public class BillingManagerWrapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(BillingManagerWrapper.class);
 
     private BillingManager billingManager;
-    private PurchasePreference purchasePreference;
-    private UserPreference userPreference;
+    private EncryptedUserPreference userPreference;
     private Settings settings;
     private HttpClientFactory httpClientFactory;
     private ServersRepository serversRepository;
@@ -96,11 +88,10 @@ public class BillingManagerWrapper {
     private int error = 0;
 
     @Inject
-    BillingManagerWrapper(PurchasePreference purchasePreference, BillingManager billingManager,
-                          UserPreference userPreference, SessionController sessionController,
+    BillingManagerWrapper(BillingManager billingManager,
+                          EncryptedUserPreference userPreference, SessionController sessionController,
                           Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository) {
         this.billingManager = billingManager;
-        this.purchasePreference = purchasePreference;
         this.userPreference = userPreference;
         this.settings = settings;
         this.httpClientFactory = httpClientFactory;
@@ -198,8 +189,6 @@ public class BillingManagerWrapper {
         } else {
             addFundsRequest(sessionToken);
         }
-
-        saveSensitiveData(purchase);
     }
 
     private void initialPayment() {
@@ -308,138 +297,10 @@ public class BillingManagerWrapper {
         sessionController.updateSessionStatus();
     }
 
-    private SubscriptionRequestBody getSubscriptionRequestBody(Purchase purchase) {
-        if (userPreference.getUserLogin() == null || userPreference.getUserLogin().isEmpty()) {
-            return new SubscriptionRequestBody(purchasePreference.getUserEmail(),
-                    purchasePreference.getUserPassword(), purchase.getSku(), purchase.getPurchaseToken());
-        } else {
-            return new SubscriptionRequestBody(userPreference.getUserLogin(),
-                    purchase.getSku(), purchase.getPurchaseToken());
-        }
-    }
-
-    private void processSubscriptionResponse(SubscriptionResponse response) {
-        LOGGER.info("response.getStatus() = " + response.getStatus());
-        switch (response.getStatus()) {
-            case Responses.SUCCESS:
-                saveAccountData(response);
-                clearSensitiveData();
-                setPurchaseState(PurchaseState.DONE);
-                break;
-            case Responses.SUBSCRIPTION_ALREADY_REGISTERED:
-                setPurchaseState(PurchaseState.NONE);
-                for (BillingListener listener : listeners) {
-                    listener.onPurchaseAlreadyDone();
-                }
-                break;
-            case Responses.SUBSCRIPTION_GOOGLE_ERROR:
-            case Responses.SUBSCRIPTION_ERROR_WHILE_CREATING_ACCOUNT:
-                setPurchaseError(response.getStatus(), response.getMessage());
-                break;
-        }
-    }
-
-    private void saveAccountData(SubscriptionResponse response) {
-        LOGGER.info("Save account data");
-        if (response.getSessionToken() != null) {
-            userPreference.putSessionToken(response.getSessionToken());
-        }
-        if (response.getVpnUsername() != null) {
-            userPreference.putSessionUsername(response.getVpnUsername());
-        }
-        if (response.getVpnPassword() != null) {
-            userPreference.putSessionPassword(response.getVpnPassword());
-        }
-        if (response.getUsername() != null) {
-            userPreference.putUserLogin(response.getUsername());
-        }
-
-        if (response.getServiceStatus() == null) {
-            return;
-        }
-        userPreference.putAvailableUntil(response.getServiceStatus().getActiveUntil());
-        userPreference.putIsUserOnTrial(Boolean.valueOf(response.getServiceStatus().getIsOnFreeTrial()));
-        userPreference.putCurrentPlan(response.getServiceStatus().getCurrentPlan());
-        userPreference.putPaymentMethod(response.getServiceStatus().getPaymentMethod());
-        userPreference.putIsActive(response.getServiceStatus().getIsActive());
-        if (response.getServiceStatus().getCapabilities() != null) {
-            userPreference.putIsUserOnPrivateEmailBeta(response.getServiceStatus().getCapabilities().contains(Responses.PRIVATE_EMAILS));
-            boolean multiHopCapabilities = response.getServiceStatus().getCapabilities().contains(Responses.MULTI_HOP);
-            LOGGER.info("multiHopCapabilities = " + multiHopCapabilities);
-            userPreference.putCapabilityMultiHop(response.getServiceStatus().getCapabilities().contains(Responses.MULTI_HOP));
-            if (!multiHopCapabilities) {
-                LOGGER.info("multiHopCapabilities setting enable multihop as false ");
-                settings.enableMultiHop(false);
-            }
-        }
-    }
-
     private void setPurchaseState(PurchaseState newState) {
         for (BillingListener listener : listeners) {
             listener.onPurchaseStateChanged(newState);
         }
-    }
-
-    private void setPurchaseError(int errorCode, String errorMessage) {
-        for (BillingListener listener : listeners) {
-            listener.onPurchaseError(errorCode, errorMessage);
-        }
-    }
-
-    private void finishCreateAccount() {
-        for (BillingListener listener : listeners) {
-            listener.onCreateAccountFinish();
-        }
-    }
-
-    private void saveSensitiveData(Purchase purchase) {
-        purchasePreference.putPurchaseProductId(purchase.getSku());
-        purchasePreference.putPurchaseToken(purchase.getPurchaseToken());
-    }
-
-    private int getProrationMode(String currentSku, String newSku) {
-        if (currentSku == null) {
-            return BillingFlowParams.ProrationMode.UNKNOWN_SUBSCRIPTION_UPGRADE_DOWNGRADE_POLICY;
-        }
-
-        switch (currentSku) {
-            case Sku.MONTH_STANDARD_SKU:
-                return BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE;
-            case Sku.MONTH_PRO_SKU:
-                if (newSku.equals(Sku.MONTH_STANDARD_SKU)) {
-                    return BillingFlowParams.ProrationMode.IMMEDIATE_WITH_TIME_PRORATION;
-                } else {
-                    return BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE;
-                }
-            case Sku.YEAR_STANDARD_SKU:
-                if (newSku.equals(Sku.YEAR_PRO_SKU)) {
-                    return BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE;
-                } else {
-                    return BillingFlowParams.ProrationMode.IMMEDIATE_WITH_TIME_PRORATION;
-                }
-            case Sku.YEAR_PRO_SKU:
-                return BillingFlowParams.ProrationMode.IMMEDIATE_WITH_TIME_PRORATION;
-        }
-
-        return BillingFlowParams.ProrationMode.UNKNOWN_SUBSCRIPTION_UPGRADE_DOWNGRADE_POLICY;
-    }
-
-    private void clearSensitiveData() {
-        purchasePreference.clear();
-    }
-
-    public void forceInit() {
-        if (!isInit) {
-            init();
-        }
-    }
-
-    public void setEmail(String email) {
-        purchasePreference.putUserEmail(email);
-    }
-
-    public void setPassword(String password) {
-        purchasePreference.putUserPassword(password);
     }
 
     public void setSkuDetails(SkuDetails skuDetails) {
@@ -452,10 +313,6 @@ public class BillingManagerWrapper {
 
     public Purchase getPurchase() {
         return purchase;
-    }
-
-    public void logout() {
-        purchase = null;
     }
 
     public void setBillingListener(BillingListener listener) {

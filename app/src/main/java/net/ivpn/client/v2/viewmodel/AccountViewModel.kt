@@ -31,7 +31,7 @@ import com.android.billingclient.api.Purchase
 import net.ivpn.client.common.billing.BillingManagerWrapper
 import net.ivpn.client.common.billing.SubscriptionState
 import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.qr.QRController
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.session.SessionListenerImpl
@@ -41,7 +41,7 @@ import javax.inject.Inject
 
 @ApplicationScope
 class AccountViewModel @Inject constructor(
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val billingManager: BillingManagerWrapper,
         private val sessionController: SessionController
 ) : ViewModel() {
@@ -170,28 +170,28 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun getUsernameValue(): String? {
-        return userPreference.userLogin
+        return userPreference.getUserLogin()
     }
 
     private fun getUserAccountType(): String? {
-        return userPreference.currentPlan
+        return userPreference.getCurrentPlan()
     }
 
     private fun isOnFreeTrial(): Boolean {
-        return userPreference.isUserOnTrial
+        return userPreference.isUserOnTrial()
     }
 
     private fun getAvailableUntilValue(): Long {
-        return userPreference.availableUntil
+        return userPreference.getAvailableUntil()
     }
 
     private fun isAuthenticated(): Boolean {
-        val token = userPreference.sessionToken
+        val token = userPreference.getSessionToken()
         return token.isNotEmpty()
     }
 
     private fun isNativeSubscription(): Boolean {
-        val paymentMethod = userPreference.paymentMethod
+        val paymentMethod = userPreference.getPaymentMethod()
         if (paymentMethod != "ivpnandroidiap") {
             return false
         }
@@ -203,7 +203,7 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun getSubscriptionState(): SubscriptionState? {
-        if (!userPreference.isActive) {
+        if (!userPreference.getIsActive()) {
             return SubscriptionState.INACTIVE
         }
         val purchase = billingManager.purchase ?: return SubscriptionState.ACTIVE
@@ -215,8 +215,8 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun getSubscriptionPlan(): String? {
-        var plan = userPreference.currentPlan
-        if (!userPreference.isActive) {
+        var plan = userPreference.getCurrentPlan()
+        if (!userPreference.getIsActive()) {
             plan += " (inactive)"
             return plan
         }
@@ -231,11 +231,11 @@ class AccountViewModel @Inject constructor(
     }
 
     private fun getIsActiveValue(): Boolean {
-        return userPreference.isActive
+        return userPreference.getIsActive()
     }
 
     private fun getPaymentMethodValue(): String {
-        return userPreference.paymentMethod
+        return userPreference.getPaymentMethod()
     }
 
     interface AccountNavigator {
