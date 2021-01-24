@@ -419,6 +419,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         activity?.let {
             if (it is MainActivity) {
                 it.setAdjustNothingMode()
+                it.setContentSecure(false)
             }
         }
     }

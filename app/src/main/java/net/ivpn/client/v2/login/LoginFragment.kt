@@ -104,17 +104,12 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         activity?.let {
             if (it is MainActivity) {
                 it.setAdjustResizeMode()
+                it.setContentSecure(true)
             }
         }
         viewModel.navigator = this
         viewModel.reset()
     }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        LOGGER.info("OnStop original mode = $originalMode")
-//        originalMode?.let { activity?.window?.setSoftInputMode(it) }
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

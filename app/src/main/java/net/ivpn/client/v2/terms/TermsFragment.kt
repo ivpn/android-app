@@ -34,6 +34,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentTermsOfServiceBinding
+import net.ivpn.client.v2.MainActivity
 
 class TermsFragment: Fragment() {
 
@@ -52,6 +53,15 @@ class TermsFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initToolbar() {

@@ -55,6 +55,7 @@ import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
@@ -155,6 +156,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     override fun onStart() {
         super.onStart()
         killSwitch.navigator = this
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     override fun onPause() {

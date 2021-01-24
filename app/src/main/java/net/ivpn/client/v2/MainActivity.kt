@@ -32,6 +32,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import net.ivpn.client.R
+import net.ivpn.client.BuildConfig
+import net.ivpn.client.common.extension.setContentSecure
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
@@ -65,5 +67,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     fun setAdjustNothingMode() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
+
+    fun setContentSecure(enable: Boolean){
+        window?.setContentSecure(enable)
     }
 }

@@ -38,6 +38,7 @@ import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentSignUpPeriodBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -83,6 +84,11 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
         super.onStart()
         viewModel.navigator = this
         viewModel.initOffers()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

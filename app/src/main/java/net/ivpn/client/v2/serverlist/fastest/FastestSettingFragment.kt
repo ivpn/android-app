@@ -39,6 +39,7 @@ import net.ivpn.client.databinding.FragmentFastestSettingsBinding
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingNavigator
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewModel
+import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 
 class FastestSettingFragment: Fragment(), FastestSettingNavigator {
@@ -62,6 +63,15 @@ class FastestSettingFragment: Fragment(), FastestSettingNavigator {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         init()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initToolbar() {

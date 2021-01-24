@@ -36,6 +36,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSplitTunnelingBinding
 import net.ivpn.client.ui.split.SplitTunnelingViewModel
+import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 
 class SplitTunnelingFragment : Fragment() {
@@ -63,6 +64,15 @@ class SplitTunnelingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun init() {
