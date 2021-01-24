@@ -32,7 +32,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import net.ivpn.client.R
-import net.ivpn.client.BuildConfig
 import net.ivpn.client.common.extension.setContentSecure
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
