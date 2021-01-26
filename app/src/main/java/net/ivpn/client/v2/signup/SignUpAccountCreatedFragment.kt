@@ -75,7 +75,7 @@ class SignUpAccountCreatedFragment : Fragment() {
         super.onStart()
         activity?.let {
             if (it is MainActivity) {
-                it.setContentSecure(false)
+                it.setContentSecure(true)
             }
         }
     }
