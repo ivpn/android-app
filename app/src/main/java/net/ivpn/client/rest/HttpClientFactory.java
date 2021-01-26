@@ -25,6 +25,8 @@ package net.ivpn.client.rest;
 import android.util.Log;
 
 import net.ivpn.client.BuildConfig;
+import net.ivpn.client.common.BuildController;
+import net.ivpn.client.common.dagger.ApplicationScope;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,16 +40,20 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-@Singleton
+@ApplicationScope
 public class HttpClientFactory {
-    private static final String BASE_URL = BuildConfig.BASE_URL;
+
+    private BuildController buildController;
+    private String baseUrl;
 
     @Inject
-    public HttpClientFactory() {
+    public HttpClientFactory(BuildController buildController) {
+        this.buildController = buildController;
+        baseUrl = buildController.getBaseUrl();
     }
 
     public OkHttpClient getHttpClient(int timeOut) {
-        Log.d("HttpClientFactory", "getHttpClient: BASE_URL = " + BASE_URL);
+        Log.d("HttpClientFactory", "getHttpClient: BASE_URL = " + baseUrl);
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(getInterceptor());
 
@@ -72,22 +78,26 @@ public class HttpClientFactory {
     }
 
     private CertificatePinner getCertificatePinner() {
-        return new CertificatePinner.Builder()
-//                Production
-//                .add(BASE_URL,
-//                        "sha256/Jl+pK4qpKGVHQAUOvJOpuu3blkJeZNqHrHKTJTvslDY=",
-//                        "sha256/U9XDB04u2rzA7daBcxHKzCtePOhDSp1x1LY6rf2TRXU=",
-//                        "sha256/3cEBzcOsAm+pfk5F24jbWulvqtS4ECzAYSjEqOKm4Pw=",
-//                        "sha256/sTkDAlpsHzTakpXj8SGCE1rXL8qlmYW77vn4WWHnLLc=")
-                .add(BASE_URL,
-                        "sha256/g6WEFnt9DyTi70nW/fufsZNw83vFpcmIhMuDPQ1MFcI=",
-                        "sha256/KCcpK9y22OrlapwO1/oP8q3LrcDM9Jy9lcfngg2r+Pk=",
-                        "sha256/iRHkSbdOY/YD8EE5fpl8W0P8EqmfkBRTADEegR2/Wnc=",
-                        "sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=")
-                .build();
+        CertificatePinner.Builder builder = new CertificatePinner.Builder();
+
+        if (buildController.isProductionApi()) {
+            builder.add(baseUrl,
+                    "sha256/g6WEFnt9DyTi70nW/fufsZNw83vFpcmIhMuDPQ1MFcI=",
+                    "sha256/KCcpK9y22OrlapwO1/oP8q3LrcDM9Jy9lcfngg2r+Pk=",
+                    "sha256/iRHkSbdOY/YD8EE5fpl8W0P8EqmfkBRTADEegR2/Wnc=",
+                    "sha256/47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=");
+        } else {
+            builder.add(baseUrl,
+                    "sha256/Jl+pK4qpKGVHQAUOvJOpuu3blkJeZNqHrHKTJTvslDY=",
+                    "sha256/U9XDB04u2rzA7daBcxHKzCtePOhDSp1x1LY6rf2TRXU=",
+                    "sha256/3cEBzcOsAm+pfk5F24jbWulvqtS4ECzAYSjEqOKm4Pw=",
+                    "sha256/sTkDAlpsHzTakpXj8SGCE1rXL8qlmYW77vn4WWHnLLc=");
+        }
+
+        return builder.build();
     }
 
     private HostnameVerifier getHostnameVerifier() {
-        return (hostname, session) -> HttpsURLConnection.getDefaultHostnameVerifier().verify(BASE_URL, session);
+        return (hostname, session) -> HttpsURLConnection.getDefaultHostnameVerifier().verify(baseUrl, session);
     }
 }

@@ -345,7 +345,7 @@ public class Settings {
             return NightMode.valueOf(name);
         }
 
-        if (buildController.isSystemDefaultNightModeSupported) {
+        if (buildController.isSystemDefaultNightModeSupported()) {
             return NightMode.SYSTEM_DEFAULT;
         } else {
             return NightMode.BY_BATTERY_SAVER;

@@ -71,11 +71,13 @@ android {
 
         production {
             dimension "api"
+            buildConfigField "String", "API_TYPE", "\"production\""
             buildConfigField "String", "BASE_URL", "\"api.ivpn.net\""
         }
 
         stage {
             dimension "api"
+            buildConfigField "String", "API_TYPE", "\"stage\""
             buildConfigField "String", "BASE_URL", keystoreProperties['staging.url']
         }
     }

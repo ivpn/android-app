@@ -30,9 +30,9 @@ import dagger.Provides;
 @Module
 public class NetworkModule {
 
-    @ApplicationScope
-    @Provides
-    public HttpClientFactory provideFactory() {
-        return new HttpClientFactory();
-    }
+//    @ApplicationScope
+//    @Provides
+//    public HttpClientFactory provideFactory() {
+//        return new HttpClientFactory();
+//    }
 }
