@@ -354,18 +354,22 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private fun openTermsOfServiceScreen() {
-        val action = SettingsFragmentDirections.actionSettingsFragmentToTermsFragment()
-        navigate(action)
+        openWebPage("https://www.ivpn.net/tos-mobile-app/")
     }
 
     private fun openPrivacyPolicyScreen() {
-        val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
-        navigate(action)
+        openWebPage("https://www.ivpn.net/privacy-mobile-app/")
     }
 
     private fun openUpdatesScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToUpdatesFragment()
         navigate(action)
+    }
+
+    private fun openWebPage(urlString: String) {
+        val openURL = Intent(android.content.Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(urlString)
+        startActivity(openURL)
     }
 
     private fun sendLogs() {

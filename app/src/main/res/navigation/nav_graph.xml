@@ -55,12 +55,6 @@
             android:id="@+id/action_settingsFragment_to_customDNSFragment"
             app:destination="@id/customDNSFragment" />
         <action
-            android:id="@+id/action_settingsFragment_to_termsFragment"
-            app:destination="@id/termsFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_policyFragment"
-            app:destination="@id/policyFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_serverListFragment"
             app:destination="@id/serverListFragment" />
         <action
@@ -104,14 +98,6 @@
         android:id="@+id/customDNSFragment"
         android:name="net.ivpn.client.v2.customdns.CustomDNSFragment"
         android:label="Custom DNS" />
-    <fragment
-        android:id="@+id/termsFragment"
-        android:name="net.ivpn.client.v2.terms.TermsFragment"
-        android:label="Terms of Service" />
-    <fragment
-        android:id="@+id/policyFragment"
-        android:name="net.ivpn.client.v2.policy.PolicyFragment"
-        android:label="Privacy Policy" />
     <fragment
         android:id="@+id/serverListFragment"
         android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"

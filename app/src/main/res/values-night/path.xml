@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="path_to_tos">file:///android_asset/dark/tos.html</string>
-    <string name="path_to_policy">file:///android_asset/dark/privacy-policy.html</string>
-
     <string name="path_to_tiles">tiles-dark</string>
 </resources>
