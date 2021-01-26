@@ -28,13 +28,13 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
-import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.common.utils.FileUtils
+import net.ivpn.client.common.logger.FileUtils
+import net.ivpn.client.common.utils.LogUtil
 import net.ivpn.client.common.utils.SentryUtil
 import javax.inject.Inject
 
 class LoggingViewModel @Inject constructor(
-        private val settings: Settings,
+        private val logUtil: LogUtil,
         private val sentryUtil: SentryUtil,
         private val buildController: BuildController
 ) : ViewModel()  {
@@ -66,7 +66,7 @@ class LoggingViewModel @Inject constructor(
     }
 
     private fun getLoggingValue(): Boolean {
-        return settings.isLoggingEnabled
+        return logUtil.isLoggingEnabled
     }
 
     private fun isSentryEnabled(): Boolean {
@@ -79,7 +79,7 @@ class LoggingViewModel @Inject constructor(
 
     private fun enableLogging(value: Boolean) {
         isLoggingEnabled.set(value)
-        settings.enableLogging(value)
+        logUtil.enableLogging(value)
     }
 
     private fun enableCrashLogging(value: Boolean) {

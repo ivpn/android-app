@@ -56,13 +56,13 @@ public class Settings {
         this.buildController = buildController;
     }
 
-    public void enableLogging(boolean value) {
-        boolean isLoggingEnabled = isLoggingEnabled();
-        if (isLoggingEnabled != value) {
-            settingsPreference.putSettingLogging(value);
-            LogUtil.enableLogging(value);
-        }
-    }
+//    public void enableLogging(boolean value) {
+//        boolean isLoggingEnabled = isLoggingEnabled();
+//        if (isLoggingEnabled != value) {
+//            settingsPreference.putSettingLogging(value);
+//            LogUtil.enableLogging(value);
+//        }
+//    }
 
     public void enableSentry(boolean value) {
         settingsPreference.enableSentry(value);
@@ -116,9 +116,9 @@ public class Settings {
         settingsPreference.setNextVersion(nextVersion);
     }
 
-    public boolean isLoggingEnabled() {
-        return settingsPreference.getSettingLogging();
-    }
+//    public boolean isLoggingEnabled() {
+//        return settingsPreference.getSettingLogging();
+//    }
 
     public boolean isMultiHopEnabled() {
         return settingsPreference.getSettingMultiHop();

@@ -1,4 +1,4 @@
-package net.ivpn.client.common.utils;
+package net.ivpn.client.common.logger;
 
 /*
  IVPN Android app
@@ -45,7 +45,7 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class FileUtils {
 
-    private static final String RESULT_LOG_FILE_NAME = "ivpn_client_logs.txt";
+    private static final String RESULT_LOG_FILE_NAME = "android_ivpn_client_logs.txt";
     private static final String LOG_PATH_PROPERTY = "LOG_PATH";
     private static final String OLD_LOG_PATH_PROPERTY = "LOG_PATH_OLD";
     private static final String ACTIVE_LOG_FILE_NAME = "log.log";
@@ -70,7 +70,7 @@ public class FileUtils {
         return FileProvider.getUriForFile(context, context.getPackageName(), commonFile);
     }
 
-    static void clearAllLogs() {
+    public static void clearAllLogs() {
         try {
             LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
@@ -80,6 +80,9 @@ public class FileUtils {
 
             File oldLogFile = getOldLogFile(loggerContext);
             clearLogFile(oldLogFile);
+
+            File commonFile = FileUtils.createFinalLogFile(logFilePath);
+            clearLogFile(commonFile);
         } catch (Exception ignored) {
             Log.e("FileUtils", "clearAllLogs: exception = " + ignored);
         }

@@ -38,7 +38,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -321,7 +320,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private fun openColorThemeDialogue() {
-        DialogBuilderK.openDarkModeDialogue(context!!, this, colorTheme)
+        DialogBuilderK.openDarkModeDialogue(requireContext(), this, colorTheme)
     }
 
     private fun openSplitTunnelingScreen() {

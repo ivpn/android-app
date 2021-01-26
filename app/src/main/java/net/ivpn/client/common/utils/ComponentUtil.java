@@ -23,8 +23,9 @@ package net.ivpn.client.common.utils;
 */
 
 import android.content.Context;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
@@ -40,8 +41,6 @@ import net.ivpn.client.vpn.ProtocolController;
 import net.ivpn.client.vpn.local.NetworkController;
 import net.ivpn.client.vpn.openvpn.ProfileManager;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
-
-import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.inject.Inject;
 
@@ -61,14 +60,16 @@ public class ComponentUtil {
     private ProfileManager profileManager;
     private MigrationController migrationController;
     private SentryUtil sentryUtil;
+    private LogUtil logUtil;
 
     @Inject
-    ComponentUtil(Context context, UpdateHelper updateHelper, Preference preference, Settings settings,
+    ComponentUtil(Context context, LogUtil logUtil, UpdateHelper updateHelper, Preference preference, Settings settings,
                   UpdatesJobServiceUtil updatesJobServiceUtil, ServersRepository serversRepository,
                   GlobalBehaviorController globalBehaviorController, ProtocolController protocolController,
                   NetworkController networkController, ConfigManager configManager,
                   ProfileManager profileManager, MigrationController migrationController, SentryUtil sentryUtil) {
         this.context = context;
+        this.logUtil = logUtil;
         this.updateHelper = updateHelper;
         this.settings = settings;
         this.preference = preference;
@@ -129,7 +130,7 @@ public class ComponentUtil {
 
     private void initLogger() {
         Log.d("ComponentUtil", "initLogger: ");
-        SLF4JBridgeHandler.install();
+        logUtil.initialize();
     }
 
     private void initWireGuard() {
@@ -137,6 +138,5 @@ public class ComponentUtil {
     }
 
     private void initBillings() {
-
     }
 }

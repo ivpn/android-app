@@ -202,6 +202,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
 
     //Used to support stream API from JAVA8 and JAVA9
+    //ToDo remove it in future
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 

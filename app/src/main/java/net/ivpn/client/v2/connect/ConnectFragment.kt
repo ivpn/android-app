@@ -125,6 +125,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
@@ -411,6 +412,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onStart() {
         LOGGER.info("onStart: Connect fragment")
+//        FL.d("ConnectFragment onStart()")
         super.onStart()
         location.addLocationListener(binding.map.locationListener)
         if (isPermissionGranted()) {
