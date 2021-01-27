@@ -108,10 +108,6 @@ public class Settings {
         settingsPreference.setNextVersion(nextVersion);
     }
 
-//    public boolean isLoggingEnabled() {
-//        return settingsPreference.getSettingLogging();
-//    }
-
     public boolean isMultiHopEnabled() {
         return settingsPreference.getSettingMultiHop();
     }

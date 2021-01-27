@@ -55,7 +55,6 @@
                 app:layout_constraintVertical_weight="1"
                 app:layout_optimizationLevel="chains" />
 
-            <!--            app:hintTextAppearance="@style/AppTheme.HintText"-->
             <FrameLayout
                 android:id="@+id/input_field"
                 android:layout_width="0dp"

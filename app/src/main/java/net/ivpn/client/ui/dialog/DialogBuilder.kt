@@ -1,5 +1,27 @@
 package net.ivpn.client.ui.dialog
 
+/*
+IVPN Android app
+https://github.com/ivpn/android-app
+
+Created by Oleksandr Mykhailenko.
+Copyright (c) 2020 Privatus Limited.
+
+This file is part of the IVPN Android app.
+
+The IVPN Android app is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The IVPN Android app is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License
+along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -31,28 +53,6 @@ import net.ivpn.client.ui.timepicker.PauseDelay
 import org.slf4j.LoggerFactory
 import java.util.*
 
-/*
-IVPN Android app
-https://github.com/ivpn/android-app
-
-Created by Oleksandr Mykhailenko.
-Copyright (c) 2020 Privatus Limited.
-
-This file is part of the IVPN Android app.
-
-The IVPN Android app is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by the Free
-Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-The IVPN Android app is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-details.
-
-You should have received a copy of the GNU General Public License
-along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
-*/
-
 object DialogBuilder {
     private val LOGGER = LoggerFactory.getLogger(DialogBuilder::class.java)
     fun createOptionDialog(context: Context?, dialogAttr: Dialogs,
@@ -80,7 +80,6 @@ object DialogBuilder {
         }
     }
 
-    @JvmStatic
     fun createNotificationDialog(context: Context?, dialogAttr: Dialogs?) {
         LOGGER.info("Create dialog $dialogAttr")
         if (context == null || dialogAttr == null) {
@@ -123,7 +122,6 @@ object DialogBuilder {
         }
     }
 
-    @JvmStatic
     fun createFullCustomNotificationDialog(context: Context?, title: String?, msg: String?,
                                            cancelListener: DialogInterface.OnCancelListener?) {
         LOGGER.info("Create dialog ")
@@ -175,7 +173,6 @@ object DialogBuilder {
         }
     }
 
-    @JvmStatic
     fun createPredefinedTimePickerDialog(context: Context?,
                                          onDelayOptionSelected: OnDelayOptionSelected) {
         LOGGER.info("Create time picker dialog")
@@ -194,14 +191,14 @@ object DialogBuilder {
         val alertDialog = builder.create()
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.radio_group)
         radioGroup.check(R.id.first_variant)
-        dialogView.findViewById<View>(R.id.apply_button).setOnClickListener { view: View? ->
+        dialogView.findViewById<View>(R.id.apply_button).setOnClickListener {
             alertDialog.dismiss()
             val checkedId = radioGroup.checkedRadioButtonId
             if (checkedId != -1) {
                 onDelayOptionSelected.onDelayOptionSelected(delayMap[checkedId])
             }
         }
-        dialogView.findViewById<View>(R.id.cancel_button).setOnClickListener { view: View? ->
+        dialogView.findViewById<View>(R.id.cancel_button).setOnClickListener {
             alertDialog.dismiss()
             onDelayOptionSelected.onCancelAction()
         }
@@ -216,7 +213,6 @@ object DialogBuilder {
         }
     }
 
-    @JvmStatic
     fun createCustomTimePickerDialog(context: Context?,
                                      onDelayOptionSelected: OnDelayOptionSelected) {
         LOGGER.info("Create custom time picker dialog")
@@ -231,7 +227,7 @@ object DialogBuilder {
         timePicker.setIs24HourView(true)
         timePicker.currentMinute = 0
         timePicker.currentHour = 0
-        timePicker.setOnTimeChangedListener { view: TimePicker?, hourOfDay: Int, minute: Int -> pauseTime[0] = hourOfDay * DateUtil.HOUR + minute * DateUtil.MINUTE }
+        timePicker.setOnTimeChangedListener { _: TimePicker?, hourOfDay: Int, minute: Int -> pauseTime[0] = hourOfDay * DateUtil.HOUR + minute * DateUtil.MINUTE }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         dialogView.findViewById<View>(R.id.apply_button).setOnClickListener {

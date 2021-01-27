@@ -133,7 +133,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
         binding.contentLayout.signUp = signUp
-//        viewModel.navigator = this
         signUp.creationNavigator = this
 
         binding.contentLayout.editText.onFocusChangeListener = viewModel.loginFocusListener
@@ -145,7 +144,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             return@setOnEditorActionListener false
         }
         binding.contentLayout.loginButton.setOnClickListener {
-//            openTFAScreen()
             viewModel.login(false)
         }
         binding.contentLayout.signUpButton.setOnClickListener {
@@ -155,13 +153,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             openQRScanner()
         }
 
-//        binding.contentLayout.outlinedTextField.doOnLayout {
-//            LOGGER.info("Do on request layout")
-//            binding.contentLayout.outlinedTextField.setHintTextAppearance(R.style.AppTheme_HintText)
-//            val placeholder = binding.contentLayout.outlinedTextField.findViewById<TextView>(com.google.android.material.R.id.textinput_placeholder)
-//            LOGGER.info("Placeholder = $placeholder")
-////            placeholder.setTextSize(requireActivity().resources.getDimension(R.dimen.placeholder_text_size))
-//        }
         getNavigationResultBoolean("session_limit_dialogue")?.observe(viewLifecycleOwner) {
             if (it) {
                 openSessionLimitReachedDialogue()
@@ -225,14 +216,6 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         val action = LoginFragmentDirections.actionLoginFragmentToCaptchaFragment()
         navigate(action)
     }
-
-//    override fun openAccountNotActiveDialogue() {
-//        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE)
-//    }
-//
-//    override fun openAccountNotActiveBetaDialogue() {
-//        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE_BETA)
-//    }
 
     override fun onLogin() {
         val action = LoginFragmentDirections.actionLoginFragmentToSyncFragment()

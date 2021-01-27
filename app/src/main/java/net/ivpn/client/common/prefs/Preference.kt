@@ -1,13 +1,5 @@
 package net.ivpn.client.common.prefs
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
-import net.ivpn.client.IVPNApplication
-import net.ivpn.client.common.dagger.ApplicationScope
-import javax.inject.Inject
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -29,7 +21,17 @@ import javax.inject.Inject
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 
-*/@ApplicationScope
+*/
+
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import net.ivpn.client.IVPNApplication
+import net.ivpn.client.common.dagger.ApplicationScope
+import javax.inject.Inject
+
+@ApplicationScope
 class Preference @Inject constructor() {
 
     companion object {
@@ -40,7 +42,6 @@ class Preference @Inject constructor() {
 
         private const val SERVERS_PREF = "SERVERS_PREF"
         private const val WIREGUARD_SERVERS_PREF = "WIREGUARD_SERVERS_PREF"
-        private const val FAVOURITES_SERVERS_PREF = "FAVOURITES_SERVERS_PREF"
         private const val DISALLOWED_APPS_PREF = "DISALLOWED_APPS_PREF"
 
         //Don't clear this shared preference after logout

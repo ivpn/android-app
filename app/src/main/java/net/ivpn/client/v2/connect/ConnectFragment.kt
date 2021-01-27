@@ -412,7 +412,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onStart() {
         LOGGER.info("onStart: Connect fragment")
-//        FL.d("ConnectFragment onStart()")
         super.onStart()
         location.addLocationListener(binding.map.locationListener)
         if (isPermissionGranted()) {

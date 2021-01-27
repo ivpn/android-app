@@ -1,15 +1,5 @@
 package net.ivpn.client.common.views
 
-import android.content.Context
-import android.content.res.TypedArray
-import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import com.google.android.material.textfield.TextInputLayout
-import net.ivpn.client.R
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -31,6 +21,16 @@ import net.ivpn.client.R
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
+
+import android.content.Context
+import android.content.res.TypedArray
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import com.google.android.material.textfield.TextInputLayout
+import net.ivpn.client.R
 
 class CustomTextInputLayout(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : TextInputLayout(context, attrs, defStyleAttr) {
     private var mainHintTextSize: Float

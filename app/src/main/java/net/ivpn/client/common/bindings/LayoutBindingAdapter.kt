@@ -30,11 +30,8 @@ import net.ivpn.client.R
 import net.ivpn.client.v2.login.LoginViewModel.InputState
 import net.ivpn.client.vpn.model.NetworkState
 
-
 @BindingAdapter("currentState", "defaultState")
 fun setBackgroundColor(view: LinearLayout?, currentState: NetworkState?, defaultState: NetworkState?) {
-    val resources = IVPNApplication.getApplication().resources
-    //        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
 }
 
 @BindingAdapter("input_state")

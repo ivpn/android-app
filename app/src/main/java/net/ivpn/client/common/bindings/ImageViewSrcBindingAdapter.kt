@@ -1,21 +1,5 @@
 package net.ivpn.client.common.bindings
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.util.Base64
-import android.util.Log
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import net.ivpn.client.common.utils.BitmapUtil
-import net.ivpn.client.common.utils.BitmapUtil.invertColors
-import net.ivpn.client.common.utils.BitmapUtil.toGrayscale
-import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.split.data.ApplicationItem
-import java.io.File
-import java.io.IOException
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -37,6 +21,23 @@ import java.io.IOException
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
+
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.util.Base64
+import android.util.Log
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import net.ivpn.client.common.utils.BitmapUtil
+import net.ivpn.client.common.utils.BitmapUtil.invertColors
+import net.ivpn.client.common.utils.BitmapUtil.toGrayscale
+import net.ivpn.client.rest.data.model.Server
+import net.ivpn.client.ui.split.data.ApplicationItem
+import java.io.File
+import java.io.IOException
+
 @BindingAdapter("android:src")
 fun setImageUri(view: ImageView, imageUri: String?) {
     if (imageUri == null) {
