@@ -126,7 +126,6 @@ public class BillingManagerWrapper {
                 }
 
                 for (Purchase purchase : purchases) {
-                    LOGGER.info(purchase.toString());
                     if (purchase.isAcknowledged()
                             && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSku())) {
                         billingManager.consumePurchase(purchase);
@@ -195,13 +194,11 @@ public class BillingManagerWrapper {
         setPurchaseState(INITIAL_PAYMENT);
         final String accountId = userPreference.getBlankUsername();
         InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSku(), purchase.getPurchaseToken());
-        LOGGER.info(requestBody.toString());
         Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
 
             @Override
             public void onSuccess(InitialPaymentResponse response) {
-                LOGGER.info(response.toString());
                 if (response.getStatus() == Responses.SUCCESS) {
                     createSession(accountId);
 
@@ -229,7 +226,7 @@ public class BillingManagerWrapper {
         sessionController.subscribe(new SessionListenerImpl() {
             @Override
             public void onCreateSuccess(@NotNull SessionNewResponse response) {
-                LOGGER.info("On create session success: " + response.toString());
+                LOGGER.info("On create session success");
                 sessionController.unSubscribe(this);
                 for (BillingListener listener : listeners) {
                     listener.onCreateAccountFinish();
@@ -249,13 +246,11 @@ public class BillingManagerWrapper {
     private void addFundsRequest(String sessionToken) {
         setPurchaseState(INITIAL_PAYMENT);
         AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSku(), purchase.getPurchaseToken());
-        LOGGER.info(requestBody.toString());
         Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
         request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
             @Override
             public void onSuccess(AddFundsResponse response) {
-                LOGGER.info(response.toString());
                 if (response.getStatus() == Responses.SUCCESS) {
                     updateSession();
                 } else {
@@ -280,7 +275,7 @@ public class BillingManagerWrapper {
         sessionController.subscribe(new SessionListenerImpl() {
             @Override
             public void onUpdateSuccess() {
-                LOGGER.info("On update session success: ");
+                LOGGER.info("On update session success");
                 sessionController.unSubscribe(this);
                 for (BillingListener listener : listeners) {
                     listener.onAddFundsFinish();

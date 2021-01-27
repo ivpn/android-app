@@ -147,7 +147,6 @@ class SignUpViewModel @Inject constructor(
         val request = Request<NewAccountResponse>(settings, httpClientFactory, serversRepository, Request.Duration.LONG)
         request.start({ api: IVPNApi -> api.newAccount(requestBody) }, object : RequestListener<NewAccountResponse> {
             override fun onSuccess(response: NewAccountResponse) {
-                LOGGER.info("SUCCESS, response = $response")
                 dataLoading.set(false)
                 if (response.status == Responses.SUCCESS) {
                     userPreference.putBlankUsername(response.accountId)

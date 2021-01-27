@@ -120,7 +120,7 @@ public final class GoBackend implements Backend {
                 setStateInternal(currentTunnel, null, State.DOWN);
             }
             try {
-                LOGGER.info("Start connection config = " + config);
+                LOGGER.info("Start connection config");
                 setStateInternal(tunnel, config, state);
             } catch (final Exception e) {
                 if (originalTunnel != null)
@@ -169,13 +169,7 @@ public final class GoBackend implements Backend {
             final WireGuardVpnService.Builder builder = service.getBuilder();
             builder.setSession(tunnel.getName());
 
-//            final Intent configureIntent = new Intent(context, MainActivity.class);
-//            configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            builder.setConfigureIntent(PendingIntent.getActivity(context, 0, configureIntent, 0));
-
             addNotAllowedApps(builder);
-//            for (final String excludedApplication : config.getInterface().getExcludedApplications())
-//                builder.addDisallowedApplication(excludedApplication);
 
             for (final InetNetwork addr : config.getInterface().getAddresses())
                 builder.addAddress(addr.getAddress(), addr.getMask());
@@ -183,10 +177,6 @@ public final class GoBackend implements Backend {
             for (final InetAddress addr : config.getInterface().getDnses())
                 builder.addDnsServer(addr.getHostAddress());
 
-//            for (final Peer peer : config.getPeers()) {
-//                for (final InetNetwork addr : peer.getAllowedIPs())
-//                    builder.addRoute(addr.getAddress(), addr.getMask());
-//            }
             boolean sawDefaultRoute = false;
             for (final Peer peer : config.getPeers()) {
                 for (final InetNetwork addr : peer.getAllowedIPs()) {
@@ -244,7 +234,6 @@ public final class GoBackend implements Backend {
         }
 
         tunnel.onStateChange(state);
-//        tunnel.onStateChange(state);
     }
 
     private void addNotAllowedApps(android.net.VpnService.Builder builder) {

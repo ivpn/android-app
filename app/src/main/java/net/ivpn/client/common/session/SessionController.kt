@@ -118,7 +118,6 @@ class SessionController @Inject constructor(
         }
 
         val body = SessionStatusRequestBody(getSessionToken())
-        LOGGER.info("SessionStatusRequestBody = $body")
         sessionStatusRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
         sessionStatusRequest?.start({ api: IVPNApi -> api.sessionStatus(body) },

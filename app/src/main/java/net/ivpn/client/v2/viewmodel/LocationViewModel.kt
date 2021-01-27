@@ -27,13 +27,11 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
-import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
@@ -114,7 +112,6 @@ class LocationViewModel @Inject constructor(
         }
         request?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
-                LOGGER.info(response.toString())
                 this@LocationViewModel.onSuccess(response)
                 uiListener?.onLocationUpdated()
             }

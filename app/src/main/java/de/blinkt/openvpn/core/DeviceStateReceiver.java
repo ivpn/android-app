@@ -41,7 +41,6 @@ public class DeviceStateReceiver extends BroadcastReceiver implements OpenVPNMan
     private Runnable mDelayDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
-            LOGGER.info("run: network = " + network);
             if (!(network == connectState.PENDINGDISCONNECT))
                 return;
 
@@ -101,7 +100,6 @@ public class DeviceStateReceiver extends BroadcastReceiver implements OpenVPNMan
     public void networkStateChange(Context context) {
         LOGGER.info("networkStateChange: ");
         NetworkInfo networkInfo = getCurrentNetworkInfo(context);
-        LOGGER.info("networkStateChange: networkInfo = " + networkInfo);
 
         String netstatestring;
         if (networkInfo == null) {
@@ -112,12 +110,11 @@ public class DeviceStateReceiver extends BroadcastReceiver implements OpenVPNMan
             if (subtype == null)
                 subtype = "";
             String extrainfo = networkInfo.getExtraInfo();
-            LOGGER.info("networkStateChange: extrainfo = " + extrainfo);
             if (extrainfo == null)
                 extrainfo = "";
 
-            netstatestring = String.format("%2$s %4$s to %1$s %3$s", networkInfo.getTypeName(),
-                    networkInfo.getDetailedState(), extrainfo, subtype);
+            netstatestring = String.format("%2$s %3$s to %1$s", networkInfo.getTypeName(),
+                    networkInfo.getDetailedState(), subtype);
             LOGGER.info("networkStateChange: netstatestring = " + netstatestring);
         }
 
@@ -142,7 +139,6 @@ public class DeviceStateReceiver extends BroadcastReceiver implements OpenVPNMan
             } else {
                 sameNetwork = true;
             }
-            LOGGER.info("networkStateChange: sameNetwork = " + sameNetwork);
             /* Same network, connection still 'established' */
             LOGGER.info("networkStateChange: pendingDisconnect && sameNetwork = " + (pendingDisconnect && sameNetwork));
             if (pendingDisconnect && sameNetwork) {

@@ -160,7 +160,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     }
 
     private void sendWifiConnectionBroadcast(String ssid) {
-        LOGGER.info("sendWifiConnectionBroadcast ssid = " + ssid);
+        LOGGER.info("sendWifiConnectionBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, WIFI_CHANGED_ACTION);
@@ -249,7 +249,6 @@ public class WifiWatcherService extends Service implements ServiceConstants {
                 switch (source) {
                     case WIFI: {
                         String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
-                        LOGGER.info("currentWiFiSsid = " + currentWiFiSsid);
                         if (currentWiFiSsid != null) {
                             sendWifiConnectionBroadcast(currentWiFiSsid);
                         } else {

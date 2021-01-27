@@ -128,11 +128,8 @@ public class WireGuardKeyController {
     }
 
     private void setKey() {
-        LOGGER.info("Set WireGuard public key. Session token = " + getSessionToken());
         Keypair keys = settings.generateWireGuardKeys();
         String oldPublicKey = settings.getWireGuardPublicKey();
-        LOGGER.info("Old public key = " + oldPublicKey);
-        LOGGER.info("New Public key = " + keys.getPublicKey());
 
         AddWireGuardPublicKeyRequestBody requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
                 keys.getPublicKey(), oldPublicKey);

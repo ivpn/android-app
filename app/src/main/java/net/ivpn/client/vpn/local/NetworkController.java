@@ -210,7 +210,7 @@ public class NetworkController implements ServiceConstants {
     }
 
     public void changeMarkFor(String ssid, NetworkState oldState, NetworkState newState) {
-        LOGGER.info("changeMarkFor: ssid = " + ssid + " oldState = " + oldState + " newState = " + newState);
+        LOGGER.info("changeMarkFor: Wi-Fi oldState = " + oldState + " newState = " + newState);
         if (ssid == null) {
             return;
         }
@@ -231,7 +231,7 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void addMarkFor(String ssid, NetworkState newState) {
-        LOGGER.info("addMarkFor: ssid = " + ssid + " newState = " + newState);
+        LOGGER.info("addMarkFor: Wi-Fi newState = " + newState);
 
         updateWifiState(ssid, newState);
         switch (newState) {
@@ -253,7 +253,7 @@ public class NetworkController implements ServiceConstants {
     }
 
     private void removeMarkFor(String ssid, NetworkState oldState) {
-        LOGGER.info("remove mark for ssid = " + ssid + " , old state = " + oldState);
+        LOGGER.info("remove mark for Wi-Fi old state = " + oldState);
         switch (oldState) {
             case TRUSTED: {
                 networkProtectionPreference.removeMarkWifiAsTrusted(ssid);
@@ -284,7 +284,6 @@ public class NetworkController implements ServiceConstants {
         } else if (noneSsid.contains(ssid)) {
             state = NONE;
         }
-        LOGGER.info("getNetworkStateFor: " + ssid + " state = " + state);
         return state;
     }
 
@@ -338,7 +337,6 @@ public class NetworkController implements ServiceConstants {
         if (source != null && source.equals(WIFI) && wifiSsid.equals(source.getSsid())) {
             return;
         }
-        LOGGER.info("onWifiChanged: wifiSsid = " + wifiSsid);
 
         source = WIFI;
         source.setSsid(wifiSsid);
@@ -406,7 +404,6 @@ public class NetworkController implements ServiceConstants {
         if (source == null || !source.equals(WIFI)) {
             return;
         }
-        LOGGER.info("updateWifiState: wifiSsid = " + wifiSsid + " networkState = " + networkState);
         if (wifiSsid.equals(source.getSsid())) {
             source.setState(networkState);
             applyNetworkStateBehaviour(networkState);
@@ -606,7 +603,6 @@ public class NetworkController implements ServiceConstants {
                 switch (source) {
                     case WIFI: {
                         String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
-                        LOGGER.info("onReceive: currentWiFiSsid = " + currentWiFiSsid);
                         if (currentWiFiSsid != null) {
                             onWifiChanged(StringUtil.formatWifiSSID(currentWiFiSsid));
                         } else {
