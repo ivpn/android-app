@@ -13,6 +13,8 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
@@ -21,7 +23,7 @@ import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.utils.DateUtil;
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -129,7 +131,7 @@ public class WireGuardUiService extends Service implements ServiceConstants {
         Intent vpnAction = new Intent();
         vpnAction.setAction(NOTIFICATION_ACTION);
         vpnAction.putExtra(NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(vpnAction);
         return START_NOT_STICKY;
     }
 
@@ -256,7 +258,7 @@ public class WireGuardUiService extends Service implements ServiceConstants {
     }
 
     private PendingIntent getContentIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -1,5 +1,27 @@
 package net.ivpn.client.vpn.local;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,12 +33,15 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.utils.NetworkUtil;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.model.NetworkSource;
 
@@ -130,30 +155,32 @@ public class WifiWatcherService extends Service implements ServiceConstants {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ServiceConstants.APP_SETTINGS_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
         return START_NOT_STICKY;
     }
 
     private void sendWifiConnectionBroadcast(String ssid) {
+        LOGGER.info("sendWifiConnectionBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, WIFI_CHANGED_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_VALUE, ssid);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendOnMobileDataBroadcast() {
+        LOGGER.info("sendOnMobileDataBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ON_MOBILE_DATA_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendNoNetworkBroadcast() {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, NO_NETWORK_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     //ToDo Need to refactor, think how to make this code clean
@@ -197,7 +224,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     }
 
     private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return PendingIntent.getActivity(this, 0, intent, 0);
     }
@@ -215,6 +242,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            LOGGER.info("On receive");
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
                 NetworkSource source = NetworkUtil.getCurrentSource(context);

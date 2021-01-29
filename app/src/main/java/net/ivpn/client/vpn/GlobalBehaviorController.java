@@ -1,17 +1,41 @@
 package net.ivpn.client.vpn;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.VpnService;
 import android.os.Build;
-import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.ui.settings.SettingsActivity;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.local.KillSwitchService;
 import net.ivpn.client.vpn.local.PermissionActivity;
@@ -23,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -268,7 +291,7 @@ public class GlobalBehaviorController implements ServiceConstants {
     public void release() {
         LOGGER.info("release");
         finishAll();
-        IVPNApplication.getApplication().unregisterReceiver(securityGuardActionsReceiver);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(securityGuardActionsReceiver);
     }
 
     public void finishAll() {
@@ -295,7 +318,7 @@ public class GlobalBehaviorController implements ServiceConstants {
             }
         };
 
-        IVPNApplication.getApplication().registerReceiver(securityGuardActionsReceiver,
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(securityGuardActionsReceiver,
                 new IntentFilter(KILL_SWITCH_ACTION));
     }
 
@@ -316,11 +339,9 @@ public class GlobalBehaviorController implements ServiceConstants {
     }
 
     private void openSettings() {
-        Context context = IVPNApplication.getApplication();
-
-        Intent intent = new Intent(context, SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        new NavDeepLinkBuilder(IVPNApplication.getApplication())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.settingsFragment).createTaskStackBuilder().startActivities();
     }
 
     private boolean isKillSwitchEnabled() {

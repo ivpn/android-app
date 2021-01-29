@@ -1,16 +1,34 @@
 package net.ivpn.client.rest;
 
-import net.ivpn.client.rest.data.LoginRequestBody;
-import net.ivpn.client.rest.data.LoginResponse;
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import net.ivpn.client.rest.data.ServersListResponse;
-import net.ivpn.client.rest.data.privateemails.GenerateEmailRequestBody;
-import net.ivpn.client.rest.data.privateemails.GenerateEmailResponse;
-import net.ivpn.client.rest.data.privateemails.PrivateEmailsListRequestBody;
-import net.ivpn.client.rest.data.privateemails.PrivateEmailsListResponse;
-import net.ivpn.client.rest.data.privateemails.RemovePrivateEmailRequestBody;
-import net.ivpn.client.rest.data.privateemails.RemovePrivateEmailResponse;
-import net.ivpn.client.rest.data.privateemails.UpdatePrivateEmailRequestBody;
-import net.ivpn.client.rest.data.privateemails.UpdatePrivateEmailResponse;
+import net.ivpn.client.rest.data.addfunds.AddFundsRequestBody;
+import net.ivpn.client.rest.data.addfunds.AddFundsResponse;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentRequestBody;
+import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
+import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody;
+import net.ivpn.client.rest.data.addfunds.NewAccountResponse;
 import net.ivpn.client.rest.data.proofs.LocationResponse;
 import net.ivpn.client.rest.data.session.DeleteSessionRequestBody;
 import net.ivpn.client.rest.data.session.DeleteSessionResponse;
@@ -35,9 +53,6 @@ public interface IVPNApi {
     @GET("v4/servers.json")
     Call<ServersListResponse> getServers();
 
-    @POST("v2/authenticate")
-    Call<LoginResponse> login(@Body LoginRequestBody body);
-
     @GET("v4/geo-lookup")
     Call<LocationResponse> getLocation();
     
@@ -53,22 +68,21 @@ public interface IVPNApi {
     @POST("v4/session/wg/set")
     Call<AddWireGuardPublicKeyResponse> setWireGuardPublicKey(@Body AddWireGuardPublicKeyRequestBody body);
 
-    @POST("v4/session/pe/list")
-    Call<PrivateEmailsListResponse> getPrivateEmails(@Body PrivateEmailsListRequestBody body);
-
-    @POST("v4/session/pe/generate")
-    Call<GenerateEmailResponse> generatePrivateEmail(@Body GenerateEmailRequestBody body);
-
-    @POST("v4/session/pe/delete")
-    Call<RemovePrivateEmailResponse> removePrivateEmail(@Body RemovePrivateEmailRequestBody body);
-
-    @POST("v4/session/pe/update")
-    Call<UpdatePrivateEmailResponse> updatePrivateEmail(@Body UpdatePrivateEmailRequestBody body);
-
+    //old logic for subscriptions
     @POST("/subscriptions/android")
     Call<SubscriptionResponse> processPurchase(@Body SubscriptionRequestBody body);
 
     @POST("/subscriptions/validate")
     Call<ValidateAccountResponse> validateAccount(@Body ValidateAccountRequestBody body);
+
+    //new add funds logic
+    @POST("v4/account/new")
+    Call<NewAccountResponse> newAccount(@Body NewAccountRequestBody body);
+
+    @POST("/v4/account/payment/android/initial")
+    Call<InitialPaymentResponse> initialPayment(@Body InitialPaymentRequestBody body);
+
+    @POST("/v4/account/payment/android/add")
+    Call<AddFundsResponse> addFunds(@Body AddFundsRequestBody body);
 
 }

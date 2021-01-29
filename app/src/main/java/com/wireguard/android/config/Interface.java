@@ -61,7 +61,11 @@ public class Interface implements Parcelable{
             for (final String addr : addresses) {
                 if (addr.isEmpty())
                     throw new IllegalArgumentException("Address is empty");
-                addressList.add(new InetNetwork(addr));
+                try {
+                    addressList.add(InetNetwork.parse(addr));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -69,7 +73,11 @@ public class Interface implements Parcelable{
     private void addDnses(@Nullable final String[] dnses) {
         if (dnses != null && dnses.length > 0) {
             for (final String dns : dnses) {
-                dnsList.add(InetAddresses.parse(dns));
+                try {
+                    dnsList.add(InetAddresses.parse(dns));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/servers_background">
 
     <TextView
         android:layout_width="match_parent"
@@ -11,7 +12,7 @@
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="6sp"
         android:text="@string/fastest_setting_description"
-        android:textColor="#98a5b3"
+        android:textColor="@color/servers_text_color"
         android:textSize="14sp"
         android:textStyle="normal" />
 

@@ -1,5 +1,27 @@
 package net.ivpn.client.rest.requests.common;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
@@ -16,6 +38,7 @@ import java.util.LinkedList;
 
 import javax.inject.Inject;
 
+import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +55,10 @@ public class RequestWrapper<T> implements Callback<T> {
     private static final String SLASH = "/";
 
     private LinkedList<String> ips;
-    private String lastUsedIp;
     private String testingIp;
+    private String startIp;
 
-    private boolean isCancelled;
+    private volatile boolean isCancelled;
 
     private CallBuilder<T> callBuilder;
     private OkHttpClient httpClient;
@@ -61,8 +84,11 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     void perform() {
+        testingIp = getIps().isEmpty() ? null : getIps().getFirst();
+        startIp = testingIp;
         LOGGER.info("Perform with testingIp = " + testingIp);
         String baseUrl = generateURL(testingIp);
+        LOGGER.info("Perform with baseUrl = " + baseUrl);
         perform(baseUrl);
     }
 
@@ -87,7 +113,7 @@ public class RequestWrapper<T> implements Callback<T> {
 
         String baseUrl;
         if (testingIp == null) {
-            testingIp = getIps().getFirst();
+            testingIp = getIps().isEmpty() ? null : getIps().getFirst();
         } else if (testingIp.equals(getIps().getLast())) {
             testingIp = null;
         } else {
@@ -95,13 +121,12 @@ public class RequestWrapper<T> implements Callback<T> {
             testingIp = getIps().get(indexOf + 1);
         }
 
-        if ((testingIp == null && getLastUsedIp() == null)
-                || (testingIp != null && testingIp.equals(getLastUsedIp()))) {
+        if ((testingIp == null && startIp == null)
+                || (testingIp != null && testingIp.equals(startIp))) {
             listener.onError(throwable);
             return;
         }
 
-        LOGGER.info("Perform with testingIp = " + testingIp);
         baseUrl = generateURL(testingIp);
         perform(baseUrl);
     }
@@ -126,11 +151,11 @@ public class RequestWrapper<T> implements Callback<T> {
         LOGGER.info("Response received");
         if (isCancelled || response == null || listener == null) return;
 
-        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
-        if ((getTestingIp() == null && getLastUsedIp() != null) || (getTestingIp() != null && !getTestingIp().equals(getLastUsedIp()))) {
-            LOGGER.info("Set " + getTestingIp() + " as stable");
-            settings.setLastUsedIp(getTestingIp());
-        }
+//        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
+//        if ((getTestingIp() == null && getLastUsedIp() != null) || (getTestingIp() != null && !getTestingIp().equals(getLastUsedIp()))) {
+//            LOGGER.info("Set " + getTestingIp() + " as stable");
+//            settings.setLastUsedIp(getTestingIp());
+//        }
 
         if (response.code() == Responses.SUCCESS) {
             listener.onSuccess(response.body());
@@ -158,19 +183,7 @@ public class RequestWrapper<T> implements Callback<T> {
         Call<T> createCall(IVPNApi api);
     }
 
-    private String getLastUsedIp() {
-        if (lastUsedIp == null) {
-            lastUsedIp = settings.getLastUsedIp();
-        }
-
-        return lastUsedIp;
-    }
-
     private String getTestingIp() {
-        if (testingIp == null) {
-            testingIp = getLastUsedIp();
-        }
-
         return testingIp;
     }
 

@@ -7,8 +7,24 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="net.ivpn.client.ui.settings.SettingsViewModel" />
+            name="startOnBoot"
+            type="net.ivpn.client.v2.viewmodel.StartOnBootViewModel" />
+
+        <variable
+            name="alwaysOnVPN"
+            type="net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel" />
+
+        <variable
+            name="antiTracker"
+            type="net.ivpn.client.v2.viewmodel.AntiTrackerViewModel" />
+
+        <variable
+            name="killSwitch"
+            type="net.ivpn.client.v2.viewmodel.KillSwitchViewModel" />
+
+        <variable
+            name="logging"
+            type="net.ivpn.client.v2.viewmodel.LoggingViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,6 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/settings_card_background"
             android:orientation="vertical">
 
             <TextView
@@ -27,11 +44,13 @@
                 android:text="@string/settings_other" />
 
             <LinearLayout
+                android:id="@+id/split_tunneling_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
-                android:onClick="splitTunneling"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -59,11 +78,13 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/network_protection_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
-                android:onClick="trustedWifi"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -89,14 +110,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isStartOnBootEnabled ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{startOnBoot.isStartOnBootEnabled() ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/start_on_boot_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isStartOnBootEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{startOnBoot.isStartOnBootEnabled()  ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -105,7 +130,6 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:layout_weight="1"
-                    android:onClick="startOnSystemBoot"
                     android:orientation="vertical">
 
                     <TextView
@@ -130,14 +154,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{alwaysOnVPN.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/always_on_vpn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}">
+                android:visibility="@{alwaysOnVPN.isAlwaysOnVpnSupported ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -146,7 +174,6 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginBottom="14dp"
                     android:layout_weight="1"
-                    android:onClick="alwaysOnVpn"
                     android:orientation="vertical">
 
                     <TextView
@@ -171,19 +198,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/anti_tracker_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
-                android:onClick="antiSurveillance"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="@{viewmodel.isAntiTrackerEnabled ? View.VISIBLE : View.GONE}">
+                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     style="@style/SettingsOptionTitle"
@@ -207,11 +236,13 @@
                 android:background="@color/color_section_divider" />
 
             <LinearLayout
+                android:id="@+id/custom_dns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
-                android:onClick="customDns"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/settings_margin_left"
                 android:paddingTop="14dp"
@@ -238,161 +269,168 @@
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_kill_switch" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/settings_kill_switch_description"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/enable_kill_switch"
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.killSwitch}"
-                    android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableKillSwitch}"
-                    app:onTouch="@{viewmodel.killSwitchTouchListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_kill_switch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_kill_switch_description"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/antitracker_switch"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{killSwitch.isEnabled}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView3"
+                    app:onChanged="@{killSwitch.enableKillSwitch}"
+                    app:onTouch="@{killSwitch.touchListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_section_divider" />
+                android:background="@color/color_section_divider"
+                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textView9"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_crashes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_crashes" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="@string/settings_crash_logging_description"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_crash_logging_description"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_crashes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.crashLogging}"
-                    android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableCrashLoggingListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{logging.isCrashLoggingEnabled()}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView9"
+                    app:onChanged="@{logging.enableCrashLoggingListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_logging"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/SettingsOptionTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_enable_logging" />
-
-                    <TextView
-                        style="@style/SettingsOptionDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:text="@string/settings_do_not_collect_your_data"
-                        android:textAlignment="viewStart" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/textView8"
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings_do_not_collect_your_data"
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.01"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enable_logging"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right_extended"
-                    android:checked="@{viewmodel.logging}"
-                    android:translationX="3dp"
-                    app:onChanged="@{viewmodel.enableLoggingListener}"
-                    app:theme="@style/AppTheme.SwitchCompat" />
-            </LinearLayout>
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{logging.isLoggingEnabled}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView7"
+                    app:onChanged="@{logging.enableLoggingListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/settings_margin_left"
                 android:background="@color/color_section_divider"
-                android:visibility="@{viewmodel.logging ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/send_logs_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
-                android:onClick="sendLogs"
                 android:orientation="horizontal"
-                android:visibility="@{viewmodel.logging ? View.VISIBLE : View.GONE}">
+                android:visibility="@{logging.isLoggingEnabled ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     style="@style/SettingsAction"

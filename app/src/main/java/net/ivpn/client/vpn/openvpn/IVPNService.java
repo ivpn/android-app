@@ -1,5 +1,27 @@
 package net.ivpn.client.vpn.openvpn;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -19,6 +41,8 @@ import android.os.Message;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.system.OsConstants;
 
 import net.ivpn.client.IVPNApplication;
@@ -27,7 +51,7 @@ import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.DateUtil;
-import net.ivpn.client.ui.connect.ConnectActivity;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -542,6 +566,12 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         builder.setSession(serviceConfiguration.getSessionFormatted(this, session));
         builder.setConfigureIntent(getGraphPendingIntent());
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            builder.setMetered(false);
+        }
+
+        builder.setBlocking(true);
+
         try {
             ParcelFileDescriptor tun = builder.establish();
             if (tun == null)
@@ -561,7 +591,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
     }
 
     PendingIntent getGraphPendingIntent() {
-        Intent intent = new Intent(this, ConnectActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -604,14 +634,14 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         Intent vpnStatus = new Intent();
         vpnStatus.setAction(VPN_STATUS);
         vpnStatus.putExtra(VPN_EXTRA_STATUS, level.toString());
-        sendBroadcast(vpnStatus, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(vpnStatus);
     }
 
     private void doSendActionBroadcast(String action) {
         Intent vpnAction = new Intent();
         vpnAction.setAction(NOTIFICATION_ACTION);
         vpnAction.putExtra(NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(vpnAction);
     }
 
     //ToDo check if this code is valid

@@ -1,48 +1,72 @@
 package net.ivpn.client.common.bindings;
 
-import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.RecyclerView;
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.rest.data.privateemails.Email;
-import net.ivpn.client.ui.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
-import net.ivpn.client.ui.privateemails.PrivateEmailsRecyclerViewAdapter;
-import net.ivpn.client.ui.serverlist.ServersRecyclerViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
 import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
 import net.ivpn.client.ui.split.SplitTunnelingRecyclerViewAdapter;
 import net.ivpn.client.ui.split.data.ApplicationItem;
+import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
+import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter;
 import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
 import java.util.List;
+
+import kotlin.Pair;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class RecyclerViewItemsBindingAdapter {
 
-    @BindingAdapter("app:items")
+    @BindingAdapter("items")
     public static void setItems(RecyclerView recyclerView, List<Server> items) {
-        ServersRecyclerViewAdapter adapter = (ServersRecyclerViewAdapter) recyclerView.getAdapter();
+        ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.replaceData(items);
         }
     }
 
-    @BindingAdapter("app:forbiddenItem")
+    @BindingAdapter("forbiddenItem")
     public static void setForbiddenItem(RecyclerView recyclerView, Server server) {
-        ServersRecyclerViewAdapter adapter = (ServersRecyclerViewAdapter) recyclerView.getAdapter();
+        ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setForbiddenServer(server);
         }
     }
 
-    @BindingAdapter("app:servers")
+    @BindingAdapter("servers")
     public static void setServerItems(RecyclerView recyclerView, List<Server> servers) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -50,7 +74,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:excludedServers")
+    @BindingAdapter("excludedServers")
     public static void setExcludedItems(RecyclerView recyclerView, List<Server> excludedServers) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -58,15 +82,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:emails")
-    public static void setEmails(RecyclerView recyclerView, List<Email> emails) {
-        PrivateEmailsRecyclerViewAdapter adapter = (PrivateEmailsRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setEmails(emails);
-        }
-    }
-
-    @BindingAdapter("app:apps")
+    @BindingAdapter("apps")
     public static void setApplicationsList(RecyclerView recyclerView, List<ApplicationItem> apps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -74,7 +90,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:not_allowed_apps")
+    @BindingAdapter("not_allowed_apps")
     public static void setNotAllowedAppsList(RecyclerView recyclerView, List<String> notAllowedApps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -82,7 +98,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:selection_listener")
+    @BindingAdapter("selection_listener")
     public static void setSelectionChangedListener(RecyclerView recyclerView, OnApplicationItemSelectionChangedListener listener) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
@@ -90,7 +106,7 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:fastest_setting_listener")
+    @BindingAdapter("fastest_setting_listener")
     public static void setSelectionChangedListener(RecyclerView recyclerView,
                                                    OnFastestSettingChangedListener listener) {
         FastestSettingViewAdapter adapter = (FastestSettingViewAdapter) recyclerView.getAdapter();
@@ -99,44 +115,11 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:wifi_list")
+    @BindingAdapter("wifi_list")
     public static void setWifiList(RecyclerView recyclerView, List<WifiItem> wifiList) {
         NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
-            adapter.setWifiItemList(wifiList);
-        }
-    }
-
-    @BindingAdapter("app:is_network_feature_enabled")
-    public static void setIsUntrustedWifiEnabled(RecyclerView recyclerView, boolean isEnabled) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setNetworkRulesEnabled(isEnabled);
-        }
-    }
-
-    @BindingAdapter("app:default_network_state")
-    public static void setDefaultNetworkState(RecyclerView recyclerView, NetworkState defaultState) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setDefaultNetworkState(defaultState);
-        }
-    }
-
-    @BindingAdapter("app:mobile_data_state")
-    public static void setMobileDataNetworkState(RecyclerView recyclerView, NetworkState mobileDataState) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setMobileDataState(mobileDataState);
-        }
-    }
-
-    @BindingAdapter("app:network_feature_listener")
-    public static void setNetworkFeatureTouchListener(RecyclerView recyclerView,
-                                                      OnNetworkFeatureStateChanged onNetworkFeatureStateChanged) {
-        NetworkRecyclerViewAdapter adapter = (NetworkRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setOnNetworkFeatureStateChanged(onNetworkFeatureStateChanged);
+            adapter.setWiFiList(wifiList);
         }
     }
 

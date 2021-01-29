@@ -11,17 +11,21 @@
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="6sp"
         android:text="@string/dialogs_time_picker_title"
-        android:textColor="#335266"
+        android:textColor="@color/dialogue_title"
         android:textSize="18sp"
         android:textStyle="normal" />
 
     <TimePicker
         android:id="@+id/time_picker"
-        android:theme="@style/AppTheme.TimePicker"
+        style="@style/AppTheme.TimePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner" />
+        android:numbersTextColor="@android:color/holo_blue_bright"
+        android:numbersInnerTextColor="@android:color/holo_blue_bright"
+        android:amPmTextColor="@android:color/holo_blue_bright"
+        android:numbersSelectorColor="@android:color/holo_blue_bright"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/dialogue_background">
 
     <ImageView
         android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="6sp"
         android:text="@string/dialogs_advanced_kill_switch_title"
-        android:textColor="#335266"
+        android:textColor="@color/dialogue_title"
         android:textSize="18sp"
         android:textStyle="normal" />
 
@@ -34,7 +35,7 @@
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="8sp"
         android:text="@string/dialogs_advanced_kill_switch_description"
-        android:textColor="#335266"
+        android:textColor="@color/dialogue_text"
         android:textSize="16sp"
         android:textStyle="normal" />
 
@@ -46,9 +47,10 @@
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif"
         android:text="@string/dialogs_advanced_kill_switch_not_show_again"
-        android:textColor="#98a5b3"
         android:textSize="14sp"
         android:textStyle="normal"
+        android:textColor="@color/dialogue_text"
+        app:buttonTint="@color/primary"
         app:theme="@style/AppTheme.CheckBox" />
 
     <LinearLayout

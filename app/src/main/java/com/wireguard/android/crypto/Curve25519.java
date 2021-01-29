@@ -11,16 +11,16 @@ import java.util.Arrays;
 
 /**
  * Implementation of the Curve25519 elliptic curve algorithm.
- * <p>
+ *
  * This implementation was imported to WireGuard from noise-java:
  * https://github.com/rweather/noise-java
- * <p>
+ *
  * This implementation is based on that from arduinolibs:
  * https://github.com/rweather/arduinolibs
- * <p>
+ *
  * Differences in this version are due to using 26-bit limbs for the
  * representation instead of the 8/16/32-bit limbs in the original.
- * <p>
+ *
  * References: http://cr.yp.to/ecdh.html, RFC 7748
  */
 @SuppressWarnings({"MagicNumber", "NonConstantFieldWithUpperCaseName", "SuspiciousNameCombination"})

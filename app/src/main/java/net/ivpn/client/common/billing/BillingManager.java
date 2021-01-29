@@ -1,5 +1,27 @@
 package net.ivpn.client.common.billing;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.Nullable;
@@ -9,6 +31,8 @@ import com.android.billingclient.api.BillingClient.BillingResponseCode;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
@@ -107,18 +131,19 @@ public class BillingManager implements PurchasesUpdatedListener {
     private void queryPurchases() {
         Runnable queryToExecute = () -> {
             long time = System.currentTimeMillis();
-            Purchase.PurchasesResult purchasesResult = billingClient.queryPurchases(BillingClient.SkuType.SUBS);
-            LOGGER.info("Querying subscription elapsed time: " + (System.currentTimeMillis() - time)
-                    + "ms");
-            LOGGER.info("Querying subscriptions result code: "
-                    + purchasesResult.getResponseCode()
-                    + " res: " + (purchasesResult.getPurchasesList() != null ? purchasesResult.getPurchasesList().size() : null));
+            Purchase.PurchasesResult products = billingClient.queryPurchases(BillingClient.SkuType.INAPP);
 
-            if (purchasesResult.getResponseCode() != BillingResponseCode.OK) {
-                LOGGER.info("Got an error response trying to query subscription purchases");
+            LOGGER.info("Querying products elapsed time: " + (System.currentTimeMillis() - time)
+                    + "ms");
+            LOGGER.info("Querying products result code: "
+                    + products.getResponseCode()
+                    + " res: " + (products.getPurchasesList() != null ? products.getPurchasesList().size() : null));
+
+            if (products.getResponseCode() != BillingResponseCode.OK) {
+                LOGGER.info("Got an error response trying to query products purchases");
             }
 
-            onQueryPurchasesFinished(purchasesResult);
+            onQueryPurchasesFinished(products);
         };
 
         executeServiceRequest(queryToExecute);
@@ -150,13 +175,26 @@ public class BillingManager implements PurchasesUpdatedListener {
             LOGGER.info("Launching in-app purchase flow. Replace old SKU? " + (oldSku != null));
             BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skuDetails)
-                    .setOldSku(oldSku)
-                    .setReplaceSkusProrationMode(proration)
                     .build();
             billingClient.launchBillingFlow(activity, purchaseParams);
         };
 
         executeServiceRequest(purchaseFlowRequest);
+    }
+
+    public void consumePurchase(Purchase purchase) {
+        ConsumeParams consumeParams =
+                ConsumeParams.newBuilder()
+                        .setPurchaseToken(purchase.getPurchaseToken())
+                        .build();
+
+        ConsumeResponseListener listener = (billingResult, purchaseToken) -> {
+            if (billingResult.getResponseCode() == BillingResponseCode.OK) {
+                //Nothing to do here
+            }
+        };
+
+        billingClient.consumeAsync(consumeParams, listener);
     }
 
     private void executeServiceRequest(Runnable runnable) {
@@ -191,7 +229,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     /**
      * Handles the purchase
-     * <p>Note: Notice that for each purchase, we check if signature is valid on the client.
+     * Note: Notice that for each purchase, we check if signature is valid on the client.
      * It's recommended to move this check into your backend.
      * See {@link Security#verifyPurchase(String, String, String)}
      * </p>
@@ -200,18 +238,18 @@ public class BillingManager implements PurchasesUpdatedListener {
      */
     private void handlePurchase(Purchase purchase) {
         if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
-            LOGGER.error("Got a purchase: " + purchase + "; but signature is bad. Skipping...");
+            LOGGER.error("Got a purchase; but signature is bad. Skipping...");
             return;
         }
 
-        LOGGER.debug("Got a verified purchase: " + purchase);
+        LOGGER.debug("Got a verified purchase");
 
         purchases.add(purchase);
     }
 
     /**
      * Verifies that the purchase was signed correctly for this developer's public key.
-     * <p>Note: It's strongly recommended to perform such check on your backend since hackers can
+     * Note: It's strongly recommended to perform such check on your backend since hackers can
      * replace this method with "constant true" if they decompile/rebuild your app.
      * </p>
      */

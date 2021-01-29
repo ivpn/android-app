@@ -1,5 +1,27 @@
 package net.ivpn.client.ui.protocol;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -109,27 +131,39 @@ public class ProtocolViewModel {
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
     }
 
+    public void reset() {
+
+    }
+
     public void setNavigator(ProtocolNavigator navigator) {
         this.navigator = navigator;
     }
 
-    void copyWgKeyToClipboard(ClipboardManager clipboard) {
+    public void copyWgKeyToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_public_key", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    void copyWgIpToClipboard(ClipboardManager clipboard) {
+    public void copyWgIpToClipboard(ClipboardManager clipboard) {
         ClipData clip = ClipData.newPlainText("wireguard_ip", wireGuardPublicKey);
         clipboard.setPrimaryClip(clip);
     }
 
-    WireGuardDialogInfo getWireGuardInfo() {
+    public WireGuardDialogInfo getWireGuardInfo() {
         String ipAddress = settings.getWireGuardIpAddress();
 
         long regenerationPeriod = keyController.getRegenerationPeriod();
         long lastGeneratedTime = settings.getGenerationTime();
 
         return new WireGuardDialogInfo(wireGuardPublicKey, ipAddress, lastGeneratedTime, regenerationPeriod);
+    }
+
+    public String getDescription() {
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
+            return "WireGuard" + ", " + wireGuardPort.get().toThumbnail();
+        } else {
+            return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();
+        }
     }
 
     private void tryEnableWgProtocol() {
@@ -142,7 +176,7 @@ public class ProtocolViewModel {
         setProtocol(Protocol.WIREGUARD);
     }
 
-    void reGenerateKeys() {
+    public void reGenerateKeys() {
         LOGGER.info(TAG, "Regenerate keys");
         keyController.regenerateKeys();
     }
@@ -217,13 +251,6 @@ public class ProtocolViewModel {
                 LOGGER.info("onKeyGeneratedError error = " + error + " throwable = " + throwable);
                 dataLoading.set(false);
                 ProtocolViewModel.this.onGeneratingError(error, throwable);
-            }
-
-            @Override
-            public void onKeyRemoving() {
-                LOGGER.info("onKeyRemoving");
-                dataLoading.set(true);
-                loadingMessage.set(context.getString(R.string.protocol_delete_public_key_from_server));
             }
         };
     }

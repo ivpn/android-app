@@ -1,13 +1,35 @@
 package net.ivpn.client.vpn.openvpn;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import androidx.annotation.Nullable;
 
 import net.ivpn.client.common.ProfileStorage;
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.prefs.EncryptedUserPreference;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.common.prefs.UserPreference;
 import net.ivpn.client.common.utils.StringUtil;
 import net.ivpn.client.rest.data.model.Server;
 
@@ -27,12 +49,12 @@ public class ProfileManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProfileManager.class);
     private VpnProfile currentProfile;
 
-    private UserPreference userPreference;
+    private EncryptedUserPreference userPreference;
     private Settings settings;
     private ServersRepository serversRepository;
 
     @Inject
-    public ProfileManager(UserPreference userPreference, Settings settings, ServersRepository serversRepository) {
+    public ProfileManager(EncryptedUserPreference userPreference, Settings settings, ServersRepository serversRepository) {
         this.userPreference = userPreference;
         this.settings = settings;
         this.serversRepository = serversRepository;

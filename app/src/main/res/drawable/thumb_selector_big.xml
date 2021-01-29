@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!--DISCONNECTING    -->
+<!--    <item app:connectionState="3">-->
+<!--        <shape android:shape="oval">-->
+<!--            <solid android:color="@color/sliding_panel_background" />-->
+<!--            <size android:width="36dp" android:height="36dp" />-->
+<!--            <stroke android:width="4dp" android:color="@color/disconnecting_state_switcher" />-->
+<!--        </shape>-->
+<!--    </item>-->
+
+<!--    &lt;!&ndash;CONNECTING    &ndash;&gt;-->
+<!--    <item app:connectionState="1">-->
+<!--        <shape android:shape="oval">-->
+<!--            <solid android:color="@color/sliding_panel_background" />-->
+<!--            <size android:width="36dp" android:height="36dp" />-->
+<!--            <stroke android:width="4dp" android:color="@color/connecting_state_switcher" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;CONNECTED&ndash;&gt;-->
+<!--    <item app:connectionState="2">-->
+<!--        <shape android:shape="oval">-->
+<!--            <solid android:color="@color/sliding_panel_background" />-->
+<!--            <size android:width="36dp" android:height="36dp" />-->
+<!--            <stroke android:width="4dp" android:color="@color/primary" />-->
+<!--        </shape>-->
+<!--    </item>-->
+
+<!--    &lt;!&ndash;NOT_CONNECTED and DEFAULT&ndash;&gt;-->
+<!--    <item>-->
+<!--        <shape android:shape="oval">-->
+<!--            <solid android:color="@color/sliding_panel_background" />-->
+<!--            <size android:width="36dp" android:height="36dp" />-->
+<!--            <stroke android:width="4dp" android:color="@color/accent" />-->
+<!--        </shape>-->
+<!--    </item>-->
+</selector>

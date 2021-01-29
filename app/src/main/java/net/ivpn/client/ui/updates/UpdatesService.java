@@ -1,6 +1,27 @@
 package net.ivpn.client.ui.updates;
 
-import android.Manifest;
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,9 +33,13 @@ import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
+import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
+import net.ivpn.client.v2.MainActivity;
 import net.ivpn.client.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -98,7 +123,7 @@ public class UpdatesService extends Service implements ServiceConstants {
         Intent vpnAction = new Intent();
         vpnAction.setAction(UPDATE_NOTIFICATION_ACTION);
         vpnAction.putExtra(UPDATE_NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(vpnAction);
         return START_NOT_STICKY;
     }
 
@@ -167,7 +192,7 @@ public class UpdatesService extends Service implements ServiceConstants {
     }
 
     private PendingIntent getContentIntent() {
-        Intent intent = new Intent(this, UpdatesActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

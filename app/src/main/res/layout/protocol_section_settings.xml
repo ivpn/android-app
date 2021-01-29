@@ -22,6 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/protocol_card_background"
             android:orientation="vertical">
 
             <TextView
@@ -45,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/settings_margin_left"
                     android:layout_weight="1"
-                    android:text="@string/settings_port_label" />
+                    android:text="@string/settings_port_label"
+                    android:textColor="@color/protocol_text_color" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/openvpn_spinner"
@@ -54,11 +56,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="12dp"
-                    android:backgroundTint="#98a5b3"
+                    android:backgroundTint="@color/protocol_text_color"
                     android:gravity="center_vertical"
                     android:minWidth="130dp"
                     android:overlapAnchor="true"
-                    android:popupBackground="@android:color/white"
+                    android:popupBackground="@color/dialogue_background"
                     android:spinnerMode="dropdown"
                     android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
                     app:onChanged="@{viewmodel.onPortChangedListener}"
@@ -72,11 +74,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="12dp"
-                    android:backgroundTint="#98a5b3"
+                    android:backgroundTint="@color/protocol_text_color"
                     android:gravity="center_vertical"
                     android:minWidth="130dp"
                     android:overlapAnchor="true"
-                    android:popupBackground="@android:color/white"
+                    android:popupBackground="@color/dialogue_background"
                     android:spinnerMode="dropdown"
                     android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}"
                     app:onChanged="@{viewmodel.onPortChangedListener}"
@@ -103,8 +105,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -118,24 +120,19 @@
                             style="@style/SettingsOptionTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/protocol_wg_regeneration_period" />
+                            android:text="@string/protocol_wg_regeneration_period"
+                            android:textColor="@color/protocol_text_color" />
 
                         <TextView
                             style="@style/SettingsOptionDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="1dp"
+                            android:alpha="0.6"
                             android:text="@{DateUtil.formatRegenerationPeriod(viewmodel.regenerationPeriod)}"
-                            android:textAlignment="viewStart" />
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/protocol_text_color" />
                     </LinearLayout>
-
-                    <!--<TextView-->
-                    <!--style="@style/SettingsOptionDescription"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="protocol_wg_regeneration_description"-->
-                    <!--android:layout_marginStart="@dimen/settings_margin_left"-->
-                    <!--android:layout_marginEnd="@dimen/settings_margin_left" />-->
 
                     <net.ivpn.client.ui.protocol.view.ValueSelectionView
                         android:layout_width="wrap_content"
@@ -153,7 +150,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/settings_margin_left"
                     android:layout_marginEnd="@dimen/settings_margin_left"
-                    android:text="@string/protocol_wg_regeneration_description" />
+                    android:alpha="0.6"
+                    android:text="@string/protocol_wg_regeneration_description"
+                    android:textColor="@color/protocol_text_color" />
             </LinearLayout>
 
             <View
@@ -173,10 +172,10 @@
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
 
                 <TextView
+                    android:id="@+id/wireguard_details"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="wgDetails"
                     android:text="@string/protocol_wg_details"
                     android:textAllCaps="true" />
             </LinearLayout>

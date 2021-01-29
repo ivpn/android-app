@@ -1,13 +1,37 @@
 package net.ivpn.client.vpn.controller;
 
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Oleksandr Mykhailenko.
+ Copyright (c) 2020 Privatus Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.os.Handler;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.wireguard.android.backend.WireGuardUiService;
+import com.wireguard.android.model.Tunnel;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
@@ -16,7 +40,6 @@ import net.ivpn.client.common.pinger.OnFastestServerDetectorListener;
 import net.ivpn.client.common.pinger.PingProvider;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.common.prefs.ServersRepository;
-import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.DateUtil;
 import net.ivpn.client.common.utils.ToastUtil;
 import net.ivpn.client.rest.Responses;
@@ -30,25 +53,33 @@ import net.ivpn.client.vpn.VPNConnectionState;
 import net.ivpn.client.vpn.controller.WireGuardKeyController.WireGuardKeysEventsListener;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
-import static net.ivpn.client.ui.connect.ConnectionState.*;
+import static net.ivpn.client.ui.connect.ConnectionState.CONNECTED;
+import static net.ivpn.client.ui.connect.ConnectionState.CONNECTING;
+import static net.ivpn.client.ui.connect.ConnectionState.DISCONNECTING;
+import static net.ivpn.client.ui.connect.ConnectionState.NOT_CONNECTED;
+import static net.ivpn.client.ui.connect.ConnectionState.PAUSED;
+import static net.ivpn.client.ui.connect.ConnectionState.PAUSING;
 
-public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
+public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.OnStateChangedListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WireGuardBehavior.class);
 
-    private VpnStateListener stateListener;
+    private List<VpnStateListener> listeners = new ArrayList<>();
     private PauseTimer timer;
     private BroadcastReceiver notificationActionReceiver;
     private ConnectionState state;
-    private long connectionTime;
+//    private long connectionTime;
     private WireGuardKeyController keyController;
 
-    private Settings settings;
     private GlobalBehaviorController globalBehaviorController;
     private ServersRepository serversRepository;
     private VpnBehaviorController vpnBehaviorController;
@@ -56,18 +87,19 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     private PingProvider pingProvider;
 
     @Inject
-    WireGuardBehavior(Settings settings, WireGuardKeyController wireGuardKeyController,
+    WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
                       GlobalBehaviorController globalBehaviorController, ServersRepository serversRepository,
                       VpnBehaviorController vpnBehaviorController, ConfigManager configManager,
                       PingProvider pingProvider) {
         LOGGER.info("Creating");
-        this.settings = settings;
         keyController = wireGuardKeyController;
         this.globalBehaviorController = globalBehaviorController;
         this.serversRepository = serversRepository;
         this.vpnBehaviorController = vpnBehaviorController;
         this.configManager = configManager;
         this.pingProvider = pingProvider;
+
+        configManager.setListener(this);
 
         init();
     }
@@ -78,8 +110,8 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             @Override
             public void onTick(long millisUntilFinished) {
                 LOGGER.info("Will resume in " + DateUtil.formatNotificationTimerCountDown(millisUntilFinished));
-                if (stateListener != null) {
-                    stateListener.onTimeTick(millisUntilFinished);
+                for (VpnStateListener listener : listeners) {
+                    listener.onTimeTick(millisUntilFinished);
                 }
             }
 
@@ -87,6 +119,9 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             public void onFinish() {
                 LOGGER.info("Should be resumed");
                 resume();
+                for (VpnStateListener listener : listeners) {
+                    listener.onTimerFinish();
+                }
             }
         });
         state = NOT_CONNECTED;
@@ -116,18 +151,18 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     }
 
     @Override
-    public void setStateListener(VpnStateListener vpnStateListener) {
+    public void addStateListener(VpnStateListener vpnStateListener) {
         LOGGER.info("setStateListener: ");
-        this.stateListener = vpnStateListener;
-        if (stateListener != null) {
-            stateListener.onConnectionStateChanged(state);
+        listeners.add(vpnStateListener);
+        if (vpnStateListener != null) {
+            vpnStateListener.onConnectionStateChanged(state);
         }
     }
 
     @Override
     public void removeStateListener(VpnStateListener vpnStateListener) {
         LOGGER.info("removeStateListener: ");
-        stateListener = null;
+        listeners.remove(vpnStateListener);
     }
 
     @Override
@@ -142,14 +177,14 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
         sendConnectionState(timer.getMillisUntilFinished());
     }
 
-    @Override
-    public long getConnectionTime() {
-        if (state == null || !state.equals(CONNECTED)) {
-            return -1;
-        } else {
-            return System.currentTimeMillis() - connectionTime;
-        }
-    }
+//    @Override
+//    public long getConnectionTime() {
+//        if (state == null || !state.equals(CONNECTED)) {
+//            return -1;
+//        } else {
+//            return System.currentTimeMillis() - connectionTime;
+//        }
+//    }
 
     private void registerReceivers() {
         notificationActionReceiver = new BroadcastReceiver() {
@@ -168,11 +203,11 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NOTIFICATION_ACTION);
 
-        IVPNApplication.getApplication().registerReceiver(notificationActionReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).registerReceiver(notificationActionReceiver, intentFilter);
     }
 
     private void unregisterReceivers() {
-        IVPNApplication.getApplication().unregisterReceiver(notificationActionReceiver);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(notificationActionReceiver);
     }
 
     private void onNotificationAction(Intent intent) {
@@ -208,9 +243,10 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
 
     private void findFastestServerAndConnect() {
         LOGGER.info("findFastestServerAndConnect: state = " + state);
-        if (stateListener != null) {
-            stateListener.onFindingFastestServer();
+        for (VpnStateListener listener : listeners) {
+            listener.onFindingFastestServer();
         }
+
         pingProvider.findFastestServer(getFastestServerDetectorListener());
         //nothing to do, we will get fastest server through listener
     }
@@ -227,7 +263,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     private void resumeVpn() {
         LOGGER.info("resumeVpn: state = " + state);
         startWireGuard();
-        connectionTime = System.currentTimeMillis();
     }
 
     @Override
@@ -243,13 +278,10 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             return;
         }
 
-        if (!(state == NOT_CONNECTED || state == PAUSED)) {
-            return;
-        }
-
         if (isFastestServerEnabled()) {
             findFastestServerAndConnect();
         } else {
+            checkRandomServerOptions();
             connect();
         }
     }
@@ -257,23 +289,19 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     private void connect() {
         LOGGER.info("connect: state = " + state);
         timer.stopTimer();
-        setState(CONNECTING);
-        updateNotification();
         startWireGuard();
-        connectionTime = System.currentTimeMillis();
-        globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
     }
 
     private void startWireGuard() {
         LOGGER.info("startWireGuard: state = " + state);
         globalBehaviorController.onConnectingToVpn();
-        configManager.startWireGuard();
-        setState(CONNECTED);
+        setState(CONNECTING);
         updateNotification();
+        configManager.startWireGuard();
     }
 
     private boolean isFastestServerEnabled() {
-        return settings.isFastestServerEnabled();
+        return serversRepository.getSettingFastestServer();
     }
 
     @Override
@@ -289,7 +317,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     private void startDisconnectProcess() {
         LOGGER.info("startDisconnectProcess: state = " + state);
         setState(DISCONNECTING);
-        updateNotification();
         updateNotification();
         globalBehaviorController.onDisconnectingFromVpn();
         stopVpn();
@@ -308,8 +335,6 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
         setState(PAUSING);
         updateNotification(pauseDuration);
         configManager.stopWireGuard();
-        setState(PAUSED);
-        updateNotification(pauseDuration);
     }
 
     @Override
@@ -322,25 +347,17 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
     private void stopVpn() {
         LOGGER.info("stopVpn: state = " + state);
         stopWireGuard();
-        connectionTime = 0;
-        globalBehaviorController.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
     }
 
     public void reconnect() {
         LOGGER.info("reconnect: state = " + state);
-        setState(DISCONNECTING);
+        setState(CONNECTING);
         updateNotification();
-        stopWireGuard();
-        new Handler().postDelayed(this::startConnecting, 1000);
+        startConnecting();
     }
 
     private void stopWireGuard() {
         configManager.stopWireGuard();
-        setState(NOT_CONNECTED);
-        updateNotification();
-        if (stateListener != null) {
-            stateListener.onCheckSessionState();
-        }
     }
 
     @Override
@@ -355,8 +372,8 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
 
     private void sendConnectionState(long pauseDuration) {
         LOGGER.info("sendConnectionState: state = " + state);
-        if (stateListener != null) {
-            stateListener.onConnectionStateChanged(state);
+        for (VpnStateListener listener : listeners) {
+            listener.onConnectionStateChanged(state);
         }
     }
 
@@ -399,13 +416,23 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
         }
     }
 
+    private void checkRandomServerOptions() {
+        if (isRandomEntryServerEnabled()) {
+            serversRepository.getRandomServerFor(ServerType.ENTRY, getRandomServerSelectionListener());
+        }
+    }
+
+    private boolean isRandomEntryServerEnabled() {
+        return serversRepository.getSettingRandomServer(ServerType.ENTRY);
+    }
+
     private OnFastestServerDetectorListener getFastestServerDetectorListener() {
         return new OnFastestServerDetectorListener() {
             @Override
             public void onFastestServerDetected(Server server) {
                 LOGGER.info("Fastest server for WireGuard is detected. Server = " + server.getDescription());
-                if (stateListener != null) {
-                    stateListener.notifyServerAsFastest(server);
+                for (VpnStateListener listener : listeners) {
+                    listener.notifyServerAsFastest(server);
                 }
 
                 serversRepository.setCurrentServer(ServerType.ENTRY, server);
@@ -416,12 +443,20 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
             public void onDefaultServerApplied(Server server) {
                 LOGGER.info("Default WireGuard server is applied. Server = " + server.getDescription());
                 ToastUtil.toast(R.string.connect_unable_test_fastest_server);
-                if (stateListener != null) {
-                    stateListener.notifyServerAsFastest(server);
+                for (VpnStateListener listener : listeners) {
+                    listener.notifyServerAsFastest(server);
                 }
 
                 serversRepository.setCurrentServer(ServerType.ENTRY, server);
                 connect();
+            }
+        };
+    }
+
+    private OnRandomServerSelectionListener getRandomServerSelectionListener() {
+        return (server, serverType) -> {
+            for (VpnStateListener listener: listeners) {
+                listener.notifyServerAsRandom(server, serverType);
             }
         };
     }
@@ -435,15 +470,15 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
         return new WireGuardKeysEventsListener() {
             @Override
             public void onKeyGenerating() {
-                if (stateListener != null) {
-                    stateListener.onRegeneratingKeys();
+                for (VpnStateListener listener : listeners) {
+                    listener.onRegeneratingKeys();
                 }
             }
 
             @Override
             public void onKeyGeneratedSuccess() {
-                if (stateListener != null) {
-                    stateListener.onRegenerationSuccess();
+                for (VpnStateListener listener : listeners) {
+                    listener.onRegenerationSuccess();
                 }
                 switch (state) {
                     case NOT_CONNECTED:
@@ -473,14 +508,14 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
                         if (errorResponse != null && errorResponse.getStatus() != null) {
                             switch (errorResponse.getStatus()) {
                                 case Responses.WIREGUARD_KEY_NOT_FOUND: {
-                                    if (stateListener != null) {
-                                        stateListener.onRegenerationError(Dialogs.WG_UPGRADE_ERROR);
+                                    for (VpnStateListener listener : listeners) {
+                                        listener.onRegenerationError(Dialogs.WG_UPGRADE_ERROR);
                                     }
                                     return;
                                 }
                                 case Responses.WIREGUARD_KEY_LIMIT_REACHED: {
-                                    if (stateListener != null) {
-                                        stateListener.onRegenerationError(Dialogs.WG_MAXIMUM_KEYS_REACHED);
+                                    for (VpnStateListener listener : listeners) {
+                                        listener.onRegenerationError(Dialogs.WG_MAXIMUM_KEYS_REACHED);
                                     }
                                     return;
                                 }
@@ -488,8 +523,8 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
                         }
 
                         if (keyController.isKeysHardExpired()) {
-                            if (stateListener != null) {
-                                stateListener.onRegenerationError(Dialogs.WG_UPGRADE_ERROR);
+                            for (VpnStateListener listener : listeners) {
+                                listener.onRegenerationError(Dialogs.WG_UPGRADE_ERROR);
                             }
                         } else {
                             WireGuardBehavior.this.keyController.startShortPeriodAlarm();
@@ -498,22 +533,35 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants {
                         break;
                     }
                     case CONNECTED:
-                    case CONNECTING: {
-                        //There is nothing to do;
-                        break;
-                    }
+                    case CONNECTING:
                     case DISCONNECTING:
                     case PAUSING: {
-                        //ToDo ignore it right now.
+                        //There is nothing to do;
                         break;
                     }
                 }
             }
-
-            @Override
-            public void onKeyRemoving() {
-                //Nothing to do here.
-            }
         };
+    }
+
+    @Override
+    public void onStateChanged(@NotNull Tunnel.State newState) {
+        if (newState == Tunnel.State.UP) {
+            setState(CONNECTED);
+            globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
+        } else {
+            if (state == PAUSING) {
+                setState(PAUSED);
+            } else {
+                setState(NOT_CONNECTED);
+            }
+            sendConnectionState();
+            for (VpnStateListener listener : listeners) {
+                listener.onCheckSessionState();
+            }
+            globalBehaviorController.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
+        }
+
+        updateNotification();
     }
 }
