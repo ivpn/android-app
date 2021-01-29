@@ -28,14 +28,14 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 90
-        versionName "2.1.0"
+        versionCode 92
+        versionName "2.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         vectorDrawables.useSupportLibrary = true
 
-        manifestPlaceholders = [ SENTRY_DSN:keystoreProperties['sentry.dsn']]
+        manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
         buildConfigField 'boolean', 'openvpn3', 'false'
         externalNativeBuild {
@@ -71,11 +71,13 @@ android {
 
         production {
             dimension "api"
+            buildConfigField "String", "API_TYPE", "\"production\""
             buildConfigField "String", "BASE_URL", "\"api.ivpn.net\""
         }
 
         stage {
             dimension "api"
+            buildConfigField "String", "API_TYPE", "\"stage\""
             buildConfigField "String", "BASE_URL", keystoreProperties['staging.url']
         }
     }
@@ -142,7 +144,7 @@ android {
 def File registerGenTask(variantName, variantDirName) {
     def baseDir = new File(buildDir, "generated/source/ovpn3swig/${variantDirName}")
     def genDir = new File(baseDir, "net/openvpn/ovpn3")
-    task("generateOpenVPN3Swig${variantName}",type:Exec) {
+    task("generateOpenVPN3Swig${variantName}", type: Exec) {
 
         def swigcmd = "swig"
         if (file("/usr/local/bin/swig").exists())
@@ -177,7 +179,7 @@ kapt {
 }
 
 dependencies {
-    def nav_version = "2.3.1"
+    def nav_version = "2.3.2"
     def lifecycle_version = "2.2.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -196,12 +198,13 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'com.google.android.material:material:1.3.0-alpha03'
+    implementation 'com.google.android.material:material:1.3.0-rc01'
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
 
     //Used to support stream API from JAVA8 and JAVA9
+    //ToDo remove it in future
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
@@ -213,13 +216,16 @@ dependencies {
 
 //    Purchases
     implementation 'com.android.billingclient:billing:2.2.0'
-    
+
     //For crash logging
     implementation 'io.sentry:sentry-android:3.1.0'
 
     //QR support
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
+
+    //Encrypted shared preference
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
 
     //Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'
@@ -244,9 +250,9 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
 
     //Dagger
-    kapt 'com.google.dagger:dagger-compiler:2.24'
-    implementation 'com.google.dagger:dagger:2.24'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
+    kapt 'com.google.dagger:dagger-compiler:2.27'
+    implementation 'com.google.dagger:dagger:2.27'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
 
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestUtil 'androidx.test:orchestrator:1.3.0'

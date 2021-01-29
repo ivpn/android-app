@@ -37,6 +37,7 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentTabsServerListBinding
 import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
 import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
@@ -65,7 +66,7 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tabs_server_list, container, false)
         return binding.root
     }
@@ -82,6 +83,15 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
         LOGGER.info("onResume")
         viewModel.onResume()
         filterViewModel.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

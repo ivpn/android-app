@@ -36,7 +36,9 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.v2.MainActivity;
@@ -153,30 +155,32 @@ public class WifiWatcherService extends Service implements ServiceConstants {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ServiceConstants.APP_SETTINGS_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
         return START_NOT_STICKY;
     }
 
     private void sendWifiConnectionBroadcast(String ssid) {
+        LOGGER.info("sendWifiConnectionBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, WIFI_CHANGED_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_VALUE, ssid);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendOnMobileDataBroadcast() {
+        LOGGER.info("sendOnMobileDataBroadcast");
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, ON_MOBILE_DATA_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     private void sendNoNetworkBroadcast() {
         Intent actionIntent = new Intent();
         actionIntent.setAction(WIFI_WATCHER_ACTION);
         actionIntent.putExtra(WIFI_WATCHER_ACTION_EXTRA, NO_NETWORK_ACTION);
-        sendBroadcast(actionIntent);
+        LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).sendBroadcast(actionIntent);
     }
 
     //ToDo Need to refactor, think how to make this code clean
@@ -238,13 +242,13 @@ public class WifiWatcherService extends Service implements ServiceConstants {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            LOGGER.info("On receive");
             String action = intent.getAction();
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
                 NetworkSource source = NetworkUtil.getCurrentSource(context);
                 switch (source) {
                     case WIFI: {
                         String currentWiFiSsid = NetworkUtil.getCurrentWifiSsid(context);
-                        LOGGER.info("currentWiFiSsid = " + currentWiFiSsid);
                         if (currentWiFiSsid != null) {
                             sendWifiConnectionBroadcast(currentWiFiSsid);
                         } else {

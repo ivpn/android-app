@@ -100,9 +100,6 @@ public class SessionNewResponse {
     public String toString() {
         return "SessionNewResponse{" +
                 "status=" + status +
-                ", token='" + token + '\'' +
-                ", vpnUsername='" + vpnUsername + '\'' +
-                ", vpnPassword='" + vpnPassword + '\'' +
                 ", serviceStatus=" + serviceStatus +
                 ", wireGuard=" + wireGuard +
                 '}';

@@ -1,4 +1,4 @@
-package net.ivpn.client.common.bindings;
+package net.ivpn.client.common.extension
 
 /*
  IVPN Android app
@@ -22,18 +22,16 @@ package net.ivpn.client.common.bindings;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.view.Window
+import android.view.WindowManager
+import net.ivpn.client.BuildConfig
 
-import android.content.res.Resources;
-import androidx.databinding.BindingAdapter;
-import android.widget.LinearLayout;
+fun Window.setContentSecure(enable: Boolean) {
+    if (BuildConfig.DEBUG) return
 
-import net.ivpn.client.IVPNApplication;
-import net.ivpn.client.vpn.model.NetworkState;
-
-public class LayoutBindingAdapter {
-    @BindingAdapter({"currentState", "defaultState"})
-    public static void setBackgroundColor(LinearLayout view, NetworkState currentState, NetworkState defaultState) {
-        Resources resources = IVPNApplication.getApplication().getResources();
-//        view.setBackgroundColor(resources.getColor(currentState.getBackgroundColor(defaultState)));
+    if (enable) {
+        addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    } else {
+        clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 }

@@ -97,7 +97,9 @@
     <color name="login_text_color">#FFFFFF</color>
     <color name="login_text_color_invert">#121212</color>
     <color name="login_background">#121212</color>
+    <color name="login_upper_background">#1C1C1E</color>
     <color name="login_color_on_surface">#FFFFFF</color>
+    <color name="login_text_color_hint">#80FFFFFF</color>
 
     <color name="sign_up_text_color">#FFFFFF</color>
     <color name="sign_up_text_color_invert">#121212</color>

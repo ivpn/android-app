@@ -55,12 +55,6 @@
             android:id="@+id/action_settingsFragment_to_customDNSFragment"
             app:destination="@id/customDNSFragment" />
         <action
-            android:id="@+id/action_settingsFragment_to_termsFragment"
-            app:destination="@id/termsFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_policyFragment"
-            app:destination="@id/policyFragment" />
-        <action
             android:id="@+id/action_settingsFragment_to_serverListFragment"
             app:destination="@id/serverListFragment" />
         <action
@@ -105,14 +99,6 @@
         android:name="net.ivpn.client.v2.customdns.CustomDNSFragment"
         android:label="Custom DNS" />
     <fragment
-        android:id="@+id/termsFragment"
-        android:name="net.ivpn.client.v2.terms.TermsFragment"
-        android:label="Terms of Service" />
-    <fragment
-        android:id="@+id/policyFragment"
-        android:name="net.ivpn.client.v2.policy.PolicyFragment"
-        android:label="Privacy Policy" />
-    <fragment
         android:id="@+id/serverListFragment"
         android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"
         android:label="ServerListFragment">
@@ -146,6 +132,12 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_TFAFragment"
+            app:destination="@id/TFAFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_captchaFragment"
+            app:destination="@id/captchaFragment" />
     </fragment>
     <fragment
         android:id="@+id/syncFragment"
@@ -192,4 +184,38 @@
         android:id="@+id/updatesFragment"
         android:name="net.ivpn.client.v2.updates.UpdatesFragment"
         android:label="Updates" />
+    <fragment
+        android:id="@+id/TFAFragment"
+        android:name="net.ivpn.client.v2.tfa.TFAFragment"
+        android:label="2-Factor Authentication" >
+        <action
+            android:id="@+id/action_TFAFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_TFAFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_TFAFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/captchaFragment"
+        android:name="net.ivpn.client.v2.captcha.CaptchaFragment"
+        android:label="Captcha Required" >
+        <action
+            android:id="@+id/action_captchaFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_captchaFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_captchaFragment_to_signUpPeriodFragment"
+            app:destination="@id/signUpPeriodFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
 </navigation>

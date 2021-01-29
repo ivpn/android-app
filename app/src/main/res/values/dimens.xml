@@ -76,4 +76,7 @@
     <dimen name="network_tab_layout_height">48dp</dimen>
     <dimen name="network_default_toolbar_height">56dp</dimen>
     <dimen name="network_status_bar_height">24dp</dimen>
+
+<!--    Login-->
+    <dimen name="placeholder_text_size">20sp</dimen>
 </resources>

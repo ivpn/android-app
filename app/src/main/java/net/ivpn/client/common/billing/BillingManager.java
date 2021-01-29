@@ -238,11 +238,11 @@ public class BillingManager implements PurchasesUpdatedListener {
      */
     private void handlePurchase(Purchase purchase) {
         if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
-            LOGGER.error("Got a purchase: " + purchase + "; but signature is bad. Skipping...");
+            LOGGER.error("Got a purchase; but signature is bad. Skipping...");
             return;
         }
 
-        LOGGER.debug("Got a verified purchase: " + purchase);
+        LOGGER.debug("Got a verified purchase");
 
         purchases.add(purchase);
     }

@@ -26,6 +26,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.net.VpnService
 import android.os.Bundle
@@ -36,7 +38,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -53,6 +54,7 @@ import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
 import net.ivpn.client.vpn.ServiceConstants
@@ -153,6 +155,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     override fun onStart() {
         super.onStart()
         killSwitch.navigator = this
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     override fun onPause() {
@@ -313,7 +320,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private fun openColorThemeDialogue() {
-        DialogBuilderK.openDarkModeDialogue(context!!, this, colorTheme)
+        DialogBuilderK.openDarkModeDialogue(requireContext(), this, colorTheme)
     }
 
     private fun openSplitTunnelingScreen() {
@@ -347,18 +354,22 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     }
 
     private fun openTermsOfServiceScreen() {
-        val action = SettingsFragmentDirections.actionSettingsFragmentToTermsFragment()
-        navigate(action)
+        openWebPage("https://www.ivpn.net/tos-mobile-app/")
     }
 
     private fun openPrivacyPolicyScreen() {
-        val action = SettingsFragmentDirections.actionSettingsFragmentToPolicyFragment()
-        navigate(action)
+        openWebPage("https://www.ivpn.net/privacy-mobile-app/")
     }
 
     private fun openUpdatesScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToUpdatesFragment()
         navigate(action)
+    }
+
+    private fun openWebPage(urlString: String) {
+        val openURL = Intent(android.content.Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(urlString)
+        startActivity(openURL)
     }
 
     private fun sendLogs() {
@@ -371,7 +382,20 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(Constant.SUPPORT_EMAIL))
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        startActivity(intent)
+        activity?.let {
+            val possibleActivitiesList: List<ResolveInfo> =
+                    it.packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+            if (possibleActivitiesList.size > 1) {
+                val chooser = resources.getString(R.string.send_logs).let { title ->
+                    Intent.createChooser(intent, title)
+                }
+                startActivity(chooser)
+            } else if (intent.resolveActivity(it.packageManager) != null) {
+                startActivity(intent)
+            }
+        } ?: kotlin.run {
+            startActivity(intent)
+        }
     }
 
     private fun openEntryServerScreen() {

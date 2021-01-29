@@ -24,9 +24,9 @@ package net.ivpn.client.common.session
 
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.common.Mapper
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
 import net.ivpn.client.rest.RequestListener
@@ -36,7 +36,7 @@ import net.ivpn.client.rest.data.model.WireGuard
 import net.ivpn.client.rest.data.session.*
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
-import net.ivpn.client.v2.viewmodel.AccountViewModel
+import net.ivpn.client.v2.login.LoginViewModel
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner
 import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class SessionController @Inject constructor(
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val settings: Settings,
         private val vpnBehaviorController: VpnBehaviorController,
         private val protocolController: ProtocolController,
@@ -53,7 +53,7 @@ class SessionController @Inject constructor(
         private val serversRepository: ServersRepository
 ) {
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
+        private val LOGGER = LoggerFactory.getLogger(LoginViewModel::class.java)
     }
 
     private var deleteSessionRequest: Request<DeleteSessionResponse>? = null
@@ -70,10 +70,26 @@ class SessionController @Inject constructor(
         listeners.remove(listener)
     }
 
+    fun createSessionWith2FAToken(force: Boolean, username: String? = getUsername(), token: String) {
+        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, token)
+
+        innerCreateSession(body)
+    }
+
+    fun createSessionWithCaptcha(force: Boolean, username: String? = getUsername(), captchaId: String, captchaValue: String) {
+        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, captchaId, captchaValue)
+
+        innerCreateSession(body)
+    }
+
     fun createSession(force: Boolean, username: String? = getUsername()) {
         val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force)
+
+        innerCreateSession(body)
+    }
+
+    private fun innerCreateSession(body: SessionNewRequestBody) {
         sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
-        LOGGER.info(body.toString())
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
@@ -102,7 +118,6 @@ class SessionController @Inject constructor(
         }
 
         val body = SessionStatusRequestBody(getSessionToken())
-        LOGGER.info("SessionStatusRequestBody = $body")
         sessionStatusRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
         sessionStatusRequest?.start({ api: IVPNApi -> api.sessionStatus(body) },
@@ -141,7 +156,7 @@ class SessionController @Inject constructor(
     fun logOut() {
         vpnBehaviorController.disconnect()
 
-        val token = userPreference.sessionToken
+        val token = userPreference.getSessionToken()
         val requestBody = DeleteSessionRequestBody(token)
         deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
@@ -224,7 +239,7 @@ class SessionController @Inject constructor(
     }
 
     private fun getUsername(): String? {
-        return userPreference.userLogin
+        return userPreference.getUserLogin()
     }
 
     private fun getWireGuardPublicKey(): String? {
@@ -232,7 +247,7 @@ class SessionController @Inject constructor(
     }
 
     private fun getSessionToken(): String? {
-        return userPreference.sessionToken
+        return userPreference.getSessionToken()
     }
 
     private fun putUserData(response: SessionNewResponse) {

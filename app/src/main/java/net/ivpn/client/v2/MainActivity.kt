@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.setContentSecure
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
@@ -57,5 +58,17 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    fun setAdjustResizeMode() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    fun setAdjustNothingMode() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
+
+    fun setContentSecure(enable: Boolean){
+        window?.setContentSecure(enable)
     }
 }

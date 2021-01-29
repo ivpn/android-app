@@ -1,38 +1,53 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.  
+All notable changes to this project will be documented in this file.
 
-## Version 2.0.2 - 2020-12-01
+## Version 2.2.0 - 2021-01-29
 
-[IMPROVED] Display connection status
-[FIXED] Network protection in background state
-[FIXED] Missing applications for Split tunneling
-[FIXED] Crash while manipulating map
-[FIXED] Crash when canceling login or other communication with server
-[FIXED] Crash trying to open dialog while app is in background state
+[NEW] Updated Privacy Policy and Terms of Service  
+[NEW] Certificate pinning to prevent man-in-the-middle attacks  
+[NEW] Support two-factor authentication for login  
+[NEW] Support captcha to mitigate attacks  
+
+[Download IVPN Client v. 2.2.0](https://cdn.ivpn.net/releases/android/IVPNv2.2.0_site.apk)
+SHA256: c1c9b84a45c3ed98d4cce15f12c887cdbe84dcd00a3b8046ebfe6c75a073be67
+
+## Version 2.1.0 - 2020-12-01
+
+[New] Antitracker switcher state for hardcore mode  
+[New] Provide additional information for a subscription plan  
+[Improved] Date format  
+[Improved] Cases when the Antitracker can be enabled  
+[Improved] Random server selection logic  
+[Improved] Map animation  
+[Improved] Optimize map size, removed unused parts  
+[Improved] Update the WireGuard library to the latest  
+[Fixed] VPN connection counted as metered  
+[Fixed] Crash on destroying the server list  
+[Fixed] Crashes on double navigation actions  
 
 [Download IVPN Client v. 2.1.0](https://cdn.ivpn.net/releases/android/IVPNv2.1.0site.apk)
 SHA256: b07512e5e27b336bd7a9f5098b2f9db76ec481d40236416dc417671724c3e05e
 
 ## Version 2.0.2 - 2020-10-12
 
-[IMPROVED] Display connection status
-[FIXED] Network protection in background state
-[FIXED] Missing applications for Split tunneling
-[FIXED] Crash while manipulating map
-[FIXED] Crash when canceling login or other communication with server
-[FIXED] Crash trying to open dialog while app is in background state
+[IMPROVED] Display connection status  
+[FIXED] Network protection in background state  
+[FIXED] Missing applications for Split tunneling  
+[FIXED] Crash while manipulating map  
+[FIXED] Crash when canceling login or other communication with server  
+[FIXED] Crash trying to open dialog while app is in background state  
 
 [Download IVPN Client v. 2.0.2](https://cdn.ivpn.net/releases/android/IVPNv2.0.2site.apk)  
 SHA256: 751a7db841e85d749b6ab908aaa9c983a7375f404afdc9221cdc3a371af545ad
 
 ## Version 2.0.0 - 2020-09-29
 
-[NEW] Redesigned UI
-[NEW] Interactive map
-[NEW] Control panel
-[NEW] Dedicated account screen
-[NEW] Dark theme
+[NEW] Redesigned UI  
+[NEW] Interactive map  
+[NEW] Control panel  
+[NEW] Dedicated account screen  
+[NEW] Dark theme  
 [IMPROVED] Search and sort on the servers list  
 
 [Download IVPN Client v. 2.0.0](https://cdn.ivpn.net/releases/android/IVPNv2.0site.apk)  
@@ -40,7 +55,7 @@ SHA256: f867b5176dd028abe75826b1488f689406303ec93abe44d5b971edc30bbac06d
 
 ## Version 1.68 - 2020-06-24
 
-[Improved] Account Id validation logic
+[Improved] Account Id validation logic  
 
 [Download IVPN Client v. 1.68](https://cdn.ivpn.net/releases/android/IVPNv1.68site.apk)  
 SHA256: 2817cf67578592d6a24248de50cd5d1f15e2063d2ae62e0340ba472f99c755a6
@@ -49,7 +64,7 @@ SHA256: 2817cf67578592d6a24248de50cd5d1f15e2063d2ae62e0340ba472f99c755a6
 
 [Improved] Control channel cipher for OpenVPN  
 [Improved] Remove WireGuard beta warning  
-[New] Implement load balancer for WireGuard 
+[New] Implement load balancer for WireGuard
 
 [Download IVPN Client v. 1.67.3](https://cdn.ivpn.net/releases/android/IVPNv1.67.3site.apk)  
 SHA256: d931b00defeafbcd08037c9d4fa244fc6750c67902ce93dff643d0bb6fe6c7e7

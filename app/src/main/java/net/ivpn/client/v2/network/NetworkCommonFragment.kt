@@ -48,6 +48,7 @@ import net.ivpn.client.databinding.FragmentNetworkBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.network.NetworkNavigator
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeDefaultNetworkStatusDialogue
 import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeNetworkStatusDialogue
 import net.ivpn.client.v2.network.dialog.NetworkChangeDialogViewModel
@@ -123,6 +124,11 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         } else {
             if (isPermissionGranted()) {
                 network.scanWifiNetworks(context)
+            }
+        }
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(true)
             }
         }
     }

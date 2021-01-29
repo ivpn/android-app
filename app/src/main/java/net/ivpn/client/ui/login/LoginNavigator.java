@@ -28,11 +28,10 @@ public interface LoginNavigator {
     void onLogin();
     void onLoginWithBlankAccount();
     void onLoginWithInactiveAccount();
-    void openSubscriptionScreen();
-    void openSite();
-    void openAccountNotActiveDialogue();
+    void onInvalidAccount();
     void openSessionLimitReachedDialogue();
+    void openCaptcha();
     void openErrorDialogue(Dialogs dialogs);
     void openCustomErrorDialogue(String title, String message);
-    void openAccountNotActiveBetaDialogue();
+    void openTFAScreen();
 }

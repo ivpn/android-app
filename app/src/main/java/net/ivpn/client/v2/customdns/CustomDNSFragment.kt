@@ -36,6 +36,7 @@ import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentCustomDnsBinding
 import net.ivpn.client.ui.customdns.CustomDNSViewModel
 import net.ivpn.client.ui.dialog.DialogBuilder
+import net.ivpn.client.v2.MainActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -54,7 +55,7 @@ class CustomDNSFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_custom_dns, container, false)
         return binding.root
     }
@@ -64,6 +65,15 @@ class CustomDNSFragment : Fragment() {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

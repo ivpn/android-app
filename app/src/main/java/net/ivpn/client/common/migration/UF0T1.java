@@ -24,9 +24,8 @@ package net.ivpn.client.common.migration;
 
 import android.util.Log;
 
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
-import net.ivpn.client.common.prefs.Preference;
-import net.ivpn.client.common.prefs.SettingsPreference;
 
 import java.util.Set;
 
@@ -34,10 +33,10 @@ public class UF0T1 {
 
     private static final String TAG = UF0T1.class.getSimpleName();
 
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private NetworkProtectionPreference networkPreference;
 
-    UF0T1(SettingsPreference settingsPreference, NetworkProtectionPreference networkPreference) {
+    UF0T1(EncryptedSettingsPreference settingsPreference, NetworkProtectionPreference networkPreference) {
         this.settingsPreference = settingsPreference;
         this.networkPreference = networkPreference;
     }

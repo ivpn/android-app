@@ -29,15 +29,15 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.vpn.GlobalBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class KillSwitchViewModel @Inject constructor(
         private val settings: Settings,
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val buildController: BuildController,
         private val globalBehaviorController: GlobalBehaviorController
 ) : ViewModel() {
@@ -97,12 +97,12 @@ class KillSwitchViewModel @Inject constructor(
     }
 
     private fun isAuthenticated() : Boolean {
-        val token: String = userPreference.sessionToken
+        val token: String = userPreference.getSessionToken()
         return token.isNotEmpty()
     }
 
     private fun isActive(): Boolean {
-        return userPreference.isActive
+        return userPreference.getIsActive()
     }
 
     interface KillSwitchNavigator {

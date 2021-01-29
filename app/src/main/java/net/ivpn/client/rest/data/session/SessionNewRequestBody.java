@@ -39,12 +39,38 @@ public class SessionNewRequestBody {
     @SerializedName("force")
     @Expose
     private Boolean force;
+    @SerializedName("confirmation")
+    @Expose
+    private String tfaToken;
+    @SerializedName("captcha_id")
+    @Expose
+    private String captchaId;
+    @SerializedName("captcha")
+    @Expose
+    private String captchaValue;
 
     public SessionNewRequestBody(String username, String wgPublicKey, Boolean force) {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
         this.appName = "IVPN for Android";
         this.force = force;
+    }
+
+    public SessionNewRequestBody(String username, String wgPublicKey, Boolean force, String tfaToken) {
+        this.username = username;
+        this.wgPublicKey = wgPublicKey;
+        this.appName = "IVPN for Android";
+        this.force = force;
+        this.tfaToken = tfaToken;
+    }
+
+    public SessionNewRequestBody(String username, String wgPublicKey, Boolean force, String captchaId, String captchaValue) {
+        this.username = username;
+        this.wgPublicKey = wgPublicKey;
+        this.appName = "IVPN for Android";
+        this.force = force;
+        this.captchaId = captchaId;
+        this.captchaValue = captchaValue;
     }
 
     public String getUsername() {
@@ -70,6 +96,9 @@ public class SessionNewRequestBody {
                 ", wgPublicKey='" + wgPublicKey + '\'' +
                 ", appName='" + appName + '\'' +
                 ", force=" + force +
+                ", tfaToken='" + tfaToken + '\'' +
+                ", captchaId='" + captchaId + '\'' +
+                ", captchaValue='" + captchaValue + '\'' +
                 '}';
     }
 }

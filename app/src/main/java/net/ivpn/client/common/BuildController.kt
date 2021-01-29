@@ -34,22 +34,26 @@ class BuildController @Inject constructor() {
         const val SITE = "site"
         const val F_DROID = "fdroid"
         const val STORE = "store"
+        const val PRODUCTION = "production"
+        const val STAGE = "stage"
     }
 
     val isStartOnBootSupported = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P
     val isAlwaysOnVpnSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
     val isAdvancedKillSwitchModeSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
-    //TODO increase target build SDK and use this line:
-    //Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-    @kotlin.jvm.JvmField
-    var isSystemDefaultNightModeSupported = Build.VERSION.SDK_INT >= 29
+    var isSystemDefaultNightModeSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
     val isAntiTrackerSupported = BuildConfig.BUILD_VARIANT == SITE || BuildConfig.BUILD_VARIANT == F_DROID
     val isSentrySupported = BuildConfig.BUILD_VARIANT != F_DROID
     val isUpdatesSupported = BuildConfig.BUILD_VARIANT == SITE
     val isIAPEnabled = BuildConfig.BUILD_VARIANT == STORE
+    val isProductionApi = BuildConfig.API_TYPE == PRODUCTION
 
     init {
+    }
+
+    public fun getBaseUrl(): String {
+        return BuildConfig.BASE_URL
     }
 }

@@ -44,24 +44,16 @@ import javax.inject.Inject;
 public class Settings {
 
     private static final String TAG = Settings.class.getSimpleName();
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private StickyPreference stickyPreference;
     private BuildController buildController;
 
     @Inject
-    Settings(SettingsPreference settingsPreference, StickyPreference stickyPreference,
+    Settings(EncryptedSettingsPreference settingsPreference, StickyPreference stickyPreference,
              BuildController buildController) {
         this.settingsPreference = settingsPreference;
         this.stickyPreference = stickyPreference;
         this.buildController = buildController;
-    }
-
-    public void enableLogging(boolean value) {
-        boolean isLoggingEnabled = isLoggingEnabled();
-        if (isLoggingEnabled != value) {
-            settingsPreference.putSettingLogging(value);
-            LogUtil.enableLogging(value);
-        }
     }
 
     public void enableSentry(boolean value) {
@@ -116,10 +108,6 @@ public class Settings {
         settingsPreference.setNextVersion(nextVersion);
     }
 
-    public boolean isLoggingEnabled() {
-        return settingsPreference.getSettingLogging();
-    }
-
     public boolean isMultiHopEnabled() {
         return settingsPreference.getSettingMultiHop();
     }
@@ -140,10 +128,6 @@ public class Settings {
         return settingsPreference.getSettingStartOnBoot();
     }
 
-    public boolean isNewForPrivateEmails() {
-        return settingsPreference.getIsNewForPrivateEmails();
-    }
-
     public boolean isSentryEnabled() {
         return settingsPreference.isSentryEnabled();
     }
@@ -158,10 +142,6 @@ public class Settings {
 
     public boolean isAdvancedKillSwitchDialogEnabled() {
         return settingsPreference.getIsAdvancedKillSwitchDialogEnabled();
-    }
-
-    public void setIsNewForPrivateEmails(boolean isNewForPrivateEmails) {
-        settingsPreference.putIsNewForPrivateEmails(isNewForPrivateEmails);
     }
 
     public void setAntiTrackerDefaultDNS(String dns) {
@@ -353,7 +333,7 @@ public class Settings {
             return NightMode.valueOf(name);
         }
 
-        if (buildController.isSystemDefaultNightModeSupported) {
+        if (buildController.isSystemDefaultNightModeSupported()) {
             return NightMode.SYSTEM_DEFAULT;
         } else {
             return NightMode.BY_BATTERY_SAVER;

@@ -40,6 +40,7 @@ import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentAlwaysOnVpnBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.AlwaysOnVPNViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -73,6 +74,15 @@ class AlwaysOnVPNFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         alwaysOnVPN.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

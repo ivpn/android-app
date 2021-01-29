@@ -41,6 +41,8 @@ import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentAccountBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.MainActivity
+import net.ivpn.client.v2.connect.ConnectFragment
 import net.ivpn.client.v2.login.LoginFragment
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
@@ -81,6 +83,15 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         super.onResume()
         account.onResume()
         account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(true)
+            }
+        }
     }
 
     override fun onDestroy() {

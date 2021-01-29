@@ -39,6 +39,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSignUpFinishBinding
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -68,6 +69,15 @@ class SignUpAccountCreatedFragment : Fragment() {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(true)
+            }
+        }
     }
 
     private fun initViews() {

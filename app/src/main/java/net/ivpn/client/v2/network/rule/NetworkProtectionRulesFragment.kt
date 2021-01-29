@@ -35,6 +35,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentNetworkRuleBinding
 import net.ivpn.client.ui.network.rules.NetworkRuleViewModel
+import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 
 class NetworkProtectionRulesFragment: Fragment() {
@@ -58,6 +59,15 @@ class NetworkProtectionRulesFragment: Fragment() {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

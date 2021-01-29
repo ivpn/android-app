@@ -34,6 +34,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentUpdatesBinding
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.UpdatesViewModel
 import javax.inject.Inject
 
@@ -58,6 +59,15 @@ class UpdatesFragment : Fragment() {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initToolbar()
         init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initToolbar() {

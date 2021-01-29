@@ -23,11 +23,14 @@ package net.ivpn.client.v2.login
 */
 
 import android.content.Context
+import android.view.View
+import androidx.core.text.isDigitsOnly
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.R
-import net.ivpn.client.common.prefs.UserPreference
+import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.session.SessionController
 import net.ivpn.client.common.session.SessionListenerImpl
 import net.ivpn.client.common.utils.ConnectivityUtil
@@ -40,9 +43,10 @@ import org.slf4j.LoggerFactory
 import java.io.InterruptedIOException
 import javax.inject.Inject
 
+@ApplicationScope
 class LoginViewModel @Inject constructor(
         private val context: Context,
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val sessionController: SessionController
 ) : ViewModel() {
 
@@ -53,12 +57,64 @@ class LoginViewModel @Inject constructor(
     }
 
     val username = ObservableField<String>()
-    val usernameError = ObservableField<String>()
+    val error = ObservableField<String>()
+
+    val captchaInputState = ObservableField<InputState>()
+    val tfaInputState = ObservableField<InputState>()
+    val loginInputState = ObservableField<InputState>()
+
+    val tfaToken = ObservableField<String>()
+    val captcha = ObservableField<String>()
+    var captchaId: String? = null
+    var captchaImage = ObservableField<String>()
+
     val dataLoading = ObservableBoolean()
 
     var paymentMethod: String? = null
 
     var navigator: LoginNavigator? = null
+
+    var tfaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            tfaInputState.get()?.let {
+                if (it == InputState.NORMAL) {
+                    tfaInputState.set(InputState.FOCUSED)
+                }
+            } ?: kotlin.run {
+                tfaInputState.set(InputState.FOCUSED)
+            }
+        } else {
+            tfaInputState.set(InputState.NORMAL)
+        }
+    }
+
+    var loginFocusListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            loginInputState.get()?.let {
+                if (it == InputState.NORMAL) {
+                    loginInputState.set(InputState.FOCUSED)
+                }
+            } ?: kotlin.run {
+                loginInputState.set(InputState.FOCUSED)
+            }
+        } else {
+            loginInputState.set(InputState.NORMAL)
+        }
+    }
+
+    val captchaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            captchaInputState.get()?.let {
+                if (it == InputState.NORMAL) {
+                    captchaInputState.set(InputState.FOCUSED)
+                }
+            } ?: kotlin.run {
+                captchaInputState.set(InputState.FOCUSED)
+            }
+        } else {
+            captchaInputState.set(InputState.NORMAL)
+        }
+    }
 
     init {
         dataLoading.set(false)
@@ -88,7 +144,7 @@ class LoginViewModel @Inject constructor(
             }
         })
 
-        username.set(userPreference.userLogin)
+        username.set(userPreference.getUserLogin())
     }
 
     fun onResume() {
@@ -99,17 +155,61 @@ class LoginViewModel @Inject constructor(
         LOGGER.info("Trying to login")
         username.get()?.let {
             if (!(it.startsWith(ivpnPrefix) || it.startsWith(ivpnNewPrefix))) {
-                usernameError.set("Your account ID has to be in 'i-XXXX-XXXX-XXXX' or 'ivpnXXXXXXXX'" +
+                loginInputState.set(InputState.ERROR)
+                error.set("Your account ID has to be in 'i-XXXX-XXXX-XXXX' or 'ivpnXXXXXXXX'" +
                         " format. You can find it on other devices where you are logged in and in the" +
                         " client area of the IVPN website.")
                 return
             }
-        } ?: return
+        } ?: kotlin.run {
+            loginInputState.set(InputState.ERROR)
+            return
+        }
 
         dataLoading.set(true)
         resetErrors()
         username.get()?.let {
             login(it.trim(), force)
+        }
+    }
+
+    fun submit2FAToken() {
+        LOGGER.info("submit2FAToken")
+        tfaToken.get()?.let {
+            if (it.length != 6 || !it.isDigitsOnly()) {
+                error.set("Please enter 6-digit verification code")
+                tfaInputState.set(InputState.ERROR)
+                return
+            }
+            username.get()?.let { usernameObj ->
+                dataLoading.set(true)
+                sessionController.createSessionWith2FAToken(false, usernameObj, it)
+            }
+            resetErrors()
+        } ?: kotlin.run {
+            error.set("Please enter 6-digit verification code")
+            tfaInputState.set(InputState.ERROR)
+        }
+    }
+
+    fun submitCaptcha() {
+        LOGGER.info("submitCaptcha navigator = $navigator")
+        captcha.get()?.let {
+            if (it.isEmpty()) {
+                error.set("Please enter 6-digit verification code")
+                captchaInputState.set(InputState.ERROR)
+                return
+            }
+            username.get()?.let { usernameObj ->
+                captchaId?.let { captchaIdObj ->
+                    dataLoading.set(true)
+                    sessionController.createSessionWithCaptcha(false, usernameObj, captchaIdObj, it)
+                }
+            }
+            resetErrors()
+        } ?: kotlin.run {
+            error.set("Please enter 6-digit verification code")
+            captchaInputState.set(InputState.ERROR)
         }
     }
 
@@ -124,7 +224,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun getAccountType(): String? {
-        return userPreference.currentPlan
+        return userPreference.getCurrentPlan()
     }
 
     fun cancel() {
@@ -147,7 +247,7 @@ class LoginViewModel @Inject constructor(
                 userPreference.putUserLogin(accountId)
             }
         }
-        if (userPreference.isActive) {
+        if (userPreference.getIsActive()) {
             navigator?.onLogin()
         } else {
             navigator?.onLoginWithInactiveAccount()
@@ -160,34 +260,82 @@ class LoginViewModel @Inject constructor(
                 navigator?.openErrorDialogue(Dialogs.SERVER_ERROR)
                 return
             }
-        } ?: return
+        } ?: kotlin.run {
+            navigator?.openErrorDialogue(Dialogs.CREATE_SESSION_ERROR)
+            return
+        }
 
         when (errorResponse.status) {
             Responses.ACCOUNT_NOT_ACTIVE -> {
                 navigator?.onLoginWithBlankAccount()
             }
+            Responses.ENTER_TOTP_TOKEN -> {
+                navigator?.openTFAScreen()
+            }
+            Responses.INVALID_TOTP_TOKEN -> {
+                tfaToken.set(null)
+                error.set("Specified two-factor authentication token is not valid")
+                tfaInputState.set(InputState.ERROR)
+            }
             Responses.INVALID_CREDENTIALS -> {
+                navigator?.onInvalidAccount()
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)
             }
             Responses.SESSION_TOO_MANY -> {
                 navigator?.openSessionLimitReachedDialogue()
             }
+            Responses.INVALID_CAPTCHA -> {
+                error.set("Invalid captcha, please try again")
+                captchaInputState.set(InputState.ERROR)
+                captcha.set(null)
+                captchaId = errorResponse.captchaId
+                captchaImage.set(errorResponse.captchaImage)
+                println("captchaId = $captchaId")
+                println("captchaImage = $captchaImage")
+                navigator?.openCaptcha()
+            }
+            Responses.CAPTCHA_REQUIRED -> {
+                captchaId = errorResponse.captchaId
+                captchaImage.set(errorResponse.captchaImage)
+                println("captchaId = $captchaId")
+                println("captchaImage = $captchaImage")
+                navigator?.openCaptcha()
+            }
             Responses.WIREGUARD_KEY_INVALID, Responses.WIREGUARD_PUBLIC_KEY_EXIST, Responses.BAD_REQUEST, Responses.SESSION_SERVICE_ERROR -> {
-                navigator?.openCustomErrorDialogue(context.getString(R.string.dialogs_error) + errorResponse.status,
+                navigator?.openCustomErrorDialogue("${context.getString(R.string.dialogs_error)} ${errorResponse.status}",
                         if (errorResponse.message != null) errorResponse.message else "")
             }
             else -> {
-                navigator?.openCustomErrorDialogue(context.getString(R.string.dialogs_error) + errorResponse.status,
+                navigator?.openCustomErrorDialogue("${context.getString(R.string.dialogs_error)} ${errorResponse.status}",
                         if (errorResponse.message != null) errorResponse.message else "")
             }
         }
     }
 
+    fun reset() {
+        error.set(null)
+        captcha.set(null)
+        tfaToken.set(null)
+        captchaInputState.set(InputState.NORMAL)
+        tfaInputState.set(InputState.NORMAL)
+        loginInputState.set(InputState.NORMAL)
+    }
+
     private fun resetErrors() {
-        usernameError.set(null)
+        error.set(null)
+        captchaInputState.set(InputState.NORMAL)
+        tfaInputState.set(InputState.NORMAL)
+        loginInputState.set(InputState.NORMAL)
     }
 
     private fun getPaymentMethodValue(): String {
-        return userPreference.paymentMethod
+        return userPreference.getPaymentMethod()
     }
+
+    enum class InputState {
+        NORMAL,
+        FOCUSED,
+        ERROR
+    }
+
 }

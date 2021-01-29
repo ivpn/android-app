@@ -13,6 +13,8 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
@@ -129,7 +131,7 @@ public class WireGuardUiService extends Service implements ServiceConstants {
         Intent vpnAction = new Intent();
         vpnAction.setAction(NOTIFICATION_ACTION);
         vpnAction.putExtra(NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(vpnAction);
         return START_NOT_STICKY;
     }
 

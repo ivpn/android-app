@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">IVPN</string>
 
+    <string name="send_logs">Send an email with logs via</string>
+
     <!--Tutorial-->
     <string name="tutorial_page_title_locations">Popular locations</string>
     <string name="tutorial_page_title_access">All device access</string>
@@ -382,7 +384,8 @@
     <string name="dialogs_change_status_default">Default</string>
     <string name="dialogs_change_status_none">None</string>
 
-    <string name="dialogs_create_account_error_message">There was a problem with creating a new account.</string>
+    <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
+    <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
@@ -471,6 +474,15 @@
     <string name="auth_log_in_label">Enter your Account ID</string>
     <string name="auth_create_new_account">Create a new account</string>
     <string name="auth_log_in">Log in</string>
+    <string name="auth_hint">Account ID</string>
+    <string name="auth_log_in_error">"Your account ID has to be in 'i-XXXX-XXXX-XXXX' or 'ivpnXXXXXXXX' format. You can find it on other devices where you are logged in and in the client area of the IVPN website."</string>
+
+    <string name="tfa_token_label">Account has two-factor authentication enabled. Please enter TOTP token to login.</string>
+    <string name="tfa_token_error">TOTP token must contain 6 digits.</string>
+    <string name="tfa_button">Submit</string>
+    <string name="tfa_hint">XXXXXX</string>
+
+    <string name="captcha_description">Please enter number you see above</string>
 
     <string name="sign_up_product_description">We offer different plans to better suit your needs. Please select one. You’ll be able to change it any time in the future.</string>
     <string name="sign_up_product_standard_title">IVPN standard</string>

@@ -66,11 +66,7 @@ public class VpnBehaviorController {
     @Inject
     public VpnBehaviorController(ConfigManager configManager, ServersRepository serversRepository,
                                  ProtocolController protocolController) {
-        LOGGER.info("VPN controller is init");
         this.configManager = configManager;
-
-//        OnServerChangedListener onServerChangedListener = this::onServerUpdated;
-//        serversRepository.setOnServerChangedListener(onServerChangedListener);
 
         OnProtocolChangedListener onProtocolChangedListener = this::init;
         protocolController.addOnProtocolChangedListener(onProtocolChangedListener);

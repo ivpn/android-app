@@ -41,6 +41,8 @@ import android.os.Message;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import android.system.OsConstants;
 
 import net.ivpn.client.IVPNApplication;
@@ -632,14 +634,14 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         Intent vpnStatus = new Intent();
         vpnStatus.setAction(VPN_STATUS);
         vpnStatus.putExtra(VPN_EXTRA_STATUS, level.toString());
-        sendBroadcast(vpnStatus, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(vpnStatus);
     }
 
     private void doSendActionBroadcast(String action) {
         Intent vpnAction = new Intent();
         vpnAction.setAction(NOTIFICATION_ACTION);
         vpnAction.putExtra(NOTIFICATION_ACTION_EXTRA, action);
-        sendBroadcast(vpnAction, Manifest.permission.ACCESS_NETWORK_STATE);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(vpnAction);
     }
 
     //ToDo check if this code is valid

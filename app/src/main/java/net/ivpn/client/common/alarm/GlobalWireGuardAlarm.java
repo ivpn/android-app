@@ -28,7 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import net.ivpn.client.common.dagger.ApplicationScope;
-import net.ivpn.client.common.prefs.SettingsPreference;
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.common.utils.DateUtil;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
@@ -49,12 +49,12 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
     private static final int WIREGUARD_KEYS_ALARM_CODE = 177;
 
     private Context context;
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private ProtocolController protocolController;
     private boolean isRunning;
 
     @Inject
-    GlobalWireGuardAlarm(Context context, SettingsPreference settingsPreference, ProtocolController protocolController) {
+    GlobalWireGuardAlarm(Context context, EncryptedSettingsPreference settingsPreference, ProtocolController protocolController) {
         this.context = context;
         this.settingsPreference = settingsPreference;
         this.protocolController = protocolController;

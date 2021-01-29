@@ -29,6 +29,7 @@ public enum Dialogs {
             R.string.dialogs_log_out_positive_button, R.string.dialogs_log_out_negative_button),
     SESSION_TOO_MANY(R.string.dialogs_session_too_many_title, R.string.dialogs_session_too_many_message,
             R.string.dialogs_session_force_login, R.string.dialogs_cancel),
+    CREATE_SESSION_ERROR(R.string.dialogs_error, R.string.dialogs_create_session_error_message, -1, R.string.dialogs_ok),
     EMAIL_FORMAT_ERROR(R.string.dialogs_address_error_title, R.string.dialogs_address_error_msg,
             -1, R.string.dialogs_ok),
     USERNAME_FORMAT_ERROR(R.string.dialogs_error, R.string.dialogs_username_error_msg, -1, R.string.dialogs_ok),

@@ -33,7 +33,7 @@
         </triggeringPolicy>
     </appender>
 
-    <root level="ALL">
+    <root level="OFF">
         <appender-ref ref="logcat" />
         <appender-ref ref="file" />
     </root>

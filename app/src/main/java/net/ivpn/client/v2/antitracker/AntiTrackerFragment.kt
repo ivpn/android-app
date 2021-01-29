@@ -36,6 +36,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentAntitrackerBinding
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.AntiTrackerViewModel
 import javax.inject.Inject
 
@@ -60,6 +61,15 @@ class AntiTrackerFragment: Fragment() {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {

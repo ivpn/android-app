@@ -54,14 +54,12 @@ class ConfigManager @Inject constructor(
         GlobalScope.launch {
             tunnel?.setState(Tunnel.State.UP)
         }
-//        tunnel?.setState(Tunnel.State.UP)
     }
 
     fun stopWireGuard() {
         GlobalScope.launch {
             tunnel?.setState(Tunnel.State.DOWN)
         }
-//        tunnel?.setState(Tunnel.State.DOWN)
     }
 
     private fun applyConfigToTunnel(config: Config?) {
@@ -86,7 +84,6 @@ class ConfigManager @Inject constructor(
         val ipAddress = settings.wireGuardIpAddress
 
         LOGGER.info("Generating config:")
-        LOGGER.info("publicKey: = $publicKey ipAddress: = $ipAddress Server = $server")
         if (server == null || server.hosts == null) {
             return null
         }

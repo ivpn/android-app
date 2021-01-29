@@ -59,6 +59,7 @@ import net.ivpn.client.ui.connect.CreateSessionFragment
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
@@ -124,6 +125,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
@@ -414,6 +416,12 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         location.addLocationListener(binding.map.locationListener)
         if (isPermissionGranted()) {
             network.updateNetworkSource(context)
+        }
+        activity?.let {
+            if (it is MainActivity) {
+                it.setAdjustNothingMode()
+                it.setContentSecure(false)
+            }
         }
     }
 

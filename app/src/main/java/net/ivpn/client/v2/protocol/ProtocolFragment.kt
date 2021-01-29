@@ -45,6 +45,7 @@ import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.client.ui.protocol.port.Port
 import net.ivpn.client.ui.protocol.port.PortAdapter
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.vpn.Protocol
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -64,7 +65,7 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_protocol, container, false)
         return binding.root
     }
@@ -74,6 +75,15 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        activity?.let {
+            if (it is MainActivity) {
+                it.setContentSecure(false)
+            }
+        }
     }
 
     private fun initViews() {
@@ -118,13 +128,13 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
     }
 
     override fun copyPublicKeyToClipboard() {
-        val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         viewModel.copyWgKeyToClipboard(clipboard)
         ToastUtil.toast(R.string.protocol_wg_public_key_copied)
     }
 
     override fun copyIpAddressToClipboard() {
-        val clipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         viewModel.copyWgIpToClipboard(clipboard)
         ToastUtil.toast(R.string.protocol_wg_ip_address_copied)
     }

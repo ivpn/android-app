@@ -31,9 +31,9 @@ import net.ivpn.client.common.billing.BillingManagerWrapper
 import net.ivpn.client.common.billing.addfunds.Period
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.EncryptedUserPreference
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.common.prefs.UserPreference
 import net.ivpn.client.common.utils.DateUtil
 import net.ivpn.client.rest.HttpClientFactory
 import net.ivpn.client.rest.IVPNApi
@@ -51,7 +51,7 @@ import kotlin.math.floor
 @ApplicationScope
 class SignUpViewModel @Inject constructor(
         private val billingManager: BillingManagerWrapper,
-        private val userPreference: UserPreference,
+        private val userPreference: EncryptedUserPreference,
         private val settings: Settings,
         private val serversRepository: ServersRepository,
         private val httpClientFactory: HttpClientFactory
@@ -92,8 +92,8 @@ class SignUpViewModel @Inject constructor(
 
     init {
         dataLoading.set(false)
-        blankAccountID.set(userPreference.blankUsername)
-        blankAccountGeneratedDate = userPreference.blankUsernameGeneratedDate
+        blankAccountID.set(userPreference.getBlankUsername())
+        blankAccountGeneratedDate = userPreference.getBlankUsernameGeneratedDate()
     }
 
     fun selectPeriod(period: Period) {
@@ -147,7 +147,6 @@ class SignUpViewModel @Inject constructor(
         val request = Request<NewAccountResponse>(settings, httpClientFactory, serversRepository, Request.Duration.LONG)
         request.start({ api: IVPNApi -> api.newAccount(requestBody) }, object : RequestListener<NewAccountResponse> {
             override fun onSuccess(response: NewAccountResponse) {
-                LOGGER.info("SUCCESS, response = $response")
                 dataLoading.set(false)
                 if (response.status == Responses.SUCCESS) {
                     userPreference.putBlankUsername(response.accountId)
@@ -186,9 +185,9 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun getActiveUntilString(period: Period): String {
-        val activeUntil = userPreference.availableUntil * 1000
+        val activeUntil = userPreference.getAvailableUntil() * 1000
         val calendar = Calendar.getInstance()
-        if (userPreference.isActive && (activeUntil > System.currentTimeMillis())) {
+        if (userPreference.getIsActive() && (activeUntil > System.currentTimeMillis())) {
             calendar.timeInMillis = activeUntil
         }
 

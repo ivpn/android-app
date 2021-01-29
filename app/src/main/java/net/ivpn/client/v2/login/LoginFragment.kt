@@ -22,11 +22,14 @@ package net.ivpn.client.v2.login
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -37,6 +40,8 @@ import com.google.zxing.integration.android.IntentResult
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
+import net.ivpn.client.common.extension.getNavigationResultBoolean
+import net.ivpn.client.common.extension.getSoftInputMode
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
@@ -44,7 +49,9 @@ import net.ivpn.client.ui.connect.CreateSessionNavigator
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.qr.QRActivity
+import net.ivpn.client.v2.tfa.TFAFragment
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
@@ -68,17 +75,23 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     private var originalMode: Int? = null
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        LOGGER.info("onAttach original mode = $originalMode")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        LOGGER.info("onDetach original mode = $originalMode")
     }
 
     override fun onResume() {
@@ -88,15 +101,14 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onStart() {
         super.onStart()
-        originalMode = activity?.window?.getSoftInputMode()
-        activity?.window?.setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        )
-    }
-
-    override fun onStop() {
-        super.onStop()
-        originalMode?.let { activity?.window?.setSoftInputMode(it) }
+        activity?.let {
+            if (it is MainActivity) {
+                it.setAdjustResizeMode()
+                it.setContentSecure(true)
+            }
+        }
+        viewModel.navigator = this
+        viewModel.reset()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,10 +133,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
         binding.contentLayout.signUp = signUp
-        viewModel.navigator = this
         signUp.creationNavigator = this
 
-        binding.contentLayout.inputView.setOnEditorActionListener { _, actionId, _ ->
+        binding.contentLayout.editText.onFocusChangeListener = viewModel.loginFocusListener
+        binding.contentLayout.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewModel.login(false)
                 return@setOnEditorActionListener true
@@ -137,8 +149,14 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         binding.contentLayout.signUpButton.setOnClickListener {
             createBlankAccount()
         }
-        binding.contentLayout.outlinedTextField.setEndIconOnClickListener {
+        binding.contentLayout.qrCode.setOnClickListener {
             openQRScanner()
+        }
+
+        getNavigationResultBoolean("session_limit_dialogue")?.observe(viewLifecycleOwner) {
+            if (it) {
+                openSessionLimitReachedDialogue()
+            }
         }
     }
 
@@ -171,16 +189,13 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         }
     }
 
-    override fun openSite() {
-        LOGGER.info("openSite")
-        onLogin()
-    }
-
     override fun openCustomErrorDialogue(title: String, message: String) {
         DialogBuilder.createFullCustomNotificationDialog(context, title, message)
     }
 
-    override fun openSubscriptionScreen() {
+    override fun openTFAScreen() {
+        val action = LoginFragmentDirections.actionLoginFragmentToTFAFragment()
+        navigate(action)
     }
 
     override fun openErrorDialogue(dialog: Dialogs) {
@@ -197,12 +212,9 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         }
     }
 
-    override fun openAccountNotActiveDialogue() {
-        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE)
-    }
-
-    override fun openAccountNotActiveBetaDialogue() {
-        DialogBuilder.createNotificationDialog(context, Dialogs.ACCOUNT_NOT_ACTIVE_BETA)
+    override fun openCaptcha() {
+        val action = LoginFragmentDirections.actionLoginFragmentToCaptchaFragment()
+        navigate(action)
     }
 
     override fun onLogin() {
@@ -232,6 +244,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         }
     }
 
+    override fun onInvalidAccount() {
+        //Nothing to do
+    }
+
     override fun onForceLogout() {
         viewModel.login(true)
         createSessionFragment?.dismissAllowingStateLoss()
@@ -253,9 +269,5 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
 
     override fun onAccountCreationError() {
         DialogBuilder.createNotificationDialog(context, Dialogs.CREATE_ACCOUNT_ERROR)
-    }
-
-    fun Window.getSoftInputMode(): Int {
-        return attributes.softInputMode
     }
 }

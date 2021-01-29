@@ -23,9 +23,9 @@ package net.ivpn.client.common.migration;
 */
 
 import net.ivpn.client.common.dagger.ApplicationScope;
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.prefs.Preference;
-import net.ivpn.client.common.prefs.SettingsPreference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +38,11 @@ public class MigrationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MigrationController.class);
 
     private Preference preference;
-    private SettingsPreference settingsPreference;
+    private EncryptedSettingsPreference settingsPreference;
     private NetworkProtectionPreference networkPreference;
 
     @Inject
-    MigrationController(Preference preference, SettingsPreference settingsPreference,
+    MigrationController(Preference preference, EncryptedSettingsPreference settingsPreference,
                         NetworkProtectionPreference networkPreference) {
         this.preference = preference;
         this.settingsPreference = settingsPreference;
