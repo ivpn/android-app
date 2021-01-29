@@ -55,6 +55,7 @@ import java.util.*
 
 object DialogBuilder {
     private val LOGGER = LoggerFactory.getLogger(DialogBuilder::class.java)
+    @JvmStatic
     fun createOptionDialog(context: Context?, dialogAttr: Dialogs,
                            listener: DialogInterface.OnClickListener?) {
         LOGGER.info("Create dialog $dialogAttr")
@@ -80,6 +81,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createNotificationDialog(context: Context?, dialogAttr: Dialogs?) {
         LOGGER.info("Create dialog $dialogAttr")
         if (context == null || dialogAttr == null) {
@@ -101,6 +103,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createFullCustomNotificationDialog(context: Context?, title: String?, msg: String?) {
         LOGGER.info("Create dialog ")
         if (context == null) {
@@ -122,6 +125,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createFullCustomNotificationDialog(context: Context?, title: String?, msg: String?,
                                            cancelListener: DialogInterface.OnCancelListener?) {
         LOGGER.info("Create dialog ")
@@ -145,6 +149,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createNonCancelableDialog(context: Context?, dialogAttr: Dialogs, listener: DialogInterface.OnClickListener?,
                                   cancelListener: DialogInterface.OnCancelListener?) {
         LOGGER.info("Create dialog $dialogAttr")
@@ -173,6 +178,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createPredefinedTimePickerDialog(context: Context?,
                                          onDelayOptionSelected: OnDelayOptionSelected) {
         LOGGER.info("Create time picker dialog")
@@ -213,6 +219,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createCustomTimePickerDialog(context: Context?,
                                      onDelayOptionSelected: OnDelayOptionSelected) {
         LOGGER.info("Create custom time picker dialog")
@@ -249,6 +256,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createAdvancedKillSwitchDialog(context: Context?, listener: AdvancedKillSwitchActionListener) {
         LOGGER.info("Create advanced killswitch dialog")
         if (context == null) {
@@ -283,6 +291,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createWireGuardDetailsDialog(context: Context?, info: WireGuardDialogInfo,
                                      listener: WireGuardDetailsDialogListener) {
         LOGGER.info("Create wireguard details dialog")
@@ -318,6 +327,7 @@ object DialogBuilder {
         }
     }
 
+    @JvmStatic
     fun createCustomDNSDialogue(context: Context?, listener: OnDNSChangedListener?) {
         LOGGER.info("Create connection info dialog")
         if (context == null) {

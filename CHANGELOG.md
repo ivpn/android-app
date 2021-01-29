@@ -1,6 +1,16 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.  
+All notable changes to this project will be documented in this file.
+
+## Version 2.2.0 - 2021-01-29
+
+[NEW] Updated Privacy Policy and Terms of Service  
+[NEW] Certificate pinning to prevent man-in-the-middle attacks  
+[NEW] Support two-factor authentication for login  
+[NEW] Support captcha to mitigate attacks  
+
+[Download IVPN Client v. 2.2.0](https://cdn.ivpn.net/releases/android/IVPNv2.2.0_site.apk)
+SHA256: c1c9b84a45c3ed98d4cce15f12c887cdbe84dcd00a3b8046ebfe6c75a073be67
 
 ## Version 2.1.0 - 2020-12-01
 
