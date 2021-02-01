@@ -421,6 +421,12 @@
                     android:orientation="vertical"
                     android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}">
 
+                    <View
+                        android:id="@+id/exit_server_top_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/sliding_panel_line_color" />
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/exit_server_layout"
                         android:layout_width="match_parent"
@@ -475,16 +481,6 @@
                             app:layout_constraintTop_toTopOf="@+id/exit_server_hint"
                             app:srcCompat="@drawable/ic_arrow_right"
                             app:tint="@color/sliding_panel_arrow" />
-
-                        <View
-                            android:id="@+id/exit_server_top_line"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:background="@color/sliding_panel_line_color"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -546,194 +542,6 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
-
-<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                        android:id="@+id/enter_server_layout"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/slider_layout_server_layout_height"-->
-<!--                        android:background="?android:attr/selectableItemBackground"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        app:layout_constraintTop_toBottomOf="parent"-->
-<!--                        tools:layout_editor_absoluteX="4dp">-->
-
-<!--&lt;!&ndash;                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"&ndash;&gt;-->
-<!--                        <TextView-->
-<!--                            android:id="@+id/textView5"-->
-<!--                            style="@style/AppTheme.ServerHintText"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="16dp"-->
-<!--                            android:text="@{multihop.isEnabled() ? @string/entry_server : connect.serverConnectionHint}"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                        <ImageView-->
-<!--                            android:id="@+id/imageView"-->
-<!--                            android:layout_width="20dp"-->
-<!--                            android:layout_height="20dp"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="4dp"-->
-<!--                            android:layout_marginBottom="16dp"-->
-<!--                            android:contentDescription="@string/content_description_entry_server_flag"-->
-<!--                            android:src="@{servers.entryServer}"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/textView5" />-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/textView6"-->
-<!--                            style="@style/AppTheme.ServerNameText"-->
-<!--                            android:layout_marginStart="8dp"-->
-<!--                            android:layout_marginBottom="2dp"-->
-<!--                            android:text="@{servers.entryServer.description}"-->
-<!--                            app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/imageView" />-->
-
-<!--                        <ImageView-->
-<!--                            android:id="@+id/imageView2"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginEnd="16dp"-->
-<!--                            android:contentDescription="@string/content_description_choose_entry_server"-->
-<!--                            app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/textView5"-->
-<!--                            app:srcCompat="@drawable/ic_arrow_right"-->
-<!--                            app:tint="@color/sliding_panel_arrow" />-->
-
-<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                        android:id="@+id/exit_server_layout"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="@dimen/slider_layout_server_layout_height"-->
-<!--                        android:background="?android:attr/selectableItemBackground"-->
-<!--                        android:clickable="true"-->
-<!--                        android:focusable="true"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/enter_server_layout"-->
-<!--                        tools:layout_editor_absoluteX="4dp">-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/exit_server_hint"-->
-<!--                            style="@style/AppTheme.ServerHintText"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="16dp"-->
-<!--                            android:text="@string/exit_server"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/exit_server_top_line" />-->
-
-<!--                        <ImageView-->
-<!--                            android:id="@+id/exit_server_flag"-->
-<!--                            android:layout_width="20dp"-->
-<!--                            android:layout_height="20dp"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="4dp"-->
-<!--                            android:layout_marginBottom="16dp"-->
-<!--                            android:contentDescription="@string/content_description_entry_server_flag"-->
-<!--                            android:src="@{servers.exitServer}"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toBottomOf="@id/exit_server_hint" />-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/exit_server_description"-->
-<!--                            style="@style/AppTheme.ServerNameText"-->
-<!--                            android:layout_marginStart="8dp"-->
-<!--                            android:layout_marginBottom="2dp"-->
-<!--                            android:text="@{servers.exitServer.description}"-->
-<!--                            app:layout_constraintBottom_toBottomOf="@+id/exit_server_flag"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/exit_server_flag"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/exit_server_flag" />-->
-
-<!--                        <ImageView-->
-<!--                            android:id="@+id/exit_server_arrow"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginEnd="16dp"-->
-<!--                            android:contentDescription="@string/content_description_choose_entry_server"-->
-<!--                            app:layout_constraintBottom_toBottomOf="@+id/exit_server_flag"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/exit_server_hint"-->
-<!--                            app:srcCompat="@drawable/ic_arrow_right"-->
-<!--                            app:tint="@color/sliding_panel_arrow" />-->
-
-<!--                        <View-->
-<!--                            android:id="@+id/exit_server_top_line"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="1dp"-->
-<!--                            android:background="@color/sliding_panel_line_color"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintHorizontal_bias="0.0"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:id="@+id/fastest_server_layout"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="@dimen/slider_layout_server_layout_height"-->
-<!--                    android:background="?android:attr/selectableItemBackground"-->
-<!--                    android:clickable="true"-->
-<!--                    android:focusable="true"-->
-<!--                    android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}"-->
-<!--                    app:layout_constraintTop_toBottomOf="parent"-->
-<!--                    tools:layout_editor_absoluteX="4dp">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/connect_to_fastest"-->
-<!--                        style="@style/AppTheme.ServerHintText"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/fastest_image"-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_marginStart="16dp"-->
-<!--                        android:layout_marginTop="4dp"-->
-<!--                        android:layout_marginBottom="16dp"-->
-<!--                        android:contentDescription="@string/content_description_entry_server_flag"-->
-<!--                        android:src="@drawable/ic_fastest_server"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@+id/connect_to_fastest"-->
-<!--                        app:tint="@color/settings_option_description_text" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/fastest_label"-->
-<!--                        style="@style/AppTheme.ServerNameText"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:text="@string/connect_fastest_server"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@+id/fastest_image"-->
-<!--                        app:layout_constraintStart_toEndOf="@+id/fastest_image"-->
-<!--                        app:layout_constraintTop_toTopOf="@+id/fastest_image" />-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/fastest_arrow"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginEnd="16dp"-->
-<!--                        android:contentDescription="@string/content_description_choose_entry_server"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@+id/fastest_image"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="@+id/connect_to_fastest"-->
-<!--                        app:srcCompat="@drawable/ic_arrow_right"-->
-<!--                        app:tint="@color/sliding_panel_arrow" />-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

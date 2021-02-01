@@ -236,6 +236,8 @@
 
     <string name="connect_fastest_server">Fastest server</string>
     <string name="connect_random_server">Random server</string>
+    <string name="connect_random_entry_server">Random entry server</string>
+    <string name="connect_random_exit_server">Random exit server</string>
     <string name="connect_unable_test_fastest_server">Unable to test for the fastest server due to a network restriction, the default server will be selected.</string>
     <string name="connect_resumed_in">Will resume in </string>
 

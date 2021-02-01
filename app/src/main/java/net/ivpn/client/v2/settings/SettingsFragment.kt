@@ -292,6 +292,15 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
                 openEntryServerScreen()
             }
         }
+        binding.contentLayout.sectionServer.entryRandomLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openEntryServerScreen()
+            }
+        }
         binding.contentLayout.sectionServer.fastestServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -302,6 +311,15 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
             }
         }
         binding.contentLayout.sectionServer.exitServerLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+            } else if (!account.isActive.get()) {
+                openAddFundsScreen()
+            } else {
+                openExitServerScreen()
+            }
+        }
+        binding.contentLayout.sectionServer.exitRandomLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
             } else if (!account.isActive.get()) {
