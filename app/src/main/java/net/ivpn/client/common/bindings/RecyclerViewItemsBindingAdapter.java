@@ -22,7 +22,6 @@ package net.ivpn.client.common.bindings;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,20 +29,17 @@ import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.ui.network.OnNetworkFeatureStateChanged;
 import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter;
 import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
 import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
 import net.ivpn.client.ui.split.SplitTunnelingRecyclerViewAdapter;
-import net.ivpn.client.ui.split.data.ApplicationItem;
+import net.ivpn.client.ui.split.items.ApplicationItem;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter;
-import net.ivpn.client.vpn.model.NetworkState;
 import net.ivpn.client.vpn.model.WifiItem;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import kotlin.Pair;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -82,19 +78,27 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-    @BindingAdapter("apps")
-    public static void setApplicationsList(RecyclerView recyclerView, List<ApplicationItem> apps) {
-        SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setApplicationsInfoList(apps);
-        }
-    }
+//    @BindingAdapter("app:apps")
+//    public static void setApplicationsList(RecyclerView recyclerView, ArrayList<ApplicationItem> apps) {
+//        SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
+//        if (adapter != null) {
+//            adapter.setApplicationsInfoList(apps);
+//        }
+//    }
+//
+//    @BindingAdapter("app:not_allowed_apps")
+//    public static void setNotAllowedAppsList(RecyclerView recyclerView, ArrayList<String> notAllowedApps) {
+//        SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
+//        if (adapter != null) {
+//            adapter.setDisallowedApps(notAllowedApps);
+//        }
+//    }
 
-    @BindingAdapter("not_allowed_apps")
-    public static void setNotAllowedAppsList(RecyclerView recyclerView, List<String> notAllowedApps) {
+    @BindingAdapter({"apps", "not_allowed_apps"})
+    public static void setAppsList(RecyclerView recyclerView, ArrayList<ApplicationItem> apps, ArrayList<String> notAllowedApps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
-            adapter.setDisallowedApps(notAllowedApps);
+            adapter.setApps(apps, notAllowedApps);
         }
     }
 

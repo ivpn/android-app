@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.split.data;
+package net.ivpn.client.ui.split.items;
 
 /*
  IVPN Android app
@@ -26,7 +26,7 @@ import android.graphics.drawable.Drawable;
 
 import java.util.Comparator;
 
-public class ApplicationItem {
+public class ApplicationItem implements SplitTunnelingItem {
     private String applicationName;
     private String packageName;
     private Drawable icon;

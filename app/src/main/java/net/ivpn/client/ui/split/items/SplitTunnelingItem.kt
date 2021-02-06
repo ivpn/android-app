@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.split;
+package net.ivpn.client.ui.split.items
 
 /*
  IVPN Android app
@@ -22,12 +22,5 @@ package net.ivpn.client.ui.split;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.ui.split.items.ApplicationItem;
-
-public interface OnApplicationItemSelectionChangedListener {
-
-    void onApplicationItemSelectionChanged(ApplicationItem applicationItem, boolean isSelected);
-
-    void onItemsSelectionStateChanged(boolean isAllItemSelected);
-
+interface SplitTunnelingItem {
 }

@@ -93,6 +93,7 @@
     <color name="settings_option_title_text">#2A394B</color>
     <color name="settings_option_description_text">#802A394B</color>
 
+    <color name="split_item_card_background">#ffffff</color>
     <color name="split_item_background">#ffffff</color>
     <color name="split_text_color">#2A394B</color>
     <color name="split_line_color">#2B8B9AAB</color>

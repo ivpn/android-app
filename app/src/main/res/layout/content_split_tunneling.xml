@@ -24,15 +24,46 @@
             android:theme="@style/AppTheme.ProgressBar"
             android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="?attr/actionBarSize"
             android:visibility="@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}"
-            android:adapter="@{viewmodel.adapter}"
-            app:apps="@{viewmodel.apps}"
-            app:not_allowed_apps="@{viewmodel.disallowedApps}"
-            app:selection_listener="@{viewmodel.selectionChangedListener}"/>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/split_item_background">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/split_tunneling_description"
+                    android:textColor="@color/split_text_color"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/split_line_color" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adapter="@{viewmodel.adapter}"
+                app:apps="@{viewmodel.apps}"
+                app:not_allowed_apps="@{viewmodel.disallowedApps}"
+                app:selection_listener="@{viewmodel.selectionChangedListener}"/>
+
+        </LinearLayout>
     </FrameLayout>
 </layout>
