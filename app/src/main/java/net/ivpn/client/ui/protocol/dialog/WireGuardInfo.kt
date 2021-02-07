@@ -1,11 +1,11 @@
-package net.ivpn.client.ui.split
+package net.ivpn.client.ui.protocol.dialog
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2021 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,10 +22,18 @@ package net.ivpn.client.ui.split
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.ui.split.items.ApplicationItem
+import net.ivpn.client.common.utils.DateUtil
 
-interface OnApplicationItemAction {
-
-    fun onApplicationStateChanged(item: ApplicationItem, isAllowed: Boolean)
-
+class WireGuardInfo(
+        val publicKey: String,
+        val ipAddress: String,
+        private val lastGeneratedTime: Long,
+        private val regenerationPeriod: Long
+) {
+    val lastGenerated: String
+        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime)
+    val nextRegenerationDate: String
+        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime + regenerationPeriod * DateUtil.DAY)
+    val validUntil: String
+        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime + 40 * DateUtil.DAY)
 }

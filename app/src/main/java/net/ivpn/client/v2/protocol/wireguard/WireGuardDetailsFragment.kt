@@ -1,27 +1,29 @@
-package net.ivpn.client.v2.protocol
+package net.ivpn.client.v2.protocol.wireguard
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
- 
+
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
- 
+ Copyright (c) 2021 Privatus Limited.
+
  This file is part of the IVPN Android app.
- 
+
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
- 
+
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
- 
+
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,27 +36,23 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.SnackbarUtil
-import net.ivpn.client.common.extension.navigate
-import net.ivpn.client.databinding.FragmentProtocolBinding
+import net.ivpn.client.common.utils.ToastUtil
+import net.ivpn.client.databinding.FragmentWireguardDetailsBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolNavigator
 import net.ivpn.client.ui.protocol.ProtocolViewModel
-import net.ivpn.client.ui.protocol.port.Port
-import net.ivpn.client.ui.protocol.port.PortAdapter
 import net.ivpn.client.v2.MainActivity
-import net.ivpn.client.v2.settings.SettingsFragmentDirections
-import net.ivpn.client.vpn.Protocol
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ProtocolFragment : Fragment(), ProtocolNavigator {
+class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(ProtocolFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(WireGuardDetailsFragment::class.java)
     }
 
-    lateinit var binding: FragmentProtocolBinding
+    lateinit var binding: FragmentWireguardDetailsBinding
 
     @Inject
     lateinit var viewModel: ProtocolViewModel
@@ -64,7 +62,7 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_protocol, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_wireguard_details, container, false)
         return binding.root
     }
 
@@ -81,20 +79,22 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         viewModel.setNavigator(this)
         activity?.let {
             if (it is MainActivity) {
-                it.setContentSecure(false)
+                it.setContentSecure(true)
             }
         }
     }
 
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
-        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN))
-        binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
-        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD))
-        binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
 
-        binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
-            openWireGuardDetails()
+        binding.contentLayout.wireguardInfo.clipboardCopy.setOnClickListener {
+            copyPublicKeyToClipboard()
+        }
+        binding.contentLayout.wireguardInfo.ipClipboardCopy.setOnClickListener {
+            copyIpAddressToClipboard()
+        }
+        binding.contentLayout.regenerate.setOnClickListener {
+            reGenerateKeys()
         }
     }
 
@@ -105,21 +105,35 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun openWireGuardDetails() {
-        val action = ProtocolFragmentDirections.actionProtocolFragmentToWireGuardDetailsFragment()
-        navigate(action)
-//        DialogBuilder.createWireGuardDetailsDialog(context, viewModel.wireGuardInfo, this)
+    private fun reGenerateKeys() {
+        LOGGER.info("Regenerating WireGuard keys")
+        viewModel.reGenerateKeys()
+    }
+
+    private fun copyPublicKeyToClipboard() {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        viewModel.copyWgKeyToClipboard(clipboard)
+        ToastUtil.toast(R.string.protocol_wg_public_key_copied)
+    }
+
+    private fun copyIpAddressToClipboard() {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        viewModel.copyWgIpToClipboard(clipboard)
+        ToastUtil.toast(R.string.protocol_wg_ip_address_copied)
     }
 
     override fun notifyUser(msgId: Int, actionId: Int, listener: View.OnClickListener?) {
+        findNavController().popBackStack()
         SnackbarUtil.show(binding.coordinator, msgId, actionId, listener)
     }
 
     override fun openDialogueError(dialog: Dialogs?) {
+        findNavController().popBackStack()
         DialogBuilder.createNotificationDialog(context, dialog)
     }
 
     override fun openCustomDialogueError(title: String?, message: String?) {
+        findNavController().popBackStack()
         DialogBuilder.createFullCustomNotificationDialog(context, title, message)
     }
 }

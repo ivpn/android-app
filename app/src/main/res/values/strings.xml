@@ -420,6 +420,15 @@
     <string name="protocol_wg_will_regenerate_on">Will regenerate on:</string>
     <string name="protocol_wg_valid_until">Valid until:</string>
     <string name="protocol_wg_regeneration_description">Using the same internal IP address and keys for extended period of time may not be ideal for various reasons when connected with WireGuard protocol.</string>
+    <string name="protocol_wg_key_rotation_description">Keys rotation will start automatically in the defined interval. It will also change the internal IP address.</string>
+
+    <string name="protocol_wg_keys">Keys</string>
+    <string name="protocol_wg_public_key">Public key</string>
+    <string name="protocol_wg_local_ip">Local IP</string>
+    <string name="protocol_wg_generated">Generated</string>
+    <string name="protocol_wg_expiration_date">Expiration date</string>
+    <string name="protocol_wg_will_rotate">Will be automatically rotated</string>
+    <string name="protocol_wg_regenerate">Regenerate</string>
 
     <string name="shortcuts_connect">Connect</string>
     <string name="shortcuts_establish_vpn_connection">Establish VPN connection</string>

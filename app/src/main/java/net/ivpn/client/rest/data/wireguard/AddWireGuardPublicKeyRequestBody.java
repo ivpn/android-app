@@ -43,6 +43,11 @@ public class AddWireGuardPublicKeyRequestBody {
         this.connectedPublicKey = connectedPublicKey;
     }
 
+    public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey) {
+        this.sessionToken = sessionToken;
+        this.publicKey = publicKey;
+    }
+
     public String getSessionToken() {
         return sessionToken;
     }

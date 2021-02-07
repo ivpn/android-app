@@ -1,0 +1,280 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/protocol_card_background">
+
+            <TextView
+                android:id="@+id/textView23"
+                style="@style/SettingsSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/protocol_wg_keys"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView24"
+                style="@style/SettingsOptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/protocol_public_keys"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="@+id/textView23"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <TextView
+                android:id="@+id/wg_public_key"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:alpha="0.6"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{viewmodel.wgInfo.publicKey}"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/clipboard_copy"
+                app:layout_constraintStart_toStartOf="@+id/textView24"
+                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <ImageView
+                android:id="@+id/clipboard_copy"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:alpha="0.6"
+                android:src="@drawable/ic_content_copy"
+                app:layout_constraintBottom_toBottomOf="@+id/wg_public_key"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView24"
+                app:tint="@color/protocol_text_color" />
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="#2B8B9AAB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wg_public_key" />
+
+            <TextView
+                android:id="@+id/local_ip"
+                style="@style/SettingsOptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/protocol_wg_local_ip"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+            <TextView
+                android:id="@+id/wg_ip_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:alpha="0.6"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{viewmodel.wgInfo.ipAddress}"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@+id/ip_clipboard_copy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/local_ip" />
+
+            <ImageView
+                android:id="@+id/ip_clipboard_copy"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:alpha="0.6"
+                android:src="@drawable/ic_content_copy"
+                app:layout_constraintBottom_toBottomOf="@+id/wg_ip_address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/local_ip"
+                app:tint="@color/protocol_text_color" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="#2B8B9AAB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wg_ip_address" />
+
+            <TextView
+                android:id="@+id/textView25"
+                style="@style/SettingsOptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/protocol_wg_last_keys_generated_date"
+                android:textColor="@color/protocol_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line" />
+
+            <TextView
+                android:id="@+id/wg_last_generated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:alpha="0.6"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{viewmodel.wgInfo.lastGenerated}"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+            <View
+                android:id="@+id/line_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="#2B8B9AAB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wg_last_generated" />
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/SettingsOptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/protocol_wg_will_regenerate_on"
+                android:textColor="@color/protocol_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line_2" />
+
+            <TextView
+                android:id="@+id/wg_regenerate_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:alpha="0.6"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{viewmodel.wgInfo.nextRegenerationDate}"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text" />
+
+            <View
+                android:id="@+id/line_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="#2B8B9AAB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wg_regenerate_in" />
+
+            <TextView
+                android:id="@+id/text_2"
+                style="@style/SettingsOptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/protocol_wg_valid_until"
+                android:textColor="@color/protocol_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line_3" />
+
+            <TextView
+                android:id="@+id/wg_valid_until"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:alpha="0.6"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.02"
+                android:lineSpacingExtra="24sp"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@{viewmodel.wgInfo.validUntil}"
+                android:textColor="@color/protocol_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_2"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

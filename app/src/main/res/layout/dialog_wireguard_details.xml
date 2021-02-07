@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
@@ -60,7 +61,7 @@
             android:layout_marginStart="16dp"
             android:src="@drawable/ic_content_copy"
             android:alpha="0.6"
-            android:tint="@color/protocol_text_color" />
+            app:tint="@color/protocol_text_color" />
     </LinearLayout>
 
     <TextView

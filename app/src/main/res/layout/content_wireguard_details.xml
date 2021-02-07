@@ -9,6 +9,10 @@
         <import type="net.ivpn.client.vpn.Protocol" />
 
         <variable
+            name="info"
+            type="net.ivpn.client.ui.protocol.dialog.WireGuardInfo" />
+
+        <variable
             name="viewmodel"
             type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
     </data>
@@ -34,32 +38,39 @@
                     android:background="@color/protocol_background" />
 
                 <include
-                    android:id="@+id/protocol_selection"
-                    layout="@layout/protocol_section_selection"
-                    app:viewmodel="@{viewmodel}" />
+                    android:id="@+id/wireguard_info"
+                    layout="@layout/wireguard_details_key"
+                    app:viewmodel="@{viewmodel}"/>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_sections_inner_margin"
+                    android:layout_height="16dp"
                     android:background="@color/protocol_background" />
 
-                <include
-                    android:id="@+id/wg_protocol_settings"
-                    layout="@layout/protocol_wireguard_section_settings"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}"
-                    app:viewmodel="@{viewmodel}" />
-
-                <include
-                    android:id="@+id/openvpn_protocol_settings"
-                    layout="@layout/protocol_openvpn_section_settings"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
-                    app:viewmodel="@{viewmodel}" />
-
-                <Space
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/settings_sections_inner_margin"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
-                    android:background="@color/color_settings_background" />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:background="@color/protocol_card_background"
+                        android:orientation="horizontal"
+                        android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:id="@+id/regenerate"
+                            style="@style/SettingsAction"
+                            android:layout_marginVertical="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:padding="8dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/protocol_wg_regenerate"
+                            android:textAllCaps="true" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -73,8 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginVertical="12dp"
-                        android:text="@string/protocol_wg_key_rotation_description" />
-
+                        android:text="@string/protocol_wg_regeneration_description" />
                 </FrameLayout>
             </LinearLayout>
         </ScrollView>

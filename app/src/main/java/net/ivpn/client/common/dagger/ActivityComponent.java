@@ -45,6 +45,7 @@ import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.network.saved.SavedNetworksFragment;
 import net.ivpn.client.v2.network.scanned.ScannedNetworksFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
+import net.ivpn.client.v2.protocol.wireguard.WireGuardDetailsFragment;
 import net.ivpn.client.v2.serverlist.ServerListTabFragment;
 import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.all.ServerListFragment;
@@ -160,6 +161,8 @@ public interface ActivityComponent {
     void inject(TFAFragment fragment);
 
     void inject(CaptchaFragment fragment);
+
+    void inject(WireGuardDetailsFragment fragment);
 
     void inject(MapView map);
 
