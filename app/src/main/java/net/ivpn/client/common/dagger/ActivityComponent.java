@@ -25,6 +25,7 @@ package net.ivpn.client.common.dagger;
 import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
+import net.ivpn.client.common.tile.IVPNTileService;
 import net.ivpn.client.ui.billing.BillingActivity;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
@@ -101,6 +102,8 @@ public interface ActivityComponent {
     void inject(WireGuardKeyBroadcastReceiver receiver);
 
     void inject(OnBootBroadcastReceiver receiver);
+
+    void inject(IVPNTileService service);
 
     void inject(IVPNService service);
 

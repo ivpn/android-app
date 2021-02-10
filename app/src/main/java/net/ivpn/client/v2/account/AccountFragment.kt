@@ -42,8 +42,6 @@ import net.ivpn.client.databinding.FragmentAccountBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
-import net.ivpn.client.v2.connect.ConnectFragment
-import net.ivpn.client.v2.login.LoginFragment
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
@@ -52,7 +50,7 @@ import javax.inject.Inject
 class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(AccountFragment::class.java)
     }
 
     lateinit var binding: FragmentAccountBinding
