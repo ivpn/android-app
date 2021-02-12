@@ -30,8 +30,6 @@ import com.wireguard.android.model.Tunnel;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
-import net.ivpn.client.common.prefs.OnServerChangedListener;
-import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.vpn.OnProtocolChangedListener;
 import net.ivpn.client.vpn.Protocol;
@@ -64,7 +62,7 @@ public class VpnBehaviorController {
     private List<VpnStateListener> listeners = new ArrayList<>();
 
     @Inject
-    public VpnBehaviorController(ConfigManager configManager, ServersRepository serversRepository,
+    public VpnBehaviorController(ConfigManager configManager,
                                  ProtocolController protocolController) {
         this.configManager = configManager;
 
@@ -81,7 +79,7 @@ public class VpnBehaviorController {
             behavior.destroy();
         }
         behavior = getBehavior(protocol);
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             behavior.addStateListener(listener);
         }
     }

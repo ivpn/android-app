@@ -30,19 +30,52 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.NavDeepLinkBuilder
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.ui.connect.ConnectionState
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.ConnectionViewModel
+import net.ivpn.client.vpn.controller.DefaultVPNStateListener
+import net.ivpn.client.vpn.controller.VpnBehaviorController
+import net.ivpn.client.vpn.controller.VpnStateListener
 import net.ivpn.client.vpn.local.PermissionActivity
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-class IVPNTileService: TileService(){
+class IVPNTileService: TileService() {
 
     @Inject
     lateinit var account: AccountViewModel
 
     @Inject
     lateinit var connect: ConnectionViewModel
+
+    @Inject
+    lateinit var vpnController: VpnBehaviorController
+
+    var isListening = false
+
+    private val vpnStateListener = object: DefaultVPNStateListener() {
+        override fun onConnectionStateChanged(state: ConnectionState?) {
+            super.onConnectionStateChanged(state)
+            if (!isListening) return
+
+            state?.let {
+                val tile = qsTile
+                when(state) {
+                    ConnectionState.NOT_CONNECTED, ConnectionState.PAUSED -> {
+                        tile.state = Tile.STATE_INACTIVE
+                        tile.updateTile()
+                    }
+                    ConnectionState.CONNECTED -> {
+                        tile.state = Tile.STATE_ACTIVE
+                        tile.updateTile()
+                    }
+                    else -> {
+                        //Do nothing in this cases
+                    }
+                }
+            }
+        }
+    }
 
     init {
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
@@ -51,6 +84,7 @@ class IVPNTileService: TileService(){
 
     override fun onStartListening() {
         super.onStartListening()
+        isListening = true
 
         val tile = qsTile
         tile.state = if (connect.isVpnActive()) {
@@ -60,6 +94,14 @@ class IVPNTileService: TileService(){
         }
 
         tile.updateTile()
+
+        vpnController.addVpnStateListener(vpnStateListener)
+    }
+
+    override fun onStopListening() {
+        super.onStopListening()
+        isListening = false
+        vpnController.removeVpnStateListener(vpnStateListener)
     }
 
     override fun onClick() {
@@ -84,11 +126,6 @@ class IVPNTileService: TileService(){
         }
 
         tile.updateTile()
-
-//        val vpnIntent = Intent(this, PermissionActivity::class.java)
-//        vpnIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        startActivity(vpnIntent)
-        // Called when the user click the tile
     }
 
     private fun openLoginScreen() {
