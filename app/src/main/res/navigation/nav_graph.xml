@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_updatesFragment"
             app:destination="@id/updatesFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_killSwitchFragment"
+            app:destination="@id/killSwitchFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -226,4 +229,8 @@
         android:id="@+id/wireGuardDetailsFragment"
         android:name="net.ivpn.client.v2.protocol.wireguard.WireGuardDetailsFragment"
         android:label="WireGuard Details" />
+    <fragment
+        android:id="@+id/killSwitchFragment"
+        android:name="net.ivpn.client.v2.killswitch.KillSwitchFragment"
+        android:label="Kill Switch" />
 </navigation>

@@ -62,8 +62,7 @@ import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
 
-class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
-        AdvancedKillSwitchActionListener, OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator {
+class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SettingsFragment::class.java)
@@ -92,8 +91,8 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
     @Inject
     lateinit var antiTracker: AntiTrackerViewModel
 
-    @Inject
-    lateinit var killSwitch: KillSwitchViewModel
+//    @Inject
+//    lateinit var killSwitch: KillSwitchViewModel
 
     @Inject
     lateinit var logging: LoggingViewModel
@@ -122,22 +121,22 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         initViews()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode != Activity.RESULT_OK) {
-            LOGGER.debug("onActivityResult: RESULT_CANCELED")
-            return
-        }
-        LOGGER.debug("onActivityResult: RESULT_OK")
-
-        when (requestCode) {
-            ServiceConstants.ENABLE_KILL_SWITCH -> {
-                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
-                killSwitch.enable(true)
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode != Activity.RESULT_OK) {
+//            LOGGER.debug("onActivityResult: RESULT_CANCELED")
+//            return
+//        }
+//        LOGGER.debug("onActivityResult: RESULT_OK")
+//
+//        when (requestCode) {
+//            ServiceConstants.ENABLE_KILL_SWITCH -> {
+//                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
+//                killSwitch.enable(true)
+//            }
+//        }
+//    }
 
     override fun onResume() {
         super.onResume()
@@ -146,7 +145,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
-        killSwitch.onResume()
+//        killSwitch.onResume()
         updates.onResume()
         logging.onResume()
         colorTheme.onResume()
@@ -154,7 +153,6 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
 
     override fun onStart() {
         super.onStart()
-        killSwitch.navigator = this
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
@@ -162,10 +160,10 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        killSwitch.navigator = null
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        killSwitch.navigator = null
+//    }
 
     private fun initViews() {
         initToolbar()
@@ -175,7 +173,7 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         binding.contentLayout.startOnBoot = startOnBoot
         binding.contentLayout.alwaysOnVPN = alwaysOnVPN
         binding.contentLayout.antiTracker = antiTracker
-        binding.contentLayout.killSwitch = killSwitch
+//        binding.contentLayout.killSwitch = killSwitch
         binding.contentLayout.updates = updates
         binding.contentLayout.logging = logging
         binding.contentLayout.colorTheme = colorTheme
@@ -270,6 +268,22 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
             }
 
             openCustomDNSScreen()
+        }
+        binding.contentLayout.sectionOther.killswitchLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+                return@setOnClickListener
+            }
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnClickListener
+            }
+            if (connect.isVpnActive()) {
+                notifyUser(R.string.snackbar_to_use_custom_dns_disconnect)
+                return@setOnClickListener
+            }
+
+            openKillSwitchScreen()
         }
         binding.contentLayout.sectionAbout.termsOfServiceLayout.setOnClickListener {
             openTermsOfServiceScreen()
@@ -371,6 +385,11 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         navigate(action)
     }
 
+    private fun openKillSwitchScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToKillSwitchFragment()
+        navigate(action)
+    }
+
     private fun openTermsOfServiceScreen() {
         openWebPage("https://www.ivpn.net/tos-mobile-app/")
     }
@@ -431,64 +450,46 @@ class SettingsFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator,
         navigate(action)
     }
 
-    private fun checkVPNPermission(requestCode: Int) {
-        val intent: Intent?
-        intent = try {
-            VpnService.prepare(context)
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-            DialogBuilder.createNotificationDialog(context, Dialogs.FIRMWARE_ERROR)
-            return
-        }
-        if (intent != null) {
-            try {
-                startActivityForResult(intent, requestCode)
-            } catch (exception: ActivityNotFoundException) {
-                LOGGER.info("startVpnFromIntent: intent != null, ActivityNotFoundException")
-            }
-        } else {
-            onActivityResult(requestCode, Activity.RESULT_OK, null)
-        }
-    }
+//    private fun checkVPNPermission(requestCode: Int) {
+//        val intent: Intent?
+//        intent = try {
+//            VpnService.prepare(context)
+//        } catch (exception: Exception) {
+//            exception.printStackTrace()
+//            DialogBuilder.createNotificationDialog(context, Dialogs.FIRMWARE_ERROR)
+//            return
+//        }
+//        if (intent != null) {
+//            try {
+//                startActivityForResult(intent, requestCode)
+//            } catch (exception: ActivityNotFoundException) {
+//                LOGGER.info("startVpnFromIntent: intent != null, ActivityNotFoundException")
+//            }
+//        } else {
+//            onActivityResult(requestCode, Activity.RESULT_OK, null)
+//        }
+//    }
 
     private fun notifyUser(msgId: Int) {
         ToastUtil.toast(context, msgId)
     }
 
-    override fun subscribe() {
-    }
+//    override fun enableAdvancedKillSwitchDialog(enable: Boolean) {
+//        LOGGER.info("enableAdvancedKillSwitchDialog")
+//        killSwitch.enableAdvancedKillSwitchDialog(enable)
+//    }
 
-    override fun authenticate() {
-    }
-
-    override fun tryEnableKillSwitch(state: Boolean, advancedKillSwitchState: Boolean) {
-        LOGGER.info("enableKillSwitch = $state isAdvancedKillSwitchDialogEnabled = $advancedKillSwitchState")
-        if (state) {
-            checkVPNPermission(ServiceConstants.ENABLE_KILL_SWITCH)
-            if (killSwitch.isAdvancedModeSupported && advancedKillSwitchState) {
-                DialogBuilder.createAdvancedKillSwitchDialog(context, this)
-            }
-        } else {
-            killSwitch.enable(false)
-        }
-    }
-
-    override fun enableAdvancedKillSwitchDialog(enable: Boolean) {
-        LOGGER.info("enableAdvancedKillSwitchDialog")
-        killSwitch.enableAdvancedKillSwitchDialog(enable)
-    }
-
-    @SuppressLint("InlinedApi")
-    override fun openDeviceSettings() {
-        LOGGER.info("openDeviceSettings")
-        if (killSwitch.isAdvancedModeSupported) {
-            try {
-                startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-            } catch (exception: ActivityNotFoundException) {
-                DialogBuilder.createNotificationDialog(context, Dialogs.NO_VPN_SETTINGS)
-            }
-        }
-    }
+//    @SuppressLint("InlinedApi")
+//    override fun openDeviceSettings() {
+//        LOGGER.info("openDeviceSettings")
+//        if (killSwitch.isAdvancedModeSupported) {
+//            try {
+//                startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
+//            } catch (exception: ActivityNotFoundException) {
+//                DialogBuilder.createNotificationDialog(context, Dialogs.NO_VPN_SETTINGS)
+//            }
+//        }
+//    }
 
     override fun onNightModeChanged(mode: NightMode?) {
         if (mode == null) {

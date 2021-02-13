@@ -194,7 +194,7 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
         }
 
         addConnectionAction(builder);
-        addDisableAction(builder);
+//        addDisableAction(builder);
         addSettingsAction(builder);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

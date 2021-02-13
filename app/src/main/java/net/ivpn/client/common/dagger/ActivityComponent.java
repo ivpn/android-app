@@ -38,6 +38,7 @@ import net.ivpn.client.v2.antitracker.AntiTrackerFragment;
 import net.ivpn.client.v2.captcha.CaptchaFragment;
 import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
+import net.ivpn.client.v2.killswitch.KillSwitchFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.map.MapView;
 import net.ivpn.client.v2.network.NetworkCommonFragment;
@@ -166,6 +167,8 @@ public interface ActivityComponent {
     void inject(CaptchaFragment fragment);
 
     void inject(WireGuardDetailsFragment fragment);
+
+    void inject(KillSwitchFragment fragment);
 
     void inject(MapView map);
 

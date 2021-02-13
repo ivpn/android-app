@@ -60,6 +60,7 @@ import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
+import net.ivpn.client.v2.killswitch.KillSwitchFragment
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
@@ -106,6 +107,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     @Inject
     lateinit var connect: ConnectionViewModel
+
+    @Inject
+    lateinit var killswitch: KillSwitchViewModel
 
     @Inject
     lateinit var signUp: SignUpViewModel
@@ -417,6 +421,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         if (isPermissionGranted()) {
             network.updateNetworkSource(context)
         }
+        if (killswitch.isEnabled.get()) {
+            checkVPNPermission(ServiceConstants.KILL_SWITCH_REQUEST_CODE)
+        }
         activity?.let {
             if (it is MainActivity) {
                 it.setAdjustNothingMode()
@@ -444,6 +451,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 connect.onConnectRequest()
             }
             ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
+                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
+                killswitch.enable(true)
             }
             CONNECT_BY_MAP -> {
                 connect.connectOrReconnect()
