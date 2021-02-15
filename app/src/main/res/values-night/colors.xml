@@ -18,6 +18,7 @@
     <color name="color_settings_background">#000000</color>
 
     <color name="color_toolbar">#292929</color>
+    <color name="color_status_bar">#398FE6</color>
     <color name="colorPrimary">#398FE6</color>
     <color name="colorPrimaryDark">#1c1c1c</color>
     <color name="dialogScrim">#80bebebe</color>

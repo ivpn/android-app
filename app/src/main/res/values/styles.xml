@@ -12,6 +12,7 @@
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
     </style>
 
+<!--    <item name="android:windowTranslucentStatus">true</item>-->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -105,6 +105,7 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
             if (it is MainActivity) {
                 it.setAdjustResizeMode()
                 it.setContentSecure(true)
+                it.setFullScreen(false)
             }
         }
         viewModel.navigator = this

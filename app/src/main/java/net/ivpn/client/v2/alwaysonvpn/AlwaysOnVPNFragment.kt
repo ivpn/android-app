@@ -81,6 +81,7 @@ class AlwaysOnVPNFragment: Fragment() {
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
+                it.setFullScreen(false)
             }
         }
     }

@@ -26,8 +26,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -47,7 +46,7 @@
                 android:id="@+id/account_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_gravity="top|start"
                 app:tint="@color/connect_map_fab_icon"
@@ -58,7 +57,7 @@
                 android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="16dp"
                 android:layout_gravity="top|end"
                 app:tint="@color/connect_map_fab_icon"

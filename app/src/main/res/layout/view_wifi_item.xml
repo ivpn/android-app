@@ -61,7 +61,7 @@
                     android:letterSpacing="-0.03"
                     android:lineSpacingExtra="8sp"
                     android:maxLines="1"
-                    android:text="@{wifi.getTitle}"
+                    android:text="@{wifi.ssid}"
                     android:textColor="@color/network_protection_text_color"
                     android:textSize="16sp"
                     android:textStyle="normal" />

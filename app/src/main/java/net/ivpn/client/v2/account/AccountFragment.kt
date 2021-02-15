@@ -88,6 +88,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(true)
+                it.setFullScreen(false)
             }
         }
     }

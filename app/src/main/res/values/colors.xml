@@ -6,6 +6,7 @@
     <color name="colorControlNormal">#7D91A5</color>
     <color name="colorOnSurface">#000000</color>
 
+    <color name="color_status_bar">#398FE6</color>
     <color name="color_toolbar">#398FE6</color>
     <color name="error">#b00020</color>
 

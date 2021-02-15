@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <padding android:top="0.5dp" />
+            <padding android:top="1dp"/>
 
             <solid android:color="@color/sliding_panel_shadow_1" />
 
@@ -15,7 +15,7 @@
     </item>
     <item>
         <shape>
-            <padding android:top="0.5dp" />
+            <padding android:top="1dp"/>
 
             <solid android:color="@color/sliding_panel_shadow_2" />
 
@@ -28,7 +28,7 @@
     </item>
     <item>
         <shape>
-            <padding android:top="0.5dp" />
+            <padding android:top="1dp" />
 
             <solid android:color="@color/sliding_panel_shadow_3" />
 
@@ -41,9 +41,8 @@
     </item>
     <item>
         <shape>
-            <!--            <corners android:radius="6dp" />-->
 
-            <padding android:top="0.5dp" />
+            <padding android:top="1dp"/>
 
             <solid android:color="@color/sliding_panel_shadow_4" />
 
@@ -56,9 +55,10 @@
     </item>
     <item>
         <shape>
-            <!--            <corners android:radius="4dp" />-->
 
-            <padding android:top="0.5dp" />
+            <padding android:top="1dp"
+                android:left="3dp"
+                android:right="3dp" />
 
             <solid android:color="@color/sliding_panel_shadow_5" />
 

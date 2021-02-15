@@ -89,6 +89,7 @@ class CaptchaFragment : Fragment(), LoginNavigator {
             if (it is MainActivity) {
                 it.setAdjustResizeMode()
                 it.setContentSecure(false)
+                it.setFullScreen(false)
             }
         }
         viewModel.navigator = this

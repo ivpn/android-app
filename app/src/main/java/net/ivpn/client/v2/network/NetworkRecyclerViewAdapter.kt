@@ -114,7 +114,7 @@ class NetworkRecyclerViewAdapter(context: Context?) : RecyclerView.Adapter<Recyc
                 openChangeNetworkStatusDialogue(binding.root.context,
                         object : NetworkChangeDialogViewModel(item!!.networkState.get()!!) {
                             override fun apply() {
-                                network!!.setWifiStateAs(item!!, selectedState.get())
+                                network.setWifiStateAs(item!!, selectedState.get())
                                 item!!.networkState.set(selectedState.get())
                             }
                         })

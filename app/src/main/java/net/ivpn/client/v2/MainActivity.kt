@@ -71,4 +71,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     fun setContentSecure(enable: Boolean){
         window?.setContentSecure(enable)
     }
+
+    fun setFullScreen(enable: Boolean) {
+        if (enable) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        } else {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        }
+    }
 }

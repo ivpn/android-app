@@ -110,7 +110,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         return binding.root
     }
@@ -121,23 +121,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         initViews()
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (resultCode != Activity.RESULT_OK) {
-//            LOGGER.debug("onActivityResult: RESULT_CANCELED")
-//            return
-//        }
-//        LOGGER.debug("onActivityResult: RESULT_OK")
-//
-//        when (requestCode) {
-//            ServiceConstants.ENABLE_KILL_SWITCH -> {
-//                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
-//                killSwitch.enable(true)
-//            }
-//        }
-//    }
-
     override fun onResume() {
         super.onResume()
 
@@ -145,7 +128,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
-//        killSwitch.onResume()
         updates.onResume()
         logging.onResume()
         colorTheme.onResume()
@@ -156,14 +138,10 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
+                it.setFullScreen(false)
             }
         }
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        killSwitch.navigator = null
-//    }
 
     private fun initViews() {
         initToolbar()
@@ -173,7 +151,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.startOnBoot = startOnBoot
         binding.contentLayout.alwaysOnVPN = alwaysOnVPN
         binding.contentLayout.antiTracker = antiTracker
-//        binding.contentLayout.killSwitch = killSwitch
         binding.contentLayout.updates = updates
         binding.contentLayout.logging = logging
         binding.contentLayout.colorTheme = colorTheme
