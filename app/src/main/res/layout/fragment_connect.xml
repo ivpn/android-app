@@ -42,27 +42,50 @@
                 app:connectionState="@{connection.connectionState}"
                 app:gateway="@{servers.mapServer}"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/account_button"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_gravity="top|start"
-                app:tint="@color/connect_map_fab_icon"
-                app:backgroundTint="@color/connect_fab_background"
-                android:src="@drawable/ic_account"/>
+                android:orientation="vertical">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/settings_button"
+                <net.ivpn.client.common.views.StatusBarSizeView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/account_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="top|start"
+                    app:tint="@color/connect_map_fab_icon"
+                    app:backgroundTint="@color/connect_fab_background"
+                    android:src="@drawable/ic_account"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="16dp"
-                android:layout_gravity="top|end"
-                app:tint="@color/connect_map_fab_icon"
-                app:backgroundTint="@color/connect_fab_background"
-                android:src="@drawable/ic_settings_fab"/>
+                android:orientation="vertical"
+                android:layout_gravity="top|end">
+
+                <net.ivpn.client.common.views.StatusBarSizeView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/settings_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="top|end"
+                    app:tint="@color/connect_map_fab_icon"
+                    app:backgroundTint="@color/connect_fab_background"
+                    android:src="@drawable/ic_settings_fab"/>
+
+            </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/center_location"
