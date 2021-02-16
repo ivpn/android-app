@@ -86,7 +86,6 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
-                it.setFullScreen(false)
             }
         }
     }

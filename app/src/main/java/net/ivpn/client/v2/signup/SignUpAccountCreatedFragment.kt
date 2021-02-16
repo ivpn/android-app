@@ -76,7 +76,6 @@ class SignUpAccountCreatedFragment : Fragment() {
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(true)
-                it.setFullScreen(false)
             }
         }
     }

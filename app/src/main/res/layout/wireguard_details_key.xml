@@ -203,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:text="@string/protocol_wg_expiration_date"
+                android:text="@string/protocol_wg_will_rotate"
                 android:textColor="@color/protocol_text_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line_2" />
@@ -247,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:text="@string/protocol_wg_will_rotate"
+                android:text="@string/protocol_wg_expiration_date"
                 android:textColor="@color/protocol_text_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line_3" />

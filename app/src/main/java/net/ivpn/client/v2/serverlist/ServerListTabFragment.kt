@@ -93,7 +93,6 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
-                it.setFullScreen(false)
             }
         }
     }

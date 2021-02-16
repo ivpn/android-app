@@ -87,7 +87,6 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
-                it.setFullScreen(false)
             }
         }
     }

@@ -138,7 +138,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
-                it.setFullScreen(false)
             }
         }
     }
