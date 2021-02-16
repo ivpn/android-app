@@ -256,7 +256,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
                 return@setOnClickListener
             }
             if (connect.isVpnActive()) {
-                notifyUser(R.string.snackbar_to_use_custom_dns_disconnect)
+                notifyUser(R.string.snackbar_to_use_kill_switch_disconnect)
                 return@setOnClickListener
             }
 

@@ -22,8 +22,11 @@ package net.ivpn.client.v2.serverlist
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment

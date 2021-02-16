@@ -16,6 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:context="net.ivpn.client.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -38,8 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    android:padding="16dp"
                     android:onClick="@{() -> viewmodel.selectAll()}"
+                    android:padding="16dp"
                     android:text="@string/split_tunneling_turn_on_all"
                     android:textColor="@android:color/white"
                     android:visibility="@{viewmodel.isAllItemsAllowed ? View.GONE : View.VISIBLE}" />
@@ -48,9 +51,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
+                    android:onClick="@{() -> viewmodel.deselectAll()}"
                     android:padding="16dp"
                     android:text="@string/split_tunneling_turn_off_all"
-                    android:onClick="@{() -> viewmodel.deselectAll()}"
                     android:textColor="@android:color/white"
                     android:visibility="@{viewmodel.isAllItemsAllowed ? View.VISIBLE : View.GONE}" />
             </FrameLayout>
