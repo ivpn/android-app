@@ -420,7 +420,7 @@
     <string name="protocol_wg_deleting_key_error">There was a problem regenerating WireGuard keys.</string>
     <string name="protocol_wg_uploading_key_error">There was a problem generating and uploading WireGuard keys to IVPN server.</string>
     <string name="protocol_wg_uploading_too_many_keys">Maximum number of WireGuard keys reached. Please delete unused keys using the IVPN Website Client Area.</string>
-    <string name="protocol_wg_regeneration_period">Regeneration rate</string>
+    <string name="protocol_wg_regeneration_period">Key rotation rate</string>
     <string name="protocol_wg_last_keys_generated_date">Last generated:</string>
     <string name="protocol_wg_will_regenerate_on">Will regenerate on:</string>
     <string name="protocol_wg_valid_until">Valid until:</string>
@@ -454,8 +454,8 @@
         <item quantity="other">Automatic refresh in %d seconds</item>
     </plurals>
     <plurals name="regeneration_in_days">
-        <item quantity="one">Re-generate key every %d day.</item>
-        <item quantity="other">Re-generate key every %d days.</item>
+        <item quantity="one">Rotate key every %d day.</item>
+        <item quantity="other">Rotate key every %d days.</item>
     </plurals>
 
     <!--v2-->
