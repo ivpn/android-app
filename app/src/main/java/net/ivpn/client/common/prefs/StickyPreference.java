@@ -44,7 +44,7 @@ public class StickyPreference {
 
     public String getCurrentProtocol() {
         SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
-        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.OPENVPN.name());
+        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.WIREGUARD.name());
     }
 
     public void putCurrentProtocol(Protocol protocol) {
