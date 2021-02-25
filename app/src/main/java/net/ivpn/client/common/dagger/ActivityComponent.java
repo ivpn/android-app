@@ -25,6 +25,7 @@ package net.ivpn.client.common.dagger;
 import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
+import net.ivpn.client.common.tile.IVPNTileService;
 import net.ivpn.client.ui.billing.BillingActivity;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
@@ -37,6 +38,7 @@ import net.ivpn.client.v2.antitracker.AntiTrackerFragment;
 import net.ivpn.client.v2.captcha.CaptchaFragment;
 import net.ivpn.client.v2.connect.ConnectFragment;
 import net.ivpn.client.v2.customdns.CustomDNSFragment;
+import net.ivpn.client.v2.killswitch.KillSwitchFragment;
 import net.ivpn.client.v2.login.LoginFragment;
 import net.ivpn.client.v2.map.MapView;
 import net.ivpn.client.v2.network.NetworkCommonFragment;
@@ -45,6 +47,7 @@ import net.ivpn.client.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.client.v2.network.saved.SavedNetworksFragment;
 import net.ivpn.client.v2.network.scanned.ScannedNetworksFragment;
 import net.ivpn.client.v2.protocol.ProtocolFragment;
+import net.ivpn.client.v2.protocol.wireguard.WireGuardDetailsFragment;
 import net.ivpn.client.v2.serverlist.ServerListTabFragment;
 import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.all.ServerListFragment;
@@ -100,6 +103,8 @@ public interface ActivityComponent {
     void inject(WireGuardKeyBroadcastReceiver receiver);
 
     void inject(OnBootBroadcastReceiver receiver);
+
+    void inject(IVPNTileService service);
 
     void inject(IVPNService service);
 
@@ -160,6 +165,10 @@ public interface ActivityComponent {
     void inject(TFAFragment fragment);
 
     void inject(CaptchaFragment fragment);
+
+    void inject(WireGuardDetailsFragment fragment);
+
+    void inject(KillSwitchFragment fragment);
 
     void inject(MapView map);
 

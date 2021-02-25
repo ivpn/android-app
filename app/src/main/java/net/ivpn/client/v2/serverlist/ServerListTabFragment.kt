@@ -22,8 +22,11 @@ package net.ivpn.client.v2.serverlist
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -33,6 +36,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
+import net.ivpn.client.common.extension.findNavControllerSafely
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentTabsServerListBinding
 import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
@@ -122,12 +127,13 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
     }
 
     fun navigateBack() {
-        NavHostFragment.findNavController(this).popBackStack()
+        val navController = findNavControllerSafely()
+        navController?.popBackStack()
     }
 
     fun openFastestSetting() {
         val action = ServerListTabFragmentDirections.actionServerListFragmentToFastestSettingFragment()
-        NavHostFragment.findNavController(this).navigate(action)
+        navigate(action)
     }
 
     fun getServerType(): ServerType {

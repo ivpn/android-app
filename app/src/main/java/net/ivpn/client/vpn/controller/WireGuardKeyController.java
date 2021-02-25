@@ -99,7 +99,7 @@ public class WireGuardKeyController {
         LOGGER.info("generateKeys");
         keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
-            setKey();
+            setKey(false);
         } else {
             //This case should not happen but for integrity, it should be here.
             keysEventsListener.onKeyGeneratedError(null, null);
@@ -109,7 +109,7 @@ public class WireGuardKeyController {
     void regenerateLiveKeys() {
         keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
-            setKey();
+            setKey(true);
         } else {
             //This case should not happen but for integrity, it should be here.
             keysEventsListener.onKeyGeneratedError(null, null);
@@ -120,19 +120,26 @@ public class WireGuardKeyController {
         LOGGER.info("regenerateKeys");
         keysEventsListener.onKeyGenerating();
         if (!getSessionToken().isEmpty()) {
-            setKey();
+            setKey(false);
         } else {
             //This case should not happen but for integrity, it should be here.
             keysEventsListener.onKeyGeneratedError(null, null);
         }
     }
 
-    private void setKey() {
+    private void setKey(boolean provideOldKey) {
         Keypair keys = settings.generateWireGuardKeys();
         String oldPublicKey = settings.getWireGuardPublicKey();
 
-        AddWireGuardPublicKeyRequestBody requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
-                keys.getPublicKey(), oldPublicKey);
+        AddWireGuardPublicKeyRequestBody requestBody;
+        if (provideOldKey) {
+            requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
+                    keys.getPublicKey(), oldPublicKey);
+        } else {
+            settings.removeWireGuardKeys();
+            requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
+                    keys.getPublicKey());
+        }
 
         addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT);
         addKeyRequest.start(api -> api.setWireGuardPublicKey(requestBody),

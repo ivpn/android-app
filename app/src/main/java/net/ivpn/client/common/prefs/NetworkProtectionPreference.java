@@ -77,7 +77,7 @@ public class NetworkProtectionPreference {
 
     public Set<String> getTrustedWifiList() {
         SharedPreferences sharedPreferences = preference.getNetworkRulesSharedPreferences();
-        return sharedPreferences.getStringSet(SETTINGS_TRUSTED_WIFI_LIST, new HashSet<String>());
+        return sharedPreferences.getStringSet(SETTINGS_TRUSTED_WIFI_LIST, new HashSet<>());
     }
 
     public void markWifiAsUntrusted(String wifiSsid) {

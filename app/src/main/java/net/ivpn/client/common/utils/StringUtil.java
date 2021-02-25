@@ -57,8 +57,15 @@ public class StringUtil {
         if (dirtyWifi == null) {
             return null;
         }
-        String noQuoteWifi = dirtyWifi.replaceAll("\"","");
-        return noQuoteWifi.trim();
+        StringBuilder builder = new StringBuilder(dirtyWifi);
+
+        if (builder.charAt(0) == '\"') {
+            builder.deleteCharAt(0);
+        }
+        if (builder.charAt(builder.length() - 1) == '\"') {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+        return builder.toString();
     }
 
     public static String formatTimeUntilResumedWithText(long timeUntilResumed) {

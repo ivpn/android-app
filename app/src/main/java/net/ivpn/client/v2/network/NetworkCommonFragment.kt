@@ -73,7 +73,7 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_network, container, false)
         return binding.root
     }

@@ -6,6 +6,7 @@
     <color name="colorControlNormal">#7D91A5</color>
     <color name="colorOnSurface">#000000</color>
 
+    <color name="color_status_bar">#398FE6</color>
     <color name="color_toolbar">#398FE6</color>
     <color name="error">#b00020</color>
 
@@ -93,6 +94,7 @@
     <color name="settings_option_title_text">#2A394B</color>
     <color name="settings_option_description_text">#802A394B</color>
 
+    <color name="split_item_card_background">#ffffff</color>
     <color name="split_item_background">#ffffff</color>
     <color name="split_text_color">#2A394B</color>
     <color name="split_line_color">#2B8B9AAB</color>
@@ -147,6 +149,9 @@
     <color name="account_logout">#8B9AAB</color>
     <color name="account_plan_details_background">#1A398FE6</color>
     <color name="account_plan_details_text">#3E6894</color>
+
+    <color name="account_qr_background">#FFFFFF</color>
+    <color name="account_qr_foreground">#2A394B</color>
 
     <color name="tab_text_color">#99FFFFFF</color>
     <color name="tab_selected_text_color">#FFFFFF</color>

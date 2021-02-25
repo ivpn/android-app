@@ -46,7 +46,7 @@ import net.ivpn.client.common.utils.DateUtil
 import net.ivpn.client.databinding.DialogCustomDnsBinding
 import net.ivpn.client.ui.customdns.OnDNSChangedListener
 import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener
-import net.ivpn.client.ui.protocol.dialog.WireGuardDialogInfo
+import net.ivpn.client.ui.protocol.dialog.WireGuardInfo
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
 import net.ivpn.client.ui.timepicker.OnDelayOptionSelected
 import net.ivpn.client.ui.timepicker.PauseDelay
@@ -292,7 +292,7 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createWireGuardDetailsDialog(context: Context?, info: WireGuardDialogInfo,
+    fun createWireGuardDetailsDialog(context: Context?, info: WireGuardInfo,
                                      listener: WireGuardDetailsDialogListener) {
         LOGGER.info("Create wireguard details dialog")
         if (context == null) {

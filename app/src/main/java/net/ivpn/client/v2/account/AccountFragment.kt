@@ -42,8 +42,6 @@ import net.ivpn.client.databinding.FragmentAccountBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
-import net.ivpn.client.v2.connect.ConnectFragment
-import net.ivpn.client.v2.login.LoginFragment
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory
@@ -52,7 +50,7 @@ import javax.inject.Inject
 class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
+        private val LOGGER = LoggerFactory.getLogger(AccountFragment::class.java)
     }
 
     lateinit var binding: FragmentAccountBinding
@@ -82,7 +80,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     override fun onResume() {
         super.onResume()
         account.onResume()
-        account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
+        account.drawQR(resources.getColor(R.color.account_qr_foreground), resources.getColor(R.color.account_qr_background), binding.contentLayout.qr.width)
+//        account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
     }
 
     override fun onStart() {
@@ -130,7 +129,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     private fun copyAccountId() {
         account.username.get()?.let { userId ->
-            val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 

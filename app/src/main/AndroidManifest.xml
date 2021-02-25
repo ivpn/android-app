@@ -113,16 +113,29 @@
 
         <service android:name="com.wireguard.android.backend.WireGuardUiService" />
 
-        <service android:name="net.ivpn.client.ui.updates.UpdatesService"
-            android:exported="false"/>
+        <service
+            android:name="net.ivpn.client.ui.updates.UpdatesService"
+            android:exported="false" />
         <service
             android:name=".ui.updates.UpdatesJobService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".vpn.controller.WireGuardKeyBroadcastReceiver"
-            android:exported="false"/>
-        <receiver android:name=".vpn.OnBootBroadcastReceiver"
+        <service
+            android:name=".common.tile.IVPNTileService"
+            android:icon="@drawable/ic_logo_sq"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".vpn.controller.WireGuardKeyBroadcastReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".vpn.OnBootBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

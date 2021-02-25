@@ -28,6 +28,12 @@ import android.widget.Toast;
 import net.ivpn.client.IVPNApplication;
 
 public class ToastUtil {
+
+    public static void toast(String msg) {
+        Context context = IVPNApplication.getApplication();
+        toast(context, msg);
+    }
+
     public static void toast(int msgId) {
         Context context = IVPNApplication.getApplication();
         toast(context, context.getString(msgId));

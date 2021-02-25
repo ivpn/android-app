@@ -22,6 +22,7 @@ package net.ivpn.client.common.session
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.wireguard.android.crypto.Keypair
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.prefs.EncryptedUserPreference
@@ -70,32 +71,43 @@ class SessionController @Inject constructor(
         listeners.remove(listener)
     }
 
-    fun createSessionWith2FAToken(force: Boolean, username: String? = getUsername(), token: String) {
-        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, token)
+    fun createSessionWith2FAToken(
+            force: Boolean,
+            username: String? = getUsername(),
+            token: String
+    ) {
+        val keys = getKeypair()
+        val body = SessionNewRequestBody(username, keys?.publicKey, force, token)
 
-        innerCreateSession(body)
+        innerCreateSession(body, keys)
     }
 
-    fun createSessionWithCaptcha(force: Boolean, username: String? = getUsername(), captchaId: String, captchaValue: String) {
-        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force, captchaId, captchaValue)
+    fun createSessionWithCaptcha(
+            force: Boolean,
+            username: String? = getUsername(),
+            captchaId: String, captchaValue: String
+    ) {
+        val keys = getKeypair()
+        val body = SessionNewRequestBody(username, keys?.publicKey, force, captchaId, captchaValue)
 
-        innerCreateSession(body)
+        innerCreateSession(body, keys)
     }
 
     fun createSession(force: Boolean, username: String? = getUsername()) {
-        val body = SessionNewRequestBody(username, getWireGuardPublicKey(), force)
+        val keys = getKeypair()
+        val body = SessionNewRequestBody(username, keys?.publicKey, force)
 
-        innerCreateSession(body)
+        innerCreateSession(body, keys)
     }
 
-    private fun innerCreateSession(body: SessionNewRequestBody) {
+    private fun innerCreateSession(body: SessionNewRequestBody, keys: Keypair?) {
         sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
                     override fun onSuccess(response: SessionNewResponse) {
                         LOGGER.info(response.toString())
-                        onCreateSuccess(response)
+                        onCreateSuccess(response, keys)
                     }
 
                     override fun onError(throwable: Throwable) {
@@ -113,7 +125,7 @@ class SessionController @Inject constructor(
 
     fun updateSessionStatus() {
         val sessionToken = getSessionToken()
-        if (sessionToken == null || sessionToken.isEmpty()) {
+        if (sessionToken.isEmpty()) {
             return
         }
 
@@ -140,7 +152,7 @@ class SessionController @Inject constructor(
                         LOGGER.error("Error while getting account status to see the confirmation$error")
                         val errorResponse = Mapper.errorResponseFrom(error)
                         errorResponse?.let {
-                            if (it.status == Responses.SERVICE_IS_NOT_ACTIVE){
+                            if (it.status == Responses.SERVICE_IS_NOT_ACTIVE) {
                                 userPreference.putIsActive(false)
                             }
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
@@ -200,14 +212,14 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onCreateSuccess(response: SessionNewResponse) {
+    private fun onCreateSuccess(response: SessionNewResponse, keys: Keypair?) {
         if (response.status == null) {
             return
         }
 
         if (response.status == Responses.SUCCESS) {
             putUserData(response)
-            handleWireGuardResponse(response.wireGuard)
+            handleWireGuardResponse(response.wireGuard, keys)
         }
 
         for (listener in listeners) {
@@ -238,15 +250,23 @@ class SessionController @Inject constructor(
         ViewModelCleaner()
     }
 
+    private fun getProtocol(): Protocol {
+        return protocolController.currentProtocol
+    }
+
+    private fun getKeypair(): Keypair? {
+        return if (getProtocol() == Protocol.WIREGUARD) {
+            settings.generateWireGuardKeys()
+        } else {
+            null
+        }
+    }
+
     private fun getUsername(): String? {
         return userPreference.getUserLogin()
     }
 
-    private fun getWireGuardPublicKey(): String? {
-        return settings.wireGuardPublicKey
-    }
-
-    private fun getSessionToken(): String? {
+    private fun getSessionToken(): String {
         return userPreference.getSessionToken()
     }
 
@@ -277,7 +297,7 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun handleWireGuardResponse(wireGuard: WireGuard?) {
+    private fun handleWireGuardResponse(wireGuard: WireGuard?, keys: Keypair?) {
         LOGGER.info("Handle WireGuard response: $wireGuard")
         if (wireGuard == null || wireGuard.status == null) {
             resetWireGuard()
@@ -286,6 +306,7 @@ class SessionController @Inject constructor(
 
         if (wireGuard.status == Responses.SUCCESS) {
             putWireGuardData(wireGuard)
+            settings.saveWireGuardKeypair(keys)
         } else {
             LOGGER.error("Error received: ${wireGuard.status} ${wireGuard.message}")
             resetWireGuard()

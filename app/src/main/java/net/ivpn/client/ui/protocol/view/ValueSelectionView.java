@@ -147,9 +147,10 @@ public class ValueSelectionView extends View {
 
         String text = String.valueOf(value);
         textPaint.getTextBounds(text, 0, text.length(), valueRect);
+        float width = textPaint.measureText(text);
 
         canvas.drawText(text,
-                rectF.left + (rectF.width() - valueRect.width()) / 2f,
+                rectF.left + (rectF.width() - width) / 2f,
                 rectF.bottom - (rectF.height() - valueRect.height()) / 2f,
                 textPaint);
     }

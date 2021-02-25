@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_updatesFragment"
             app:destination="@id/updatesFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_killSwitchFragment"
+            app:destination="@id/killSwitchFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -93,7 +96,11 @@
     <fragment
         android:id="@+id/protocolFragment"
         android:name="net.ivpn.client.v2.protocol.ProtocolFragment"
-        android:label="Protocol" />
+        android:label="Protocol" >
+        <action
+            android:id="@+id/action_protocolFragment_to_wireGuardDetailsFragment"
+            app:destination="@id/wireGuardDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/customDNSFragment"
         android:name="net.ivpn.client.v2.customdns.CustomDNSFragment"
@@ -101,7 +108,7 @@
     <fragment
         android:id="@+id/serverListFragment"
         android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"
-        android:label="ServerListFragment">
+        android:label=" ">
         <argument
             android:name="serverType"
             android:defaultValue="ENTRY"
@@ -218,4 +225,12 @@
             app:destination="@id/signUpPeriodFragment"
             app:popUpTo="@+id/connectFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/wireGuardDetailsFragment"
+        android:name="net.ivpn.client.v2.protocol.wireguard.WireGuardDetailsFragment"
+        android:label="WireGuard Details" />
+    <fragment
+        android:id="@+id/killSwitchFragment"
+        android:name="net.ivpn.client.v2.killswitch.KillSwitchFragment"
+        android:label="Kill Switch" />
 </navigation>
