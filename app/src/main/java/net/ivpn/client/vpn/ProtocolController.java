@@ -69,6 +69,10 @@ public class ProtocolController {
         stickyPreference.putCurrentProtocol(currentProtocol);
     }
 
+    public boolean isProtocolSelected() {
+        return stickyPreference.isProtocolSelected();
+    }
+
     public void addOnProtocolChangedListener(OnProtocolChangedListener listener) {
         listeners.add(listener);
         notify(currentProtocol);

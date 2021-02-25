@@ -1,4 +1,4 @@
-package net.ivpn.client.common.utils;
+package net.ivpn.client.common.migration
 
 /*
  IVPN Android app
@@ -22,30 +22,7 @@ package net.ivpn.client.common.utils;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.content.Context;
-import android.widget.Toast;
+interface Update {
 
-import net.ivpn.client.IVPNApplication;
-
-public class ToastUtil {
-
-    public static void toast(String msg) {
-        Context context = IVPNApplication.getApplication();
-        toast(context, msg);
-    }
-
-    public static void toast(int msgId) {
-        Context context = IVPNApplication.getApplication();
-        toast(context, context.getString(msgId));
-    }
-
-    public static void toast(Context context, String msg) {
-        Toast.makeText(context, msg, android.widget.Toast.LENGTH_LONG).show();
-    }
-
-    public static void toast(Context context, int msgId) {
-        if (context != null) {
-            toast(context, context.getString(msgId));
-        }
-    }
+    fun update()
 }

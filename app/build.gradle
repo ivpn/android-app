@@ -179,8 +179,8 @@ kapt {
 }
 
 dependencies {
-    def nav_version = "2.3.2"
-    def lifecycle_version = "2.2.0"
+    def nav_version = "2.3.3"
+    def lifecycle_version = "2.3.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -259,8 +259,8 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 }
 
 repositories {

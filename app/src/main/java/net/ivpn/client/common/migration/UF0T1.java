@@ -29,7 +29,7 @@ import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 
 import java.util.Set;
 
-public class UF0T1 {
+public class UF0T1 implements Update {
 
     private static final String TAG = UF0T1.class.getSimpleName();
 

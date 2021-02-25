@@ -80,7 +80,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     override fun onResume() {
         super.onResume()
         account.onResume()
-        account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
+        account.drawQR(resources.getColor(R.color.account_qr_foreground), resources.getColor(R.color.account_qr_background), binding.contentLayout.qr.width)
+//        account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
     }
 
     override fun onStart() {
@@ -128,7 +129,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     private fun copyAccountId() {
         account.username.get()?.let { userId ->
-            val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 

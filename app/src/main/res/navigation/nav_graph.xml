@@ -108,7 +108,7 @@
     <fragment
         android:id="@+id/serverListFragment"
         android:name="net.ivpn.client.v2.serverlist.ServerListTabFragment"
-        android:label="ServerListFragment">
+        android:label=" ">
         <argument
             android:name="serverType"
             android:defaultValue="ENTRY"

@@ -1,4 +1,4 @@
-package net.ivpn.client.common.utils;
+package net.ivpn.client.common.migration
 
 /*
  IVPN Android app
@@ -22,30 +22,24 @@ package net.ivpn.client.common.utils;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.content.Context;
-import android.widget.Toast;
+import net.ivpn.client.common.prefs.EncryptedUserPreference
+import net.ivpn.client.vpn.Protocol
+import net.ivpn.client.vpn.ProtocolController
 
-import net.ivpn.client.IVPNApplication;
+class UF1T2(val userPreference: EncryptedUserPreference,
+            private val protocolController: ProtocolController
+): Update {
 
-public class ToastUtil {
-
-    public static void toast(String msg) {
-        Context context = IVPNApplication.getApplication();
-        toast(context, msg);
-    }
-
-    public static void toast(int msgId) {
-        Context context = IVPNApplication.getApplication();
-        toast(context, context.getString(msgId));
-    }
-
-    public static void toast(Context context, String msg) {
-        Toast.makeText(context, msg, android.widget.Toast.LENGTH_LONG).show();
-    }
-
-    public static void toast(Context context, int msgId) {
-        if (context != null) {
-            toast(context, context.getString(msgId));
+    override fun update() {
+        println("Perform UF1T2")
+        if (userPreference.getSessionToken().isEmpty()) {
+            return
         }
+
+        if (protocolController.isProtocolSelected) {
+            return
+        }
+
+        protocolController.currentProtocol = Protocol.OPENVPN
     }
 }

@@ -622,6 +622,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun openEnterServerSelectionScreen() {
+        println("backstack openEnterServerSelectionScreen")
         val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
         navigate(action)
     }

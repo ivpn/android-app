@@ -128,6 +128,9 @@
     <color name="account_plan_details_background">#5183B5</color>
     <color name="account_plan_details_text">#FFFFFF</color>
 
+    <color name="account_qr_background">#FFFFFF</color>
+    <color name="account_qr_foreground">#121212</color>
+
     <color name="tab_text_color">#99FFFFFF</color>
     <color name="tab_selected_text_color">#FFFFFF</color>
 

@@ -54,6 +54,11 @@ public class StickyPreference {
                 .apply();
     }
 
+    public boolean isProtocolSelected() {
+        SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
+        return sharedPreferences.contains(CURRENT_PROTOCOL);
+    }
+
     public String getNightMode() {
         SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
         return sharedPreferences.getString(SETTINGS_NIGHT_MODE, null);
