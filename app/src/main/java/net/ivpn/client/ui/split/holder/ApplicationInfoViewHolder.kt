@@ -32,17 +32,14 @@ class ApplicationInfoViewHolder(
         private val binding: ApplicationItemBinding,
         private val listener: OnApplicationItemAction
 ) : RecyclerView.ViewHolder(binding.root), CompoundButton.OnCheckedChangeListener {
-//    View.OnClickListener
 
     private var applicationItem: ApplicationItem? = null
 
     fun bind(applicationItem: ApplicationItem) {
         this.applicationItem = applicationItem
         binding.application = applicationItem
-//        val isChecked = !disallowedApps.contains(applicationItem.packageName)
         binding.checkbox.isChecked = applicationItem.isAllowed
         binding.checkbox.setOnCheckedChangeListener(this)
-//        binding.contentLayout.setOnClickListener(this)
         binding.executePendingBindings()
     }
 
@@ -52,9 +49,4 @@ class ApplicationInfoViewHolder(
             listener.onApplicationStateChanged(it, isSelected)
         }
     }
-
-//    override fun onClick(view: View) {
-//        val isNotAllowed = disallowedApps.contains(applicationItem!!.packageName)
-//        binding.checkbox.isChecked = isNotAllowed
-//    }
 }

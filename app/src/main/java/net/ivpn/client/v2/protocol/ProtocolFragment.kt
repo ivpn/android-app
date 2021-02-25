@@ -108,7 +108,6 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
     private fun openWireGuardDetails() {
         val action = ProtocolFragmentDirections.actionProtocolFragmentToWireGuardDetailsFragment()
         navigate(action)
-//        DialogBuilder.createWireGuardDetailsDialog(context, viewModel.wireGuardInfo, this)
     }
 
     override fun notifyUser(msgId: Int, actionId: Int, listener: View.OnClickListener?) {

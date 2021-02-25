@@ -127,9 +127,7 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
     }
 
     fun navigateBack() {
-        println("backstack Server list tab fragment navigateBack called")
         val navController = findNavControllerSafely()
-        println("backstack navController = $navController")
         navController?.popBackStack()
     }
 

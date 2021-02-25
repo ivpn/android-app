@@ -91,9 +91,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     @Inject
     lateinit var antiTracker: AntiTrackerViewModel
 
-//    @Inject
-//    lateinit var killSwitch: KillSwitchViewModel
-
     @Inject
     lateinit var logging: LoggingViewModel
 
@@ -426,46 +423,9 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         navigate(action)
     }
 
-//    private fun checkVPNPermission(requestCode: Int) {
-//        val intent: Intent?
-//        intent = try {
-//            VpnService.prepare(context)
-//        } catch (exception: Exception) {
-//            exception.printStackTrace()
-//            DialogBuilder.createNotificationDialog(context, Dialogs.FIRMWARE_ERROR)
-//            return
-//        }
-//        if (intent != null) {
-//            try {
-//                startActivityForResult(intent, requestCode)
-//            } catch (exception: ActivityNotFoundException) {
-//                LOGGER.info("startVpnFromIntent: intent != null, ActivityNotFoundException")
-//            }
-//        } else {
-//            onActivityResult(requestCode, Activity.RESULT_OK, null)
-//        }
-//    }
-
     private fun notifyUser(msgId: Int) {
         ToastUtil.toast(context, msgId)
     }
-
-//    override fun enableAdvancedKillSwitchDialog(enable: Boolean) {
-//        LOGGER.info("enableAdvancedKillSwitchDialog")
-//        killSwitch.enableAdvancedKillSwitchDialog(enable)
-//    }
-
-//    @SuppressLint("InlinedApi")
-//    override fun openDeviceSettings() {
-//        LOGGER.info("openDeviceSettings")
-//        if (killSwitch.isAdvancedModeSupported) {
-//            try {
-//                startActivity(Intent(Settings.ACTION_VPN_SETTINGS))
-//            } catch (exception: ActivityNotFoundException) {
-//                DialogBuilder.createNotificationDialog(context, Dialogs.NO_VPN_SETTINGS)
-//            }
-//        }
-//    }
 
     override fun onNightModeChanged(mode: NightMode?) {
         if (mode == null) {

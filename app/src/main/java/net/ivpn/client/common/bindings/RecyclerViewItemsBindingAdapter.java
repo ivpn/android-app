@@ -78,22 +78,6 @@ public class RecyclerViewItemsBindingAdapter {
         }
     }
 
-//    @BindingAdapter("app:apps")
-//    public static void setApplicationsList(RecyclerView recyclerView, ArrayList<ApplicationItem> apps) {
-//        SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
-//        if (adapter != null) {
-//            adapter.setApplicationsInfoList(apps);
-//        }
-//    }
-//
-//    @BindingAdapter("app:not_allowed_apps")
-//    public static void setNotAllowedAppsList(RecyclerView recyclerView, ArrayList<String> notAllowedApps) {
-//        SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();
-//        if (adapter != null) {
-//            adapter.setDisallowedApps(notAllowedApps);
-//        }
-//    }
-
     @BindingAdapter({"apps", "not_allowed_apps"})
     public static void setAppsList(RecyclerView recyclerView, ArrayList<ApplicationItem> apps, ArrayList<String> notAllowedApps) {
         SplitTunnelingRecyclerViewAdapter adapter = (SplitTunnelingRecyclerViewAdapter) recyclerView.getAdapter();

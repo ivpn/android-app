@@ -1,11 +1,5 @@
 package net.ivpn.client.common.migration
 
-import net.ivpn.client.common.dagger.ApplicationScope
-import net.ivpn.client.common.prefs.*
-import net.ivpn.client.vpn.ProtocolController
-import org.slf4j.LoggerFactory
-import javax.inject.Inject
-
 /*
 IVPN Android app
 https://github.com/ivpn/android-app
@@ -28,6 +22,15 @@ You should have received a copy of the GNU General Public License
 along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.client.common.dagger.ApplicationScope
+import net.ivpn.client.common.prefs.EncryptedSettingsPreference
+import net.ivpn.client.common.prefs.EncryptedUserPreference
+import net.ivpn.client.common.prefs.NetworkProtectionPreference
+import net.ivpn.client.common.prefs.Preference
+import net.ivpn.client.vpn.ProtocolController
+import org.slf4j.LoggerFactory
+import javax.inject.Inject
+
 @ApplicationScope
 class MigrationController @Inject constructor(
         private val userPreference: EncryptedUserPreference,
@@ -48,11 +51,6 @@ class MigrationController @Inject constructor(
             }
             return
         }
-//        if (isLogicVersionExist && currentVersion == Preference.LAST_LOGIC_VERSION) {
-//            //We are up-to-date
-//            LOGGER.info("checkForUpdates: we are up-to-date")
-//            return
-//        }
         applyAllUpdates(currentVersion, Preference.LAST_LOGIC_VERSION)
     }
 

@@ -302,20 +302,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-<!--                <androidx.appcompat.widget.SwitchCompat-->
-<!--                    android:id="@+id/antitracker_switch"-->
-<!--                    android:layout_width="48dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:checked="@{killSwitch.isEnabled}"-->
-<!--                    android:thumb="@drawable/common_thumb_selector"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/textView3"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/textView3"-->
-<!--                    app:onChanged="@{killSwitch.enableKillSwitch}"-->
-<!--                    app:onTouch="@{killSwitch.touchListener}"-->
-<!--                    app:track="@drawable/common_track_selector" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
