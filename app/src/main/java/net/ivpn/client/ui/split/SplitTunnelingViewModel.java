@@ -32,7 +32,7 @@ import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableList;
 
 import net.ivpn.client.common.prefs.PackagesPreference;
-import net.ivpn.client.ui.split.data.ApplicationItem;
+import net.ivpn.client.ui.split.items.ApplicationItem;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -45,8 +45,8 @@ public class SplitTunnelingViewModel {
 
     public final ObservableBoolean dataLoading = new ObservableBoolean();
     public final ObservableBoolean isAllItemsAllowed = new ObservableBoolean();
-    public final ObservableList<ApplicationItem> apps = new ObservableArrayList<>();
-    public final ObservableList<String> disallowedApps = new ObservableArrayList<String>();
+    public final ObservableArrayList<ApplicationItem> apps = new ObservableArrayList<>();
+    public final ObservableArrayList<String> disallowedApps = new ObservableArrayList<String>();
     public final ObservableField<SplitTunnelingRecyclerViewAdapter> adapter = new ObservableField<>();
     public final OnApplicationItemSelectionChangedListener selectionChangedListener = new OnApplicationItemSelectionChangedListener() {
         @Override

@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="location"
@@ -26,8 +26,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -39,39 +38,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
-                app:locations="@{location.locations}"
                 app:connectionState="@{connection.connectionState}"
-                app:gateway="@{servers.mapServer}"/>
+                app:gateway="@{servers.mapServer}"
+                app:locations="@{location.locations}" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/account_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_gravity="top|start"
-                app:tint="@color/connect_map_fab_icon"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_account"
                 app:backgroundTint="@color/connect_fab_background"
-                android:src="@drawable/ic_account"/>
+                app:tint="@color/connect_map_fab_icon" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/settings_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_gravity="top|end"
-                app:tint="@color/connect_map_fab_icon"
+                android:src="@drawable/ic_settings_fab"
                 app:backgroundTint="@color/connect_fab_background"
-                android:src="@drawable/ic_settings_fab"/>
+                app:tint="@color/connect_map_fab_icon" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/center_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_crosshair"
                 app:backgroundTint="@color/connect_fab_background"
                 app:tint="@color/connect_map_fab_icon" />
@@ -80,139 +79,140 @@
                 android:id="@+id/alerts_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/map_alert_vertical_margin"
-                android:elevation="12dp"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_gravity="bottom">
+                android:layout_marginBottom="@dimen/map_alert_vertical_margin"
+                android:elevation="12dp">
 
                 <LinearLayout
                     android:id="@+id/expire_in_days_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/map_alert_height"
-                    android:orientation="horizontal"
-                    android:visibility="@{account.isExpiredIn() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/alerts_background"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="@{account.isExpiredIn() ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_alert_triangle"/>
+                        android:src="@drawable/ic_alert_triangle" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/alerts_text"
-                        android:textSize="12sp"
                         android:letterSpacing="-0.03"
-                        android:text="@{account.textIsExpiredIn}"/>
+                        android:text="@{account.textIsExpiredIn}"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/renew_2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Renew"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:textColor="@color/alerts_text"
+                        android:gravity="center"
                         android:letterSpacing="-0.03"
-                        android:textAllCaps="true"/>
+                        android:paddingHorizontal="16dp"
+                        android:text="Renew"
+                        android:textAllCaps="true"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/expired_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/map_alert_height"
-                    android:orientation="horizontal"
-                    android:visibility="@{account.isExpired() ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/alerts_background"
                     android:gravity="center_vertical"
-                    android:background="@drawable/alerts_background">
+                    android:orientation="horizontal"
+                    android:visibility="@{account.isExpired() ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_alert_triangle"/>
+                        android:src="@drawable/ic_alert_triangle" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/alerts_text"
-                        android:textSize="12sp"
                         android:letterSpacing="-0.03"
-                        android:text="Subscription is expired"/>
+                        android:text="Subscription is expired"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/renew_1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Renew"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:textColor="@color/alerts_text"
+                        android:gravity="center"
                         android:letterSpacing="-0.03"
-                        android:textAllCaps="true"/>
+                        android:paddingHorizontal="16dp"
+                        android:text="Renew"
+                        android:textAllCaps="true"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/api_error_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/map_alert_height"
-                    android:orientation="horizontal"
-                    android:visibility="@{location.isLocationAPIError ? View.VISIBLE : View.GONE}"
                     android:layout_gravity="center_vertical"
+                    android:background="@drawable/alerts_background"
                     android:gravity="center_vertical"
-                    android:background="@drawable/alerts_background">
+                    android:orientation="horizontal"
+                    android:visibility="@{location.isLocationAPIError ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_alert_triangle"/>
+                        android:src="@drawable/ic_alert_triangle" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/alerts_text"
-                        android:textSize="12sp"
                         android:letterSpacing="-0.03"
-                        android:text="Loading connection info failed"/>
+                        android:text="Loading connection info failed"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Retry"
-                        android:textSize="12sp"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:onClick="@{() -> location.checkLocation()}"
-                        android:textColor="@color/alerts_text"
+                        android:gravity="center"
                         android:letterSpacing="-0.03"
-                        android:textAllCaps="true"/>
+                        android:onClick="@{() -> location.checkLocation()}"
+                        android:paddingHorizontal="16dp"
+                        android:text="Retry"
+                        android:textAllCaps="true"
+                        android:textColor="@color/alerts_text"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </FrameLayout>
         </FrameLayout>
 
-        <include android:id="@+id/sliding_panel"
-            layout="@layout/view_sliding_panel"/>
+        <include
+            android:id="@+id/sliding_panel"
+            layout="@layout/view_sliding_panel" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

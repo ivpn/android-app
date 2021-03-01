@@ -34,7 +34,7 @@ import net.ivpn.client.common.utils.BitmapUtil
 import net.ivpn.client.common.utils.BitmapUtil.invertColors
 import net.ivpn.client.common.utils.BitmapUtil.toGrayscale
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.split.data.ApplicationItem
+import net.ivpn.client.ui.split.items.ApplicationItem
 import java.io.File
 import java.io.IOException
 
@@ -81,7 +81,7 @@ fun setImageResource(imageView: ImageView, server: Server?) {
     }
 }
 
-@BindingAdapter("android:src")
+@BindingAdapter("app:src")
 fun setImageResource(imageView: ImageView, info: ApplicationItem?) {
     if (info == null) return
     imageView.setImageDrawable(info.icon)

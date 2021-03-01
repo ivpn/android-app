@@ -64,8 +64,12 @@ fun Fragment.navigate(destination: NavDirections) {
     }
 }
 
+var timeGap = 300
+var lastAccessTime = 0L
 fun Fragment.findNavControllerSafely(): NavController? {
-    return if (isAdded) {
+    val accessTime = System.currentTimeMillis()
+    return if (isAdded && (accessTime - lastAccessTime > timeGap)) {
+        lastAccessTime = accessTime
         findNavController()
     } else {
         null

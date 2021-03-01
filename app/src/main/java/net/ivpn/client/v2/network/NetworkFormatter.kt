@@ -54,7 +54,7 @@ class NetworkStateFormatter(val context: Context) {
         source?.let { sourceObj ->
             ssid?.let { ssidObj ->
                 println("sourceObj.ssid = ${sourceObj.ssid} ssidObj = $ssidObj")
-                println("return ${sourceObj == NetworkSource.WIFI && ssidObj == sourceObj.ssid}")
+                println("return ${sourceObj == NetworkSource.WIFI && ssidObj == StringUtil.formatWifiSSID(sourceObj.ssid)}")
                 return sourceObj == NetworkSource.WIFI && ssidObj == StringUtil.formatWifiSSID(sourceObj.ssid)
             } ?: return false
         } ?: return false

@@ -330,7 +330,7 @@ public class GlobalBehaviorController implements ServiceConstants {
                 vpnBehaviorController.connectActionByRules();
                 break;
             case APP_SETTINGS_ACTION:
-                openSettings();
+                openKillSwitchSettings();
                 break;
             case STOP_KILL_SWITCH_ACTION:
                 stopKillSwitch();
@@ -338,10 +338,10 @@ public class GlobalBehaviorController implements ServiceConstants {
         }
     }
 
-    private void openSettings() {
+    private void openKillSwitchSettings() {
         new NavDeepLinkBuilder(IVPNApplication.getApplication())
                 .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.settingsFragment).createTaskStackBuilder().startActivities();
+                .setDestination(R.id.killSwitchFragment).createTaskStackBuilder().startActivities();
     }
 
     private boolean isKillSwitchEnabled() {

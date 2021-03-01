@@ -60,7 +60,7 @@ public class HttpClientFactory {
         httpClientBuilder.hostnameVerifier(getHostnameVerifier());
         httpClientBuilder.certificatePinner(getCertificatePinner());
         httpClientBuilder.readTimeout(timeOut, TimeUnit.SECONDS);
-        httpClientBuilder.connectTimeout(3, TimeUnit.SECONDS);
+        httpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS);
 
         return httpClientBuilder.build();
     }

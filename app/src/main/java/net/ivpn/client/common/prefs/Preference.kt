@@ -35,7 +35,7 @@ import javax.inject.Inject
 class Preference @Inject constructor() {
 
     companion object {
-        const val LAST_LOGIC_VERSION = 1
+        const val LAST_LOGIC_VERSION = 2
         private const val CURRENT_LOGIC_VERSION = "CURRENT_LOGIC_VERSION"
         private const val COMMON_PREF = "COMMON_PREF"
         private const val TRUSTED_WIFI_PREF = "TRUSTED_WIFI_PREF"

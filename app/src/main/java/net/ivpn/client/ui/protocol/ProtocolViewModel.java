@@ -38,7 +38,7 @@ import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.rest.Responses;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
 import net.ivpn.client.ui.dialog.Dialogs;
-import net.ivpn.client.ui.protocol.dialog.WireGuardDialogInfo;
+import net.ivpn.client.ui.protocol.dialog.WireGuardInfo;
 import net.ivpn.client.ui.protocol.port.OnPortSelectedListener;
 import net.ivpn.client.ui.protocol.port.Port;
 import net.ivpn.client.ui.protocol.view.OnValueChangeListener;
@@ -66,6 +66,8 @@ public class ProtocolViewModel {
     public ObservableField<Port> openVPNPort = new ObservableField<>();
     public ObservableField<Port> wireGuardPort = new ObservableField<>();
     public ObservableField<String> regenerationPeriod = new ObservableField<>();
+
+    public ObservableField<WireGuardInfo> wgInfo = new ObservableField<>();
 
     private ProtocolNavigator navigator;
     private String wireGuardPublicKey;
@@ -129,10 +131,11 @@ public class ProtocolViewModel {
 
         wireGuardPublicKey = settings.getWireGuardPublicKey();
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
+
+        wgInfo.set(getWireGuardInfo());
     }
 
     public void reset() {
-
     }
 
     public void setNavigator(ProtocolNavigator navigator) {
@@ -145,17 +148,17 @@ public class ProtocolViewModel {
     }
 
     public void copyWgIpToClipboard(ClipboardManager clipboard) {
-        ClipData clip = ClipData.newPlainText("wireguard_ip", wireGuardPublicKey);
+        ClipData clip = ClipData.newPlainText("wireguard_ip", settings.getWireGuardIpAddress());
         clipboard.setPrimaryClip(clip);
     }
 
-    public WireGuardDialogInfo getWireGuardInfo() {
+    public WireGuardInfo getWireGuardInfo() {
         String ipAddress = settings.getWireGuardIpAddress();
 
         long regenerationPeriod = keyController.getRegenerationPeriod();
         long lastGeneratedTime = settings.getGenerationTime();
 
-        return new WireGuardDialogInfo(wireGuardPublicKey, ipAddress, lastGeneratedTime, regenerationPeriod);
+        return new WireGuardInfo(wireGuardPublicKey, ipAddress, lastGeneratedTime, regenerationPeriod);
     }
 
     public String getDescription() {
@@ -235,6 +238,7 @@ public class ProtocolViewModel {
             public void onKeyGenerating() {
                 LOGGER.info("onKeyGenerating");
                 dataLoading.set(true);
+//                wgInfo.set(getWireGuardInfo());
                 loadingMessage.set(context.getString(R.string.protocol_generating_and_uploading_key));
             }
 
@@ -244,6 +248,7 @@ public class ProtocolViewModel {
                 dataLoading.set(false);
                 setProtocol(Protocol.WIREGUARD);
                 wireGuardPublicKey = settings.getWireGuardPublicKey();
+                wgInfo.set(getWireGuardInfo());
             }
 
             @Override

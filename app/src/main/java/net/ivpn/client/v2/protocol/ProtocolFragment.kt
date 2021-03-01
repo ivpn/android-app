@@ -22,8 +22,6 @@ package net.ivpn.client.v2.protocol
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.content.ClipboardManager
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,21 +34,21 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.SnackbarUtil
-import net.ivpn.client.common.utils.ToastUtil
+import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentProtocolBinding
 import net.ivpn.client.ui.dialog.DialogBuilder
 import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.protocol.ProtocolNavigator
 import net.ivpn.client.ui.protocol.ProtocolViewModel
-import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.client.ui.protocol.port.Port
 import net.ivpn.client.ui.protocol.port.PortAdapter
 import net.ivpn.client.v2.MainActivity
+import net.ivpn.client.v2.settings.SettingsFragmentDirections
 import net.ivpn.client.vpn.Protocol
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogListener {
+class ProtocolFragment : Fragment(), ProtocolNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ProtocolFragment::class.java)
@@ -79,6 +77,8 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
 
     override fun onStart() {
         super.onStart()
+
+        viewModel.setNavigator(this)
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
@@ -87,14 +87,13 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
     }
 
     private fun initViews() {
-        viewModel.setNavigator(this)
         binding.contentLayout.viewmodel = viewModel
         val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN))
-        binding.contentLayout.protocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
+        binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
         val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD))
-        binding.contentLayout.protocolSettings.wgSpinner.adapter = wgVpnPortAdapter
+        binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
 
-        binding.contentLayout.protocolSettings.wireguardDetails.setOnClickListener {
+        binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
             openWireGuardDetails()
         }
     }
@@ -106,8 +105,9 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    fun openWireGuardDetails() {
-        DialogBuilder.createWireGuardDetailsDialog(context, viewModel.wireGuardInfo, this)
+    private fun openWireGuardDetails() {
+        val action = ProtocolFragmentDirections.actionProtocolFragmentToWireGuardDetailsFragment()
+        navigate(action)
     }
 
     override fun notifyUser(msgId: Int, actionId: Int, listener: View.OnClickListener?) {
@@ -120,22 +120,5 @@ class ProtocolFragment : Fragment(), ProtocolNavigator, WireGuardDetailsDialogLi
 
     override fun openCustomDialogueError(title: String?, message: String?) {
         DialogBuilder.createFullCustomNotificationDialog(context, title, message)
-    }
-
-    override fun reGenerateKeys() {
-        LOGGER.info("Regenerating WireGuard keys")
-        viewModel.reGenerateKeys()
-    }
-
-    override fun copyPublicKeyToClipboard() {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        viewModel.copyWgKeyToClipboard(clipboard)
-        ToastUtil.toast(R.string.protocol_wg_public_key_copied)
-    }
-
-    override fun copyIpAddressToClipboard() {
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        viewModel.copyWgIpToClipboard(clipboard)
-        ToastUtil.toast(R.string.protocol_wg_ip_address_copied)
     }
 }

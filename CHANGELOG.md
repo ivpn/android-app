@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.3.0 - 2021-02-25
+
+[NEW] Possibility to establish VPN connection via Android Quick Setting Tile  
+[NEW] Search on the Split tunneling screen  
+[NEW] Application icon  
+[IMPROVED] Kill switch user interface  
+[IMPROVED] WireGuard is now default protocol  
+
 ## Version 2.2.0 - 2021-01-29
 
 [NEW] Updated Privacy Policy and Terms of Service  

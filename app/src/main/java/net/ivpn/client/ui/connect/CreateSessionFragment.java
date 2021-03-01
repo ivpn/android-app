@@ -50,7 +50,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getParentFragment() instanceof LoginFragment) {
             navigator = (CreateSessionNavigator) getParentFragment();

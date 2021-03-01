@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -89,21 +89,60 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}"
-                android:background="@color/color_section_divider" />
+                android:background="@color/color_section_divider"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/entry_random_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="@{servers.entryRandomServer ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:layout_editor_absoluteX="4dp">
+
+                <ImageView
+                    android:id="@+id/entry_random_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/content_description_entry_server_flag"
+                    android:src="@drawable/ic_shuffle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/settings_option_description_text" />
+
+                <TextView
+                    android:id="@+id/entry_random_label"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@{multihop.isEnabled() ? @string/connect_random_entry_server : @string/connect_random_server}"
+                    app:layout_constraintBottom_toBottomOf="@+id/entry_random_image"
+                    app:layout_constraintStart_toEndOf="@+id/entry_random_image"
+                    app:layout_constraintTop_toTopOf="@+id/entry_random_image" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{servers.fastestServer ? View.GONE : View.VISIBLE}">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/entry_server_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_section_height"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="@{servers.entryServerVisibility ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="@dimen/settings_icon_size"
@@ -150,13 +189,55 @@
                     android:background="@color/color_section_divider"
                     android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fastest_server_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:layout_width="@dimen/settings_icon_size"
+                    android:layout_height="@dimen/settings_icon_size"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:src="@drawable/ic_fastest_server"
+                    app:tint="@color/settings_option_description_text" />
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@string/connect_fastest_server" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}">
+
                 <LinearLayout
                     android:id="@+id/exit_server_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="85dp"
+                    android:layout_height="@dimen/settings_section_height"
                     android:gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:orientation="horizontal"
-                    android:visibility="@{multihop.isEnabled()  ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{servers.exitServerVisibility ? View.VISIBLE : View.GONE}">
 
                     <ImageView
                         android:layout_width="@dimen/settings_icon_size"
@@ -195,35 +276,44 @@
                         android:textSize="15sp"
                         android:textStyle="normal" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/fastest_server_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/settings_section_height"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exit_random_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_section_height"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="@{servers.exitRandomServer ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="4dp">
 
-                <ImageView
-                    android:layout_width="@dimen/settings_icon_size"
-                    android:layout_height="@dimen/settings_icon_size"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:tint="@color/settings_option_description_text"
-                    android:src="@drawable/ic_fastest_server" />
+                    <ImageView
+                        android:id="@+id/exit_random_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:contentDescription="@string/content_description_entry_server_flag"
+                        android:src="@drawable/ic_shuffle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/settings_option_description_text" />
 
-                <TextView
-                    style="@style/SettingsOptionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:text="@string/connect_fastest_server" />
+                    <TextView
+                        android:id="@+id/exit_random_label"
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:text="@string/connect_random_exit_server"
+                        app:layout_constraintBottom_toBottomOf="@+id/exit_random_image"
+                        app:layout_constraintStart_toEndOf="@+id/exit_random_image"
+                        app:layout_constraintTop_toTopOf="@+id/exit_random_image" />
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <View
                 android:layout_width="match_parent"

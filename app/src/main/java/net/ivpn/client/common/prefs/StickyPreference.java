@@ -44,7 +44,7 @@ public class StickyPreference {
 
     public String getCurrentProtocol() {
         SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
-        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.OPENVPN.name());
+        return sharedPreferences.getString(CURRENT_PROTOCOL, Protocol.WIREGUARD.name());
     }
 
     public void putCurrentProtocol(Protocol protocol) {
@@ -52,6 +52,11 @@ public class StickyPreference {
         sharedPreferences.edit()
                 .putString(CURRENT_PROTOCOL, protocol.name())
                 .apply();
+    }
+
+    public boolean isProtocolSelected() {
+        SharedPreferences sharedPreferences = preference.getStickySharedPreferences();
+        return sharedPreferences.contains(CURRENT_PROTOCOL);
     }
 
     public String getNightMode() {

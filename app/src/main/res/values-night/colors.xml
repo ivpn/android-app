@@ -18,6 +18,7 @@
     <color name="color_settings_background">#000000</color>
 
     <color name="color_toolbar">#292929</color>
+    <color name="color_status_bar">#398FE6</color>
     <color name="colorPrimary">#398FE6</color>
     <color name="colorPrimaryDark">#1c1c1c</color>
     <color name="dialogScrim">#80bebebe</color>
@@ -67,7 +68,8 @@
     <color name="color_section_divider">#2B8B9AAB</color>
 
     <!--Split Tunneling-->
-    <color name="split_item_background">#121212</color>
+    <color name="split_item_card_background">#202020</color>
+    <color name="split_item_background">#060606</color>
     <color name="split_text_color">#DEFFFFFF</color>
     <color name="split_line_color">#2B8B9AAB</color>
 
@@ -125,6 +127,9 @@
     <color name="account_logout">#99FFFFFF</color>
     <color name="account_plan_details_background">#5183B5</color>
     <color name="account_plan_details_text">#FFFFFF</color>
+
+    <color name="account_qr_background">#FFFFFF</color>
+    <color name="account_qr_foreground">#121212</color>
 
     <color name="tab_text_color">#99FFFFFF</color>
     <color name="tab_selected_text_color">#FFFFFF</color>

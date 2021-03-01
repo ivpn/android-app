@@ -30,8 +30,8 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:background="@color/protocol_background"
-                    android:layout_height="@dimen/settings_sections_inner_margin" />
+                    android:layout_height="@dimen/settings_sections_inner_margin"
+                    android:background="@color/protocol_background" />
 
                 <include
                     android:id="@+id/protocol_selection"
@@ -41,27 +41,50 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_sections_inner_margin"
-                    android:background="@color/protocol_background"/>
+                    android:background="@color/protocol_background" />
 
                 <include
-                    android:id="@+id/protocol_settings"
-                    layout="@layout/protocol_section_settings"
+                    android:id="@+id/wg_protocol_settings"
+                    layout="@layout/protocol_wireguard_section_settings"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}"
+                    app:viewmodel="@{viewmodel}" />
+
+                <include
+                    android:id="@+id/openvpn_protocol_settings"
+                    layout="@layout/protocol_openvpn_section_settings"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
                     app:viewmodel="@{viewmodel}" />
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_sections_inner_margin"
-                    android:background="@color/protocol_background"/>
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
+                    android:background="@color/color_settings_background" />
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_settings_background"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="12dp"
+                        android:text="@string/protocol_wg_key_rotation_description" />
+
+                </FrameLayout>
             </LinearLayout>
         </ScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/color_opacity_black_background"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/color_opacity_black_background"
             android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
 
             <LinearLayout
@@ -81,9 +104,9 @@
                     style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
                     android:gravity="center"
                     android:text="@{viewmodel.loadingMessage}" />
             </LinearLayout>

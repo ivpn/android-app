@@ -8,14 +8,14 @@
 
         <variable
             name="application"
-            type="net.ivpn.client.ui.split.data.ApplicationItem" />
+            type="net.ivpn.client.ui.split.items.ApplicationItem" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/split_item_background">
+        android:background="@color/split_item_card_background">
 
         <LinearLayout
             android:id="@+id/content_layout"
@@ -32,7 +32,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="16dp"
-                android:src="@{application}" />
+                app:src="@{application}" />
 
             <TextView
                 android:id="@+id/enter_server_description"
