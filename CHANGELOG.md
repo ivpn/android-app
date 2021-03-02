@@ -2,13 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.3.0 - 2021-02-25
+## Version 2.3.0(2.3.1) - 2021-02-25
 
 [NEW] Possibility to establish VPN connection via Android Quick Setting Tile  
 [NEW] Search on the Split tunneling screen  
 [NEW] Application icon  
 [IMPROVED] Kill switch user interface  
 [IMPROVED] WireGuard is now default protocol  
+
+[Download IVPN Client v. 2.3.0](https://cdn.ivpn.net/releases/android/IVPNv2.3.0site.apk)
+SHA256: bdad20ef620d6725c9339bf8ad74f65075cd684be75deb8efb026bb92c023567
 
 ## Version 2.2.0 - 2021-01-29
 
