@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.system.OsConstants;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -23,8 +24,11 @@ import com.wireguard.android.model.Tunnel.State;
 import com.wireguard.android.util.SharedLibraryLoader;
 
 import net.ivpn.client.IVPNApplication;
+import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.PackagesPreference;
+import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.vpn.NetworkUtils;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
 
@@ -32,11 +36,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -44,10 +47,8 @@ import java.util.concurrent.TimeoutException;
 
 import javax.inject.Inject;
 
-import java9.util.concurrent.CompletableFuture;
-import kotlinx.coroutines.Dispatchers;
-
-import static kotlinx.coroutines.BuildersKt.withContext;
+import de.blinkt.openvpn.core.CIDRIP;
+import de.blinkt.openvpn.core.NetworkSpace;
 
 @ApplicationScope
 public final class GoBackend implements Backend {
@@ -58,6 +59,7 @@ public final class GoBackend implements Backend {
     private final Context context;
     private VpnBehaviorController vpnBehaviorController;
     private PackagesPreference packagesPreference;
+    private Settings settings;
 
     @Nullable
     private Tunnel currentTunnel;
@@ -67,12 +69,13 @@ public final class GoBackend implements Backend {
 
     @Inject
     GoBackend(Context context, VpnBehaviorController vpnBehaviorController,
-              PackagesPreference packagesPreference) {
+              PackagesPreference packagesPreference, Settings settings) {
         LOGGER.info("init");
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go");
         this.context = context;
         this.packagesPreference = packagesPreference;
         this.vpnBehaviorController = vpnBehaviorController;
+        this.settings = settings;
 
         LOGGER.info("end init");
     }
@@ -123,6 +126,8 @@ public final class GoBackend implements Backend {
                 LOGGER.info("Start connection config");
                 setStateInternal(tunnel, config, state);
             } catch (final Exception e) {
+                e.printStackTrace();
+                Log.d("Crash", "setState: " );
                 if (originalTunnel != null)
                     setStateInternal(originalTunnel, originalConfig, State.UP);
                 throw e;
@@ -132,6 +137,77 @@ public final class GoBackend implements Backend {
             setStateInternal(tunnel, null, State.DOWN);
         }
         return getState(tunnel);
+    }
+
+    private static final String IPV6DEFAULT = "2000::";
+    private static final int IPV6MASK = 3;
+    private void fillRoutes(Config config, WireGuardVpnService.Builder builder) {
+//        boolean sawDefaultRoute = false;
+//        for (final Peer peer : config.getPeers()) {
+//            for (final InetNetwork address : peer.getAllowedIPs()) {
+//                if (address.getMask() == 0)
+//                    sawDefaultRoute = true;
+//                builder.addRoute(address.getAddress(), address.getMask());
+//            }
+//        }
+
+        NetworkSpace routes = getRoutes();
+        Collection<NetworkSpace.ipAddress> positiveIPv4Routes = routes.getPositiveIPList();
+        NetworkSpace.ipAddress multiCastRange = new NetworkSpace.ipAddress(new CIDRIP("224.0.0.0", 3), true);
+
+        NetworkSpace routesV6 = new NetworkSpace();
+//        routesV6.addIP(new CIDRIP("::", "0"), true);
+        Collection<NetworkSpace.ipAddress> positiveIPv6Routes = routesV6.getPositiveIPList();
+
+        for (NetworkSpace.ipAddress route : positiveIPv4Routes) {
+            try {
+                if (!multiCastRange.containsNet(route)) {
+//                    LOGGER.debug(String.format(getString(R.string.ignore_multicast_route), route.toString()));
+                    builder.addRoute(route.getIPv4Address(), route.networkMask);
+                }
+            } catch (IllegalArgumentException ia) {
+                LOGGER.error(context.getString(R.string.route_rejected) + route + " " + ia.getLocalizedMessage());
+            }
+        }
+        for (NetworkSpace.ipAddress route6 : positiveIPv6Routes) {
+            try {
+                builder.addRoute(route6.getIPv6Address(), route6.networkMask);
+            } catch (IllegalArgumentException ia) {
+                LOGGER.error(context.getString(R.string.route_rejected) + route6 + " " + ia.getLocalizedMessage());
+            }
+        }
+        if (positiveIPv6Routes.isEmpty()) {
+            try {
+                builder.addRoute(IPV6DEFAULT, IPV6MASK);
+            } catch (IllegalArgumentException ia) {
+                LOGGER.error(context.getString(R.string.route_rejected) + "2000::" + " " + ia.getLocalizedMessage());
+            }
+        }
+
+//        if (!(sawDefaultRoute && config.getPeers().size() == 1)) {
+            builder.allowFamily(OsConstants.AF_INET);
+            builder.allowFamily(OsConstants.AF_INET6);
+//        }
+    }
+
+    private NetworkSpace getRoutes() {
+        NetworkSpace routes = new NetworkSpace();
+        routes.addIP(new CIDRIP("0.0.0.0", "0.0.0.0"), true);
+        if (settings.isLocalBypassEnabled()) {
+            for (String net : NetworkUtils.getLocalNetworks(context, false)) {
+                String[] netParts = net.split("/");
+                String ipAddress = netParts[0];
+                int netMask = Integer.parseInt(netParts[1]);
+//            if (ipAddress.equals(localIP.mIp)) {
+//                continue;
+//            }
+
+//            if (mProfile.mAllowLocalLAN) {
+                routes.addIP(new CIDRIP(ipAddress, netMask), false);
+//            }
+            }
+        }
+        return routes;
     }
 
     private void setStateInternal(final Tunnel tunnel, @Nullable final Config config, final State state)
@@ -177,19 +253,21 @@ public final class GoBackend implements Backend {
             for (final InetAddress addr : config.getInterface().getDnses())
                 builder.addDnsServer(addr.getHostAddress());
 
-            boolean sawDefaultRoute = false;
-            for (final Peer peer : config.getPeers()) {
-                for (final InetNetwork addr : peer.getAllowedIPs()) {
-                    if (addr.getMask() == 0)
-                        sawDefaultRoute = true;
-                    builder.addRoute(addr.getAddress(), addr.getMask());
-                }
-            }
+            fillRoutes(config, builder);
 
-            if (!(sawDefaultRoute && config.getPeers().size() == 1)) {
-                builder.allowFamily(OsConstants.AF_INET);
-                builder.allowFamily(OsConstants.AF_INET6);
-            }
+//            boolean sawDefaultRoute = false;
+//            for (final Peer peer : config.getPeers()) {
+//                for (final InetNetwork addr : peer.getAllowedIPs()) {
+//                    if (addr.getMask() == 0)
+//                        sawDefaultRoute = true;
+//                    builder.addRoute(addr.getAddress(), addr.getMask());
+//                }
+//            }
+//
+//            if (!(sawDefaultRoute && config.getPeers().size() == 1)) {
+//                builder.allowFamily(OsConstants.AF_INET);
+//                builder.allowFamily(OsConstants.AF_INET6);
+//            }
 
             int mtu = config.getInterface().getMtu();
             if (mtu == 0)

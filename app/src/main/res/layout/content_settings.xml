@@ -41,6 +41,14 @@
         <variable
             name="colorTheme"
             type="net.ivpn.client.v2.viewmodel.ColorThemeViewModel" />
+
+        <variable
+            name="mocklocation"
+            type="net.ivpn.client.ui.mocklocation.MockLocationViewModel" />
+
+        <variable
+            name="localbypass"
+            type="net.ivpn.client.v2.viewmodel.BypassVpnViewModel" />
     </data>
 
     <FrameLayout
@@ -79,13 +87,31 @@
                         android:layout_height="@dimen/settings_sections_inner_margin" />
 
                     <include
+                        android:id="@+id/section_connectivity"
+                        layout="@layout/settings_section_connectivity"
+                        app:localbypass="@{localbypass}"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                    <include
                         android:id="@+id/section_other"
                         layout="@layout/settings_section_advanced"
                         app:alwaysOnVPN="@{alwaysOnVPN}"
                         app:antiTracker="@{antiTracker}"
                         app:killSwitch="@{killSwitch}"
-                        app:logging="@{logging}"
-                        app:startOnBoot="@{startOnBoot}" />
+                        app:startOnBoot="@{startOnBoot}"
+                        app:mocklocation="@{mocklocation}"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                    <include
+                        android:id="@+id/section_logging"
+                        layout="@layout/settings_section_logging"
+                        app:logging="@{logging}" />
 
                     <View
                         android:layout_width="match_parent"

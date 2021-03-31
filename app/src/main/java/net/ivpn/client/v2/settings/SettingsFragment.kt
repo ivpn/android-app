@@ -22,17 +22,13 @@ package net.ivpn.client.v2.settings
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
-import android.net.VpnService
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
@@ -51,18 +47,16 @@ import net.ivpn.client.common.nightmode.OnNightModeChangedListener
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSettingsBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
+import net.ivpn.client.ui.mocklocation.MockLocationNavigator
+import net.ivpn.client.ui.mocklocation.MockLocationViewModel
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
-import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
 
-class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator {
+class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator, MockLocationNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(SettingsFragment::class.java)
@@ -102,6 +96,12 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
     @Inject
     lateinit var signUp: SignUpViewModel
+
+    @Inject
+    lateinit var mockLocation: MockLocationViewModel
+
+    @Inject
+    lateinit var localBypass: BypassVpnViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -150,8 +150,11 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.updates = updates
         binding.contentLayout.logging = logging
         binding.contentLayout.colorTheme = colorTheme
+        binding.contentLayout.mocklocation = mockLocation
+        binding.contentLayout.localbypass = localBypass
 
         colorTheme.navigator = this
+        mockLocation.navigator = this
 
         initNavigation()
     }
@@ -176,7 +179,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
         }
-        binding.contentLayout.sectionOther.splitTunnelingLayout.setOnClickListener {
+        binding.contentLayout.sectionConnectivity.splitTunnelingLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
                 return@setOnClickListener
@@ -226,7 +229,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
             openProtocolScreen()
         }
-        binding.contentLayout.sectionOther.customDns.setOnClickListener {
+        binding.contentLayout.sectionConnectivity.customDns.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
                 return@setOnClickListener
@@ -267,7 +270,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.sectionAbout.checkUpdatesLayout.setOnClickListener {
             openUpdatesScreen()
         }
-        binding.contentLayout.sectionOther.sendLogsLayout.setOnClickListener {
+        binding.contentLayout.sectionLogging.sendLogsLayout.setOnClickListener {
             sendLogs()
         }
         binding.contentLayout.sectionServer.entryServerLayout.setOnClickListener {
@@ -314,6 +317,46 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
             } else {
                 openExitServerScreen()
             }
+        }
+        binding.contentLayout.sectionConnectivity.localBypassSwitcher.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_use_vpn_bypass_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
+        }
+        binding.contentLayout.sectionOther.mockLocationSwitcher.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_use_mock_location_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
         }
     }
 
@@ -413,6 +456,11 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         navigate(action)
     }
 
+    private fun openSetupMockLocation() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToMockLocationFragment()
+        navigate(action)
+    }
+
     private fun openExitServerScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToServerListFragment(ServerType.EXIT)
         navigate(action)
@@ -454,5 +502,9 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         startActivity(intent)
+    }
+
+    override fun setupMockLocation() {
+        openSetupMockLocation()
     }
 }

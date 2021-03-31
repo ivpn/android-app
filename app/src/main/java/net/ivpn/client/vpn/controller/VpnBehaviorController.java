@@ -34,6 +34,8 @@ import net.ivpn.client.ui.timepicker.TimePickerActivity;
 import net.ivpn.client.vpn.OnProtocolChangedListener;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
+import net.ivpn.client.vpn.VPNConnectionState;
+import net.ivpn.client.vpn.VPNStateListener;
 import net.ivpn.client.vpn.openvpn.IVPNService;
 import net.ivpn.client.vpn.wireguard.ConfigManager;
 
@@ -49,7 +51,7 @@ import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.VpnStatus;
 
 @ApplicationScope
-public class VpnBehaviorController {
+public class VpnBehaviorController implements BehaviourListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VpnBehaviorController.class);
     private static final String TAG = VpnBehaviorController.class.getSimpleName();
@@ -60,6 +62,8 @@ public class VpnBehaviorController {
     private ConfigManager configManager;
 
     private List<VpnStateListener> listeners = new ArrayList<>();
+
+    public VPNStateListener vpnStateListener;
 
     @Inject
     public VpnBehaviorController(ConfigManager configManager,
@@ -79,6 +83,7 @@ public class VpnBehaviorController {
             behavior.destroy();
         }
         behavior = getBehavior(protocol);
+        behavior.behaviourListener = this;
         for (VpnStateListener listener : listeners) {
             behavior.addStateListener(listener);
         }
@@ -105,6 +110,21 @@ public class VpnBehaviorController {
 
     public void stopActionByUser() {
         behavior.stop();
+    }
+
+    @Override
+    public void onDisconnectingFromVpn() {
+        vpnStateListener.onDisconnectingFromVpn();
+    }
+
+    @Override
+    public void onConnectingToVpn() {
+        vpnStateListener.onConnectingToVpn();
+    }
+
+    @Override
+    public void updateVpnConnectionState(VPNConnectionState state) {
+        vpnStateListener.updateVpnConnectionState(state);
     }
 
     public void onServerUpdated(Boolean forceConnect) {
@@ -147,10 +167,6 @@ public class VpnBehaviorController {
         behavior.removeStateListener(stateListener);
     }
 
-//    public long getConnectionTime() {
-//        return behavior.getConnectionTime();
-//    }
-
     public boolean isVPNActive() {
         if (protocol == Protocol.OPENVPN) {
             return VpnStatus.isVPNActive()
@@ -165,8 +181,8 @@ public class VpnBehaviorController {
 
     private VpnBehavior getBehavior(Protocol protocol) {
         if (protocol == Protocol.WIREGUARD) {
-            return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getWireGuardBehavior();
+            return IVPNApplication.getApplication().appComponent.getWireGuardBehavior();
         }
-        return IVPNApplication.getApplication().appComponent.provideProtocolComponent().create().getOpenVpnBehavior();
+        return IVPNApplication.getApplication().appComponent.getOpenVpnBehavior();
     }
 }

@@ -36,6 +36,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.ui.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.local.KillSwitchService;
 import net.ivpn.client.vpn.local.PermissionActivity;
@@ -59,25 +60,29 @@ import static net.ivpn.client.vpn.model.KillSwitchRule.ENABLE;
 import static net.ivpn.client.vpn.model.KillSwitchRule.NOTHING;
 
 @ApplicationScope
-public class GlobalBehaviorController implements ServiceConstants {
+public class GlobalBehaviorController implements ServiceConstants, VPNStateListener{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalBehaviorController.class);
 
     private VPNState state = NONE;
     private boolean isVpnDisconnecting;
-    private List<OnVpnStatusChangedListener> listeners = new ArrayList<>();
     private KillSwitchRule killSwitchRule = NOTHING;
     private VPNRule vpnRule = VPNRule.NOTHING;
 
     private BroadcastReceiver securityGuardActionsReceiver;
     private Settings settings;
     private VpnBehaviorController vpnBehaviorController;
+    private MockLocationController mock;
 
     @Inject
     public GlobalBehaviorController(Settings settings,
-                                    VpnBehaviorController vpnBehaviorController) {
+                                    VpnBehaviorController vpnBehaviorController,
+                                    MockLocationController mock) {
         this.settings = settings;
         this.vpnBehaviorController = vpnBehaviorController;
+        this.mock = mock;
+
+        vpnBehaviorController.vpnStateListener = this;
     }
 
     public void init() {
@@ -301,14 +306,6 @@ public class GlobalBehaviorController implements ServiceConstants {
         state = NONE;
     }
 
-    public void addConnectionStatusListener(OnVpnStatusChangedListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeConnectionStatusListener(OnVpnStatusChangedListener listener) {
-        listeners.remove(listener);
-    }
-
     private void registerReceiver() {
         securityGuardActionsReceiver = new BroadcastReceiver() {
             @Override
@@ -371,6 +368,7 @@ public class GlobalBehaviorController implements ServiceConstants {
     private void onVpnDisconnected() {
         LOGGER.info("onVpnDisconnected: state = " + state);
         LOGGER.info("onVpnDisconnected: killSwitchRule = " + killSwitchRule);
+        mock.stop();
         switch (state) {
             case KILL_SWITCH:
             case BOTH: {
@@ -393,6 +391,7 @@ public class GlobalBehaviorController implements ServiceConstants {
 
     private void onVpnConnected() {
         LOGGER.info("onVpnConnected");
+        mock.mock();
         switch (state) {
             case KILL_SWITCH:
             case BOTH:

@@ -73,7 +73,10 @@ public enum Dialogs {
     WG_UPLOADING_KEY_ERROR(R.string.dialogs_failed_create_key_title, R.string.protocol_wg_uploading_key_error, -1, R.string.dialogs_ok),
     WG_MAXIMUM_KEYS_REACHED(R.string.dialogs_failed_create_key_title, R.string.protocol_wg_uploading_too_many_keys, -1, R.string.dialogs_ok),
     WG_UPGRADE_ERROR(R.string.dialogs_failed_upgrade_title, R.string.dialogs_failed_upgrade_message, -1, R.string.dialogs_ok),
-    CREATE_ACCOUNT_ERROR(R.string.dialogs_error, R.string.dialogs_create_account_error_message, -1, R.string.dialogs_ok);
+    CREATE_ACCOUNT_ERROR(R.string.dialogs_error, R.string.dialogs_create_account_error_message, -1, R.string.dialogs_ok),
+    MOCK_LOCATION_DEVELOPER_OPTION_ERROR(R.string.dialogs_mock_location_developer_options, R.string.dialogs_mock_location_developer_options_message, -1, R.string.dialogs_ok),
+    MOCK_LOCATION_APP_ERROR(R.string.dialogs_mock_wrong_app, R.string.dialogs_mock_wrong_app_message, -1, R.string.dialogs_ok);
+
 
     private int titleId;
     private int messageId;
