@@ -32,15 +32,9 @@ class MockLocationViewModel @Inject constructor(
         private val controller: MockLocationController
 ) : ViewModel() {
 
-//    val isMockLocationEnabled = ObservableBoolean()
-
     var mockLocationListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> tryEnableMockLocation(value) }
 
     var navigator: MockLocationNavigator? = null
-
-    init {
-//        isMockLocationEnabled.set(controller.isEnabled)
-    }
 
     fun isDeveloperOptionsEnabled(): Boolean {
         return controller.isDeveloperOptionsEnabled()
@@ -50,13 +44,17 @@ class MockLocationViewModel @Inject constructor(
         return controller.isMockLocationEnabled()
     }
 
+     fun isMockLocationFeatureEnabled(): Boolean {
+         return controller.isMockLocationFeatureEnabled()
+     }
+
     fun enableMockLocation(isEnabled: Boolean) {
         controller.enableMockLocation(isEnabled)
     }
 
     private fun tryEnableMockLocation(isEnabled: Boolean) {
         if (isEnabled) {
-            if (isDeveloperOptionsEnabled() && isMockLocationEnabled()) {
+            if (isDeveloperOptionsEnabled() && isMockLocationFeatureEnabled()) {
                 enableMockLocation(isEnabled)
             } else {
                 navigator?.setupMockLocation()

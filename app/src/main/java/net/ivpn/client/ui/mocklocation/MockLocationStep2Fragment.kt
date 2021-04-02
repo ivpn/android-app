@@ -96,7 +96,7 @@ class MockLocationStep2Fragment: Fragment() {
     }
 
     private fun next() {
-        if (mockLocation.isMockLocationEnabled()) {
+        if (mockLocation.isMockLocationFeatureEnabled()) {
             mockLocation.enableMockLocation(true)
             val action = MockLocationStep2FragmentDirections.actionMockLocationStep2FragmentToMockLocationStep3Fragment()
             navigate(action)

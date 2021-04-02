@@ -92,8 +92,8 @@ class SignUpViewModel @Inject constructor(
 
     init {
         dataLoading.set(false)
-        blankAccountID.set(userPreference.getBlankUsername())
-        blankAccountGeneratedDate = userPreference.getBlankUsernameGeneratedDate()
+        blankAccountID.set(userPreference.blankUsername)
+        blankAccountGeneratedDate = userPreference.blankUsernameGeneratedDate
     }
 
     fun selectPeriod(period: Period) {
@@ -149,8 +149,8 @@ class SignUpViewModel @Inject constructor(
             override fun onSuccess(response: NewAccountResponse) {
                 dataLoading.set(false)
                 if (response.status == Responses.SUCCESS) {
-                    userPreference.putBlankUsername(response.accountId)
-                    userPreference.putBlankUsernameGenerationDate(System.currentTimeMillis())
+                    userPreference.blankUsername = response.accountId
+                    userPreference.blankUsernameGeneratedDate = System.currentTimeMillis()
                     blankAccountGeneratedDate = System.currentTimeMillis()
                     blankAccountID.set(response.accountId)
                     creationNavigator?.onAccountCreationSuccess()
@@ -295,7 +295,7 @@ class SignUpViewModel @Inject constructor(
 
     override fun onCreateAccountFinish() {
         blankAccountID.set(null)
-        userPreference.putBlankUsername(null)
+        userPreference.blankUsername = null
         navigator?.onCreateAccountFinish()
     }
 
