@@ -27,9 +27,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -41,7 +39,6 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.getNavigationResultBoolean
-import net.ivpn.client.common.extension.getSoftInputMode
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentLoginBinding
 import net.ivpn.client.ui.connect.CreateSessionFragment
@@ -51,7 +48,6 @@ import net.ivpn.client.ui.dialog.Dialogs
 import net.ivpn.client.ui.login.LoginNavigator
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.qr.QRActivity
-import net.ivpn.client.v2.tfa.TFAFragment
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
@@ -223,14 +219,10 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
     }
 
     override fun onLoginWithBlankAccount() {
-        if (viewModel.isAccountNewStyle()) {
-            signUp.blankAccountID.set(viewModel.username.get())
+        signUp.blankAccountID.set(viewModel.username.get())
 
-            val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            navigate(action)
-        } else {
-            onLogin()
-        }
+        val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
+        navigate(action)
     }
 
     override fun onLoginWithInactiveAccount() {
