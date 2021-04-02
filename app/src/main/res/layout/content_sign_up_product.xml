@@ -96,12 +96,36 @@
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginStart="16dp"
+                    android:alpha="0.6"
                     app:layout_constraintBottom_toBottomOf="@+id/textView28"
                     app:layout_constraintStart_toEndOf="@+id/divider"
                     app:layout_constraintTop_toTopOf="@+id/textView28"
                     app:srcCompat="@drawable/ic_check"
-                    app:tint="@color/login_text_color"
-                    android:alpha="0.6" />
+                    app:tint="@color/login_text_color" />
+
+                <ImageView
+                    android:id="@+id/imageView18"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="16dp"
+                    android:alpha="0.6"
+                    app:layout_constraintBottom_toBottomOf="@+id/antitracker_label"
+                    app:layout_constraintStart_toEndOf="@+id/divider"
+                    app:layout_constraintTop_toTopOf="@+id/antitracker_label"
+                    app:srcCompat="@drawable/ic_check"
+                    app:tint="@color/login_text_color" />
+
+                <ImageView
+                    android:id="@+id/imageView19"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="16dp"
+                    android:alpha="0.6"
+                    app:layout_constraintBottom_toBottomOf="@+id/port_forwarding_label"
+                    app:layout_constraintStart_toEndOf="@+id/divider"
+                    app:layout_constraintTop_toTopOf="@+id/port_forwarding_label"
+                    app:srcCompat="@drawable/ic_check"
+                    app:tint="@color/login_text_color" />
 
                 <ImageView
                     android:id="@+id/imageView10"
@@ -180,14 +204,40 @@
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="9dp"
                     android:layout_marginTop="12dp"
                     android:alpha="0.6"
                     android:text="@string/sign_up_product_multihop"
                     android:textColor="@color/login_text_color"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView9"
+                    app:layout_constraintStart_toEndOf="@+id/imageView17"
+                    app:layout_constraintTop_toBottomOf="@+id/antitracker_label" />
+
+                <TextView
+                    android:id="@+id/antitracker_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:text="@string/sign_up_product_antitracker"
+                    android:textColor="@color/login_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView17"
                     app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+                <TextView
+                    android:id="@+id/port_forwarding_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:text="@string/sign_up_product_port_forwarding"
+                    android:textColor="@color/login_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView17"
+                    app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
                 <TextView
                     android:id="@+id/textView21"
@@ -224,7 +274,7 @@
                     android:text="@string/sign_up_continue"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                    app:layout_constraintTop_toBottomOf="@+id/port_forwarding_label" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -248,9 +298,9 @@
                     android:textColor="@color/sign_up_text_color"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView28"
+                    app:layout_constraintBottom_toBottomOf="@+id/antitracker_label"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView28" />
+                    app:layout_constraintTop_toTopOf="@+id/antitracker_label" />
 
                 <View
                     android:id="@+id/divider_2"
@@ -333,37 +383,37 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_opacity_black_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/color_opacity_black_background"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">-->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:orientation="vertical">-->
 
-                <ProgressBar
-                    style="?indeterminateProgressStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:theme="@style/AppTheme.ProgressBar" />
+<!--                <ProgressBar-->
+<!--                    style="?indeterminateProgressStyle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:theme="@style/AppTheme.ProgressBar" />-->
 
-                <TextView
-                    style="@style/SettingsOptionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:gravity="center"
-                    android:text="@string/sign_up_progress" />
-            </LinearLayout>
-        </FrameLayout>
+<!--                <TextView-->
+<!--                    style="@style/SettingsOptionTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="40dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="40dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/sign_up_progress" />-->
+<!--            </LinearLayout>-->
+<!--        </FrameLayout>-->
     </FrameLayout>
 </layout>
