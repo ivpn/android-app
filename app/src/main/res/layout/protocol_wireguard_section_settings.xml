@@ -157,6 +157,7 @@
                     android:id="@+id/wireguard_details"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
+                    android:paddingVertical="12dp"
                     android:layout_height="wrap_content"
                     android:text="@string/protocol_wg_details"
                     android:textAllCaps="true" />

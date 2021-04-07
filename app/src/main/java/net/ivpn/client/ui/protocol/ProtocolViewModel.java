@@ -202,7 +202,7 @@ public class ProtocolViewModel {
     private void onGeneratingError(String error, Throwable throwable) {
         LOGGER.error(TAG, "On generating error: " + error, throwable);
         dataLoading.set(false);
-        setProtocol(Protocol.OPENVPN);
+//        setProtocol(Protocol.OPENVPN);
 
         if (throwable != null) {
             if (throwable instanceof UnknownHostException) {

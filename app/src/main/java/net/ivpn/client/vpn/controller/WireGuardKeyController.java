@@ -67,6 +67,8 @@ public class WireGuardKeyController {
     }
 
     boolean isKeysExpired() {
+        if (settings.getWireGuardPublicKey().isEmpty()) return true;
+
         long currentTimeStamp = System.currentTimeMillis();
         long lastGeneratedV = settings.getGenerationTime();
         int regenerationPeriod = settings.getRegenerationPeriod();
@@ -75,6 +77,8 @@ public class WireGuardKeyController {
     }
 
     boolean isKeysHardExpired() {
+        if (settings.getWireGuardPublicKey().isEmpty()) return true;
+
         long currentTimeStamp = System.currentTimeMillis();
         long lastGeneratedV = settings.getGenerationTime();
         int regenerationPeriod = settings.getRegenerationPeriod();

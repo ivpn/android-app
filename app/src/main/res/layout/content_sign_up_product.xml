@@ -383,37 +383,37 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-<!--        <FrameLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@color/color_opacity_black_background"-->
-<!--            android:clickable="true"-->
-<!--            android:focusable="true"-->
-<!--            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_opacity_black_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:orientation="vertical">-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-<!--                <ProgressBar-->
-<!--                    style="?indeterminateProgressStyle"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:theme="@style/AppTheme.ProgressBar" />-->
+                <ProgressBar
+                    style="?indeterminateProgressStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/AppTheme.ProgressBar" />
 
-<!--                <TextView-->
-<!--                    style="@style/SettingsOptionTitle"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="40dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginEnd="40dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@string/sign_up_progress" />-->
-<!--            </LinearLayout>-->
-<!--        </FrameLayout>-->
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:gravity="center"
+                    android:text="@string/sign_up_progress" />
+            </LinearLayout>
+        </FrameLayout>
     </FrameLayout>
 </layout>

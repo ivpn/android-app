@@ -30,10 +30,37 @@ class WireGuardInfo(
         private val lastGeneratedTime: Long,
         private val regenerationPeriod: Long
 ) {
+    val ipAddressUI: String
+    get() {
+        return if (publicKey.isBlank()) {
+            ""
+        } else {
+            ipAddress
+        }
+    }
+
     val lastGenerated: String
-        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime)
+        get() {
+            return if (publicKey.isBlank()) {
+                ""
+            } else {
+                DateUtil.formatWireGuardKeyDate(lastGeneratedTime)
+            }
+        }
     val nextRegenerationDate: String
-        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime + regenerationPeriod * DateUtil.DAY)
+        get() {
+            return if (publicKey.isBlank()) {
+                ""
+            } else {
+                DateUtil.formatWireGuardKeyDate(lastGeneratedTime + regenerationPeriod * DateUtil.DAY)
+            }
+        }
     val validUntil: String
-        get() = DateUtil.formatWireGuardKeyDate(lastGeneratedTime + 40 * DateUtil.DAY)
+        get() {
+            return if (publicKey.isBlank()) {
+                ""
+            } else {
+                DateUtil.formatWireGuardKeyDate(lastGeneratedTime + 40 * DateUtil.DAY)
+            }
+        }
 }
