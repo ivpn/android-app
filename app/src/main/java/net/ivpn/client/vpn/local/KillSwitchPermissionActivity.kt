@@ -1,15 +1,5 @@
 package net.ivpn.client.vpn.local
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.VpnService
-import android.os.Build
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import net.ivpn.client.ui.dialog.DialogBuilder.createNotificationDialog
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.vpn.ServiceConstants
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -31,6 +21,16 @@ import net.ivpn.client.vpn.ServiceConstants
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
+
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.VpnService
+import android.os.Build
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import net.ivpn.client.ui.dialog.DialogBuilder.createNotificationDialog
+import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.vpn.ServiceConstants
 
 class KillSwitchPermissionActivity: AppCompatActivity() {
 

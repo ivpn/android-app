@@ -79,7 +79,6 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     private ConnectionState state;
     private WireGuardKeyController keyController;
 
-//    private GlobalBehaviorController globalBehaviorController;
     private ServersRepository serversRepository;
     private ConfigManager configManager;
     private PingProvider pingProvider;
@@ -89,7 +88,6 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
                       ConfigManager configManager, PingProvider pingProvider) {
         LOGGER.info("Creating");
         keyController = wireGuardKeyController;
-//        this.globalBehaviorController = globalBehaviorController;
         this.serversRepository = serversRepository;
         this.configManager = configManager;
         this.pingProvider = pingProvider;

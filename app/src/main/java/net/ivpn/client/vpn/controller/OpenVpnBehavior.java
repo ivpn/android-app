@@ -81,7 +81,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     private ConnectionState state;
     private final List<VpnStateListener> listeners = new ArrayList<>();
     private PauseTimer timer;
-//    private GlobalBehaviorController globalBehaviorController;
+
     private ServersRepository serversRepository;
     private Settings settings;
     private PingProvider pingProvider;
@@ -117,7 +117,6 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
                     Settings settings, PingProvider pingProvider,
                     DomainResolver domainResolver) {
         LOGGER.info("OpenVpn behaviour");
-//        this.globalBehaviorController = globalBehaviorController;
         this.serversRepository = serversRepository;
         this.settings = settings;
         this.pingProvider = pingProvider;
@@ -238,15 +237,6 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         sendConnectionState();
     }
 
-//    @Override
-//    public long getConnectionTime() {
-//        if (state == null || !state.equals(CONNECTED)) {
-//            return -1;
-//        } else {
-//            return System.currentTimeMillis()  - connectionTime;
-//        }
-//    }
-
     @Override
     public void actionByUser() {
         LOGGER.info("Connection init by user");
@@ -331,7 +321,6 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     }
 
     private void performConnectionAction() {
-//        LOGGER.info("performConnectionAction: isVpnActive() = " + isVpnActive());
         LOGGER.info("performConnectionAction: state = " + state);
         if (state.equals(CONNECTING) || state.equals(CONNECTED)) {
             startDisconnectProcess();

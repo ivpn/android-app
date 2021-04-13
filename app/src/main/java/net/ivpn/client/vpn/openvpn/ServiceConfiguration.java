@@ -147,10 +147,6 @@ public class ServiceConfiguration {
         if (!addLocalIps(builder, profile.mAllowLocalLAN)) {
             return;
         }
-//        if (isLocalBypassEnabled()) {
-//            addLocalNetworksToRoutes(context);
-//        }
-//        addRouteV6(IPV6DEFAULT);
 
         addDnsList(builder);
         addMtu(builder);
