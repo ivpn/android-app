@@ -44,6 +44,7 @@ class MockLocationController @Inject constructor(
         private val multiHopController: MultiHopController
 ){
     var isEnabled: Boolean = false
+    var isTestProviderAdded = false
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
@@ -99,10 +100,6 @@ class MockLocationController @Inject constructor(
             return
         }
 
-//        if (!isMockLocationEnabled()) {
-//            return
-//        }
-
         getServer()?.let {
             mockLocationWith(it)
         }
@@ -111,6 +108,7 @@ class MockLocationController @Inject constructor(
     private fun mockLocationWith(server: Server) {
         addTestProviders(LocationManager.GPS_PROVIDER)
         addTestProviders(LocationManager.NETWORK_PROVIDER)
+        isTestProviderAdded = true
         runnable = Runnable {
             if (isMockLocationFeatureEnabled()) {
                 setMock(LocationManager.GPS_PROVIDER, server.latitude, server.longitude)
@@ -131,9 +129,16 @@ class MockLocationController @Inject constructor(
         runnable?.let {
             handler.removeCallbacks(it)
         }
-        if (isMockLocationFeatureEnabled()) {
-            manager.removeTestProvider(LocationManager.GPS_PROVIDER)
-            manager.removeTestProvider(LocationManager.NETWORK_PROVIDER)
+        if (isMockLocationFeatureEnabled() && isTestProviderAdded) {
+            removeProvider(LocationManager.GPS_PROVIDER)
+            removeProvider(LocationManager.NETWORK_PROVIDER)
+            isTestProviderAdded = false
+        }
+    }
+
+    private fun removeProvider(provider: String) {
+        if (manager.isProviderEnabled(provider)) {
+            manager.removeTestProvider(provider)
         }
     }
 
@@ -152,10 +157,6 @@ class MockLocationController @Inject constructor(
     }
 
     private fun setMock(provider: String, latitude: Double, longitude: Double) {
-        println("Mock location latitude = $latitude longitude = $longitude")
-//        manager.addTestProvider(provider, false, false,
-//                false, false, false, true,
-//                true, 1, 2)
         val newLocation = Location(provider)
         newLocation.latitude = latitude
         newLocation.longitude = longitude

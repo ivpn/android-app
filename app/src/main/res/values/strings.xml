@@ -133,8 +133,11 @@
     <!--Mock Location-->
     <string name="mock_location_enable_developer_options">Enable developer options</string>
     <string name="mock_location_enable_developer_options_description">To enable developer options, tap the <b>Build Number</b> option 7 times. You can find this option in the following location:</string>
+    <string name="mock_location_enable_developer_options_guide_label">For more information on how to enable developer options, please follow the guide.</string>
+    <string name="mock_location_guide_label">For more information on how to set IVPN as a mock location app, please follow the guide.</string>
     <string name="mock_location_enable_developer_options_path">Settings > About Phone > Build Number</string>
     <string name="mock_location_to_settings">To settings</string>
+    <string name="mock_location_open_guide">Open guide</string>
     <string name="mock_location_next">Next</string>
     <string name="mock_location_title">Override GPS location</string>
     <string name="mock_location_description">Match your GPS location to your VPN location. It will make all the apps that use GPS to detect your location think that you are in your VPN location.</string>
@@ -340,7 +343,7 @@
 
     <string name="dialogs_mock_location_developer_options">Developer Options are disabled</string>
     <string name="dialogs_mock_location_developer_options_message">Please try again. If you need help, check our guide or contact our customer support.</string>
-    <string name="dialogs_mock_wrong_app">Mock Locations are disabled</string>
+    <string name="dialogs_mock_wrong_app">Mock Location is disabled</string>
     <string name="dialogs_mock_wrong_app_message">Please try again. If you need help, check our guide or contact our customer support.</string>
 
     <string name="dialogs_auth_error_msg">Either your account ID is incorrect or your subscription has expired. Please check and try again.</string>

@@ -81,6 +81,10 @@
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
+            android:name=".vpn.local.KillSwitchPermissionActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
             android:name=".common.shortcuts.ConnectionShortcutsActivity"
             android:theme="@style/AppTheme.Transparent" />
 

@@ -81,7 +81,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         super.onResume()
         account.onResume()
         account.drawQR(resources.getColor(R.color.account_qr_foreground), resources.getColor(R.color.account_qr_background), binding.contentLayout.qr.width)
-//        account.drawQR(resources.getColor(R.color.account_text), resources.getColor(R.color.account_background), binding.contentLayout.qr.width)
     }
 
     override fun onStart() {
@@ -139,6 +138,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     private fun addFunds() {
         if (account.isAccountNewStyle()) {
+            signUp.blankAccountID.set(null)
             signUp.selectedPlan.set(Plan.getPlanByProductName(account.accountType.get()))
 
             val action = AccountFragmentDirections.actionAccountFragmentToSignUpPeriodFragment()

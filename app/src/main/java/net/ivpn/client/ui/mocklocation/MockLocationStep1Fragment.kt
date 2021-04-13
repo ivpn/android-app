@@ -23,6 +23,7 @@ package net.ivpn.client.ui.mocklocation
 */
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -82,6 +83,10 @@ class MockLocationStep1Fragment: Fragment() {
         binding.contentLayout.next.setOnClickListener {
             next()
         }
+
+        binding.contentLayout.openGuide.setOnClickListener {
+            openGuide()
+        }
     }
 
     private fun initToolbar() {
@@ -102,5 +107,12 @@ class MockLocationStep1Fragment: Fragment() {
         } else {
             DialogBuilder.createNotificationDialog(context, Dialogs.MOCK_LOCATION_DEVELOPER_OPTION_ERROR)
         }
+    }
+
+    private fun openGuide() {
+        val url = "https://www.ivpn.net/knowledgebase/android/developer-options-on-the-android-phone/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

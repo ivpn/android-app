@@ -44,6 +44,10 @@ class ConfigManager @Inject constructor(
 ) {
     var tunnel: Tunnel? = null
     var listener: Tunnel.OnStateChangedListener? = null
+    set(value) {
+        tunnel?.listener = value
+        field = value
+    }
 
     fun init() {
         LOGGER.info("init")

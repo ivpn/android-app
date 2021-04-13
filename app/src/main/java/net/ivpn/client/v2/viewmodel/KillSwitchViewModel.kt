@@ -49,6 +49,10 @@ class KillSwitchViewModel @Inject constructor(
         isEnabled.set(isKillSwitchEnabled())
     }
 
+    fun update() {
+        isEnabled.set(isKillSwitchEnabled())
+    }
+
     fun enable(value: Boolean) {
         isEnabled.set(value)
         settings.enableKillSwitch(value)

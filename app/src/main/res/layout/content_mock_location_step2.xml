@@ -83,6 +83,38 @@
             app:layout_constraintTop_toBottomOf="@+id/textView40"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/guide_label"
+            style="@style/SettingsOptionDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.6"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/mock_location_guide_label"
+            android:textAlignment="viewStart"
+            android:textColor="@color/antitracker_text"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/to_settings" />
+
+        <TextView
+            android:id="@+id/open_guide"
+            style="@style/SettingsAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/mock_location_open_guide"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guide_label"
+            app:layout_constraintVertical_bias="0.0" />
+
         <Button
             android:id="@+id/next"
             android:layout_height="56dp"

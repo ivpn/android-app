@@ -38,6 +38,7 @@ import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.ui.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
+import net.ivpn.client.vpn.local.KillSwitchPermissionActivity;
 import net.ivpn.client.vpn.local.KillSwitchService;
 import net.ivpn.client.vpn.local.PermissionActivity;
 import net.ivpn.client.vpn.model.KillSwitchRule;
@@ -46,21 +47,17 @@ import net.ivpn.client.vpn.model.VPNRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import static net.ivpn.client.vpn.VPNState.BOTH;
 import static net.ivpn.client.vpn.VPNState.KILL_SWITCH;
 import static net.ivpn.client.vpn.VPNState.NONE;
 import static net.ivpn.client.vpn.VPNState.VPN;
-import static net.ivpn.client.vpn.model.KillSwitchRule.DISABLE;
 import static net.ivpn.client.vpn.model.KillSwitchRule.ENABLE;
 import static net.ivpn.client.vpn.model.KillSwitchRule.NOTHING;
 
 @ApplicationScope
-public class GlobalBehaviorController implements ServiceConstants, VPNStateListener{
+public class GlobalBehaviorController implements ServiceConstants, VPNStateListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalBehaviorController.class);
 
@@ -120,9 +117,7 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
             case KILL_SWITCH:
             case NONE: {
                 state = KILL_SWITCH;
-                if (killSwitchRule.equals(ENABLE) || killSwitchRule.equals(NOTHING)) {
-                    startKillSwitch();
-                }
+                startKillSwitch();
                 break;
             }
             case BOTH:
@@ -139,9 +134,7 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
             case NONE:
             case KILL_SWITCH: {
                 state = NONE;
-                if (killSwitchRule.equals(ENABLE) || killSwitchRule.equals(NOTHING)) {
-                    stopKillSwitch();
-                }
+                stopKillSwitch();
                 break;
             }
             case VPN:
@@ -203,26 +196,17 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
         LOGGER.info("applyKillSwitchRule: state = " + state);
         //Check if VPN is running or preparing to run;
         this.killSwitchRule = killSwitchRule;
-        if (isVPNRunningOrPreparingToRun()) {
-            return;
-        }
-        switch (state) {
-            case NONE: {
-                if (killSwitchRule.equals(ENABLE)) {
-                    startKillSwitch();
-                } else if (killSwitchRule.equals(DISABLE)) {
-                    stopKillSwitch();
-                }
+        switch (killSwitchRule) {
+            case ENABLE:
+                settings.enableKillSwitch(true);
+                enableKillSwitch();
                 break;
-            }
-            case KILL_SWITCH: {
-                if (killSwitchRule.equals(DISABLE)) {
-                    stopKillSwitch();
-                } else {
-                    startKillSwitch();
-                }
+            case DISABLE:
+                settings.enableKillSwitch(false);
+                disableKillSwitch();
                 break;
-            }
+            case NOTHING:
+                break;
         }
     }
 
@@ -268,14 +252,17 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
     public void startKillSwitch() {
         LOGGER.info("startKillSwitch");
         Context context = IVPNApplication.getApplication();
+        Intent vpnIntent = new Intent(context, KillSwitchPermissionActivity.class);
+        vpnIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(vpnIntent);
 
-        Intent killSwitchIntent = new Intent(context, KillSwitchService.class);
-        killSwitchIntent.setAction(START_KILL_SWITCH);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(killSwitchIntent);
-        } else {
-            context.startService(killSwitchIntent);
-        }
+//        Intent killSwitchIntent = new Intent(context, KillSwitchService.class);
+//        killSwitchIntent.setAction(START_KILL_SWITCH);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(killSwitchIntent);
+//        } else {
+//            context.startService(killSwitchIntent);
+//        }
     }
 
     private void stopKillSwitch() {

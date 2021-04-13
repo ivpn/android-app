@@ -125,7 +125,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
     @Override
     public void actionByUser() {
-        LOGGER.info("actionByUser, state = " + state);
+        LOGGER.info("actionByUser, state = " + state + " this = " + this);
 
         switch (state) {
             case CONNECTED:
@@ -163,23 +163,16 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     @Override
     public void destroy() {
         LOGGER.info("destroy, remove all registers and listeners");
+        configManager.setListener(null);
         unregisterReceivers();
         stop();
+        listeners.clear();
     }
 
     @Override
     public void notifyVpnState() {
         sendConnectionState(timer.getMillisUntilFinished());
     }
-
-//    @Override
-//    public long getConnectionTime() {
-//        if (state == null || !state.equals(CONNECTED)) {
-//            return -1;
-//        } else {
-//            return System.currentTimeMillis() - connectionTime;
-//        }
-//    }
 
     private void registerReceivers() {
         notificationActionReceiver = new BroadcastReceiver() {
@@ -457,6 +450,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     }
 
     private void setState(ConnectionState state) {
+        LOGGER.info("setState, state = " + state + " this = " + this);
         this.state = state;
         sendConnectionState();
     }
