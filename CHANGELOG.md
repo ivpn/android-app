@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.4.0 - 2021-04-16
+
+[NEW] Possibility to mock GPS location  
+[NEW] Bypass VPN for local networks  
+[IMPROVED] UI/UX for settings  
+[FIXED] Kill switch state on applying network protection rules  
+[FIXED] UI/UX for in-app purchases for the existing accounts  
+
 ## Version 2.3.0(2.3.1) - 2021-02-25
 
 [NEW] Possibility to establish VPN connection via Android Quick Setting Tile  
