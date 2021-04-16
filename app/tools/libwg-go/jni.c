@@ -22,11 +22,11 @@ JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgTurnOn(JNI
 	const char *settings_str = (*env)->GetStringUTFChars(env, settings, 0);
 	size_t settings_len = (*env)->GetStringUTFLength(env, settings);
 	int ret = wgTurnOn((struct go_string){
-			.str = ifname_str,
-			.n = ifname_len
+		.str = ifname_str,
+		.n = ifname_len
 	}, tun_fd, (struct go_string){
-			.str = settings_str,
-			.n = settings_len
+		.str = settings_str,
+		.n = settings_len
 	});
 	(*env)->ReleaseStringUTFChars(env, ifname, ifname_str);
 	(*env)->ReleaseStringUTFChars(env, settings, settings_str);
@@ -35,7 +35,7 @@ JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgTurnOn(JNI
 
 JNIEXPORT void JNICALL Java_com_wireguard_android_backend_GoBackend_wgTurnOff(JNIEnv *env, jclass c, jint handle)
 {
-wgTurnOff(handle);
+	wgTurnOff(handle);
 }
 
 JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgGetSocketV4(JNIEnv *env, jclass c, jint handle)

@@ -28,11 +28,13 @@ import android.widget.CompoundButton
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.client.common.BuildController
+import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.logger.FileUtils
 import net.ivpn.client.common.utils.LogUtil
 import net.ivpn.client.common.utils.SentryUtil
 import javax.inject.Inject
 
+@ApplicationScope
 class LoggingViewModel @Inject constructor(
         private val logUtil: LogUtil,
         private val sentryUtil: SentryUtil,

@@ -32,6 +32,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.prefs.PackagesPreference;
 import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.vpn.NetworkUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +126,10 @@ public class ServiceConfiguration {
         return dnsList;
     }
 
+    boolean isLocalBypassEnabled() {
+        return settings.isLocalBypassEnabled();
+    }
+
     /**
      * Fill {@link Builder} with necessary parameters.
      *  @param context service's context
@@ -142,7 +147,6 @@ public class ServiceConfiguration {
         if (!addLocalIps(builder, profile.mAllowLocalLAN)) {
             return;
         }
-//        addRouteV6(IPV6DEFAULT);
 
         addDnsList(builder);
         addMtu(builder);
@@ -197,15 +201,7 @@ public class ServiceConfiguration {
     }
 
     private void addMtu(Builder builder) {
-        String release = Build.VERSION.RELEASE;
-        if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && !release.startsWith("4.4.3")
-                && !release.startsWith("4.4.4") && !release.startsWith("4.4.5") && !release.startsWith("4.4.6"))
-                && mtu < 1280) {
-            LOGGER.info(String.format(Locale.US, "Forcing MTU to 1280 instead of %d to workaround Android Bug #70916", mtu));
-            builder.setMtu(1280);
-        } else {
-            builder.setMtu(mtu);
-        }
+        builder.setMtu(mtu);
     }
 
     private void addLocalNetworksToRoutes(boolean isLocalLanAllow) {
@@ -230,10 +226,7 @@ public class ServiceConfiguration {
             if (localIP != null && ipAddr.equals(localIP.mIp))
                 continue;
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT && !isLocalLanAllow) {
-                routes.addIPSplit(new CIDRIP(ipAddr, netMask), true);
-
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isLocalLanAllow)
+            if (isLocalLanAllow)
                 routes.addIP(new CIDRIP(ipAddr, netMask), false);
         }
     }
@@ -475,12 +468,7 @@ public class ServiceConfiguration {
             return "NOACTION";
         } else {
             String release = Build.VERSION.RELEASE;
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && !release.startsWith("4.4.3")
-                    && !release.startsWith("4.4.4") && !release.startsWith("4.4.5") && !release.startsWith("4.4.6"))
-                // There will be probably no 4.4.4 or 4.4.5 version, so don't waste effort to do parsing here
-                return "OPEN_AFTER_CLOSE";
-            else
-                return "OPEN_BEFORE_CLOSE";
+            return "OPEN_BEFORE_CLOSE";
         }
     }
 

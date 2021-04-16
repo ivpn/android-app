@@ -75,6 +75,11 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         initViews()
     }
 
+    override fun onResume() {
+        super.onResume()
+        killSwitch.update()
+    }
+
     override fun onStart() {
         super.onStart()
         killSwitch.navigator = this

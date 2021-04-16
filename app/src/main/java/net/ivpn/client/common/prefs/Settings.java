@@ -92,6 +92,10 @@ public class Settings {
         settingsPreference.putSettingsNetworkRules(value);
     }
 
+    public void enableLocalBypass(boolean value) {
+        settingsPreference.setBypassLocalSettings(value);
+    }
+
     public void enableAutoUpdate(boolean value) {
         settingsPreference.putAutoUpdateSetting(value);
     }
@@ -134,6 +138,10 @@ public class Settings {
 
     public boolean isAntiSurveillanceEnabled() {
         return settingsPreference.getIsAntiSurveillanceEnabled();
+    }
+
+    public boolean isLocalBypassEnabled() {
+        return settingsPreference.getBypassLocalSettings();
     }
 
     public boolean isAntiSurveillanceHardcoreEnabled() {

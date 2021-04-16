@@ -36,7 +36,9 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
+import net.ivpn.client.ui.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
+import net.ivpn.client.vpn.local.KillSwitchPermissionActivity;
 import net.ivpn.client.vpn.local.KillSwitchService;
 import net.ivpn.client.vpn.local.PermissionActivity;
 import net.ivpn.client.vpn.model.KillSwitchRule;
@@ -45,39 +47,39 @@ import net.ivpn.client.vpn.model.VPNRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import static net.ivpn.client.vpn.VPNState.BOTH;
 import static net.ivpn.client.vpn.VPNState.KILL_SWITCH;
 import static net.ivpn.client.vpn.VPNState.NONE;
 import static net.ivpn.client.vpn.VPNState.VPN;
-import static net.ivpn.client.vpn.model.KillSwitchRule.DISABLE;
 import static net.ivpn.client.vpn.model.KillSwitchRule.ENABLE;
 import static net.ivpn.client.vpn.model.KillSwitchRule.NOTHING;
 
 @ApplicationScope
-public class GlobalBehaviorController implements ServiceConstants {
+public class GlobalBehaviorController implements ServiceConstants, VPNStateListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalBehaviorController.class);
 
     private VPNState state = NONE;
     private boolean isVpnDisconnecting;
-    private List<OnVpnStatusChangedListener> listeners = new ArrayList<>();
     private KillSwitchRule killSwitchRule = NOTHING;
     private VPNRule vpnRule = VPNRule.NOTHING;
 
     private BroadcastReceiver securityGuardActionsReceiver;
     private Settings settings;
     private VpnBehaviorController vpnBehaviorController;
+    private MockLocationController mock;
 
     @Inject
     public GlobalBehaviorController(Settings settings,
-                                    VpnBehaviorController vpnBehaviorController) {
+                                    VpnBehaviorController vpnBehaviorController,
+                                    MockLocationController mock) {
         this.settings = settings;
         this.vpnBehaviorController = vpnBehaviorController;
+        this.mock = mock;
+
+        vpnBehaviorController.vpnStateListener = this;
     }
 
     public void init() {
@@ -115,9 +117,7 @@ public class GlobalBehaviorController implements ServiceConstants {
             case KILL_SWITCH:
             case NONE: {
                 state = KILL_SWITCH;
-                if (killSwitchRule.equals(ENABLE) || killSwitchRule.equals(NOTHING)) {
-                    startKillSwitch();
-                }
+                startKillSwitch();
                 break;
             }
             case BOTH:
@@ -134,9 +134,7 @@ public class GlobalBehaviorController implements ServiceConstants {
             case NONE:
             case KILL_SWITCH: {
                 state = NONE;
-                if (killSwitchRule.equals(ENABLE) || killSwitchRule.equals(NOTHING)) {
-                    stopKillSwitch();
-                }
+                stopKillSwitch();
                 break;
             }
             case VPN:
@@ -198,26 +196,17 @@ public class GlobalBehaviorController implements ServiceConstants {
         LOGGER.info("applyKillSwitchRule: state = " + state);
         //Check if VPN is running or preparing to run;
         this.killSwitchRule = killSwitchRule;
-        if (isVPNRunningOrPreparingToRun()) {
-            return;
-        }
-        switch (state) {
-            case NONE: {
-                if (killSwitchRule.equals(ENABLE)) {
-                    startKillSwitch();
-                } else if (killSwitchRule.equals(DISABLE)) {
-                    stopKillSwitch();
-                }
+        switch (killSwitchRule) {
+            case ENABLE:
+                settings.enableKillSwitch(true);
+                enableKillSwitch();
                 break;
-            }
-            case KILL_SWITCH: {
-                if (killSwitchRule.equals(DISABLE)) {
-                    stopKillSwitch();
-                } else {
-                    startKillSwitch();
-                }
+            case DISABLE:
+                settings.enableKillSwitch(false);
+                disableKillSwitch();
                 break;
-            }
+            case NOTHING:
+                break;
         }
     }
 
@@ -263,14 +252,17 @@ public class GlobalBehaviorController implements ServiceConstants {
     public void startKillSwitch() {
         LOGGER.info("startKillSwitch");
         Context context = IVPNApplication.getApplication();
+        Intent vpnIntent = new Intent(context, KillSwitchPermissionActivity.class);
+        vpnIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(vpnIntent);
 
-        Intent killSwitchIntent = new Intent(context, KillSwitchService.class);
-        killSwitchIntent.setAction(START_KILL_SWITCH);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(killSwitchIntent);
-        } else {
-            context.startService(killSwitchIntent);
-        }
+//        Intent killSwitchIntent = new Intent(context, KillSwitchService.class);
+//        killSwitchIntent.setAction(START_KILL_SWITCH);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(killSwitchIntent);
+//        } else {
+//            context.startService(killSwitchIntent);
+//        }
     }
 
     private void stopKillSwitch() {
@@ -299,14 +291,6 @@ public class GlobalBehaviorController implements ServiceConstants {
         stopVPN();
         stopKillSwitch();
         state = NONE;
-    }
-
-    public void addConnectionStatusListener(OnVpnStatusChangedListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeConnectionStatusListener(OnVpnStatusChangedListener listener) {
-        listeners.remove(listener);
     }
 
     private void registerReceiver() {
@@ -371,6 +355,7 @@ public class GlobalBehaviorController implements ServiceConstants {
     private void onVpnDisconnected() {
         LOGGER.info("onVpnDisconnected: state = " + state);
         LOGGER.info("onVpnDisconnected: killSwitchRule = " + killSwitchRule);
+        mock.stop();
         switch (state) {
             case KILL_SWITCH:
             case BOTH: {
@@ -393,6 +378,7 @@ public class GlobalBehaviorController implements ServiceConstants {
 
     private void onVpnConnected() {
         LOGGER.info("onVpnConnected");
+        mock.mock();
         switch (state) {
             case KILL_SWITCH:
             case BOTH:

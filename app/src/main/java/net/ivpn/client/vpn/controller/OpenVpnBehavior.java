@@ -44,6 +44,7 @@ import net.ivpn.client.common.utils.DomainResolver;
 import net.ivpn.client.common.utils.ToastUtil;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.ui.connect.ConnectionState;
+import net.ivpn.client.ui.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.OnVpnStatusChangedListener;
 import net.ivpn.client.vpn.ServiceConstants;
@@ -68,23 +69,21 @@ import static net.ivpn.client.ui.connect.ConnectionState.NOT_CONNECTED;
 import static net.ivpn.client.ui.connect.ConnectionState.PAUSED;
 import static net.ivpn.client.ui.connect.ConnectionState.PAUSING;
 
-public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener, ServiceConstants {
+public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedListener, ServiceConstants {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OpenVpnBehavior.class);
     private static final String TAG = OpenVpnBehavior.class.getSimpleName();
     private static final long COMMON_TIME_OUT = 15000L;
     private static final long PORT_CHECK_TIME_OUT = 11000L;
     private static final long NO_NETWORK_TIME_OUT = 2000L;
-    private static final long TICK = 1000L;
 
     private ConnectionStatus status;
     private ConnectionState state;
     private final List<VpnStateListener> listeners = new ArrayList<>();
     private PauseTimer timer;
-    private GlobalBehaviorController globalBehaviorController;
+
     private ServersRepository serversRepository;
     private Settings settings;
-    private VpnBehaviorController vpnBehaviorController;
     private PingProvider pingProvider;
     private DomainResolver domainResolver;
     private BroadcastReceiver connectionStatusReceiver;
@@ -114,14 +113,12 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     };
 
     @Inject
-    OpenVpnBehavior(GlobalBehaviorController globalBehaviorController, ServersRepository serversRepository,
-                    Settings settings, VpnBehaviorController vpnBehaviorController, PingProvider pingProvider,
+    OpenVpnBehavior(ServersRepository serversRepository,
+                    Settings settings, PingProvider pingProvider,
                     DomainResolver domainResolver) {
         LOGGER.info("OpenVpn behaviour");
-        this.globalBehaviorController = globalBehaviorController;
         this.serversRepository = serversRepository;
         this.settings = settings;
-        this.vpnBehaviorController = vpnBehaviorController;
         this.pingProvider = pingProvider;
         this.domainResolver = domainResolver;
         handler = new Handler(Looper.myLooper());
@@ -240,15 +237,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         sendConnectionState();
     }
 
-//    @Override
-//    public long getConnectionTime() {
-//        if (state == null || !state.equals(CONNECTED)) {
-//            return -1;
-//        } else {
-//            return System.currentTimeMillis()  - connectionTime;
-//        }
-//    }
-
     @Override
     public void actionByUser() {
         LOGGER.info("Connection init by user");
@@ -276,8 +264,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private void registerReceivers() {
-        globalBehaviorController.addConnectionStatusListener(this);
-
         connectionStatusReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -307,7 +293,6 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private void unregisterReceivers() {
         LocalBroadcastManager.getInstance(IVPNApplication.getApplication()).unregisterReceiver(connectionStatusReceiver);
-        globalBehaviorController.removeConnectionStatusListener(this);
     }
 
     private void onNotificationAction(Intent intent) {
@@ -317,26 +302,25 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         }
         switch (actionExtra) {
             case DISCONNECT_ACTION: {
-                vpnBehaviorController.disconnect();
+                behaviourListener.disconnect();
                 break;
             }
             case PAUSE_ACTION: {
-                vpnBehaviorController.pauseActionByUser();
+                behaviourListener.pauseActionByUser();
                 break;
             }
             case RESUME_ACTION: {
-                vpnBehaviorController.resumeActionByUser();
+                behaviourListener.resumeActionByUser();
                 break;
             }
             case STOP_ACTION: {
-                vpnBehaviorController.stopActionByUser();
+                behaviourListener.stopActionByUser();
                 break;
             }
         }
     }
 
     private void performConnectionAction() {
-        LOGGER.info("performConnectionAction: isVpnActive() = " + isVpnActive());
         LOGGER.info("performConnectionAction: state = " + state);
         if (state.equals(CONNECTING) || state.equals(CONNECTED)) {
             startDisconnectProcess();
@@ -451,18 +435,18 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         LOGGER.info("onReceiveConnectionStatus: state = " + state);
         switch (status) {
             case LEVEL_CONNECTED:
-                globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
+                behaviourListener.updateVpnConnectionState(VPNConnectionState.CONNECTED);
                 state = CONNECTED;
                 sendConnectionState();
                 handler.removeCallbacksAndMessages(null);
                 break;
             case UNKNOWN_LEVEL:
             case LEVEL_AUTH_FAILED:
-                globalBehaviorController.updateVpnConnectionState(VPNConnectionState.ERROR);
+                behaviourListener.updateVpnConnectionState(VPNConnectionState.ERROR);
                 onAuthFailed();
                 break;
             case LEVEL_NOTCONNECTED:
-                globalBehaviorController.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
+                behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
                 if (state.equals(NOT_CONNECTED) || state.equals(CONNECTING) || state.equals(PAUSED)) {
                     return;
                 }
@@ -497,7 +481,8 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private boolean isVpnActive() {
-        return vpnBehaviorController.isVPNActive();
+        return VpnStatus.isVPNActive()
+                || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK && IVPNService.isRunning.get());
     }
 
     private boolean isFastestServerEnabled() {
@@ -535,7 +520,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
             return;
         }
 
-        globalBehaviorController.onDisconnectingFromVpn();
+        behaviourListener.onDisconnectingFromVpn();
         Context context = IVPNApplication.getApplication();
         Intent disconnectIntent = new Intent(context, IVPNService.class);
         disconnectIntent.setAction(DISCONNECT_VPN);
@@ -546,7 +531,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
         if (!IVPNService.isRunning.get()) {
             return;
         }
-        globalBehaviorController.onDisconnectingFromVpn();
+        behaviourListener.onDisconnectingFromVpn();
         Context context = IVPNApplication.getApplication();
         Intent forceStopIntent = new Intent(context, IVPNService.class);
         forceStopIntent.setAction(STOP_VPN);
@@ -554,7 +539,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private void pauseVpn(long pauseDuration) {
-        globalBehaviorController.onDisconnectingFromVpn();
+        behaviourListener.onDisconnectingFromVpn();
         Context context = IVPNApplication.getApplication();
         Intent pauseIntent = new Intent(context, IVPNService.class);
         pauseIntent.setAction(PAUSE_VPN);
@@ -563,7 +548,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private void resumeVpn() {
-        globalBehaviorController.onConnectingToVpn();
+        behaviourListener.onConnectingToVpn();
         Context context = IVPNApplication.getApplication();
         Intent resumeIntent = new Intent(context, IVPNService.class);
         resumeIntent.setAction(RESUME_VPN);
@@ -571,7 +556,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
     }
 
     private void reconnectVpn() {
-        globalBehaviorController.onConnectingToVpn();
+        behaviourListener.onConnectingToVpn();
         Context context = IVPNApplication.getApplication();
         Intent reconnectIntent = new Intent(context, IVPNService.class);
         reconnectIntent.setAction(RECONNECTING_VPN);
@@ -580,7 +565,7 @@ public class OpenVpnBehavior implements VpnBehavior, OnVpnStatusChangedListener,
 
     private void startVpn() {
         Log.d(TAG, "startVpn: ");
-        globalBehaviorController.onConnectingToVpn();
+        behaviourListener.onConnectingToVpn();
         Context context = IVPNApplication.getApplication();
         Intent startServiceIntent = new Intent(context, IVPNService.class);
         startService(context, startServiceIntent);

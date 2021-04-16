@@ -69,7 +69,7 @@ import static net.ivpn.client.ui.connect.ConnectionState.NOT_CONNECTED;
 import static net.ivpn.client.ui.connect.ConnectionState.PAUSED;
 import static net.ivpn.client.ui.connect.ConnectionState.PAUSING;
 
-public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.OnStateChangedListener {
+public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, Tunnel.OnStateChangedListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WireGuardBehavior.class);
 
@@ -77,25 +77,18 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     private PauseTimer timer;
     private BroadcastReceiver notificationActionReceiver;
     private ConnectionState state;
-//    private long connectionTime;
     private WireGuardKeyController keyController;
 
-    private GlobalBehaviorController globalBehaviorController;
     private ServersRepository serversRepository;
-    private VpnBehaviorController vpnBehaviorController;
     private ConfigManager configManager;
     private PingProvider pingProvider;
 
     @Inject
-    WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
-                      GlobalBehaviorController globalBehaviorController, ServersRepository serversRepository,
-                      VpnBehaviorController vpnBehaviorController, ConfigManager configManager,
-                      PingProvider pingProvider) {
+    WireGuardBehavior(WireGuardKeyController wireGuardKeyController, ServersRepository serversRepository,
+                      ConfigManager configManager, PingProvider pingProvider) {
         LOGGER.info("Creating");
         keyController = wireGuardKeyController;
-        this.globalBehaviorController = globalBehaviorController;
         this.serversRepository = serversRepository;
-        this.vpnBehaviorController = vpnBehaviorController;
         this.configManager = configManager;
         this.pingProvider = pingProvider;
 
@@ -130,7 +123,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
 
     @Override
     public void actionByUser() {
-        LOGGER.info("actionByUser, state = " + state);
+        LOGGER.info("actionByUser, state = " + state + " this = " + this);
 
         switch (state) {
             case CONNECTED:
@@ -168,23 +161,16 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     @Override
     public void destroy() {
         LOGGER.info("destroy, remove all registers and listeners");
+        configManager.setListener(null);
         unregisterReceivers();
         stop();
+        listeners.clear();
     }
 
     @Override
     public void notifyVpnState() {
         sendConnectionState(timer.getMillisUntilFinished());
     }
-
-//    @Override
-//    public long getConnectionTime() {
-//        if (state == null || !state.equals(CONNECTED)) {
-//            return -1;
-//        } else {
-//            return System.currentTimeMillis() - connectionTime;
-//        }
-//    }
 
     private void registerReceivers() {
         notificationActionReceiver = new BroadcastReceiver() {
@@ -219,19 +205,19 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         LOGGER.info("onNotificationAction, actionExtra = " + actionExtra + " state = " + state);
         switch (actionExtra) {
             case DISCONNECT_ACTION: {
-                vpnBehaviorController.disconnect();
+                behaviourListener.disconnect();
                 break;
             }
             case PAUSE_ACTION: {
-                vpnBehaviorController.pauseActionByUser();
+                behaviourListener.pauseActionByUser();
                 break;
             }
             case RESUME_ACTION: {
-                vpnBehaviorController.resumeActionByUser();
+                behaviourListener.resumeActionByUser();
                 break;
             }
             case STOP_ACTION: {
-                vpnBehaviorController.stopActionByUser();
+                behaviourListener.stopActionByUser();
                 break;
             }
             case RECONNECT_ACTION: {
@@ -294,7 +280,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
 
     private void startWireGuard() {
         LOGGER.info("startWireGuard: state = " + state);
-        globalBehaviorController.onConnectingToVpn();
+        behaviourListener.onConnectingToVpn();
         setState(CONNECTING);
         updateNotification();
         configManager.startWireGuard();
@@ -318,7 +304,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
         LOGGER.info("startDisconnectProcess: state = " + state);
         setState(DISCONNECTING);
         updateNotification();
-        globalBehaviorController.onDisconnectingFromVpn();
+        behaviourListener.onDisconnectingFromVpn();
         stopVpn();
     }
 
@@ -331,7 +317,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
 
     private void pauseVpn(long pauseDuration) {
         LOGGER.info("pauseVpn: state = " + state);
-        globalBehaviorController.onDisconnectingFromVpn();
+        behaviourListener.onDisconnectingFromVpn();
         setState(PAUSING);
         updateNotification(pauseDuration);
         configManager.stopWireGuard();
@@ -462,6 +448,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     }
 
     private void setState(ConnectionState state) {
+        LOGGER.info("setState, state = " + state + " this = " + this);
         this.state = state;
         sendConnectionState();
     }
@@ -548,7 +535,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
     public void onStateChanged(@NotNull Tunnel.State newState) {
         if (newState == Tunnel.State.UP) {
             setState(CONNECTED);
-            globalBehaviorController.updateVpnConnectionState(VPNConnectionState.CONNECTED);
+            behaviourListener.updateVpnConnectionState(VPNConnectionState.CONNECTED);
         } else {
             if (state == PAUSING) {
                 setState(PAUSED);
@@ -559,7 +546,7 @@ public class WireGuardBehavior implements VpnBehavior, ServiceConstants, Tunnel.
             for (VpnStateListener listener : listeners) {
                 listener.onCheckSessionState();
             }
-            globalBehaviorController.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
+            behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
         }
 
         updateNotification();

@@ -25,6 +25,11 @@
     <!--    To scan QR code-->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!--    To mock location-->
+    <uses-permission
+        android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="MockLocation, ProtectedPermissions" />
+
     <!--    For QR scanner-->
     <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
 
@@ -73,6 +78,10 @@
 
         <activity
             android:name=".vpn.local.PermissionActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
+            android:name=".vpn.local.KillSwitchPermissionActivity"
             android:theme="@style/AppTheme.Transparent" />
 
         <activity

@@ -47,6 +47,7 @@ public class ProtocolController {
         this.stickyPreference = stickyPreference;
 
         listeners = new ArrayList<>();
+        currentProtocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
     }
 
     public void init() {

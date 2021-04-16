@@ -119,7 +119,7 @@
                 android:lineSpacingExtra="24sp"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="@{viewmodel.wgInfo.ipAddress}"
+                android:text="@{viewmodel.wgInfo.ipAddressUI}"
                 android:textColor="@color/protocol_text_color"
                 android:textSize="16sp"
                 android:textStyle="normal"

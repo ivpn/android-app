@@ -202,7 +202,6 @@ public class ProtocolViewModel {
     private void onGeneratingError(String error, Throwable throwable) {
         LOGGER.error(TAG, "On generating error: " + error, throwable);
         dataLoading.set(false);
-        setProtocol(Protocol.OPENVPN);
 
         if (throwable != null) {
             if (throwable instanceof UnknownHostException) {
@@ -238,7 +237,6 @@ public class ProtocolViewModel {
             public void onKeyGenerating() {
                 LOGGER.info("onKeyGenerating");
                 dataLoading.set(true);
-//                wgInfo.set(getWireGuardInfo());
                 loadingMessage.set(context.getString(R.string.protocol_generating_and_uploading_key));
             }
 

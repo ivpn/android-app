@@ -22,7 +22,6 @@ package net.ivpn.client.vpn.openvpn;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -40,10 +39,10 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
+import android.system.OsConstants;
+
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import android.system.OsConstants;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
@@ -554,9 +553,10 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
 
     public ParcelFileDescriptor openTun() {
         Builder builder = new Builder();
+        profile.mAllowLocalLAN = serviceConfiguration.isLocalBypassEnabled();
 
         LOGGER.info(getString(R.string.last_openvpn_tun_config));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && profile.mAllowLocalLAN) {
+        if (profile.mAllowLocalLAN) {
             allowAllAFFamilies(builder);
         }
 
@@ -569,7 +569,6 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             builder.setMetered(false);
         }
-
         builder.setBlocking(true);
 
         try {

@@ -55,6 +55,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE"
         private const val SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION"
         private const val SETTINGS_FILTER = "SETTINGS_FILTER"
+        private const val SETTINGS_MOCK_LOCATION = "SETTINGS_MOCK_LOCATION"
+        private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
 
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
@@ -69,6 +71,26 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
+
+    var mockLocationSettings: Boolean
+    get() {
+        return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
+    }
+    set(value) {
+        sharedPreferences.edit()
+                .putBoolean(SETTINGS_MOCK_LOCATION, value)
+                .apply()
+    }
+
+    var bypassLocalSettings: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_BYPASS_LOCAL, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(SETTINGS_BYPASS_LOCAL, value)
+                    .apply()
+        }
 
     init {
         migrate()

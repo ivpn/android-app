@@ -34,6 +34,8 @@
     <string name="settings_server">Server</string>
     <string name="settings_about">About</string>
     <string name="settings_interface">Interface</string>
+    <string name="settings_logging">Logging</string>
+    <string name="settings_connectivity">Connectivity</string>
     <string name="settings_other">Advanced settings</string>
     <string name="settings_terms_of_service">Terms of service</string>
     <string name="settings_privacy_policy">Privacy policy</string>
@@ -56,6 +58,10 @@
     <string name="settings_anti_surveillance_description">Configure ad, malware, and tracker blocking.</string>
     <string name="settings_custom_dns_description">Specify DNS server when connected to VPN.</string>
     <string name="settings_updates_title">Updates</string>
+    <string name="settings_mock_location_title">Mock Location</string>
+    <string name="settings_mock_location_description">Match your GPS location to your VPN location.</string>
+    <string name="settings_local_bypass_title">Bypass VPN for local networks</string>
+    <string name="settings_local_bypass_description">Networks directly connected to the local interfaces will not be routed over the VPN.</string>
 
     <string name="kill_switch_vpn">VPN Kill switch</string>
     <string name="kill_switch_vpn_description">Disables internet access when VPN connection drops</string>
@@ -65,6 +71,8 @@
     <string name="settings_protocol_selection_description">Choose VPN protocol and associated with it settings.</string>
     <string name="settings_vpn_protocol">VPN protocol</string>
 
+    <string name="snackbar_to_use_vpn_bypass_disconnect">To use VPN bypass, please disconnect first</string>
+    <string name="snackbar_to_use_mock_location_disconnect">To use Mock Locations, please disconnect first</string>
     <string name="snackbar_to_use_antitracker_disconnect">To use AntiTracker, please disconnect first</string>
     <string name="snackbar_to_use_custom_dns_disconnect">To use Custom DNS, please disconnect first</string>
     <string name="snackbar_to_use_kill_switch_disconnect">To use Kill switch, please disconnect first</string>
@@ -121,6 +129,30 @@
     <string name="anti_surveillance_hardcore">Hardcore Mode</string>
     <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
     <string name="anti_surveillance_read_more">Read more</string>
+
+    <!--Mock Location-->
+    <string name="mock_location_enable_developer_options">Enable developer options</string>
+    <string name="mock_location_enable_developer_options_description">To enable developer options, tap the <b>Build Number</b> option 7 times. You can find this option in the following location:</string>
+    <string name="mock_location_enable_developer_options_guide_label">For more information on how to enable developer options, please follow the guide.</string>
+    <string name="mock_location_guide_label">For more information on how to set IVPN as a mock location app, please follow the guide.</string>
+    <string name="mock_location_enable_developer_options_path">Settings > About Phone > Build Number</string>
+    <string name="mock_location_to_settings">To settings</string>
+    <string name="mock_location_open_guide">Open guide</string>
+    <string name="mock_location_next">Next</string>
+    <string name="mock_location_title">Override GPS location</string>
+    <string name="mock_location_description">Match your GPS location to your VPN location. It will make all the apps that use GPS to detect your location think that you are in your VPN location.</string>
+    <string name="mock_location_setup_title">To use the Mock location feature, you need to change your Android device settings first.</string>
+    <string name="mock_location_setup_description">To do it, tap \"Setup\" and follow the next steps. The exact steps might be different for Android OS versions and depend on device brands. If you get stuck,  contact our support team, and we will help you. \n\nWarning: using the feature can affect your battery consumption.</string>
+    <string name="mock_location_setup_action">Setup</string>
+    <string name="mock_location_next_action">Next</string>
+    <string name="mock_location_close_action">Close</string>
+    <string name="mock_location_step_1">Step 1/3</string>
+    <string name="mock_location_step_2">Step 2/3</string>
+    <string name="mock_location_step_3">Step 3/3</string>
+    <string name="mock_location_step_2_title">Enable mock location</string>
+    <string name="mock_location_step_2_description">Go to the Developer options you previously unlocked and select IVPN as mock location app.</string>
+    <string name="mock_location_step_3_title">The setup is completed</string>
+    <string name="mock_location_step_3_description">You\'re good to go! Your GPS location will be the same as your VPN location.</string>
 
     <!--Custom dns-->
     <string name="custom_dns_feature">Use Custom DNS</string>
@@ -308,6 +340,11 @@
     <string name="dialogs_cancel">CANCEL</string>
     <string name="dialogs_try_again">TRY AGAIN</string>
     <string name="dialogs_retry">Retry</string>
+
+    <string name="dialogs_mock_location_developer_options">Developer Options are disabled</string>
+    <string name="dialogs_mock_location_developer_options_message">Please try again. If you need help, check our guide or contact our customer support.</string>
+    <string name="dialogs_mock_wrong_app">Mock Location is disabled</string>
+    <string name="dialogs_mock_wrong_app_message">Please try again. If you need help, check our guide or contact our customer support.</string>
 
     <string name="dialogs_auth_error_msg">Either your account ID is incorrect or your subscription has expired. Please check and try again.</string>
     

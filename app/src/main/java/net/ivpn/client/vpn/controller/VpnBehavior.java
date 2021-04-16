@@ -25,35 +25,37 @@ package net.ivpn.client.vpn.controller;
 import net.ivpn.client.common.prefs.ServerType;
 import net.ivpn.client.rest.data.model.Server;
 
-public interface VpnBehavior {
+public abstract class VpnBehavior {
 
-    void pause(long pauseDuration);
+    BehaviourListener behaviourListener = null;
 
-    void resume();
+    abstract void pause(long pauseDuration);
 
-    void stop();
+    abstract void resume();
 
-    void startConnecting();
+    abstract void stop();
 
-    void startConnecting(boolean force);
+    abstract void startConnecting();
 
-    void disconnect();
+    abstract void startConnecting(boolean force);
 
-    void actionByUser();
+    abstract void disconnect();
 
-    void reconnect();
+    abstract void actionByUser();
 
-    void regenerateKeys();
+    abstract void reconnect();
 
-    void addStateListener(VpnStateListener vpnStateListener);
+    abstract void regenerateKeys();
 
-    void removeStateListener(VpnStateListener vpnStateListener);
+    abstract void addStateListener(VpnStateListener vpnStateListener);
 
-    void destroy();
+    abstract void removeStateListener(VpnStateListener vpnStateListener);
 
-    void notifyVpnState();
+    abstract void destroy();
 
-    interface OnRandomServerSelectionListener {
+    abstract void notifyVpnState();
+
+    public interface OnRandomServerSelectionListener {
         void onRandomServerSelected(Server server, ServerType serverType);
     }
 

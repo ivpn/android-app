@@ -368,7 +368,6 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
         } else {
             managmentCommand("proxy NO_NETWORK\n");
         }
-
     }
 
     private void processState(String argument) {

@@ -51,6 +51,26 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
 
     private val sharedPreferences: SharedPreferences = preference.accountPreference
 
+    var blankUsername: String?
+        get() {
+            return sharedPreferences.getString(BLANK_USERNAME, null)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putString(BLANK_USERNAME, value)
+                    .apply()
+        }
+
+    var blankUsernameGeneratedDate: Long
+        get() {
+            return sharedPreferences.getLong(BLANK_USERNAME_GENERATED_DATE, 0)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putLong(BLANK_USERNAME_GENERATED_DATE, value)
+                    .apply()
+        }
+
     init {
         migrate()
     }
@@ -64,18 +84,6 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
     fun putSessionUsername(sessionVpnUsername: String?) {
         sharedPreferences.edit()
                 .putString(SESSION_VPN_USERNAME, sessionVpnUsername)
-                .apply()
-    }
-
-    fun putBlankUsername(blankUsername: String?) {
-        sharedPreferences.edit()
-                .putString(BLANK_USERNAME, blankUsername)
-                .apply()
-    }
-
-    fun putBlankUsernameGenerationDate(timestamp: Long) {
-        sharedPreferences.edit()
-                .putLong(BLANK_USERNAME_GENERATED_DATE, timestamp)
                 .apply()
     }
 
@@ -125,14 +133,6 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
 
     fun getSessionVpnUsername(): String? {
         return sharedPreferences.getString(SESSION_VPN_USERNAME, "")
-    }
-
-    fun getBlankUsername(): String? {
-        return sharedPreferences.getString(BLANK_USERNAME, "")
-    }
-
-    fun getBlankUsernameGeneratedDate(): Long {
-        return sharedPreferences.getLong(BLANK_USERNAME_GENERATED_DATE, 0)
     }
 
     fun getSessionVpnPassword(): String? {
@@ -229,10 +229,10 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
             putSessionPassword(oldPreference.getString(SESSION_VPN_PASSWORD, ""))
         }
         if (oldPreference.contains(BLANK_USERNAME)) {
-            putBlankUsername(oldPreference.getString(BLANK_USERNAME, ""))
+            blankUsername = oldPreference.getString(BLANK_USERNAME, "")
         }
         if (oldPreference.contains(BLANK_USERNAME_GENERATED_DATE)) {
-            putBlankUsernameGenerationDate(oldPreference.getLong(BLANK_USERNAME_GENERATED_DATE, 0L))
+            blankUsernameGeneratedDate = oldPreference.getLong(BLANK_USERNAME_GENERATED_DATE, 0L)
         }
 
         oldPreference.edit().clear().apply()

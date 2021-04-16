@@ -28,6 +28,10 @@ import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
 import net.ivpn.client.common.tile.IVPNTileService;
 import net.ivpn.client.ui.billing.BillingActivity;
 import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
+import net.ivpn.client.ui.mocklocation.MockLocationFragment;
+import net.ivpn.client.ui.mocklocation.MockLocationStep1Fragment;
+import net.ivpn.client.ui.mocklocation.MockLocationStep2Fragment;
+import net.ivpn.client.ui.mocklocation.MockLocationStep3Fragment;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.subscription.monthly.MonthlySubscriptionFragment;
 import net.ivpn.client.ui.subscription.yearly.YearlySubscriptionFragment;
@@ -169,6 +173,14 @@ public interface ActivityComponent {
     void inject(WireGuardDetailsFragment fragment);
 
     void inject(KillSwitchFragment fragment);
+
+    void inject(MockLocationFragment fragment);
+
+    void inject(MockLocationStep1Fragment fragment);
+
+    void inject(MockLocationStep2Fragment fragment);
+
+    void inject(MockLocationStep3Fragment fragment);
 
     void inject(MapView map);
 
