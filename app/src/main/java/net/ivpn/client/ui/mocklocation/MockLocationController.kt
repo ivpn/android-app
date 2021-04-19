@@ -35,6 +35,7 @@ import net.ivpn.client.common.prefs.EncryptedSettingsPreference
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.rest.data.model.Server
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @ApplicationScope
@@ -42,7 +43,7 @@ class MockLocationController @Inject constructor(
         private val settingsPreference: EncryptedSettingsPreference,
         private val serversRepository: ServersRepository,
         private val multiHopController: MultiHopController
-){
+) {
     var isEnabled: Boolean = false
     var isTestProviderAdded = false
 
@@ -125,7 +126,6 @@ class MockLocationController @Inject constructor(
     }
 
     fun stop() {
-        println("Stop Mock location")
         runnable?.let {
             handler.removeCallbacks(it)
         }
@@ -137,8 +137,9 @@ class MockLocationController @Inject constructor(
     }
 
     private fun removeProvider(provider: String) {
-        if (manager.isProviderEnabled(provider)) {
+        try {
             manager.removeTestProvider(provider)
+        } catch (ignored: IllegalArgumentException) {
         }
     }
 
@@ -151,9 +152,12 @@ class MockLocationController @Inject constructor(
     }
 
     private fun addTestProviders(provider: String) {
-        manager.addTestProvider(provider, false, false,
-                false, false, false, true,
-                true, 1, 2)
+        try {
+            manager.addTestProvider(provider, false, false,
+                    false, false, false, true,
+                    true, 1, 2)
+        } catch (ignored: IllegalArgumentException) {
+        }
     }
 
     private fun setMock(provider: String, latitude: Double, longitude: Double) {
