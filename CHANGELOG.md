@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 [FIXED] Kill switch state on applying network protection rules  
 [FIXED] UI/UX for in-app purchases for the existing accounts  
 
+[Download IVPN Client v. 2.4.0](https://cdn.ivpn.net/releases/android/IVPNv2.4.0site.apk)
+SHA256: 3c84020a60afcb5af0f4a4cd9c18364d6f867241d40bf76ea499f8a23ad00d29
+
 ## Version 2.3.0(2.3.1) - 2021-02-25
 
 [NEW] Possibility to establish VPN connection via Android Quick Setting Tile  
