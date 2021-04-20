@@ -53,7 +53,6 @@ class AntiTrackerFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        throw IllegalStateException("Last check")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_antitracker, container, false)
         return binding.root
     }
