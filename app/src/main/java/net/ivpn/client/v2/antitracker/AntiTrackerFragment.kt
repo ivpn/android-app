@@ -38,7 +38,6 @@ import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentAntitrackerBinding
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.AntiTrackerViewModel
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class AntiTrackerFragment: Fragment() {
