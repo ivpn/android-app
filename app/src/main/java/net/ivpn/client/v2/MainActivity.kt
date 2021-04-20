@@ -31,7 +31,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import net.ivpn.client.R
 import net.ivpn.client.common.extension.setContentSecure
 

@@ -38,6 +38,7 @@ import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentAntitrackerBinding
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.AntiTrackerViewModel
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class AntiTrackerFragment: Fragment() {
@@ -52,6 +53,7 @@ class AntiTrackerFragment: Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
+        throw IllegalStateException("Last check")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_antitracker, container, false)
         return binding.root
     }

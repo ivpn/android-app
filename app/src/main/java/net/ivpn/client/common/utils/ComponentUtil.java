@@ -47,7 +47,6 @@ import javax.inject.Inject;
 @ApplicationScope
 public class ComponentUtil {
 
-    private Context context;
     private Settings settings;
     private UpdateHelper updateHelper;
     private Preference preference;
@@ -63,12 +62,11 @@ public class ComponentUtil {
     private LogUtil logUtil;
 
     @Inject
-    ComponentUtil(Context context, LogUtil logUtil, UpdateHelper updateHelper, Preference preference, Settings settings,
+    ComponentUtil(LogUtil logUtil, UpdateHelper updateHelper, Preference preference, Settings settings,
                   UpdatesJobServiceUtil updatesJobServiceUtil, ServersRepository serversRepository,
                   GlobalBehaviorController globalBehaviorController, ProtocolController protocolController,
                   NetworkController networkController, ConfigManager configManager,
                   ProfileManager profileManager, MigrationController migrationController, SentryUtil sentryUtil) {
-        this.context = context;
         this.logUtil = logUtil;
         this.updateHelper = updateHelper;
         this.settings = settings;
