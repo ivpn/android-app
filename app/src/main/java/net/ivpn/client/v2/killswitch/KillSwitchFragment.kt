@@ -90,11 +90,6 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        killSwitch.navigator = null
-    }
-
     private fun initToolbar() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)

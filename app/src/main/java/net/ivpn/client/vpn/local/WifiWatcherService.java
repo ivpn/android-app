@@ -23,7 +23,6 @@ package net.ivpn.client.vpn.local;
 */
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -36,6 +35,7 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.client.IVPNApplication;
@@ -57,7 +57,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     public static AtomicBoolean isRunning = new AtomicBoolean(false);
 
     private WifiBroadcastReceiver receiver;
-    private NotificationManager notificationManager;
+    private NotificationManagerCompat notificationManager;
 
     private int notificationId;
 
@@ -74,7 +74,7 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     public void onCreate() {
         LOGGER.info("onCreate");
         super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = NotificationManagerCompat.from(this);
         notificationId = ServiceConstants.WIFI_WATCHER_CHANNEL.hashCode();
     }
 
@@ -117,10 +117,10 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     private int endService() {
         LOGGER.info("endService");
         stopForeground(true);
+        notificationManager.cancel(notificationId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopSelf(STOP_FOREGROUND_REMOVE);
         } else {
-            notificationManager.cancel(notificationId);
             stopSelf();
         }
         return START_NOT_STICKY;

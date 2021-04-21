@@ -22,10 +22,10 @@ package net.ivpn.client.common.utils;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationManagerCompat;
 
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.IVPNApplication;
@@ -97,11 +97,13 @@ public class ComponentUtil {
     }
 
     public void resetComponents() {
+        networkController.finishAll();
         preference.removeAll();
         globalBehaviorController.finishAll();
-        networkController.finishAll();
         updatesJobServiceUtil.clearUpdateJob(IVPNApplication.getApplication());
         updateHelper.skipUpdate();
+
+        NotificationManagerCompat.from(IVPNApplication.getApplication()).cancelAll();
     }
 
     private void initProfile() {
