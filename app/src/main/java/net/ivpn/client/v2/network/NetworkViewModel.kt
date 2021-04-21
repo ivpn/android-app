@@ -223,7 +223,7 @@ class NetworkViewModel @Inject internal constructor(
             return
         }
         if (source == NetworkSource.WIFI) {
-            LOGGER.info("NetworkController", "onNetworkSourceChanged: ssid = " + source.ssid)
+            LOGGER.info("onNetworkSourceChanged: ssid = " + source.ssid)
         }
         networkSource.set(source)
         networkState.set(source.finalState)
