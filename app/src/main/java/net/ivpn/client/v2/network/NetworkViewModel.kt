@@ -218,12 +218,12 @@ class NetworkViewModel @Inject internal constructor(
     }
 
     override fun onNetworkSourceChanged(source: NetworkSource?) {
-        Log.d("NetworkController", "onNetworkSourceChanged: source = $source")
+        LOGGER.info("onNetworkSourceChanged: source = $source")
         if (source == null) {
             return
         }
         if (source == NetworkSource.WIFI) {
-            Log.d("NetworkController", "onNetworkSourceChanged: ssid = " + source.ssid)
+            LOGGER.info("NetworkController", "onNetworkSourceChanged: ssid = " + source.ssid)
         }
         networkSource.set(source)
         networkState.set(source.finalState)

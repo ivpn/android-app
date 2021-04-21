@@ -23,15 +23,15 @@ package net.ivpn.client.vpn.local;
 */
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.client.R;
@@ -51,7 +51,7 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
     public static AtomicBoolean isRunning = new AtomicBoolean(false);
 
     private ParcelFileDescriptor tun;
-    private NotificationManager notificationManager;
+    private NotificationManagerCompat notificationManager;
 
     private int notificationId;
 
@@ -65,7 +65,7 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
     public void onCreate() {
         LOGGER.info("onCreate");
         super.onCreate();
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = NotificationManagerCompat.from(this);
         notificationId = ServiceConstants.KILL_SWITCH_CHANNEL.hashCode();
     }
 
@@ -114,13 +114,12 @@ public class KillSwitchService extends VpnService implements ServiceConstants {
 
     private int endService() {
         LOGGER.info("endService");
-        notificationManager.cancelAll();
+        notificationManager.cancel(notificationId);
         closeTun();
         stopForeground(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopSelf(STOP_FOREGROUND_REMOVE);
         } else {
-            notificationManager.cancel(notificationId);
             stopSelf();
         }
         return START_NOT_STICKY;

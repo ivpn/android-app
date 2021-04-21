@@ -157,7 +157,6 @@ class SessionController @Inject constructor(
                             }
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
                                 clearData()
-                                ViewModelCleaner()
                             }
                         }
                         onUpdateError(null, errorResponse)

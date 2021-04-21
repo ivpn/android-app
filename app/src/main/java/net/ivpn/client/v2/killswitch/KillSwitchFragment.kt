@@ -90,10 +90,10 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        killSwitch.navigator = null
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        killSwitch.navigator = null
+//    }
 
     private fun initToolbar() {
         val navController = findNavController()
