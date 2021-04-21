@@ -22,8 +22,6 @@ package net.ivpn.client.common.utils;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;

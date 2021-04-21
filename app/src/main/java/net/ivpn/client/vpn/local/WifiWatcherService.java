@@ -121,7 +121,6 @@ public class WifiWatcherService extends Service implements ServiceConstants {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopSelf(STOP_FOREGROUND_REMOVE);
         } else {
-//            notificationManager.cancel(notificationId);
             stopSelf();
         }
         return START_NOT_STICKY;
