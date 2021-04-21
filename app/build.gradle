@@ -217,8 +217,8 @@ dependencies {
 //    Purchases
     implementation 'com.android.billingclient:billing:2.2.0'
 
-    //For crash logging
-    implementation 'io.sentry:sentry-android:3.1.0'
+    //For crash logging. Please don't update this version.
+    implementation 'io.sentry:sentry-android:2.0.0'
 
     //QR support
     implementation 'com.google.zxing:core:3.3.0'
