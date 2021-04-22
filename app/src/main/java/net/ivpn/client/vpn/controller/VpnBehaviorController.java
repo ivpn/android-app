@@ -137,7 +137,7 @@ public class VpnBehaviorController implements BehaviourListener {
 
     public void connectActionByRules() {
         LOGGER.info("connectActionByRules");
-        behavior.startConnecting(true);
+        behavior.startConnecting(false);
     }
 
     public void connectionActionByUser() {
