@@ -97,8 +97,8 @@ public class ComponentUtil {
     }
 
     public void resetComponents() {
-        networkController.finishAll();
         preference.removeAll();
+        networkController.finishAll();
         globalBehaviorController.finishAll();
         updatesJobServiceUtil.clearUpdateJob(IVPNApplication.getApplication());
         updateHelper.skipUpdate();

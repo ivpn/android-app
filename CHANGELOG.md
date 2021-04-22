@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.4.0 - 2021-04-16
+## Version 2.4.0(2.4.1) - 2021-04-16
 
 [NEW] Possibility to mock GPS location  
 [NEW] Bypass VPN for local networks  

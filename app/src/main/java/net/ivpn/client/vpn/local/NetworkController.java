@@ -94,12 +94,21 @@ public class NetworkController implements ServiceConstants {
 
     public void init() {
         LOGGER.info("Init");
+        initInnerState();
+//        isWifiWatcherSettingEnabled = settingsPreference.getSettingNetworkRules();
+//        defaultState = networkProtectionPreference.getDefaultNetworkState();
+//        mobileState = networkProtectionPreference.getMobileDataNetworkState();
+//        trustedWiFis = networkProtectionPreference.getTrustedWifiList();
+//        untrustedWiFis = networkProtectionPreference.getUntrustedWifiList();
+        registerReceiver();
+    }
+
+    private void initInnerState() {
         isWifiWatcherSettingEnabled = settingsPreference.getSettingNetworkRules();
         defaultState = networkProtectionPreference.getDefaultNetworkState();
         mobileState = networkProtectionPreference.getMobileDataNetworkState();
         trustedWiFis = networkProtectionPreference.getTrustedWifiList();
         untrustedWiFis = networkProtectionPreference.getUntrustedWifiList();
-        registerReceiver();
     }
 
     public boolean isWifiWatcherSettingEnabled() {
@@ -541,7 +550,8 @@ public class NetworkController implements ServiceConstants {
         LOGGER.info("finishAll");
         stopWifiWatcherService();
         source = null;
-        isWifiWatcherSettingEnabled = false;
+        initInnerState();
+//        isWifiWatcherSettingEnabled = false;
     }
 
     public void changeConnectToVpnRule(boolean isEnabled) {
