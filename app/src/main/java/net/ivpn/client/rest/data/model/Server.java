@@ -171,6 +171,11 @@ public class Server implements ConnectionOption {
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
     }
 
+    public boolean isIPv6Enabled() {
+        if (hosts == null || hosts.isEmpty()) return false;
+        return hosts.get(0).getIpv6() != null;
+    }
+
     @Override
     public String toString() {
         return "Server{" +

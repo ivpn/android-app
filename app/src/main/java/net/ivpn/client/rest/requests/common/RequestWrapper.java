@@ -39,6 +39,7 @@ import java.util.LinkedList;
 import javax.inject.Inject;
 
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +55,7 @@ public class RequestWrapper<T> implements Callback<T> {
     private static final String HTTPS = "https://";
     private static final String SLASH = "/";
 
+    private IpMode mode;
     private LinkedList<String> ips;
     private String testingIp;
     private String startIp;
@@ -69,10 +71,11 @@ public class RequestWrapper<T> implements Callback<T> {
     private ServersRepository serversRepository;
 
     RequestWrapper(Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository,
-                   int timeOut) {
+                   int timeOut, IpMode mode) {
         this.settings = settings;
         this.serversRepository = serversRepository;
         this.httpClient = httpClientFactory.getHttpClient(timeOut);
+        this.mode = mode;
     }
 
     void setRequestListener(RequestListener listener) {
@@ -138,6 +141,7 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private IVPNApi generateApi(String baseUrl) {
+        System.out.println("Base url = " + baseUrl);
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -148,7 +152,7 @@ public class RequestWrapper<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        LOGGER.info("Response received");
+        LOGGER.info("Response received for " + mode);
         if (isCancelled || response == null || listener == null) return;
 
 //        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
@@ -189,13 +193,55 @@ public class RequestWrapper<T> implements Callback<T> {
 
     private LinkedList<String> getIps() {
         if (ips == null) {
-            ips = settings.getIpList();
+            ips = getIpsModeBased();
         }
-        if (ips == null) {
+        if (ips.isEmpty()) {
             serversRepository.tryUpdateIpList();
-            ips = settings.getIpList();
+            ips = getIpsModeBased();
         }
 
         return ips;
+    }
+
+    private LinkedList<String> getIpsModeBased() {
+        LinkedList<String> ips = new LinkedList<>();
+        LinkedList<String> tempIps;
+        switch (mode) {
+            case IPv4:
+                tempIps = settings.getIpList();
+                if (tempIps != null) {
+                    ips.addAll(tempIps);
+                }
+                break;
+            case IPv6:
+                tempIps = settings.getIpv6List();
+                if (tempIps != null) {
+                    for (String ip :tempIps) {
+                        ips.add("[" + ip +"]");
+                    }
+                }
+                break;
+            case BOTH:
+                tempIps = settings.getIpList();
+                if (tempIps != null) {
+                    ips.addAll(tempIps);
+                }
+                tempIps = settings.getIpv6List();
+                if (tempIps != null) {
+                    for (String ip :tempIps) {
+                        ips.add("[" + ip +"]");
+                    }
+//                    ips.addAll(tempIps);
+                }
+                break;
+        }
+
+        return ips;
+    }
+
+    public enum IpMode {
+        IPv4,
+        IPv6,
+        BOTH
     }
 }

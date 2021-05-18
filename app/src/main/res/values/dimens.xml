@@ -81,4 +81,9 @@
 
     <!--    Login-->
     <dimen name="placeholder_text_size">20sp</dimen>
+
+    <dimen name="ip_selector_corner_radius">12dp</dimen>
+    <dimen name="ip_selector_inner_corner_radius">10dp</dimen>
+    <dimen name="ip_selector_border">4dp</dimen>
+    <dimen name="ip_selector_text">16sp</dimen>
 </resources>

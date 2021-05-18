@@ -49,6 +49,7 @@ import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.mocklocation.MockLocationNavigator
 import net.ivpn.client.ui.mocklocation.MockLocationViewModel
+import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
@@ -103,6 +104,9 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     @Inject
     lateinit var localBypass: BypassVpnViewModel
 
+    @Inject
+    lateinit var ipv6: IPv6ViewModel
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -152,6 +156,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.colorTheme = colorTheme
         binding.contentLayout.mocklocation = mockLocation
         binding.contentLayout.localbypass = localBypass
+        binding.contentLayout.ipv6 = ipv6
 
         colorTheme.navigator = this
         mockLocation.navigator = this

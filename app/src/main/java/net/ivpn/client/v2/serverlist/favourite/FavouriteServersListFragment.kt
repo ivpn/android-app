@@ -45,6 +45,7 @@ import net.ivpn.client.v2.serverlist.ServerListTabFragment
 import net.ivpn.client.v2.serverlist.all.ServerListFragment
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.viewmodel.ConnectionViewModel
+import net.ivpn.client.v2.viewmodel.IPv6ViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
 import org.slf4j.LoggerFactory
@@ -63,6 +64,9 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
 
     @Inject
     lateinit var connect: ConnectionViewModel
+
+    @Inject
+    lateinit var ipv6ViewModel: IPv6ViewModel
 
     lateinit var adapter: FavouriteServerListRecyclerViewAdapter
 
@@ -127,7 +131,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
         adapter = FavouriteServerListRecyclerViewAdapter(viewmodel.adapterListener,
-                filterViewModel.filter.get())
+                filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))

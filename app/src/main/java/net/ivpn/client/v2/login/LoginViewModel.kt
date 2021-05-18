@@ -74,6 +74,9 @@ class LoginViewModel @Inject constructor(
 
     var navigator: LoginNavigator? = null
 
+    var pendingCaptcha: String? = null
+    var pending2FAToken: String? = null
+
     var tfaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
         if (hasFocus) {
             tfaInputState.get()?.let {
@@ -168,8 +171,20 @@ class LoginViewModel @Inject constructor(
 
         dataLoading.set(true)
         resetErrors()
-        username.get()?.let {
-            login(it.trim(), force)
+        username.get()?.let { usernameObj ->
+            pendingCaptcha?.let { captchaObj ->
+                captchaId?.let { captchaIdObj ->
+                    sessionController.createSessionWithCaptcha(force, usernameObj.trim(), captchaIdObj, captchaObj)
+                    pendingCaptcha = null
+                    return
+                }
+            }
+            pending2FAToken?.let { tfaTokenObj ->
+                sessionController.createSessionWith2FAToken(force, usernameObj.trim(), tfaTokenObj)
+                pending2FAToken = null
+                return
+            }
+            login(usernameObj.trim(), force)
         }
     }
 
@@ -282,6 +297,8 @@ class LoginViewModel @Inject constructor(
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)
             }
             Responses.SESSION_TOO_MANY -> {
+                pendingCaptcha = captcha.get()
+                pending2FAToken = tfaToken.get()
                 navigator?.openSessionLimitReachedDialogue()
             }
             Responses.INVALID_CAPTCHA -> {

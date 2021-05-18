@@ -37,6 +37,7 @@ import net.ivpn.client.rest.data.model.WireGuard
 import net.ivpn.client.rest.data.session.*
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.rest.requests.common.RequestWrapper
 import net.ivpn.client.v2.login.LoginViewModel
 import net.ivpn.client.v2.viewmodel.ViewModelCleaner
 import net.ivpn.client.vpn.Protocol
@@ -101,7 +102,7 @@ class SessionController @Inject constructor(
     }
 
     private fun innerCreateSession(body: SessionNewRequestBody, keys: Keypair?) {
-        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
@@ -130,7 +131,7 @@ class SessionController @Inject constructor(
         }
 
         val body = SessionStatusRequestBody(getSessionToken())
-        sessionStatusRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+        sessionStatusRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
 
         sessionStatusRequest?.start({ api: IVPNApi -> api.sessionStatus(body) },
                 object : RequestListener<SessionStatusResponse> {
@@ -169,7 +170,7 @@ class SessionController @Inject constructor(
 
         val token = userPreference.getSessionToken()
         val requestBody = DeleteSessionRequestBody(token)
-        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT)
+        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
 
         deleteSessionRequest?.start({ api: IVPNApi -> api.deleteSession(requestBody) },
                 object : RequestListener<DeleteSessionResponse?> {

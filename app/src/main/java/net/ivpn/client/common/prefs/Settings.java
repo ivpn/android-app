@@ -28,6 +28,7 @@ import com.wireguard.android.crypto.Keypair;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.BuildController;
+import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.alarm.GlobalWireGuardAlarm;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.nightmode.NightMode;
@@ -94,6 +95,22 @@ public class Settings {
 
     public void enableLocalBypass(boolean value) {
         settingsPreference.setBypassLocalSettings(value);
+    }
+
+    public void enableIPv6(boolean value) {
+        settingsPreference.setIpv6Settings(value);
+    }
+
+    public void enableAllServerShown(boolean value) {
+        settingsPreference.setIpv6ShowAllServers(value);
+    }
+
+    public boolean isAllServerShown() {
+        return settingsPreference.getIpv6ShowAllServers();
+    }
+
+    public boolean isIPv6Enabled() {
+        return settingsPreference.getIpv6Settings();
     }
 
     public void enableAutoUpdate(boolean value) {
@@ -176,8 +193,16 @@ public class Settings {
         settingsPreference.putIpList(ips);
     }
 
+    public void setIPv6List(String ips) {
+        settingsPreference.setIpv6List(ips);
+    }
+
     public LinkedList<String> getIpList() {
         return settingsPreference.getIpList();
+    }
+
+    public LinkedList<String> getIpv6List() {
+        return Mapper.ipListFrom(settingsPreference.getIpv6List());
     }
 
     public String getAntiTrackerDefaultDNS() {

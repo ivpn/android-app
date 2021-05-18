@@ -197,4 +197,10 @@
     <color name="pausing_state_switcher">#c7e1fd</color>
     <color name="paused_state_switcher">#c7e1fd</color>
 
+    <color name="ip_button">#ffffff</color>
+    <color name="ip_text">#000000</color>
+    <color name="ip_background">#dddddddd</color>
+    <color name="ip_shadow">#66000000</color>
+    <color name="ipv6_badge_background">#E0E5EA</color>
+
 </resources>

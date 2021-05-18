@@ -1,11 +1,11 @@
-package net.ivpn.client.rest.data.model;
+package net.ivpn.client.common.bindings
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2021 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,34 +22,16 @@ package net.ivpn.client.rest.data.model;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import androidx.databinding.BindingAdapter
+import net.ivpn.client.common.views.IPSelectorView
+import net.ivpn.client.v2.viewmodel.LocationViewModel
 
-import java.util.List;
+@BindingAdapter("app:ipstate")
+fun setState(view: IPSelectorView, state: LocationViewModel.IPState) {
+    view.setState(state)
+}
 
-public class Api {
-
-    @SerializedName("ips")
-    @Expose
-    private List<String> ips = null;
-
-    @SerializedName("ipv6s")
-    @Expose
-    private List<String> ipv6s = null;
-
-    public List<String> getIps() {
-        return ips;
-    }
-
-    public void setIps(List<String> ips) {
-        this.ips = ips;
-    }
-
-    public List<String> getIpv6s() {
-        return ipv6s;
-    }
-
-    public void setIpv6s(List<String> ipv6s) {
-        this.ipv6s = ipv6s;
-    }
+@BindingAdapter("app:ipStateListener")
+fun setStateListener(view: IPSelectorView, listener: LocationViewModel.OnIPStateChangedListener?) {
+    view.setStateListener(listener)
 }

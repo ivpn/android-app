@@ -49,7 +49,8 @@ import kotlin.collections.ArrayList
 
 class FavouriteServerListRecyclerViewAdapter(
         private val navigator: AdapterListener,
-        private var filter: Filters?
+        private var filter: Filters?,
+        private var isIPv6BadgeEnabled: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
 
     @Inject
@@ -160,7 +161,7 @@ class FavouriteServerListRecyclerViewAdapter(
             val server: Server = getServerFor(position)
             bindings[holder.binding] = server
             setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer)
+            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled)
         }
     }
 

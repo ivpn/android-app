@@ -40,7 +40,7 @@ import javax.inject.Inject
 @ApplicationScope
 class ConfigManager @Inject constructor(
         private val settings: Settings,
-        private val serversRepository: ServersRepository
+        private val serversRepository: ServersRepository,
 ) {
     var tunnel: Tunnel? = null
     var listener: Tunnel.OnStateChangedListener? = null
@@ -94,8 +94,15 @@ class ConfigManager @Inject constructor(
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
+        val isIPv6Supported = server.hosts[0].ipv6 != null && settings.isIPv6Enabled
+
         val dnsString = getDNS(server)
-        config.getInterface().setAddressString(ipAddress)
+        if (isIPv6Supported) {
+            config.getInterface().setAddressString("$ipAddress/32,fd00:4956:504e:ffff::$ipAddress/128")
+//            config.getInterface().setAddressString(ipAddress)
+        } else {
+            config.getInterface().setAddressString(ipAddress)
+        }
         config.getInterface().setDnsString(dnsString)
         val peers = ArrayList<Peer>()
         var peer: Peer

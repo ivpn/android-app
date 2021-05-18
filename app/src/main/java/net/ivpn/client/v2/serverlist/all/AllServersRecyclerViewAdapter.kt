@@ -57,7 +57,8 @@ import kotlin.collections.HashMap
 class AllServersRecyclerViewAdapter(
         private val navigator: AdapterListener,
         private val isFastestServerAllowed: Boolean,
-        private var filter: Filters?
+        private var filter: Filters?,
+        private var isIPv6Enabled: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
 
     @Inject
@@ -212,7 +213,7 @@ class AllServersRecyclerViewAdapter(
                 LOGGER.debug("Bind view binding = ${holder.binding} server = ${server.city}")
                 bindings[holder.binding] = server
                 setPing(holder.binding, server)
-                holder.bind(server, forbiddenServer)
+                holder.bind(server, forbiddenServer, isIPv6Enabled)
             }
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding

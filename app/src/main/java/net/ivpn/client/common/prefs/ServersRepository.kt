@@ -31,6 +31,8 @@ import net.ivpn.client.rest.data.ServersListResponse
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.rest.requests.common.RequestWrapper
+import net.ivpn.client.v2.viewmodel.IPv6ViewModel
 import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.VpnBehavior.OnRandomServerSelectionListener
@@ -177,7 +179,7 @@ class ServersRepository @Inject constructor(
 
     fun updateServerList(isForced: Boolean) {
         LOGGER.info("Updating server list, isForced = $isForced")
-        request = Request(settings, httpClientFactory, this, Request.Duration.SHORT)
+        request = Request(settings, httpClientFactory, this, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
         request?.start({ obj: IVPNApi -> obj.servers }, object : RequestListener<ServersListResponse> {
             override fun onSuccess(response: ServersListResponse) {
                 LOGGER.info("Updating server list, state = SUCCESS_STR")
@@ -189,6 +191,7 @@ class ServersRepository @Inject constructor(
                 settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
                 settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
+                settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 for (listener in onServerListUpdatedListeners!!) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
@@ -261,6 +264,7 @@ class ServersRepository @Inject constructor(
         settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
         settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
         settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
+        settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
         setServerList(response.openVpnServerList, response.wireGuardServerList)
     }
 
@@ -275,6 +279,7 @@ class ServersRepository @Inject constructor(
         settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
         settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
         settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
+        settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
     }
 
     fun tryUpdateServerLocations() {

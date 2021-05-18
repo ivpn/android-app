@@ -213,4 +213,16 @@ class ServersViewModel @Inject constructor(
 
         return true
     }
+
+    fun isExitServerIPv6BadgeEnabled(): Boolean {
+        exitServer.get()?.let {
+            return settings.isIPv6Enabled && settings.isAllServerShown && it.isIPv6Enabled
+        } ?: return false
+    }
+
+    fun isEntryServerIPv6BadgeEnabled(): Boolean {
+        entryServer.get()?.let {
+            return settings.isIPv6Enabled && settings.isAllServerShown && it.isIPv6Enabled
+        } ?: return false
+    }
 }
