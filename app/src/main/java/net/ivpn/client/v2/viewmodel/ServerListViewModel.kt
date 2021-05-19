@@ -143,10 +143,13 @@ class ServerListViewModel @Inject constructor(
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
         favourites.addAll(serversRepository.getFavouritesServers())
+
         if (isServersListExist()) {
-            all.clear()
-            all.addAll(getCachedServersList())
-            applyFavourites()
+            getCachedServersList()?.let {
+                all.clear()
+                all.addAll(it)
+                applyFavourites()
+            }
         } else {
             loadServers(false)
         }
@@ -212,7 +215,7 @@ class ServerListViewModel @Inject constructor(
         return !multiHopController.getIsEnabled()
     }
 
-    private fun getCachedServersList(): List<Server> {
+    private fun getCachedServersList(): List<Server>? {
         return serversRepository.getServers(false)
     }
 

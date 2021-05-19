@@ -192,12 +192,15 @@ class ServersViewModel @Inject constructor(
 
     private fun getServerFor(serverLocation: ServerLocation): Server? {
         var serverForLocation: Server? = null
-        for (server in serversRepository.getServers(false)) {
-            if (serverLocation.city == server.city) {
-                serverForLocation = server
-                break
+        serversRepository.getServers(false)?.let {
+            for (server in it) {
+                if (serverLocation.city == server.city) {
+                    serverForLocation = server
+                    break
+                }
             }
         }
+
         return serverForLocation
     }
 

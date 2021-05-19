@@ -68,7 +68,7 @@ class ServersPreference @Inject constructor(
             return from(sharedPreferences.getString(LOCATION_LIST, null))
         }
 
-    val serversList: List<Server>
+    val serversList: List<Server>?
         get() {
             val sharedPreferences = properSharedPreference
             return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))

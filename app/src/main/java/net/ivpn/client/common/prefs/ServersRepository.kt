@@ -96,7 +96,7 @@ class ServersRepository @Inject constructor(
 
     fun getDefaultServer(serverType: ServerType): Server? {
         val servers = getServers(false)
-        if (servers.isNotEmpty()) {
+        if (servers != null && servers.isNotEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
             for (server in servers) {
                 if (server.canBeUsedAsMultiHopWith(anotherServer)) {
@@ -109,12 +109,12 @@ class ServersRepository @Inject constructor(
 
     fun isServersListExist(): Boolean {
         val servers = serversPreference.serversList
-        return servers.isNotEmpty()
+        return servers?.isNotEmpty() ?: false
     }
 
-    fun getServers(isForced: Boolean): List<Server> {
+    fun getServers(isForced: Boolean): List<Server>? {
         var servers = serversPreference.serversList
-        if (isForced) {
+        if (isForced || servers == null) {
             //update server list online
             updateServerList(isForced)
             //update servers list offline
@@ -137,6 +137,8 @@ class ServersRepository @Inject constructor(
     private fun updateLocations() {
         val servers = serversPreference.serversList
         val locations: MutableList<ServerLocation> = ArrayList()
+        if (servers == null) return
+
         for (server in servers) {
             locations.add(ServerLocation(
                     server.city,
@@ -168,7 +170,7 @@ class ServersRepository @Inject constructor(
         notifyFavouriteServerRemoved(server)
     }
 
-    private fun getCachedServers(): List<Server> {
+    private fun getCachedServers(): List<Server>? {
         return serversPreference.serversList
     }
 
