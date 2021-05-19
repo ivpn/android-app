@@ -100,7 +100,7 @@ class UpdatesViewModel @Inject constructor(
             return
         }
 
-        settings.enableAutoUpdate(isEnabled)
+        settings.isAutoUpdateEnabled = isEnabled
         isAutoUpdateEnabled.set(isEnabled)
         if (isEnabled) {
             updatesJobServiceUtil.pushUpdateJob(IVPNApplication.getApplication())

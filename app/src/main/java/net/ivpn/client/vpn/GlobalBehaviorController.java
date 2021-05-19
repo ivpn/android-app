@@ -198,11 +198,11 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
         this.killSwitchRule = killSwitchRule;
         switch (killSwitchRule) {
             case ENABLE:
-                settings.enableKillSwitch(true);
+                settings.setKillSwitchEnabled(true);
                 enableKillSwitch();
                 break;
             case DISABLE:
-                settings.enableKillSwitch(false);
+                settings.setKillSwitchEnabled(false);
                 disableKillSwitch();
                 break;
             case NOTHING:

@@ -45,20 +45,20 @@ class IPv6ViewModel @Inject constructor(
 
     init {
         isIPv6Supported.set(protocolController.currentProtocol == Protocol.WIREGUARD)
-        isIPv6Enabled.set(settings.isIPv6Enabled)
-        isAllServerShown.set(settings.isAllServerShown)
+        isIPv6Enabled.set(settings.ipv6Setting)
+        isAllServerShown.set(settings.showAllServersSetting)
         isIPv6BadgeEnabled.set(isIPv6Enabled.get() && isAllServerShown.get())
     }
 
     private fun enableIPv6(value: Boolean) {
         isIPv6Enabled.set(value)
-        settings.enableIPv6(value)
+        settings.ipv6Setting = value
         isIPv6BadgeEnabled.set(isIPv6Enabled.get() && isAllServerShown.get())
     }
 
     private fun enableAllServerShownOption(value: Boolean) {
         isAllServerShown.set(value)
-        settings.enableAllServerShown(value)
+        settings.showAllServersSetting = value
         isIPv6BadgeEnabled.set(isIPv6Enabled.get() && isAllServerShown.get())
     }
 

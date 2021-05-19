@@ -92,7 +92,7 @@ public class WireGuardKeyController {
     }
 
     public void putRegenerationPeriod(int regenerationPeriodI) {
-        settings.putRegenerationPeriod(regenerationPeriodI);
+        settings.setRegenerationPeriod(regenerationPeriodI);
         IVPNApplication.getApplication().appComponent.provideGlobalWireGuardAlarm().start();
     }
 

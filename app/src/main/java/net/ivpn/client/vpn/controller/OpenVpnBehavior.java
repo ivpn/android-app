@@ -44,8 +44,6 @@ import net.ivpn.client.common.utils.DomainResolver;
 import net.ivpn.client.common.utils.ToastUtil;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.ui.connect.ConnectionState;
-import net.ivpn.client.ui.mocklocation.MockLocationController;
-import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.OnVpnStatusChangedListener;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.VPNConnectionState;

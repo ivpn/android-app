@@ -55,7 +55,7 @@ class KillSwitchViewModel @Inject constructor(
 
     fun enable(value: Boolean) {
         isEnabled.set(value)
-        settings.enableKillSwitch(value)
+        settings.isKillSwitchEnabled = value
         if (value) {
             globalBehaviorController.enableKillSwitch()
         } else {

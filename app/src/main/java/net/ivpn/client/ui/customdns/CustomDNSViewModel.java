@@ -58,6 +58,6 @@ public class CustomDNSViewModel {
     }
 
     private void enableCustomDNS(boolean value) {
-        settings.enableCustomDNS(value);
+        settings.setCustomDNSEnabled(value);
     }
 }

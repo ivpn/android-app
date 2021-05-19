@@ -36,10 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.inject.Inject;
-
-import okhttp3.CacheControl;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;

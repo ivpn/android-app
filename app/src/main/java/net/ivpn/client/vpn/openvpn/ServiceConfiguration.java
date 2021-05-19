@@ -32,7 +32,6 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.prefs.PackagesPreference;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.vpn.NetworkUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,6 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
 
@@ -105,7 +103,7 @@ public class ServiceConfiguration {
     }
 
     private String getDNS() {
-        String dns = settings.getDNS();
+        String dns = settings.getDns();
         if (dns != null) {
             return dns;
         }
@@ -116,7 +114,7 @@ public class ServiceConfiguration {
     private Vector<String> getDnsList() {
         Vector<String> result;
 
-        String dns = settings.getDNS();
+        String dns = settings.getDns();
         if (dns != null) {
             result = new Vector<>();
             result.add(dns);
@@ -127,7 +125,7 @@ public class ServiceConfiguration {
     }
 
     boolean isLocalBypassEnabled() {
-        return settings.isLocalBypassEnabled();
+        return settings.getLocalBypass();
     }
 
     /**

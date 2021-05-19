@@ -292,7 +292,7 @@ class SessionController @Inject constructor(
             val multiHopCapabilities = serviceStatus.capabilities.contains(Responses.MULTI_HOP)
             userPreference.putCapabilityMultiHop(serviceStatus.capabilities.contains(Responses.MULTI_HOP))
             if (!multiHopCapabilities) {
-                settings.enableMultiHop(false)
+                settings.isMultiHopEnabled = false
             }
         }
     }

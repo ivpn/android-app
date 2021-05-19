@@ -36,9 +36,6 @@ import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.ui.connect.ConnectionState
-import net.ivpn.client.vpn.OnProtocolChangedListener
-import net.ivpn.client.vpn.Protocol
-import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener
@@ -216,13 +213,13 @@ class ServersViewModel @Inject constructor(
 
     fun isExitServerIPv6BadgeEnabled(): Boolean {
         exitServer.get()?.let {
-            return settings.isIPv6Enabled && settings.isAllServerShown && it.isIPv6Enabled
+            return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
         } ?: return false
     }
 
     fun isEntryServerIPv6BadgeEnabled(): Boolean {
         entryServer.get()?.let {
-            return settings.isIPv6Enabled && settings.isAllServerShown && it.isIPv6Enabled
+            return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
         } ?: return false
     }
 }

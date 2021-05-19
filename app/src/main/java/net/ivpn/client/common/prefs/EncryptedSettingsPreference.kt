@@ -414,7 +414,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
                 .apply()
     }
 
-    fun getIpList(): LinkedList<String?>? {
+    fun getIpList(): LinkedList<String>? {
         return Mapper.ipListFrom(sharedPreferences.getString(IP_LIST, null))
     }
 

@@ -209,7 +209,7 @@ class NetworkViewModel @Inject internal constructor(
     fun applyNetworkFeatureState(isEnabled: Boolean) {
         LOGGER.info("applyNetworkFeatureState: isEnabled = $isEnabled")
         isNetworkFeatureEnabled.set(isEnabled)
-        settings.putSettingsNetworkRules(isEnabled)
+        settings.isNetworkRulesEnabled = isEnabled
         if (isEnabled) {
             networkController.enableWifiWatcher()
         } else {

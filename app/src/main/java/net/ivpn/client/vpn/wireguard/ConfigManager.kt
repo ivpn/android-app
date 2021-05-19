@@ -44,10 +44,10 @@ class ConfigManager @Inject constructor(
 ) {
     var tunnel: Tunnel? = null
     var listener: Tunnel.OnStateChangedListener? = null
-    set(value) {
-        tunnel?.listener = value
-        field = value
-    }
+        set(value) {
+            tunnel?.listener = value
+            field = value
+        }
 
     fun init() {
         LOGGER.info("init")
@@ -94,12 +94,11 @@ class ConfigManager @Inject constructor(
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
-        val isIPv6Supported = server.hosts[0].ipv6 != null && settings.isIPv6Enabled
+        val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
 
         val dnsString = getDNS(server)
         if (isIPv6Supported) {
             config.getInterface().setAddressString("$ipAddress/32,fd00:4956:504e:ffff::$ipAddress/128")
-//            config.getInterface().setAddressString(ipAddress)
         } else {
             config.getInterface().setAddressString(ipAddress)
         }

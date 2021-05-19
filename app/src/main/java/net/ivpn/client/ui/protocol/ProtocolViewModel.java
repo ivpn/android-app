@@ -193,9 +193,9 @@ public class ProtocolViewModel {
     void setPort(Port port) {
         LOGGER.info(TAG, "Set port: " + port);
         if (protocol.get().equals(Protocol.WIREGUARD)) {
-            settings.setWgPort(port);
+            settings.setWireGuardPort(port);
         } else {
-            settings.setOpenVPNPort(port);
+            settings.setOpenVpnPort(port);
         }
     }
 

@@ -26,7 +26,6 @@ import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.rest.HttpClientFactory;
 import net.ivpn.client.rest.RequestListener;
-import net.ivpn.client.rest.requests.common.RequestWrapper;
 
 public class Request<T> {
 
