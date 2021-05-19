@@ -43,7 +43,6 @@ import net.ivpn.client.vpn.model.NetworkSource
 import net.ivpn.client.vpn.model.NetworkState
 import net.ivpn.client.vpn.model.WifiItem
 import org.slf4j.LoggerFactory
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
