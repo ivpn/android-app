@@ -94,7 +94,7 @@ class ServersRepository @Inject constructor(
         }
     }
 
-    fun getDefaultServer(serverType: ServerType?): Server? {
+    fun getDefaultServer(serverType: ServerType): Server? {
         val servers = getServers(false)
         if (servers.isNotEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
@@ -168,11 +168,11 @@ class ServersRepository @Inject constructor(
         notifyFavouriteServerRemoved(server)
     }
 
-    private fun getCachedServers(): List<Server>? {
+    private fun getCachedServers(): List<Server> {
         return serversPreference.serversList
     }
 
-    fun getForbiddenServer(serverType: ServerType?): Server? {
+    fun getForbiddenServer(serverType: ServerType): Server? {
         val multiHop = settings.isMultiHopEnabled
         return if (!multiHop) null else serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
     }

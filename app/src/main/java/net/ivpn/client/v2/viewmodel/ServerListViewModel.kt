@@ -137,6 +137,8 @@ class ServerListViewModel @Inject constructor(
     }
 
     fun start(serverType: ServerType?) {
+        if (serverType == null) return
+
         this.serverType = serverType
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
@@ -214,7 +216,7 @@ class ServerListViewModel @Inject constructor(
         return serversRepository.getServers(false)
     }
 
-    private fun getForbiddenServer(serverType: ServerType?): Server? {
+    private fun getForbiddenServer(serverType: ServerType): Server? {
         return serversRepository.getForbiddenServer(serverType)
     }
 

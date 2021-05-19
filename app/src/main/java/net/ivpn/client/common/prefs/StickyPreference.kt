@@ -50,7 +50,7 @@ class StickyPreference @Inject constructor(
                     .putString(CURRENT_PROTOCOL, protocol?.name)
                     .apply()
         }
-    
+
     val isProtocolSelected: Boolean
         get() {
             val sharedPreferences = preference.stickySharedPreferences

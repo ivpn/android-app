@@ -1,4 +1,4 @@
-package net.ivpn.client.common.prefs;
+package net.ivpn.client.common.prefs
 
 /*
  IVPN Android app
@@ -22,22 +22,21 @@ package net.ivpn.client.common.prefs;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public enum  ServerType {
-    ENTRY,
-    EXIT;
+enum class ServerType {
+    ENTRY, EXIT;
 
-    public static ServerType getAnotherType(ServerType serverType) {
-        if (serverType.equals(ENTRY)) return EXIT;
-        return ENTRY;
-    }
-
-    public static boolean contains(String type) {
-        for (ServerType c : ServerType.values()) {
-            if (c.name().equals(type)) {
-                return true;
-            }
+    companion object {
+        fun getAnotherType(serverType: ServerType): ServerType {
+            return if (serverType == ENTRY) EXIT else ENTRY
         }
 
-        return false;
+        fun contains(type: String): Boolean {
+            for (serverType in values()) {
+                if (serverType.name == type) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }
