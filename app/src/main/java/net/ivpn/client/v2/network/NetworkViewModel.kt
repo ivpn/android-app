@@ -69,9 +69,9 @@ class NetworkViewModel @Inject internal constructor(
     val networkTitle = ObservableField<String>()
     val networkState = ObservableField<NetworkState>()
 
-    lateinit var trustedWifiItems: Set<String>
-    lateinit var unTrustedWifiItems: Set<String>
-    lateinit var noneWifiItems: Set<String>
+    var trustedWifiItems: Set<String>? = null
+    var unTrustedWifiItems: Set<String>? = null
+    var noneWifiItems: Set<String>? = null
 
     var lastScanResult = ArrayList<ScanResult>()
 
@@ -139,9 +139,9 @@ class NetworkViewModel @Inject internal constructor(
 
         val savedWifiItems: MutableList<WifiItem> = ArrayList()
 
-        trustedWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
-        untrustedWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
-        noneWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
+        trustedWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
+        untrustedWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
+        noneWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
         savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
@@ -159,9 +159,9 @@ class NetworkViewModel @Inject internal constructor(
 
         val savedWifiItems: MutableList<WifiItem> = ArrayList()
 
-        trustedWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
-        unTrustedWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
-        noneWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
+        trustedWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
+        unTrustedWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
+        noneWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
         savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
@@ -179,13 +179,22 @@ class NetworkViewModel @Inject internal constructor(
                 continue
             }
             item = WifiItem(configuration.SSID, ObservableField(NetworkState.DEFAULT))
-            if (trustedWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.TRUSTED)
-            } else if (unTrustedWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.UNTRUSTED)
-            } else if (noneWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.NONE)
+            trustedWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.TRUSTED)
+                }
             }
+            unTrustedWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.UNTRUSTED)
+                }
+            }
+            noneWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.NONE)
+                }
+            }
+
             scannedWifiItems.add(item)
         }
 
