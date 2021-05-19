@@ -96,7 +96,7 @@ class ServersRepository @Inject constructor(
 
     fun getDefaultServer(serverType: ServerType?): Server? {
         val servers = getServers(false)
-        if (servers != null && servers.isNotEmpty()) {
+        if (servers.isNotEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
             for (server in servers) {
                 if (server.canBeUsedAsMultiHopWith(anotherServer)) {
@@ -109,12 +109,12 @@ class ServersRepository @Inject constructor(
 
     fun isServersListExist(): Boolean {
         val servers = serversPreference.serversList
-        return servers != null && servers.isNotEmpty()
+        return servers.isNotEmpty()
     }
 
     fun getServers(isForced: Boolean): List<Server> {
         var servers = serversPreference.serversList
-        if (isForced || servers == null) {
+        if (isForced) {
             //update server list online
             updateServerList(isForced)
             //update servers list offline
@@ -320,7 +320,7 @@ class ServersRepository @Inject constructor(
         serversPreference.updateCurrentServersWithLocation()
     }
 
-    fun setLocationList(openVpnLocations: List<ServerLocation?>, wireguardLocations: List<ServerLocation?>) {
+    fun setLocationList(openVpnLocations: List<ServerLocation>, wireguardLocations: List<ServerLocation>) {
         LOGGER.info("Putting locations, OpenVPN locations list size = " + openVpnLocations.size + " WireGuard = " + wireguardLocations.size)
         serversPreference.putOpenVPNLocations(openVpnLocations)
         serversPreference.putWireGuardLocations(wireguardLocations)
@@ -342,7 +342,7 @@ class ServersRepository @Inject constructor(
         serversPreference.removeFromExcludedServerList(server)
     }
 
-    fun getExcludedServersList(): List<Server>? {
+    fun getExcludedServersList(): List<Server> {
         return serversPreference.excludedServersList
     }
 
@@ -350,11 +350,11 @@ class ServersRepository @Inject constructor(
         return serversPreference.settingFastestServer
     }
 
-    fun getSettingRandomServer(serverType: ServerType?): Boolean {
+    fun getSettingRandomServer(serverType: ServerType): Boolean {
         return serversPreference.getSettingRandomServer(serverType)
     }
 
-    fun getPossibleServersList(): List<Server>? {
+    fun getPossibleServersList(): List<Server> {
         val excludedServers = getExcludedServersList()
         var serverList = getCachedServers()
         if (serverList == null) {
@@ -380,19 +380,19 @@ class ServersRepository @Inject constructor(
     }
 
     fun addFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners!!.add(listener)
+        onFavouritesChangedListeners?.add(listener)
     }
 
     fun removeFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners!!.remove(listener)
+        onFavouritesChangedListeners?.remove(listener)
     }
 
     fun addOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners!!.add(listener)
+        onServerListUpdatedListeners?.add(listener)
     }
 
     fun removeOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners!!.remove(listener)
+        onServerListUpdatedListeners?.remove(listener)
     }
 
     private val currentProtocolType: Protocol
@@ -412,14 +412,10 @@ class ServersRepository @Inject constructor(
     }
 
     private fun notifyFavouriteServerAdded(server: Server) {
-        for (listener in onFavouritesChangedListeners!!) {
-            listener.notifyFavouriteServerAdded(server)
-        }
+        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerAdded(server) }
     }
 
     private fun notifyFavouriteServerRemoved(server: Server) {
-        for (listener in onFavouritesChangedListeners!!) {
-            listener.notifyFavouriteServerRemoved(server)
-        }
+        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerRemoved(server) }
     }
 }
