@@ -77,14 +77,14 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
 
     var mockLocationSettings: Boolean
-    get() {
-        return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
-    }
-    set(value) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_MOCK_LOCATION, value)
-                .apply()
-    }
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(SETTINGS_MOCK_LOCATION, value)
+                    .apply()
+        }
 
     var bypassLocalSettings: Boolean
         get() {
@@ -107,14 +107,14 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         }
 
     var ipv6List: String?
-    get() {
-        return sharedPreferences.getString(IPV6_LIST, null)
-    }
-    set(value) {
-        sharedPreferences.edit()
-                .putString(IPV6_LIST, value)
-                .apply()
-    }
+        get() {
+            return sharedPreferences.getString(IPV6_LIST, null)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putString(IPV6_LIST, value)
+                    .apply()
+        }
 
     var ipv6ShowAllServers: Boolean
         get() {

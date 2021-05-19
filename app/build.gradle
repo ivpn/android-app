@@ -28,8 +28,8 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 96
-        versionName "2.4.1"
+        versionCode 97
+        versionName "2.5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -218,7 +218,7 @@ dependencies {
     implementation 'com.android.billingclient:billing:2.2.0'
 
     //For crash logging. Please don't update this version.
-    implementation 'io.sentry:sentry-android:2.0.0'
+    implementation 'io.sentry:sentry-android:4.3.0'
 
     //QR support
     implementation 'com.google.zxing:core:3.3.0'

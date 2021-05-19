@@ -49,7 +49,6 @@ import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentSettingsBinding
 import net.ivpn.client.ui.mocklocation.MockLocationNavigator
 import net.ivpn.client.ui.mocklocation.MockLocationViewModel
-import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.viewmodel.*
