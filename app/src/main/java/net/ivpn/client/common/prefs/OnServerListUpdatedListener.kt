@@ -1,4 +1,4 @@
-package net.ivpn.client.common.prefs;
+package net.ivpn.client.common.prefs
 
 /*
  IVPN Android app
@@ -22,6 +22,14 @@ package net.ivpn.client.common.prefs;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public interface OnServerChangedListener {
-    void onServerChanged();
+import net.ivpn.client.rest.data.model.Server
+
+interface OnServerListUpdatedListener {
+
+    fun onSuccess(servers: List<Server>, isForced: Boolean)
+
+    fun onError(throwable: Throwable)
+
+    fun onError()
+
 }

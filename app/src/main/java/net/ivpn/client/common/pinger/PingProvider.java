@@ -24,12 +24,6 @@ package net.ivpn.client.common.pinger;
 
 import android.os.Handler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.OnServerListUpdatedListener;
 import net.ivpn.client.common.prefs.ServerType;
@@ -42,6 +36,12 @@ import net.ivpn.client.vpn.ProtocolController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -122,7 +122,7 @@ public class PingProvider {
     public ConcurrentHashMap<Server, PingResultFormatter> getPingResults() {
         ConcurrentHashMap<Server, PingResultFormatter> result = new ConcurrentHashMap<>();
         PingFuture pingFuture;
-        for (Server server: pings.keySet()) {
+        for (Server server : pings.keySet()) {
             pingFuture = pings.get(server);
             if (pingFuture == null || !pingFuture.isFinished()) {
                 continue;
@@ -223,7 +223,7 @@ public class PingProvider {
     private OnServerListUpdatedListener getOnServerListUpdatedListener() {
         return new OnServerListUpdatedListener() {
             @Override
-            public void onSuccess(List<Server> servers, boolean isForced) {
+            public void onSuccess(List<? extends Server> servers, boolean isForced) {
                 if (isForced) {
                     pingAll(true);
                 }

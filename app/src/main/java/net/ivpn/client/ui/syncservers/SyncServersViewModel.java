@@ -42,9 +42,8 @@ public class SyncServersViewModel extends BaseObservable {
     private ServersRepository serversRepository;
 
     private OnServerListUpdatedListener listener = new OnServerListUpdatedListener() {
-
         @Override
-        public void onSuccess(List<Server> servers, boolean isForced) {
+        public void onSuccess(List<? extends Server> servers, boolean isForced) {
             loading.set(false);
             navigator.onGetServers();
         }

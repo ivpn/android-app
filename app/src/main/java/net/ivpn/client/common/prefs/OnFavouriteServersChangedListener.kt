@@ -1,4 +1,4 @@
-package net.ivpn.client.common.prefs;
+package net.ivpn.client.common.prefs
 
 /*
  IVPN Android app
@@ -22,12 +22,9 @@ package net.ivpn.client.common.prefs;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.rest.data.model.Server;
+import net.ivpn.client.rest.data.model.Server
 
-public interface OnFavouriteServersChangedListener {
-
-    void notifyFavouriteServerAdded(Server server);
-
-    void notifyFavouriteServerRemoved(Server server);
-
+interface OnFavouriteServersChangedListener {
+    fun notifyFavouriteServerAdded(server: Server?)
+    fun notifyFavouriteServerRemoved(server: Server?)
 }
