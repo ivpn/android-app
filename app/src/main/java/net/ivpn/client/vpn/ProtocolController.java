@@ -47,12 +47,12 @@ public class ProtocolController {
         this.stickyPreference = stickyPreference;
 
         listeners = new ArrayList<>();
-        currentProtocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
+        currentProtocol = stickyPreference.getCurrentProtocol();
     }
 
     public void init() {
         LOGGER.info("Init protocol controller");
-        currentProtocol = Protocol.valueOf(stickyPreference.getCurrentProtocol());
+        currentProtocol = stickyPreference.getCurrentProtocol();
         notify(currentProtocol);
     }
 
@@ -67,7 +67,7 @@ public class ProtocolController {
         LOGGER.info("setCurrentProtocol currentProtocol = " + currentProtocol);
         this.currentProtocol = currentProtocol;
         notify(currentProtocol);
-        stickyPreference.putCurrentProtocol(currentProtocol);
+        stickyPreference.setCurrentProtocol(currentProtocol);
     }
 
     public boolean isProtocolSelected() {
