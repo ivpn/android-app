@@ -36,7 +36,7 @@ import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
 import net.ivpn.client.rest.requests.common.RequestWrapper
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.vpn.OnProtocolChangedListener
 import net.ivpn.client.vpn.ProtocolController

@@ -1,11 +1,11 @@
-package net.ivpn.client.ui.mocklocation
+package net.ivpn.client.v2.mocklocation
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2021 Privatus Limited.
+ Copyright (c) 2020 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -21,36 +21,34 @@ package net.ivpn.client.ui.mocklocation
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.common.extension.navigate
-import net.ivpn.client.databinding.FragmentMockLocationBinding
+import net.ivpn.client.databinding.FragmentMockLocationStep3Binding
 import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 
-class MockLocationFragment : Fragment(), MockLocationNavigator {
-
+class MockLocationStep3Fragment : Fragment() {
     @Inject
     lateinit var mockLocation: MockLocationViewModel
 
-    lateinit var binding: FragmentMockLocationBinding
+    lateinit var binding: FragmentMockLocationStep3Binding
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mock_location, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mock_location_step3, container, false)
         return binding.root
     }
 
@@ -68,13 +66,12 @@ class MockLocationFragment : Fragment(), MockLocationNavigator {
                 it.setContentSecure(false)
             }
         }
-        mockLocation.navigator = this
     }
 
     private fun initViews() {
         binding.contentLayout.mocklocation = mockLocation
-        binding.contentLayout.setup.setOnClickListener {
-            setupMockLocation()
+        binding.contentLayout.close.setOnClickListener {
+            close()
         }
     }
 
@@ -85,9 +82,7 @@ class MockLocationFragment : Fragment(), MockLocationNavigator {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    override fun setupMockLocation() {
-        val action = MockLocationFragmentDirections.actionMockLocationFragmentToMockLocationStep1Fragment()
-        navigate(action)
+    private fun close() {
+        NavHostFragment.findNavController(this).popBackStack()
     }
-
 }

@@ -39,8 +39,8 @@ import net.ivpn.client.R
 import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentAccountBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel

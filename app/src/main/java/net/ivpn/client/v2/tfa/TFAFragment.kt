@@ -37,10 +37,10 @@ import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.extension.setNavigationResultBoolean
 import net.ivpn.client.databinding.FragmentTfaBinding
-import net.ivpn.client.ui.connect.CreateSessionFragment
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.connect.createSession.CreateSessionFragment
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
+import net.ivpn.client.v2.login.LoginNavigator
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.login.LoginViewModel
 import net.ivpn.client.v2.viewmodel.SignUpViewModel

@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.common;
+package net.ivpn.client.common.views;
 
 /*
  IVPN Android app

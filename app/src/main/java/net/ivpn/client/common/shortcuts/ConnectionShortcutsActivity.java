@@ -33,8 +33,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.ivpn.client.IVPNApplication;
-import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.dialog.Dialogs;
+import net.ivpn.client.v2.dialog.DialogBuilder;
+import net.ivpn.client.v2.dialog.Dialogs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

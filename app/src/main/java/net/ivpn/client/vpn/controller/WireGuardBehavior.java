@@ -45,9 +45,8 @@ import net.ivpn.client.common.utils.ToastUtil;
 import net.ivpn.client.rest.Responses;
 import net.ivpn.client.rest.data.model.Server;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
-import net.ivpn.client.ui.connect.ConnectionState;
-import net.ivpn.client.ui.dialog.Dialogs;
-import net.ivpn.client.vpn.GlobalBehaviorController;
+import net.ivpn.client.v2.connect.createSession.ConnectionState;
+import net.ivpn.client.v2.dialog.Dialogs;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.VPNConnectionState;
 import net.ivpn.client.vpn.controller.WireGuardKeyController.WireGuardKeysEventsListener;
@@ -62,12 +61,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static net.ivpn.client.ui.connect.ConnectionState.CONNECTED;
-import static net.ivpn.client.ui.connect.ConnectionState.CONNECTING;
-import static net.ivpn.client.ui.connect.ConnectionState.DISCONNECTING;
-import static net.ivpn.client.ui.connect.ConnectionState.NOT_CONNECTED;
-import static net.ivpn.client.ui.connect.ConnectionState.PAUSED;
-import static net.ivpn.client.ui.connect.ConnectionState.PAUSING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.CONNECTED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.CONNECTING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.DISCONNECTING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.NOT_CONNECTED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.PAUSED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.PAUSING;
 
 public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, Tunnel.OnStateChangedListener {
 

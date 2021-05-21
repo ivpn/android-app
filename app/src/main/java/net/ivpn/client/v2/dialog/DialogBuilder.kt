@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.dialog
+package net.ivpn.client.v2.dialog
 
 /*
 IVPN Android app
@@ -44,7 +44,7 @@ import net.ivpn.client.common.InputFilterMinMax
 import net.ivpn.client.common.extension.setContentSecure
 import net.ivpn.client.common.utils.DateUtil
 import net.ivpn.client.databinding.DialogCustomDnsBinding
-import net.ivpn.client.ui.customdns.OnDNSChangedListener
+import net.ivpn.client.v2.customdns.OnDNSChangedListener
 import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.client.ui.protocol.dialog.WireGuardInfo
 import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener

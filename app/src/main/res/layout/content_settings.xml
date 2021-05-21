@@ -44,7 +44,7 @@
 
         <variable
             name="mocklocation"
-            type="net.ivpn.client.ui.mocklocation.MockLocationViewModel" />
+            type="net.ivpn.client.v2.mocklocation.MockLocationViewModel" />
 
         <variable
             name="localbypass"

@@ -28,8 +28,8 @@ import android.net.VpnService
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import net.ivpn.client.ui.dialog.DialogBuilder.createNotificationDialog
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.dialog.DialogBuilder.createNotificationDialog
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.vpn.ServiceConstants
 
 class KillSwitchPermissionActivity: AppCompatActivity() {

@@ -36,8 +36,8 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentServerListBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.viewmodel.ConnectionViewModel

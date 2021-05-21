@@ -1,11 +1,11 @@
-package net.ivpn.client.ui.mocklocation
+package net.ivpn.client.v2.login;
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2021 Privatus Limited.
+ Copyright (c) 2020 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,8 +22,16 @@ package net.ivpn.client.ui.mocklocation
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-interface MockLocationNavigator {
+import net.ivpn.client.v2.dialog.Dialogs;
 
-    fun setupMockLocation()
-
+public interface LoginNavigator {
+    void onLogin();
+    void onLoginWithBlankAccount();
+    void onLoginWithInactiveAccount();
+    void onInvalidAccount();
+    void openSessionLimitReachedDialogue();
+    void openCaptcha();
+    void openErrorDialogue(Dialogs dialogs);
+    void openCustomErrorDialogue(String title, String message);
+    void openTFAScreen();
 }

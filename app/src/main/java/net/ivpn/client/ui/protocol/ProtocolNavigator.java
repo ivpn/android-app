@@ -24,7 +24,7 @@ package net.ivpn.client.ui.protocol;
 
 import android.view.View;
 
-import net.ivpn.client.ui.dialog.Dialogs;
+import net.ivpn.client.v2.dialog.Dialogs;
 
 public interface ProtocolNavigator {
 

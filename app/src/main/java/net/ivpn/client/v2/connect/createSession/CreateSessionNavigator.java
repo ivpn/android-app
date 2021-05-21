@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.billing;
+package net.ivpn.client.v2.connect.createSession;
 
 /*
  IVPN Android app
@@ -22,17 +22,11 @@ package net.ivpn.client.ui.billing;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public interface BillingNavigator {
+public interface CreateSessionNavigator {
 
-    void onSuccessBilling();
+    void onForceLogout();
 
-    void onCredentialsError();
+    void tryAgain();
 
-    void onPurchaseAlreadyDone();
-
-    void createPurchaseErrorDialog(String errorCode, String errorMessage);
-
-    void onAccountCreated();
-
-    void onAddFundsFinish();
+    void cancel();
 }

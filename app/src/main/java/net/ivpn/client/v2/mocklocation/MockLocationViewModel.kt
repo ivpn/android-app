@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.mocklocation
+package net.ivpn.client.v2.mocklocation
 
 /*
  IVPN Android app

@@ -30,7 +30,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.databinding.BindingAdapter;
 
 import net.ivpn.client.R;
-import net.ivpn.client.ui.connect.ConnectionState;
+import net.ivpn.client.v2.connect.createSession.ConnectionState;
 
 import static net.ivpn.client.v2.viewmodel.AntiTrackerViewModel.AntiTrackerState;
 

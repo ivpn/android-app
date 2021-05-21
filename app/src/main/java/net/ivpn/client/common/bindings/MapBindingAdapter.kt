@@ -26,7 +26,7 @@ package net.ivpn.client.common.bindings
 import androidx.databinding.BindingAdapter
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 

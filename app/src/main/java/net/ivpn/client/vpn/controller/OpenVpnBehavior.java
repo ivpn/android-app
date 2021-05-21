@@ -43,7 +43,7 @@ import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.DomainResolver;
 import net.ivpn.client.common.utils.ToastUtil;
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.ui.connect.ConnectionState;
+import net.ivpn.client.v2.connect.createSession.ConnectionState;
 import net.ivpn.client.vpn.OnVpnStatusChangedListener;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.VPNConnectionState;
@@ -60,12 +60,12 @@ import javax.inject.Inject;
 import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.VpnStatus;
 
-import static net.ivpn.client.ui.connect.ConnectionState.CONNECTED;
-import static net.ivpn.client.ui.connect.ConnectionState.CONNECTING;
-import static net.ivpn.client.ui.connect.ConnectionState.DISCONNECTING;
-import static net.ivpn.client.ui.connect.ConnectionState.NOT_CONNECTED;
-import static net.ivpn.client.ui.connect.ConnectionState.PAUSED;
-import static net.ivpn.client.ui.connect.ConnectionState.PAUSING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.CONNECTED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.CONNECTING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.DISCONNECTING;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.NOT_CONNECTED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.PAUSED;
+import static net.ivpn.client.v2.connect.createSession.ConnectionState.PAUSING;
 
 public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedListener, ServiceConstants {
 

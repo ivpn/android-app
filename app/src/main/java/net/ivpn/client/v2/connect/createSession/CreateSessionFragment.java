@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.connect;
+package net.ivpn.client.v2.connect.createSession;
 
 /*
  IVPN Android app

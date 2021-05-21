@@ -93,7 +93,7 @@
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
-            android:name=".ui.billing.BillingActivity"
+            android:name=".v2.billing.BillingActivity"
             android:theme="@style/AppTheme.DialogNoActionBar" />
 
         <activity

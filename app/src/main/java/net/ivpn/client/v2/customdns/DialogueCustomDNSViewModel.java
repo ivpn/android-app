@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.customdns;
+package net.ivpn.client.v2.customdns;
 
 /*
  IVPN Android app

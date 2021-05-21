@@ -35,7 +35,7 @@ import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
 import net.ivpn.client.vpn.controller.VpnStateListener

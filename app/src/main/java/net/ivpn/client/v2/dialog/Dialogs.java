@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.dialog;
+package net.ivpn.client.v2.dialog;
 
 /*
  IVPN Android app

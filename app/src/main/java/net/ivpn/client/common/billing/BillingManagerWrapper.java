@@ -48,7 +48,7 @@ import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
 import net.ivpn.client.rest.requests.common.Request;
 import net.ivpn.client.rest.requests.common.RequestWrapper;
-import net.ivpn.client.ui.billing.BillingActivity;
+import net.ivpn.client.v2.billing.BillingActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

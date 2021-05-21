@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.network.rules;
+package net.ivpn.client.v2.network.rule;
 
 /*
  IVPN Android app

@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.customdns.CustomDNSViewModel" />
+            type="net.ivpn.client.v2.customdns.CustomDNSViewModel" />
     </data>
 
     <LinearLayout

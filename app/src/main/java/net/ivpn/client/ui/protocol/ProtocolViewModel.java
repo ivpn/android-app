@@ -37,7 +37,7 @@ import net.ivpn.client.common.Mapper;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.rest.Responses;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
-import net.ivpn.client.ui.dialog.Dialogs;
+import net.ivpn.client.v2.dialog.Dialogs;
 import net.ivpn.client.ui.protocol.dialog.WireGuardInfo;
 import net.ivpn.client.ui.protocol.port.OnPortSelectedListener;
 import net.ivpn.client.ui.protocol.port.Port;

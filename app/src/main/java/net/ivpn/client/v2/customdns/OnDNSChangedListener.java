@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.connect;
+package net.ivpn.client.v2.customdns;
 
 /*
  IVPN Android app
@@ -22,11 +22,7 @@ package net.ivpn.client.ui.connect;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public interface CreateSessionNavigator {
+public interface OnDNSChangedListener {
 
-    void onForceLogout();
-
-    void tryAgain();
-
-    void cancel();
+    void onCustomDNSChanged(String dns);
 }

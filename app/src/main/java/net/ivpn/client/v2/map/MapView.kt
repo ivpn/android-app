@@ -43,11 +43,9 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
-import net.ivpn.client.v2.map.dialogue.DialogueUtil
-import net.ivpn.client.v2.map.dialogue.model.DialogueData
 import net.ivpn.client.v2.map.location.LocationData
 import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location

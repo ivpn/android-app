@@ -36,7 +36,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.ui.mocklocation.MockLocationController;
+import net.ivpn.client.v2.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.local.KillSwitchPermissionActivity;
 import net.ivpn.client.vpn.local.KillSwitchService;

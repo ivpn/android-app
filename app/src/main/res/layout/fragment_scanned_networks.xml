@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <net.ivpn.client.ui.common.EmptyRecyclerView
+        <net.ivpn.client.common.views.EmptyRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

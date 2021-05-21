@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.mocklocation
+package net.ivpn.client.v2.mocklocation
 
 /*
  IVPN Android app
@@ -35,7 +35,6 @@ import net.ivpn.client.common.prefs.EncryptedSettingsPreference
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.rest.data.model.Server
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @ApplicationScope

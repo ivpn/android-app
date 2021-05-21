@@ -37,8 +37,7 @@ import net.ivpn.client.common.utils.ConnectivityUtil
 import net.ivpn.client.rest.Responses
 import net.ivpn.client.rest.data.session.SessionNewResponse
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.dialog.Dialogs
 import org.slf4j.LoggerFactory
 import java.io.InterruptedIOException
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.billing;
+package net.ivpn.client.v2.billing;
 
 /*
  IVPN Android app

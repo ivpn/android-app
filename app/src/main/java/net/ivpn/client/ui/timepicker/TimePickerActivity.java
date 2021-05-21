@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.ivpn.client.IVPNApplication;
-import net.ivpn.client.ui.dialog.DialogBuilder;
+import net.ivpn.client.v2.dialog.DialogBuilder;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 
 import javax.inject.Inject;

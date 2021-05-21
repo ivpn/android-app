@@ -34,7 +34,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ActivityComponent;
 import net.ivpn.client.databinding.ActivitySubscriptionBinding;
-import net.ivpn.client.ui.dialog.DialogBuilder;
+import net.ivpn.client.v2.dialog.DialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,11 +1,11 @@
-package net.ivpn.client.ui.mocklocation
+package net.ivpn.client.v2.mocklocation
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2021 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -21,35 +21,41 @@ package net.ivpn.client.ui.mocklocation
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
+
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.databinding.FragmentMockLocationStep2Binding
-import net.ivpn.client.databinding.FragmentMockLocationStep3Binding
+import net.ivpn.client.common.extension.navigate
+import net.ivpn.client.databinding.FragmentMockLocationStep1Binding
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 
-class MockLocationStep3Fragment : Fragment() {
+
+class MockLocationStep1Fragment: Fragment() {
     @Inject
     lateinit var mockLocation: MockLocationViewModel
 
-    lateinit var binding: FragmentMockLocationStep3Binding
+    lateinit var binding: FragmentMockLocationStep1Binding
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mock_location_step3, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mock_location_step1, container, false)
         return binding.root
     }
 
@@ -71,8 +77,15 @@ class MockLocationStep3Fragment : Fragment() {
 
     private fun initViews() {
         binding.contentLayout.mocklocation = mockLocation
-        binding.contentLayout.close.setOnClickListener {
-            close()
+        binding.contentLayout.toSettings.setOnClickListener {
+            toSettings()
+        }
+        binding.contentLayout.next.setOnClickListener {
+            next()
+        }
+
+        binding.contentLayout.openGuide.setOnClickListener {
+            openGuide()
         }
     }
 
@@ -83,7 +96,23 @@ class MockLocationStep3Fragment : Fragment() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 
-    private fun close() {
-        NavHostFragment.findNavController(this).popBackStack()
+    private fun toSettings() {
+        startActivity(Intent(Settings.ACTION_SETTINGS))
+    }
+
+    private fun next() {
+        if (mockLocation.isDeveloperOptionsEnabled()) {
+            val action = MockLocationStep1FragmentDirections.actionMockLocationStep1FragmentToMockLocationStep2Fragment()
+            navigate(action)
+        } else {
+            DialogBuilder.createNotificationDialog(context, Dialogs.MOCK_LOCATION_DEVELOPER_OPTION_ERROR)
+        }
+    }
+
+    private fun openGuide() {
+        val url = "https://www.ivpn.net/knowledgebase/android/developer-options-on-the-android-phone/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

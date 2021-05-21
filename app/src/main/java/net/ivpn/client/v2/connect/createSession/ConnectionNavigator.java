@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.connect;
+package net.ivpn.client.v2.connect.createSession;
 
 /*
  IVPN Android app
@@ -22,7 +22,7 @@ package net.ivpn.client.ui.connect;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.ui.dialog.Dialogs;
+import net.ivpn.client.v2.dialog.Dialogs;
 
 public interface ConnectionNavigator {
 

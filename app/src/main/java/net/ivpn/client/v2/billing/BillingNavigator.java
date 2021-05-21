@@ -1,4 +1,4 @@
-package net.ivpn.client.ui.connect;
+package net.ivpn.client.v2.billing;
 
 /*
  IVPN Android app
@@ -22,11 +22,17 @@ package net.ivpn.client.ui.connect;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public enum ConnectionState {
-    NOT_CONNECTED,
-    CONNECTING,
-    CONNECTED,
-    DISCONNECTING,
-    PAUSING,
-    PAUSED;
+public interface BillingNavigator {
+
+    void onSuccessBilling();
+
+    void onCredentialsError();
+
+    void onPurchaseAlreadyDone();
+
+    void createPurchaseErrorDialog(String errorCode, String errorMessage);
+
+    void onAccountCreated();
+
+    void onAddFundsFinish();
 }

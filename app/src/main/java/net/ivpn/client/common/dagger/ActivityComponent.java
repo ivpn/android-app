@@ -26,12 +26,12 @@ import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.client.common.shortcuts.ConnectionShortcutsActivity;
 import net.ivpn.client.common.tile.IVPNTileService;
-import net.ivpn.client.ui.billing.BillingActivity;
-import net.ivpn.client.ui.customdns.DialogueCustomDNSViewModel;
-import net.ivpn.client.ui.mocklocation.MockLocationFragment;
-import net.ivpn.client.ui.mocklocation.MockLocationStep1Fragment;
-import net.ivpn.client.ui.mocklocation.MockLocationStep2Fragment;
-import net.ivpn.client.ui.mocklocation.MockLocationStep3Fragment;
+import net.ivpn.client.v2.billing.BillingActivity;
+import net.ivpn.client.v2.customdns.DialogueCustomDNSViewModel;
+import net.ivpn.client.v2.mocklocation.MockLocationFragment;
+import net.ivpn.client.v2.mocklocation.MockLocationStep1Fragment;
+import net.ivpn.client.v2.mocklocation.MockLocationStep2Fragment;
+import net.ivpn.client.v2.mocklocation.MockLocationStep3Fragment;
 import net.ivpn.client.ui.subscription.SubscriptionActivity;
 import net.ivpn.client.ui.subscription.monthly.MonthlySubscriptionFragment;
 import net.ivpn.client.ui.subscription.yearly.YearlySubscriptionFragment;

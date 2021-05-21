@@ -36,9 +36,9 @@ import net.ivpn.client.common.utils.StringUtil
 import net.ivpn.client.rest.Responses
 import net.ivpn.client.rest.data.session.SessionNewResponse
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
-import net.ivpn.client.ui.connect.ConnectionNavigator
-import net.ivpn.client.ui.connect.ConnectionState
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.connect.createSession.ConnectionNavigator
+import net.ivpn.client.v2.connect.createSession.ConnectionState
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.connect.MapDialogs
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController

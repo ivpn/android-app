@@ -34,8 +34,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentCustomDnsBinding
-import net.ivpn.client.ui.customdns.CustomDNSViewModel
-import net.ivpn.client.ui.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.DialogBuilder
 import net.ivpn.client.v2.MainActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
