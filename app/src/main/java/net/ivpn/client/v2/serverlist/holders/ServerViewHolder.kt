@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.client.R
 import net.ivpn.client.databinding.ServerItemBinding
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 
 class ServerViewHolder(
         val binding: ServerItemBinding,

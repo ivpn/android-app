@@ -23,7 +23,6 @@ package net.ivpn.client.v2.viewmodel
 */
 
 import net.ivpn.client.IVPNApplication
-import net.ivpn.client.ui.protocol.ProtocolViewModel
 import net.ivpn.client.v2.network.NetworkViewModel
 import javax.inject.Inject
 

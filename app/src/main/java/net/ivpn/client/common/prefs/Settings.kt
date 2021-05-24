@@ -29,7 +29,7 @@ import net.ivpn.client.common.BuildController
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.nightmode.NightMode
-import net.ivpn.client.ui.protocol.port.Port
+import net.ivpn.client.v2.protocol.port.Port
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.vpn.Protocol
 import java.util.*

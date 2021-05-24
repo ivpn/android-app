@@ -10,7 +10,7 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.protocol.port.Port
+import net.ivpn.client.v2.protocol.port.Port
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject

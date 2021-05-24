@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.split.SplitTunnelingViewModel" />
+            type="net.ivpn.client.v2.viewmodel.SplitTunnelingViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

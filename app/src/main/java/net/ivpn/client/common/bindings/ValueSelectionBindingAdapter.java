@@ -24,8 +24,8 @@ package net.ivpn.client.common.bindings;
 
 import androidx.databinding.BindingAdapter;
 
-import net.ivpn.client.ui.protocol.view.OnValueChangeListener;
-import net.ivpn.client.ui.protocol.view.ValueSelectionView;
+import net.ivpn.client.common.views.valueSelector.OnValueChangeListener;
+import net.ivpn.client.common.views.valueSelector.ValueSelectionView;
 
 public class ValueSelectionBindingAdapter {
 

@@ -36,8 +36,6 @@ import androidx.databinding.ObservableField
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.NetworkProtectionPreference
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.ui.network.NetworkNavigator
-import net.ivpn.client.ui.network.OnNetworkSourceChangedListener
 import net.ivpn.client.vpn.local.NetworkController
 import net.ivpn.client.vpn.model.NetworkSource
 import net.ivpn.client.vpn.model.NetworkState

@@ -24,7 +24,7 @@ package net.ivpn.client.v2.serverlist.holders
 
 import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.client.databinding.RandomServerItemBinding
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 
 class RandomServerViewHolder(
         binding: RandomServerItemBinding,

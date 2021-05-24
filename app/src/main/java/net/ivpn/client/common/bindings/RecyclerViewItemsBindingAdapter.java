@@ -29,11 +29,11 @@ import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter;
-import net.ivpn.client.ui.serverlist.fastest.OnFastestSettingChangedListener;
-import net.ivpn.client.ui.split.OnApplicationItemSelectionChangedListener;
-import net.ivpn.client.ui.split.SplitTunnelingRecyclerViewAdapter;
-import net.ivpn.client.ui.split.items.ApplicationItem;
+import net.ivpn.client.v2.serverlist.fastest.FastestSettingViewAdapter;
+import net.ivpn.client.v2.serverlist.fastest.OnFastestSettingChangedListener;
+import net.ivpn.client.v2.splittunneling.OnApplicationItemSelectionChangedListener;
+import net.ivpn.client.v2.splittunneling.SplitTunnelingRecyclerViewAdapter;
+import net.ivpn.client.v2.splittunneling.items.ApplicationItem;
 import net.ivpn.client.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter;
 import net.ivpn.client.vpn.model.WifiItem;

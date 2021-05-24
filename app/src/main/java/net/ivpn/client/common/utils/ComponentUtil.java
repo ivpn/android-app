@@ -35,7 +35,7 @@ import net.ivpn.client.common.prefs.Preference;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.updater.UpdateHelper;
-import net.ivpn.client.ui.updates.UpdatesJobServiceUtil;
+import net.ivpn.client.v2.updates.UpdatesJobServiceUtil;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.ProtocolController;
 import net.ivpn.client.vpn.local.NetworkController;

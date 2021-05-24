@@ -61,7 +61,7 @@
             android:value="false" />
 
         <activity
-            android:name=".ui.timepicker.TimePickerActivity"
+            android:name=".v2.timepicker.TimePickerActivity"
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
@@ -127,10 +127,10 @@
         <service android:name="com.wireguard.android.backend.WireGuardUiService" />
 
         <service
-            android:name="net.ivpn.client.ui.updates.UpdatesService"
+            android:name="net.ivpn.client.v2.updates.UpdatesService"
             android:exported="false" />
         <service
-            android:name=".ui.updates.UpdatesJobService"
+            android:name=".v2.updates.UpdatesJobService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

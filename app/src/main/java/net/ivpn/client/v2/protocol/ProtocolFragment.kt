@@ -38,10 +38,9 @@ import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentProtocolBinding
 import net.ivpn.client.v2.dialog.DialogBuilder
 import net.ivpn.client.v2.dialog.Dialogs
-import net.ivpn.client.ui.protocol.ProtocolNavigator
-import net.ivpn.client.ui.protocol.ProtocolViewModel
-import net.ivpn.client.ui.protocol.port.Port
-import net.ivpn.client.ui.protocol.port.PortAdapter
+import net.ivpn.client.v2.viewmodel.ProtocolViewModel
+import net.ivpn.client.v2.protocol.port.Port
+import net.ivpn.client.v2.protocol.port.PortAdapter
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.vpn.Protocol
 import org.slf4j.LoggerFactory

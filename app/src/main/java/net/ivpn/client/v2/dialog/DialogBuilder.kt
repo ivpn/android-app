@@ -35,7 +35,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import net.ivpn.client.IVPNApplication
@@ -45,11 +44,10 @@ import net.ivpn.client.common.extension.setContentSecure
 import net.ivpn.client.common.utils.DateUtil
 import net.ivpn.client.databinding.DialogCustomDnsBinding
 import net.ivpn.client.v2.customdns.OnDNSChangedListener
-import net.ivpn.client.ui.protocol.dialog.WireGuardDetailsDialogListener
-import net.ivpn.client.ui.protocol.dialog.WireGuardInfo
-import net.ivpn.client.ui.settings.AdvancedKillSwitchActionListener
-import net.ivpn.client.ui.timepicker.OnDelayOptionSelected
-import net.ivpn.client.ui.timepicker.PauseDelay
+import net.ivpn.client.v2.protocol.dialog.WireGuardDetailsDialogListener
+import net.ivpn.client.v2.protocol.dialog.WireGuardInfo
+import net.ivpn.client.v2.timepicker.OnDelayOptionSelected
+import net.ivpn.client.v2.timepicker.PauseDelay
 import org.slf4j.LoggerFactory
 import java.util.*
 
@@ -246,41 +244,6 @@ object DialogBuilder {
             onDelayOptionSelected.onCancelAction()
         }
         alertDialog.setOnCancelListener { onDelayOptionSelected.onCancelAction() }
-        if ((context as Activity).isFinishing) {
-            return
-        }
-        try {
-            alertDialog.show()
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        }
-    }
-
-    @JvmStatic
-    fun createAdvancedKillSwitchDialog(context: Context?, listener: AdvancedKillSwitchActionListener) {
-        LOGGER.info("Create advanced killswitch dialog")
-        if (context == null) {
-            return
-        }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_advanced_kill_switch, null)
-        builder.setView(dialogView)
-        val checkBox: AppCompatCheckBox = dialogView.findViewById(R.id.checkbox)
-        val alertDialog = builder.create()
-        dialogView.findViewById<View>(R.id.cancelAction).setOnClickListener {
-            if (checkBox.isChecked) {
-                listener.enableAdvancedKillSwitchDialog(false)
-            }
-            alertDialog.dismiss()
-        }
-        dialogView.findViewById<View>(R.id.openSettings).setOnClickListener { listener.openDeviceSettings() }
-        alertDialog.setOnCancelListener {
-            if (checkBox.isChecked) {
-                listener.enableAdvancedKillSwitchDialog(false)
-            }
-            alertDialog.dismiss()
-        }
         if ((context as Activity).isFinishing) {
             return
         }

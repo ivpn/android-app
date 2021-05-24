@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.serverlist.ServersListCommonViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ServersListCommonViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

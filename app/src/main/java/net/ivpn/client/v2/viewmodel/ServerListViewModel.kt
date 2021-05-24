@@ -34,7 +34,7 @@ import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.v2.dialog.Dialogs
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 import net.ivpn.client.v2.serverlist.FavouriteServerListener
 import javax.inject.Inject
 

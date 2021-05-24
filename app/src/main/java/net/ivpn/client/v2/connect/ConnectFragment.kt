@@ -58,7 +58,7 @@ import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.client.v2.dialog.DialogBuilder
 import net.ivpn.client.v2.dialog.Dialogs
-import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.viewmodel.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location

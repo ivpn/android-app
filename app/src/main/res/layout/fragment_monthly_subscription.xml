@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.subscription.SubscriptionViewModel" />
+            type="net.ivpn.client.v2.subscription.SubscriptionViewModel" />
     </data>
 
     <ScrollView

@@ -12,7 +12,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ProtocolViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -116,7 +116,7 @@
                             android:textColor="@color/protocol_text_color" />
                     </LinearLayout>
 
-                    <net.ivpn.client.ui.protocol.view.ValueSelectionView
+                    <net.ivpn.client.common.views.valueSelector.ValueSelectionView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"

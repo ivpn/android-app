@@ -15,7 +15,7 @@
 
         <variable
             name="navigator"
-            type="net.ivpn.client.ui.serverlist.AdapterListener" />
+            type="net.ivpn.client.v2.serverlist.AdapterListener" />
 
         <variable
             name="forbiddenServer"

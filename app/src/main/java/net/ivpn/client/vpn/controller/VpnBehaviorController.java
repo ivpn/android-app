@@ -30,7 +30,7 @@ import com.wireguard.android.model.Tunnel;
 
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.dagger.ApplicationScope;
-import net.ivpn.client.ui.timepicker.TimePickerActivity;
+import net.ivpn.client.v2.timepicker.TimePickerActivity;
 import net.ivpn.client.vpn.OnProtocolChangedListener;
 import net.ivpn.client.vpn.Protocol;
 import net.ivpn.client.vpn.ProtocolController;
