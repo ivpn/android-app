@@ -67,10 +67,6 @@ class LocationViewModel @Inject constructor(
     private var v4locationUIData: LocationUIData? = null
     private var v6locationUIData: LocationUIData? = null
 
-//    val ip = ObservableField<String>()
-//    val location = ObservableField<String>()
-//    val isp = ObservableField<String>()
-
     val isLocationAPIError = ObservableBoolean()
 
     private var v4LocationAPIError = false
@@ -88,9 +84,6 @@ class LocationViewModel @Inject constructor(
 
     private var requestV4: Request<LocationResponse>? = null
     private var requestV6: Request<LocationResponse>? = null
-
-//    private var locationV4: Location? = null
-//    private var locationV6: Location? = null
 
     private val homeLocation = ObservableField<Location>()
 
@@ -180,14 +173,13 @@ class LocationViewModel @Inject constructor(
         }
         requestV4?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
-                println("IPv4 location = $response")
+                LOGGER.info("IPv4 location = $response")
                 this@LocationViewModel.onSuccess(response)
                 uiListener?.onLocationUpdated()
             }
 
             override fun onError(throwable: Throwable) {
                 LOGGER.error("Error while updating location ", throwable)
-                println("IPv4 Error while updating location " + throwable)
                 for (listener in locationListeners) {
                     listener.onError()
                 }
@@ -195,7 +187,7 @@ class LocationViewModel @Inject constructor(
             }
 
             override fun onError(string: String) {
-                println("IPv4 Error while updating location " + string)
+                LOGGER.error("IPv4 Error while updating location $string")
                 LOGGER.error("Error while updating location ", string)
                 for (listener in locationListeners) {
                     listener.onError()
@@ -205,20 +197,17 @@ class LocationViewModel @Inject constructor(
         })
         requestV6?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
-                println("IPv6 location = $response")
+                LOGGER.info("IPv6 location = $response")
                 this@LocationViewModel.onSuccessV6(response)
                 uiListener?.onLocationUpdated()
-//                LOGGER.error("IPv6 location = $response")
             }
 
             override fun onError(throwable: Throwable) {
-                println("IPv6 Error while updating location " + throwable)
+                LOGGER.error("IPv6 Error while updating location $throwable")
                 this@LocationViewModel.onErrorV6()
-//                LOGGER.error("IPv6 Error while updating location ", throwable)
             }
 
             override fun onError(string: String) {
-                println("IPv6 Error while updating location " + string)
                 LOGGER.error("IPv6 Error while updating location ", string)
                 this@LocationViewModel.onErrorV6()
             }
@@ -258,8 +247,8 @@ class LocationViewModel @Inject constructor(
             } else {
                 it.country
             }
-
             v4locationUIData = LocationUIData(it.ipAddress, locationStr, if (it.isIvpnServer) "IVPN" else it.isp)
+
             if (isIPv4InfoActive()) {
                 locationUIData.set(v4locationUIData)
             }
@@ -274,6 +263,7 @@ class LocationViewModel @Inject constructor(
         }
         response?.let {
             val stateL = state
+            isIPv6Available.set(true)
             if (stateL != null
                     && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
                 homeV6Location = Location(it.longitude.toFloat(),
@@ -303,7 +293,6 @@ class LocationViewModel @Inject constructor(
                 locationUIData.set(v6locationUIData)
             }
 
-            isIPv6Available.set(true)
             if (stateL != null
                     && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
                 isIPv6MapUIAvailable.set(true)
