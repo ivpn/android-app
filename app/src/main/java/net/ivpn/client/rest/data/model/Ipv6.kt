@@ -27,7 +27,7 @@ import com.google.gson.annotations.SerializedName
 
 class Ipv6 {
 
-    @SerializedName("ipv6")
+    @SerializedName("local_ip")
     @Expose
     var local_ip: String? = null
 }

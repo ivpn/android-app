@@ -22,6 +22,8 @@ package net.ivpn.client.rest.requests.common;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.os.Build;
+
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.common.prefs.ServersRepository;
 import net.ivpn.client.common.prefs.Settings;
@@ -30,11 +32,14 @@ import net.ivpn.client.rest.IVPNApi;
 import net.ivpn.client.rest.RequestListener;
 import net.ivpn.client.rest.Responses;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -51,20 +56,22 @@ public class RequestWrapper<T> implements Callback<T> {
     private static final String HTTPS = "https://";
     private static final String SLASH = "/";
 
-    private IpMode mode;
+    private final IpMode mode;
     private LinkedList<String> ips;
     private String testingIp;
-    private String startIp;
 
     private volatile boolean isCancelled;
 
     private CallBuilder<T> callBuilder;
-    private OkHttpClient httpClient;
+    private final OkHttpClient httpClient;
     private Call<T> call;
     private RequestListener listener;
 
-    private Settings settings;
-    private ServersRepository serversRepository;
+    private final Settings settings;
+    private final ServersRepository serversRepository;
+
+    private AtomicInteger currentAttempt = new AtomicInteger(0);
+    private int maxAttempts;
 
     RequestWrapper(Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository,
                    int timeOut, IpMode mode) {
@@ -84,7 +91,6 @@ public class RequestWrapper<T> implements Callback<T> {
 
     void perform() {
         testingIp = getIps().isEmpty() ? null : getIps().getFirst();
-        startIp = testingIp;
         LOGGER.info("Perform with testingIp = " + testingIp);
         String baseUrl = generateURL(testingIp);
         LOGGER.info("Perform with baseUrl = " + baseUrl);
@@ -92,6 +98,7 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private void perform(String baseUrl) {
+        currentAttempt.incrementAndGet();
         call = callBuilder.createCall(generateApi(baseUrl));
         call.enqueue(this);
     }
@@ -104,26 +111,30 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private void getNextBaseUrlAndTry(Throwable throwable) {
-        LOGGER.info("Get next url and try again");
-        if (getIps() == null) {
+        LOGGER.info("Get next url and try again currentAttempt = " + currentAttempt.get()
+                + " maxAttempts = " + maxAttempts);
+        if (currentAttempt.get() > maxAttempts || getIps() == null) {
+            currentAttempt.set(0);
             listener.onError(throwable);
+            return;
         }
-        testingIp = getTestingIp();
 
         String baseUrl;
         if (testingIp == null) {
-            testingIp = getIps().isEmpty() ? null : getIps().getFirst();
+            testingIp = getIps().getFirst();
         } else if (testingIp.equals(getIps().getLast())) {
-            testingIp = null;
+            switch (mode) {
+                case IPv6:
+                    testingIp = getIps().getFirst();
+                    break;
+                case IPv4:
+                case BOTH:
+                    testingIp = null;
+                    break;
+            }
         } else {
-            int indexOf = getIps().indexOf(testingIp);
-            testingIp = getIps().get(indexOf + 1);
-        }
-
-        if ((testingIp == null && startIp == null)
-                || (testingIp != null && testingIp.equals(startIp))) {
-            listener.onError(throwable);
-            return;
+            int index = getIps().indexOf(testingIp);
+            testingIp = getIps().get(index + 1);
         }
 
         baseUrl = generateURL(testingIp);
@@ -137,7 +148,6 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     private IVPNApi generateApi(String baseUrl) {
-        System.out.println("Base url = " + baseUrl);
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -147,15 +157,10 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     @Override
-    public void onResponse(Call<T> call, Response<T> response) {
+    public void onResponse(@NotNull Call<T> call,@NotNull Response<T> response) {
         LOGGER.info("Response received for " + mode);
-        if (isCancelled || response == null || listener == null) return;
-
-//        LOGGER.info("getTestingIp = " + getTestingIp() + " lastUsedIp = " + getLastUsedIp());
-//        if ((getTestingIp() == null && getLastUsedIp() != null) || (getTestingIp() != null && !getTestingIp().equals(getLastUsedIp()))) {
-//            LOGGER.info("Set " + getTestingIp() + " as stable");
-//            settings.setLastUsedIp(getTestingIp());
-//        }
+        currentAttempt.set(0);
+        if (isCancelled || listener == null) return;
 
         if (response.code() == Responses.SUCCESS) {
             listener.onSuccess(response.body());
@@ -171,7 +176,7 @@ public class RequestWrapper<T> implements Callback<T> {
     }
 
     @Override
-    public void onFailure(Call<T> call, Throwable throwable) {
+    public void onFailure(@NotNull Call<T> call,@NotNull Throwable throwable) {
         LOGGER.error("Failed with ip = " + getTestingIp() + " ", throwable);
         if (isCancelled) {
             return;
@@ -211,10 +216,8 @@ public class RequestWrapper<T> implements Callback<T> {
                 break;
             case IPv6:
                 tempIps = settings.getIpv6List();
-                if (tempIps != null) {
-                    for (String ip :tempIps) {
-                        ips.add("[" + ip +"]");
-                    }
+                for (String ip :tempIps) {
+                    ips.add("[" + ip +"]");
                 }
                 break;
             case BOTH:
@@ -223,14 +226,13 @@ public class RequestWrapper<T> implements Callback<T> {
                     ips.addAll(tempIps);
                 }
                 tempIps = settings.getIpv6List();
-                if (tempIps != null) {
-                    for (String ip :tempIps) {
-                        ips.add("[" + ip +"]");
-                    }
-//                    ips.addAll(tempIps);
+                for (String ip :tempIps) {
+                    ips.add("[" + ip +"]");
                 }
                 break;
         }
+        maxAttempts = ips.size();
+        LOGGER.info("Sex max attempts count as " + maxAttempts);
 
         return ips;
     }

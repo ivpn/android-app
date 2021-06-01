@@ -260,14 +260,16 @@ class ServersRepository @Inject constructor(
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        response.markServerTypes()
-        settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-        settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
-        settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
-        settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
-        settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
-        settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
-        setServerList(response.openVpnServerList, response.wireGuardServerList)
+        response?.let{
+            it.markServerTypes()
+            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
+            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
+            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            setServerList(it.openVpnServerList, it.wireGuardServerList)
+        }
     }
 
     fun tryUpdateIpList() {
@@ -276,12 +278,14 @@ class ServersRepository @Inject constructor(
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-        settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
-        settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
-        settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
-        settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
-        settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
+        response?.let {
+            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
+            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
+            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+        }
     }
 
     fun tryUpdateServerLocations() {
@@ -291,31 +295,33 @@ class ServersRepository @Inject constructor(
         }
         LOGGER.info("tryUpdateServerLocations AFTER")
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        response.markServerTypes()
-        val locations: MutableList<ServerLocation> = ArrayList()
-        for (server in response.openVpnServerList) {
-            locations.add(ServerLocation(
-                    server.city,
-                    server.countryCode,
-                    server.latitude,
-                    server.longitude
-            ))
+        response?.let {
+            it.markServerTypes()
+            val locations: MutableList<ServerLocation> = ArrayList()
+            for (server in it.openVpnServerList) {
+                locations.add(ServerLocation(
+                        server.city,
+                        server.countryCode,
+                        server.latitude,
+                        server.longitude
+                ))
+            }
+            serversPreference.putOpenVPNLocations(locations)
+            locations.clear()
+            for (server in it.wireGuardServerList) {
+                locations.add(ServerLocation(
+                        server.city,
+                        server.countryCode,
+                        server.latitude,
+                        server.longitude
+                ))
+            }
+            serversPreference.putWireGuardLocations(locations)
+            setServerList(it.openVpnServerList, it.wireGuardServerList)
+            updateCurrentServersWithLocation()
+            currentServers[Protocol.OPENVPN] = EnumMap(ServerType::class.java)
+            currentServers[Protocol.WIREGUARD] = EnumMap(ServerType::class.java)
         }
-        serversPreference.putOpenVPNLocations(locations)
-        locations.clear()
-        for (server in response.wireGuardServerList) {
-            locations.add(ServerLocation(
-                    server.city,
-                    server.countryCode,
-                    server.latitude,
-                    server.longitude
-            ))
-        }
-        serversPreference.putWireGuardLocations(locations)
-        setServerList(response.openVpnServerList, response.wireGuardServerList)
-        updateCurrentServersWithLocation()
-        currentServers[Protocol.OPENVPN] = EnumMap(ServerType::class.java)
-        currentServers[Protocol.WIREGUARD] = EnumMap(ServerType::class.java)
     }
 
     private fun updateCurrentServersWithLocation() {

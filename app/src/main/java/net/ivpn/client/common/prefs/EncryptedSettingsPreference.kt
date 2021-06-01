@@ -108,7 +108,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     var ipv6List: String?
         get() {
-            return sharedPreferences.getString(IPV6_LIST, null)
+            val value = sharedPreferences.getString(IPV6_LIST, null)
+            return value
         }
         set(value) {
             sharedPreferences.edit()
@@ -118,7 +119,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     var ipv6ShowAllServers: Boolean
         get() {
-            return sharedPreferences.getBoolean(IPV6_SHOW_ALL_SERVERS, false)
+            return sharedPreferences.getBoolean(IPV6_SHOW_ALL_SERVERS, true)
         }
         set(value) {
             sharedPreferences.edit()

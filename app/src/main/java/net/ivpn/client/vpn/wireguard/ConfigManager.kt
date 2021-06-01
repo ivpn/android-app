@@ -84,7 +84,6 @@ class ConfigManager @Inject constructor(
     private fun generateConfig(server: Server?, port: Port): Config? {
         val config = Config()
         val privateKey = settings.wireGuardPrivateKey
-        val publicKey = settings.wireGuardPublicKey
         val ipAddress = settings.wireGuardIpAddress
 
         LOGGER.info("Generating config:")
@@ -95,10 +94,11 @@ class ConfigManager @Inject constructor(
             config.getInterface().privateKey = privateKey
         }
         val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
+        val localIPv6Address = server.hosts[0].ipv6.local_ip
 
         val dnsString = getDNS(server)
-        if (isIPv6Supported) {
-            config.getInterface().setAddressString("$ipAddress/32,fd00:4956:504e:ffff::$ipAddress/128")
+        if (isIPv6Supported && !localIPv6Address.isNullOrEmpty()) {
+            config.getInterface().setAddressString("$ipAddress/32,${localIPv6Address.split('/')[0]}$ipAddress/128")
         } else {
             config.getInterface().setAddressString(ipAddress)
         }
