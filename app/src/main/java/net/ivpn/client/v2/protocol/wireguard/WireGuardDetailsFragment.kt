@@ -38,10 +38,10 @@ import net.ivpn.client.R
 import net.ivpn.client.common.SnackbarUtil
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentWireguardDetailsBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.protocol.ProtocolNavigator
-import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
+import net.ivpn.client.v2.protocol.ProtocolNavigator
+import net.ivpn.client.v2.viewmodel.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject

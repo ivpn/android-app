@@ -35,19 +35,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
 import androidx.collection.LruCache
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.dialogue.DialogueDrawer
-import net.ivpn.client.v2.map.dialogue.DialogueUtil
-import net.ivpn.client.v2.map.dialogue.model.DialogueData
 import net.ivpn.client.v2.map.location.LocationData
 import net.ivpn.client.v2.map.location.LocationDrawer
 import net.ivpn.client.v2.map.model.Location
@@ -289,7 +289,8 @@ class MapView @JvmOverloads constructor(
                         MapMath.tileHeight * j
                 )
 
-                getBitmap("$globalPath/row-${j}-col-${i}.png")?.also { bitmap ->
+                getBitmap("ic_row_${j}_col_${i}")?.also { bitmap ->
+//                    getBitmap("$globalPath/row-${j}-col-${i}.png")?.also { bitmap ->
                     if (intersectionRect.setIntersect(tileRect, srcRect)) {
                         with(relativeRect) {
                             left = (intersectionRect.left - math.totalX).toInt()
@@ -477,11 +478,11 @@ class MapView @JvmOverloads constructor(
         invalidate()
     }
 
-    var bitmapCache: LruCache<String, Bitmap>? = null
-    private var thumbnails: HashMap<String, Bitmap>? = null
+    var bitmapCache: LruCache<String, Bitmap?>? = null
+    private var thumbnails: HashMap<String, Bitmap?>? = null
     private fun initTiles() {
         val path = resources.getString(R.string.path_to_tiles)
-        bitmapCache = MapHolder.getTilesFor(path, context)
+        bitmapCache = MapHolder.getTilesFor()
         thumbnails = MapHolder.getThumbnails(path, context)
     }
 
@@ -513,18 +514,55 @@ class MapView @JvmOverloads constructor(
         override fun doInBackground(vararg params: String?): Bitmap? {
             return params[0]?.let { assetPath ->
                 getBitmapFrom(context, assetPath).also { bitmap ->
-                    bitmapCache?.put(assetPath, bitmap)
+                    bitmap?.let {
+                        bitmapCache?.put(assetPath, it)
+                    }
                     postInvalidate()
                 }
             }
         }
     }
 
-    private fun getBitmapFrom(context: Context, assetPath: String): Bitmap {
-        val drawable = Drawable.createFromStream(
-                context.assets.open(assetPath), null
-        )
-        return drawable.toBitmap(MapMath.tileWidth, MapMath.tileHeight, null)
+    private fun getBitmapFrom(context: Context, name: String): Bitmap? {
+        try {
+            val drawable = ResourcesCompat.getDrawable(
+                    context.resources,
+                    getIdentifier(context, name),
+                    null
+            )
+//            if (name == "ic_row_2_col_1") {
+//                drawable?.setTint(
+//                        ResourcesCompat.getColor(
+//                                context.resources,
+//                                R.color.red_light,
+//                                null
+//                        )
+//                )
+//            } else {
+//                drawable?.setTint(
+//                        ResourcesCompat.getColor(
+//                                context.resources,
+//                                R.color.map_fill,
+//                                null
+//                        )
+//                )
+//            }
+            drawable?.setTint(
+                    ResourcesCompat.getColor(
+                            context.resources,
+                            R.color.map_fill,
+                            null
+                    )
+            )
+
+            return drawable?.toBitmap(MapMath.tileWidth, MapMath.tileHeight, null)
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    private fun getIdentifier(context: Context, name: String): Int {
+        return context.resources.getIdentifier(name, "drawable", IVPNApplication.getApplication().packageName)
     }
 
     private fun getAnimatorListener(): MapAnimator.AnimatorListener {

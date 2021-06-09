@@ -40,8 +40,8 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.databinding.FragmentKillswitchBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.KillSwitchViewModel
 import net.ivpn.client.vpn.ServiceConstants

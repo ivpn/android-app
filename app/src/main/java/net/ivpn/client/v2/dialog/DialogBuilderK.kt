@@ -33,8 +33,6 @@ import net.ivpn.client.databinding.DialogueDefaultNetworkStateBinding
 import net.ivpn.client.databinding.DialogueFilterBinding
 import net.ivpn.client.databinding.DialogueNetworkStateBinding
 import net.ivpn.client.databinding.DialogueNightModeBinding
-import net.ivpn.client.ui.network.CommonBehaviourItemViewModel
-import net.ivpn.client.ui.network.NetworkItemViewModel
 import net.ivpn.client.v2.network.dialog.NetworkChangeDialogViewModel
 import net.ivpn.client.v2.viewmodel.ColorThemeViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel

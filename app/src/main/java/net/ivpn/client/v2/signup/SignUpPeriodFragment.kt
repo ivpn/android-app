@@ -28,7 +28,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -37,7 +36,7 @@ import net.ivpn.client.R
 import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentSignUpPeriodBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.DialogBuilder
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
 import org.slf4j.LoggerFactory

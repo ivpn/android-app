@@ -21,7 +21,7 @@
 
         <variable
             name="protocol"
-            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ProtocolViewModel" />
 
         <variable
             name="network"
@@ -411,6 +411,23 @@
                             app:srcCompat="@drawable/ic_arrow_right"
                             app:tint="@color/sliding_panel_arrow" />
 
+                        <TextView
+                            android:id="@+id/entry_ipv6_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/ipv6_text_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="IPv6"
+                            android:visibility="@{servers.isEntryServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
+                            android:textColor="@color/servers_text_color"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                            app:layout_constraintStart_toEndOf="@+id/textView6"
+                            app:layout_constraintTop_toTopOf="@+id/textView6" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -445,7 +462,7 @@
                             android:layout_marginTop="16dp"
                             android:text="@string/exit_server"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/exit_server_top_line" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/exit_server_flag"
@@ -481,6 +498,23 @@
                             app:layout_constraintTop_toTopOf="@+id/exit_server_hint"
                             app:srcCompat="@drawable/ic_arrow_right"
                             app:tint="@color/sliding_panel_arrow" />
+
+                        <TextView
+                            android:id="@+id/exit_ipv6_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/ipv6_text_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:visibility="@{servers.isExitServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
+                            android:text="IPv6"
+                            android:textColor="@color/servers_text_color"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/exit_server_description"
+                            app:layout_constraintStart_toEndOf="@+id/exit_server_description"
+                            app:layout_constraintTop_toTopOf="@+id/exit_server_description" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -37,8 +37,7 @@ import net.ivpn.client.common.utils.ConnectivityUtil
 import net.ivpn.client.rest.Responses
 import net.ivpn.client.rest.data.session.SessionNewResponse
 import net.ivpn.client.rest.data.wireguard.ErrorResponse
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.dialog.Dialogs
 import org.slf4j.LoggerFactory
 import java.io.InterruptedIOException
 import javax.inject.Inject
@@ -73,6 +72,9 @@ class LoginViewModel @Inject constructor(
     var paymentMethod: String? = null
 
     var navigator: LoginNavigator? = null
+
+    var pendingCaptcha: String? = null
+    var pending2FAToken: String? = null
 
     var tfaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
         if (hasFocus) {
@@ -168,8 +170,20 @@ class LoginViewModel @Inject constructor(
 
         dataLoading.set(true)
         resetErrors()
-        username.get()?.let {
-            login(it.trim(), force)
+        username.get()?.let { usernameObj ->
+            pendingCaptcha?.let { captchaObj ->
+                captchaId?.let { captchaIdObj ->
+                    sessionController.createSessionWithCaptcha(force, usernameObj.trim(), captchaIdObj, captchaObj)
+                    pendingCaptcha = null
+                    return
+                }
+            }
+            pending2FAToken?.let { tfaTokenObj ->
+                sessionController.createSessionWith2FAToken(force, usernameObj.trim(), tfaTokenObj)
+                pending2FAToken = null
+                return
+            }
+            login(usernameObj.trim(), force)
         }
     }
 
@@ -282,6 +296,8 @@ class LoginViewModel @Inject constructor(
                 navigator?.openErrorDialogue(Dialogs.AUTHENTICATION_ERROR)
             }
             Responses.SESSION_TOO_MANY -> {
+                pendingCaptcha = captcha.get()
+                pending2FAToken = tfaToken.get()
                 navigator?.openSessionLimitReachedDialogue()
             }
             Responses.INVALID_CAPTCHA -> {

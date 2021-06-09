@@ -23,10 +23,8 @@ package net.ivpn.client.v2.serverlist.favourite
 */
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.VpnService
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,15 +34,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.common.extension.checkVPNPermission
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentFavouriteServersListBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.serverlist.ServerListTabFragment
-import net.ivpn.client.v2.serverlist.all.ServerListFragment
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.viewmodel.ConnectionViewModel
+import net.ivpn.client.v2.viewmodel.IPv6ViewModel
 import net.ivpn.client.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.client.v2.viewmodel.ServerListViewModel
 import org.slf4j.LoggerFactory
@@ -63,6 +60,9 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
 
     @Inject
     lateinit var connect: ConnectionViewModel
+
+    @Inject
+    lateinit var ipv6ViewModel: IPv6ViewModel
 
     lateinit var adapter: FavouriteServerListRecyclerViewAdapter
 
@@ -85,12 +85,12 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         super.onAttach(context)
         IVPNApplication.getApplication().appComponent.provideActivityComponent().create().inject(this)
         if (parentFragment != null) {
-            serverType = (parentFragment as ServerListTabFragment?)!!.getServerType()
+            serverType = (parentFragment as ServerListTabFragment).getServerType()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_favourite_servers_list, container, false)
         return binding.root
@@ -127,7 +127,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
         adapter = FavouriteServerListRecyclerViewAdapter(viewmodel.adapterListener,
-                filterViewModel.filter.get())
+                filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))

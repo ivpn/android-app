@@ -30,12 +30,11 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.NavDeepLinkBuilder
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.viewmodel.AccountViewModel
 import net.ivpn.client.v2.viewmodel.ConnectionViewModel
 import net.ivpn.client.vpn.controller.DefaultVPNStateListener
 import net.ivpn.client.vpn.controller.VpnBehaviorController
-import net.ivpn.client.vpn.controller.VpnStateListener
 import net.ivpn.client.vpn.local.PermissionActivity
 import javax.inject.Inject
 

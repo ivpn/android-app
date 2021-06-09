@@ -51,7 +51,7 @@ class MultiHopController @Inject constructor(
         }
 
         isEnabled = value
-        settings.enableMultiHop(value)
+        settings.isMultiHopEnabled = value
 
         notifyValueChanges()
     }

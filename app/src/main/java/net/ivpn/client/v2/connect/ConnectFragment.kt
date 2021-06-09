@@ -53,14 +53,13 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentConnectBinding
 import net.ivpn.client.rest.data.model.ServerLocation
-import net.ivpn.client.ui.connect.ConnectionNavigator
-import net.ivpn.client.ui.connect.ConnectionState
-import net.ivpn.client.ui.connect.CreateSessionFragment
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.protocol.ProtocolViewModel
+import net.ivpn.client.v2.connect.createSession.ConnectionNavigator
+import net.ivpn.client.v2.connect.createSession.ConnectionState
+import net.ivpn.client.v2.connect.createSession.CreateSessionFragment
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
+import net.ivpn.client.v2.viewmodel.ProtocolViewModel
 import net.ivpn.client.v2.MainActivity
-import net.ivpn.client.v2.killswitch.KillSwitchFragment
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.v2.network.NetworkViewModel
@@ -70,7 +69,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
-        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
+    ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
         LocationViewModel.LocationUpdatesUIListener {
 
     companion object {
@@ -691,7 +690,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun openSessionLimitReachedDialogue() {
-        createSessionFragment = CreateSessionFragment()
+        createSessionFragment =
+            CreateSessionFragment()
         createSessionFragment.show(childFragmentManager, createSessionFragment.tag)
     }
 

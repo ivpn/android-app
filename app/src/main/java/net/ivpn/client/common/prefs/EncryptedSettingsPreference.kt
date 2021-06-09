@@ -57,6 +57,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_FILTER = "SETTINGS_FILTER"
         private const val SETTINGS_MOCK_LOCATION = "SETTINGS_MOCK_LOCATION"
         private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
+        private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
+        private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
+
 
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
@@ -67,20 +70,21 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val RULE_ENABLE_KILL_SWITCH = "RULE_ENABLE_KILL_SWITCH"
         private const val RULE_DISABLE_KILL_SWITCH = "RULE_DISABLE_KILL_SWITCH"
         private const val IP_LIST = "IP_LIST"
+        private const val IPV6_LIST = "IPV6_LIST"
         private const val LAST_USED_IP = "LAST_USED_IP"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
 
     var mockLocationSettings: Boolean
-    get() {
-        return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
-    }
-    set(value) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_MOCK_LOCATION, value)
-                .apply()
-    }
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(SETTINGS_MOCK_LOCATION, value)
+                    .apply()
+        }
 
     var bypassLocalSettings: Boolean
         get() {
@@ -89,6 +93,37 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         set(value) {
             sharedPreferences.edit()
                     .putBoolean(SETTINGS_BYPASS_LOCAL, value)
+                    .apply()
+        }
+
+    var ipv6Settings: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_IPV6, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(SETTINGS_IPV6, value)
+                    .apply()
+        }
+
+    var ipv6List: String?
+        get() {
+            val value = sharedPreferences.getString(IPV6_LIST, null)
+            return value
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putString(IPV6_LIST, value)
+                    .apply()
+        }
+
+    var ipv6ShowAllServers: Boolean
+        get() {
+            return sharedPreferences.getBoolean(IPV6_SHOW_ALL_SERVERS, true)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                    .putBoolean(IPV6_SHOW_ALL_SERVERS, value)
                     .apply()
         }
 
@@ -380,7 +415,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
                 .apply()
     }
 
-    fun getIpList(): LinkedList<String?>? {
+    fun getIpList(): LinkedList<String>? {
         return Mapper.ipListFrom(sharedPreferences.getString(IP_LIST, null))
     }
 

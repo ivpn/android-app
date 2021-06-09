@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import androidx.databinding.BindingAdapter;
 
 import net.ivpn.client.rest.data.model.Server;
-import net.ivpn.client.ui.serverlist.AdapterListener;
+import net.ivpn.client.v2.serverlist.AdapterListener;
 
 public class GestureBindingAdapter {
 

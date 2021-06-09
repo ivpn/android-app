@@ -11,7 +11,7 @@ import android.util.Log;
 import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.common.prefs.Settings;
 import net.ivpn.client.common.utils.DomainResolver;
-import net.ivpn.client.ui.protocol.port.Port;
+import net.ivpn.client.v2.protocol.port.Port;
 
 import java.io.Serializable;
 import java.util.List;

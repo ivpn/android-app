@@ -238,7 +238,7 @@
         android:label="Kill Switch" />
     <fragment
         android:id="@+id/mockLocationFragment"
-        android:name="net.ivpn.client.ui.mocklocation.MockLocationFragment"
+        android:name="net.ivpn.client.v2.mocklocation.MockLocationFragment"
         android:label="Setup Mock Location" >
         <action
             android:id="@+id/action_mockLocationFragment_to_mockLocationStep1Fragment"
@@ -246,7 +246,7 @@
     </fragment>
     <fragment
         android:id="@+id/mockLocationStep1Fragment"
-        android:name="net.ivpn.client.ui.mocklocation.MockLocationStep1Fragment"
+        android:name="net.ivpn.client.v2.mocklocation.MockLocationStep1Fragment"
         android:label="Developer Options" >
         <action
             android:id="@+id/action_mockLocationStep1Fragment_to_mockLocationStep2Fragment"
@@ -254,7 +254,7 @@
     </fragment>
     <fragment
         android:id="@+id/mockLocationStep2Fragment"
-        android:name="net.ivpn.client.ui.mocklocation.MockLocationStep2Fragment"
+        android:name="net.ivpn.client.v2.mocklocation.MockLocationStep2Fragment"
         android:label="Mock Location" >
         <action
             android:id="@+id/action_mockLocationStep2Fragment_to_mockLocationStep3Fragment"
@@ -263,6 +263,6 @@
     </fragment>
     <fragment
         android:id="@+id/mockLocationStep3Fragment"
-        android:name="net.ivpn.client.ui.mocklocation.MockLocationStep3Fragment"
+        android:name="net.ivpn.client.v2.mocklocation.MockLocationStep3Fragment"
         android:label="Setup Completed" />
 </navigation>

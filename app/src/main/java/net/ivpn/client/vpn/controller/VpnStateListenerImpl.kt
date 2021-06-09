@@ -24,8 +24,8 @@ package net.ivpn.client.vpn.controller
 
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.connect.ConnectionState
-import net.ivpn.client.ui.dialog.Dialogs
+import net.ivpn.client.v2.connect.createSession.ConnectionState
+import net.ivpn.client.v2.dialog.Dialogs
 
 open class VpnStateListenerImpl: VpnStateListener {
     override fun onAuthFailed() {

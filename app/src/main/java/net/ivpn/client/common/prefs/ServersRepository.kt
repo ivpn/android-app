@@ -31,6 +31,8 @@ import net.ivpn.client.rest.data.ServersListResponse
 import net.ivpn.client.rest.data.model.Server
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.rest.requests.common.RequestWrapper
+import net.ivpn.client.v2.viewmodel.IPv6ViewModel
 import net.ivpn.client.vpn.Protocol
 import net.ivpn.client.vpn.ProtocolController
 import net.ivpn.client.vpn.controller.VpnBehavior.OnRandomServerSelectionListener
@@ -92,7 +94,7 @@ class ServersRepository @Inject constructor(
         }
     }
 
-    fun getDefaultServer(serverType: ServerType?): Server? {
+    fun getDefaultServer(serverType: ServerType): Server? {
         val servers = getServers(false)
         if (servers != null && servers.isNotEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
@@ -107,10 +109,10 @@ class ServersRepository @Inject constructor(
 
     fun isServersListExist(): Boolean {
         val servers = serversPreference.serversList
-        return servers != null && servers.isNotEmpty()
+        return servers?.isNotEmpty() ?: false
     }
 
-    fun getServers(isForced: Boolean): List<Server> {
+    fun getServers(isForced: Boolean): List<Server>? {
         var servers = serversPreference.serversList
         if (isForced || servers == null) {
             //update server list online
@@ -135,6 +137,8 @@ class ServersRepository @Inject constructor(
     private fun updateLocations() {
         val servers = serversPreference.serversList
         val locations: MutableList<ServerLocation> = ArrayList()
+        if (servers == null) return
+
         for (server in servers) {
             locations.add(ServerLocation(
                     server.city,
@@ -170,14 +174,14 @@ class ServersRepository @Inject constructor(
         return serversPreference.serversList
     }
 
-    fun getForbiddenServer(serverType: ServerType?): Server? {
+    fun getForbiddenServer(serverType: ServerType): Server? {
         val multiHop = settings.isMultiHopEnabled
         return if (!multiHop) null else serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
     }
 
     fun updateServerList(isForced: Boolean) {
         LOGGER.info("Updating server list, isForced = $isForced")
-        request = Request(settings, httpClientFactory, this, Request.Duration.SHORT)
+        request = Request(settings, httpClientFactory, this, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
         request?.start({ obj: IVPNApi -> obj.servers }, object : RequestListener<ServersListResponse> {
             override fun onSuccess(response: ServersListResponse) {
                 LOGGER.info("Updating server list, state = SUCCESS_STR")
@@ -189,6 +193,7 @@ class ServersRepository @Inject constructor(
                 settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
                 settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
+                settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 for (listener in onServerListUpdatedListeners!!) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
@@ -255,13 +260,16 @@ class ServersRepository @Inject constructor(
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        response.markServerTypes()
-        settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-        settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
-        settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
-        settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
-        settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
-        setServerList(response.openVpnServerList, response.wireGuardServerList)
+        response?.let{
+            it.markServerTypes()
+            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
+            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
+            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            setServerList(it.openVpnServerList, it.wireGuardServerList)
+        }
     }
 
     fun tryUpdateIpList() {
@@ -270,11 +278,14 @@ class ServersRepository @Inject constructor(
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-        settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
-        settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
-        settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
-        settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
+        response?.let {
+            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
+            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
+            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+        }
     }
 
     fun tryUpdateServerLocations() {
@@ -284,38 +295,40 @@ class ServersRepository @Inject constructor(
         }
         LOGGER.info("tryUpdateServerLocations AFTER")
         val response = Mapper.getProtocolServers(ServersLoader.load())
-        response.markServerTypes()
-        val locations: MutableList<ServerLocation> = ArrayList()
-        for (server in response.openVpnServerList) {
-            locations.add(ServerLocation(
-                    server.city,
-                    server.countryCode,
-                    server.latitude,
-                    server.longitude
-            ))
+        response?.let {
+            it.markServerTypes()
+            val locations: MutableList<ServerLocation> = ArrayList()
+            for (server in it.openVpnServerList) {
+                locations.add(ServerLocation(
+                        server.city,
+                        server.countryCode,
+                        server.latitude,
+                        server.longitude
+                ))
+            }
+            serversPreference.putOpenVPNLocations(locations)
+            locations.clear()
+            for (server in it.wireGuardServerList) {
+                locations.add(ServerLocation(
+                        server.city,
+                        server.countryCode,
+                        server.latitude,
+                        server.longitude
+                ))
+            }
+            serversPreference.putWireGuardLocations(locations)
+            setServerList(it.openVpnServerList, it.wireGuardServerList)
+            updateCurrentServersWithLocation()
+            currentServers[Protocol.OPENVPN] = EnumMap(ServerType::class.java)
+            currentServers[Protocol.WIREGUARD] = EnumMap(ServerType::class.java)
         }
-        serversPreference.putOpenVPNLocations(locations)
-        locations.clear()
-        for (server in response.wireGuardServerList) {
-            locations.add(ServerLocation(
-                    server.city,
-                    server.countryCode,
-                    server.latitude,
-                    server.longitude
-            ))
-        }
-        serversPreference.putWireGuardLocations(locations)
-        setServerList(response.openVpnServerList, response.wireGuardServerList)
-        updateCurrentServersWithLocation()
-        currentServers[Protocol.OPENVPN] = EnumMap(ServerType::class.java)
-        currentServers[Protocol.WIREGUARD] = EnumMap(ServerType::class.java)
     }
 
     private fun updateCurrentServersWithLocation() {
         serversPreference.updateCurrentServersWithLocation()
     }
 
-    fun setLocationList(openVpnLocations: List<ServerLocation?>, wireguardLocations: List<ServerLocation?>) {
+    fun setLocationList(openVpnLocations: List<ServerLocation>, wireguardLocations: List<ServerLocation>) {
         LOGGER.info("Putting locations, OpenVPN locations list size = " + openVpnLocations.size + " WireGuard = " + wireguardLocations.size)
         serversPreference.putOpenVPNLocations(openVpnLocations)
         serversPreference.putWireGuardLocations(wireguardLocations)
@@ -337,7 +350,7 @@ class ServersRepository @Inject constructor(
         serversPreference.removeFromExcludedServerList(server)
     }
 
-    fun getExcludedServersList(): List<Server>? {
+    fun getExcludedServersList(): List<Server> {
         return serversPreference.excludedServersList
     }
 
@@ -345,11 +358,11 @@ class ServersRepository @Inject constructor(
         return serversPreference.settingFastestServer
     }
 
-    fun getSettingRandomServer(serverType: ServerType?): Boolean {
+    fun getSettingRandomServer(serverType: ServerType): Boolean {
         return serversPreference.getSettingRandomServer(serverType)
     }
 
-    fun getPossibleServersList(): List<Server>? {
+    fun getPossibleServersList(): List<Server> {
         val excludedServers = getExcludedServersList()
         var serverList = getCachedServers()
         if (serverList == null) {
@@ -375,19 +388,19 @@ class ServersRepository @Inject constructor(
     }
 
     fun addFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners!!.add(listener)
+        onFavouritesChangedListeners?.add(listener)
     }
 
     fun removeFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners!!.remove(listener)
+        onFavouritesChangedListeners?.remove(listener)
     }
 
     fun addOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners!!.add(listener)
+        onServerListUpdatedListeners?.add(listener)
     }
 
     fun removeOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners!!.remove(listener)
+        onServerListUpdatedListeners?.remove(listener)
     }
 
     private val currentProtocolType: Protocol
@@ -407,14 +420,10 @@ class ServersRepository @Inject constructor(
     }
 
     private fun notifyFavouriteServerAdded(server: Server) {
-        for (listener in onFavouritesChangedListeners!!) {
-            listener.notifyFavouriteServerAdded(server)
-        }
+        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerAdded(server) }
     }
 
     private fun notifyFavouriteServerRemoved(server: Server) {
-        for (listener in onFavouritesChangedListeners!!) {
-            listener.notifyFavouriteServerRemoved(server)
-        }
+        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerRemoved(server) }
     }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -16,7 +15,7 @@
 
         <variable
             name="navigator"
-            type="net.ivpn.client.ui.serverlist.AdapterListener" />
+            type="net.ivpn.client.v2.serverlist.AdapterListener" />
 
         <variable
             name="forbiddenServer"
@@ -50,15 +49,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_weight="1"
                 android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
                 android:fontFamily="sans-serif"
-                android:layout_weight="1"
-                android:lineSpacingExtra="8sp"
                 android:letterSpacing="-0.03"
+                android:lineSpacingExtra="8sp"
                 android:text="@{server.getDescription}"
                 android:textColor="@color/servers_text_color"
                 android:textSize="15sp"
                 android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/ipv6_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/ipv6_text_background"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:text="IPv6"
+                android:textColor="@color/servers_text_color"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="64dp"
@@ -89,7 +100,7 @@
                     android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
-            
+
             <FrameLayout
                 android:id="@+id/star_layout"
                 android:layout_width="42dp"

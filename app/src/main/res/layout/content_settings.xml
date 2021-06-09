@@ -44,11 +44,15 @@
 
         <variable
             name="mocklocation"
-            type="net.ivpn.client.ui.mocklocation.MockLocationViewModel" />
+            type="net.ivpn.client.v2.mocklocation.MockLocationViewModel" />
 
         <variable
             name="localbypass"
             type="net.ivpn.client.v2.viewmodel.BypassVpnViewModel" />
+
+        <variable
+            name="ipv6"
+            type="net.ivpn.client.v2.viewmodel.IPv6ViewModel" />
     </data>
 
     <FrameLayout
@@ -80,7 +84,8 @@
                         android:id="@+id/section_server"
                         layout="@layout/settings_section_server"
                         app:multihop="@{multihop}"
-                        app:servers="@{servers}" />
+                        app:servers="@{servers}"
+                        app:ipv6="@{ipv6}"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -90,6 +95,15 @@
                         android:id="@+id/section_connectivity"
                         layout="@layout/settings_section_connectivity"
                         app:localbypass="@{localbypass}"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                    <include
+                        android:id="@+id/section_ipv6"
+                        layout="@layout/settings_section_ipv6"
+                        app:ipv6="@{ipv6}"/>
 
                     <View
                         android:layout_width="match_parent"

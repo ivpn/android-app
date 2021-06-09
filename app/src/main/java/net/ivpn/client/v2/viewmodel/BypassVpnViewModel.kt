@@ -37,11 +37,11 @@ class BypassVpnViewModel @Inject constructor(
     var enableLocalBypassListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableLocalBypass(value) }
 
     init {
-        isLocalBypassEnabled.set(settings.isLocalBypassEnabled)
+        isLocalBypassEnabled.set(settings.localBypass)
     }
 
     private fun enableLocalBypass(value: Boolean) {
         isLocalBypassEnabled.set(value)
-        settings.enableLocalBypass(value)
+        settings.localBypass = value
     }
 }

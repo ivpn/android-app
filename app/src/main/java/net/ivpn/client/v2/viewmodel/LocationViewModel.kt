@@ -35,7 +35,8 @@ import net.ivpn.client.rest.RequestListener
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.rest.data.proofs.LocationResponse
 import net.ivpn.client.rest.requests.common.Request
-import net.ivpn.client.ui.connect.ConnectionState
+import net.ivpn.client.rest.requests.common.RequestWrapper
+import net.ivpn.client.v2.connect.createSession.ConnectionState
 import net.ivpn.client.v2.map.model.Location
 import net.ivpn.client.vpn.OnProtocolChangedListener
 import net.ivpn.client.vpn.ProtocolController
@@ -58,27 +59,79 @@ class LocationViewModel @Inject constructor(
         private val LOGGER = LoggerFactory.getLogger(LocationViewModel::class.java)
     }
 
-    val dataLoading = ObservableBoolean()
     val locations = ObservableField<List<ServerLocation>?>()
-    private val homeLocation = ObservableField<Location>()
     var state: ConnectionState? = null
 
-    val ip = ObservableField<String>()
-    val location = ObservableField<String>()
-    val isp = ObservableField<String>()
+    val locationUIData = ObservableField<LocationUIData>()
+
+    private var v4locationUIData: LocationUIData? = null
+    private var v6locationUIData: LocationUIData? = null
 
     val isLocationAPIError = ObservableBoolean()
 
+    private var v4LocationAPIError = false
+    private var v6LocationAPIError = false
+
+    val dataLoading = ObservableBoolean()
+
+    private var v4dataLoading = false
+    private var v6dataLoading = false
+
     var uiListener: LocationUpdatesUIListener? = null
+    var uiIPStateListener: OnIPStateChangedListener? = null
 
     private var locationListeners = arrayListOf<CheckLocationListener>()
 
-    private var request: Request<LocationResponse>? = null
+    private var requestV4: Request<LocationResponse>? = null
+    private var requestV6: Request<LocationResponse>? = null
+
+    private val homeLocation = ObservableField<Location>()
+
+    private var homeV4Location: Location? = null
+    private var homeV6Location: Location? = null
+
+    var ipState = ObservableField(IPState.IPv4)
+
+    val isIPv6Available = ObservableBoolean()
+    val isIPv6MapUIAvailable = ObservableBoolean()
+    val isLocationNotMatch = ObservableBoolean()
 
     init {
         vpnBehaviorController.addVpnStateListener(getVpnStateListener())
         checkLocation()
         protocolController.addOnProtocolChangedListener(getOnProtocolChangeListener())
+        uiIPStateListener = object : OnIPStateChangedListener {
+            override fun onIPStateChanged(uiState: IPState) {
+                if (uiState == ipState.get()) return
+
+                when (uiState) {
+                    IPState.IPv4 -> {
+                        LOGGER.info("Set data loading as ${v4dataLoading}")
+                        dataLoading.set(v4dataLoading)
+                        isLocationAPIError.set(v4LocationAPIError)
+                        homeLocation.set(homeV4Location)
+                        locationUIData.set(v4locationUIData)
+                    }
+                    IPState.IPv6 -> {
+                        LOGGER.info("Set data loading as ${v6dataLoading}")
+                        dataLoading.set(v6dataLoading)
+                        isLocationAPIError.set(v6LocationAPIError)
+                        homeLocation.set(homeV6Location)
+                        locationUIData.set(v6locationUIData)
+                    }
+                }
+                ipState.set(uiState)
+
+                val location = homeLocation.get()
+                val stateL = state
+                if (location != null && stateL != null
+                        && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
+                    for (listener in locationListeners) {
+                        listener.onSuccess(location, stateL)
+                    }
+                }
+            }
+        }
     }
 
     fun addLocationListener(listener: CheckLocationListener) {
@@ -96,12 +149,29 @@ class LocationViewModel @Inject constructor(
     }
 
     fun checkLocation() {
+        isIPv6Available.set(false)
+        isIPv6MapUIAvailable.set(false)
         isLocationAPIError.set(false)
+        isLocationNotMatch.set(false)
+
+        v4locationUIData = null
+        v6locationUIData = null
+
+        v4LocationAPIError = false
+        v6LocationAPIError = false
+
         uiListener?.onLocationUpdated()
-        request?.cancel()
-        request = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT)
+        requestV4?.cancel()
+        requestV4 = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
+        requestV6?.cancel()
+        requestV6 = Request(settings, httpClientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv6)
+
         LOGGER.info("Checking location...")
+        v4dataLoading = true
+        v6dataLoading = true
+        LOGGER.info("Set data loading as true")
         dataLoading.set(true)
+
         val location = homeLocation.get()
         val stateL = state
         if (location != null && stateL != null
@@ -110,8 +180,9 @@ class LocationViewModel @Inject constructor(
                 listener.onSuccess(location, stateL)
             }
         }
-        request?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
+        requestV4?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
             override fun onSuccess(response: LocationResponse?) {
+                LOGGER.info("IPv4 location = $response")
                 this@LocationViewModel.onSuccess(response)
                 uiListener?.onLocationUpdated()
             }
@@ -125,11 +196,29 @@ class LocationViewModel @Inject constructor(
             }
 
             override fun onError(string: String) {
+                LOGGER.error("IPv4 Error while updating location $string")
                 LOGGER.error("Error while updating location ", string)
                 for (listener in locationListeners) {
                     listener.onError()
                 }
                 this@LocationViewModel.onError()
+            }
+        })
+        requestV6?.start({ obj: IVPNApi -> obj.location }, object : RequestListener<LocationResponse?> {
+            override fun onSuccess(response: LocationResponse?) {
+                LOGGER.info("IPv6 location = $response")
+                this@LocationViewModel.onSuccessV6(response)
+                uiListener?.onLocationUpdated()
+            }
+
+            override fun onError(throwable: Throwable) {
+                LOGGER.error("IPv6 Error while updating location $throwable")
+                this@LocationViewModel.onErrorV6()
+            }
+
+            override fun onError(string: String) {
+                LOGGER.error("IPv6 Error while updating location ", string)
+                this@LocationViewModel.onErrorV6()
             }
         })
     }
@@ -138,43 +227,138 @@ class LocationViewModel @Inject constructor(
     }
 
     private fun onSuccess(response: LocationResponse?) {
-        dataLoading.set(false)
+        v4dataLoading = false
+        if (isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v4dataLoading}")
+            dataLoading.set(v4dataLoading)
+        }
         response?.let {
             val stateL = state
             if (stateL != null
                     && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
-                val newLocation = Location(it.longitude.toFloat(),
+                homeV4Location = Location(it.longitude.toFloat(),
                         it.latitude.toFloat(),
                         false,
                         "${it.city}",
                         "${it.country}",
                         it.countryCode)
-                homeLocation.set(newLocation)
-                for (listener in locationListeners) {
-                    listener.onSuccess(newLocation, stateL)
+                if (isIPv4InfoActive()) {
+                    homeV4Location?.let { location ->
+                        homeLocation.set(location)
+                        for (listener in locationListeners) {
+                            listener.onSuccess(location, stateL)
+                        }
+                    }
                 }
             }
 
-            ip.set(it.ipAddress)
-            if (it.city != null && it.city.isNotEmpty()) {
-                location.set(it.getLocation())
+            val locationStr = if (it.city != null && it.city.isNotEmpty()) {
+                it.getLocation()
             } else {
-                location.set(it.country)
+                it.country
             }
-            isp.set(if (it.isIvpnServer) "IVPN" else it.isp)
-//            isp.set(it.isp)
+            v4locationUIData = LocationUIData(it.ipAddress, locationStr, if (it.isIvpnServer) "IVPN" else it.isp)
+            v6locationUIData?.let {v6location ->
+                isLocationNotMatch.set(isIPv6Available.get() && (locationStr != v6location.location))
+            }
+
+            if (isIPv4InfoActive()) {
+                locationUIData.set(v4locationUIData)
+            }
 
         }
     }
 
-    private fun onError() {
-        dataLoading.set(false)
-        isLocationAPIError.set(true)
+    private fun onSuccessV6(response: LocationResponse?) {
+        v6dataLoading = false
+        isIPv6Available.set(true)
 
-        ip.set("Connection error")
-        isp.set("Connection error")
-        location.set("Connection error")
+        if (!isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v6dataLoading}")
+            dataLoading.set(v6dataLoading)
+        }
+        response?.let {
+            val stateL = state
+
+            if (stateL != null
+                    && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
+                homeV6Location = Location(it.longitude.toFloat(),
+                        it.latitude.toFloat(),
+                        false,
+                        "${it.city}",
+                        "${it.country}",
+                        it.countryCode)
+                if (!isIPv4InfoActive()) {
+                    homeV6Location?.let { location ->
+                        homeLocation.set(location)
+                        for (listener in locationListeners) {
+                            listener.onSuccess(location, stateL)
+                        }
+                    }
+                }
+            }
+
+            val locationStr = if (it.city != null && it.city.isNotEmpty()) {
+                it.getLocation()
+            } else {
+                it.country
+            }
+
+            v6locationUIData = LocationUIData(it.ipAddress, locationStr, if (it.isIvpnServer) "IVPN" else it.isp)
+            if (!isIPv4InfoActive()) {
+                locationUIData.set(v6locationUIData)
+            }
+
+            v4locationUIData?.let {v4location ->
+                isLocationNotMatch.set(isIPv6Available.get() && (locationStr != v4location.location))
+            }
+
+            if (stateL != null
+                    && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
+                isIPv6MapUIAvailable.set(true)
+            }
+        }
+    }
+
+    private fun onError() {
+        v4dataLoading = false
+        v4LocationAPIError = true
+        if (isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v4dataLoading}")
+            dataLoading.set(v4dataLoading)
+            isLocationAPIError.set(v4LocationAPIError)
+        }
+
+        v4locationUIData = LocationUIData("Connection error",
+                "Connection error",
+                "Connection error")
+        if (isIPv4InfoActive()) {
+            locationUIData.set(v4locationUIData)
+        }
         uiListener?.onLocationUpdated()
+    }
+
+    private fun onErrorV6() {
+        v6dataLoading = false
+        v6LocationAPIError = true
+        if (!isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v6dataLoading}")
+            dataLoading.set(v6dataLoading)
+            isLocationAPIError.set(v6LocationAPIError)
+        }
+
+        v6locationUIData = LocationUIData("Connection error",
+                "Connection error",
+                "Connection error")
+        if (!isIPv4InfoActive()) {
+            locationUIData.set(v6locationUIData)
+        }
+
+        uiListener?.onLocationUpdated()
+    }
+
+    private fun isIPv4InfoActive(): Boolean {
+        return ipState.get() == IPState.IPv4 || !isIPv6Available.get()
     }
 
     private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
@@ -212,7 +396,7 @@ class LocationViewModel @Inject constructor(
     }
 
     private fun checkLocationWithDelay() {
-        dataLoading.set(true)
+//        dataLoading.set(true)
         Handler().postDelayed({
             checkLocation()
         }, 1000)
@@ -227,4 +411,15 @@ class LocationViewModel @Inject constructor(
     interface LocationUpdatesUIListener {
         fun onLocationUpdated()
     }
+
+    enum class IPState {
+        IPv4,
+        IPv6
+    }
+
+    interface OnIPStateChangedListener {
+        fun onIPStateChanged(uiState: IPState)
+    }
+
+    data class LocationUIData(val ip: String?, val location: String?, val isp: String?)
 }

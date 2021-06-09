@@ -10,7 +10,7 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.protocol.port.Port
+import net.ivpn.client.v2.protocol.port.Port
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
@@ -40,14 +40,14 @@ import javax.inject.Inject
 @ApplicationScope
 class ConfigManager @Inject constructor(
         private val settings: Settings,
-        private val serversRepository: ServersRepository
+        private val serversRepository: ServersRepository,
 ) {
     var tunnel: Tunnel? = null
     var listener: Tunnel.OnStateChangedListener? = null
-    set(value) {
-        tunnel?.listener = value
-        field = value
-    }
+        set(value) {
+            tunnel?.listener = value
+            field = value
+        }
 
     fun init() {
         LOGGER.info("init")
@@ -84,7 +84,6 @@ class ConfigManager @Inject constructor(
     private fun generateConfig(server: Server?, port: Port): Config? {
         val config = Config()
         val privateKey = settings.wireGuardPrivateKey
-        val publicKey = settings.wireGuardPublicKey
         val ipAddress = settings.wireGuardIpAddress
 
         LOGGER.info("Generating config:")
@@ -94,8 +93,15 @@ class ConfigManager @Inject constructor(
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
+        val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
+        val localIPv6Address = server.hosts[0].ipv6.local_ip
+
         val dnsString = getDNS(server)
-        config.getInterface().setAddressString(ipAddress)
+        if (isIPv6Supported && !localIPv6Address.isNullOrEmpty()) {
+            config.getInterface().setAddressString("$ipAddress/32,${localIPv6Address.split('/')[0]}$ipAddress/128")
+        } else {
+            config.getInterface().setAddressString(ipAddress)
+        }
         config.getInterface().setDnsString(dnsString)
         val peers = ArrayList<Peer>()
         var peer: Peer

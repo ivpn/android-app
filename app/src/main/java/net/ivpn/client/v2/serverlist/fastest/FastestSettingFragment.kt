@@ -36,9 +36,7 @@ import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.common.utils.ToastUtil
 import net.ivpn.client.databinding.FragmentFastestSettingsBinding
-import net.ivpn.client.ui.serverlist.fastest.FastestSettingNavigator
-import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewAdapter
-import net.ivpn.client.ui.serverlist.fastest.FastestSettingViewModel
+import net.ivpn.client.v2.viewmodel.FastestSettingViewModel
 import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 

@@ -45,9 +45,8 @@ import net.ivpn.client.BuildConfig
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentNetworkBinding
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.network.NetworkNavigator
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeDefaultNetworkStatusDialogue
 import net.ivpn.client.v2.dialog.DialogBuilderK.openChangeNetworkStatusDialogue

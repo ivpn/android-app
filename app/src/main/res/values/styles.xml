@@ -251,6 +251,13 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="AppTheme.ConnectionInfoText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/sliding_panel_text_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="sliding_panel_card_text_title">
         <item name="android:alpha">0.5</item>
         <item name="android:textColor">@color/sliding_panel_text_color</item>

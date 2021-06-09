@@ -35,6 +35,7 @@ import net.ivpn.client.rest.Responses;
 import net.ivpn.client.rest.data.wireguard.AddWireGuardPublicKeyRequestBody;
 import net.ivpn.client.rest.data.wireguard.AddWireGuardPublicKeyResponse;
 import net.ivpn.client.rest.requests.common.Request;
+import net.ivpn.client.rest.requests.common.RequestWrapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +92,7 @@ public class WireGuardKeyController {
     }
 
     public void putRegenerationPeriod(int regenerationPeriodI) {
-        settings.putRegenerationPeriod(regenerationPeriodI);
+        settings.setRegenerationPeriod(regenerationPeriodI);
         IVPNApplication.getApplication().appComponent.provideGlobalWireGuardAlarm().start();
     }
 
@@ -145,7 +146,7 @@ public class WireGuardKeyController {
                     keys.getPublicKey());
         }
 
-        addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT);
+        addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4);
         addKeyRequest.start(api -> api.setWireGuardPublicKey(requestBody),
                 new RequestListener<AddWireGuardPublicKeyResponse>() {
             @Override

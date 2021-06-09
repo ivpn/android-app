@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSplitTunnelingBinding
-import net.ivpn.client.ui.split.SplitTunnelingViewModel
+import net.ivpn.client.v2.viewmodel.SplitTunnelingViewModel
 import net.ivpn.client.v2.MainActivity
 import javax.inject.Inject
 

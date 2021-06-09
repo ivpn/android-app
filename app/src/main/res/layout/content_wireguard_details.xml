@@ -10,11 +10,11 @@
 
         <variable
             name="info"
-            type="net.ivpn.client.ui.protocol.dialog.WireGuardInfo" />
+            type="net.ivpn.client.v2.protocol.dialog.WireGuardInfo" />
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ProtocolViewModel" />
     </data>
 
     <FrameLayout

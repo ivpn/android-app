@@ -10,7 +10,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.protocol.ProtocolViewModel" />
+            type="net.ivpn.client.v2.viewmodel.ProtocolViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

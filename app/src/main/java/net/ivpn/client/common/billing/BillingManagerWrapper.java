@@ -47,7 +47,8 @@ import net.ivpn.client.rest.data.addfunds.InitialPaymentResponse;
 import net.ivpn.client.rest.data.session.SessionNewResponse;
 import net.ivpn.client.rest.data.wireguard.ErrorResponse;
 import net.ivpn.client.rest.requests.common.Request;
-import net.ivpn.client.ui.billing.BillingActivity;
+import net.ivpn.client.rest.requests.common.RequestWrapper;
+import net.ivpn.client.v2.billing.BillingActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -194,7 +195,7 @@ public class BillingManagerWrapper {
         setPurchaseState(INITIAL_PAYMENT);
         final String accountId = userPreference.getBlankUsername();
         InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSku(), purchase.getPurchaseToken());
-        Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
 
             @Override
@@ -246,7 +247,7 @@ public class BillingManagerWrapper {
     private void addFundsRequest(String sessionToken) {
         setPurchaseState(INITIAL_PAYMENT);
         AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSku(), purchase.getPurchaseToken());
-        Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG);
+        Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
             @Override

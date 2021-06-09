@@ -36,7 +36,7 @@ import net.ivpn.client.IVPNApplication;
 import net.ivpn.client.R;
 import net.ivpn.client.common.dagger.ApplicationScope;
 import net.ivpn.client.common.prefs.Settings;
-import net.ivpn.client.ui.mocklocation.MockLocationController;
+import net.ivpn.client.v2.mocklocation.MockLocationController;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 import net.ivpn.client.vpn.local.KillSwitchPermissionActivity;
 import net.ivpn.client.vpn.local.KillSwitchService;
@@ -198,11 +198,11 @@ public class GlobalBehaviorController implements ServiceConstants, VPNStateListe
         this.killSwitchRule = killSwitchRule;
         switch (killSwitchRule) {
             case ENABLE:
-                settings.enableKillSwitch(true);
+                settings.setKillSwitchEnabled(true);
                 enableKillSwitch();
                 break;
             case DISABLE:
-                settings.enableKillSwitch(false);
+                settings.setKillSwitchEnabled(false);
                 disableKillSwitch();
                 break;
             case NOTHING:

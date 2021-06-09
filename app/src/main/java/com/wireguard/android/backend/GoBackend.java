@@ -180,7 +180,7 @@ public final class GoBackend implements Backend {
     private NetworkSpace getRoutes() {
         NetworkSpace routes = new NetworkSpace();
         routes.addIP(new CIDRIP("0.0.0.0", "0.0.0.0"), true);
-        if (settings.isLocalBypassEnabled()) {
+        if (settings.getLocalBypass()) {
             for (String net : NetworkUtils.getLocalNetworks(context, false)) {
                 String[] netParts = net.split("/");
                 String ipAddress = netParts[0];

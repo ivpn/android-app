@@ -39,7 +39,7 @@ import net.ivpn.client.common.Constant
 import net.ivpn.client.common.Mapper
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.ui.updates.UpdatesService
+import net.ivpn.client.v2.updates.UpdatesService
 import net.ivpn.client.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import java.net.URL

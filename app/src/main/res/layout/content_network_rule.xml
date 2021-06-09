@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.network.rules.NetworkRuleViewModel" />
+            type="net.ivpn.client.v2.network.rule.NetworkRuleViewModel" />
     </data>
 
     <LinearLayout

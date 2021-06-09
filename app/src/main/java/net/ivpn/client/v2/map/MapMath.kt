@@ -67,7 +67,7 @@ class MapMath {
     }
 
     fun setScreenSize(screenWidth: Float, screenHeight: Float) {
-        println("screenWidth = $screenWidth screenHeight = $screenHeight")
+//        println("screenWidth = $screenWidth screenHeight = $screenHeight")
         this.screenWidth = screenWidth
         this.screenHeight = screenHeight
 
@@ -76,7 +76,7 @@ class MapMath {
 
         totalX = (bitmapWidth - screenWidth) / 2f
         totalY = (bitmapHeight - screenHeight) / 2f
-        println("bitmapWidth = $bitmapWidth bitmapHeight = $bitmapHeight")
+//        println("bitmapWidth = $bitmapWidth bitmapHeight = $bitmapHeight")
     }
 
     private fun validateXCoordinate() {
@@ -84,7 +84,7 @@ class MapMath {
             totalX = 0f
         }
         if (totalX > tileWidth * tilesCount - screenWidth) {
-            totalX = tileWidth * tilesCount - screenWidth
+            totalX = (tileWidth * tilesCount - screenWidth).toFloat()
         }
     }
 
@@ -120,10 +120,16 @@ class MapMath {
     }
 
     companion object {
-        const val tileHeight = 515
-        const val tileWidth = 706
+//        const val tileHeight = 515
+//        const val tileWidth = 706
+//
+//        const val tilesCount = 16
+//        const val visibleYCount = 14
 
-        const val tilesCount = 16
-        const val visibleYCount = 14
+        const val tileHeight = 1031
+        const val tileWidth = 1412
+
+        const val tilesCount = 8
+        const val visibleYCount = 7
     }
 }

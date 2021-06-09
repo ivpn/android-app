@@ -32,8 +32,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import net.ivpn.client.IVPNApplication;
-import net.ivpn.client.ui.dialog.DialogBuilder;
-import net.ivpn.client.ui.dialog.Dialogs;
+import net.ivpn.client.v2.dialog.DialogBuilder;
+import net.ivpn.client.v2.dialog.Dialogs;
 import net.ivpn.client.vpn.controller.VpnBehaviorController;
 
 import org.slf4j.Logger;

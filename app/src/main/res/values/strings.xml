@@ -36,6 +36,7 @@
     <string name="settings_interface">Interface</string>
     <string name="settings_logging">Logging</string>
     <string name="settings_connectivity">Connectivity</string>
+    <string name="settings_ipv6">IPv6</string>
     <string name="settings_other">Advanced settings</string>
     <string name="settings_terms_of_service">Terms of service</string>
     <string name="settings_privacy_policy">Privacy policy</string>
@@ -62,6 +63,10 @@
     <string name="settings_mock_location_description">Match your GPS location to your VPN location.</string>
     <string name="settings_local_bypass_title">Bypass VPN for local networks</string>
     <string name="settings_local_bypass_description">Networks directly connected to the local interfaces will not be routed over the VPN.</string>
+    <string name="settings_ipv6_title">IPv6 for WireGuard VPN</string>
+    <string name="settings_ipv6_filter_title">Show servers without IPv6 support</string>
+    <string name="settings_ipv6_description">You will receive an IPv6 address even if your ISP doesn\'t provide it for you.</string>
+    <string name="settings_ipv6_filter_description">Servers with IPv6 support will have a special badge in the server list.</string>
 
     <string name="kill_switch_vpn">VPN Kill switch</string>
     <string name="kill_switch_vpn_description">Disables internet access when VPN connection drops</string>
@@ -516,6 +521,7 @@
     <string name="sliding_panel_your_ip_title">Your IP</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>
+    <string name="sliding_panel_location_not_match">Location does not match</string>
 
     <string name="network_protection_top_hint">Decide which networks do you trust. IVPN connection will be turned on automatically for untrusted networks</string>
     <string name="network_protection_default_mobile_data">Default &amp; Mobile Data</string>

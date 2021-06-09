@@ -36,14 +36,11 @@ import androidx.databinding.ObservableField
 import net.ivpn.client.common.dagger.ApplicationScope
 import net.ivpn.client.common.prefs.NetworkProtectionPreference
 import net.ivpn.client.common.prefs.Settings
-import net.ivpn.client.ui.network.NetworkNavigator
-import net.ivpn.client.ui.network.OnNetworkSourceChangedListener
 import net.ivpn.client.vpn.local.NetworkController
 import net.ivpn.client.vpn.model.NetworkSource
 import net.ivpn.client.vpn.model.NetworkState
 import net.ivpn.client.vpn.model.WifiItem
 import org.slf4j.LoggerFactory
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -69,9 +66,9 @@ class NetworkViewModel @Inject internal constructor(
     val networkTitle = ObservableField<String>()
     val networkState = ObservableField<NetworkState>()
 
-    lateinit var trustedWifiItems: Set<String>
-    lateinit var unTrustedWifiItems: Set<String>
-    lateinit var noneWifiItems: Set<String>
+    var trustedWifiItems: Set<String>? = null
+    var unTrustedWifiItems: Set<String>? = null
+    var noneWifiItems: Set<String>? = null
 
     var lastScanResult = ArrayList<ScanResult>()
 
@@ -139,9 +136,9 @@ class NetworkViewModel @Inject internal constructor(
 
         val savedWifiItems: MutableList<WifiItem> = ArrayList()
 
-        trustedWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
-        untrustedWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
-        noneWifiList.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
+        trustedWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
+        untrustedWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
+        noneWifiList?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
         savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
@@ -159,9 +156,9 @@ class NetworkViewModel @Inject internal constructor(
 
         val savedWifiItems: MutableList<WifiItem> = ArrayList()
 
-        trustedWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
-        unTrustedWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
-        noneWifiItems.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
+        trustedWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.TRUSTED))) }
+        unTrustedWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.UNTRUSTED))) }
+        noneWifiItems?.forEach { savedWifiItems.add(WifiItem(it, ObservableField(NetworkState.NONE))) }
 
         savedWifiItems.sortWith { item1: WifiItem, item2: WifiItem -> item1.title.compareTo(item2.title, ignoreCase = false) }
 
@@ -179,13 +176,22 @@ class NetworkViewModel @Inject internal constructor(
                 continue
             }
             item = WifiItem(configuration.SSID, ObservableField(NetworkState.DEFAULT))
-            if (trustedWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.TRUSTED)
-            } else if (unTrustedWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.UNTRUSTED)
-            } else if (noneWifiItems.contains(configuration.SSID)) {
-                item.networkState.set(NetworkState.NONE)
+            trustedWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.TRUSTED)
+                }
             }
+            unTrustedWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.UNTRUSTED)
+                }
+            }
+            noneWifiItems?.let {
+                if (it.contains(configuration.SSID)) {
+                    item.networkState.set(NetworkState.NONE)
+                }
+            }
+
             scannedWifiItems.add(item)
         }
 
@@ -209,7 +215,7 @@ class NetworkViewModel @Inject internal constructor(
     fun applyNetworkFeatureState(isEnabled: Boolean) {
         LOGGER.info("applyNetworkFeatureState: isEnabled = $isEnabled")
         isNetworkFeatureEnabled.set(isEnabled)
-        settings.putSettingsNetworkRules(isEnabled)
+        settings.isNetworkRulesEnabled = isEnabled
         if (isEnabled) {
             networkController.enableWifiWatcher()
         } else {

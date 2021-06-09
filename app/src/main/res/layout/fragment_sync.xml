@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="net.ivpn.client.ui.syncservers.SyncServersViewModel" />
+            type="net.ivpn.client.v2.viewmodel.SyncServersViewModel" />
     </data>
 
     <FrameLayout

@@ -24,7 +24,7 @@ package net.ivpn.client.vpn.controller;
 
 import android.os.CountDownTimer;
 
-import net.ivpn.client.ui.connect.ConnectionState;
+import net.ivpn.client.v2.connect.createSession.ConnectionState;
 
 import org.jetbrains.annotations.Nullable;
 

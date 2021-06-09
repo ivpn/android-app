@@ -34,7 +34,7 @@ import net.ivpn.client.common.utils.BitmapUtil
 import net.ivpn.client.common.utils.BitmapUtil.invertColors
 import net.ivpn.client.common.utils.BitmapUtil.toGrayscale
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.split.items.ApplicationItem
+import net.ivpn.client.v2.splittunneling.items.ApplicationItem
 import java.io.File
 import java.io.IOException
 

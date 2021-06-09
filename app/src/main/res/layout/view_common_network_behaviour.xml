@@ -8,11 +8,11 @@
 
         <variable
             name="defaultItem"
-            type="net.ivpn.client.ui.network.CommonBehaviourItemViewModel" />
+            type="net.ivpn.client.v2.network.viewmodel.CommonBehaviourItemViewModel" />
 
         <variable
             name="mobileItem"
-            type="net.ivpn.client.ui.network.MobileDataItemViewModel" />
+            type="net.ivpn.client.v2.network.viewmodel.MobileDataItemViewModel" />
     </data>
 
     <LinearLayout

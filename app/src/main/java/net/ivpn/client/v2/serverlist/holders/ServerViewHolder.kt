@@ -22,11 +22,12 @@ package net.ivpn.client.v2.serverlist.holders
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.client.R
 import net.ivpn.client.databinding.ServerItemBinding
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 
 class ServerViewHolder(
         val binding: ServerItemBinding,
@@ -34,7 +35,7 @@ class ServerViewHolder(
         val listener: HolderListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(server: Server, forbiddenServer: Server?) {
+    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean) {
         binding.server = server
         binding.forbiddenServer = forbiddenServer
         binding.navigator = navigator
@@ -49,6 +50,7 @@ class ServerViewHolder(
         binding.serverLayout.setOnClickListener {
             navigator.onServerSelected(server, forbiddenServer)
         }
+        binding.ipv6Badge.isVisible = server.isIPv6Enabled && isIPv6Enabled
         binding.executePendingBindings()
     }
 

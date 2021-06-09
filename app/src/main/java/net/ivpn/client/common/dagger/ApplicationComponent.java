@@ -29,7 +29,7 @@ import com.wireguard.android.backend.GoBackend;
 import net.ivpn.client.common.alarm.GlobalWireGuardAlarm;
 import net.ivpn.client.common.utils.ComponentUtil;
 import net.ivpn.client.common.utils.NotificationChannelUtil;
-import net.ivpn.client.ui.updates.UpdatesJobService;
+import net.ivpn.client.v2.updates.UpdatesJobService;
 import net.ivpn.client.vpn.controller.OpenVpnBehavior;
 import net.ivpn.client.vpn.controller.WireGuardBehavior;
 

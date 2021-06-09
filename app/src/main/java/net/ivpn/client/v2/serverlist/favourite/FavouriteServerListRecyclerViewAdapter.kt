@@ -34,10 +34,9 @@ import net.ivpn.client.common.pinger.PingProvider
 import net.ivpn.client.common.pinger.PingResultFormatter
 import net.ivpn.client.databinding.ServerItemBinding
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 import net.ivpn.client.v2.serverlist.FavouriteServerListener
 import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter
-import net.ivpn.client.v2.serverlist.all.AllServersRecyclerViewAdapter
 import net.ivpn.client.v2.serverlist.dialog.Filters
 import net.ivpn.client.v2.serverlist.holders.HolderListener
 import net.ivpn.client.v2.serverlist.holders.ServerViewHolder
@@ -49,7 +48,8 @@ import kotlin.collections.ArrayList
 
 class FavouriteServerListRecyclerViewAdapter(
         private val navigator: AdapterListener,
-        private var filter: Filters?
+        private var filter: Filters?,
+        private var isIPv6BadgeEnabled: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
 
     @Inject
@@ -160,7 +160,7 @@ class FavouriteServerListRecyclerViewAdapter(
             val server: Server = getServerFor(position)
             bindings[holder.binding] = server
             setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer)
+            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled)
         }
     }
 

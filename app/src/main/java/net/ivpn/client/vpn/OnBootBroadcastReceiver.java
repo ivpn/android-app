@@ -41,7 +41,8 @@ public class OnBootBroadcastReceiver extends BroadcastReceiver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalBehaviorController.class);
 
-    @Inject Settings settings;
+    @Inject
+    Settings settings;
     @Inject VpnBehaviorController vpnBehaviorController;
 
     @Override

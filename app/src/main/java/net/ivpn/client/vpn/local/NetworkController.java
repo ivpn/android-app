@@ -39,7 +39,7 @@ import net.ivpn.client.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.client.common.prefs.NetworkProtectionPreference;
 import net.ivpn.client.common.utils.NetworkUtil;
 import net.ivpn.client.common.utils.StringUtil;
-import net.ivpn.client.ui.network.OnNetworkSourceChangedListener;
+import net.ivpn.client.v2.network.OnNetworkSourceChangedListener;
 import net.ivpn.client.vpn.GlobalBehaviorController;
 import net.ivpn.client.vpn.ServiceConstants;
 import net.ivpn.client.vpn.model.KillSwitchRule;

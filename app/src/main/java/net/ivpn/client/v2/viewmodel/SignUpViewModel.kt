@@ -42,6 +42,7 @@ import net.ivpn.client.rest.Responses
 import net.ivpn.client.rest.data.addfunds.NewAccountRequestBody
 import net.ivpn.client.rest.data.addfunds.NewAccountResponse
 import net.ivpn.client.rest.requests.common.Request
+import net.ivpn.client.rest.requests.common.RequestWrapper
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
@@ -144,7 +145,7 @@ class SignUpViewModel @Inject constructor(
     fun createNewAccount() {
         dataLoading.set(true)
         val requestBody = NewAccountRequestBody("IVPN Standard")
-        val request = Request<NewAccountResponse>(settings, httpClientFactory, serversRepository, Request.Duration.LONG)
+        val request = Request<NewAccountResponse>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4)
         request.start({ api: IVPNApi -> api.newAccount(requestBody) }, object : RequestListener<NewAccountResponse> {
             override fun onSuccess(response: NewAccountResponse) {
                 dataLoading.set(false)

@@ -22,14 +22,10 @@ package net.ivpn.client.v2.serverlist
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
@@ -40,8 +36,7 @@ import net.ivpn.client.common.extension.findNavControllerSafely
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.databinding.FragmentTabsServerListBinding
-import net.ivpn.client.ui.serverlist.ServersListCommonViewModel
-import net.ivpn.client.ui.serverlist.ServersListPagerAdapter
+import net.ivpn.client.v2.viewmodel.ServersListCommonViewModel
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.dialog.DialogBuilderK
 import net.ivpn.client.v2.serverlist.dialog.Filters

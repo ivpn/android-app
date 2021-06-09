@@ -32,8 +32,7 @@ import androidx.navigation.fragment.NavHostFragment
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.databinding.FragmentSyncBinding
-import net.ivpn.client.ui.syncservers.SyncServersNavigator
-import net.ivpn.client.ui.syncservers.SyncServersViewModel
+import net.ivpn.client.v2.viewmodel.SyncServersViewModel
 import net.ivpn.client.v2.MainActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject

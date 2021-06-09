@@ -8,7 +8,7 @@
 
         <variable
             name="application"
-            type="net.ivpn.client.ui.split.items.ApplicationItem" />
+            type="net.ivpn.client.v2.splittunneling.items.ApplicationItem" />
     </data>
 
     <LinearLayout

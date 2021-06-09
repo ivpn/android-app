@@ -36,6 +36,9 @@ public class Host {
     @SerializedName("local_ip")
     @Expose
     private String localIp;
+    @SerializedName("ipv6")
+    @Expose
+    private Ipv6 ipv6;
 
     public String getHost() {
         return host;
@@ -61,12 +64,21 @@ public class Host {
         this.localIp = localIp;
     }
 
+    public Ipv6 getIpv6() {
+        return ipv6;
+    }
+
+    public void setIpv6(Ipv6 ipv6) {
+        this.ipv6 = ipv6;
+    }
+
     @Override
     public String toString() {
         return "Host{" +
                 "host='" + host + '\'' +
                 ", publicKey='" + publicKey + '\'' +
                 ", localIp='" + localIp + '\'' +
+                ", ipv6=" + ipv6 +
                 '}';
     }
 }

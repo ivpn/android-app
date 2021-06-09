@@ -33,8 +33,8 @@ import net.ivpn.client.common.prefs.ServerType
 import net.ivpn.client.common.prefs.ServersRepository
 import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.dialog.Dialogs
+import net.ivpn.client.v2.serverlist.AdapterListener
 import net.ivpn.client.v2.serverlist.FavouriteServerListener
 import javax.inject.Inject
 
@@ -137,14 +137,19 @@ class ServerListViewModel @Inject constructor(
     }
 
     fun start(serverType: ServerType?) {
+        if (serverType == null) return
+
         this.serverType = serverType
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
         favourites.addAll(serversRepository.getFavouritesServers())
+
         if (isServersListExist()) {
-            all.clear()
-            all.addAll(getCachedServersList())
-            applyFavourites()
+            getCachedServersList()?.let {
+                all.clear()
+                all.addAll(it)
+                applyFavourites()
+            }
         } else {
             loadServers(false)
         }
@@ -210,11 +215,11 @@ class ServerListViewModel @Inject constructor(
         return !multiHopController.getIsEnabled()
     }
 
-    private fun getCachedServersList(): List<Server> {
+    private fun getCachedServersList(): List<Server>? {
         return serversRepository.getServers(false)
     }
 
-    private fun getForbiddenServer(serverType: ServerType?): Server? {
+    private fun getForbiddenServer(serverType: ServerType): Server? {
         return serversRepository.getForbiddenServer(serverType)
     }
 

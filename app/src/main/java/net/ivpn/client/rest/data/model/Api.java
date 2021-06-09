@@ -33,11 +33,23 @@ public class Api {
     @Expose
     private List<String> ips = null;
 
+    @SerializedName("ipv6s")
+    @Expose
+    private List<String> ipv6s = null;
+
     public List<String> getIps() {
         return ips;
     }
 
     public void setIps(List<String> ips) {
         this.ips = ips;
+    }
+
+    public List<String> getIpv6s() {
+        return ipv6s;
+    }
+
+    public void setIpv6s(List<String> ipv6s) {
+        this.ipv6s = ipv6s;
     }
 }

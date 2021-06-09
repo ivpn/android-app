@@ -41,11 +41,10 @@ import net.ivpn.client.common.billing.addfunds.Plan
 import net.ivpn.client.common.extension.getNavigationResultBoolean
 import net.ivpn.client.common.extension.navigate
 import net.ivpn.client.databinding.FragmentLoginBinding
-import net.ivpn.client.ui.connect.CreateSessionFragment
-import net.ivpn.client.ui.connect.CreateSessionNavigator
-import net.ivpn.client.ui.dialog.DialogBuilder
-import net.ivpn.client.ui.dialog.Dialogs
-import net.ivpn.client.ui.login.LoginNavigator
+import net.ivpn.client.v2.connect.createSession.CreateSessionFragment
+import net.ivpn.client.v2.connect.createSession.CreateSessionNavigator
+import net.ivpn.client.v2.dialog.DialogBuilder
+import net.ivpn.client.v2.dialog.Dialogs
 import net.ivpn.client.v2.MainActivity
 import net.ivpn.client.v2.qr.QRActivity
 import net.ivpn.client.v2.viewmodel.SignUpViewModel
@@ -53,7 +52,8 @@ import net.ivpn.client.v2.viewmodel.SignUpViewModel.CreateAccountNavigator
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, CreateAccountNavigator {
+class LoginFragment : Fragment(), LoginNavigator,
+    CreateSessionNavigator, CreateAccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(LoginFragment::class.java)
@@ -202,7 +202,8 @@ class LoginFragment : Fragment(), LoginNavigator, CreateSessionNavigator, Create
         if (!isAdded) {
             return
         }
-        createSessionFragment = CreateSessionFragment()
+        createSessionFragment =
+            CreateSessionFragment()
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
         }

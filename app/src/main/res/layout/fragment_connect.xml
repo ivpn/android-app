@@ -65,6 +65,38 @@
                 app:backgroundTint="@color/connect_fab_background"
                 app:tint="@color/connect_map_fab_icon" />
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="@{location.isIPv6MapUIAvailable() ? View.VISIBLE : View.GONE}">
+
+                <net.ivpn.client.common.views.IPSelectorView
+                    android:id="@+id/ip_selector"
+                    android:layout_width="160dp"
+                    android:layout_height="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toTopOf="@+id/ip_card"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:ipStateListener="@{location.uiIPStateListener}"
+                    app:ipstate="@{location.ipState}"/>
+
+                <TextView
+                    android:id="@+id/location_not_match"
+                    style="@style/sliding_panel_card_text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/sliding_panel_location_not_match"
+                    android:textColor="@color/ip_text" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/center_location"
                 android:layout_width="wrap_content"

@@ -33,7 +33,7 @@ import net.ivpn.client.common.prefs.Settings
 import net.ivpn.client.common.updater.OnUpdateCheckListener
 import net.ivpn.client.common.updater.Update
 import net.ivpn.client.common.updater.UpdateHelper
-import net.ivpn.client.ui.updates.UpdatesJobServiceUtil
+import net.ivpn.client.v2.updates.UpdatesJobServiceUtil
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -100,7 +100,7 @@ class UpdatesViewModel @Inject constructor(
             return
         }
 
-        settings.enableAutoUpdate(isEnabled)
+        settings.isAutoUpdateEnabled = isEnabled
         isAutoUpdateEnabled.set(isEnabled)
         if (isEnabled) {
             updatesJobServiceUtil.pushUpdateJob(IVPNApplication.getApplication())

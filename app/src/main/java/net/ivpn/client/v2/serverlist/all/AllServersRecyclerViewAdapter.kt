@@ -38,7 +38,7 @@ import net.ivpn.client.databinding.RandomServerItemBinding
 import net.ivpn.client.databinding.SearchItemBinding
 import net.ivpn.client.databinding.ServerItemBinding
 import net.ivpn.client.rest.data.model.Server
-import net.ivpn.client.ui.serverlist.AdapterListener
+import net.ivpn.client.v2.serverlist.AdapterListener
 import net.ivpn.client.v2.serverlist.FavouriteServerListener
 import net.ivpn.client.v2.serverlist.ServerBasedRecyclerViewAdapter
 import net.ivpn.client.v2.serverlist.dialog.Filters
@@ -57,7 +57,8 @@ import kotlin.collections.HashMap
 class AllServersRecyclerViewAdapter(
         private val navigator: AdapterListener,
         private val isFastestServerAllowed: Boolean,
-        private var filter: Filters?
+        private var filter: Filters?,
+        private var isIPv6Enabled: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
 
     @Inject
@@ -212,7 +213,7 @@ class AllServersRecyclerViewAdapter(
                 LOGGER.debug("Bind view binding = ${holder.binding} server = ${server.city}")
                 bindings[holder.binding] = server
                 setPing(holder.binding, server)
-                holder.bind(server, forbiddenServer)
+                holder.bind(server, forbiddenServer, isIPv6Enabled)
             }
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding
