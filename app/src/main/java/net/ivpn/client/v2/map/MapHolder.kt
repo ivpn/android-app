@@ -24,27 +24,29 @@ package net.ivpn.client.v2.map
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import androidx.collection.LruCache
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import net.ivpn.client.IVPNApplication
+import net.ivpn.client.R
 import kotlin.system.measureTimeMillis
 
 object MapHolder {
 
-    var memoryCache: LruCache<String, Bitmap>? = null
+    var memoryCache: LruCache<String, Bitmap?>? = null
 
-    fun getTilesFor(path: String, context: Context): LruCache<String, Bitmap> {
+    fun getTilesFor(): LruCache<String, Bitmap?> {
         memoryCache?.let {
+            it.evictAll()
             return it
         }
 
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
         println("Max memory = $maxMemory in Kb")
-        val cacheSize = maxMemory / 8
+        val cacheSize = maxMemory / 4
         println("Cache size = $cacheSize in Kb")
 
-        val memoryCacheImpl = object : LruCache<String, Bitmap>(cacheSize) {
+        val memoryCacheImpl = object : LruCache<String, Bitmap?>(cacheSize) {
 
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
                 // The cache size will be measured in kilobytes rather than
@@ -63,8 +65,8 @@ object MapHolder {
     }
 
     private var thumbnailsKey: String? = null
-    private var thumbnails: HashMap<String, Bitmap>? = null
-    fun getThumbnails(path: String, context: Context): HashMap<String, Bitmap>? {
+    private var thumbnails: HashMap<String, Bitmap?>? = null
+    fun getThumbnails(path: String, context: Context): HashMap<String, Bitmap?>? {
         if (thumbnailsKey == path && thumbnails != null) {
             return thumbnails
         }
@@ -74,11 +76,12 @@ object MapHolder {
 
         thumbnailsKey = path
 
-        val thumbnailsImpl = HashMap<String, Bitmap>()
+        val thumbnailsImpl = HashMap<String, Bitmap?>()
         val executionTime = measureTimeMillis {
             for (i in 1..MapMath.tilesCount) {
                 for (j in 1..MapMath.visibleYCount) {
-                    thumbnailsImpl["$path/row-${j}-col-${i}.png"] = getBitmapFrom(context,"$path/row-${j}-col-${i}.png")
+                    thumbnailsImpl["ic_row_${j}_col_${i}"] = getBitmapFrom(context, "ic_row_${j}_col_${i}")
+//                    thumbnailsImpl["$path/row-${j}-col-${i}.png"] = getBitmapFrom(context, "$path/row-${j}-col-${i}.png")
                 }
             }
         }
@@ -87,16 +90,42 @@ object MapHolder {
         return thumbnailsImpl
     }
 
-    private fun recycleThumbnails(thumbnails: HashMap<String, Bitmap>) {
+    private fun recycleThumbnails(thumbnails: HashMap<String, Bitmap?>) {
         for (bitmap in thumbnails.values) {
-            bitmap.recycle()
+            bitmap?.recycle()
         }
     }
 
-    private fun getBitmapFrom(context: Context, assetPath: String): Bitmap {
-        val drawable = Drawable.createFromStream(
-                context.assets.open(assetPath), null
-        )
-          return drawable.toBitmap(MapMath.tileWidth / 4, MapMath.tileHeight / 4, null)
+    private fun getBitmapFrom(context: Context, name: String): Bitmap? {
+//  private fun getBitmapFrom(context: Context, assetPath: String): Bitmap {
+        try {
+            println("Identifier for $name is ${getIdentifier(context, name)}")
+            val drawable = ResourcesCompat.getDrawable(
+                    context.resources,
+                    getIdentifier(context, name),
+                    null
+            )
+
+            drawable?.setTint(
+                    ResourcesCompat.getColor(
+                            context.resources,
+                            R.color.map_fill,
+                            null
+                    )
+            )
+
+//        val drawable = Drawable.createFromStream(
+//                context.assets.open(assetPath), null
+//        )
+
+            return drawable?.toBitmap(MapMath.tileWidth / 4, MapMath.tileHeight / 4, null)
+        } catch (e: Exception) {
+            //ignore it
+        }
+        return null
+    }
+
+    private fun getIdentifier(context: Context, name: String): Int {
+        return context.resources.getIdentifier(name, "drawable", IVPNApplication.getApplication().packageName)
     }
 }

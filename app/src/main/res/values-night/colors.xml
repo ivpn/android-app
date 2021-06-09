@@ -43,6 +43,8 @@
     <color name="connect_map_fab_icon">#ffffff</color>
     <color name="sliding_panel_card_background">#323232</color>
 
+    <color name="map_fill">#343332</color>
+
 <!--    <color name="primary">#74b8ff</color>-->
 <!--    <color name="accent">#ed7e79</color>-->
     <color name="primary">#398FE6</color>

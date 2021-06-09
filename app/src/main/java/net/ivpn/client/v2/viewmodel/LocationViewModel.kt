@@ -94,6 +94,7 @@ class LocationViewModel @Inject constructor(
 
     val isIPv6Available = ObservableBoolean()
     val isIPv6MapUIAvailable = ObservableBoolean()
+    val isLocationNotMatch = ObservableBoolean()
 
     init {
         vpnBehaviorController.addVpnStateListener(getVpnStateListener())
@@ -105,12 +106,14 @@ class LocationViewModel @Inject constructor(
 
                 when (uiState) {
                     IPState.IPv4 -> {
+                        LOGGER.info("Set data loading as ${v4dataLoading}")
                         dataLoading.set(v4dataLoading)
                         isLocationAPIError.set(v4LocationAPIError)
                         homeLocation.set(homeV4Location)
                         locationUIData.set(v4locationUIData)
                     }
                     IPState.IPv6 -> {
+                        LOGGER.info("Set data loading as ${v6dataLoading}")
                         dataLoading.set(v6dataLoading)
                         isLocationAPIError.set(v6LocationAPIError)
                         homeLocation.set(homeV6Location)
@@ -149,6 +152,11 @@ class LocationViewModel @Inject constructor(
         isIPv6Available.set(false)
         isIPv6MapUIAvailable.set(false)
         isLocationAPIError.set(false)
+        isLocationNotMatch.set(false)
+
+        v4locationUIData = null
+        v6locationUIData = null
+
         v4LocationAPIError = false
         v6LocationAPIError = false
 
@@ -161,6 +169,7 @@ class LocationViewModel @Inject constructor(
         LOGGER.info("Checking location...")
         v4dataLoading = true
         v6dataLoading = true
+        LOGGER.info("Set data loading as true")
         dataLoading.set(true)
 
         val location = homeLocation.get()
@@ -220,6 +229,7 @@ class LocationViewModel @Inject constructor(
     private fun onSuccess(response: LocationResponse?) {
         v4dataLoading = false
         if (isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v4dataLoading}")
             dataLoading.set(v4dataLoading)
         }
         response?.let {
@@ -248,6 +258,9 @@ class LocationViewModel @Inject constructor(
                 it.country
             }
             v4locationUIData = LocationUIData(it.ipAddress, locationStr, if (it.isIvpnServer) "IVPN" else it.isp)
+            v6locationUIData?.let {v6location ->
+                isLocationNotMatch.set(isIPv6Available.get() && (locationStr != v6location.location))
+            }
 
             if (isIPv4InfoActive()) {
                 locationUIData.set(v4locationUIData)
@@ -258,12 +271,15 @@ class LocationViewModel @Inject constructor(
 
     private fun onSuccessV6(response: LocationResponse?) {
         v6dataLoading = false
+        isIPv6Available.set(true)
+
         if (!isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v6dataLoading}")
             dataLoading.set(v6dataLoading)
         }
         response?.let {
             val stateL = state
-            isIPv6Available.set(true)
+
             if (stateL != null
                     && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
                 homeV6Location = Location(it.longitude.toFloat(),
@@ -293,6 +309,10 @@ class LocationViewModel @Inject constructor(
                 locationUIData.set(v6locationUIData)
             }
 
+            v4locationUIData?.let {v4location ->
+                isLocationNotMatch.set(isIPv6Available.get() && (locationStr != v4location.location))
+            }
+
             if (stateL != null
                     && (stateL == ConnectionState.NOT_CONNECTED || stateL == ConnectionState.PAUSED)) {
                 isIPv6MapUIAvailable.set(true)
@@ -304,6 +324,7 @@ class LocationViewModel @Inject constructor(
         v4dataLoading = false
         v4LocationAPIError = true
         if (isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v4dataLoading}")
             dataLoading.set(v4dataLoading)
             isLocationAPIError.set(v4LocationAPIError)
         }
@@ -321,6 +342,7 @@ class LocationViewModel @Inject constructor(
         v6dataLoading = false
         v6LocationAPIError = true
         if (!isIPv4InfoActive()) {
+            LOGGER.info("Set data loading as ${v6dataLoading}")
             dataLoading.set(v6dataLoading)
             isLocationAPIError.set(v6LocationAPIError)
         }
@@ -374,7 +396,7 @@ class LocationViewModel @Inject constructor(
     }
 
     private fun checkLocationWithDelay() {
-        dataLoading.set(true)
+//        dataLoading.set(true)
         Handler().postDelayed({
             checkLocation()
         }, 1000)

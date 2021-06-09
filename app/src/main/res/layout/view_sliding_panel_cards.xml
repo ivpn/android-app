@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sliding_panel_location_not_match"
-            android:visibility="@{location.isIPv6Available() ? View.VISIBLE : View.GONE}"
+            android:visibility="@{location.isLocationNotMatch() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/ip_selector"
             app:layout_constraintEnd_toEndOf="@+id/ip_card"
             app:layout_constraintHorizontal_bias="0.5"

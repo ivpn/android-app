@@ -21,6 +21,8 @@
 
     <color name="dialogScrim">#80323232</color>
 
+    <color name="map_fill">#F2F2F1</color>
+
     <!--Settings-->
     <color name="color_section_divider">#4CB4C1CC</color>
     <color name="color_description_text">#335266</color>
