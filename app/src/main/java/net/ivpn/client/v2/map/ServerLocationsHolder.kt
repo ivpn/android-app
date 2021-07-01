@@ -24,6 +24,7 @@ package net.ivpn.client.v2.map
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.text.TextPaint
@@ -67,11 +68,10 @@ object ServerLocationsHolder {
             location.pointRect = locationRect
         }
 
-        var labelBound: Rect
         var labelRect: Rect
         var testLabelRect: Rect
+        val labelBound = Rect()
         for (location in serverLocations) {
-            labelBound = Rect()
             textPaint.getTextBounds(location.city, 0, location.city.length, labelBound)
 
 //          top position, no shift
@@ -105,7 +105,7 @@ object ServerLocationsHolder {
                 it.left = (location.x + pointRadius + distanceFromDot).toInt()
                 it.right = it.left + labelBound.width()
                 it.bottom = (location.y - labelBound.top / 2f - labelBound.bottom / 2f - shift).toInt()
-                it.top = (it.bottom - labelBound.height() - shift).toInt()
+                it.top = (it.bottom - labelBound.height())
             }
             if (isNotIntersected(testLabelRect, locationDots.values, locationLabels.values)) {
                 location.labelRect = testLabelRect
@@ -131,7 +131,7 @@ object ServerLocationsHolder {
                 it.left = (location.x + pointRadius + distanceFromDot).toInt()
                 it.right = it.left + labelBound.width()
                 it.bottom = (location.y - labelBound.top / 2f - labelBound.bottom / 2f + shift).toInt()
-                it.top = (it.bottom - labelBound.height() + shift).toInt()
+                it.top = (it.bottom - labelBound.height())
             }
             if (isNotIntersected(testLabelRect, locationDots.values, locationLabels.values)) {
                 location.labelRect = testLabelRect
@@ -143,7 +143,7 @@ object ServerLocationsHolder {
 //            bottom position, right shift
             testLabelRect = Rect().also {
                 it.left = (location.x - labelBound.width() / 2f + shift).toInt()
-                it.right = (it.left + labelBound.width() + shift).toInt()
+                it.right = (it.left + labelBound.width())
                 it.bottom = (location.y + distanceFromDot + pointRadius + labelBound.height()).toInt()
                 it.top = it.bottom - labelBound.height()
             }
@@ -169,7 +169,7 @@ object ServerLocationsHolder {
 //            bottom position, left shift
             testLabelRect = Rect().also {
                 it.left = (location.x - labelBound.width() / 2f - shift).toInt()
-                it.right = (it.left + labelBound.width() - shift).toInt()
+                it.right = (it.left + labelBound.width())
                 it.bottom = (location.y + distanceFromDot + pointRadius + labelBound.height()).toInt()
                 it.top = it.bottom - labelBound.height()
             }
@@ -184,7 +184,7 @@ object ServerLocationsHolder {
                 it.left = (location.x - labelBound.width() - pointRadius - distanceFromDot).toInt()
                 it.right = it.left + labelBound.width()
                 it.bottom = (location.y - labelBound.top / 2f - labelBound.bottom / 2f + shift).toInt()
-                it.top = (it.bottom - labelBound.height() + shift).toInt()
+                it.top = (it.bottom - labelBound.height())
             }
             if (isNotIntersected(testLabelRect, locationDots.values, locationLabels.values)) {
                 location.labelRect = testLabelRect
@@ -210,7 +210,7 @@ object ServerLocationsHolder {
                 it.left = (location.x - labelBound.width() - pointRadius - distanceFromDot).toInt()
                 it.right = it.left + labelBound.width()
                 it.bottom = (location.y - labelBound.top / 2f - labelBound.bottom / 2f - shift).toInt()
-                it.top = (it.bottom - labelBound.height() - shift).toInt()
+                it.top = (it.bottom - labelBound.height())
             }
             if (isNotIntersected(testLabelRect, locationDots.values, locationLabels.values)) {
                 location.labelRect = testLabelRect
@@ -253,7 +253,9 @@ object ServerLocationsHolder {
             it.color = ResourcesCompat.getColor(resources, R.color.map_label, null)
             it.textSize = resources.getDimension(R.dimen.location_name)
             it.letterSpacing = 0.03f
+            it.strokeWidth = 4f
             it.typeface = Typeface.DEFAULT_BOLD
+            it.style = Paint.Style.FILL_AND_STROKE
         }
     }
 }

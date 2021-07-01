@@ -27,6 +27,7 @@ import net.ivpn.client.v2.map.animation.MapAnimator
 import net.ivpn.client.v2.map.model.Location
 
 data class LocationData(
+        var isReady: Boolean = false,
         var drawCurrentLocation: Boolean = true,
         var appearProgress: Float = 1f,
         var waveAnimationProgress: Float = 0f,
@@ -36,5 +37,6 @@ data class LocationData(
         var oldLocation: Location? = null,
         var inProgress: Boolean = false,
         var screen: Rect = Rect(),
+        var scale: Float = 1f,
         var locationAnimationState: MapAnimator.AnimationState = MapAnimator.AnimationState.NONE
 )

@@ -62,6 +62,8 @@ class ServersViewModel @Inject constructor(
     val pingResultExitServer = ObservableField<PingResultFormatter>()
     val pingResultEnterServer = ObservableField<PingResultFormatter>()
 
+    private var isBackgroundUpdateDone = false
+
     init {
         multiHopController.addListener(getOnMultihopValueChanges())
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
@@ -69,6 +71,11 @@ class ServersViewModel @Inject constructor(
 
     fun onResume() {
         initStates()
+
+        if (!isBackgroundUpdateDone) {
+            updateServersInBackground()
+            isBackgroundUpdateDone = true
+        }
     }
 
     fun reset() {
@@ -92,6 +99,11 @@ class ServersViewModel @Inject constructor(
 
         ping(entryServer.get(), getPingFinishListener(ServerType.ENTRY))
         ping(exitServer.get(), getPingFinishListener(ServerType.EXIT))
+    }
+
+    private fun updateServersInBackground() {
+        println("Update servers in background")
+        serversRepository.updateServerList(false)
     }
 
     private fun getCurrentServer(serverType: ServerType): Server? {

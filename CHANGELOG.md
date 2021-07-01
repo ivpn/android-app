@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.5.0(2.5.1-2.5.2) - 2021-06-30
+
+[NEW] IPv6 inside WireGuard tunnel  
+[NEW] IPv6 connection info  
+
 ## Version 2.4.0(2.4.1) - 2021-04-16
 
 [NEW] Possibility to mock GPS location  

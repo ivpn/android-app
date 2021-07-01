@@ -22,4 +22,7 @@ package net.ivpn.client.v2.map.servers.model
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-class ServerLocationsData(var left: Float = 0f, var top: Float = 0f)
+class ServerLocationsData(var isReady: Boolean = false,
+                          var left: Float = 0f,
+                          var top: Float = 0f,
+                          var scale: Float = 1f)
