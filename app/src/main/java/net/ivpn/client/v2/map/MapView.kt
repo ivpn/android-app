@@ -203,8 +203,6 @@ class MapView @JvmOverloads constructor(
                  * content width is 1000 pixels and the screen width is 200
                  * pixels, the maximum scroll offset should be 800 pixels.
                  */
-//                0, MapMath.defaultTileWidth * MapMath.tilesCount - width,
-//                0, MapMath.defaultTileHeight * MapMath.tilesCount - height
                 (-math.borderGap).toInt(), math.tileWidth * MapMath.tilesCount - width + (math.borderGap).toInt(),
                 (-math.borderGap).toInt(), math.tileHeight * MapMath.tilesCount - height + (math.borderGap).toInt()
         )
@@ -295,16 +293,8 @@ class MapView @JvmOverloads constructor(
             bottom = (math.totalY + height).toInt()
         }
 
-//        println("draw map srcRect = {${srcRect.top};${srcRect.bottom}}")
-
         val intersectionRect = Rect()
         val relativeRect = Rect()
-
-//        val fromX: Int = max(ceil(srcRect.left / MapMath.defaultTileWidth.toFloat()).toInt(), 1)
-//        val toX: Int = min(ceil(srcRect.right / MapMath.defaultTileWidth.toFloat()).toInt(), MapMath.tilesCount)
-//
-//        val fromY: Int = max(ceil(srcRect.top / MapMath.defaultTileHeight.toFloat()).toInt(), 1)
-//        val toY: Int = min(ceil(srcRect.bottom / MapMath.defaultTileHeight.toFloat()).toInt(), MapMath.visibleYCount)
 
         val fromX: Int = max(ceil(srcRect.left / math.tileWidth.toFloat()).toInt(), 1)
         val toX: Int = min(ceil(srcRect.right / math.tileWidth.toFloat()).toInt(), MapMath.tilesCount)
