@@ -28,8 +28,8 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 99
-        versionName "2.5.2"
+        versionCode 100
+        versionName "2.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -215,7 +215,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 
 //    Purchases
-    implementation 'com.android.billingclient:billing:2.2.0'
+    implementation 'com.android.billingclient:billing:4.0.0'
 
     //For crash logging. Please don't update this version.
     implementation 'io.sentry:sentry-android:4.3.0'

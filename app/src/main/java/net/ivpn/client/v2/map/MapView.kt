@@ -120,6 +120,10 @@ class MapView @JvmOverloads constructor(
             checkTap(event)
             return super.onSingleTapUp(event)
         }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            return super.onDoubleTap(e)
+        }
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
@@ -171,8 +175,9 @@ class MapView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        scaleGestureDetector.onTouchEvent(event)
-        return gestureDetector.onTouchEvent(event)
+        scaleGestureDetector.onTouchEvent(event)
+        gestureDetector.onTouchEvent(event)
+        return true
     }
 
     //While fling animation is active this function will be periodically called
@@ -582,6 +587,7 @@ class MapView @JvmOverloads constructor(
             R.drawable.fill_transparent,
             null
     )
+
     private fun getBitmapFrom(context: Context, name: String): Bitmap? {
         try {
             val drawable = ResourcesCompat.getDrawable(

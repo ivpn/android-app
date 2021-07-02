@@ -60,7 +60,7 @@ class MapMath {
     }
 
     fun applyScaleFactor(deltaScaleFactor: Float, xFocus: Float, yFocus: Float): Boolean {
-        val newScaleFactor = scaleFactor * deltaScaleFactor
+        val newScaleFactor = scaleFactor / deltaScaleFactor
 
         if (scaleFactor == newScaleFactor) {
             return false

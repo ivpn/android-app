@@ -32,9 +32,6 @@ import net.ivpn.client.v2.mocklocation.MockLocationFragment;
 import net.ivpn.client.v2.mocklocation.MockLocationStep1Fragment;
 import net.ivpn.client.v2.mocklocation.MockLocationStep2Fragment;
 import net.ivpn.client.v2.mocklocation.MockLocationStep3Fragment;
-import net.ivpn.client.v2.subscription.SubscriptionActivity;
-import net.ivpn.client.v2.subscription.monthly.MonthlySubscriptionFragment;
-import net.ivpn.client.v2.subscription.yearly.YearlySubscriptionFragment;
 import net.ivpn.client.v2.timepicker.TimePickerActivity;
 import net.ivpn.client.v2.account.AccountFragment;
 import net.ivpn.client.v2.alwaysonvpn.AlwaysOnVPNFragment;
@@ -90,8 +87,6 @@ public interface ActivityComponent {
 
     void inject(PermissionActivity activity);
 
-    void inject(SubscriptionActivity activity);
-
     void inject(BillingActivity activity);
 
     void inject(ConnectionShortcutsActivity activity);
@@ -99,10 +94,6 @@ public interface ActivityComponent {
     void inject(ServerListFragment fragment);
 
     void inject(FavouriteServersListFragment fragment);
-
-    void inject(YearlySubscriptionFragment fragment);
-
-    void inject(MonthlySubscriptionFragment fragment);
 
     void inject(WireGuardKeyBroadcastReceiver receiver);
 
