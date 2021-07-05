@@ -32,6 +32,7 @@ import androidx.core.content.res.ResourcesCompat
 import net.ivpn.client.R
 import net.ivpn.client.v2.map.MapView
 import net.ivpn.client.v2.map.animation.MapAnimator
+import kotlin.math.max
 
 class LocationDrawer(resources: Resources) {
 
@@ -92,6 +93,8 @@ class LocationDrawer(resources: Resources) {
     }
 
     fun draw(canvas: Canvas, data: LocationData) {
+        if (!data.isReady) return
+
         drawOldLocation(canvas, data)
         drawCurrentLocation(canvas, data)
     }
@@ -123,18 +126,19 @@ class LocationDrawer(resources: Resources) {
             pointBackgroundPaint.alpha = (alpha * BACKGROUND_ALPHA).toInt()
 
             val location = it.coordinate ?: return
+            val scaleFactor = (data.scale - 1) / 2.5f + 1f
 
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
-                    pointRadius * data.appearProgress,
+                    pointRadius * data.appearProgress / scaleFactor,
                     pointPaint
             )
 
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
-                    locationMaxRadius * data.appearProgress,
+                    locationMaxRadius * data.appearProgress / scaleFactor,
                     pointBackgroundPaint
             )
 
@@ -184,17 +188,18 @@ class LocationDrawer(resources: Resources) {
 
             val location = it.coordinate ?: return
 
+            val scaleFactor = (data.scale - 1) / 2.5f + 1f
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
-                    pointRadius * (1 - data.hideAnimationProgress),
+                    pointRadius * (1 - data.hideAnimationProgress) / scaleFactor,
                     pointPaint
             )
 
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
-                    locationMaxRadius * (1 - data.hideAnimationProgress),
+                    locationMaxRadius * (1 - data.hideAnimationProgress) / scaleFactor,
                     pointBackgroundPaint
             )
 
@@ -225,12 +230,14 @@ class LocationDrawer(resources: Resources) {
             wavePaint.color = connectedColor
             val location = it.coordinate ?: return
 
+            val scaleFactor = (data.scale - 1) / 2.5f + 1f
+
             val radius = locationMaxRadius * data.waveAnimationProgress
             wavePaint.alpha = ((MapView.MAX_ALPHA * 0.5f * (1 - data.waveAnimationProgress)).toInt())
             canvas.drawCircle(
                     location.first - data.screen.left,
                     location.second - data.screen.top,
-                    radius,
+                    radius / scaleFactor,
                     wavePaint
             )
 

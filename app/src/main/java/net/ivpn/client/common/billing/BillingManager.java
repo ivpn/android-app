@@ -24,6 +24,8 @@ package net.ivpn.client.common.billing;
 
 import android.app.Activity;
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.billingclient.api.BillingClient;
@@ -34,6 +36,7 @@ import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
@@ -42,6 +45,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import net.ivpn.client.BuildConfig;
 import net.ivpn.client.common.dagger.ApplicationScope;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,22 +65,7 @@ public class BillingManager implements PurchasesUpdatedListener {
     private boolean isServiceConnected;
 
     private BillingUpdatesListener updatesListener;
-    private BillingClient billingClient;
-
-    private final List<Purchase> purchases = new ArrayList<>();
-
-    /* BASE_64_ENCODED_PUBLIC_KEY should be YOUR APPLICATION'S PUBLIC KEY
-     * (that you got from the Google Play developer console). This is not your
-     * developer public key, it's the *app-specific* public key.
-     *
-     * Instead of just storing the entire literal string here embedded in the
-     * program,  construct the key at runtime from pieces or
-     * use bit manipulation (for example, XOR with some other string) to hide
-     * the actual key.  The key itself is not secret information, but we don't
-     * want to make it easy for an attacker to replace the public key with one
-     * of their own and then fake messages from the server.
-     */
-    private static final String BASE_64_ENCODED_PUBLIC_KEY = BuildConfig.BILLING_PUBLIC_KEY;
+    private final BillingClient billingClient;
 
     @Inject
     BillingManager(Context context) {
@@ -103,7 +92,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         billingClient.startConnection(new BillingClientStateListener() {
 
             @Override
-            public void onBillingSetupFinished(BillingResult billingResult) {
+            public void onBillingSetupFinished(@NotNull BillingResult billingResult) {
                 LOGGER.info("Setup finished. Response code: " + billingResult.getResponseCode());
                 LOGGER.info("Debug message: " + billingResult.getDebugMessage());
 
@@ -131,19 +120,19 @@ public class BillingManager implements PurchasesUpdatedListener {
     private void queryPurchases() {
         Runnable queryToExecute = () -> {
             long time = System.currentTimeMillis();
-            Purchase.PurchasesResult products = billingClient.queryPurchases(BillingClient.SkuType.INAPP);
+            billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP, (billingResult, purchases) -> {
+                LOGGER.info("Querying products elapsed time: " + (System.currentTimeMillis() - time)
+                        + "ms");
+                LOGGER.info("Querying products result code: "
+                        + billingResult.getResponseCode()
+                        + " res: " + purchases.size());
 
-            LOGGER.info("Querying products elapsed time: " + (System.currentTimeMillis() - time)
-                    + "ms");
-            LOGGER.info("Querying products result code: "
-                    + products.getResponseCode()
-                    + " res: " + (products.getPurchasesList() != null ? products.getPurchasesList().size() : null));
+                if (billingResult.getResponseCode() != BillingResponseCode.OK) {
+                    LOGGER.info("Got an error response trying to query products purchases");
+                }
 
-            if (products.getResponseCode() != BillingResponseCode.OK) {
-                LOGGER.info("Got an error response trying to query products purchases");
-            }
-
-            onQueryPurchasesFinished(products);
+                onQueryPurchasesFinished(billingResult, purchases);
+            });
         };
 
         executeServiceRequest(queryToExecute);
@@ -189,9 +178,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                         .build();
 
         ConsumeResponseListener listener = (billingResult, purchaseToken) -> {
-            if (billingResult.getResponseCode() == BillingResponseCode.OK) {
-                //Nothing to do here
-            }
+            //Nothing to do here
         };
 
         billingClient.consumeAsync(consumeParams, listener);
@@ -211,10 +198,10 @@ public class BillingManager implements PurchasesUpdatedListener {
     /**
      * Handle a result from querying of purchases and report an updated list to the listener
      */
-    private void onQueryPurchasesFinished(Purchase.PurchasesResult result) {
+    private void onQueryPurchasesFinished(BillingResult billingResult, @NonNull List<Purchase> purchases) {
         // Have we been disposed of in the meantime? If so, or bad result code, then quit
-        if (billingClient == null || result.getResponseCode() != BillingResponseCode.OK) {
-            LOGGER.warn("Billing client was null or result code (" + result.getResponseCode()
+        if (billingClient == null || billingResult.getResponseCode() != BillingResponseCode.OK) {
+            LOGGER.warn("Billing client was null or result code (" + billingResult.getResponseCode()
                     + ") was bad - quitting");
             return;
         }
@@ -222,51 +209,8 @@ public class BillingManager implements PurchasesUpdatedListener {
         LOGGER.debug("Query inventory was successful.");
 
         // Update the UI and purchases inventory with new list of purchases
-        purchases.clear();
         onPurchasesUpdated(BillingResult.newBuilder().setResponseCode(BillingResponseCode.OK).build(),
-                result.getPurchasesList());
-    }
-
-    /**
-     * Handles the purchase
-     * Note: Notice that for each purchase, we check if signature is valid on the client.
-     * It's recommended to move this check into your backend.
-     * See {@link Security#verifyPurchase(String, String, String)}
-     * </p>
-     *
-     * @param purchase Purchase to be handled
-     */
-    private void handlePurchase(Purchase purchase) {
-        if (!verifyValidSignature(purchase.getOriginalJson(), purchase.getSignature())) {
-            LOGGER.error("Got a purchase; but signature is bad. Skipping...");
-            return;
-        }
-
-        LOGGER.debug("Got a verified purchase");
-
-        purchases.add(purchase);
-    }
-
-    /**
-     * Verifies that the purchase was signed correctly for this developer's public key.
-     * Note: It's strongly recommended to perform such check on your backend since hackers can
-     * replace this method with "constant true" if they decompile/rebuild your app.
-     * </p>
-     */
-    private boolean verifyValidSignature(String signedData, String signature) {
-        // Some sanity checks to see if the developer (that's you!) really followed the
-        // instructions to run this sample (don't put these checks on your app!)
-//        if (BASE_64_ENCODED_PUBLIC_KEY.contains("CONSTRUCT_YOUR")) {
-//            throw new RuntimeException("Please update your app's public key at: "
-//                    + "BASE_64_ENCODED_PUBLIC_KEY");
-//        }
-
-        try {
-            return Security.verifyPurchase(BASE_64_ENCODED_PUBLIC_KEY, signedData, signature);
-        } catch (IOException e) {
-            LOGGER.debug("Got an exception trying to validate a purchase: " + e);
-            return false;
-        }
+                purchases);
     }
 
     @Override
@@ -278,9 +222,6 @@ public class BillingManager implements PurchasesUpdatedListener {
             return;
         }
         if (billingResult.getResponseCode() == BillingResponseCode.OK) {
-            for (Purchase purchase : purchases) {
-                handlePurchase(purchase);
-            }
             updatesListener.onPurchasesUpdated(purchases);
         } else if (billingResult.getResponseCode() == BillingResponseCode.USER_CANCELED) {
             LOGGER.debug("onPurchasesUpdated() - user cancelled the purchase flow - skipping");

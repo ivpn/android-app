@@ -22,8 +22,9 @@ package net.ivpn.client.v2.map
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.client.v2.map.model.Location
 import kotlin.math.ln
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.tan
 
 class MapMath {
@@ -41,19 +42,60 @@ class MapMath {
     var screenWidth: Float = 0f
     var screenHeight: Float = 0f
 
+    var tileWidth: Int = 0
+    var tileHeight: Int = 0
+
+    private val minScaleFactor = 1.0f
+    private var maxScaleFactor = 5.0f
+
+    var scaleFactor: Float = 1f
+
+    var borderGap: Float = 0f
+
     //(longitude, latitude) latitude from - 90 to 90, longitude from -180 to 180;y from -90 to 90; x from -180 t0 180
     //longitude will transform into x coordinate and latitude into y coordinate
     init {
+        tileWidth = defaultTileWidth
+        tileHeight = defaultTileHeight
+    }
+
+    fun applyScaleFactor(deltaScaleFactor: Float, xFocus: Float, yFocus: Float): Boolean {
+        val newScaleFactor = scaleFactor / deltaScaleFactor
+
+        if (scaleFactor == newScaleFactor) {
+            return false
+        }
+
+        scaleFactor = max(minScaleFactor, min(newScaleFactor, maxScaleFactor))
+
+        tileWidth = (defaultTileWidth / scaleFactor).toInt()
+        tileHeight = (defaultTileHeight / scaleFactor).toInt()
+
+        val oldXPosition = xFocus + totalX
+        val oldYPosition = yFocus + totalY
+
+        val xRelativePosition = oldXPosition / bitmapWidth
+        val yRelativePosition = oldYPosition / bitmapHeight
+
+        bitmapWidth = (tileWidth * tilesCount).toFloat()
+        bitmapHeight = (tileHeight * tilesCount).toFloat()
+
+        totalX = xRelativePosition * bitmapWidth - xFocus
+        totalY = yRelativePosition * bitmapHeight - yFocus
+        validateXCoordinate()
+        validateYCoordinate()
+
+        return true
     }
 
     fun appendX(distanceX: Float) {
         totalX += distanceX
-        validateXCoordinate()
+        validateXCoordinate(true, distanceX)
     }
 
     fun appendY(distanceY: Float) {
         totalY += distanceY
-        validateYCoordinate()
+        validateYCoordinate(true, distanceY)
     }
 
     fun setX(distanceX: Float) {
@@ -67,7 +109,6 @@ class MapMath {
     }
 
     fun setScreenSize(screenWidth: Float, screenHeight: Float) {
-//        println("screenWidth = $screenWidth screenHeight = $screenHeight")
         this.screenWidth = screenWidth
         this.screenHeight = screenHeight
 
@@ -76,27 +117,29 @@ class MapMath {
 
         totalX = (bitmapWidth - screenWidth) / 2f
         totalY = (bitmapHeight - screenHeight) / 2f
-//        println("bitmapWidth = $bitmapWidth bitmapHeight = $bitmapHeight")
+
+        maxScaleFactor = (tileHeight * visibleYCount) / screenHeight
+
+        borderGap = min(screenWidth / 2f, screenHeight / 2f)
     }
 
-    private fun validateXCoordinate() {
-        if (totalX < 0f) {
-            totalX = 0f
+    private fun validateXCoordinate(onScroll: Boolean = false, direction: Float = 0f) {
+        println("Before validation totalX = $totalX onScroll = $onScroll direction")
+        if (totalX < -borderGap) {
+            totalX = -borderGap
         }
-        if (totalX > tileWidth * tilesCount - screenWidth) {
-            totalX = (tileWidth * tilesCount - screenWidth).toFloat()
+        if (totalX > tileWidth * tilesCount - screenWidth + borderGap) {
+            totalX = (tileWidth * tilesCount - screenWidth + borderGap)
         }
     }
 
-    private fun validateYCoordinate() {
-        if (totalY < 0f) {
-            totalY = 0f
+    private fun validateYCoordinate(onScroll: Boolean = false, direction: Float = 0f) {
+        if (totalY < -borderGap) {
+            totalY = -borderGap
         }
-//        if (totalY > tileHeight * tilesCount - screenHeight) {
-//            totalY = tileHeight * tilesCount - screenHeight
-//        }
-        if (totalY > tileHeight * visibleYCount - screenHeight) {
-            totalY = tileHeight * visibleYCount - screenHeight
+
+        if (totalY > tileHeight * visibleYCount - screenHeight + borderGap) {
+            totalY = tileHeight * visibleYCount - screenHeight + borderGap
         }
     }
 
@@ -120,14 +163,8 @@ class MapMath {
     }
 
     companion object {
-//        const val tileHeight = 515
-//        const val tileWidth = 706
-//
-//        const val tilesCount = 16
-//        const val visibleYCount = 14
-
-        const val tileHeight = 1031
-        const val tileWidth = 1412
+        const val defaultTileHeight = 1031
+        const val defaultTileWidth = 1412
 
         const val tilesCount = 8
         const val visibleYCount = 7

@@ -590,7 +590,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
         LOGGER.info("peekHeight = $peekHeight")
         bottomSheetBehavior.setPeekHeight(peekHeight.toInt(), true)
-        binding.map.setPanelHeight(peekHeight)
+        binding.map.setPanelHeight(peekHeight - resources.getDimension(R.dimen.map_margin_bottom))
         binding.centerLocation.animate().translationY(-peekHeight - alertHeight)
         binding.alertsLayout.animate().translationY(-peekHeight)
     }

@@ -117,7 +117,7 @@ class SignUpViewModel @Inject constructor(
     fun purchase(activity: Activity) {
         getProperSkuDetail()?.let {
             billingManager.setSkuDetails(it)
-            billingManager.setProductName(getProperProductName())
+//            billingManager.setProductName(getProperProductName())
             billingManager.startPurchase(activity)
         }
     }

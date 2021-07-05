@@ -32,6 +32,8 @@ import androidx.core.content.res.ResourcesCompat
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
 import net.ivpn.client.v2.map.servers.model.ServerLocationsData
+import kotlin.math.ln
+import kotlin.math.max
 
 class ServerLocationDrawer(resources: Resources) {
     private var serverPointPaint = Paint()
@@ -69,17 +71,20 @@ class ServerLocationDrawer(resources: Resources) {
     }
 
     fun draw(canvas: Canvas, data: ServerLocationsData) {
-        val bounds = Rect()
+        if (!data.isReady) return
+
+        val scaleFactor = (data.scale - 1) / 2.5f + 1f
 
         serverLocations?.let {
             for (location in it) {
                 location.pointRect?.let { pointRectObj ->
                     canvas.drawCircle(
                             (pointRectObj.exactCenterX() - data.left),
-                            (pointRectObj.exactCenterY() - data.top), pointRectObj.width() / 2f, serverPointPaint
+                            (pointRectObj.exactCenterY() - data.top),
+                            pointRectObj.width() / (2f * scaleFactor),
+                            serverPointPaint
                     )
                 }
-                serversPaint.getTextBounds(location.city, 0, location.city.length, bounds)
                 location.labelRect?.let {labelRectObj ->
                     canvas.drawText(
                             location.city, (labelRectObj.left - data.left),

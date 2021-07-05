@@ -94,7 +94,7 @@ class ConfigManager @Inject constructor(
             config.getInterface().privateKey = privateKey
         }
         val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
-        val localIPv6Address = server.hosts[0].ipv6.local_ip
+        val localIPv6Address: String? = server.hosts[0].ipv6?.local_ip
 
         val dnsString = getDNS(server)
         if (isIPv6Supported && !localIPv6Address.isNullOrEmpty()) {

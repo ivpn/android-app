@@ -72,18 +72,17 @@ public class BillingManagerWrapper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BillingManagerWrapper.class);
 
-    private BillingManager billingManager;
-    private EncryptedUserPreference userPreference;
-    private Settings settings;
-    private HttpClientFactory httpClientFactory;
-    private ServersRepository serversRepository;
-    private SessionController sessionController;
+    private final BillingManager billingManager;
+    private final EncryptedUserPreference userPreference;
+    private final Settings settings;
+    private final HttpClientFactory httpClientFactory;
+    private final ServersRepository serversRepository;
+    private final SessionController sessionController;
 
-    private List<BillingListener> listeners;
+    private final List<BillingListener> listeners;
 
     private SkuDetails skuDetails;
     private Purchase purchase;
-    private String productName;
 
     private boolean isInit;
     private int error = 0;
@@ -128,7 +127,7 @@ public class BillingManagerWrapper {
 
                 for (Purchase purchase : purchases) {
                     if (purchase.isAcknowledged()
-                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSku())) {
+                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSkus().get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -151,7 +150,7 @@ public class BillingManagerWrapper {
     public void startPurchase(Activity activity) {
         LOGGER.info("Purchasing...");
         setPurchaseState(PurchaseState.PURCHASING);
-        String currentSku = purchase != null ? purchase.getSku() : null;
+        String currentSku = purchase != null ? purchase.getSkus().get(0) : null;
         billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku, 0);
     }
 
@@ -183,7 +182,7 @@ public class BillingManagerWrapper {
 
     public void validatePurchase() {
         String sessionToken = userPreference.getSessionToken();
-        if (sessionToken == null || sessionToken.isEmpty()) {
+        if (sessionToken.isEmpty()) {
             LOGGER.info("Start new purchase");
             initialPayment();
         } else {
@@ -194,7 +193,7 @@ public class BillingManagerWrapper {
     private void initialPayment() {
         setPurchaseState(INITIAL_PAYMENT);
         final String accountId = userPreference.getBlankUsername();
-        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSku(), purchase.getPurchaseToken());
+        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, purchase.getSkus().get(0), purchase.getPurchaseToken());
         Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
 
@@ -203,7 +202,7 @@ public class BillingManagerWrapper {
                 if (response.getStatus() == Responses.SUCCESS) {
                     createSession(accountId);
 
-                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSku())) {
+                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSkus().get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -246,7 +245,7 @@ public class BillingManagerWrapper {
 
     private void addFundsRequest(String sessionToken) {
         setPurchaseState(INITIAL_PAYMENT);
-        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSku(), purchase.getPurchaseToken());
+        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSkus().get(0), purchase.getPurchaseToken());
         Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
@@ -301,10 +300,6 @@ public class BillingManagerWrapper {
 
     public void setSkuDetails(SkuDetails skuDetails) {
         this.skuDetails = skuDetails;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
     public Purchase getPurchase() {

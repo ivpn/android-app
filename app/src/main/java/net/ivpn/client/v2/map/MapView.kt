@@ -27,21 +27,18 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.Scroller
 import androidx.collection.LruCache
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import net.ivpn.client.IVPNApplication
 import net.ivpn.client.R
 import net.ivpn.client.rest.data.model.ServerLocation
@@ -123,8 +120,37 @@ class MapView @JvmOverloads constructor(
             checkTap(event)
             return super.onSingleTapUp(event)
         }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            return super.onDoubleTap(e)
+        }
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
+
+    private val scaleGestureListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector?): Boolean {
+
+            serverLocationsData.isReady = false
+            locationData.isReady = false
+            detector?.let {
+                math.applyScaleFactor(it.scaleFactor, it.focusX, it.focusY)
+            }
+
+            return true
+        }
+
+        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            updateCoordinates()
+            super.onScaleEnd(detector)
+        }
+
+        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+            serverLocationsData.isReady = false
+            locationData.isReady = false
+            return super.onScaleBegin(detector)
+        }
+    }
+    private val scaleGestureDetector = ScaleGestureDetector(context, scaleGestureListener)
 
     val locationListener = object : LocationViewModel.CheckLocationListener {
         override fun onSuccess(location: Location, connectionState: ConnectionState) {
@@ -141,8 +167,6 @@ class MapView @JvmOverloads constructor(
 
     var mapListener: MapListener? = null
 
-    private var globalPath: String = context.resources.getString(R.string.path_to_tiles)
-
     init {
         with(bitmapPaint) {
             isAntiAlias = true
@@ -151,7 +175,9 @@ class MapView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return gestureDetector.onTouchEvent(event)
+//        scaleGestureDetector.onTouchEvent(event)
+        gestureDetector.onTouchEvent(event)
+        return true
     }
 
     //While fling animation is active this function will be periodically called
@@ -182,8 +208,8 @@ class MapView @JvmOverloads constructor(
                  * content width is 1000 pixels and the screen width is 200
                  * pixels, the maximum scroll offset should be 800 pixels.
                  */
-                0, MapMath.tileWidth * MapMath.tilesCount - width,
-                0, MapMath.tileHeight * MapMath.tilesCount - height
+                (-math.borderGap).toInt(), math.tileWidth * MapMath.tilesCount - width + (math.borderGap).toInt(),
+                (-math.borderGap).toInt(), math.tileHeight * MapMath.tilesCount - height + (math.borderGap).toInt()
         )
         // Invalidates to trigger computeScroll()
         ViewCompat.postInvalidateOnAnimation(this)
@@ -200,6 +226,7 @@ class MapView @JvmOverloads constructor(
         with(serverLocationsData) {
             left = math.totalX
             top = math.totalY
+            scale = math.scaleFactor
         }
         serverLocationDrawer.draw(canvas, serverLocationsData)
 
@@ -212,6 +239,7 @@ class MapView @JvmOverloads constructor(
             bottom = (math.totalY + height).toInt()
         }
         locationData.locationAnimationState = animator.animationState
+        locationData.scale = math.scaleFactor
         locationDrawer.draw(canvas, locationData)
     }
 
@@ -273,24 +301,23 @@ class MapView @JvmOverloads constructor(
         val intersectionRect = Rect()
         val relativeRect = Rect()
 
-        val fromX: Int = max(ceil(srcRect.left / MapMath.tileWidth.toFloat()).toInt(), 1)
-        val toX: Int = min(ceil(srcRect.right / MapMath.tileWidth.toFloat()).toInt(), MapMath.tilesCount)
+        val fromX: Int = max(ceil(srcRect.left / math.tileWidth.toFloat()).toInt(), 1)
+        val toX: Int = min(ceil(srcRect.right / math.tileWidth.toFloat()).toInt(), MapMath.tilesCount)
 
-        val fromY: Int = max(ceil(srcRect.top / MapMath.tileHeight.toFloat()).toInt(), 1)
-        val toY: Int = min(ceil(srcRect.bottom / MapMath.tileHeight.toFloat()).toInt(), MapMath.visibleYCount)
+        val fromY: Int = max(ceil(srcRect.top / math.tileHeight.toFloat()).toInt(), 1)
+        val toY: Int = min(ceil(srcRect.bottom / math.tileHeight.toFloat()).toInt(), MapMath.visibleYCount)
 
         var tileRect: Rect
 
         for (i in fromX..toX) {
             for (j in fromY..toY) {
                 tileRect = Rect(
-                        MapMath.tileWidth * (i - 1), MapMath.tileHeight * (j - 1),
-                        MapMath.tileWidth * i,
-                        MapMath.tileHeight * j
+                        math.tileWidth * (i - 1), math.tileHeight * (j - 1),
+                        math.tileWidth * i,
+                        math.tileHeight * j
                 )
 
                 getBitmap("ic_row_${j}_col_${i}")?.also { bitmap ->
-//                    getBitmap("$globalPath/row-${j}-col-${i}.png")?.also { bitmap ->
                     if (intersectionRect.setIntersect(tileRect, srcRect)) {
                         with(relativeRect) {
                             left = (intersectionRect.left - math.totalX).toInt()
@@ -301,13 +328,13 @@ class MapView @JvmOverloads constructor(
 
                         with(intersectionRect) {
                             left -= tileRect.left
-                            left = bitmap.width * left / MapMath.tileWidth
+                            left = bitmap.width * left / math.tileWidth
                             right -= tileRect.left
-                            right = bitmap.width * right / MapMath.tileWidth
+                            right = bitmap.width * right / math.tileWidth
                             top -= tileRect.top
-                            top = bitmap.height * top / MapMath.tileHeight
+                            top = bitmap.height * top / math.tileHeight
                             bottom -= tileRect.top
-                            bottom = bitmap.height * bottom / MapMath.tileHeight
+                            bottom = bitmap.height * bottom / math.tileHeight
                         }
 
                         canvas.drawBitmap(bitmap, intersectionRect, relativeRect, bitmapPaint)
@@ -324,7 +351,6 @@ class MapView @JvmOverloads constructor(
             return
         }
 
-//        dialogueData.state = DialogueDrawer.DialogState.NONE
         this.connectionState = state
         when (state) {
             ConnectionState.CONNECTED -> {
@@ -379,7 +405,6 @@ class MapView @JvmOverloads constructor(
 
     fun centerMap() {
         scroller.forceFinished(true)
-//        dialogueData.state = DialogueDrawer.DialogState.NONE
         animator.centerLocation(math.totalX,
                 math.totalY,
                 DialogueDrawer.DialogState.NONE,
@@ -458,24 +483,53 @@ class MapView @JvmOverloads constructor(
 
     private fun postInit() {
         println("isInit = true")
+        updateCoordinates(true)
+    }
 
-        serverLocations?.let {
-            var pair: Pair<Float, Float>
-            for (location in it) {
-                pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
-                location.x = pair.first
-                location.y = pair.second
+    var coordinateJob: Job? = null
+    private fun updateCoordinates(isFirstInit: Boolean = false) {
+        coordinateJob?.cancel()
+
+        var locationCopy: Location? = null
+        val serverLocationCopy = ArrayList<ServerLocation>()
+
+        coordinateJob = GlobalScope.launch(Dispatchers.Default) {
+            serverLocations?.let {
+
+                var pair: Pair<Float, Float>
+                var serverLocation: ServerLocation
+                for (location in it) {
+                    serverLocation = location.copy()
+                    pair = math.getCoordinatesBy(location.longitude.toFloat(), location.latitude.toFloat())
+                    serverLocation.x = pair.first
+                    serverLocation.y = pair.second
+                    serverLocationCopy.add(serverLocation)
+                }
+                ServerLocationsHolder.createAndFillRect(serverLocationCopy, context)
             }
-            ServerLocationsHolder.createAndFillRect(it, context)
+            location?.let {
+                locationCopy = it.copy()
+                locationCopy?.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
+            }
         }
-        location?.let {
-            it.coordinate = math.getCoordinatesBy(it.longitude, it.latitude)
-            math.totalY = (it.coordinate!!.second - height / 2f + panelHeight)
-            math.totalX = (it.coordinate!!.first - width / 2f)
-            invalidate()
+
+        coordinateJob?.invokeOnCompletion {
+            serverLocations = serverLocationCopy
+            serverLocationDrawer.serverLocations = serverLocationCopy
+
+
+            location = locationCopy
+            location?.coordinate?.let {
+                if (isFirstInit) {
+                    math.totalY = (it.second - height / 2f + panelHeight)
+                    math.totalX = (it.first - width / 2f)
+                }
+            }
+            locationData.isReady = true
+            serverLocationsData.isReady = true
+
+            postInvalidate()
         }
-        serverLocationDrawer.serverLocations = serverLocations
-        invalidate()
     }
 
     var bitmapCache: LruCache<String, Bitmap?>? = null
@@ -486,42 +540,53 @@ class MapView @JvmOverloads constructor(
         thumbnails = MapHolder.getThumbnails(path, context)
     }
 
-    val tasks = HashMap<String, BitmapWorkerTask>()
-    private fun getBitmap(assetPath: String): Bitmap? {
-        bitmapCache?.get(assetPath)?.also {
+    val tasks = HashMap<String, Job>()
+    private fun getBitmap(name: String): Bitmap? {
+        val key = "${name}_${String.format("%.0f", math.scaleFactor)}"
+        if (math.scaleFactor >= 4.0f) return thumbnails?.get(name)
+
+        bitmapCache?.get(key)?.also {
             return it
         } ?: run {
-            tasks[assetPath]?.also { taskObject ->
-                if (taskObject.status == AsyncTask.Status.FINISHED) {
-                    runNewTask(assetPath)
+            tasks[key]?.also { jobObject ->
+                if (jobObject.isCompleted) {
+                    runNewTask(name, key)
                 }
             } ?: run {
-                runNewTask(assetPath)
+                runNewTask(name, key)
             }
-            thumbnails?.get(assetPath)
+            return thumbnails?.get(name)
         }
-        return thumbnails?.get(assetPath)
+        return thumbnails?.get(name)
     }
 
-    private fun runNewTask(assetPath: String) {
-        val task = BitmapWorkerTask()
-        task.execute(assetPath)
-        tasks[assetPath] = task
+    private fun runNewTask(name: String, path: String) {
+        val prepareBitmapJob = prepareBitmap(name, path)
+        tasks[path] = prepareBitmapJob
     }
 
-    inner class BitmapWorkerTask : AsyncTask<String, Unit, Bitmap>() {
-
-        override fun doInBackground(vararg params: String?): Bitmap? {
-            return params[0]?.let { assetPath ->
-                getBitmapFrom(context, assetPath).also { bitmap ->
-                    bitmap?.let {
-                        bitmapCache?.put(assetPath, it)
-                    }
-                    postInvalidate()
+    private fun prepareBitmap(name: String, path: String): Job {
+        val prepareBitmapJob = GlobalScope.launch(Dispatchers.Default) {
+            getBitmapFrom(context, name).also { bitmap ->
+                bitmap?.let {
+                    bitmapCache?.put(path, it)
                 }
             }
         }
+
+        prepareBitmapJob.invokeOnCompletion {
+            tasks.remove(path)
+            postInvalidate()
+        }
+
+        return prepareBitmapJob
     }
+
+    val defaultTransparentDrawable = ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.fill_transparent,
+            null
+    )
 
     private fun getBitmapFrom(context: Context, name: String): Bitmap? {
         try {
@@ -530,23 +595,6 @@ class MapView @JvmOverloads constructor(
                     getIdentifier(context, name),
                     null
             )
-//            if (name == "ic_row_2_col_1") {
-//                drawable?.setTint(
-//                        ResourcesCompat.getColor(
-//                                context.resources,
-//                                R.color.red_light,
-//                                null
-//                        )
-//                )
-//            } else {
-//                drawable?.setTint(
-//                        ResourcesCompat.getColor(
-//                                context.resources,
-//                                R.color.map_fill,
-//                                null
-//                        )
-//                )
-//            }
             drawable?.setTint(
                     ResourcesCompat.getColor(
                             context.resources,
@@ -555,9 +603,9 @@ class MapView @JvmOverloads constructor(
                     )
             )
 
-            return drawable?.toBitmap(MapMath.tileWidth, MapMath.tileHeight, null)
+            return drawable?.toBitmap(math.tileWidth, math.tileHeight, null)
         } catch (e: Exception) {
-            return null
+            return defaultTransparentDrawable?.toBitmap(math.tileWidth, math.tileHeight, null)
         }
     }
 

@@ -173,7 +173,9 @@ public class Server implements ConnectionOption {
 
     public boolean isIPv6Enabled() {
         if (hosts == null || hosts.isEmpty()) return false;
-        return hosts.get(0).getIpv6() != null;
+        return hosts.get(0).getIpv6() != null
+                && hosts.get(0).getIpv6().getLocal_ip() != null
+                && !hosts.get(0).getIpv6().getLocal_ip().isEmpty();
     }
 
     @Override

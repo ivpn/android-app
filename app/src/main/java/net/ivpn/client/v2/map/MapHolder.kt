@@ -81,7 +81,6 @@ object MapHolder {
             for (i in 1..MapMath.tilesCount) {
                 for (j in 1..MapMath.visibleYCount) {
                     thumbnailsImpl["ic_row_${j}_col_${i}"] = getBitmapFrom(context, "ic_row_${j}_col_${i}")
-//                    thumbnailsImpl["$path/row-${j}-col-${i}.png"] = getBitmapFrom(context, "$path/row-${j}-col-${i}.png")
                 }
             }
         }
@@ -97,9 +96,7 @@ object MapHolder {
     }
 
     private fun getBitmapFrom(context: Context, name: String): Bitmap? {
-//  private fun getBitmapFrom(context: Context, assetPath: String): Bitmap {
         try {
-            println("Identifier for $name is ${getIdentifier(context, name)}")
             val drawable = ResourcesCompat.getDrawable(
                     context.resources,
                     getIdentifier(context, name),
@@ -114,13 +111,8 @@ object MapHolder {
                     )
             )
 
-//        val drawable = Drawable.createFromStream(
-//                context.assets.open(assetPath), null
-//        )
-
-            return drawable?.toBitmap(MapMath.tileWidth / 4, MapMath.tileHeight / 4, null)
+            return drawable?.toBitmap(MapMath.defaultTileWidth / 4, MapMath.defaultTileHeight / 4, null)
         } catch (e: Exception) {
-            //ignore it
         }
         return null
     }
