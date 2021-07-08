@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.6.0 - 2021-07-07
+
+[New] Ability to zoom map in/out  
+
 ## Version 2.5.0(2.5.1-2.5.2) - 2021-06-30
 
 [NEW] IPv6 inside WireGuard tunnel  
