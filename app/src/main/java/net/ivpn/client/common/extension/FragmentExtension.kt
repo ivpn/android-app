@@ -58,8 +58,8 @@ fun Fragment.checkVPNPermission(requestCode: Int) {
 }
 
 fun Fragment.navigate(destination: NavDirections) {
-    with(findNavController()) {
-        currentDestination?.getAction(destination.actionId)
+    with(findNavControllerSafely()) {
+        this?.currentDestination?.getAction(destination.actionId)
                 ?.let { navigate(destination) }
     }
 }

@@ -54,7 +54,7 @@ public class StringUtil {
     }
 
     public static String formatWifiSSID(String dirtyWifi) {
-        if (dirtyWifi == null) {
+        if (dirtyWifi == null || dirtyWifi.isEmpty()) {
             return null;
         }
         StringBuilder builder = new StringBuilder(dirtyWifi);

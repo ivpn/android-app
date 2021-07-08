@@ -28,8 +28,8 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 99
-        versionName "2.5.2"
+        versionCode 100
+        versionName "2.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
