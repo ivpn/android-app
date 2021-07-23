@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="killSwitch"
+            type="net.ivpn.core.v2.viewmodel.KillSwitchViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_settings_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="?attr/actionBarSize">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_top_margin" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/settings_card_background"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/killswitch_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    style="@style/SettingsOptionTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="16dp"
+                                    android:text="@string/kill_switch_vpn"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/textView38"
+                                    style="@style/SettingsOptionDescription"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:layout_marginBottom="16dp"
+                                    android:lineSpacingExtra="3dp"
+                                    android:text="@string/kill_switch_vpn_description"
+                                    android:textAlignment="viewStart"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/antitracker_switch"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                                <!--                                app:onTouch="@{killSwitch.touchListener}"-->
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/antitracker_switch"
+                                    android:layout_width="48dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:checked="@{killSwitch.isEnabled}"
+                                    android:thumb="@drawable/common_thumb_selector"
+                                    app:layout_constraintBottom_toBottomOf="@+id/textView38"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="@+id/textView3"
+                                    app:onChanged="@{killSwitch.enableKillSwitch}"
+                                    app:track="@drawable/common_track_selector" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/color_section_divider"
+                                android:visibility="@{killSwitch.advancedModeSupported ? View.VISIBLE : View.GONE}" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="@{killSwitch.advancedModeSupported ? View.VISIBLE : View.GONE}">
+
+                                <TextView
+                                    android:id="@+id/native_kill_switch_label"
+                                    style="@style/SettingsOptionTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="16dp"
+                                    android:text="@string/kill_switch_native"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/native_kill_switch_description"
+                                    style="@style/SettingsOptionDescription"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="16dp"
+                                    android:layout_marginBottom="16dp"
+                                    android:lineSpacingExtra="3dp"
+                                    android:text="@string/kill_switch_native_description"
+                                    android:textAlignment="viewStart"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/native_kill_switch_label"
+                                    app:layout_constraintVertical_bias="0.0" />
+
+                                <TextView
+                                    android:id="@+id/to_settings"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:background="?android:attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:letterSpacing="0.04"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:text="@string/settings_always_on_vpn_action"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/primary"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/native_kill_switch_description" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_sections_inner_margin" />
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

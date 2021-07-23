@@ -1,1 +1,4 @@
-include ':app'
+include ':core'
+include ':store'
+include ':site'
+include ':fdroid'

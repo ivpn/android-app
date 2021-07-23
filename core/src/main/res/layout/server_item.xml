@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="server"
+            type="net.ivpn.core.rest.data.model.Server" />
+
+        <variable
+            name="pingstatus"
+            type="net.ivpn.core.common.pinger.PingResultFormatter" />
+
+        <variable
+            name="navigator"
+            type="net.ivpn.core.v2.serverlist.AdapterListener" />
+
+        <variable
+            name="forbiddenServer"
+            type="net.ivpn.core.rest.data.model.Server" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/servers_card_background">
+
+        <LinearLayout
+            android:id="@+id/server_layout"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/server_flag"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:src="@{server}" />
+
+            <TextView
+                android:id="@+id/enter_server_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.03"
+                android:lineSpacingExtra="8sp"
+                android:text="@{server.getDescription}"
+                android:textColor="@color/servers_text_color"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/ipv6_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/ipv6_text_background"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:text="IPv6"
+                android:textColor="@color/servers_text_color"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end">
+
+                <ImageView
+                    android:id="@+id/ping_light"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:src="@{pingstatus.getAppropriateLight}"
+                    android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
+
+                <TextView
+                    android:id="@+id/server_ping"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.6"
+                    android:fontFamily="sans-serif"
+                    android:gravity="end"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@{pingstatus.formatPing}"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="15sp"
+                    android:textStyle="normal"
+                    android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/star_layout"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/star"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@{server.isFavourite ? @drawable/ic_star_on : @drawable/ic_star_off}" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.ivpn.core.vpn.Protocol" />
+
+        <import type="net.ivpn.core.common.utils.DateUtil" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.core.v2.viewmodel.ProtocolViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/protocol_card_background"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/protocol_settings" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:gravity="center_vertical"
+                android:minHeight="64dp"
+                android:orientation="horizontal"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_weight="1"
+                    android:text="@string/settings_port_label"
+                    android:textColor="@color/protocol_text_color" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/openvpn_spinner"
+                    style="@style/Platform.Widget.AppCompat.Spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="@color/protocol_text_color"
+                    android:gravity="center_vertical"
+                    android:minWidth="130dp"
+                    android:overlapAnchor="true"
+                    android:popupBackground="@color/dialogue_background"
+                    android:spinnerMode="dropdown"
+                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
+                    app:onChanged="@{viewmodel.onPortChangedListener}"
+                    app:onTouch="@{viewmodel.portsTouchListener}"
+                    app:selectedItem="@{viewmodel.openVPNPort}" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

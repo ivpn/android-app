@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/connectFragment">
+
+    <fragment
+        android:id="@+id/connectFragment"
+        android:name="net.ivpn.core.v2.connect.ConnectFragment">
+        <action
+            android:id="@+id/action_connectFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_accountFragment"
+            app:destination="@id/accountFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_connectFragment_to_networkProtectionFragment"
+            app:destination="@id/networkProtectionFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="net.ivpn.core.v2.settings.SettingsFragment"
+        android:label="Settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_splitTunnelingFragment"
+            app:destination="@id/splitTunnelingFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_alwaysOnVPNFragment"
+            app:destination="@id/alwaysOnVPNFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_networkProtectionFragment"
+            app:destination="@id/networkProtectionFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_protocolFragment"
+            app:destination="@id/protocolFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_customDNSFragment"
+            app:destination="@id/customDNSFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_serverListFragment"
+            app:destination="@id/serverListFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_antiTrackerFragment"
+            app:destination="@id/antiTrackerFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_settingsFragment_to_updatesFragment"-->
+<!--            app:destination="@id/updatesFragment" />-->
+        <action
+            android:id="@+id/action_settingsFragment_to_killSwitchFragment"
+            app:destination="@id/killSwitchFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_mockLocationFragment"
+            app:destination="@id/mockLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splitTunnelingFragment"
+        android:name="net.ivpn.core.v2.splittunneling.SplitTunnelingFragment"
+        android:label="Split Tunneling" />
+    <fragment
+        android:id="@+id/alwaysOnVPNFragment"
+        android:name="net.ivpn.core.v2.alwaysonvpn.AlwaysOnVPNFragment"
+        android:label="Always-on VPN" />
+    <fragment
+        android:id="@+id/networkProtectionFragment"
+        android:name="net.ivpn.core.v2.network.NetworkCommonFragment"
+        android:label="Network Protection">
+        <action
+            android:id="@+id/action_networkProtectionFragment_to_networkProtectionRulesFragment"
+            app:destination="@id/networkProtectionRulesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/networkProtectionRulesFragment"
+        android:name="net.ivpn.core.v2.network.rule.NetworkProtectionRulesFragment"
+        android:label="Protection Rules" />
+    <fragment
+        android:id="@+id/protocolFragment"
+        android:name="net.ivpn.core.v2.protocol.ProtocolFragment"
+        android:label="Protocol" >
+        <action
+            android:id="@+id/action_protocolFragment_to_wireGuardDetailsFragment"
+            app:destination="@id/wireGuardDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customDNSFragment"
+        android:name="net.ivpn.core.v2.customdns.CustomDNSFragment"
+        android:label="Custom DNS" />
+    <fragment
+        android:id="@+id/serverListFragment"
+        android:name="net.ivpn.core.v2.serverlist.ServerListTabFragment"
+        android:label=" ">
+        <argument
+            android:name="serverType"
+            android:defaultValue="ENTRY"
+            app:argType="net.ivpn.core.rest.data.model.ServerType" />
+        <action
+            android:id="@+id/action_serverListFragment_to_fastestSettingFragment"
+            app:destination="@id/fastestSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fastestSettingFragment"
+        android:name="net.ivpn.core.v2.serverlist.fastest.FastestSettingFragment"
+        android:label="Fastest Setting" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="net.ivpn.core.v2.login.LoginFragment"
+        android:label="Log in">
+        <action
+            android:id="@+id/action_loginFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_TFAFragment"
+            app:destination="@id/TFAFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_captchaFragment"
+            app:destination="@id/captchaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/syncFragment"
+        android:name="net.ivpn.core.v2.sync.SyncFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="net.ivpn.core.v2.account.AccountFragment"
+        android:label="Account details" >
+        <deepLink
+            app:uri="android-app://net.ivpn.core/account_fragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/antiTrackerFragment"
+        android:name="net.ivpn.core.v2.antitracker.AntiTrackerFragment"
+        android:label="AntiTracker" />
+
+    <fragment
+        android:id="@+id/TFAFragment"
+        android:name="net.ivpn.core.v2.tfa.TFAFragment"
+        android:label="2-Factor Authentication" >
+        <action
+            android:id="@+id/action_TFAFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/captchaFragment"
+        android:name="net.ivpn.core.v2.captcha.CaptchaFragment"
+        android:label="Captcha Required" >
+        <action
+            android:id="@+id/action_captchaFragment_to_syncFragment"
+            app:destination="@id/syncFragment"
+            app:popUpTo="@+id/connectFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/wireGuardDetailsFragment"
+        android:name="net.ivpn.core.v2.protocol.wireguard.WireGuardDetailsFragment"
+        android:label="WireGuard Details" />
+    <fragment
+        android:id="@+id/killSwitchFragment"
+        android:name="net.ivpn.core.v2.killswitch.KillSwitchFragment"
+        android:label="Kill Switch" />
+    <fragment
+        android:id="@+id/mockLocationFragment"
+        android:name="net.ivpn.core.v2.mocklocation.MockLocationFragment"
+        android:label="Setup Mock Location" >
+        <action
+            android:id="@+id/action_mockLocationFragment_to_mockLocationStep1Fragment"
+            app:destination="@id/mockLocationStep1Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mockLocationStep1Fragment"
+        android:name="net.ivpn.core.v2.mocklocation.MockLocationStep1Fragment"
+        android:label="Developer Options" >
+        <action
+            android:id="@+id/action_mockLocationStep1Fragment_to_mockLocationStep2Fragment"
+            app:destination="@id/mockLocationStep2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mockLocationStep2Fragment"
+        android:name="net.ivpn.core.v2.mocklocation.MockLocationStep2Fragment"
+        android:label="Mock Location" >
+        <action
+            android:id="@+id/action_mockLocationStep2Fragment_to_mockLocationStep3Fragment"
+            app:destination="@id/mockLocationStep3Fragment"
+            app:popUpTo="@+id/settingsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mockLocationStep3Fragment"
+        android:name="net.ivpn.core.v2.mocklocation.MockLocationStep3Fragment"
+        android:label="Setup Completed" />
+</navigation>

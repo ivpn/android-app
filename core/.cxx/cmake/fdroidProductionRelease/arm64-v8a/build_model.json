@@ -1,0 +1,226 @@
+{
+  "abi": "ARM64_V8A",
+  "abiPlatformVersion": 21,
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "cmake": {
+    "cmakeArtifactsBaseFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/arm64-v8a",
+    "cmakeServerLogFile": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/arm64-v8a/cmake_server_log.txt",
+    "cmakeWrappingBaseFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cxx/fdroidProductionRelease/arm64-v8a",
+    "effectiveConfiguration": {
+      "name": "traditional-android-studio-cmake-environment",
+      "description": "Composite reified CMakeSettings configuration",
+      "generator": "Ninja",
+      "inheritEnvironments": [
+        "ndk"
+      ],
+      "buildRoot": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/arm64-v8a",
+      "cmakeToolchain": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+      "cmakeExecutable": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+      "variables": [
+        {
+          "name": "CMAKE_FIND_ROOT_PATH",
+          "value": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/prefab/arm64-v8a/prefab"
+        },
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Release"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake"
+        },
+        {
+          "name": "ANDROID_ABI",
+          "value": "arm64-v8a"
+        },
+        {
+          "name": "ANDROID_NDK",
+          "value": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle"
+        },
+        {
+          "name": "ANDROID_PLATFORM",
+          "value": "android-21"
+        },
+        {
+          "name": "CMAKE_ANDROID_ARCH_ABI",
+          "value": "arm64-v8a"
+        },
+        {
+          "name": "CMAKE_ANDROID_NDK",
+          "value": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle"
+        },
+        {
+          "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
+          "value": "ON"
+        },
+        {
+          "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
+          "value": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/arm64-v8a"
+        },
+        {
+          "name": "CMAKE_MAKE_PROGRAM",
+          "value": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
+        },
+        {
+          "name": "CMAKE_SYSTEM_NAME",
+          "value": "Android"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "21"
+        },
+        {
+          "name": "ANDROID_TOOLCHAIN",
+          "value": "clang"
+        },
+        {
+          "name": "ANDROID_STL",
+          "value": "c++_static"
+        },
+        {
+          "name": "ANDROID_LD",
+          "value": "deprecated"
+        },
+        {
+          "name": "GRADLE_USER_HOME",
+          "value": "/Users/aleksandrmykhailenko/.gradle"
+        }
+      ]
+    }
+  },
+  "cxxBuildFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/arm64-v8a",
+  "info": {
+    "abi": "ARM64_V8A",
+    "bitness": 64,
+    "deprecated": false,
+    "default": true
+  },
+  "originalCxxBuildFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/arm64-v8a",
+  "variant": {
+    "buildSystemArgumentList": [
+      "-DANDROID_TOOLCHAIN\u003dclang",
+      "-DANDROID_STL\u003dc++_static",
+      "-DANDROID_LD\u003ddeprecated",
+      "-DGRADLE_USER_HOME\u003d/Users/aleksandrmykhailenko/.gradle"
+    ],
+    "buildTargetSet": [],
+    "implicitBuildTargetSet": [],
+    "cFlagsList": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "cppFlagsList": [],
+    "isDebuggableEnabled": false,
+    "module": {
+      "buildSystem": "CMAKE",
+      "cmake": {
+        "cmakeExe": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+        "minimumCmakeVersion": "3.10.2",
+        "ninjaExe": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
+      },
+      "cmakeToolchainFile": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+      "cxxFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx",
+      "gradleModulePathName": ":app",
+      "intermediatesFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates",
+      "makeFile": "/Users/aleksandrmykhailenko/work/new/android-app/app/CMakeLists.txt",
+      "moduleBuildFile": "/Users/aleksandrmykhailenko/work/new/android-app/app/build.gradle",
+      "moduleRootFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app",
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkFolder": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle",
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "ndkMetaPlatforms": {
+        "min": 16,
+        "max": 30,
+        "aliases": {
+          "20": 19,
+          "25": 24,
+          "J": 16,
+          "J-MR1": 17,
+          "J-MR2": 18,
+          "K": 19,
+          "L": 21,
+          "L-MR1": 22,
+          "M": 23,
+          "N": 24,
+          "N-MR1": 24,
+          "O": 26,
+          "O-MR1": 27,
+          "P": 28,
+          "Q": 29,
+          "R": 30
+        }
+      },
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultStl": "LIBCXX_STATIC",
+      "ndkVersion": "22.1.7171670",
+      "project": {
+        "compilerSettingsCacheFolder": "/Users/aleksandrmykhailenko/work/new/android-app/.cxx",
+        "cxxFolder": "/Users/aleksandrmykhailenko/work/new/android-app/.cxx",
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "rootBuildGradleFolder": "/Users/aleksandrmykhailenko/work/new/android-app",
+        "sdkFolder": "/Users/aleksandrmykhailenko/Library/Android/sdk",
+        "isPrefabEnabled": false
+      },
+      "splitsAbiFilterSet": [],
+      "stlSharedObjectMap": {
+        "LIBCXX_SHARED": {
+          "ARMEABI_V7A": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so",
+          "ARM64_V8A": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so",
+          "X86": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so",
+          "X86_64": "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "SYSTEM": {}
+      }
+    },
+    "objFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj",
+    "variantName": "fdroidProductionRelease",
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "prefabDirectory": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/prefab",
+    "prefabPackageDirectoryList": []
+  },
+  "prefabFolder": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/prefab/arm64-v8a"
+}

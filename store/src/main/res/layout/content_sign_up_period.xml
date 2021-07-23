@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.ivpn.core.common.billing.addfunds.Period" />
+
+        <import type="net.ivpn.client.billing.Utils" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.signup.SignUpViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/sign_up_background"
+        android:paddingTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/choose_product_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:alpha="0.6"
+                        android:text="@string/sign_up_period_description"
+                        android:textColor="@color/login_text_color"
+                        android:textSize="14sp"
+                        android:visibility="@{viewmodel.blankAccountID != null ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/divider_1"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#4798A5B3"
+                        android:visibility="@{viewmodel.blankAccountID != null ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/choose_product_description" />
+
+                    <View
+                        android:id="@+id/divider_2"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#4798A5B3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/standard_plan_title" />
+
+                    <View
+                        android:id="@+id/divider_3"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="#4798A5B3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/period_group" />
+
+                    <TextView
+                        android:id="@+id/standard_plan_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:letterSpacing="0.04"
+                        android:text="@{Utils.formatPlanName(viewmodel.selectedPlan)}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/sign_up_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+
+                    <TextView
+                        android:id="@+id/change_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:letterSpacing="-0.01"
+                        android:padding="4dp"
+                        android:text="@string/sign_up_period_change"
+                        android:textColor="@color/primary"
+                        android:textSize="16sp"
+                        android:visibility="@{viewmodel.blankAccountID != null ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@+id/standard_plan_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/standard_plan_title" />
+
+                    <RadioGroup
+                        android:id="@+id/period_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:divider="@drawable/radio_group_divider"
+                        android:showDividers="middle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/divider_2"
+                        app:layout_constraintTop_toBottomOf="@+id/divider_2">
+
+                        <LinearLayout
+                            android:id="@+id/one_week_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:onClick="@{() -> viewmodel.selectPeriod(Period.ONE_WEEK)}"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/one_week"
+                                android:layout_width="wrap_content"
+                                android:layout_height="64dp"
+                                android:layout_marginLeft="10dp"
+                                android:checked="@{viewmodel.selectedPeriod == Period.ONE_WEEK ? true : false}"
+                                android:clickable="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/sign_up_period_1_week"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                app:buttonTint="@color/dialogue_button" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewmodel.oneWeek.getPrice}"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/one_month_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:onClick="@{() -> viewmodel.selectPeriod(Period.ONE_MONTH)}"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/one_month"
+                                android:layout_width="wrap_content"
+                                android:layout_height="64dp"
+                                android:layout_marginLeft="10dp"
+                                android:checked="@{viewmodel.selectedPeriod == Period.ONE_MONTH ? true : false}"
+                                android:clickable="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/sign_up_period_1_month"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                app:buttonTint="@color/dialogue_button" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewmodel.oneMonth.getPrice}"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/one_year_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:onClick="@{() -> viewmodel.selectPeriod(Period.ONE_YEAR)}"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/one_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="64dp"
+                                android:layout_marginLeft="10dp"
+                                android:checked="@{viewmodel.selectedPeriod == Period.ONE_YEAR ? true : false}"
+                                android:clickable="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/sign_up_period_1_year"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                app:buttonTint="@color/dialogue_button" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/discount_background"
+                                android:paddingHorizontal="2dp"
+                                android:text="@{viewmodel.oneYearDiscount}"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewmodel.oneYear.getPrice}"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/two_year_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:onClick="@{() -> viewmodel.selectPeriod(Period.TWO_YEARS)}"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/two_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="64dp"
+                                android:layout_marginLeft="10dp"
+                                android:checked="@{viewmodel.selectedPeriod == Period.TWO_YEARS ? true : false}"
+                                android:clickable="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/sign_up_period_2_year"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                app:buttonTint="@color/dialogue_button" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/discount_background"
+                                android:paddingHorizontal="2dp"
+                                android:text="@{viewmodel.twoYearDiscount}"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewmodel.twoYear.getPrice}"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/three_year_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="65dp"
+                            android:onClick="@{() -> viewmodel.selectPeriod(Period.THREE_YEARS)}"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatRadioButton
+                                android:id="@+id/three_year"
+                                android:layout_width="wrap_content"
+                                android:layout_height="64dp"
+                                android:layout_marginLeft="10dp"
+                                android:checked="@{viewmodel.selectedPeriod == Period.THREE_YEARS ? true : false}"
+                                android:clickable="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/sign_up_period_3_year"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                app:buttonTint="@color/dialogue_button" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:background="@drawable/discount_background"
+                                android:paddingHorizontal="2dp"
+                                android:text="@{viewmodel.threeYearDiscount}"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@{viewmodel.getPrice(viewmodel.threeYear)}"
+                                android:textColor="@color/dialogue_text"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </RadioGroup>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/continue_purchase"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"/>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:elevation="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:text="@string/sign_up_period_continue_to_payment"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:text="@{viewmodel.activeUntil}"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_opacity_black_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <ProgressBar
+                    style="?indeterminateProgressStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/AppTheme.ProgressBar" />
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:gravity="center"
+                    android:text="@string/sign_up_progress" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</layout>

@@ -1,0 +1,138 @@
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/share/cmake-3.10/Modules/CMakeDetermineSystem.cmake:94 (include)
+  CMakeLists.txt:2 (project)
+
+
+Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Check for working C compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang -- works
+Detecting C compiler ABI info
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Detecting C compiler ABI info - done
+Detecting C compile features
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Detecting C compile features - done
+Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Check for working CXX compiler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ -- works
+Detecting CXX compiler ABI info
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Detecting CXX compiler ABI info - done
+Detecting CXX compile features
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+CMake Warning at /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake:449 (message):
+  An old version of CMake is being used that cannot automatically detect
+  compiler attributes.  Compiler identification is being bypassed.  Some
+  values may be wrong or missing.  Update to CMake 3.19 or newer to use
+  CMake's built-in compiler identification.
+Call Stack (most recent call first):
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/3.10.2/CMakeSystem.cmake:6 (include)
+  /Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteStageRelease/x86/CMakeFiles/CMakeTmp/CMakeLists.txt:2 (project)
+
+
+Detecting CXX compile features - done
+OpenVPN 2.x version icsopenvpn/v0.7.14-0-gb3eb7a46
+OpenVPN 3.x version icsopenvpn/v0.7.14-0-g5391351a
+The ASM compiler identification is Clang
+Found assembler: /Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang
+Found SWIG: /usr/local/bin/swig (found suitable version "4.0.1", minimum required is "3.0") 
+Configuring done

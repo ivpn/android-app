@@ -1,0 +1,140 @@
+{
+  "buildFiles": [
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/compiler_id.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/tools/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake.in",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn3/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/tools.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/openssl.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "libwg-go.so-Release-armeabi-v7a": {
+      "artifactName": "libwg-go.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" libwg-go.so",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "lzo-Release-armeabi-v7a": {
+      "artifactName": "lzo",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" lzo",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/liblzo.a",
+      "runtimeFiles": []
+    },
+    "ssl-Release-armeabi-v7a": {
+      "artifactName": "ssl",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" ssl",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/libssl.a",
+      "runtimeFiles": []
+    },
+    "makeassetdir-Release-armeabi-v7a": {
+      "artifactName": "makeassetdir",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" makeassetdir",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "osslspeedtest-Release-armeabi-v7a": {
+      "artifactName": "osslspeedtest",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" osslspeedtest",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libosslspeedtest.so",
+      "runtimeFiles": []
+    },
+    "libwg-quick.so-Release-armeabi-v7a": {
+      "artifactName": "libwg-quick.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" libwg-quick.so",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libwg-quick.so",
+      "runtimeFiles": []
+    },
+    "pie_openvpn.armeabi-v7a-Release-armeabi-v7a": {
+      "artifactName": "pie_openvpn.armeabi-v7a",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" pie_openvpn.armeabi-v7a",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/pie_openvpn.armeabi-v7a",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libopenvpn.so"
+      ]
+    },
+    "crypto-Release-armeabi-v7a": {
+      "artifactName": "crypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" crypto",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/libcrypto.a",
+      "runtimeFiles": []
+    },
+    "libovpnexec.so-Release-armeabi-v7a": {
+      "artifactName": "libovpnexec.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" libovpnexec.so",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/libovpnexec.so",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libopenvpn.so"
+      ]
+    },
+    "nopie_openvpn.armeabi-v7a-Release-armeabi-v7a": {
+      "artifactName": "nopie_openvpn.armeabi-v7a",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" nopie_openvpn.armeabi-v7a",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/nopie_openvpn.armeabi-v7a",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libopenvpn.so"
+      ]
+    },
+    "opvpnutil-Release-armeabi-v7a": {
+      "artifactName": "opvpnutil",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" opvpnutil",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libopvpnutil.so",
+      "runtimeFiles": []
+    },
+    "lz4-Release-armeabi-v7a": {
+      "artifactName": "lz4",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" lz4",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a/src/main/cpp/liblz4.a",
+      "runtimeFiles": []
+    },
+    "openvpn-Release-armeabi-v7a": {
+      "artifactName": "openvpn",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" openvpn",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libopenvpn.so",
+      "runtimeFiles": []
+    },
+    "jbcrypto-Release-armeabi-v7a": {
+      "artifactName": "jbcrypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" jbcrypto",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libjbcrypto.so",
+      "runtimeFiles": []
+    },
+    "ovpn3-Release-armeabi-v7a": {
+      "artifactName": "ovpn3",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" ovpn3",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libovpn3.so",
+      "runtimeFiles": []
+    },
+    "libwg.so-Release-armeabi-v7a": {
+      "artifactName": "libwg.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidProductionRelease/armeabi-v7a\" libwg.so",
+      "abi": "armeabi-v7a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidProductionRelease/obj/armeabi-v7a/libwg.so",
+      "runtimeFiles": []
+    }
+  }
+}

@@ -1,0 +1,25 @@
+                Executable : /Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake
+arguments : 
+-H/Users/aleksandrmykhailenko/work/new/android-app/core
+-DCMAKE_FIND_ROOT_PATH=/Users/aleksandrmykhailenko/work/new/android-app/core/.cxx/cmake/storeProductionDebug/prefab/armeabi-v7a/prefab
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_TOOLCHAIN_FILE=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_ABI=armeabi-v7a
+-DANDROID_NDK=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle
+-DANDROID_PLATFORM=android-21
+-DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a
+-DCMAKE_ANDROID_NDK=/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/aleksandrmykhailenko/work/new/android-app/core/build/intermediates/cmake/storeProductionDebug/obj/armeabi-v7a
+-DCMAKE_MAKE_PROGRAM=/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_SYSTEM_VERSION=21
+-DANDROID_TOOLCHAIN=clang
+-DANDROID_STL=c++_static
+-DANDROID_LD=deprecated
+-DGRADLE_USER_HOME=/Users/aleksandrmykhailenko/.gradle
+-B/Users/aleksandrmykhailenko/work/new/android-app/core/.cxx/cmake/storeProductionDebug/armeabi-v7a
+-GNinja
+jvmArgs : 
+
+Build command args:
