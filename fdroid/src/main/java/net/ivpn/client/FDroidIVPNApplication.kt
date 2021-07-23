@@ -22,7 +22,7 @@ package net.ivpn.client
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import net.ivpn.client.dagger.DaggerFDroidComponent
 import net.ivpn.client.dagger.FDroidComponent
 import net.ivpn.client.logging.StubCrashLoggingController
@@ -33,7 +33,7 @@ import net.ivpn.core.IVPNApplication
 import net.ivpn.core.common.dagger.ApplicationComponent
 import javax.inject.Inject
 
-class FDroidIVPNApplication: Application() {
+class FDroidIVPNApplication: MultiDexApplication() {
 
     companion object {
         lateinit var instance: FDroidIVPNApplication
