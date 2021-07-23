@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="server"
+            type="net.ivpn.core.rest.data.model.Server" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/servers_card_background">
+
+        <LinearLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/server_flag"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="18dp"
+                android:src="@{server}" />
+
+            <TextView
+                android:id="@+id/enter_server_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="8sp"
+                android:text="@{server.getDescription}"
+                android:textSize="16sp"
+                android:textColor="@color/servers_text_color"
+                android:textStyle="normal" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:thumb="@drawable/common_thumb_selector"
+                app:track="@drawable/common_track_selector"
+                app:theme="@style/AppTheme.SwitchCompat" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="58dp"
+            android:background="#4cb4c1cc" />
+    </LinearLayout>
+</layout>

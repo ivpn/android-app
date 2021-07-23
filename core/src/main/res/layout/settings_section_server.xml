@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="multihop"
+            type="net.ivpn.core.v2.viewmodel.MultiHopViewModel" />
+
+        <variable
+            name="servers"
+            type="net.ivpn.core.v2.viewmodel.ServersViewModel" />
+
+        <variable
+            name="ipv6"
+            type="net.ivpn.core.v2.viewmodel.IPv6ViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/settings_card_background"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingsSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_server" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/settings_enable_multi_hop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/settings_multi_hop_description"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/settings_option_description_text"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/enable_multi_hop"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{multihop.isEnabled}"
+                    android:enabled="@{multihop.isSupported}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    android:translationX="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView10"
+                    app:onChanged="@{multihop.enableMultiHopListener}"
+                    app:onTouch="@{multihop.multiHopTouchListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/entry_random_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="@{servers.entryRandomServer ? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:layout_editor_absoluteX="4dp">
+
+                <ImageView
+                    android:id="@+id/entry_random_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="@string/content_description_entry_server_flag"
+                    android:src="@drawable/ic_shuffle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/settings_option_description_text" />
+
+                <TextView
+                    android:id="@+id/entry_random_label"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@{multihop.isEnabled() ? @string/connect_random_entry_server : @string/connect_random_server}"
+                    app:layout_constraintBottom_toBottomOf="@+id/entry_random_image"
+                    app:layout_constraintStart_toEndOf="@+id/entry_random_image"
+                    app:layout_constraintTop_toTopOf="@+id/entry_random_image" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/entry_server_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_section_height"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="@{servers.entryServerVisibility ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:layout_width="@dimen/settings_icon_size"
+                        android:layout_height="@dimen/settings_icon_size"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:src="@{servers.entryServer}" />
+
+                    <TextView
+                        android:id="@+id/enter_server_description"
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:text="@{servers.entryServer.getDescription}" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:visibility="@{ipv6.isIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:id="@+id/entry_ipv6_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ipv6_text_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="IPv6"
+                            android:visibility="@{servers.isEntryServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
+                            android:textColor="@color/servers_text_color"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+                            app:layout_constraintStart_toEndOf="@+id/textView6"
+                            app:layout_constraintTop_toTopOf="@+id/textView6" />
+                    </FrameLayout>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@{servers.pingResultEnterServer.getAppropriateLight}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif"
+                        android:letterSpacing="-0.03"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{servers.pingResultEnterServer.formatPing}"
+                        android:textColor="#98a5b3"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/color_section_divider"
+                    android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fastest_server_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:layout_width="@dimen/settings_icon_size"
+                    android:layout_height="@dimen/settings_icon_size"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:src="@drawable/ic_fastest_server"
+                    app:tint="@color/settings_option_description_text" />
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@string/connect_fastest_server" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}">
+
+                <LinearLayout
+                    android:id="@+id/exit_server_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_section_height"
+                    android:gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:visibility="@{servers.exitServerVisibility ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:layout_width="@dimen/settings_icon_size"
+                        android:layout_height="@dimen/settings_icon_size"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:src="@{servers.exitServer}" />
+
+                    <TextView
+                        android:id="@+id/exit_server_description"
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:text="@{servers.exitServer.getDescription}" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:visibility="@{ipv6.isIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}">
+
+                        <TextView
+                            android:id="@+id/exit_ipv6_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ipv6_text_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="IPv6"
+                            android:visibility="@{servers.isExitServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
+                            android:textColor="@color/servers_text_color"
+                            android:textSize="12sp" />
+                    </FrameLayout>
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@{servers.pingResultExitServer.getAppropriateLight}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif"
+                        android:letterSpacing="-0.03"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{servers.pingResultExitServer.formatPing}"
+                        android:textColor="#98a5b3"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/exit_random_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_section_height"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="@{servers.exitRandomServer ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="4dp">
+
+                    <ImageView
+                        android:id="@+id/exit_random_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:contentDescription="@string/content_description_entry_server_flag"
+                        android:src="@drawable/ic_shuffle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/settings_option_description_text" />
+
+                    <TextView
+                        android:id="@+id/exit_random_label"
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:text="@string/connect_random_exit_server"
+                        app:layout_constraintBottom_toBottomOf="@+id/exit_random_image"
+                        app:layout_constraintStart_toEndOf="@+id/exit_random_image"
+                        app:layout_constraintTop_toTopOf="@+id/exit_random_image" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_section_divider" />
+
+            <LinearLayout
+                android:id="@+id/protocol_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:onClick="vpnProtocol"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/settings_margin_left"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_vpn_protocol" />
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/settings_protocol_selection_description"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

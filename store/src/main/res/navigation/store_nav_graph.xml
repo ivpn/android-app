@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/store_nav_graph"
+    app:startDestination="@id/signUpAccountCreatedFragment">
+
+    <fragment
+        android:id="@+id/signUpAccountCreatedFragment"
+        android:name="net.ivpn.client.signup.SignUpAccountCreatedFragment"
+        android:label="Account Created">
+        <action
+            android:id="@+id/action_signUpAccountCreatedFragment_to_signUpProductFragment"
+            app:destination="@id/signUpProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpPeriodFragment2"
+        android:name="net.ivpn.client.signup.SignUpPeriodFragment"
+        android:label="Add funds to your account">
+
+    </fragment>
+    <fragment
+        android:id="@+id/signUpProductFragment"
+        android:name="net.ivpn.client.signup.SignUpProductFragment"
+        android:label="Select IVPN Plan">
+        <action
+            android:id="@+id/action_signUpProductFragment_to_signUpPeriodFragment2"
+            app:destination="@id/signUpPeriodFragment2"
+            app:popUpTo="@+id/connectFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_signUpProductFragment"
+        app:destination="@id/signUpProductFragment" />
+</navigation>

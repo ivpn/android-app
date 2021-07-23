@@ -1,0 +1,140 @@
+{
+  "buildFiles": [
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/ndk-bundle/build/cmake/compiler_id.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/tools/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/CMakeLists.txt",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/GetGitRevisionDescription.cmake.in",
+    "/Users/aleksandrmykhailenko/work/new/android-app/.git/modules/app/src/main/cpp/openvpn3/HEAD",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/tools.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lzo.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/lz4.cmake",
+    "/Users/aleksandrmykhailenko/work/new/android-app/app/src/main/cpp/openssl/openssl.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "libwg-go.so-Debug-arm64-v8a": {
+      "artifactName": "libwg-go.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" libwg-go.so",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    },
+    "crypto-Debug-arm64-v8a": {
+      "artifactName": "crypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" crypto",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/libcrypto.a",
+      "runtimeFiles": []
+    },
+    "lz4-Debug-arm64-v8a": {
+      "artifactName": "lz4",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" lz4",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/liblz4.a",
+      "runtimeFiles": []
+    },
+    "libwg.so-Debug-arm64-v8a": {
+      "artifactName": "libwg.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" libwg.so",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libwg.so",
+      "runtimeFiles": []
+    },
+    "libwg-quick.so-Debug-arm64-v8a": {
+      "artifactName": "libwg-quick.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" libwg-quick.so",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libwg-quick.so",
+      "runtimeFiles": []
+    },
+    "openvpn-Debug-arm64-v8a": {
+      "artifactName": "openvpn",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" openvpn",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libopenvpn.so",
+      "runtimeFiles": []
+    },
+    "osslspeedtest-Debug-arm64-v8a": {
+      "artifactName": "osslspeedtest",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" osslspeedtest",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libosslspeedtest.so",
+      "runtimeFiles": []
+    },
+    "ovpn3-Debug-arm64-v8a": {
+      "artifactName": "ovpn3",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" ovpn3",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libovpn3.so",
+      "runtimeFiles": []
+    },
+    "nopie_openvpn.arm64-v8a-Debug-arm64-v8a": {
+      "artifactName": "nopie_openvpn.arm64-v8a",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" nopie_openvpn.arm64-v8a",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/nopie_openvpn.arm64-v8a",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libopenvpn.so"
+      ]
+    },
+    "libovpnexec.so-Debug-arm64-v8a": {
+      "artifactName": "libovpnexec.so",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" libovpnexec.so",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/libovpnexec.so",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libopenvpn.so"
+      ]
+    },
+    "opvpnutil-Debug-arm64-v8a": {
+      "artifactName": "opvpnutil",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" opvpnutil",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libopvpnutil.so",
+      "runtimeFiles": []
+    },
+    "lzo-Debug-arm64-v8a": {
+      "artifactName": "lzo",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" lzo",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/liblzo.a",
+      "runtimeFiles": []
+    },
+    "ssl-Debug-arm64-v8a": {
+      "artifactName": "ssl",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" ssl",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/libssl.a",
+      "runtimeFiles": []
+    },
+    "pie_openvpn.arm64-v8a-Debug-arm64-v8a": {
+      "artifactName": "pie_openvpn.arm64-v8a",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" pie_openvpn.arm64-v8a",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a/src/main/cpp/pie_openvpn.arm64-v8a",
+      "runtimeFiles": [
+        "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libopenvpn.so"
+      ]
+    },
+    "jbcrypto-Debug-arm64-v8a": {
+      "artifactName": "jbcrypto",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" jbcrypto",
+      "abi": "arm64-v8a",
+      "output": "/Users/aleksandrmykhailenko/work/new/android-app/app/build/intermediates/cmake/fdroidStageDebug/obj/arm64-v8a/libjbcrypto.so",
+      "runtimeFiles": []
+    },
+    "makeassetdir-Debug-arm64-v8a": {
+      "artifactName": "makeassetdir",
+      "buildCommand": "/Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/fdroidStageDebug/arm64-v8a\" makeassetdir",
+      "abi": "arm64-v8a",
+      "runtimeFiles": []
+    }
+  }
+}

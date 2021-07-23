@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.ivpn.core">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--    For Split Tunneling feature-->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--    For Start on boot feature-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--    For Network Protection Feature-->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--    Used to scan Wi-Fi networks-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!--    To scan QR code-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!--    To mock location-->
+    <uses-permission
+        android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="MockLocation, ProtectedPermissions" />
+
+    <!--    For QR scanner-->
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
+    <application
+        android:allowBackup="false"
+        android:debuggable="false"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        tools:overrideLibrary="com.google.zxing.client.android"
+        tools:ignore="GoogleAppIndexingWarning, HardcodedDebugMode">
+
+        <activity
+            android:name="net.ivpn.core.v2.timepicker.TimePickerActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
+            android:name="net.ivpn.core.v2.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name="net.ivpn.core.vpn.local.PermissionActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
+            android:name="net.ivpn.core.vpn.local.KillSwitchPermissionActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
+            android:name="net.ivpn.core.common.shortcuts.ConnectionShortcutsActivity"
+            android:theme="@style/AppTheme.Transparent" />
+
+        <activity
+            android:name=".v2.qr.QRActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="net.ivpn.core.vpn.openvpn.IVPNService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE" />
+        <service
+            android:name="net.ivpn.core.vpn.local.KillSwitchService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE" />
+        <service android:name="net.ivpn.core.vpn.local.WifiWatcherService" />
+
+        <service
+            android:name="net.ivpn.core.vpn.AlwaysOnVpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.wireguard.android.backend.GoBackend$WireGuardVpnService"
+            android:exported="false"
+            android:permission="android.permission.BIND_VPN_SERVICE" />
+
+        <service android:name="com.wireguard.android.backend.WireGuardUiService" />
+
+<!--        <service-->
+<!--            android:name="net.ivpn.core.v2.updates.UpdatesService"-->
+<!--            android:exported="false" />-->
+<!--        <service-->
+<!--            android:name="net.ivpn.client.updates.UpdatesJobService"-->
+<!--            android:exported="false"-->
+<!--            android:permission="android.permission.BIND_JOB_SERVICE" />-->
+
+        <service
+            android:name="net.ivpn.core.common.tile.IVPNTileService"
+            android:icon="@drawable/ic_logo_sq"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="net.ivpn.core.vpn.controller.WireGuardKeyBroadcastReceiver"
+            android:exported="false" />
+        <receiver
+            android:name="net.ivpn.core.vpn.OnBootBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="net.ivpn.client"
+            android:enabled="true"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/logpath" />
+        </provider>
+    </application>
+</manifest>

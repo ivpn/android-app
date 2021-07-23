@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.core.v2.customdns.CustomDNSViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/custom_dns_background"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/custom_dns_feature"
+                    android:textColor="@color/custom_dns_text_color"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enable_custom_dns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/settings_margin_right_extended"
+                android:checked="@{viewmodel.isCustomDNSEnabled}"
+                app:track="@drawable/common_track_selector"
+                android:thumb="@drawable/common_thumb_selector"
+                app:onChanged="@{viewmodel.enableCustomDNS}"
+                app:theme="@style/AppTheme.SwitchCompat" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SettingsOptionDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/custom_dns_priority"
+            android:textAlignment="viewStart"
+            android:textColor="@color/custom_dns_text_color"
+            android:alpha="0.6"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="3sp"
+                android:text="@string/custom_dns_server"
+                android:textAlignment="viewStart"
+                android:textColor="@color/custom_dns_text_color"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                style="@style/SettingsOptionDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/custom_dns_text_color"
+                android:alpha="0.6"
+                android:text="@{viewmodel.dns}"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/change_dns_button"
+                style="@style/SettingsAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_dns_change"
+                android:textAllCaps="true"/>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/SettingsOptionDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:lineSpacingExtra="3sp"
+            android:textColor="@color/custom_dns_text_color"
+            android:alpha="0.6"
+            android:text="@string/custom_dns_server_description"
+            android:textAlignment="viewStart"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/site_nav_graph"
+    app:startDestination="@id/updatesFragment">
+
+    <fragment
+        android:id="@+id/updatesFragment"
+        android:name="net.ivpn.client.updates.UpdatesFragment"
+        android:label="Updates" />
+
+</navigation>

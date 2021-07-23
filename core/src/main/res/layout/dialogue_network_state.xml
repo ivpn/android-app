@@ -1,0 +1,118 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.core.v2.network.dialog.NetworkChangeDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/dialogs_change_network_title"
+            android:textColor="@color/dialogue_title"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:orientation="vertical"
+            app:checked="@{viewmodel.currentState}"
+            app:listener="@{viewmodel.networkStateListener}">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/trusted_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:text="@string/dialogs_change_status_trusted"
+                android:textColor="@color/dialogue_text"
+                android:textSize="16sp"
+                app:buttonTint="@color/dialogue_button"
+                tools:ignore="RtlSymmetry" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/untrusted_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:text="@string/dialogs_change_status_untrusted"
+                android:textColor="@color/dialogue_text"
+                android:textSize="16sp"
+                app:buttonTint="@color/dialogue_button"
+                tools:ignore="RtlSymmetry" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/default_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:text="@string/dialogs_change_status_default"
+                android:textColor="@color/dialogue_text"
+                android:textSize="16sp"
+                app:buttonTint="@color/dialogue_button"
+                tools:ignore="RtlSymmetry" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:letterSpacing="0.05"
+                android:text="@string/dialogs_cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/dialogue_button"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/apply_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.05"
+                android:text="@string/dialogs_apply_action"
+                android:textAllCaps="true"
+                android:textColor="@color/dialogue_button"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

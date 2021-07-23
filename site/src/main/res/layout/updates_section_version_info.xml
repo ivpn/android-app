@@ -1,0 +1,156 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="net.ivpn.client.updates.UpdatesViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/updates_card_background">
+
+            <TextView
+                style="@style/SettingsSectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/updates_info_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="64dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="14dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="14dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/updates_current_version" />
+
+                    <TextView
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:text="@string/updates_version_up_to_date"
+                        android:textColor="#53b883"
+                        android:visibility="@{viewmodel.isUpToDate ? View.VISIBLE : View.GONE}" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.currentVersion}" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.isNextVersionAvailable ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="64dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingTop="14dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="14dp"
+                android:visibility="@{viewmodel.isNextVersionAvailable ? View.VISIBLE : View.GONE}">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/updates_new_version_available" />
+
+                    <TextView
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:text="@{viewmodel.nextVersion}"
+                        android:textAlignment="viewStart" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/SettingsAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.proceed()}"
+                    android:text="@string/updates_proceed"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:layout_marginStart="@dimen/settings_margin_left"
+                android:layout_marginEnd="@dimen/settings_margin_right"
+                android:gravity="center_vertical|start"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SettingsAction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> viewmodel.checkForUpdates()}"
+                    android:text="@string/updates_check_for_updates"
+                    android:textAllCaps="true" />
+
+                <ProgressBar
+                    style="?indeterminateProgressStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/AppTheme.ProgressBar"
+                    android:visibility="@{viewmodel.isInProgress ? View.VISIBLE : View.GONE}" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

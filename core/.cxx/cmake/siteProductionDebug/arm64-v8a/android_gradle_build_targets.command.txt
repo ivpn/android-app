@@ -1,0 +1,14 @@
+Executable : /Users/aleksandrmykhailenko/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/aleksandrmykhailenko/work/new/android-app/app/.cxx/cmake/siteProductionDebug/arm64-v8a
+jbcrypto
+libovpnexec.so
+libwg-quick.so
+libwg.so
+openvpn
+opvpnutil
+osslspeedtest
+ovpn3
+jvmArgs : 
+
