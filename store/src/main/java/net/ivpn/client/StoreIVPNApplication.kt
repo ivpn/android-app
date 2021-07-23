@@ -1,17 +1,5 @@
 package net.ivpn.client
 
-import android.app.Application
-import net.ivpn.client.config.StoreFeatureConfig
-import net.ivpn.client.dagger.BillingComponent
-import net.ivpn.client.dagger.DaggerBillingComponent
-import net.ivpn.client.navigation.StoreNavigation
-import net.ivpn.client.sentry.SentryController
-import net.ivpn.client.signup.SignUpViewModel
-import net.ivpn.client.updates.UpdatesStubViewModel
-import net.ivpn.core.IVPNApplication
-import net.ivpn.core.common.dagger.ApplicationComponent
-import javax.inject.Inject
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -34,7 +22,19 @@ import javax.inject.Inject
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-class StoreIVPNApplication: Application() {
+import androidx.multidex.MultiDexApplication
+import net.ivpn.client.config.StoreFeatureConfig
+import net.ivpn.client.dagger.BillingComponent
+import net.ivpn.client.dagger.DaggerBillingComponent
+import net.ivpn.client.navigation.StoreNavigation
+import net.ivpn.client.sentry.SentryController
+import net.ivpn.client.signup.SignUpViewModel
+import net.ivpn.client.updates.UpdatesStubViewModel
+import net.ivpn.core.IVPNApplication
+import net.ivpn.core.common.dagger.ApplicationComponent
+import javax.inject.Inject
+
+class StoreIVPNApplication: MultiDexApplication() {
 
     companion object {
         lateinit var instance: StoreIVPNApplication

@@ -22,7 +22,7 @@ package net.ivpn.client
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import net.ivpn.client.dagger.DaggerSiteComponent
 import net.ivpn.client.dagger.SiteComponent
 import net.ivpn.client.navigation.SiteNavigation
@@ -31,10 +31,9 @@ import net.ivpn.client.signup.SiteSignUpViewModel
 import net.ivpn.client.updates.UpdatesViewModel
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.common.dagger.ApplicationComponent
-import net.ivpn.core.v2.updates.UpdatesController
 import javax.inject.Inject
 
-class SiteIVPNApplication: Application() {
+class SiteIVPNApplication: MultiDexApplication() {
 
     companion object {
         lateinit var instance: SiteIVPNApplication

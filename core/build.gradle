@@ -53,36 +53,6 @@ android {
         multiDexEnabled true
     }
 
-//    flavorDimensions "spread", "api"
-//    productFlavors {
-//        store {
-//            dimension "spread"
-//            buildConfigField "String", "BUILD_VARIANT", "\"store\""
-//        }
-//
-//        site {
-//            dimension "spread"
-//            buildConfigField "String", "BUILD_VARIANT", "\"site\""
-//        }
-//
-//        fdroid {
-//            dimension "spread"
-//            buildConfigField "String", "BUILD_VARIANT", "\"fdroid\""
-//        }
-
-//        production {
-//            dimension "api"
-//            buildConfigField "String", "API_TYPE", "\"production\""
-//            buildConfigField "String", "BASE_URL", "\"api.ivpn.net\""
-//        }
-//
-//        stage {
-//            dimension "api"
-//            buildConfigField "String", "API_TYPE", "\"stage\""
-//            buildConfigField "String", "BASE_URL", keystoreProperties['staging.url']
-//        }
-//    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -214,9 +184,6 @@ dependencies {
 
     //Constraint layout
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
-
-    //For crash logging. Please don't update this version.
-//    implementation 'io.sentry:sentry-android:4.3.0'
 
 //    QR support
     implementation 'com.google.zxing:core:3.3.0'
