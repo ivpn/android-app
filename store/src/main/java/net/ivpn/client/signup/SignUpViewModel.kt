@@ -69,7 +69,6 @@ class SignUpViewModel @Inject constructor(
 
     val selectedPeriod = ObservableField<Period?>()
     val selectedPlan = ObservableField<Plan>()
-//    val dataLoading = ObservableBoolean()
 
     val oneWeek = ObservableField<SkuDetails>()
     val oneMonth = ObservableField<SkuDetails>()
