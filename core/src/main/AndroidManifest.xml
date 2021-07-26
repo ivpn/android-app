@@ -105,14 +105,6 @@
 
         <service android:name="com.wireguard.android.backend.WireGuardUiService" />
 
-<!--        <service-->
-<!--            android:name="net.ivpn.core.v2.updates.UpdatesService"-->
-<!--            android:exported="false" />-->
-<!--        <service-->
-<!--            android:name="net.ivpn.client.updates.UpdatesJobService"-->
-<!--            android:exported="false"-->
-<!--            android:permission="android.permission.BIND_JOB_SERVICE" />-->
-
         <service
             android:name="net.ivpn.core.common.tile.IVPNTileService"
             android:icon="@drawable/ic_logo_sq"
