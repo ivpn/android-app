@@ -13,3 +13,5 @@ keystore.properties
 /.idea/
 /core/.cxx/
 core/.cxx/
+/store/production/
+/production/
