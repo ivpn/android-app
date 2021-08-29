@@ -258,7 +258,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
+                            android:text="@{multihop.isEnabled() ? connect.entryServerConnectionHint : connect.serverConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -315,7 +315,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{multihop.isEnabled() ? @string/entry_server : @string/connect_to}"
+                            android:text="@{multihop.isEnabled() ? connect.entryServerConnectionHint : connect.serverConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -372,7 +372,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{multihop.isEnabled() ? @string/entry_server : connect.serverConnectionHint}"
+                            android:text="@{multihop.isEnabled() ? connect.entryServerConnectionHint : connect.serverConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -460,7 +460,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@string/exit_server"
+                            android:text="@{connect.exitServerConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -534,7 +534,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@string/exit_server"
+                            android:text="@{connect.exitServerConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -577,27 +577,10 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/sliding_panel_gray_background">
-
-                    <TextView
-                        android:id="@+id/connection_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="8dp"
-                        android:letterSpacing="-0.01"
-                        android:text="@string/sliding_panel_connection_details"
-                        android:textAllCaps="true"
-                        android:textColor="@color/sliding_panel_gray_hint_text"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="1dp"
+                    android:background="@color/sliding_panel_line_color"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -646,7 +629,7 @@
                         android:layout_marginTop="4dp"
                         android:alpha="0.5"
                         android:letterSpacing="-0.02"
-                        android:text="@string/sliding_panel_antitracker_description"
+                        android:text="@{antitracker.antiTrackerDescription}"
                         android:textColor="@color/sliding_panel_text_color"
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -785,6 +768,21 @@
                         app:srcCompat="@drawable/ic_arrow_right"
                         app:tint="@color/sliding_panel_arrow" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/comparison_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:alpha="0.5"
+                    android:letterSpacing="-0.02"
+                    android:text="@string/protocol_selection"
+                    android:textColor="@color/sliding_panel_text_color"
+                    android:textSize="14sp"
+                    android:textColorLink="@color/primary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/antitracker_title" />
 
                 <include
                     android:id="@+id/cards"
