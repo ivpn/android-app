@@ -80,7 +80,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     override fun onResume() {
         super.onResume()
         account.onResume()
-        account.drawQR(resources.getColor(R.color.account_qr_foreground), resources.getColor(R.color.account_qr_background), binding.contentLayout.qr.width)
     }
 
     override fun onStart() {
@@ -110,6 +109,11 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
         binding.contentLayout.addFunds.setOnClickListener {
             addFunds()
+        }
+        binding.contentLayout.qr.post {
+            account.drawQR(resources.getColor(R.color.account_qr_foreground),
+                resources.getColor(R.color.account_qr_background),
+                binding.contentLayout.qr.width)
         }
     }
 

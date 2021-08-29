@@ -36,9 +36,7 @@ object QRController {
     init {
     }
 
-    //ToDo Refactor it
     fun getQR(value: String?, foregroundColor: Int, backgroundColor: Int, dimension: Int): Bitmap? {
-
         if (value == null) {
             return null
         }
