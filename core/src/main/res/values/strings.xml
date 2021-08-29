@@ -134,6 +134,9 @@
     <string name="anti_surveillance_hardcore">Hardcore Mode</string>
     <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
     <string name="anti_surveillance_read_more">Read more</string>
+    <string name="anti_tracker_description_state_disabled">AntiTracker is disabled</string>
+    <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and actively blocking known trackers</string>
+    <string name="anti_tracker_description_state_not_active">AntiTracker will be enabled when connected to VPN"</string>
 
     <!--Mock Location-->
     <string name="mock_location_enable_developer_options">Enable developer options</string>
@@ -251,10 +254,14 @@
 
     <string name="connect_server_hint_paused">Connect to</string>
     <string name="connect_server_hint_pausing">Connect to</string>
-    <string name="connect_server_hint_disconnected">Connect to</string>
     <string name="connect_server_hint_connecting">Connecting to</string>
-    <string name="connect_server_hint_connected">Connected to</string>
-    <string name="connect_server_hint_disconnecting">Disconnecting from</string>
+
+    <string name="connect_server_hint_connected">Traffic is routed via server</string>
+    <string name="connect_server_hint_disconnected">Selected server</string>
+    <string name="entry_server_hint_connected">Traffic is routed via entry server</string>
+    <string name="entry_server_hint_disconnected">Entry server is</string>
+    <string name="exit_server_hint_connected">Traffic is routed via exit server</string>
+    <string name="exit_server_hint_disconnected">Exit server is</string>
 
     <string name="connect_hint_paused">TAP TO RESUME</string>
     <string name="connect_hint_pausing">PAUSING…</string>
@@ -477,6 +484,8 @@
     <string name="protocol_wg_expiration_date">Expiration date</string>
     <string name="protocol_wg_will_rotate">Will be automatically rotated</string>
     <string name="protocol_wg_regenerate">Regenerate</string>
+    
+    <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. Currently we only support Multi-hop connections using OpenVPN. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
     <string name="shortcuts_connect">Connect</string>
     <string name="shortcuts_establish_vpn_connection">Establish VPN connection</string>

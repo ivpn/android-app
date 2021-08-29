@@ -42,7 +42,10 @@ import kotlin.math.min
 
 object MapDialogs {
 
-    fun openForbiddenGatewayDialog(parent: View, location: ServerLocation, topMargin: Float) {
+    fun openForbiddenGatewayDialog(parent: View,
+                                   location: ServerLocation,
+                                   topMargin: Float
+    ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueForbiddenLocationBinding = DataBindingUtil.inflate(
                 layoutInflater,
@@ -58,9 +61,15 @@ object MapDialogs {
         infoPopup.setBackgroundDrawable(ColorDrawable())
 
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+
+        return infoPopup
     }
 
-    fun openGatewayDialog(parent: View, location: ServerLocation, topMargin: Float, listener: GatewayListener) {
+    fun openGatewayDialog(parent: View,
+                          location: ServerLocation,
+                          topMargin: Float,
+                          listener: GatewayListener
+    ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueServerLocationBinding = DataBindingUtil.inflate(
                 layoutInflater,
@@ -80,9 +89,14 @@ object MapDialogs {
         }
 
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+
+        return infoPopup
     }
 
-    fun openGatewayListDialog(parent: View, locations: ArrayList<ServerLocation>, topMargin: Float, listener: GatewayListener) {
+    fun openGatewayListDialog(parent: View,
+                              locations: ArrayList<ServerLocation>,
+                              topMargin: Float, listener: GatewayListener
+    ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueServerListLocationBinding = DataBindingUtil.inflate(
                 layoutInflater,
@@ -125,9 +139,15 @@ object MapDialogs {
         }
 
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+
+        return infoPopup
     }
 
-    fun openLocationDialogue(parent: View, location: Location?, topMargin: Float, listener: LocationListener) {
+    fun openLocationDialogue(parent: View,
+                             location: Location?,
+                             topMargin: Float,
+                             listener: LocationListener
+    ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueLocationBinding = DataBindingUtil.inflate(
                 layoutInflater,
@@ -158,9 +178,15 @@ object MapDialogs {
             infoPopup.dismiss()
         }
         infoPopup.showAtLocation(parent, Gravity.TOP, 0, topMargin.toInt())
+
+        return infoPopup
     }
 
-    fun openPauseDialogue(parent: View, connection: ConnectionViewModel, topMargin: Float, listener: LocationListener) {
+    fun openPauseDialogue(parent: View,
+                          connection: ConnectionViewModel,
+                          topMargin: Float,
+                          listener: LocationListener
+    ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialoguePauseBinding = DataBindingUtil.inflate(
                 layoutInflater,
@@ -189,6 +215,8 @@ object MapDialogs {
                 infoPopup.dismiss()
             }
         }
+
+        return infoPopup
     }
 
     interface GatewayListener {

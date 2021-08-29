@@ -32,11 +32,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -113,6 +115,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     var signUp: SignUpController = IVPNApplication.signUpController
 
+    var mapPopup: PopupWindow? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -128,7 +132,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapPopup?.dismiss()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
@@ -200,6 +208,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 }
             }
         })
+        binding.slidingPanel.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initNavigation() {
@@ -348,9 +357,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 view?.let {
                     val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
                     if (connect.connectionState.get() != null && connect.connectionState.get() == ConnectionState.PAUSED) {
-                        MapDialogs.openPauseDialogue(it, connect, topMargin, this@ConnectFragment)
+                        mapPopup = MapDialogs.openPauseDialogue(it, connect, topMargin, this@ConnectFragment)
                     } else {
-                        MapDialogs.openLocationDialogue(it, location, topMargin, this@ConnectFragment)
+                        mapPopup = MapDialogs.openLocationDialogue(it, location, topMargin, this@ConnectFragment)
                     }
                 }
             }
@@ -369,15 +378,15 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                     when (filteredList.size) {
                         0 -> {
                             location = list[0]
-                            MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
+                            mapPopup = MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
                         }
                         1 -> {
                             location = filteredList[0]
-                            MapDialogs.openGatewayDialog(it, filteredList[0], topMargin, this@ConnectFragment)
+                            mapPopup = MapDialogs.openGatewayDialog(it, filteredList[0], topMargin, this@ConnectFragment)
                         }
                         else -> {
                             location = filteredList[0]
-                            MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+                            mapPopup = MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
                         }
                     }
 
