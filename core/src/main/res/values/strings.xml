@@ -78,6 +78,7 @@
 
     <string name="snackbar_to_use_vpn_bypass_disconnect">To use VPN bypass, please disconnect first</string>
     <string name="snackbar_to_use_mock_location_disconnect">To use Mock Locations, please disconnect first</string>
+    <string name="snackbar_to_ipv6_location_disconnect">To use IPv6, please disconnect first</string>
     <string name="snackbar_to_use_antitracker_disconnect">To use AntiTracker, please disconnect first</string>
     <string name="snackbar_to_use_custom_dns_disconnect">To use Custom DNS, please disconnect first</string>
     <string name="snackbar_to_use_kill_switch_disconnect">To use Kill switch, please disconnect first</string>

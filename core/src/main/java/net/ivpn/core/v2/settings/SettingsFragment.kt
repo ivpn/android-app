@@ -131,7 +131,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
-//        updates.onResume()
         logging.onResume()
         colorTheme.onResume()
     }
@@ -359,6 +358,46 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
             } else if (connect.isVpnActive()) {
                 if (event.action == MotionEvent.ACTION_UP) {
                     ToastUtil.toast(context, R.string.snackbar_to_use_mock_location_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
+        }
+        binding.contentLayout.sectionIpv6.ipv6FilterSwitcher.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_ipv6_location_disconnect)
+                }
+                return@setOnTouchListener true
+            }
+
+            return@setOnTouchListener false
+        }
+        binding.contentLayout.sectionIpv6.ipv6Switcher.setOnTouchListener { _, event ->
+            if (!account.authenticated.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openLoginScreen()
+                }
+                return@setOnTouchListener true
+            } else if (!account.isActive.get()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    openAddFundsScreen()
+                }
+                return@setOnTouchListener true
+            } else if (connect.isVpnActive()) {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    ToastUtil.toast(context, R.string.snackbar_to_ipv6_location_disconnect)
                 }
                 return@setOnTouchListener true
             }
