@@ -83,8 +83,10 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     private PingProvider pingProvider;
 
     @Inject
-    WireGuardBehavior(WireGuardKeyController wireGuardKeyController, ServersRepository serversRepository,
-                      ConfigManager configManager, PingProvider pingProvider) {
+    WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
+                      ServersRepository serversRepository,
+                      ConfigManager configManager,
+                      PingProvider pingProvider) {
         LOGGER.info("Creating");
         keyController = wireGuardKeyController;
         this.serversRepository = serversRepository;
@@ -92,6 +94,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         this.pingProvider = pingProvider;
 
         configManager.setListener(this);
+        listeners.add(pingProvider.getVPNStateListener());
 
         init();
     }

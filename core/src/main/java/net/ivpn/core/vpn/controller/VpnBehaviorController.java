@@ -170,7 +170,8 @@ public class VpnBehaviorController implements BehaviourListener {
     public boolean isVPNActive() {
         if (protocol == Protocol.OPENVPN) {
             return VpnStatus.isVPNActive()
-                    || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK && IVPNService.isRunning.get());
+                    || (VpnStatus.lastLevel == ConnectionStatus.LEVEL_NONETWORK
+                        && IVPNService.isRunning.get());
         } else {
             Tunnel tunnel = configManager.getTunnel();
             LOGGER.info("isVPNActive, tunnel " + tunnel);

@@ -30,9 +30,14 @@ import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.utils.DateUtil;
 import net.ivpn.core.rest.data.model.Server;
+import net.ivpn.core.v2.connect.createSession.ConnectionState;
 import net.ivpn.core.vpn.OnProtocolChangedListener;
 import net.ivpn.core.vpn.Protocol;
 import net.ivpn.core.vpn.ProtocolController;
+import net.ivpn.core.vpn.VPNStateListener;
+import net.ivpn.core.vpn.controller.DefaultVPNStateListener;
+import net.ivpn.core.vpn.controller.VpnBehaviorController;
+import net.ivpn.core.vpn.controller.VpnStateListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,11 +65,14 @@ public class PingProvider {
     private Protocol lastPingedProtocol;
     private boolean needToFindNewlyFastestServer = false;
 
+    private boolean isConnected = false;
+
     private ProtocolController protocolController;
     private ServersRepository serversRepository;
 
     @Inject
-    PingProvider(ProtocolController protocolController, ServersRepository serversRepository) {
+    PingProvider(ProtocolController protocolController,
+                 ServersRepository serversRepository) {
         this.protocolController = protocolController;
         this.serversRepository = serversRepository;
 
@@ -86,7 +94,7 @@ public class PingProvider {
             return;
         }
         List<Server> servers = serversRepository.getServers(false);
-        if (servers == null) {
+        if (servers == null || isConnected) {
             return;
         }
         lastPingedProtocol = currentProtocol;
@@ -96,7 +104,7 @@ public class PingProvider {
     }
 
     public void ping(Server server, OnPingFinishListener listener) {
-        if (server == null) {
+        if (server == null || isConnected) {
             return;
         }
         PingFuture pingFutures = pings.get(server);
@@ -245,6 +253,16 @@ public class PingProvider {
                 return;
             }
             pingAll(true);
+        };
+    }
+
+    public VpnStateListener getVPNStateListener() {
+        return new DefaultVPNStateListener() {
+
+            @Override
+            public void onConnectionStateChanged(ConnectionState state) {
+                isConnected = state == ConnectionState.CONNECTED;
+            }
         };
     }
 }

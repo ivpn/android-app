@@ -120,6 +120,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         this.pingProvider = pingProvider;
         this.domainResolver = domainResolver;
         handler = new Handler(Looper.myLooper());
+        listeners.add(pingProvider.getVPNStateListener());
 
         init();
     }
@@ -228,6 +229,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         LOGGER.info("destroy");
         stop();
         unregisterReceivers();
+        listeners.clear();
     }
 
     @Override
