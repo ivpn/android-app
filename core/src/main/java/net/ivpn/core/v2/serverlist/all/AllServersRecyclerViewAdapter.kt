@@ -213,7 +213,7 @@ class AllServersRecyclerViewAdapter(
                 LOGGER.debug("Bind view binding = ${holder.binding} server = ${server.city}")
                 bindings[holder.binding] = server
                 setPing(holder.binding, server)
-                holder.bind(server, forbiddenServer, isIPv6Enabled)
+                holder.bind(server, forbiddenServer, isIPv6Enabled, filter)
             }
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding
@@ -240,6 +240,10 @@ class AllServersRecyclerViewAdapter(
 
     override fun setFilter(filter: Filters?) {
         this@AllServersRecyclerViewAdapter.filter = filter
+        for ((binding, server) in bindings) {
+            binding.filter = filter
+            binding.executePendingBindings()
+        }
         sortServers(servers)
         searchBinding?.search?.let { search ->
             searchFilter.filter(search.query)
@@ -331,7 +335,7 @@ class AllServersRecyclerViewAdapter(
                 isFiltering = true
                 val filterPattern = constraint.toString().toLowerCase(Locale.getDefault()).trim { it <= ' ' }
                 for (server in servers) {
-                    if (server.description.toLowerCase(Locale.getDefault()).contains(filterPattern)) {
+                    if (server.getDescription(filter).toLowerCase(Locale.getDefault()).contains(filterPattern)) {
                         filteredList.add(server)
                     }
                 }

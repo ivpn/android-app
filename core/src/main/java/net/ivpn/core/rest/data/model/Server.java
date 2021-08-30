@@ -25,6 +25,7 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.ivpn.core.v2.serverlist.dialog.Filters;
 import net.ivpn.core.v2.serverlist.items.ConnectionOption;
 import net.ivpn.core.vpn.Protocol;
 
@@ -116,6 +117,11 @@ public class Server implements ConnectionOption {
 
     public String getDescription() {
         return city + ", " + countryCode;
+    }
+
+    public String getDescription(Filters filter) {
+        if (filter == Filters.COUNTRY) return countryCode + ", " + city;
+        return getDescription();
     }
 
     public List<Host> getHosts() {

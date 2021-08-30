@@ -10,6 +10,10 @@
             type="net.ivpn.core.rest.data.model.Server" />
 
         <variable
+            name="filter"
+            type="net.ivpn.core.v2.serverlist.dialog.Filters" />
+
+        <variable
             name="pingstatus"
             type="net.ivpn.core.common.pinger.PingResultFormatter" />
 
@@ -54,7 +58,7 @@
                 android:fontFamily="sans-serif"
                 android:letterSpacing="-0.03"
                 android:lineSpacingExtra="8sp"
-                android:text="@{server.getDescription}"
+                android:text="@{server.getDescription(filter)}"
                 android:textColor="@color/servers_text_color"
                 android:textSize="15sp"
                 android:textStyle="normal" />

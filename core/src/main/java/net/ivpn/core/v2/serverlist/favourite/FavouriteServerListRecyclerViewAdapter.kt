@@ -160,7 +160,7 @@ class FavouriteServerListRecyclerViewAdapter(
             val server: Server = getServerFor(position)
             bindings[holder.binding] = server
             setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled)
+            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter)
         }
     }
 
@@ -264,6 +264,10 @@ class FavouriteServerListRecyclerViewAdapter(
 
     override fun setFilter(filter: Filters?) {
         this.filter = filter
+        for ((binding, server) in bindings) {
+            binding.filter = filter
+            binding.executePendingBindings()
+        }
         sortServers(rawServers)
         notifyServerListChanged()
     }
