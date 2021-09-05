@@ -134,6 +134,65 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         initViews()
     }
 
+    override fun onResume() {
+        LOGGER.info("onResume: Connect fragment")
+        super.onResume()
+        servers.onResume()
+        account.onResume()
+        multihop.onResume()
+        account.updateSessionStatus()
+        checkLocationPermission()
+        applySlidingPanelSide()
+
+        LOGGER.info("translationY = ${binding.slidingPanel.sheetLayout.translationY}")
+    }
+
+    override fun onStart() {
+        LOGGER.info("onStart: Connect fragment")
+        super.onStart()
+        location.addLocationListener(binding.map.locationListener)
+        if (isPermissionGranted()) {
+            network.updateNetworkSource(context)
+        }
+        if (killswitch.isEnabled.get()) {
+            checkVPNPermission(ServiceConstants.KILL_SWITCH_REQUEST_CODE)
+        }
+        activity?.let {
+            if (it is MainActivity) {
+                it.setAdjustNothingMode()
+                it.setContentSecure(false)
+            }
+        }
+    }
+
+    override fun onStop() {
+        LOGGER.info("onStop: Connect fragment")
+        super.onStop()
+        location.removeLocationListener(binding.map.locationListener)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            LOGGER.info("onActivityResult: RESULT_CANCELED")
+            return
+        }
+
+        LOGGER.info("onActivityResult: RESULT_OK")
+        when (requestCode) {
+            ServiceConstants.IVPN_REQUEST_CODE -> {
+                connect.onConnectRequest()
+            }
+            ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
+                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
+                killswitch.enable(true)
+            }
+            CONNECT_BY_MAP -> {
+                connect.connectOrReconnect()
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mapPopup?.dismiss()
@@ -407,65 +466,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
 
         return filteredList
-    }
-
-    override fun onResume() {
-        LOGGER.info("onResume: Connect fragment")
-        super.onResume()
-        servers.onResume()
-        account.onResume()
-        multihop.onResume()
-        account.updateSessionStatus()
-        checkLocationPermission()
-        applySlidingPanelSide()
-
-        LOGGER.info("translationY = ${binding.slidingPanel.sheetLayout.translationY}")
-    }
-
-    override fun onStart() {
-        LOGGER.info("onStart: Connect fragment")
-        super.onStart()
-        location.addLocationListener(binding.map.locationListener)
-        if (isPermissionGranted()) {
-            network.updateNetworkSource(context)
-        }
-        if (killswitch.isEnabled.get()) {
-            checkVPNPermission(ServiceConstants.KILL_SWITCH_REQUEST_CODE)
-        }
-        activity?.let {
-            if (it is MainActivity) {
-                it.setAdjustNothingMode()
-                it.setContentSecure(false)
-            }
-        }
-    }
-
-    override fun onStop() {
-        LOGGER.info("onStop: Connect fragment")
-        super.onStop()
-        location.removeLocationListener(binding.map.locationListener)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            LOGGER.info("onActivityResult: RESULT_CANCELED")
-            return
-        }
-
-        LOGGER.info("onActivityResult: RESULT_OK")
-        when (requestCode) {
-            ServiceConstants.IVPN_REQUEST_CODE -> {
-                connect.onConnectRequest()
-            }
-            ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
-                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
-                killswitch.enable(true)
-            }
-            CONNECT_BY_MAP -> {
-                connect.connectOrReconnect()
-            }
-        }
     }
 
     private fun applySlidingPanelSide() {

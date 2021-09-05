@@ -306,12 +306,12 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:visibility="@{servers.fastestServer ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{servers.fastestServerSetting ? View.VISIBLE : View.GONE}"
                         app:layout_constraintTop_toBottomOf="parent"
                         tools:layout_editor_absoluteX="4dp">
 
                         <TextView
-                            android:id="@+id/connect_to_fastest"
+                            android:id="@+id/fastest_server_hint"
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
@@ -320,39 +320,73 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/fastest_image"
+                            android:id="@+id/fastest_server_flag"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="16dp"
                             android:contentDescription="@string/content_description_entry_server_flag"
-                            android:src="@drawable/ic_fastest_server"
+                            android:src="@{servers.fastestServer}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/connect_to_fastest"
-                            app:tint="@color/settings_option_description_text" />
+                            app:layout_constraintTop_toBottomOf="@+id/fastest_server_hint" />
 
                         <TextView
-                            android:id="@+id/fastest_label"
+                            android:id="@+id/fastest_server_name"
                             style="@style/AppTheme.ServerNameText"
                             android:layout_marginStart="8dp"
-                            android:text="@string/connect_fastest_server"
-                            app:layout_constraintBottom_toBottomOf="@+id/fastest_image"
-                            app:layout_constraintStart_toEndOf="@+id/fastest_image"
-                            app:layout_constraintTop_toTopOf="@+id/fastest_image" />
+                            android:layout_marginBottom="2dp"
+                            android:text="@{servers.fastestServer.description}"
+                            app:layout_constraintBottom_toBottomOf="@+id/fastest_server_flag"
+                            app:layout_constraintStart_toEndOf="@+id/fastest_server_flag"
+                            app:layout_constraintTop_toTopOf="@+id/fastest_server_flag" />
 
                         <ImageView
-                            android:id="@+id/fastest_arrow"
+                            android:id="@+id/fastest_server_action"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:contentDescription="@string/content_description_choose_entry_server"
-                            app:layout_constraintBottom_toBottomOf="@+id/fastest_image"
+                            app:layout_constraintBottom_toBottomOf="@+id/fastest_server_flag"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/connect_to_fastest"
+                            app:layout_constraintTop_toTopOf="@+id/fastest_server_hint"
                             app:srcCompat="@drawable/ic_arrow_right"
                             app:tint="@color/sliding_panel_arrow" />
+
+                        <TextView
+                            android:id="@+id/fastest_ipv6_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/ipv6_text_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="IPv6"
+                            android:visibility="@{servers.isFastestServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
+                            android:textColor="@color/servers_text_color"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
+                            app:layout_constraintStart_toEndOf="@+id/fastest_server_name"
+                            app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
+
+                        <TextView
+                            android:id="@+id/fastest_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/fastest_badge_background"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="@string/fastest_server_badge"
+                            android:visibility="@{servers.fastestServerSetting ? View.VISIBLE : View.GONE}"
+                            android:textColor="@color/color_animation_white"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
+                            app:layout_constraintStart_toEndOf="@+id/fastest_ipv6_badge"
+                            app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

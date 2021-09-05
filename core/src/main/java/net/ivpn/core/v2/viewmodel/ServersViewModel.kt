@@ -27,14 +27,15 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
+import net.ivpn.core.common.pinger.OnFastestServerDetectorListener
 import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.pinger.PingResultFormatter
-import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
+import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.v2.connect.createSession.ConnectionState
 import net.ivpn.core.vpn.controller.DefaultVPNStateListener
 import net.ivpn.core.vpn.controller.VpnBehaviorController
@@ -52,7 +53,7 @@ class ServersViewModel @Inject constructor(
 
     val entryRandomServer = ObservableBoolean()
     val exitRandomServer = ObservableBoolean()
-    val fastestServer = ObservableBoolean()
+    val fastestServerSetting = ObservableBoolean()
     val entryServerVisibility = ObservableBoolean()
     val exitServerVisibility = ObservableBoolean()
 
@@ -61,16 +62,20 @@ class ServersViewModel @Inject constructor(
     val mapServer = ObservableField<Server>()
     val pingResultExitServer = ObservableField<PingResultFormatter>()
     val pingResultEnterServer = ObservableField<PingResultFormatter>()
+    val fastestServer = ObservableField<Server>()
 
     private var isBackgroundUpdateDone = false
 
     init {
         multiHopController.addListener(getOnMultihopValueChanges())
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
+        pingProvider.subscribe(getPingListener())
     }
 
     fun onResume() {
         initStates()
+        pingProvider.pingAll(false)
+        pingProvider.findFastestServer()
 
         if (!isBackgroundUpdateDone) {
             updateServersInBackground()
@@ -87,11 +92,11 @@ class ServersViewModel @Inject constructor(
         exitServer.set(getCurrentServer(ServerType.EXIT))
         mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
 
-        fastestServer.set(isFastestServerEnabled())
+        fastestServerSetting.set(isFastestServerEnabled())
         entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
         exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
 
-        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
 
         pingResultExitServer.set(null)
@@ -152,11 +157,11 @@ class ServersViewModel @Inject constructor(
     }
 
     private fun updateServerVisibility() {
-        fastestServer.set(isFastestServerEnabled())
+        fastestServerSetting.set(isFastestServerEnabled())
         entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
         exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
 
-        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
     }
 
@@ -236,5 +241,23 @@ class ServersViewModel @Inject constructor(
         entryServer.get()?.let {
             return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
         } ?: return false
+    }
+
+    fun isFastestServerIPv6BadgeEnabled(): Boolean {
+        fastestServer.get()?.let {
+            return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
+        } ?: return false
+    }
+
+    fun getPingListener(): OnFastestServerDetectorListener {
+        return object : OnFastestServerDetectorListener {
+            override fun onFastestServerDetected(server: Server?) {
+                fastestServer.set(server)
+            }
+
+            override fun onDefaultServerApplied(server: Server?) {
+                fastestServer.set(server)
+            }
+        }
     }
 }

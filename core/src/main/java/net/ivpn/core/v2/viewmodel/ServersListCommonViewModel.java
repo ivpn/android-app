@@ -37,18 +37,11 @@ public class ServersListCommonViewModel {
 
     public final ObservableField<String> title = new ObservableField<>();
 
-    private Settings settings;
-    private PingProvider pingProvider;
+    private final Settings settings;
 
     @Inject
-    ServersListCommonViewModel(Settings settings,
-                               PingProvider pingProvider) {
+    ServersListCommonViewModel(Settings settings) {
         this.settings = settings;
-        this.pingProvider = pingProvider;
-    }
-
-    public void onResume() {
-        pingProvider.pingAll(false);
     }
 
     public void start(Context context, ServerType serverType) {

@@ -604,4 +604,5 @@
     <string name="account_pro_devices_benefits"><![CDATA[Connect up to <b>7 devices</b>]]></string>
     <string name="account_pro_multihop_benefits"><![CDATA[Use <b>Multi-Hop</b> connections]]></string>
     <string name="account_no_active_subscription">No active subscription</string>
+    <string name="fastest_server_badge">FASTEST</string>
 </resources>

@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -69,6 +70,8 @@ public class PingProvider {
 
     private ProtocolController protocolController;
     private ServersRepository serversRepository;
+
+    private List<OnFastestServerDetectorListener> listeners = new LinkedList<>();
 
     @Inject
     PingProvider(ProtocolController protocolController,
@@ -110,6 +113,7 @@ public class PingProvider {
         PingFuture pingFutures = pings.get(server);
         if (pingFutures == null) {
             pingFutures = new PingFuture(pingExecutor);
+            pingFutures.addOnPingFinishListener((server1, status) -> sendFastestServer(null));
             String ipAddress;
             if (server.getType() == null || server.getType().equals(Protocol.OPENVPN)) {
                 ipAddress = server.getIpAddresses().get(0);
@@ -140,6 +144,10 @@ public class PingProvider {
         }
 
         return result;
+    }
+
+    public void findFastestServer() {
+        findFastestServer(null);
     }
 
     public void findFastestServer(final OnFastestServerDetectorListener listener) {
@@ -177,7 +185,7 @@ public class PingProvider {
         return true;
     }
 
-    private Server findFastestServer() {
+    private Server innerFindFastestServer() {
         LOGGER.info("Finding fastest server...");
         List<Server> possibleServersList = serversRepository.getPossibleServersList();
         Server fastestServer = possibleServersList.get(0);
@@ -211,16 +219,27 @@ public class PingProvider {
     }
 
     private void sendFastestServer(OnFastestServerDetectorListener listener) {
-        Server fastestServer = findFastestServer();
+        Server fastestServer = innerFindFastestServer();
+        System.out.println("Found new fastest server = " + fastestServer.getDescription());
         if (fastestServer == null) {
             LOGGER.info("Send default server as fastest one");
             needToFindNewlyFastestServer = true;
             fastestServer = getDefaultServer();
-            listener.onDefaultServerApplied(fastestServer);
+            for (OnFastestServerDetectorListener fListener: listeners) {
+                fListener.onDefaultServerApplied(fastestServer);
+            }
+            if (listener != null) {
+                listener.onDefaultServerApplied(fastestServer);
+            }
         } else {
             LOGGER.info("Send fastest server");
             needToFindNewlyFastestServer = false;
-            listener.onFastestServerDetected(fastestServer);
+            for (OnFastestServerDetectorListener fListener: listeners) {
+                fListener.onDefaultServerApplied(fastestServer);
+            }
+            if (listener != null) {
+                listener.onFastestServerDetected(fastestServer);
+            }
         }
     }
 
@@ -264,5 +283,9 @@ public class PingProvider {
                 isConnected = state == ConnectionState.CONNECTED;
             }
         };
+    }
+
+    public void subscribe(OnFastestServerDetectorListener listener) {
+        listeners.add(listener);
     }
 }
