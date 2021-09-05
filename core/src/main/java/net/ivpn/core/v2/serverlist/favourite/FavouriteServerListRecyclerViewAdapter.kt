@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.distance.DistanceProvider
+import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.pinger.PingResultFormatter
@@ -55,14 +57,28 @@ class FavouriteServerListRecyclerViewAdapter(
     @Inject
     lateinit var pingProvider: PingProvider
 
+    @Inject
+    lateinit var distanceProvider: DistanceProvider
+
     private var bindings = HashMap<ServerItemBinding, Server>()
 
     private var rawServers = arrayListOf<Server>()
     private var serversToDisplay = arrayListOf<Server>()
     private var forbiddenServer: Server? = null
 
+    val distanceChangedListener = object : OnDistanceChangedListener {
+        override fun onDistanceChanged() {
+            if (filter == Filters.DISTANCE) {
+                setDistances()
+                sortServers(rawServers)
+                notifyServerListChanged()
+            }
+        }
+    }
+
     init {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
+        distanceProvider.subscribe(distanceChangedListener)
     }
 
     var listener: HolderListener = object : HolderListener {
@@ -264,12 +280,22 @@ class FavouriteServerListRecyclerViewAdapter(
 
     override fun setFilter(filter: Filters?) {
         this.filter = filter
-        for ((binding, server) in bindings) {
+        for ((binding, _) in bindings) {
             binding.filter = filter
             binding.executePendingBindings()
         }
+        if (filter == Filters.DISTANCE) {
+            setDistances()
+        }
         sortServers(rawServers)
         notifyServerListChanged()
+    }
+
+    private fun setDistances() {
+        val distances = distanceProvider.distances
+        rawServers.forEach {
+            it.distance = distances[it] ?: Float.MAX_VALUE
+        }
     }
 
     private fun getPositionFor(server: Server): Int {
@@ -282,6 +308,10 @@ class FavouriteServerListRecyclerViewAdapter(
 
     companion object {
         private const val SERVER_ITEM = 1
+    }
+
+    fun release() {
+        distanceProvider.unsubscribe(distanceChangedListener)
     }
 
     override fun onChangeState(server: Server, isFavourite: Boolean) {

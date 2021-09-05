@@ -74,6 +74,7 @@ public class Server implements ConnectionOption {
 
     private boolean isFavourite = false;
     private long latency = Long.MAX_VALUE;
+    private float distance = Long.MAX_VALUE;
 
     public String getGateway() {
         return gateway;
@@ -170,6 +171,14 @@ public class Server implements ConnectionOption {
 
     public void setLatency(long latency) {
         this.latency = latency;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 
     public boolean canBeUsedAsMultiHopWith(Server server) {

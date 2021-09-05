@@ -121,6 +121,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         super.onDestroy()
         viewmodel.favouriteListeners.remove(adapter)
         filterViewModel.listeners.remove(this)
+        adapter.release()
     }
 
     private fun init(view: View) {

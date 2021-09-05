@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.distance.DistanceProvider
+import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.pinger.PingResultFormatter
@@ -64,6 +66,9 @@ class AllServersRecyclerViewAdapter(
     @Inject
     lateinit var pingProvider: PingProvider
 
+    @Inject
+    lateinit var distanceProvider: DistanceProvider
+
     private var bindings = HashMap<ServerItemBinding, Server>()
     private var searchBinding: SearchItemBinding? = null
     private var servers = arrayListOf<Server>()
@@ -71,8 +76,23 @@ class AllServersRecyclerViewAdapter(
     private var forbiddenServer: Server? = null
     private var isFiltering = false
 
+    val distanceChangedListener = object : OnDistanceChangedListener {
+        override fun onDistanceChanged() {
+            if (filter == Filters.DISTANCE) {
+                setDistances()
+                sortServers(servers)
+                searchBinding?.search?.let { search ->
+                    searchFilter.filter(search.query)
+                } ?: run {
+                    searchFilter.filter("")
+                }
+            }
+        }
+    }
+
     init {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
+        distanceProvider.subscribe(distanceChangedListener)
     }
 
     var listener: HolderListener = object : HolderListener {
@@ -132,7 +152,6 @@ class AllServersRecyclerViewAdapter(
             for (server in servers) {
                 LOGGER.debug("After sort city = ${server.city} has ${server.latency}")
             }
-//            filteredServers = prepareDataToShow(servers)
             searchBinding?.search?.let { search ->
                 searchFilter.filter(search.query)
             } ?: run {
@@ -240,15 +259,25 @@ class AllServersRecyclerViewAdapter(
 
     override fun setFilter(filter: Filters?) {
         this@AllServersRecyclerViewAdapter.filter = filter
-        for ((binding, server) in bindings) {
+        for ((binding, _) in bindings) {
             binding.filter = filter
             binding.executePendingBindings()
+        }
+        if (filter == Filters.DISTANCE) {
+            setDistances()
         }
         sortServers(servers)
         searchBinding?.search?.let { search ->
             searchFilter.filter(search.query)
         } ?: run {
             searchFilter.filter("")
+        }
+    }
+
+    private fun setDistances() {
+        val distances = distanceProvider.distances
+        servers.forEach {
+            it.distance = distances[it] ?: Float.MAX_VALUE
         }
     }
 
@@ -376,6 +405,10 @@ class AllServersRecyclerViewAdapter(
             override fun getNewListSize() = newList.size
         })
         diff.dispatchUpdatesTo(this)
+    }
+
+    fun release() {
+        distanceProvider.unsubscribe(distanceChangedListener)
     }
 
     companion object {

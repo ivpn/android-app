@@ -112,6 +112,7 @@ class ServerListFragment : Fragment(),
             viewmodel.favouriteListeners.remove(adapter)
         }
         filterViewModel.listeners.remove(this)
+        adapter.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

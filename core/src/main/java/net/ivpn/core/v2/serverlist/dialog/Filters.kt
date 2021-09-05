@@ -47,12 +47,17 @@ enum class Filters(val id: Int) {
         override fun getServerComparator(): Comparator<Server> {
             return Comparator { server1, server2 -> server1.latency.compareTo(server2.latency) }
         }
+    },
+    DISTANCE(R.id.distance_filter) {
+        override fun getServerComparator(): Comparator<Server> {
+            return Comparator { server1, server2 -> server1.distance.compareTo(server2.distance) }
+        }
     };
 
     abstract fun getServerComparator(): Comparator<Server>
 
     companion object {
-        fun getById(id: Int) : Filters {
+        fun getById(id: Int): Filters {
             for (mode in values()) {
                 if (mode.id == id) {
                     return mode
