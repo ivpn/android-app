@@ -136,7 +136,7 @@
     <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
     <string name="anti_surveillance_read_more">Read more</string>
     <string name="anti_tracker_description_state_disabled">AntiTracker is disabled</string>
-    <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and actively blocking known trackers</string>
+    <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and blocking known trackers</string>
     <string name="anti_tracker_description_state_not_active">AntiTracker will be enabled when connected to VPN"</string>
 
     <!--Mock Location-->
@@ -435,7 +435,7 @@
     <string name="dialogs_filter_city">City</string>
     <string name="dialogs_filter_country">Country</string>
     <string name="dialogs_filter_latency">Latency</string>
-    <string name="dialogs_filter_distance">Distance</string>
+    <string name="dialogs_filter_distance">Proximity</string>
 
     <string name="dialogs_change_network_title">Change Network Status</string>
     <string name="dialogs_change_status_trusted">Trusted</string>
