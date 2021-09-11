@@ -31,13 +31,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.pinger.PingResultFormatter
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.databinding.FragmentFavouriteServersListBinding
+import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
+import net.ivpn.core.v2.serverlist.ServerBasedRecyclerViewAdapter
 import net.ivpn.core.v2.serverlist.ServerListTabFragment
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.v2.viewmodel.ConnectionViewModel
@@ -100,6 +104,12 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         super.onViewCreated(view, savedInstanceState)
         init(view)
         viewmodel.start(serverType)
+
+        val pingObserver = Observer<MutableMap<Server, PingResultFormatter?>> { map ->
+            (binding.recyclerView.adapter as ServerBasedRecyclerViewAdapter).setPings(map)
+        }
+
+        viewmodel.pings.observe(viewLifecycleOwner, pingObserver)
     }
 
     override fun onResume() {

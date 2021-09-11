@@ -64,9 +64,6 @@ class ServerListViewModel @Inject constructor(
         }
 
         override fun onRandomServerSelected() {
-//            val availableServers = all.filter { it != forbiddenServer }
-
-//            setCurrentServer(availableServers.random())
             setSettingRandomServer()
             if (navigators.isNotEmpty()) {
                 navigators[0].onServerSelected()

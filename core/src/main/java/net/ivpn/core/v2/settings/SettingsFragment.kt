@@ -127,7 +127,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     override fun onResume() {
         super.onResume()
 
-        servers.onResume()
+//        servers.onResume()
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()

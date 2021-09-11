@@ -22,6 +22,8 @@ package net.ivpn.core.v2.serverlist.all
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -65,7 +67,8 @@ class AllServersRecyclerViewAdapter(
     private var bindings = HashMap<ServerItemBinding, Server>()
     private var searchBinding: SearchItemBinding? = null
     private var servers = arrayListOf<Server>()
-    private var filteredServers = arrayListOf<ConnectionOption>()
+    private var filteredServers = arrayListOf<Server>()
+    private var displayServers = arrayListOf<ConnectionOption>()
     private var forbiddenServer: Server? = null
     private var isFiltering = false
 
@@ -73,12 +76,7 @@ class AllServersRecyclerViewAdapter(
         override fun onDistanceChanged() {
             if (filter == Filters.DISTANCE) {
                 setDistances()
-                sortServers(servers)
-                searchBinding?.search?.let { search ->
-                    searchFilter.filter(search.query)
-                } ?: run {
-                    searchFilter.filter("")
-                }
+                applyFilter()
             }
         }
     }
@@ -178,7 +176,7 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return filteredServers.size
+        return displayServers.size
     }
 
     override fun replaceData(items: List<Server>) {
@@ -192,14 +190,8 @@ class AllServersRecyclerViewAdapter(
         bindings.forEach {(binding, server) ->
             setPing(binding, server)
         }
-
         if (filter == Filters.LATENCY) {
-            sortServers(servers)
-            searchBinding?.search?.let { search ->
-                searchFilter.filter(search.query)
-            } ?: run {
-                searchFilter.filter("")
-            }
+            applyFilter()
         }
     }
 
@@ -215,17 +207,15 @@ class AllServersRecyclerViewAdapter(
         if (filter == Filters.LATENCY) {
             setLatencies()
         }
-        sortServers(servers)
-        searchBinding?.search?.let { search ->
-            searchFilter.filter(search.query)
-        } ?: run {
-            searchFilter.filter("")
-        }
+        applyFilter()
     }
 
     private fun setLatencies() {
         pings?.let{pingsObj ->
             servers.forEach {
+                it.latency = pingsObj[it]?.ping ?: Long.MAX_VALUE
+            }
+            filteredServers.forEach {
                 it.latency = pingsObj[it]?.ping ?: Long.MAX_VALUE
             }
         }
@@ -236,21 +226,26 @@ class AllServersRecyclerViewAdapter(
         servers.forEach {
             it.distance = distances[it] ?: Float.MAX_VALUE
         }
+        filteredServers.forEach {
+            it.distance = distances[it] ?: Float.MAX_VALUE
+        }
     }
 
     private fun setServers(servers: ArrayList<Server>) {
-        sortServers(servers)
         this.servers = servers
+        setDistances()
+        setLatencies()
+
         searchBinding?.search?.let {
             searchFilter.filter(it.query)
         } ?: run {
-            searchFilter.filter("")
-//            filteredServers = prepareDataToShow(servers)
-//            notifyDataSetChanged()
+            filteredServers = servers
+            applyFilter()
         }
     }
 
     private fun sortServers(servers: ArrayList<Server>) {
+        println("FILTER sortServers filter = $filter")
         filter?.let {
             Collections.sort(servers, it.getServerComparator())
         } ?: run {
@@ -267,6 +262,7 @@ class AllServersRecyclerViewAdapter(
                 listToShow.add(FastestServerItem())
             }
         }
+        sortServers(servers)
         listToShow.addAll(servers)
 
         return listToShow
@@ -277,11 +273,11 @@ class AllServersRecyclerViewAdapter(
     }
 
     private fun getPositionFor(server: Server): Int {
-        return filteredServers.indexOf(server)
+        return displayServers.indexOf(server)
     }
 
     private fun getServerFor(position: Int): ConnectionOption {
-        return filteredServers[position]
+        return displayServers[position]
     }
 
     private val searchFilter: Filter = object : Filter() {
@@ -302,21 +298,37 @@ class AllServersRecyclerViewAdapter(
             }
             val results = FilterResults()
             results.values = filteredList
-            println("FILTER performFiltering set Result = ${filteredList.size}")
             return results
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
             if (results.values is List<*>) {
-                val oldList = filteredServers
-                filteredServers = prepareDataToShow(results.values as ArrayList<Server>)
-                notifyChanges(oldList, filteredServers)
+                filteredServers = results.values as ArrayList<Server>
+                applyFilter()
             }
         }
     }
 
+    @Volatile
+    var isUpdating = false
+    val updateHandler = Handler(Looper.getMainLooper())
+    val updateInterval = 100L
+
+    private fun applyFilter() {
+        if (isUpdating) {
+            updateHandler.postDelayed({
+                isUpdating = false
+                applyFilter()
+            }, updateInterval)
+        } else {
+            isUpdating = true
+            val oldList = displayServers
+            displayServers = prepareDataToShow(filteredServers)
+            notifyChanges(oldList, displayServers)
+        }
+    }
+
     fun notifyChanges(oldList: List<ConnectionOption>, newList: List<ConnectionOption>) {
-        println("FILTER notifyChanges oldList.size = ${oldList.size} and newList.size = ${newList.size}")
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldList[oldItemPosition] == newList[newItemPosition]
@@ -337,7 +349,6 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun onChangeState(server: Server, isFavourite: Boolean) {
-        LOGGER.debug("On change state server = $server, isFavourite = $isFavourite")
         var position = filteredServers.indexOf(server)
         if (position >= 0) {
             notifyItemChanged(position, isFavourite)
