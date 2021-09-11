@@ -96,72 +96,6 @@ class AllServersRecyclerViewAdapter(
 
     private var pings: Map<Server, PingResultFormatter?>? = null
 
-//    @Volatile
-//    private var updates = HashMap<Server, PingResultFormatter>()
-//
-//    @Volatile
-//    private var iterationUpdates = ConcurrentHashMap<Server, PingResultFormatter>()
-//    private var pingListener = OnPingFinishListener { server, status ->
-//        LOGGER.debug("Server = ${server.city}, status = ${status}")
-//        synchronized(this) {
-//            updates[server] = status
-//        }
-//        filter?.let {
-//            LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
-//            if (isUpdateRunning) {
-//                needToUpdate = true
-//            } else {
-//                isUpdateRunning = true
-//                postUpdate(0)
-//            }
-//        }
-//    }
-//
-//    @Volatile
-//    private var needToUpdate = false
-//
-//    @Volatile
-//    private var isUpdateRunning = false
-
-//    private val updateHandler = Handler()
-//    private fun postUpdate(delay: Long) {
-//        LOGGER.debug("Post update delay = $delay")
-//        updateHandler.postDelayed({
-//            iterationUpdates.clear()
-//            synchronized(this) {
-//                if (updates.isNotEmpty()) {
-//                    LOGGER.debug("Updates size = ${updates.size}")
-//                    pings?.let { pingsObj ->
-//                        for ((server, status) in updates) {
-//                            pingsObj[server] = status
-//                            servers[servers.indexOf(server)].latency = status.ping
-//                            iterationUpdates[server] = status
-//                        }
-//                    }
-//                    updates.clear()
-//                }
-//            }
-//
-//            sortServers(servers)
-//            for (server in servers) {
-//                LOGGER.debug("After sort city = ${server.city} has ${server.latency}")
-//            }
-//            searchBinding?.search?.let { search ->
-//                searchFilter.filter(search.query)
-//            } ?: run {
-//                searchFilter.filter("")
-//            }
-//            if (needToUpdate) {
-//                postUpdate(1000)
-//                needToUpdate = false
-//            } else {
-//                isUpdateRunning = false
-//                iterationUpdates.clear()
-//            }
-//            iterationUpdates.forEach { LOGGER.debug("Iteration updates item = ${it.key.city}") }
-//        }, delay)
-//    }
-
     override fun getItemViewType(position: Int): Int {
         if (isFiltering) {
             return when (position) {
@@ -252,19 +186,12 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun setPings(pings: Map<Server, PingResultFormatter?>) {
+        this.pings = pings
         setLatencies(pings)
 
         bindings.forEach {(binding, server) ->
             setPing(binding, server)
         }
-//        for ((binding, server) in bindings) {
-//            setPing(binding, server)
-//            val ping = pings[server]
-//            ping?.let {
-//                binding.pingstatus = it
-//                binding.executePendingBindings()
-//            }
-//        }
 
         if (filter == Filters.LATENCY) {
             sortServers(servers)
@@ -285,6 +212,9 @@ class AllServersRecyclerViewAdapter(
         if (filter == Filters.DISTANCE) {
             setDistances()
         }
+        if (filter == Filters.LATENCY) {
+            setLatencies()
+        }
         sortServers(servers)
         searchBinding?.search?.let { search ->
             searchFilter.filter(search.query)
@@ -293,11 +223,11 @@ class AllServersRecyclerViewAdapter(
         }
     }
 
-    private fun setLatencies(pings: Map<Server, PingResultFormatter?>) {
-        this.pings = pings
-
-        servers.forEach {
-            it.latency = pings[it]?.ping ?: Long.MAX_VALUE
+    private fun setLatencies() {
+        pings?.let{pingsObj ->
+            servers.forEach {
+                it.latency = pingsObj[it]?.ping ?: Long.MAX_VALUE
+            }
         }
     }
 
@@ -314,8 +244,9 @@ class AllServersRecyclerViewAdapter(
         searchBinding?.search?.let {
             searchFilter.filter(it.query)
         } ?: run {
-            filteredServers = prepareDataToShow(servers)
-            notifyDataSetChanged()
+            searchFilter.filter("")
+//            filteredServers = prepareDataToShow(servers)
+//            notifyDataSetChanged()
         }
     }
 
@@ -371,6 +302,7 @@ class AllServersRecyclerViewAdapter(
             }
             val results = FilterResults()
             results.values = filteredList
+            println("FILTER performFiltering set Result = ${filteredList.size}")
             return results
         }
 
@@ -384,6 +316,7 @@ class AllServersRecyclerViewAdapter(
     }
 
     fun notifyChanges(oldList: List<ConnectionOption>, newList: List<ConnectionOption>) {
+        println("FILTER notifyChanges oldList.size = ${oldList.size} and newList.size = ${newList.size}")
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldList[oldItemPosition] == newList[newItemPosition]
