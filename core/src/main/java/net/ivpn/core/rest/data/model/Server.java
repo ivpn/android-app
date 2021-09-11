@@ -186,11 +186,23 @@ public class Server implements ConnectionOption {
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
     }
 
+    public boolean isPingInfoSameWith(Server server) {
+        return this.equals(server) && this.latency == server.latency;
+    }
+
     public boolean isIPv6Enabled() {
         if (hosts == null || hosts.isEmpty()) return false;
         return hosts.get(0).getIpv6() != null
                 && hosts.get(0).getIpv6().getLocal_ip() != null
                 && !hosts.get(0).getIpv6().getLocal_ip().isEmpty();
+    }
+
+    public String getIpAddress() {
+        if (type == null || type == Protocol.OPENVPN) {
+            return ipAddresses.get(0);
+        } else {
+            return hosts.get(0).getHost();
+        }
     }
 
     @Override

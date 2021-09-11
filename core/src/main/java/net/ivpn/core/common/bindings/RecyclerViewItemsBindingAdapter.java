@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.ivpn.core.common.pinger.PingResultFormatter;
 import net.ivpn.core.rest.data.model.Server;
 import net.ivpn.core.v2.serverlist.fastest.FastestSettingViewAdapter;
 import net.ivpn.core.v2.serverlist.fastest.OnFastestSettingChangedListener;
@@ -39,7 +40,9 @@ import net.ivpn.core.v2.serverlist.ServerBasedRecyclerViewAdapter;
 import net.ivpn.core.vpn.model.WifiItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -51,6 +54,14 @@ public class RecyclerViewItemsBindingAdapter {
         ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.replaceData(items);
+        }
+    }
+
+    @BindingAdapter("pings")
+    public static void setPings(RecyclerView recyclerView, Map<Server, PingResultFormatter> pings) {
+        ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            adapter.setPings(pings);
         }
     }
 

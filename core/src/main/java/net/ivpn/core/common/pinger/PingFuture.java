@@ -37,10 +37,10 @@ class PingFuture {
     private volatile PingResultFormatter result;
     private volatile Server server;
     private volatile ArrayList<OnPingFinishListener> listeners = new ArrayList<>();
-    private ExecutorService executor;
+//    private ExecutorService executor;
 
-    PingFuture(ExecutorService executor) {
-        this.executor = executor;
+    PingFuture() {
+//        this.executor = executor;
         isFinished = false;
     }
 
@@ -51,7 +51,7 @@ class PingFuture {
                 this.listeners.add(listener);
             }
         }
-        return new Thread(() -> Ping.onAddress(ipAddress, executor)
+        return new Thread(() -> Ping.onAddress(ipAddress)
                 .setTimeOutMillis(TIMEOUT)
                 .setTimes(TIMES)
                 .doPing(new Ping.PingListener() {

@@ -22,7 +22,6 @@ package net.ivpn.core.v2.serverlist.all
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -32,8 +31,6 @@ import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.distance.DistanceProvider
 import net.ivpn.core.common.distance.OnDistanceChangedListener
-import net.ivpn.core.common.pinger.OnPingFinishListener
-import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.pinger.PingResultFormatter
 import net.ivpn.core.databinding.FastestServerItemBinding
 import net.ivpn.core.databinding.RandomServerItemBinding
@@ -51,7 +48,6 @@ import net.ivpn.core.v2.serverlist.items.RandomServerItem
 import net.ivpn.core.v2.serverlist.items.SearchServerItem
 import org.slf4j.LoggerFactory
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -62,9 +58,6 @@ class AllServersRecyclerViewAdapter(
         private var filter: Filters?,
         private var isIPv6Enabled: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
-
-    @Inject
-    lateinit var pingProvider: PingProvider
 
     @Inject
     lateinit var distanceProvider: DistanceProvider
@@ -101,72 +94,73 @@ class AllServersRecyclerViewAdapter(
         }
     }
 
-    private var pings: ConcurrentHashMap<Server, PingResultFormatter>? = null
+    private var pings: Map<Server, PingResultFormatter?>? = null
 
-    @Volatile
-    private var updates = HashMap<Server, PingResultFormatter>()
+//    @Volatile
+//    private var updates = HashMap<Server, PingResultFormatter>()
+//
+//    @Volatile
+//    private var iterationUpdates = ConcurrentHashMap<Server, PingResultFormatter>()
+//    private var pingListener = OnPingFinishListener { server, status ->
+//        LOGGER.debug("Server = ${server.city}, status = ${status}")
+//        synchronized(this) {
+//            updates[server] = status
+//        }
+//        filter?.let {
+//            LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
+//            if (isUpdateRunning) {
+//                needToUpdate = true
+//            } else {
+//                isUpdateRunning = true
+//                postUpdate(0)
+//            }
+//        }
+//    }
+//
+//    @Volatile
+//    private var needToUpdate = false
+//
+//    @Volatile
+//    private var isUpdateRunning = false
 
-    @Volatile
-    private var iterationUpdates = ConcurrentHashMap<Server, PingResultFormatter>()
-    private var pingListener = OnPingFinishListener { server, status ->
-        LOGGER.debug("Server = ${server.city}, status = ${status}")
-        synchronized(this) {
-            updates[server] = status
-        }
-        filter?.let {
-            LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
-            if (isUpdateRunning) {
-                needToUpdate = true
-            } else {
-                isUpdateRunning = true
-                postUpdate(0)
-            }
-        }
-    }
-
-    @Volatile
-    private var needToUpdate = false
-
-    @Volatile
-    private var isUpdateRunning = false
-    private val updateHandler = Handler()
-    private fun postUpdate(delay: Long) {
-        LOGGER.debug("Post update delay = $delay")
-        updateHandler.postDelayed({
-            iterationUpdates.clear()
-            synchronized(this) {
-                if (updates.isNotEmpty()) {
-                    LOGGER.debug("Updates size = ${updates.size}")
-                    pings?.let { pingsObj ->
-                        for ((server, status) in updates) {
-                            pingsObj[server] = status
-                            servers[servers.indexOf(server)].latency = status.ping
-                            iterationUpdates[server] = status
-                        }
-                    }
-                    updates.clear()
-                }
-            }
-
-            sortServers(servers)
-            for (server in servers) {
-                LOGGER.debug("After sort city = ${server.city} has ${server.latency}")
-            }
-            searchBinding?.search?.let { search ->
-                searchFilter.filter(search.query)
-            } ?: run {
-                searchFilter.filter("")
-            }
-            if (needToUpdate) {
-                postUpdate(1000)
-                needToUpdate = false
-            } else {
-                isUpdateRunning = false
-                iterationUpdates.clear()
-            }
-            iterationUpdates.forEach { LOGGER.debug("Iteration updates item = ${it.key.city}") }
-        }, delay)
-    }
+//    private val updateHandler = Handler()
+//    private fun postUpdate(delay: Long) {
+//        LOGGER.debug("Post update delay = $delay")
+//        updateHandler.postDelayed({
+//            iterationUpdates.clear()
+//            synchronized(this) {
+//                if (updates.isNotEmpty()) {
+//                    LOGGER.debug("Updates size = ${updates.size}")
+//                    pings?.let { pingsObj ->
+//                        for ((server, status) in updates) {
+//                            pingsObj[server] = status
+//                            servers[servers.indexOf(server)].latency = status.ping
+//                            iterationUpdates[server] = status
+//                        }
+//                    }
+//                    updates.clear()
+//                }
+//            }
+//
+//            sortServers(servers)
+//            for (server in servers) {
+//                LOGGER.debug("After sort city = ${server.city} has ${server.latency}")
+//            }
+//            searchBinding?.search?.let { search ->
+//                searchFilter.filter(search.query)
+//            } ?: run {
+//                searchFilter.filter("")
+//            }
+//            if (needToUpdate) {
+//                postUpdate(1000)
+//                needToUpdate = false
+//            } else {
+//                isUpdateRunning = false
+//                iterationUpdates.clear()
+//            }
+//            iterationUpdates.forEach { LOGGER.debug("Iteration updates item = ${it.key.city}") }
+//        }, delay)
+//    }
 
     override fun getItemViewType(position: Int): Int {
         if (isFiltering) {
@@ -257,6 +251,31 @@ class AllServersRecyclerViewAdapter(
         setServers(ArrayList(items))
     }
 
+    override fun setPings(pings: Map<Server, PingResultFormatter?>) {
+        setLatencies(pings)
+
+        bindings.forEach {(binding, server) ->
+            setPing(binding, server)
+        }
+//        for ((binding, server) in bindings) {
+//            setPing(binding, server)
+//            val ping = pings[server]
+//            ping?.let {
+//                binding.pingstatus = it
+//                binding.executePendingBindings()
+//            }
+//        }
+
+        if (filter == Filters.LATENCY) {
+            sortServers(servers)
+            searchBinding?.search?.let { search ->
+                searchFilter.filter(search.query)
+            } ?: run {
+                searchFilter.filter("")
+            }
+        }
+    }
+
     override fun setFilter(filter: Filters?) {
         this@AllServersRecyclerViewAdapter.filter = filter
         for ((binding, _) in bindings) {
@@ -274,6 +293,14 @@ class AllServersRecyclerViewAdapter(
         }
     }
 
+    private fun setLatencies(pings: Map<Server, PingResultFormatter?>) {
+        this.pings = pings
+
+        servers.forEach {
+            it.latency = pings[it]?.ping ?: Long.MAX_VALUE
+        }
+    }
+
     private fun setDistances() {
         val distances = distanceProvider.distances
         servers.forEach {
@@ -282,7 +309,6 @@ class AllServersRecyclerViewAdapter(
     }
 
     private fun setServers(servers: ArrayList<Server>) {
-        updatePings(servers)
         sortServers(servers)
         this.servers = servers
         searchBinding?.search?.let {
@@ -298,32 +324,6 @@ class AllServersRecyclerViewAdapter(
             Collections.sort(servers, it.getServerComparator())
         } ?: run {
             Collections.sort(servers, Server.comparator)
-        }
-    }
-
-    private fun updatePings(servers: ArrayList<Server>) {
-        for ((binding, server) in bindings) {
-            binding.pingstatus = null
-            binding.executePendingBindings()
-        }
-        var binding: ServerItemBinding?
-        pings = pingProvider.pingResults?.also { pingsObj ->
-            for (server in servers) {
-                binding = bindings.filterValues { it == server }.keys.firstOrNull()
-                pingsObj[server]?.also { result ->
-                    binding?.let { bindingObj ->
-                        bindingObj.pingstatus = result
-                        bindingObj.executePendingBindings()
-                    }
-                    server.latency = result.ping
-                } ?: run {
-                    binding?.let { bindingObj ->
-                        bindingObj.pingstatus = null
-                        bindingObj.executePendingBindings()
-                    }
-                    pingProvider.ping(server, pingListener)
-                }
-            }
         }
     }
 
@@ -354,7 +354,7 @@ class AllServersRecyclerViewAdapter(
     }
 
     private val searchFilter: Filter = object : Filter() {
-        override fun performFiltering(constraint: CharSequence?): FilterResults? {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
             val filteredList = ArrayList<Server>()
 
             if (constraint == null || constraint.isEmpty()) {
@@ -390,14 +390,6 @@ class AllServersRecyclerViewAdapter(
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val item2 = newList[newItemPosition]
-                LOGGER.debug("Check is content the same oldItemPosition = $oldItemPosition newItemPosition = $newItemPosition")
-                if (item2 is Server) {
-                    LOGGER.debug("Iteration update size = ${iterationUpdates.size}")
-                    LOGGER.debug("Item = ${item2.city}")
-                    LOGGER.debug("Result = ${!iterationUpdates.contains(item2)}")
-                    return !iterationUpdates.containsKey(item2)
-                }
                 return oldList[oldItemPosition] == newList[newItemPosition]
             }
 
@@ -411,15 +403,6 @@ class AllServersRecyclerViewAdapter(
         distanceProvider.unsubscribe(distanceChangedListener)
     }
 
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(AllServersRecyclerViewAdapter::class.java)
-
-        private const val FASTEST_SERVER_ITEM = 0
-        private const val SERVER_ITEM = 1
-        private const val SEARCH_ITEM = 2
-        private const val RANDOM_ITEM = 3
-    }
-
     override fun onChangeState(server: Server, isFavourite: Boolean) {
         LOGGER.debug("On change state server = $server, isFavourite = $isFavourite")
         var position = filteredServers.indexOf(server)
@@ -431,4 +414,12 @@ class AllServersRecyclerViewAdapter(
         servers[position].isFavourite = isFavourite
     }
 
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(AllServersRecyclerViewAdapter::class.java)
+
+        private const val FASTEST_SERVER_ITEM = 0
+        private const val SERVER_ITEM = 1
+        private const val SEARCH_ITEM = 2
+        private const val RANDOM_ITEM = 3
+    }
 }

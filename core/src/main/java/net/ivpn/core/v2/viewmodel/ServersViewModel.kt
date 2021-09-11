@@ -102,8 +102,8 @@ class ServersViewModel @Inject constructor(
         pingResultExitServer.set(null)
         pingResultEnterServer.set(null)
 
-        ping(entryServer.get(), getPingFinishListener(ServerType.ENTRY))
-        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT))
+//        ping(entryServer.get(), getPingFinishListener(ServerType.ENTRY))
+//        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT))
     }
 
     private fun updateServersInBackground() {
@@ -170,7 +170,7 @@ class ServersViewModel @Inject constructor(
     }
 
     private fun ping(server: Server?, listener: OnPingFinishListener) {
-        pingProvider.ping(server, listener)
+//        pingProvider.ping(server, listener)
     }
 
     private fun getOnMultihopValueChanges(): MultiHopController.OnValueChangeListener {

@@ -36,22 +36,22 @@ public class Ping {
     private int delayBetweenScansMillis = 0;
     private int times = 1;
     private boolean cancelled = false;
-    private ExecutorService executor;
+//    private ExecutorService executor;
 
     private Ping() {
     }
 
-    public static Ping onAddress(String address, ExecutorService executor) {
+    public static Ping onAddress(String address) {
         Ping ping = new Ping();
         ping.setAddressString(address);
-        ping.executor = executor;
+//        ping.executor = executor;
         return ping;
     }
 
-    public static Ping onAddress(InetAddress ia, ExecutorService executor) {
+    public static Ping onAddress(InetAddress ia) {
         Ping ping = new Ping();
         ping.setAddress(ia);
-        ping.executor = executor;
+//        ping.executor = executor;
         return ping;
     }
 
@@ -107,12 +107,12 @@ public class Ping {
     }
 
     public Ping doPing(final Ping.PingListener pingListener) {
-        executor.execute(() -> {
+//        executor.execute(() -> {
             try {
                 Ping.this.resolveAddressString();
             } catch (UnknownHostException var12) {
                 pingListener.onError(var12);
-                return;
+                return this;
             }
 
             if (Ping.this.address == null) {
@@ -169,7 +169,7 @@ public class Ping {
                 }
 
             }
-        });
+//        });
         return this;
     }
 

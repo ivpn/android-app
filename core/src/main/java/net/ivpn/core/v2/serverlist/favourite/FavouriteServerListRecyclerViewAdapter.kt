@@ -228,19 +228,19 @@ class FavouriteServerListRecyclerViewAdapter(
     }
 
     private fun updatePings(servers: ArrayList<Server>) {
-        for ((binding, server) in bindings) {
-            binding.pingstatus = null
-            binding.executePendingBindings()
-        }
-        pings = pingProvider.pingResults?.also { pingsObj ->
-            for (server in servers) {
-                pingsObj[server]?.also {
-                    server.latency = it.ping
-                } ?: run {
-                    pingProvider.ping(server, pingListener)
-                }
-            }
-        }
+//        for ((binding, server) in bindings) {
+//            binding.pingstatus = null
+//            binding.executePendingBindings()
+//        }
+//        pings = pingProvider.pingResults?.also { pingsObj ->
+//            for (server in servers) {
+//                pingsObj[server]?.also {
+//                    server.latency = it.ping
+//                } ?: run {
+//                    pingProvider.ping(server, pingListener)
+//                }
+//            }
+//        }
     }
 
     private fun notifyServerListChanged() {
@@ -289,6 +289,10 @@ class FavouriteServerListRecyclerViewAdapter(
         }
         sortServers(rawServers)
         notifyServerListChanged()
+    }
+
+    override fun setPings(pings: Map<Server, PingResultFormatter?>) {
+
     }
 
     private fun setDistances() {

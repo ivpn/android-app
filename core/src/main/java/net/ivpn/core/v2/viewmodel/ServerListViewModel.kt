@@ -28,6 +28,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
+import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.prefs.OnServerListUpdatedListener
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
@@ -42,8 +43,11 @@ import javax.inject.Inject
 class ServerListViewModel @Inject constructor(
         val settings: Settings,
         val serversRepository: ServersRepository,
-        val multiHopController: MultiHopController
+        val multiHopController: MultiHopController,
+        val pingProvider: PingProvider
 ) : ViewModel() {
+
+    val pings = pingProvider.pings
 
     val all = ObservableArrayList<Server>()
     val favourites = ObservableArrayList<Server>()
