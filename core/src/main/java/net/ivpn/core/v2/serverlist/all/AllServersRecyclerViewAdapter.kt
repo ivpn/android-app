@@ -187,7 +187,7 @@ class AllServersRecyclerViewAdapter(
 
     override fun setPings(pings: Map<Server, PingResultFormatter?>) {
         this.pings = pings
-        setLatencies(pings)
+        setLatencies()
 
         bindings.forEach {(binding, server) ->
             setPing(binding, server)
