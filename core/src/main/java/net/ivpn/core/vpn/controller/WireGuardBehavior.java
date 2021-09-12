@@ -27,7 +27,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.wireguard.android.backend.WireGuardUiService;
@@ -61,6 +64,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import kotlin.jvm.Volatile;
+
 import static net.ivpn.core.v2.connect.createSession.ConnectionState.CONNECTED;
 import static net.ivpn.core.v2.connect.createSession.ConnectionState.CONNECTING;
 import static net.ivpn.core.v2.connect.createSession.ConnectionState.DISCONNECTING;
@@ -82,6 +87,13 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     private ConfigManager configManager;
     private PingProvider pingProvider;
 
+    @Volatile
+    private Server _fastestServer = null;
+    private Observer<Server> fastestServerObserver = server -> {
+        _fastestServer = server;
+    };
+    private LiveData<Server> fastestServer;
+
     @Inject
     WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
                       ServersRepository serversRepository,
@@ -95,6 +107,9 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
         configManager.setListener(this);
         listeners.add(pingProvider.getVPNStateListener());
+
+        fastestServer = pingProvider.getFastestServer();
+        fastestServer.observeForever(fastestServerObserver);
 
         init();
     }
@@ -167,6 +182,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         unregisterReceivers();
         stop();
         listeners.clear();
+        fastestServer.removeObserver(fastestServerObserver);
     }
 
     @Override
@@ -234,8 +250,28 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             listener.onFindingFastestServer();
         }
 
-//        pingProvider.findFastestServer(getFastestServerDetectorListener());
-        //nothing to do, we will get fastest server through listener
+        if (_fastestServer != null) {
+            for (VpnStateListener listener : listeners) {
+                listener.notifyServerAsFastest(_fastestServer);
+            }
+            serversRepository.setCurrentServer(ServerType.ENTRY, _fastestServer);
+
+            connect();
+        } else {
+            new Handler().postDelayed(this::checkFastestServerAndConnect, 1000);
+        }
+    }
+
+    private void checkFastestServerAndConnect() {
+        Server serverToConnect = _fastestServer != null ?
+                _fastestServer : serversRepository.getDefaultServer(ServerType.ENTRY);
+
+        for (VpnStateListener listener : listeners) {
+            listener.notifyServerAsFastest(serverToConnect);
+        }
+        serversRepository.setCurrentServer(ServerType.ENTRY, serverToConnect);
+
+        connect();
     }
 
     @Override
@@ -413,32 +449,6 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         return serversRepository.getSettingRandomServer(ServerType.ENTRY);
     }
 
-//    private OnFastestServerDetectorListener getFastestServerDetectorListener() {
-//        return new OnFastestServerDetectorListener() {
-//            @Override
-//            public void onFastestServerDetected(Server server) {
-//                LOGGER.info("Fastest server for WireGuard is detected. Server = " + server.getDescription());
-//                for (VpnStateListener listener : listeners) {
-//                    listener.notifyServerAsFastest(server);
-//                }
-//
-//                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-//                connect();
-//            }
-//
-//            @Override
-//            public void onDefaultServerApplied(Server server) {
-//                LOGGER.info("Default WireGuard server is applied. Server = " + server.getDescription());
-//                ToastUtil.toast(R.string.connect_unable_test_fastest_server);
-//                for (VpnStateListener listener : listeners) {
-//                    listener.notifyServerAsFastest(server);
-//                }
-//
-//                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-//                connect();
-//            }
-//        };
-//    }
 
     private OnRandomServerSelectionListener getRandomServerSelectionListener() {
         return (server, serverType) -> {

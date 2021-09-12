@@ -30,6 +30,7 @@ import androidx.core.app.NotificationManagerCompat;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.migration.MigrationController;
+import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
@@ -54,13 +55,14 @@ public class ComponentUtil {
     private final ProfileManager profileManager;
     private final MigrationController migrationController;
     private final LogUtil logUtil;
+    private final PingProvider pingProvider;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
                   ServersRepository serversRepository, GlobalBehaviorController globalBehaviorController,
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
-                  MigrationController migrationController) {
+                  MigrationController migrationController, PingProvider pingProvider) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
@@ -71,6 +73,7 @@ public class ComponentUtil {
         this.configManager = configManager;
         this.profileManager = profileManager;
         this.migrationController = migrationController;
+        this.pingProvider = pingProvider;
     }
 
     public void performBaseComponentsInit() {
@@ -78,6 +81,7 @@ public class ComponentUtil {
         initWireGuard();
         initProfile();
         initApiAccessImprovement();
+        initPingProvider();
         initBillings();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         migrationController.checkForUpdates();
@@ -91,8 +95,6 @@ public class ComponentUtil {
         networkController.finishAll();
         globalBehaviorController.finishAll();
         IVPNApplication.updatesController.resetComponent();
-//        updatesJobServiceUtil.clearUpdateJob(IVPNApplication.application);
-//        updateHelper.skipUpdate();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }
@@ -106,12 +108,15 @@ public class ComponentUtil {
 
     private void initUpdateService() {
         IVPNApplication.updatesController.initUpdateService();
-//        updatesJobServiceUtil.pushUpdateJob(IVPNApplication.application);
     }
 
     private void initApiAccessImprovement() {
         serversRepository.tryUpdateIpList();
         serversRepository.tryUpdateServerLocations();
+    }
+
+    private void initPingProvider() {
+        pingProvider.getPings();
     }
 
     private void initLogger() {

@@ -31,6 +31,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.core.IVPNApplication;
@@ -59,6 +61,7 @@ import javax.inject.Inject;
 
 import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.VpnStatus;
+import kotlin.jvm.Volatile;
 
 import static net.ivpn.core.v2.connect.createSession.ConnectionState.CONNECTED;
 import static net.ivpn.core.v2.connect.createSession.ConnectionState.CONNECTING;
@@ -103,12 +106,19 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     };
     private Runnable noNetworkRunnable = () -> {
         LOGGER.info("no network runnable");
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.notifyNoNetworkConnection();
         }
         stopVpn();
         reset();
     };
+
+    @Volatile
+    private Server _fastestServer = null;
+    private final Observer<Server> fastestServerObserver = server -> {
+        _fastestServer = server;
+    };
+    private final LiveData<Server> fastestServer;
 
     @Inject
     OpenVpnBehavior(ServersRepository serversRepository,
@@ -122,6 +132,9 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         handler = new Handler(Looper.myLooper());
         listeners.add(pingProvider.getVPNStateListener());
 
+        fastestServer = pingProvider.getFastestServer();
+        fastestServer.observeForever(fastestServerObserver);
+
         init();
     }
 
@@ -134,7 +147,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         timer = new PauseTimer(new PauseTimer.PauseTimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                for (VpnStateListener listener: listeners) {
+                for (VpnStateListener listener : listeners) {
                     listener.onTimeTick(millisUntilFinished);
                 }
             }
@@ -142,7 +155,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
             @Override
             public void onFinish() {
                 resume();
-                for (VpnStateListener listener: listeners) {
+                for (VpnStateListener listener : listeners) {
                     listener.onTimerFinish();
                 }
             }
@@ -230,6 +243,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         stop();
         unregisterReceivers();
         listeners.clear();
+        fastestServer.removeObserver(fastestServerObserver);
     }
 
     @Override
@@ -337,19 +351,63 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     private void startConnectWithFastestServer() {
         LOGGER.info("startConnectWithFastestServer: state = " + state);
 
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onFindingFastestServer();
         }
-//        pingProvider.findFastestServer(getFastestServerDetectorListener(false));
-        //nothing to do, we will get fastest server through listener
+
+        //ToDo Migrate class to Kotlin and rewrite with coroutines
+        if (_fastestServer != null) {
+            for (VpnStateListener listener : listeners) {
+                listener.notifyServerAsFastest(_fastestServer);
+            }
+            serversRepository.setCurrentServer(ServerType.ENTRY, _fastestServer);
+
+            startConnectProcess();
+        } else {
+            new Handler().postDelayed(this::checkFastestServerAndConnect, 1000);
+        }
+    }
+
+    private void checkFastestServerAndConnect() {
+        Server serverToConnect = _fastestServer != null ?
+                _fastestServer : serversRepository.getDefaultServer(ServerType.ENTRY);
+
+        for (VpnStateListener listener : listeners) {
+            listener.notifyServerAsFastest(serverToConnect);
+        }
+        serversRepository.setCurrentServer(ServerType.ENTRY, serverToConnect);
+
+        startConnectProcess();
     }
 
     private void startReconnectWithFastestServer() {
         LOGGER.info("startReconnectWithFastestServer: state = " + state);
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onFindingFastestServer();
         }
-//        pingProvider.findFastestServer(getFastestServerDetectorListener(true));
+
+        if (_fastestServer != null) {
+            for (VpnStateListener listener : listeners) {
+                listener.notifyServerAsFastest(_fastestServer);
+            }
+            serversRepository.setCurrentServer(ServerType.ENTRY, _fastestServer);
+
+            startReconnectProcess();
+        } else {
+            new Handler().postDelayed(this::checkFastestServerAndReconnect, 1000);
+        }
+    }
+
+    private void checkFastestServerAndReconnect() {
+        Server serverToConnect = _fastestServer != null ?
+                _fastestServer : serversRepository.getDefaultServer(ServerType.ENTRY);
+
+        for (VpnStateListener listener : listeners) {
+            listener.notifyServerAsFastest(serverToConnect);
+        }
+        serversRepository.setCurrentServer(ServerType.ENTRY, serverToConnect);
+
+        startReconnectProcess();
     }
 
     private void startConnectProcess() {
@@ -382,7 +440,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         LOGGER.info("onAuthFailed: state = " + state);
         handler.removeCallbacksAndMessages(null);
         stopVpn();
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onAuthFailed();
         }
         state = NOT_CONNECTED;
@@ -393,7 +451,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         LOGGER.info("Reset");
         handler.removeCallbacksAndMessages(null);
         state = NOT_CONNECTED;
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onCheckSessionState();
         }
         sendConnectionState();
@@ -403,7 +461,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         LOGGER.info("Try another port");
         stopVpn();
 
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.notifyAnotherPortUsedToConnect();
         }
 
@@ -416,7 +474,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     private void onTimeOut() {
         LOGGER.info("onTimeOut");
         stopVpn();
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onTimeOut();
         }
     }
@@ -454,7 +512,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
                     state = PAUSED;
                 } else {
                     state = NOT_CONNECTED;
-                    for (VpnStateListener listener: listeners) {
+                    for (VpnStateListener listener : listeners) {
                         listener.onCheckSessionState();
                     }
                 }
@@ -508,7 +566,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
 
     private void sendConnectionState() {
         LOGGER.info("sendConnectionState: state = " + state);
-        for (VpnStateListener listener: listeners) {
+        for (VpnStateListener listener : listeners) {
             listener.onConnectionStateChanged(state);
         }
     }
@@ -584,42 +642,9 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         onReceiveConnectionStatus(status);
     }
 
-    private OnFastestServerDetectorListener getFastestServerDetectorListener(boolean isReconnecting) {
-        return new OnFastestServerDetectorListener() {
-            @Override
-            public void onFastestServerDetected(Server server) {
-                LOGGER.info("OpenVPN onFastestServerDetected: server = " + server);
-                for (VpnStateListener listener: listeners) {
-                    listener.notifyServerAsFastest(server);
-                }
-                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-                if (isReconnecting) {
-                    startReconnectProcess();
-                } else {
-                    startConnectProcess();
-                }
-            }
-
-            @Override
-            public void onDefaultServerApplied(Server server) {
-                LOGGER.info("OpenVPN onDefaultServerApplied: server = " + server);
-                ToastUtil.toast(R.string.connect_unable_test_fastest_server);
-                for (VpnStateListener listener: listeners) {
-                    listener.notifyServerAsFastest(server);
-                }
-                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-                if (isReconnecting) {
-                    startReconnectProcess();
-                } else {
-                    startConnectProcess();
-                }
-            }
-        };
-    }
-
     private OnRandomServerSelectionListener getRandomServerSelectionListener() {
         return (server, serverType) -> {
-            for (VpnStateListener listener: listeners) {
+            for (VpnStateListener listener : listeners) {
                 listener.notifyServerAsRandom(server, serverType);
             }
         };
