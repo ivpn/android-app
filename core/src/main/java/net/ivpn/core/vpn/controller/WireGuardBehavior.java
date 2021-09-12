@@ -234,7 +234,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             listener.onFindingFastestServer();
         }
 
-        pingProvider.findFastestServer(getFastestServerDetectorListener());
+//        pingProvider.findFastestServer(getFastestServerDetectorListener());
         //nothing to do, we will get fastest server through listener
     }
 
@@ -413,32 +413,32 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         return serversRepository.getSettingRandomServer(ServerType.ENTRY);
     }
 
-    private OnFastestServerDetectorListener getFastestServerDetectorListener() {
-        return new OnFastestServerDetectorListener() {
-            @Override
-            public void onFastestServerDetected(Server server) {
-                LOGGER.info("Fastest server for WireGuard is detected. Server = " + server.getDescription());
-                for (VpnStateListener listener : listeners) {
-                    listener.notifyServerAsFastest(server);
-                }
-
-                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-                connect();
-            }
-
-            @Override
-            public void onDefaultServerApplied(Server server) {
-                LOGGER.info("Default WireGuard server is applied. Server = " + server.getDescription());
-                ToastUtil.toast(R.string.connect_unable_test_fastest_server);
-                for (VpnStateListener listener : listeners) {
-                    listener.notifyServerAsFastest(server);
-                }
-
-                serversRepository.setCurrentServer(ServerType.ENTRY, server);
-                connect();
-            }
-        };
-    }
+//    private OnFastestServerDetectorListener getFastestServerDetectorListener() {
+//        return new OnFastestServerDetectorListener() {
+//            @Override
+//            public void onFastestServerDetected(Server server) {
+//                LOGGER.info("Fastest server for WireGuard is detected. Server = " + server.getDescription());
+//                for (VpnStateListener listener : listeners) {
+//                    listener.notifyServerAsFastest(server);
+//                }
+//
+//                serversRepository.setCurrentServer(ServerType.ENTRY, server);
+//                connect();
+//            }
+//
+//            @Override
+//            public void onDefaultServerApplied(Server server) {
+//                LOGGER.info("Default WireGuard server is applied. Server = " + server.getDescription());
+//                ToastUtil.toast(R.string.connect_unable_test_fastest_server);
+//                for (VpnStateListener listener : listeners) {
+//                    listener.notifyServerAsFastest(server);
+//                }
+//
+//                serversRepository.setCurrentServer(ServerType.ENTRY, server);
+//                connect();
+//            }
+//        };
+//    }
 
     private OnRandomServerSelectionListener getRandomServerSelectionListener() {
         return (server, serverType) -> {

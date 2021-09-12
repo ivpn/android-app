@@ -76,7 +76,7 @@ class AntiTrackerViewModel @Inject constructor(
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
 
         getAntiTrackerState()
-        getAntiTrackerDescription()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun getAntiTrackerSupport(): Boolean {
@@ -88,7 +88,7 @@ class AntiTrackerViewModel @Inject constructor(
         settings.isAntiSurveillanceEnabled = value
         isHardcoreModeUIEnabled.set(value)
         getAntiTrackerState()
-        getAntiTrackerDescription()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun enableHardcoreMode(value: Boolean) {
@@ -106,7 +106,7 @@ class AntiTrackerViewModel @Inject constructor(
         state.set(if(isHardcoreModeEnabled.get()) AntiTrackerState.HARDCORE else AntiTrackerState.NORMAL)
     }
 
-    private fun getAntiTrackerDescription() {
+    private fun getAntiTrackerDescriptionValue() {
         val context = IVPNApplication.application
         if (isAntiSurveillanceEnabled.get()) {
             connectionState?.let {
@@ -130,7 +130,7 @@ class AntiTrackerViewModel @Inject constructor(
                     return
                 }
                 connectionState = state
-                getAntiTrackerDescription()
+                getAntiTrackerDescriptionValue()
             }
         }
     }

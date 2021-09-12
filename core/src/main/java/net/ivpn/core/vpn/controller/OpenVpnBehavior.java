@@ -340,7 +340,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         for (VpnStateListener listener: listeners) {
             listener.onFindingFastestServer();
         }
-        pingProvider.findFastestServer(getFastestServerDetectorListener(false));
+//        pingProvider.findFastestServer(getFastestServerDetectorListener(false));
         //nothing to do, we will get fastest server through listener
     }
 
@@ -349,7 +349,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         for (VpnStateListener listener: listeners) {
             listener.onFindingFastestServer();
         }
-        pingProvider.findFastestServer(getFastestServerDetectorListener(true));
+//        pingProvider.findFastestServer(getFastestServerDetectorListener(true));
     }
 
     private void startConnectProcess() {

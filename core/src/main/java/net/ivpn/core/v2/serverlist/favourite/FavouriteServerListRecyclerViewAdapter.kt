@@ -78,12 +78,6 @@ class FavouriteServerListRecyclerViewAdapter(
         distanceProvider.subscribe(distanceChangedListener)
     }
 
-    var listener: HolderListener = object : HolderListener {
-        override fun invalidate(server: Server) {
-            notifyItemChanged(getPositionFor(server))
-        }
-    }
-
     private var pings: Map<Server, PingResultFormatter?>? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -93,7 +87,7 @@ class FavouriteServerListRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
-        return ServerViewHolder(binding, navigator, listener)
+        return ServerViewHolder(binding, navigator)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
@@ -227,7 +221,7 @@ class FavouriteServerListRecyclerViewAdapter(
     @Volatile
     var isUpdating = false
     val updateHandler = Handler(Looper.getMainLooper())
-    val updateInterval = 100L
+    val updateInterval = 500L
 
     private fun applyFilter() {
         if (isUpdating) {

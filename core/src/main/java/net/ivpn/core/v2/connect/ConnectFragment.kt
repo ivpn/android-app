@@ -238,6 +238,12 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.connect = connect
         binding.slidingPanel.cards.location = location
 
+        binding.lifecycleOwner = this
+
+        servers.fastestServer.observe(viewLifecycleOwner) {
+            binding.slidingPanel.fastestServer = it
+        }
+
         initNavigation()
     }
 

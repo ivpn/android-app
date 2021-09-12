@@ -32,8 +32,7 @@ import net.ivpn.core.v2.serverlist.dialog.Filters
 
 class ServerViewHolder(
         val binding: ServerItemBinding,
-        val navigator: AdapterListener,
-        val listener: HolderListener
+        val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean, filter: Filters?) {

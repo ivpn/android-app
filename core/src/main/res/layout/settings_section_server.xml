@@ -18,6 +18,10 @@
         <variable
             name="ipv6"
             type="net.ivpn.core.v2.viewmodel.IPv6ViewModel" />
+
+        <variable
+            name="fastestServer"
+            type="net.ivpn.core.rest.data.model.Server" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -236,7 +240,7 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="16dp"
                     android:contentDescription="@string/content_description_entry_server_flag"
-                    android:src="@{servers.fastestServer}"
+                    android:src="@{fastestServer}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -246,7 +250,7 @@
                     style="@style/AppTheme.ServerNameText"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="2dp"
-                    android:text="@{servers.fastestServer.description}"
+                    android:text="@{fastestServer.description}"
                     app:layout_constraintBottom_toBottomOf="@+id/fastest_server_flag"
                     app:layout_constraintStart_toEndOf="@+id/fastest_server_flag"
                     app:layout_constraintTop_toTopOf="@+id/fastest_server_flag" />

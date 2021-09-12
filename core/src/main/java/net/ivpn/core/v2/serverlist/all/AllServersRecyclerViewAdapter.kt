@@ -86,12 +86,6 @@ class AllServersRecyclerViewAdapter(
         distanceProvider.subscribe(distanceChangedListener)
     }
 
-    var listener: HolderListener = object : HolderListener {
-        override fun invalidate(server: Server) {
-            notifyItemChanged(getPositionFor(server))
-        }
-    }
-
     private var pings: Map<Server, PingResultFormatter?>? = null
 
     override fun getItemViewType(position: Int): Int {
@@ -133,13 +127,12 @@ class AllServersRecyclerViewAdapter(
             }
             else -> {
                 val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
-                ServerViewHolder(binding, navigator, listener)
+                ServerViewHolder(binding, navigator)
             }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        LOGGER.debug("Bind view with payloads")
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
             if (payload is Boolean && holder is ServerViewHolder) {
@@ -151,11 +144,9 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        LOGGER.debug("Bind view")
         if (holder is ServerViewHolder) {
             val server: ConnectionOption = getServerFor(position)
             if (server is Server) {
-                LOGGER.debug("Bind view binding = ${holder.binding} server = ${server.city}")
                 bindings[holder.binding] = server
                 setPing(holder.binding, server)
                 holder.bind(server, forbiddenServer, isIPv6Enabled, filter)
@@ -180,6 +171,9 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun replaceData(items: List<Server>) {
+        if (items.isEmpty()) {
+            return
+        }
         setServers(ArrayList(items))
     }
 
@@ -240,12 +234,17 @@ class AllServersRecyclerViewAdapter(
             searchFilter.filter(it.query)
         } ?: run {
             filteredServers = servers
-            applyFilter()
+            if (pings.isNullOrEmpty() && filter == Filters.LATENCY) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    applyFilter()
+                }, 500)
+            } else {
+                applyFilter()
+            }
         }
     }
 
     private fun sortServers(servers: ArrayList<Server>) {
-        println("FILTER sortServers filter = $filter")
         filter?.let {
             Collections.sort(servers, it.getServerComparator())
         } ?: run {
@@ -312,9 +311,10 @@ class AllServersRecyclerViewAdapter(
     @Volatile
     var isUpdating = false
     val updateHandler = Handler(Looper.getMainLooper())
-    val updateInterval = 100L
+    val updateInterval = 500L
 
     private fun applyFilter() {
+        if (servers.isEmpty()) return
         if (isUpdating) {
             updateHandler.postDelayed({
                 isUpdating = false
@@ -322,25 +322,30 @@ class AllServersRecyclerViewAdapter(
             }, updateInterval)
         } else {
             isUpdating = true
-            val oldList = displayServers
-            displayServers = prepareDataToShow(filteredServers)
-            notifyChanges(oldList, displayServers)
+            val oldList = ArrayList(displayServers)
+            notifyChanges(oldList, prepareDataToShow(filteredServers))
+            updateHandler.post {
+                isUpdating = false
+            }
         }
     }
 
-    fun notifyChanges(oldList: List<ConnectionOption>, newList: List<ConnectionOption>) {
+    fun notifyChanges(oldList: List<ConnectionOption>, newList: ArrayList<ConnectionOption>) {
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldList[oldItemPosition] == newList[newItemPosition]
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition] == newList[newItemPosition]
+                val item1 = oldList[oldItemPosition]
+                val item2 = newList[newItemPosition]
+                return item1.equals(item2)
             }
 
             override fun getOldListSize() = oldList.size
             override fun getNewListSize() = newList.size
         })
+        displayServers = newList
         diff.dispatchUpdatesTo(this)
     }
 
@@ -349,13 +354,16 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun onChangeState(server: Server, isFavourite: Boolean) {
-        var position = filteredServers.indexOf(server)
+        var position = displayServers.indexOf(server)
         if (position >= 0) {
             notifyItemChanged(position, isFavourite)
         }
 
         position = servers.indexOf(server)
         servers[position].isFavourite = isFavourite
+
+        position = filteredServers.indexOf(server)
+        filteredServers[position].isFavourite = isFavourite
     }
 
     companion object {

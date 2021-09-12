@@ -104,6 +104,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         super.onViewCreated(view, savedInstanceState)
         init(view)
         viewmodel.start(serverType)
+        binding.lifecycleOwner = this
 
         val pingObserver = Observer<MutableMap<Server, PingResultFormatter?>> { map ->
             (binding.recyclerView.adapter as ServerBasedRecyclerViewAdapter).setPings(map)

@@ -23,6 +23,7 @@ package net.ivpn.core.common.pinger
 */
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +36,11 @@ import javax.inject.Inject
 
 @ApplicationScope
 class PingDataSet @Inject constructor() {
+
     val pings: MutableLiveData<MutableMap<Server, PingResultFormatter?>> = MutableLiveData()
+    val fastestServer = Transformations.map(pings) {
+        calculateFastestServer(it)
+    }
 
     private var _pings: MutableMap<Server, PingResultFormatter?> = mutableMapOf()
 
@@ -45,7 +50,7 @@ class PingDataSet @Inject constructor() {
 
     suspend fun pingAll(servers: List<Server>) {
         scope.launch {
-            clear()
+            reset(servers)
             for (server in servers) {
                 launch {
                     innerPing(server)
@@ -72,7 +77,7 @@ class PingDataSet @Inject constructor() {
                 override fun onResult(pingResult: PingResult) {}
                 override fun onFinished(pingStats: PingStats) {
                     val result = if (pingStats.packetsLost == TIMES.toLong()) {
-                        PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, -1)
+                        PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE)
                     } else {
                         PingResultFormatter(
                             PingResultFormatter.PingResult.OK,
@@ -86,7 +91,7 @@ class PingDataSet @Inject constructor() {
 
                 override fun onError(e: Exception) {
                     scope.launch {
-                        updatePingFor(server, PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, -1))
+                        updatePingFor(server, PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE))
                     }
                     e.printStackTrace()
                 }
@@ -102,11 +107,31 @@ class PingDataSet @Inject constructor() {
         }
     }
 
-    private suspend fun clear() {
+    private suspend fun reset(servers: List<Server>) {
         mutex.withLock {
             _pings = mutableMapOf()
+            servers.forEach { _pings[it] = null }
             pings.postValue(_pings)
         }
+    }
+
+    private fun calculateFastestServer(pings: MutableMap<Server, PingResultFormatter?>) : Server? {
+        var fastestServer: Server? = null
+        var lowestPing = Long.MAX_VALUE
+        for ((server, result) in pings) {
+            fastestServer?.let { _ ->
+                result?.let { result ->
+                    if (result.isPingAvailable && lowestPing > result.ping) {
+                        fastestServer = server
+                        lowestPing = result.ping
+                    }
+                }
+            } ?: run{
+                fastestServer = server
+            }
+        }
+
+        return fastestServer
     }
 
     companion object {

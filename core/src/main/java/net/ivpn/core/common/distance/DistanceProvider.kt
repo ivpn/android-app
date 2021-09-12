@@ -97,7 +97,6 @@ class DistanceProvider @Inject constructor(
                         it.latitude,
                         it.longitude, server.latitude.toFloat(), server.longitude.toFloat()
                     )
-                    println("Distance to ${server.description} = ${distances[server]}")
                 }
 
                 withContext(Dispatchers.Main) {

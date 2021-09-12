@@ -127,7 +127,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     override fun onResume() {
         super.onResume()
 
-//        servers.onResume()
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
@@ -161,6 +160,10 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
         colorTheme.navigator = this
         mockLocation.navigator = this
+
+        servers.fastestServer.observe(viewLifecycleOwner) {
+            binding.contentLayout.sectionServer.fastestServer = it
+        }
 
         initNavigation()
     }
