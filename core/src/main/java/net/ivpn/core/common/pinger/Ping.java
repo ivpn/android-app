@@ -36,7 +36,6 @@ public class Ping {
     private int delayBetweenScansMillis = 0;
     private int times = 1;
     private boolean cancelled = false;
-//    private ExecutorService executor;
 
     private Ping() {
     }
@@ -44,14 +43,12 @@ public class Ping {
     public static Ping onAddress(String address) {
         Ping ping = new Ping();
         ping.setAddressString(address);
-//        ping.executor = executor;
         return ping;
     }
 
     public static Ping onAddress(InetAddress ia) {
         Ping ping = new Ping();
         ping.setAddress(ia);
-//        ping.executor = executor;
         return ping;
     }
 
@@ -100,84 +97,64 @@ public class Ping {
         this.cancelled = true;
     }
 
-    public PingResult doPing() throws UnknownHostException {
-        this.cancelled = false;
-        this.resolveAddressString();
-        return PingTools.doPing(this.address, this.timeOutMillis);
-    }
+//    public PingResult doPing() throws UnknownHostException {
+//        this.cancelled = false;
+//        this.resolveAddressString();
+//        return PingTools.doPing(this.address, this.timeOutMillis);
+//    }
 
-    public Ping doPing(final Ping.PingListener pingListener) {
-//        executor.execute(() -> {
-            try {
-                Ping.this.resolveAddressString();
-            } catch (UnknownHostException var12) {
-                pingListener.onError(var12);
-                return this;
-            }
+    public ResultPing doPing() {
+        try {
+            Ping.this.resolveAddressString();
+        } catch (UnknownHostException exception) {
+            return new Error(exception);
+        }
 
-            if (Ping.this.address == null) {
-                pingListener.onError(new NullPointerException("Address is null"));
-            } else {
-                long pingsCompleted = 0L;
-                long noLostPackets = 0L;
-                float totalPingTime = 0.0F;
-                float minPingTime = -1.0F;
-                float maxPingTime = -1.0F;
-                Ping.this.cancelled = false;
-                int noPings = Ping.this.times;
+        if (Ping.this.address == null) {
+            return new Error(new NullPointerException("Address is null"));
+        } else {
+            long pingsCompleted = 0L;
+            long noLostPackets = 0L;
+            float totalPingTime = 0.0F;
+            float minPingTime = -1.0F;
+            float maxPingTime = -1.0F;
+            Ping.this.cancelled = false;
+            int noPings = Ping.this.times;
 
-                while (noPings > 0 || Ping.this.times == 0) {
-                    PingResult pingResult = PingTools.doPing(Ping.this.address, Ping.this.timeOutMillis);
-                    if (pingListener != null) {
-                        pingListener.onResult(pingResult);
+            while (noPings > 0 || Ping.this.times == 0) {
+                PingResult pingResult = PingTools.doPing(Ping.this.address, Ping.this.timeOutMillis);
+
+                ++pingsCompleted;
+                if (pingResult.hasError()) {
+                    ++noLostPackets;
+                } else {
+                    float timeTaken = pingResult.getTimeTaken();
+                    totalPingTime += timeTaken;
+                    if (maxPingTime == -1.0F || timeTaken > maxPingTime) {
+                        maxPingTime = timeTaken;
                     }
 
-                    ++pingsCompleted;
-                    if (pingResult.hasError()) {
-                        ++noLostPackets;
-                    } else {
-                        float timeTaken = pingResult.getTimeTaken();
-                        totalPingTime += timeTaken;
-                        if (maxPingTime == -1.0F || timeTaken > maxPingTime) {
-                            maxPingTime = timeTaken;
-                        }
-
-                        if (minPingTime == -1.0F || timeTaken < minPingTime) {
-                            minPingTime = timeTaken;
-                        }
-                    }
-
-                    --noPings;
-                    if (Ping.this.cancelled) {
-                        break;
-                    }
-
-                    try {
-                        Thread.sleep((long) Ping.this.delayBetweenScansMillis);
-                    } catch (InterruptedException var11) {
-                        var11.printStackTrace();
+                    if (minPingTime == -1.0F || timeTaken < minPingTime) {
+                        minPingTime = timeTaken;
                     }
                 }
 
-                if (pingListener != null) {
-                    pingListener.onFinished(
-                            new PingStats(
-                                    Ping.this.address, pingsCompleted, noLostPackets,
-                                    totalPingTime, minPingTime, maxPingTime
-                            )
-                    );
+                --noPings;
+                if (Ping.this.cancelled) {
+                    break;
                 }
 
+                try {
+                    Thread.sleep(Ping.this.delayBetweenScansMillis);
+                } catch (InterruptedException var11) {
+                    var11.printStackTrace();
+                }
             }
-//        });
-        return this;
-    }
 
-    public interface PingListener {
-        void onResult(PingResult var1);
-
-        void onFinished(PingStats var1);
-
-        void onError(Exception var1);
+            return new Success(new PingStats(
+                    Ping.this.address, pingsCompleted, noLostPackets,
+                    totalPingTime, minPingTime, maxPingTime
+            ));
+        }
     }
 }

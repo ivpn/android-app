@@ -30,7 +30,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.pinger.Ping.PingListener
 import net.ivpn.core.rest.data.model.Server
 import javax.inject.Inject
 
@@ -68,34 +67,32 @@ class PingDataSet @Inject constructor() {
         }
     }
 
-    private fun innerPing(server: Server) {
-        //ToDo change inner Ping class implementation
-        Ping.onAddress(server.ipAddress)
+    private suspend fun innerPing(server: Server) {
+        val result = Ping.onAddress(server.ipAddress)
             .setTimeOutMillis(TIMEOUT)
             .setTimes(TIMES)
-            .doPing(object : PingListener {
-                override fun onResult(pingResult: PingResult) {}
-                override fun onFinished(pingStats: PingStats) {
-                    val result = if (pingStats.packetsLost == TIMES.toLong()) {
-                        PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE)
-                    } else {
-                        PingResultFormatter(
-                            PingResultFormatter.PingResult.OK,
-                            pingStats.minTimeTaken.toLong()
-                        )
-                    }
-                    scope.launch {
-                        updatePingFor(server, result)
-                    }
-                }
+            .doPing()
 
-                override fun onError(e: Exception) {
-                    scope.launch {
-                        updatePingFor(server, PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE))
-                    }
-                    e.printStackTrace()
+        when (result) {
+            is Error -> {
+                updatePingFor(
+                    server,
+                    PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE)
+                )
+                result.error?.printStackTrace()
+            }
+            is Success -> {
+                val formatter = if (result.stats.packetsLost == TIMES.toLong()) {
+                    PingResultFormatter(PingResultFormatter.PingResult.OFFLINE, Long.MAX_VALUE)
+                } else {
+                    PingResultFormatter(
+                        PingResultFormatter.PingResult.OK,
+                        result.stats.minTimeTaken.toLong()
+                    )
                 }
-            })
+                updatePingFor(server, formatter)
+            }
+        }
     }
 
     private suspend fun updatePingFor(server: Server, ping: PingResultFormatter?) {
@@ -115,7 +112,7 @@ class PingDataSet @Inject constructor() {
         }
     }
 
-    private fun calculateFastestServer(pings: MutableMap<Server, PingResultFormatter?>) : Server? {
+    private fun calculateFastestServer(pings: MutableMap<Server, PingResultFormatter?>): Server? {
         var fastestServer: Server? = null
         var lowestPing = Long.MAX_VALUE
         for ((server, result) in pings) {
@@ -126,7 +123,7 @@ class PingDataSet @Inject constructor() {
                         lowestPing = result.ping
                     }
                 }
-            } ?: run{
+            } ?: run {
                 fastestServer = server
             }
         }
