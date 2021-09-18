@@ -52,6 +52,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_ANTI_SURVEILLANCE_DNS_MULTI = "SETTINGS_ANTI_SURVEILLANCE_DNS_MULTI"
         private const val SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS_MULTI = "SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS_MULTI"
         private const val SETTINGS_CUSTOM_DNS_VALUE = "SETTINGS_CUSTOM_DNS_VALUE"
+        private const val SETTINGS_SECONDARY_CUSTOM_DNS_VALUE = "SETTINGS_SECONDARY_CUSTOM_DNS_VALUE"
+        private const val SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED = "SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED"
         private const val SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE"
         private const val SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION"
         private const val SETTINGS_FILTER = "SETTINGS_FILTER"
@@ -132,6 +134,26 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             sharedPreferences.edit()
                     .putBoolean(IPV6_SHOW_ALL_SERVERS, value)
                     .apply()
+        }
+
+    var isMultiHopSameProviderAllowed: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED, true)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putBoolean(SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED, value)
+                .apply()
+        }
+
+    var secondaryCustomDnsValue: String?
+        get() {
+            return sharedPreferences.getString(SETTINGS_SECONDARY_CUSTOM_DNS_VALUE, null)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putString(SETTINGS_SECONDARY_CUSTOM_DNS_VALUE, value)
+                .apply()
         }
 
     init {
@@ -305,7 +327,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun getCustomDNSValue(): String? {
-        return sharedPreferences.getString(SETTINGS_CUSTOM_DNS_VALUE, "")
+        return sharedPreferences.getString(SETTINGS_CUSTOM_DNS_VALUE, null)
     }
 
     fun getOpenvpnPort(): String? {

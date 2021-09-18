@@ -40,6 +40,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -103,22 +104,18 @@ public class ServiceConfiguration {
     }
 
     private String getDNS() {
-        String dns = settings.getDns();
-        if (dns != null) {
-            return dns;
+        List<String> dns = settings.getDns();
+        if (!dns.isEmpty()) {
+            return TextUtils.join("|", dns);
         }
 
         return TextUtils.join("|", dnsList);
     }
 
     private Vector<String> getDnsList() {
-        Vector<String> result;
-
-        String dns = settings.getDns();
-        if (dns != null) {
-            result = new Vector<>();
-            result.add(dns);
-            return result;
+        List<String> dns = settings.getDns();
+        if (!dns.isEmpty()) {
+            return new Vector<>(dns);
         }
 
         return dnsList;

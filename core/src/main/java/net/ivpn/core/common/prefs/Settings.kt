@@ -46,7 +46,7 @@ class Settings @Inject constructor(
         private val TAG = Settings::class.java.simpleName
     }
 
-    val dns: String?
+    val dns: List<String?>
         get() {
             val isAntiSurveillanceEnabled = isAntiSurveillanceEnabled
             val isAntiSurveillanceHardcoreEnabled = isAntiSurveillanceHardcoreEnabled
@@ -62,16 +62,27 @@ class Settings @Inject constructor(
             }
             if (isAntiSurveillanceEnabled) {
                 return if (isAntiSurveillanceHardcoreEnabled) {
-                    hardcoreDns
+                    listOf(hardcoreDns)
                 } else {
-                    dns
+                    listOf(dns)
                 }
             }
             val isCustomDNSEnabled = isCustomDNSEnabled
+            if (!isCustomDNSEnabled) {
+                return listOf()
+            }
+            val dnsList = mutableListOf<String>()
+
             val customDNS = customDNSValue
-            return if (isCustomDNSEnabled && customDNS != null && customDNS.isNotEmpty()) {
-                customDNS
-            } else null
+            if (!customDNS.isNullOrEmpty()) {
+                dnsList.add(customDNS)
+            }
+
+            val secondaryDns = customSecondaryDNSValue
+            if (!secondaryDns.isNullOrEmpty()) {
+                dnsList.add(secondaryDns)
+            }
+            return dnsList
         }
 
     var nightMode: NightMode?
@@ -227,6 +238,12 @@ class Settings @Inject constructor(
         get() = settingsPreference.getCustomDNSValue()
         set(dns) {
             settingsPreference.setCustomDNSValue(dns)
+        }
+
+    var customSecondaryDNSValue: String?
+        get() = settingsPreference.secondaryCustomDnsValue
+        set(dns) {
+            settingsPreference.secondaryCustomDnsValue = dns
         }
 
     val isGenerationTimeExist: Boolean

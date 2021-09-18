@@ -166,8 +166,10 @@
     <!--Custom dns-->
     <string name="custom_dns_feature">Use Custom DNS</string>
     <string name="custom_dns_server">Custom DNS Server</string>
+    <string name="custom_secondary_dns_server">Custom Secondary DNS Server</string>
     <string name="custom_dns_server_description">When specified, VPN Client will use provided DNS server when connected to the VPN.</string>
     <string name="custom_dns_change">Change dns</string>
+    <string name="custom_secondary_dns_change">Change secondary dns</string>
     <string name="custom_dns_priority">AntiTracker will override this setting when enabled.</string>
 
     <!--Servers sync-->
@@ -425,6 +427,7 @@
     <string name="dialogs_account_not_active_msg_beta">Only active user accounts are enabled in this beta version.</string>
 
     <string name="dialogs_custom_dns">Custom DNS Server</string>
+    <string name="dialogs_secondary_custom_dns">Secondary Custom DNS Server</string>
     <string name="dialogs_custom_dns_dot">\.</string>
     <string name="dialogs_custom_dns_apply">Apply</string>
     <string name="dialogs_custom_dns_cancel">Cancel</string>

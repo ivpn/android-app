@@ -46,23 +46,43 @@ public class DialogueCustomDNSViewModel {
     private Context context;
     private Settings settings;
     private OnDNSChangedListener listener;
+    private CustomDNSViewModel.DNSType dnsType;
 
     @Inject
     public DialogueCustomDNSViewModel(Context context, Settings settings) {
         this.context = context;
         this.settings = settings;
+    }
+
+    public void initWith(CustomDNSViewModel.DNSType dnsType) {
+        this.dnsType = dnsType;
         init();
     }
 
     private void init() {
-        String dnsAddress = settings.getCustomDNSValue();
+        String dnsAddress = getCurrentDNS();
         if (dnsAddress != null && !dnsAddress.isEmpty()) {
             String[] splitDNS = dnsAddress.split("\\.");
             first.set(splitDNS[0]);
             second.set(splitDNS[1]);
             third.set(splitDNS[2]);
             forth.set(splitDNS[3]);
+        } else {
+            first.set("");
+            second.set("");
+            third.set("");
+            forth.set("");
         }
+    }
+
+    private String getCurrentDNS() {
+        switch (dnsType) {
+            case PRIMARY:
+                return settings.getCustomDNSValue();
+            case SECONDARY:
+                return settings.getCustomSecondaryDNSValue();
+        }
+        return settings.getCustomDNSValue();
     }
 
     public void setOnDnsChangedListener(OnDNSChangedListener listener) {
@@ -77,13 +97,24 @@ public class DialogueCustomDNSViewModel {
                 .append(forth.get());
         String dns = dnsAddressBuilder.toString();
         if (validate(dns)) {
-            settings.setCustomDNSValue(dns);
+            setDNS(dns);
             listener.onCustomDNSChanged(dns);
             return true;
         }
 
         ToastUtil.toast(context, "The IP Address " + dns + " is invalid. Please, check and update settings.");
         return false;
+    }
+
+    private void setDNS(String newDNS) {
+        switch (dnsType) {
+            case PRIMARY:
+                settings.setCustomDNSValue(newDNS);
+                break;
+            case SECONDARY:
+                settings.setCustomSecondaryDNSValue(newDNS);
+                break;
+        }
     }
 
     private boolean validate(final String ip) {

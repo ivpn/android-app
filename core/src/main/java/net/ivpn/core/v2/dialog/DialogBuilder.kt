@@ -47,6 +47,7 @@ import net.ivpn.core.common.InputFilterMinMax
 import net.ivpn.core.common.extension.setContentSecure
 import net.ivpn.core.common.utils.DateUtil
 import net.ivpn.core.databinding.DialogCustomDnsBinding
+import net.ivpn.core.v2.customdns.CustomDNSViewModel
 import net.ivpn.core.v2.customdns.OnDNSChangedListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardInfo
@@ -332,7 +333,11 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createCustomDNSDialogue(context: Context?, listener: OnDNSChangedListener?) {
+    fun createCustomDNSDialogue(
+        context: Context?,
+        dnsType: CustomDNSViewModel.DNSType,
+        listener: OnDNSChangedListener?
+    ) {
         LOGGER.info("Create connection info dialog")
         if (context == null) {
             return
@@ -342,11 +347,16 @@ object DialogBuilder {
         val viewModel =
             IVPNApplication.appComponent.provideActivityComponent().create().dialogueViewModel
         viewModel.setOnDnsChangedListener(listener)
+        viewModel.initWith(dnsType)
         val binding: DialogCustomDnsBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.dialog_custom_dns, null, false
         )
         binding.viewmodel = viewModel
+        binding.dialogTitle.setText(
+            if (dnsType == CustomDNSViewModel.DNSType.PRIMARY)
+                R.string.dialogs_custom_dns
+            else R.string.dialogs_secondary_custom_dns)
         val dialogView = binding.root
         builder.setView(dialogView)
         val alertDialog = builder.create()

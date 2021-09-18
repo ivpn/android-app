@@ -1,5 +1,6 @@
 package net.ivpn.core.vpn.wireguard
 
+import android.text.TextUtils
 import com.wireguard.android.config.Config
 import com.wireguard.android.config.Peer
 import com.wireguard.android.model.Tunnel
@@ -118,12 +119,14 @@ class ConfigManager @Inject constructor(
 
     private fun getDNS(server: Server?): String {
         val dns = settings.dns
-        if (dns != null) {
-            return dns
+        if (dns.isNotEmpty()) {
+            return TextUtils.join("/", dns)
         }
         return if (server!!.hosts == null || server.hosts[0] == null || server.hosts[0].localIp == null) {
             DEFAULT_DNS
-        } else server.hosts[0].localIp.split("/".toRegex()).toTypedArray()[0]
+        } else {
+            server.hosts[0].localIp.split("/".toRegex()).toTypedArray()[0]
+        }
     }
 
     fun onTunnelStateChanged(state: Tunnel.State) {

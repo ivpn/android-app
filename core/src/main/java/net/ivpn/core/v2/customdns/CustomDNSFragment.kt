@@ -51,9 +51,9 @@ class CustomDNSFragment : Fragment() {
     lateinit var viewModel: CustomDNSViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_custom_dns, container, false)
         return binding.root
@@ -81,10 +81,23 @@ class CustomDNSFragment : Fragment() {
         binding.contentLayout.changeDnsButton.setOnClickListener {
             changeDNS()
         }
+        binding.contentLayout.changeSecondaryDnsButton.setOnClickListener {
+            changeSecondaryDNS()
+        }
     }
 
     fun changeDNS() {
-        DialogBuilder.createCustomDNSDialogue(context) { dns: String? -> viewModel.setDnsAs(dns) }
+        DialogBuilder.createCustomDNSDialogue(
+            context,
+            CustomDNSViewModel.DNSType.PRIMARY
+        ) { dns: String? -> viewModel.setDnsAs(dns) }
+    }
+
+    fun changeSecondaryDNS() {
+        DialogBuilder.createCustomDNSDialogue(
+            context,
+            CustomDNSViewModel.DNSType.SECONDARY
+        ) { dns: String? -> viewModel.setSecondaryDNSAs(dns) }
     }
 
     private fun initToolbar() {
