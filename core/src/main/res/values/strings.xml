@@ -44,6 +44,8 @@
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_crashes">Enable crash logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
+    <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
+    <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
     <string name="settings_kill_switch">Kill switch</string>
     <string name="setting_anti_surveillance">AntiTracker</string>
     <string name="setting_custom_dns">Custom DNS</string>

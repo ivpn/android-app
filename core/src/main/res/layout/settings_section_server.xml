@@ -57,12 +57,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/settings_multi_hop_description"
                     android:textAlignment="viewStart"
@@ -84,7 +85,7 @@
                     android:enabled="@{multihop.isSupported}"
                     android:thumb="@drawable/common_thumb_selector"
                     android:translationX="3dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView10"
                     app:onChanged="@{multihop.enableMultiHopListener}"
@@ -96,9 +97,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
                 android:background="@color/color_section_divider"
                 android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}">
+
+                <TextView
+                    android:id="@+id/multihop_restriction_title"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/settings_multihop_same_provider_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/multihop_restriction_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/settings_multihop_same_provider_description"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/settings_option_description_text"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/multihop_restriction_switch"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/multihop_restriction_title" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/multihop_restriction_switch"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{multihop.isSameProviderAllowed}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    android:translationX="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/multihop_restriction_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/multihop_restriction_title"
+                    app:onChanged="@{multihop.enableMultiHopSameProviderListener}"
+                    app:onTouch="@{multihop.multiHopTouchListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{multihop.isEnabled() ? View.VISIBLE : View.GONE}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/entry_random_layout"
@@ -131,17 +190,27 @@
                     android:layout_marginStart="8dp"
                     android:text="@{multihop.isEnabled() ? @string/connect_random_entry_server : @string/connect_random_server}"
                     app:layout_constraintBottom_toBottomOf="@+id/entry_random_image"
+                    app:layout_constraintEnd_toStartOf="@+id/entry_random_action"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/entry_random_image"
                     app:layout_constraintTop_toTopOf="@+id/entry_random_image" />
 
+                <ImageView
+                    android:id="@+id/entry_random_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/entry_random_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/entry_random_label"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-
 
                 <LinearLayout
                     android:id="@+id/entry_server_layout"
@@ -182,9 +251,9 @@
                             android:paddingHorizontal="4dp"
                             android:paddingVertical="2dp"
                             android:text="IPv6"
-                            android:visibility="@{servers.isEntryServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
                             android:textColor="@color/servers_text_color"
                             android:textSize="12sp"
+                            android:visibility="@{servers.isEntryServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@+id/textView6"
                             app:layout_constraintStart_toEndOf="@+id/textView6"
                             app:layout_constraintTop_toTopOf="@+id/textView6" />
@@ -196,22 +265,12 @@
                         android:layout_weight="1" />
 
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@{servers.pingResultEnterServer.getAppropriateLight}" />
-
-                    <TextView
+                        android:id="@+id/entry_server_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="sans-serif"
-                        android:letterSpacing="-0.03"
-                        android:lineSpacingExtra="5sp"
-                        android:text="@{servers.pingResultEnterServer.formatPing}"
-                        android:textColor="#98a5b3"
-                        android:textSize="15sp"
-                        android:textStyle="normal" />
+                        android:layout_marginEnd="12dp"
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/settings_option_description_text" />
                 </LinearLayout>
 
                 <View
@@ -265,9 +324,9 @@
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="2dp"
                     android:text="IPv6"
-                    android:visibility="@{servers.isFastestServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/servers_text_color"
                     android:textSize="12sp"
+                    android:visibility="@{servers.isFastestServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
                     app:layout_constraintStart_toEndOf="@+id/fastest_server_name"
                     app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
@@ -277,6 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="@drawable/fastest_badge_background"
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="2dp"
@@ -285,8 +345,21 @@
                     android:textColor="@color/color_animation_white"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
+                    app:layout_constraintEnd_toStartOf="@+id/fastest_server_action"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/fastest_ipv6_badge"
                     app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
+
+                <ImageView
+                    android:id="@+id/fastest_server_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/fastest_badge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/fastest_badge"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -300,10 +373,10 @@
                     android:id="@+id/exit_server_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_section_height"
-                    android:gravity="center_vertical"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="@{servers.exitServerVisibility ? View.VISIBLE : View.GONE}">
 
@@ -335,9 +408,9 @@
                             android:paddingHorizontal="4dp"
                             android:paddingVertical="2dp"
                             android:text="IPv6"
-                            android:visibility="@{servers.isExitServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}"
                             android:textColor="@color/servers_text_color"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="@{servers.isExitServerIPv6BadgeEnabled() ? View.VISIBLE : View.GONE}" />
                     </FrameLayout>
 
                     <Space
@@ -346,22 +419,12 @@
                         android:layout_weight="1" />
 
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@{servers.pingResultExitServer.getAppropriateLight}" />
-
-                    <TextView
+                        android:id="@+id/exit_server_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="sans-serif"
-                        android:letterSpacing="-0.03"
-                        android:lineSpacingExtra="5sp"
-                        android:text="@{servers.pingResultExitServer.formatPing}"
-                        android:textColor="#98a5b3"
-                        android:textSize="15sp"
-                        android:textStyle="normal" />
+                        android:layout_marginEnd="12dp"
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/settings_option_description_text" />
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -395,8 +458,21 @@
                         android:layout_marginStart="8dp"
                         android:text="@string/connect_random_exit_server"
                         app:layout_constraintBottom_toBottomOf="@+id/exit_random_image"
+                        app:layout_constraintEnd_toStartOf="@+id/exit_random_action"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/exit_random_image"
                         app:layout_constraintTop_toTopOf="@+id/exit_random_image" />
+
+                    <ImageView
+                        android:id="@+id/exit_random_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/exit_random_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/exit_random_label"
+                        app:srcCompat="@drawable/ic_arrow_right"
+                        app:tint="@color/settings_option_description_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -407,34 +483,58 @@
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/protocol_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:onClick="vpnProtocol"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/settings_margin_left"
-                android:paddingTop="14dp"
-                android:paddingBottom="14dp">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textView16"
                     style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_vpn_protocol" />
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/settings_vpn_protocol"
+                    app:layout_constraintBottom_toTopOf="@+id/textView17"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
+                    android:id="@+id/textView17"
                     style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="2dp"
                     android:text="@string/settings_protocol_selection_description"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/protocol_action"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/protocol_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView17"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView16"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

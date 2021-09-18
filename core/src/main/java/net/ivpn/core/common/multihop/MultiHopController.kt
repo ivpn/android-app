@@ -38,11 +38,13 @@ class MultiHopController @Inject constructor(
 ) {
 
     var isEnabled: Boolean
+    var isSameProviderAllowed: Boolean
 
     var listeners = ArrayList<OnValueChangeListener>()
 
     init {
         isEnabled = getIsEnabled()
+        isSameProviderAllowed = getIsSameProviderAllowed()
     }
 
     fun enable(value : Boolean) {
@@ -56,6 +58,15 @@ class MultiHopController @Inject constructor(
         notifyValueChanges()
     }
 
+    fun setIsSameProviderAllowed(value : Boolean) {
+        if (isSameProviderAllowed == value) {
+            return
+        }
+        isSameProviderAllowed = value
+
+        settings.isMultiHopSameProviderAllowed = value
+    }
+
     fun isSupportedByPlan(): Boolean {
         return userPreference.getCapabilityMultiHop() && isAuthenticated() && isMultihopAllowedByProtocol()
     }
@@ -63,6 +74,10 @@ class MultiHopController @Inject constructor(
     fun getIsEnabled(): Boolean {
         isEnabled = settings.isMultiHopEnabled && isMultihopAllowedByProtocol()
         return isEnabled
+    }
+
+    fun getIsSameProviderAllowed(): Boolean {
+        return settings.isMultiHopSameProviderAllowed
     }
 
     fun getState() : State {

@@ -22,17 +22,12 @@ package net.ivpn.core.v2.viewmodel
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
-import net.ivpn.core.common.pinger.OnFastestServerDetectorListener
-import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
-import net.ivpn.core.common.pinger.PingResultFormatter
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Server
@@ -62,8 +57,6 @@ class ServersViewModel @Inject constructor(
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
     val mapServer = ObservableField<Server>()
-    val pingResultExitServer = ObservableField<PingResultFormatter>()
-    val pingResultEnterServer = ObservableField<PingResultFormatter>()
     val fastestServer = pingProvider.fastestServer
 
     private var isBackgroundUpdateDone = false
@@ -98,24 +91,6 @@ class ServersViewModel @Inject constructor(
 
         entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
-
-        //ToDo change it to MediatorLiveData after migrating all server stuff to the LiveData...
-        entryServer.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                pingResultEnterServer.set(getPingFor(entryServer.get()))
-            }
-        })
-        exitServer.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                pingResultExitServer.set(getPingFor(exitServer.get()))
-            }
-        })
-    }
-
-    private fun getPingFor(server: Server?) : PingResultFormatter? {
-        server?.let {
-            return pingProvider.pings.value?.get(it)
-        } ?: return null
     }
 
     private fun updateServersInBackground() {

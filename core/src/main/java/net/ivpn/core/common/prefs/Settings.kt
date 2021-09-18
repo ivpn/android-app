@@ -119,6 +119,12 @@ class Settings @Inject constructor(
             settingsPreference.putSettingMultiHop(value)
         }
 
+    var isMultiHopSameProviderAllowed: Boolean
+        get() = settingsPreference.isMultiHopSameProviderAllowed
+        set(value) {
+            settingsPreference.isMultiHopSameProviderAllowed = value
+        }
+
     var isNetworkRulesEnabled: Boolean
         get() = settingsPreference.getSettingNetworkRules()
         set(value) {

@@ -80,35 +80,6 @@ class PingProvider @Inject internal constructor(
         }
     }
 
-    fun ping(server: Server?, listener: OnPingFinishListener?) {
-        if (server == null || isConnected) {
-            return
-        }
-
-//        val result = pings.value[server] ?: null
-//        var pingFutures = pings[server]
-//        if (pingFutures == null) {
-//            pingFutures = PingFuture()
-//            pingFutures.addOnPingFinishListener(OnPingFinishListener { _: Server?, _: PingResultFormatter? ->
-//                sendFastestServer(
-//                    null
-//                )
-//            })
-//            val ipAddress: String
-//            ipAddress = if (server.type == null || server.type == Protocol.OPENVPN) {
-//                server.ipAddresses[0]
-//            } else {
-//                server.hosts[0].host
-//            }
-//            featureExecutor.execute(pingFutures.getPingRunnable(server, ipAddress, listener))
-//            pings[server] = pingFutures
-//        } else if (pingFutures.isFinished) {
-//            listener?.onPingFinish(server, pingFutures.result)
-//        } else {
-//            pingFutures.addOnPingFinishListener(listener)
-//        }
-    }
-
     private val isFrequencyLimitationSatisfied: Boolean
         get() {
             val currentTimeStamp = System.currentTimeMillis()

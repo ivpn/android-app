@@ -37,6 +37,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_LOGGING = "SETTINGS_LOGGING"
         private const val SETTINGS_SENTRY = "SETTINGS_SENTRY"
         private const val SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP"
+        private const val SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED = "SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED"
         private const val SETTINGS_KILL_SWITCH = "SETTINGS_KILL_SWITCH"
         private const val SETTINGS_ADVANCED_KILL_SWITCH_DIALOG = "SETTINGS_ADVANCED_KILL_SWITCH_DIALOG"
         private const val SETTINGS_START_ON_BOOT = "SETTINGS_START_ON_BOOT"
@@ -125,6 +126,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             sharedPreferences.edit()
                     .putBoolean(IPV6_SHOW_ALL_SERVERS, value)
                     .apply()
+        }
+
+    var isMultiHopSameProviderAllowed: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED, true)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putBoolean(SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED, value)
+                .apply()
         }
 
     init {

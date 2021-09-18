@@ -61,10 +61,6 @@ import javax.inject.Inject
 
 class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewModel.ColorThemeNavigator, MockLocationNavigator {
 
-    companion object {
-        private val LOGGER = LoggerFactory.getLogger(SettingsFragment::class.java)
-    }
-
     private lateinit var binding: FragmentSettingsBinding
 
     @Inject
@@ -90,8 +86,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
     @Inject
     lateinit var logging: LoggingViewModel
-
-//    lateinit var updates: UpdatesController
 
     @Inject
     lateinit var colorTheme: ColorThemeViewModel
@@ -127,6 +121,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     override fun onResume() {
         super.onResume()
 
+        servers.onResume()
         multihop.onResume()
         startOnBoot.onResume()
         alwaysOnVPN.onResume()
@@ -465,8 +460,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
     private fun openUpdatesScreen() {
         updates.openUpdatesScreen(findNavControllerSafely())
-//        val action = SettingsFragmentDirections.actionSettingsFragmentToUpdatesFragment()
-//        navigate(action)
     }
 
     private fun openWebPage(urlString: String) {
