@@ -3,21 +3,16 @@ package net.ivpn.core.v2.serverlist.favourite
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
-
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
-
+ Copyright (c) 2021 Privatus Limited.
  This file is part of the IVPN Android app.
-
  The IVPN Android app is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by the Free
  Software Foundation, either version 3 of the License, or (at your option) any later version.
-
  The IVPN Android app is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
  details.
-
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
@@ -47,10 +42,12 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class FavouriteServerListRecyclerViewAdapter(
-        private val navigator: AdapterListener,
-        private var filter: Filters?,
-        private var isIPv6BadgeEnabled: Boolean
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
+    private val navigator: AdapterListener,
+    private var filter: Filters?,
+    private var isIPv6BadgeEnabled: Boolean,
+    private val isSameProviderAllowed: Boolean
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter,
+    FavouriteServerListener {
 
     @Inject
     lateinit var pingProvider: PingProvider
@@ -72,40 +69,37 @@ class FavouriteServerListRecyclerViewAdapter(
     }
 
     private var pings: ConcurrentHashMap<Server, PingResultFormatter>? = null
+
     @Volatile
     private var updates = HashMap<Server, PingResultFormatter>()
+
     @Volatile
     private var iterationUpdates = ConcurrentHashMap<Server, PingResultFormatter>()
     private var pingListener = OnPingFinishListener { server, status ->
-//        AllServersRecyclerViewAdapter.LOGGER.debug("Server = ${server.city}, status = ${status}")
         synchronized(this) {
             updates[server] = status
         }
         filter?.let {
-//            if (it == Filters.LATENCY) {
-//                AllServersRecyclerViewAdapter.LOGGER.debug("isUpdateRunning = $isUpdateRunning needToUpdate = $needToUpdate")
-                if (isUpdateRunning) {
-                    needToUpdate = true
-                } else {
-                    isUpdateRunning = true
-                    postUpdate(0)
-                }
-//            }
+            if (isUpdateRunning) {
+                needToUpdate = true
+            } else {
+                isUpdateRunning = true
+                postUpdate(0)
+            }
         }
     }
 
     @Volatile
     private var needToUpdate = false
+
     @Volatile
     private var isUpdateRunning = false
     private val updateHandler = Handler()
     private fun postUpdate(delay: Long) {
-//        AllServersRecyclerViewAdapter.LOGGER.debug("Post update delay = $delay")
         updateHandler.postDelayed({
             iterationUpdates.clear()
             synchronized(this) {
                 if (updates.isNotEmpty()) {
-//                    AllServersRecyclerViewAdapter.LOGGER.debug("Updates size = ${updates.size}")
                     pings?.let { pingsObj ->
                         for ((server, status) in updates) {
                             pingsObj[server] = status
@@ -118,10 +112,6 @@ class FavouriteServerListRecyclerViewAdapter(
             }
 
             sortServers(rawServers)
-//            for (server in servers) {
-//                AllServersRecyclerViewAdapter.LOGGER.debug("After sort city = ${server.city} has ${server.latency}")
-//            }
-//            filteredServers = prepareDataToShow(servers)
             notifyServerListChanged()
             if (needToUpdate) {
                 postUpdate(1000)
@@ -130,7 +120,6 @@ class FavouriteServerListRecyclerViewAdapter(
                 isUpdateRunning = false
                 iterationUpdates.clear()
             }
-//            iterationUpdates.forEach { AllServersRecyclerViewAdapter.LOGGER.debug("Iteration updates item = ${it.key.city}") }
         }, delay)
     }
 
@@ -141,10 +130,14 @@ class FavouriteServerListRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
-        return ServerViewHolder(binding, navigator, listener)
+        return ServerViewHolder(binding, navigator)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
         if (payloads.isNotEmpty()) {
             val payload = payloads[0]
             if (payload is Boolean && holder is ServerViewHolder) {
@@ -160,7 +153,7 @@ class FavouriteServerListRecyclerViewAdapter(
             val server: Server = getServerFor(position)
             bindings[holder.binding] = server
             setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled)
+            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter, isSameProviderAllowed)
         }
     }
 

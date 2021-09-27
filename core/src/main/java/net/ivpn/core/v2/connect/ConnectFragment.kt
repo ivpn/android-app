@@ -55,6 +55,7 @@ import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentConnectBinding
+import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
 import net.ivpn.core.v2.connect.createSession.ConnectionState

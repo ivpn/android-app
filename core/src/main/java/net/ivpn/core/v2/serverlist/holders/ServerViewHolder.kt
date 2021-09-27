@@ -28,16 +28,22 @@ import net.ivpn.core.R
 import net.ivpn.core.databinding.ServerItemBinding
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.serverlist.AdapterListener
+import net.ivpn.core.v2.serverlist.dialog.Filters
 
 class ServerViewHolder(
-        val binding: ServerItemBinding,
-        val navigator: AdapterListener,
-        val listener: HolderListener
+    val binding: ServerItemBinding,
+    val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean) {
+    fun bind(
+        server: Server,
+        forbiddenServer: Server?,
+        isIPv6Enabled: Boolean,
+        filter: Filters?,
+        isSameProviderAllowed: Boolean
+    ) {
         binding.server = server
-        binding.forbiddenServer = forbiddenServer
+        binding.isAllowed = server.canBeUsedAsMultiHopWith(forbiddenServer, isSameProviderAllowed)
         binding.navigator = navigator
         binding.star.setImageResource(if (server.isFavourite) R.drawable.ic_star_on else R.drawable.ic_star_off)
         binding.starLayout.setOnClickListener {

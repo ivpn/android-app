@@ -43,11 +43,11 @@ import javax.inject.Inject
 
 @ApplicationScope
 class ServersViewModel @Inject constructor(
-        val serversRepository: ServersRepository,
-        private val multiHopController: MultiHopController,
-        val settings: Settings,
-        val vpnBehaviorController: VpnBehaviorController,
-        val pingProvider: PingProvider
+    private val serversRepository: ServersRepository,
+    private val multiHopController: MultiHopController,
+    private val settings: Settings,
+    private val vpnBehaviorController: VpnBehaviorController,
+    private val pingProvider: PingProvider
 ) : ViewModel() {
 
     val entryRandomServer = ObservableBoolean()
@@ -142,7 +142,7 @@ class ServersViewModel @Inject constructor(
             }
 
             override fun notifyServerAsRandom(server: Server, serverType: ServerType) {
-                when(serverType) {
+                when (serverType) {
                     ServerType.ENTRY -> entryServer.set(server)
                     ServerType.EXIT -> exitServer.set(server)
                 }
@@ -191,7 +191,11 @@ class ServersViewModel @Inject constructor(
         val serverToConnect: Server = getServerFor(serverLocation) ?: return
 
         if (multiHopController.isEnabled) {
-            if (serverToConnect.canBeUsedAsMultiHopWith(entryServer.get())) {
+            if (serverToConnect.canBeUsedAsMultiHopWith(
+                    entryServer.get(),
+                    multiHopController.isSameProviderAllowed
+                )
+            ) {
                 exitServer.set(serverToConnect)
                 serversRepository.serverSelected(serverToConnect, ServerType.EXIT)
             }
@@ -219,7 +223,12 @@ class ServersViewModel @Inject constructor(
     fun isLocationSuitable(serverLocation: ServerLocation): Boolean {
         if (multiHopController.isEnabled) {
             entryServer.get()?.let {
-                return it.city != serverLocation.city && it.countryCode != serverLocation.countryCode
+                return it.canBeUsedAsMultiHopWith(
+                    serversRepository.getServerForServerLocation(
+                        serverLocation
+                    ),
+                    settings.isMultiHopSameProviderAllowed
+                )
             }
         }
 

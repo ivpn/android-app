@@ -76,7 +76,7 @@ class ServerListViewModel @Inject constructor(
         }
 
         override fun onServerSelected(server: Server, forbiddenServer: Server?) {
-            if (server.canBeUsedAsMultiHopWith(forbiddenServer)) {
+            if (server.canBeUsedAsMultiHopWith(forbiddenServer, multiHopController.isSameProviderAllowed)) {
                 setCurrentServer(server)
                 if (navigators.isNotEmpty()) {
                     navigators[0].onServerSelected()

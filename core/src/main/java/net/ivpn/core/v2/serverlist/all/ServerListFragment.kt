@@ -40,15 +40,12 @@ import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.serverlist.ServerListTabFragment
 import net.ivpn.core.v2.serverlist.dialog.Filters
-import net.ivpn.core.v2.viewmodel.ConnectionViewModel
-import net.ivpn.core.v2.viewmodel.IPv6ViewModel
-import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
-import net.ivpn.core.v2.viewmodel.ServerListViewModel
+import net.ivpn.core.v2.viewmodel.*
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ServerListFragment : Fragment(),
-        ServerListViewModel.ServerListNavigator, ServerListFilterViewModel.OnFilterChangedListener {
+    ServerListViewModel.ServerListNavigator, ServerListFilterViewModel.OnFilterChangedListener {
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ServerListFragment::class.java)
         private const val SERVER_TYPE_STATE = "SERVER_TYPE_STATE"
@@ -69,6 +66,9 @@ class ServerListFragment : Fragment(),
     @Inject
     lateinit var connect: ConnectionViewModel
 
+    @Inject
+    lateinit var multiHop: MultiHopViewModel
+
     lateinit var serverType: ServerType
     lateinit var adapter: AllServersRecyclerViewAdapter
 
@@ -83,10 +83,13 @@ class ServerListFragment : Fragment(),
         filterViewModel.listeners.add(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_server_list, container, false)
+            inflater, R.layout.fragment_server_list, container, false
+        )
         return binding.root
     }
 
@@ -122,12 +125,19 @@ class ServerListFragment : Fragment(),
     private fun init() {
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
-        adapter = AllServersRecyclerViewAdapter(viewmodel.adapterListener,
-                viewmodel.isFastestServerAllowed(), filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
+        adapter = AllServersRecyclerViewAdapter(
+            viewmodel.adapterListener,
+            viewmodel.isFastestServerAllowed(),
+            filterViewModel.filter.get(),
+            ipv6ViewModel.isIPv6BadgeEnabled.get(),
+            multiHop.isSameProviderAllowed.get()
+        )
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
-                R.color.colorAccent)
+        binding.swipeRefreshLayout.setColorSchemeResources(
+            R.color.colorPrimary,
+            R.color.colorAccent
+        )
         viewmodel.favouriteListeners.add(adapter)
     }
 

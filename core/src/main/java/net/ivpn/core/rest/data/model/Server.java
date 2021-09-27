@@ -61,6 +61,11 @@ public class Server implements ConnectionOption {
     @SerializedName("longitude")
     @Expose
     private double longitude;
+
+    @SerializedName("isp")
+    @Expose
+    private String isp;
+
     @SerializedName("ip_addresses")
     @Expose
     private List<String> ipAddresses = null;
@@ -166,8 +171,19 @@ public class Server implements ConnectionOption {
         this.latency = latency;
     }
 
-    public boolean canBeUsedAsMultiHopWith(Server server) {
+    public String getIsp() {
+        return isp;
+    }
+
+    public void setIsp(String isp) {
+        this.isp = isp;
+    }
+
+    public boolean canBeUsedAsMultiHopWith(Server server, boolean isSameProviderAllowed) {
         if (server == null) return true;
+        if (isp != null && server.isp != null && !isSameProviderAllowed && isp.equals(server.isp)) {
+            return false;
+        }
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
     }
 

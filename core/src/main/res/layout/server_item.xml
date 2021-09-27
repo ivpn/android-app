@@ -18,8 +18,8 @@
             type="net.ivpn.core.v2.serverlist.AdapterListener" />
 
         <variable
-            name="forbiddenServer"
-            type="net.ivpn.core.rest.data.model.Server" />
+            name="isAllowed"
+            type="Boolean" />
     </data>
 
     <FrameLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:alpha="@{server.canBeUsedAsMultiHopWith(forbiddenServer) ? 1f : 0.6f}"
+                android:alpha="@{isAllowed ? 1f : 0.6f}"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="-0.03"
                 android:lineSpacingExtra="8sp"

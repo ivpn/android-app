@@ -119,6 +119,7 @@ class ConfigManager @Inject constructor(
 
     private fun getDNS(server: Server?): String {
         val dns = settings.dns
+        println("Dns for WireGuard = $dns")
         if (dns.isNotEmpty()) {
             return TextUtils.join("/", dns)
         }

@@ -42,7 +42,7 @@ class CustomDNSViewModel @Inject internal constructor(private val settings: Sett
     init {
         isCustomDNSEnabled.set(settings.isCustomDNSEnabled)
         val customDNS = settings.customDNSValue
-        val customSecondaryDNS = settings.customDNSValue
+        val customSecondaryDNS = settings.customSecondaryDNSValue
         dns.set(customDNS ?: EMPTY_DNS)
         secondaryDns.set(customSecondaryDNS ?: EMPTY_DNS)
     }

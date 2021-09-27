@@ -58,7 +58,8 @@ class AllServersRecyclerViewAdapter(
         private val navigator: AdapterListener,
         private val isFastestServerAllowed: Boolean,
         private var filter: Filters?,
-        private var isIPv6Enabled: Boolean
+        private var isIPv6Enabled: Boolean,
+        private val isSameProviderAllowed: Boolean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
 
     @Inject
@@ -213,7 +214,7 @@ class AllServersRecyclerViewAdapter(
                 LOGGER.debug("Bind view binding = ${holder.binding} server = ${server.city}")
                 bindings[holder.binding] = server
                 setPing(holder.binding, server)
-                holder.bind(server, forbiddenServer, isIPv6Enabled)
+                holder.bind(server, forbiddenServer, isIPv6Enabled, filter, isSameProviderAllowed)
             }
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding

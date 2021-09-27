@@ -40,15 +40,12 @@ import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.serverlist.ServerListTabFragment
 import net.ivpn.core.v2.serverlist.dialog.Filters
-import net.ivpn.core.v2.viewmodel.ConnectionViewModel
-import net.ivpn.core.v2.viewmodel.IPv6ViewModel
-import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
-import net.ivpn.core.v2.viewmodel.ServerListViewModel
+import net.ivpn.core.v2.viewmodel.*
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListNavigator,
-        ServerListFilterViewModel.OnFilterChangedListener {
+    ServerListFilterViewModel.OnFilterChangedListener {
 
     lateinit var binding: FragmentFavouriteServersListBinding
 
@@ -63,6 +60,9 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
 
     @Inject
     lateinit var ipv6ViewModel: IPv6ViewModel
+
+    @Inject
+    lateinit var multiHop: MultiHopViewModel
 
     lateinit var adapter: FavouriteServerListRecyclerViewAdapter
 
@@ -89,10 +89,13 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_favourite_servers_list, container, false)
+            inflater, R.layout.fragment_favourite_servers_list, container, false
+        )
         return binding.root
     }
 
@@ -126,8 +129,12 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
     private fun init(view: View) {
         viewmodel.setServerType(serverType)
         binding.viewmodel = viewmodel
-        adapter = FavouriteServerListRecyclerViewAdapter(viewmodel.adapterListener,
-                filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
+        adapter = FavouriteServerListRecyclerViewAdapter(
+            viewmodel.adapterListener,
+            filterViewModel.filter.get(),
+            ipv6ViewModel.isIPv6BadgeEnabled.get(),
+            multiHop.isSameProviderAllowed.get()
+        )
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))
