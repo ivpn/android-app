@@ -39,8 +39,6 @@ public class Interface implements Parcelable{
     @Nullable private Keypair keypair;
     private int listenPort;
     private int mtu;
-//    @Nullable private String privateKey;
-//    @Nullable private String publicKey;
 
     public Interface() {
     }
@@ -72,6 +70,18 @@ public class Interface implements Parcelable{
 
     private void addDnses(@Nullable final String[] dnses) {
         if (dnses != null && dnses.length > 0) {
+            for (final String dns : dnses) {
+                try {
+                    dnsList.add(InetAddresses.parse(dns));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void addDnses(@Nullable final List<String> dnses) {
+        if (dnses != null && dnses.size() > 0) {
             for (final String dns : dnses) {
                 try {
                     dnsList.add(InetAddresses.parse(dns));
@@ -204,6 +214,11 @@ public class Interface implements Parcelable{
     public void setDnsString(@Nullable final String dnsString) {
         dnsList.clear();
         addDnses(Attribute.stringToList(dnsString));
+    }
+
+    public void setDnsList(List<String> dnses) {
+        dnsList.clear();
+        addDnses(dnses);
     }
 
     private void setExcludedApplicationsString(@Nullable final String applicationsString) {

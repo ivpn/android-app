@@ -44,6 +44,7 @@ class Settings @Inject constructor(
 
     companion object {
         private val TAG = Settings::class.java.simpleName
+        private const val EMPTY_DNS = "0.0.0.0"
     }
 
     val dns: List<String?>
@@ -74,12 +75,12 @@ class Settings @Inject constructor(
             val dnsList = mutableListOf<String>()
 
             val customDNS = customDNSValue
-            if (!customDNS.isNullOrEmpty()) {
+            if (!customDNS.isNullOrEmpty() && customDNS != EMPTY_DNS) {
                 dnsList.add(customDNS)
             }
 
             val secondaryDns = customSecondaryDNSValue
-            if (!secondaryDns.isNullOrEmpty()) {
+            if (!secondaryDns.isNullOrEmpty() && secondaryDns != EMPTY_DNS) {
                 dnsList.add(secondaryDns)
             }
             return dnsList

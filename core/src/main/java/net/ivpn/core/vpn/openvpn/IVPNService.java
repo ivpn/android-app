@@ -221,7 +221,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         new Thread(this::startOpenVPN).start();
 
         isPaused = false;
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     @Override

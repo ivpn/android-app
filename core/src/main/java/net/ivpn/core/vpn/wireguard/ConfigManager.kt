@@ -97,13 +97,13 @@ class ConfigManager @Inject constructor(
         val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
         val localIPv6Address: String? = server.hosts[0].ipv6?.local_ip
 
-        val dnsString = getDNS(server)
+        val dnses = getDNS(server)
         if (isIPv6Supported && !localIPv6Address.isNullOrEmpty()) {
             config.getInterface().setAddressString("$ipAddress/32,${localIPv6Address.split('/')[0]}$ipAddress/128")
         } else {
             config.getInterface().setAddressString(ipAddress)
         }
-        config.getInterface().setDnsString(dnsString)
+        config.getInterface().setDnsList(dnses)
         val peers = ArrayList<Peer>()
         var peer: Peer
         for (host in server.hosts) {
@@ -117,16 +117,16 @@ class ConfigManager @Inject constructor(
         return config
     }
 
-    private fun getDNS(server: Server?): String {
+    private fun getDNS(server: Server?): List<String?> {
         val dns = settings.dns
         println("Dns for WireGuard = $dns")
         if (dns.isNotEmpty()) {
-            return TextUtils.join("/", dns)
+            return dns
         }
         return if (server!!.hosts == null || server.hosts[0] == null || server.hosts[0].localIp == null) {
-            DEFAULT_DNS
+            listOf(DEFAULT_DNS)
         } else {
-            server.hosts[0].localIp.split("/".toRegex()).toTypedArray()[0]
+            listOf(server.hosts[0].localIp.split("/".toRegex()).toTypedArray()[0])
         }
     }
 
