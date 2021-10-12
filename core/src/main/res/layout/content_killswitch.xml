@@ -47,63 +47,8 @@
                             android:orientation="vertical">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/killswitch_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/textView3"
-                                    style="@style/SettingsOptionTitle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:text="@string/kill_switch_vpn"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <TextView
-                                    android:id="@+id/textView38"
-                                    style="@style/SettingsOptionDescription"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="16dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:layout_marginBottom="16dp"
-                                    android:lineSpacingExtra="3dp"
-                                    android:text="@string/kill_switch_vpn_description"
-                                    android:textAlignment="viewStart"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@+id/antitracker_switch"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                                <!--                                app:onTouch="@{killSwitch.touchListener}"-->
-                                <androidx.appcompat.widget.SwitchCompat
-                                    android:id="@+id/antitracker_switch"
-                                    android:layout_width="48dp"
-                                    android:layout_height="24dp"
-                                    android:layout_marginEnd="16dp"
-                                    android:checked="@{killSwitch.isEnabled}"
-                                    android:thumb="@drawable/common_thumb_selector"
-                                    app:layout_constraintBottom_toBottomOf="@+id/textView38"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="@+id/textView3"
-                                    app:onChanged="@{killSwitch.enableKillSwitch}"
-                                    app:track="@drawable/common_track_selector" />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/color_section_divider"
-                                android:visibility="@{killSwitch.advancedModeSupported ? View.VISIBLE : View.GONE}" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:visibility="@{killSwitch.advancedModeSupported ? View.VISIBLE : View.GONE}">
 
                                 <TextView
                                     android:id="@+id/native_kill_switch_label"
@@ -122,7 +67,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="16dp"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginTop="12dp"
                                     android:layout_marginEnd="16dp"
                                     android:layout_marginBottom="16dp"
                                     android:lineSpacingExtra="3dp"

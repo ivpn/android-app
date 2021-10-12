@@ -70,8 +70,9 @@
 
     <string name="kill_switch_vpn">VPN Kill switch</string>
     <string name="kill_switch_vpn_description">Disables internet access when VPN connection drops</string>
-    <string name="kill_switch_native">Android native Kill switch</string>
-    <string name="kill_switch_native_description">You could select <u><b>Always on VPN</b></u> and <u><b>Block connections without VPN</b></u> in the device settings in addition or as an alternative to the IVPN Kill switch. \n\nPlease note that native Kill switch ignores IVPN split tunneling settings.</string>
+    <string name="kill_switch_native">Android native Kill Switch</string>
+    <string name="kill_switch_native_description">Kill Switch prevents your device from making external connections if you are disconnected from the VPN, keeping your internet traffic secure.\n\nTo enable it
+        select <u><b>Always on VPN</b></u> and <u><b>Block connections without VPN</b></u> in the device settings. \n\nPlease note that native Kill Switch ignores IVPN Split Tunneling settings.</string>
 
     <string name="settings_protocol_selection_description">Choose VPN protocol and associated with it settings.</string>
     <string name="settings_vpn_protocol">VPN protocol</string>

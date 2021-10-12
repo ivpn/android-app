@@ -24,7 +24,5 @@ package net.ivpn.core.vpn;
 
 public enum VPNState {
     NONE,
-    VPN,
-    KILL_SWITCH,
-    BOTH;
+    VPN
 }

@@ -91,8 +91,6 @@ public class ComponentUtil {
         networkController.finishAll();
         globalBehaviorController.finishAll();
         IVPNApplication.updatesController.resetComponent();
-//        updatesJobServiceUtil.clearUpdateJob(IVPNApplication.application);
-//        updateHelper.skipUpdate();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }
@@ -100,13 +98,11 @@ public class ComponentUtil {
     private void initProfile() {
         protocolController.init();
         profileManager.readDefaultProfile();
-        globalBehaviorController.init();
         networkController.init();
     }
 
     private void initUpdateService() {
         IVPNApplication.updatesController.initUpdateService();
-//        updatesJobServiceUtil.pushUpdateJob(IVPNApplication.application);
     }
 
     private void initApiAccessImprovement() {

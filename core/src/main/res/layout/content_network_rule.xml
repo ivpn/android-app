@@ -71,21 +71,6 @@
                     android:textStyle="normal"
                     app:buttonTint="@color/primary"
                     app:onChanged="@{viewmodel.connectToVpnRuleChangeListener}" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:checked="@{viewmodel.isEnableKillSwitchRuleApplied}"
-                    android:paddingLeft="8dp"
-                    android:text="@string/network_enable_killswitch"
-                    android:textColor="@color/network_protection_text_color_opacity"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-
-                    app:buttonTint="@color/primary"
-                    app:onChanged="@{viewmodel.enableKillSwitchRuleChangeListener}" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -143,20 +128,6 @@
                     android:textStyle="normal"
                     app:buttonTint="@color/primary"
                     app:onChanged="@{viewmodel.disconnectFromVpnRuleChangeListener}" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:checked="@{viewmodel.isDisableKillSwitchRuleApplied}"
-                    android:paddingLeft="8dp"
-                    android:text="@string/network_disable_killswitch"
-                    android:textColor="@color/network_protection_text_color_opacity"
-                    android:textSize="14sp"
-                    android:textStyle="normal"
-                    app:buttonTint="@color/primary"
-                    app:onChanged="@{viewmodel.disableKillSwitchRuleChangeListener}" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

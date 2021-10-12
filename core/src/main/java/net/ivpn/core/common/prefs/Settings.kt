@@ -131,12 +131,6 @@ class Settings @Inject constructor(
             settingsPreference.putSettingCustomDNS(value)
         }
 
-    var isKillSwitchEnabled: Boolean
-        get() = settingsPreference.getSettingKillSwitch()
-        set(value) {
-            settingsPreference.putSettingKillSwitch(value)
-        }
-
     var isStartOnBootEnabled: Boolean
         get() = settingsPreference.getSettingStartOnBoot()
         set(value) {

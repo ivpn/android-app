@@ -50,17 +50,9 @@ public class NetworkRuleViewModel {
         LOGGER.info("Enable connect to VPN rule: " + isChecked);
         networkController.changeConnectToVpnRule(isChecked);
     };
-    public final OnCheckedChangeListener enableKillSwitchRuleChangeListener = (buttonView, isChecked) -> {
-        LOGGER.info("Enable kill-switch rule: " + isChecked);
-        networkController.changeEnableKillSwitchRule(isChecked);
-    };
     public final OnCheckedChangeListener disconnectFromVpnRuleChangeListener = (buttonView, isChecked) -> {
         LOGGER.info("Enable disconnect from VPN rule: " + isChecked);
         networkController.changeDisconnectFromVpnRule(isChecked);
-    };
-    public final OnCheckedChangeListener disableKillSwitchRuleChangeListener = (buttonView, isChecked) -> {
-        LOGGER.info("Disable kill-switch rule: " + isChecked);
-        networkController.changeDisableKillSwitchRule(isChecked);
     };
 
     @Inject
@@ -73,8 +65,6 @@ public class NetworkRuleViewModel {
 
     private void init() {
         isConnectToVpnRuleApplied.set(settingsPreference.getRuleConnectToVpn());
-        isEnableKillSwitchRuleApplied.set(settingsPreference.getRuleEnableKillSwitch());
         isDisconnectFromVpnRuleApplied.set(settingsPreference.getRuleDisconnectFromVpn());
-        isDisableKillSwitchRuleApplied.set(settingsPreference.getRuleDisableKillSwitch());
     }
 }

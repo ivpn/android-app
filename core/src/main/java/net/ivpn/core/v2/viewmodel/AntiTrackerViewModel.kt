@@ -34,8 +34,9 @@ import javax.inject.Inject
 
 @ApplicationScope
 class AntiTrackerViewModel @Inject constructor(
-        private val buildController: BuildController,
-        private val settings: Settings
+    private val buildController: BuildController,
+    private val vpnBehaviorController: VpnBehaviorController,
+    private val settings: Settings
 ) : ViewModel() {
 
     val isAntiTrackerSupported = ObservableBoolean()
@@ -43,13 +44,18 @@ class AntiTrackerViewModel @Inject constructor(
     val isHardcoreModeEnabled = ObservableBoolean()
     val isHardcoreModeUIEnabled = ObservableBoolean()
 
+    val antiTrackerDescription = ObservableField<String>()
+
     val state = ObservableField<AntiTrackerState>()
+
+    var connectionState: ConnectionState? = null
 
     var enableAntiSurveillance = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAntiSurveillance(value) }
     var enableHardcoreMode = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableHardcoreMode(value) }
 
     init {
         initStates()
+        vpnBehaviorController.addVpnStateListener(getVPNStateListener())
     }
 
     fun reset() {
@@ -63,6 +69,7 @@ class AntiTrackerViewModel @Inject constructor(
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
 
         getAntiTrackerState()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun getAntiTrackerSupport(): Boolean {
@@ -74,6 +81,7 @@ class AntiTrackerViewModel @Inject constructor(
         settings.isAntiSurveillanceEnabled = value
         isHardcoreModeUIEnabled.set(value)
         getAntiTrackerState()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun enableHardcoreMode(value: Boolean) {
@@ -89,6 +97,35 @@ class AntiTrackerViewModel @Inject constructor(
         }
 
         state.set(if(isHardcoreModeEnabled.get()) AntiTrackerState.HARDCORE else AntiTrackerState.NORMAL)
+    }
+
+    private fun getAntiTrackerDescriptionValue() {
+        val context = IVPNApplication.application
+        if (isAntiSurveillanceEnabled.get()) {
+            connectionState?.let {
+                if (it == ConnectionState.CONNECTED) {
+                    antiTrackerDescription.set(context.getString(R.string.anti_tracker_description_state_enabled))
+                } else {
+                    antiTrackerDescription.set(context.getString(R.string.anti_tracker_description_state_not_active))
+                }
+            } ?: run {
+                antiTrackerDescription.set(context.getString(R.string.anti_tracker_description_state_not_active))
+            }
+        } else {
+            antiTrackerDescription.set(context.getString(R.string.anti_tracker_description_state_disabled))
+        }
+    }
+
+    private fun getVPNStateListener(): VpnStateListener {
+        return object : DefaultVPNStateListener() {
+            override fun onConnectionStateChanged(state: ConnectionState?) {
+                if (state == null) {
+                    return
+                }
+                connectionState = state
+                getAntiTrackerDescriptionValue()
+            }
+        }
     }
 
     enum class AntiTrackerState {
