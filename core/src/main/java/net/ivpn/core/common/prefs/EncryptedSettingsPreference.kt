@@ -37,6 +37,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_LOGGING = "SETTINGS_LOGGING"
         private const val SETTINGS_SENTRY = "SETTINGS_SENTRY"
         private const val SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP"
+        private const val SETTINGS_KILL_SWITCH = "SETTINGS_KILL_SWITCH"
         private const val SETTINGS_ADVANCED_KILL_SWITCH_DIALOG = "SETTINGS_ADVANCED_KILL_SWITCH_DIALOG"
         private const val SETTINGS_START_ON_BOOT = "SETTINGS_START_ON_BOOT"
         private const val SETTINGS_NETWORK_RULES = "SETTINGS_NETWORK_RULES"
@@ -58,7 +59,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
         private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
         private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
-
 
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
@@ -101,6 +101,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             sharedPreferences.edit()
                     .putBoolean(SETTINGS_IPV6, value)
                     .apply()
+        }
+
+    var killSwitch: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_KILL_SWITCH, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putBoolean(SETTINGS_KILL_SWITCH, value)
+                .apply()
         }
 
     var ipv6List: String?

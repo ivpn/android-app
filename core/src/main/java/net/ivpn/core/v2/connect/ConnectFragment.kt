@@ -24,6 +24,7 @@ package net.ivpn.core.v2.connect
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -37,6 +38,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -70,8 +72,8 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
-        ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
-        LocationViewModel.LocationUpdatesUIListener {
+    ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
+    LocationViewModel.LocationUpdatesUIListener {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -111,12 +113,19 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     @Inject
     lateinit var killswitch: KillSwitchViewModel
 
+    @Inject
+    lateinit var notifications: NotificationDialogueViewModel
+
     var signUp: SignUpController = IVPNApplication.signUpController
 
+    var mapPopup: PopupWindow? = null
+
+    var notificationDialog: Dialog? = null
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
 
@@ -131,8 +140,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         LOGGER.info("onRequestPermissionsResult requestCode = $requestCode")
         when (requestCode) {
             LOCATION_PERMISSION_CODE -> {
@@ -180,8 +191,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.expandedOffset = resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.expandedOffset =
+            resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
 
@@ -240,8 +253,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             }
 
             if (connect.isVpnActive()) {
-                notifyUser(R.string.snackbar_to_change_protocol_disconnect,
-                        R.string.snackbar_disconnect_first)
+                notifyUser(
+                    R.string.snackbar_to_change_protocol_disconnect,
+                    R.string.snackbar_disconnect_first
+                )
                 return@setOnClickListener
             }
 
@@ -346,11 +361,22 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.map.mapListener = object : MapView.MapListener {
             override fun openLocationDialogue(location: Location?) {
                 view?.let {
-                    val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+                    val topMargin =
+                        (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
                     if (connect.connectionState.get() != null && connect.connectionState.get() == ConnectionState.PAUSED) {
-                        MapDialogs.openPauseDialogue(it, connect, topMargin, this@ConnectFragment)
+                        mapPopup = MapDialogs.openPauseDialogue(
+                            it,
+                            connect,
+                            topMargin,
+                            this@ConnectFragment
+                        )
                     } else {
-                        MapDialogs.openLocationDialogue(it, location, topMargin, this@ConnectFragment)
+                        mapPopup = MapDialogs.openLocationDialogue(
+                            it,
+                            location,
+                            topMargin,
+                            this@ConnectFragment
+                        )
                     }
                 }
             }
@@ -363,21 +389,33 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 val filteredList = filterLocation(list)
 
                 view?.let {
-                    val topMargin = (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
+                    val topMargin =
+                        (it.height - peekHeight) / 2f + resources.getDimension(R.dimen.map_dialog_inner_vertical_margin)
 
                     val location: ServerLocation
                     when (filteredList.size) {
                         0 -> {
                             location = list[0]
-                            MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
+                            mapPopup =
+                                MapDialogs.openForbiddenGatewayDialog(it, location, topMargin)
                         }
                         1 -> {
                             location = filteredList[0]
-                            MapDialogs.openGatewayDialog(it, filteredList[0], topMargin, this@ConnectFragment)
+                            mapPopup = MapDialogs.openGatewayDialog(
+                                it,
+                                filteredList[0],
+                                topMargin,
+                                this@ConnectFragment
+                            )
                         }
                         else -> {
                             location = filteredList[0]
-                            MapDialogs.openGatewayListDialog(it, list, topMargin, this@ConnectFragment)
+                            mapPopup = MapDialogs.openGatewayListDialog(
+                                it,
+                                list,
+                                topMargin,
+                                this@ConnectFragment
+                            )
                         }
                     }
 
@@ -426,12 +464,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 it.setContentSecure(false)
             }
         }
+        checkNotificationsToShown()
     }
 
     override fun onStop() {
         LOGGER.info("onStop: Connect fragment")
         super.onStop()
         location.removeLocationListener(binding.map.locationListener)
+        notificationDialog?.hide()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -449,6 +489,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             CONNECT_BY_MAP -> {
                 connect.connectOrReconnect()
             }
+        }
+    }
+
+    private fun checkNotificationsToShown() {
+        if (notifications.isKillSwitchDialogueNeedToBeShown) {
+            notificationDialog = DialogBuilder.createNonCancelableDialog(
+                requireContext(),
+                Dialogs.REMOVE_KILL_SWITCH,
+                positiveAction = {
+                    goToKillSwitchRemovingDescription()
+                    notifications.isKillSwitchDialogueNeedToBeShown = false
+                },
+                cancelAction = {
+                    notifications.isKillSwitchDialogueNeedToBeShown = false
+                })
         }
     }
 
@@ -492,56 +547,61 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun isForegroundLocationPermissionGranted(): Boolean {
-        return (ContextCompat.checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        return (ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun isBackgroundLocationPermissionGranted(): Boolean {
-        return (ContextCompat.checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        return (ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun askPermissionRationale() {
         LOGGER.info("askPermissionRationale")
         DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_LOCATION_PERMISSION,
-                { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
-                { network.applyNetworkFeatureState(false) })
+            positiveAction = {
+                goToAndroidAppSettings()
+            },
+            cancelAction = { network.applyNetworkFeatureState(false) })
     }
 
     private fun askBackgroundPermissionRationale() {
         LOGGER.info("askPermissionRationale")
-        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
-                { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
-                { network.applyNetworkFeatureState(false) })
-    }
-
-    private fun showInformationDialog() {
-        LOGGER.info("showInformationDialog")
-        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.LOCATION_PERMISSION_INFO,
-                null, { askPermission() })
+        DialogBuilder.createNonCancelableDialog(requireActivity(),
+            Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
+            positiveAction = {
+                goToAndroidAppSettings()
+            }, cancelAction =
+            { network.applyNetworkFeatureState(false) })
     }
 
     private fun isPermissionGranted(): Boolean {
-        return (ContextCompat.checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        return (ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
                 == PackageManager.PERMISSION_GRANTED)
     }
 
-    private fun shouldRequestRationale(): Boolean {
-        return shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-    }
-
     private fun askPermission() {
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_PERMISSION_CODE
+        )
     }
 
     private fun goToAndroidAppSettings() {
         LOGGER.info("goToAndroidAppSettings")
         val action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.parse(getString(R.string.settings_package) + IVPNApplication.config.applicationId)
+        val uri =
+            Uri.parse(getString(R.string.settings_package) + IVPNApplication.config.applicationId)
         val intent = Intent(action, uri)
         startActivity(intent)
     }
@@ -567,7 +627,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         }
         var alertHeight = 0f
         if (account.isExpiredIn.get() || account.isExpired.get() || location.isLocationAPIError.get()) {
-            alertHeight = resources.getDimension(R.dimen.map_alert_height) + resources.getDimension(R.dimen.map_alert_vertical_margin)
+            alertHeight =
+                resources.getDimension(R.dimen.map_alert_height) + resources.getDimension(R.dimen.map_alert_vertical_margin)
         }
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
@@ -615,17 +676,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun openEnterServerSelectionScreen() {
         println("backstack openEnterServerSelectionScreen")
-        val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
+        val action =
+            ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.ENTRY)
         navigate(action)
     }
 
     private fun openExitServerSelectionScreen() {
-        val action = ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.EXIT)
+        val action =
+            ConnectFragmentDirections.actionConnectFragmentToServerListFragment(ServerType.EXIT)
         navigate(action)
     }
 
-    private fun disconnectVpnService(needToReset: Boolean, dialog: Dialogs?,
-                                     listener: DialogInterface.OnClickListener) {
+    private fun disconnectVpnService(
+        needToReset: Boolean, dialog: Dialogs?,
+        listener: DialogInterface.OnClickListener
+    ) {
         if (dialog != null) {
             DialogBuilder.createOptionDialog(context, dialog, listener)
         }
@@ -639,9 +704,17 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         DialogBuilder.createNotificationDialog(context, dialogs)
     }
 
+    fun goToKillSwitchRemovingDescription() {
+        val url = "https://www.ivpn.net/blog/kill-switch-changes-ivpn-android/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    }
+
     override fun onAuthFailed() {
         LOGGER.info("onAuthFailed")
-        disconnectVpnService(true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR
+        disconnectVpnService(
+            true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR
         ) { _: DialogInterface?, _: Int ->
             LOGGER.info("onClick: ")
             logout()
@@ -672,26 +745,26 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     override fun accountVerificationFailed() {
         LOGGER.info("accountVerificationFailed")
         DialogBuilder.createNonCancelableDialog(context, Dialogs.SESSION_HAS_EXPIRED,
-                { _: DialogInterface?, _: Int ->
-                    LOGGER.info("onClick: ")
-                    logout()
-                },
-                {
-                    LOGGER.info("onCancel: ")
-                    logout()
-                })
+            positiveAction = {
+                LOGGER.info("onClick: ")
+                logout()
+            },
+            cancelAction = {
+                LOGGER.info("onCancel: ")
+                logout()
+            })
     }
 
     override fun openSessionLimitReachedDialogue() {
         createSessionFragment =
-                CreateSessionFragment()
+            CreateSessionFragment()
         createSessionFragment.show(childFragmentManager, createSessionFragment.tag)
     }
 
     override fun onTimeOut() {
         LOGGER.info("onTimeOut")
         disconnectVpnService(true, Dialogs.TRY_RECONNECT,
-                DialogInterface.OnClickListener { _: DialogInterface?, _: Int -> connect.onConnectRequest() })
+            DialogInterface.OnClickListener { _: DialogInterface?, _: Int -> connect.onConnectRequest() })
     }
 
     override fun logout() {
@@ -716,8 +789,10 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     private fun openAddFundsScreen() {
-        signUp.signUpWithInactiveAccount(findNavControllerSafely(),
-                Plan.getPlanByProductName(account.accountType.get()), account.isAccountNewStyle())
+        signUp.signUpWithInactiveAccount(
+            findNavControllerSafely(),
+            Plan.getPlanByProductName(account.accountType.get()), account.isAccountNewStyle()
+        )
     }
 
     override fun onLocationUpdated() {

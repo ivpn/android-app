@@ -26,7 +26,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.text.InputFilter
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +38,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import net.ivpn.core.IVPNApplication
@@ -53,9 +57,12 @@ import java.util.*
 
 object DialogBuilder {
     private val LOGGER = LoggerFactory.getLogger(DialogBuilder::class.java)
+
     @JvmStatic
-    fun createOptionDialog(context: Context?, dialogAttr: Dialogs,
-                           listener: DialogInterface.OnClickListener?) {
+    fun createOptionDialog(
+        context: Context?, dialogAttr: Dialogs,
+        listener: DialogInterface.OnClickListener?
+    ) {
         LOGGER.info("Create dialog $dialogAttr")
         if (context == null) {
             return
@@ -124,8 +131,10 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createFullCustomNotificationDialog(context: Context?, title: String?, msg: String?,
-                                           cancelListener: DialogInterface.OnCancelListener?) {
+    fun createFullCustomNotificationDialog(
+        context: Context?, title: String?, msg: String?,
+        cancelListener: DialogInterface.OnCancelListener?
+    ) {
         LOGGER.info("Create dialog ")
         if (context == null) {
             return
@@ -134,7 +143,11 @@ object DialogBuilder {
         builder.setTitle(title)
         builder.setMessage(msg)
         builder.setOnCancelListener(cancelListener)
-        builder.setNegativeButton(context.getString(R.string.dialogs_ok)) { dialog: DialogInterface?, _: Int -> cancelListener?.onCancel(dialog) }
+        builder.setNegativeButton(context.getString(R.string.dialogs_ok)) { dialog: DialogInterface?, _: Int ->
+            cancelListener?.onCancel(
+                dialog
+            )
+        }
         if ((context as Activity).isFinishing) {
             return
         }
@@ -148,37 +161,54 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createNonCancelableDialog(context: Context?, dialogAttr: Dialogs, listener: DialogInterface.OnClickListener?,
-                                  cancelListener: DialogInterface.OnCancelListener?) {
+    fun createNonCancelableDialog(
+        context: Context?,
+        dialogAttr: Dialogs,
+        positiveAction: () -> Unit,
+        cancelAction: () -> Unit
+    ) : Dialog? {
         LOGGER.info("Create dialog $dialogAttr")
         if (context == null) {
-            return
+            return null
         }
         val builder = AlertDialog.Builder(context, R.style.AlertDialog)
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
+
         if (dialogAttr.positiveBtnId != -1) {
-            builder.setPositiveButton(context.getString(dialogAttr.positiveBtnId), listener)
+            builder.setPositiveButton(context.getString(dialogAttr.positiveBtnId)) { _: DialogInterface?, _: Int ->
+                positiveAction()
+            }
         }
-        builder.setOnCancelListener(cancelListener)
+        builder.setOnCancelListener {
+            cancelAction()
+        }
         if (dialogAttr.negativeBtnId != -1) {
-            builder.setNegativeButton(context.getString(dialogAttr.negativeBtnId)) { dialog: DialogInterface?, which: Int -> cancelListener?.onCancel(dialog) }
+            builder.setNegativeButton(context.getString(dialogAttr.negativeBtnId)) { dialog: DialogInterface?, _: Int ->
+                cancelAction()
+            }
         }
         if ((context as Activity).isFinishing) {
-            return
+            return null
         }
         try {
-            val dialog: Dialog = builder.show()
-            val messageView = dialog.window!!.findViewById<TextView>(android.R.id.message)
-            messageView.setTextAppearance(context, R.style.DialogMessageStyle)
+            val dialog: AlertDialog = builder.show()
+            dialog.findViewById<TextView>(android.R.id.message).also {
+                it?.setTextAppearance(context, R.style.DialogMessageStyle)
+            }
+            return dialog
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
+
+        return null
     }
 
     @JvmStatic
-    fun createPredefinedTimePickerDialog(context: Context?,
-                                         onDelayOptionSelected: OnDelayOptionSelected) {
+    fun createPredefinedTimePickerDialog(
+        context: Context?,
+        onDelayOptionSelected: OnDelayOptionSelected
+    ) {
         LOGGER.info("Create time picker dialog")
         if (context == null) {
             return
@@ -218,8 +248,10 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createCustomTimePickerDialog(context: Context?,
-                                     onDelayOptionSelected: OnDelayOptionSelected) {
+    fun createCustomTimePickerDialog(
+        context: Context?,
+        onDelayOptionSelected: OnDelayOptionSelected
+    ) {
         LOGGER.info("Create custom time picker dialog")
         if (context == null) {
             return
@@ -232,7 +264,9 @@ object DialogBuilder {
         timePicker.setIs24HourView(true)
         timePicker.currentMinute = 0
         timePicker.currentHour = 0
-        timePicker.setOnTimeChangedListener { _: TimePicker?, hourOfDay: Int, minute: Int -> pauseTime[0] = hourOfDay * DateUtil.HOUR + minute * DateUtil.MINUTE }
+        timePicker.setOnTimeChangedListener { _: TimePicker?, hourOfDay: Int, minute: Int ->
+            pauseTime[0] = hourOfDay * DateUtil.HOUR + minute * DateUtil.MINUTE
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         dialogView.findViewById<View>(R.id.apply_button).setOnClickListener {
@@ -255,8 +289,10 @@ object DialogBuilder {
     }
 
     @JvmStatic
-    fun createWireGuardDetailsDialog(context: Context?, info: WireGuardInfo,
-                                     listener: WireGuardDetailsDialogListener) {
+    fun createWireGuardDetailsDialog(
+        context: Context?, info: WireGuardInfo,
+        listener: WireGuardDetailsDialogListener
+    ) {
         LOGGER.info("Create wireguard details dialog")
         if (context == null) {
             return
@@ -268,16 +304,21 @@ object DialogBuilder {
         val alertDialog = builder.create()
         (dialogView.findViewById<View>(R.id.wg_public_key) as TextView).text = info.publicKey
         (dialogView.findViewById<View>(R.id.wg_ip_address) as TextView).text = info.ipAddress
-        (dialogView.findViewById<View>(R.id.wg_last_generated) as TextView).text = info.lastGenerated
-        (dialogView.findViewById<View>(R.id.wg_regenerate_in) as TextView).text = info.nextRegenerationDate
+        (dialogView.findViewById<View>(R.id.wg_last_generated) as TextView).text =
+            info.lastGenerated
+        (dialogView.findViewById<View>(R.id.wg_regenerate_in) as TextView).text =
+            info.nextRegenerationDate
         (dialogView.findViewById<View>(R.id.wg_valid_until) as TextView).text = info.validUntil
-        dialogView.findViewById<View>(R.id.cancelAction).setOnClickListener { alertDialog.dismiss() }
+        dialogView.findViewById<View>(R.id.cancelAction)
+            .setOnClickListener { alertDialog.dismiss() }
         dialogView.findViewById<View>(R.id.reGenerateAction).setOnClickListener {
             listener.reGenerateKeys()
             alertDialog.dismiss()
         }
-        dialogView.findViewById<View>(R.id.clipboard_copy).setOnClickListener { listener.copyPublicKeyToClipboard() }
-        dialogView.findViewById<View>(R.id.ip_clipboard_copy).setOnClickListener { listener.copyIpAddressToClipboard() }
+        dialogView.findViewById<View>(R.id.clipboard_copy)
+            .setOnClickListener { listener.copyPublicKeyToClipboard() }
+        dialogView.findViewById<View>(R.id.ip_clipboard_copy)
+            .setOnClickListener { listener.copyIpAddressToClipboard() }
 
         if ((context as Activity).isFinishing) {
             return
@@ -298,10 +339,13 @@ object DialogBuilder {
         }
         val builder = AlertDialog.Builder(context, R.style.AlertDialog)
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val viewModel = IVPNApplication.appComponent.provideActivityComponent().create().dialogueViewModel
+        val viewModel =
+            IVPNApplication.appComponent.provideActivityComponent().create().dialogueViewModel
         viewModel.setOnDnsChangedListener(listener)
-        val binding: DialogCustomDnsBinding = DataBindingUtil.inflate(inflater,
-                R.layout.dialog_custom_dns, null, false)
+        val binding: DialogCustomDnsBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.dialog_custom_dns, null, false
+        )
         binding.viewmodel = viewModel
         val dialogView = binding.root
         builder.setView(dialogView)

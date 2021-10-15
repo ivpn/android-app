@@ -68,9 +68,9 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     lateinit var adapter: NetworksPagerAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_network, container, false)
         return binding.root
@@ -83,8 +83,10 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         initToolbar()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
         LOGGER.info("onRequestPermissionsResult requestCode = $requestCode")
         when (requestCode) {
             LOCATION_PERMISSION_CODE -> {
@@ -141,21 +143,25 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         binding.contentLayout.formatter = NetworkStateFormatter(requireContext())
         binding.contentLayout.mobileContentLayout.setOnClickListener {
             network.mobileDataState.get()?.let { state ->
-                openChangeNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state) {
-                    override fun apply() {
-                        network.setMobileNetworkStateAs(selectedState.get())
-                    }
-                })
+                openChangeNetworkStatusDialogue(
+                    requireContext(),
+                    object : NetworkChangeDialogViewModel(state) {
+                        override fun apply() {
+                            network.setMobileNetworkStateAs(selectedState.get())
+                        }
+                    })
             }
         }
 
         binding.contentLayout.defaultLayout.setOnClickListener {
             network.defaultState.get()?.let { state ->
-                openChangeDefaultNetworkStatusDialogue(requireContext(), object : NetworkChangeDialogViewModel(state) {
-                    override fun apply() {
-                        network.setDefaultNetworkStateAs(selectedState.get())
-                    }
-                })
+                openChangeDefaultNetworkStatusDialogue(
+                    requireContext(),
+                    object : NetworkChangeDialogViewModel(state) {
+                        override fun apply() {
+                            network.setDefaultNetworkStateAs(selectedState.get())
+                        }
+                    })
             }
         }
 
@@ -174,7 +180,8 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     private fun goToAndroidAppSettings() {
         LOGGER.info("goToAndroidAppSettings")
         val action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.parse(getString(R.string.settings_package) + IVPNApplication.config.applicationId)
+        val uri =
+            Uri.parse(getString(R.string.settings_package) + IVPNApplication.config.applicationId)
         val intent = Intent(action, uri)
         startActivity(intent)
     }
@@ -270,46 +277,56 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun askBackgroundPermissionRationale() {
         LOGGER.info("askBackgroundPermissionRationale")
-        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
-                { _: DialogInterface?, _: Int ->
-                    network.isWaitingForPermission = true
-                    goToAndroidAppSettings()
-                },
-                { network.applyNetworkFeatureState(false) })
+        DialogBuilder.createNonCancelableDialog(requireActivity(),
+            Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
+            positiveAction = {
+                network.isWaitingForPermission = true
+                goToAndroidAppSettings()
+            },
+            cancelAction = { network.applyNetworkFeatureState(false) })
     }
 
     private fun askPermissionRationale() {
         LOGGER.info("askPermissionRationale")
         DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_LOCATION_PERMISSION,
-                { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
-                { network.applyNetworkFeatureState(false) })
+            positiveAction = {goToAndroidAppSettings()},
+            cancelAction = { network.applyNetworkFeatureState(false) })
     }
 
     private fun showInformationDialog() {
         LOGGER.info("showInformationDialog")
         DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.LOCATION_PERMISSION_INFO,
-                null, { askForegroundLocationPermission() })
+            positiveAction = {}, cancelAction = { askForegroundLocationPermission() })
     }
-
 
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun isBackgroundLocationPermissionGranted(): Boolean {
-        return (checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        return (checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun isPermissionGranted(): Boolean {
-        return (checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
+        return (checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
                 == PackageManager.PERMISSION_GRANTED)
     }
 
     private fun shouldRequestRationale(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             LOGGER.info("Fine location permission ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
-            LOGGER.info("Background location permission ${shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)}")
+            LOGGER.info(
+                "Background location permission ${
+                    shouldShowRequestPermissionRationale(
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    )
+                }"
+            )
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
                     || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         } else {
@@ -319,11 +336,15 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
 
     private fun askForegroundLocationPermission() {
         LOGGER.info("Ask Location Permission")
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_PERMISSION_CODE
+        )
     }
 
     private fun openNetworkProtectionRulesScreen() {
-        val action = NetworkCommonFragmentDirections.actionNetworkProtectionFragmentToNetworkProtectionRulesFragment()
+        val action =
+            NetworkCommonFragmentDirections.actionNetworkProtectionFragmentToNetworkProtectionRulesFragment()
         NavHostFragment.findNavController(this).navigate(action)
     }
 }

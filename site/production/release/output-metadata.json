@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "net.ivpn.client",
+  "variantName": "processProductionReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 105,
+      "versionName": "2.7.0",
+      "outputFile": "site-production-release.apk"
+    }
+  ]
+}

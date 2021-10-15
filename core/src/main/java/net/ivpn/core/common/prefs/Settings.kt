@@ -113,6 +113,12 @@ class Settings @Inject constructor(
             settingsPreference.setNextVersion(nextVersion)
         }
 
+    var isKillSwitchEnabled: Boolean
+        get() = settingsPreference.killSwitch
+        set(value) {
+            settingsPreference.killSwitch = value
+        }
+
     var isMultiHopEnabled: Boolean
         get() = settingsPreference.getSettingMultiHop()
         set(value) {
