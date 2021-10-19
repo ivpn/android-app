@@ -60,7 +60,10 @@ class ConnectionViewModel @Inject constructor(
     val isProtected = ObservableBoolean()
     val isConnected = ObservableBoolean()
     val connectionStatus = ObservableField<String>()
+
     val serverConnectionHint = ObservableField<String>()
+    val entryServerConnectionHint = ObservableField<String>()
+    val exitServerConnectionHint = ObservableField<String>()
 
     val connectionState = ObservableField<ConnectionState>()
     val isPauseAvailable = ObservableBoolean()
@@ -168,21 +171,30 @@ class ConnectionViewModel @Inject constructor(
                         isPaused.set(false)
                         isPauseAvailable.set(true)
                         connectionStatus.set(context.getString(R.string.connect_status_connected))
+
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_connected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
                         isProtected.set(true)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_connecting))
-                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_connecting))
+
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                     }
                     ConnectionState.DISCONNECTING -> {
                         isProtected.set(false)
                         isPaused.set(false)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_disconnecting))
-                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnecting))
+
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                     }
                     ConnectionState.NOT_CONNECTED -> {
                         isProtected.set(false)
@@ -191,19 +203,27 @@ class ConnectionViewModel @Inject constructor(
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_not_connected))
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                     }
                     ConnectionState.PAUSING -> {
                         isProtected.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_pausing))
-                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_pausing))
+
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                     }
                     ConnectionState.PAUSED -> {
                         isProtected.set(true)
                         isPaused.set(true)
                         isPauseAvailable.set(false)
                         connectionStatus.set(context.getString(R.string.connect_status_paused))
-                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_paused))
+
+                        serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
+                        entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
+                        exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                     }
                 }
             }

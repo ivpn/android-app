@@ -33,6 +33,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -121,7 +122,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     var mapPopup: PopupWindow? = null
 
     var notificationDialog: Dialog? = null
-
+      
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -137,7 +138,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapPopup?.dismiss()
     }
 
     override fun onRequestPermissionsResult(
@@ -213,6 +218,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 }
             }
         })
+        binding.slidingPanel.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initNavigation() {
