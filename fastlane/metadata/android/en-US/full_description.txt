@@ -6,7 +6,6 @@ Notable features:
 * Fast servers in 45 locations
 * Use on up to 7 devices (Pro plan)
 * Split tunneling
-* Kill switch
 * Set trusted networks and use custom DNS
 * Multi-hop connections for advanced privacy
 * Unlimited bandwidth
