@@ -38,6 +38,7 @@ class MultiHopViewModel @Inject constructor(
 
     val isEnabled = ObservableBoolean()
     val isSupported = ObservableBoolean()
+    val isSameProviderAllowed = ObservableBoolean()
 
     var multiHopTouchListener = OnTouchListener { _, motionEvent ->
         val state = multiHopController.getState()
@@ -54,6 +55,10 @@ class MultiHopViewModel @Inject constructor(
     var enableMultiHopListener = CompoundButton.OnCheckedChangeListener {
         _: CompoundButton?, value: Boolean -> enableMultiHop(value)
     }
+    var enableMultiHopSameProviderListener =
+        CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean ->
+            enableSameProvider(value)
+        }
 
     var navigator: MultiHopNavigator? = null
 
@@ -63,6 +68,7 @@ class MultiHopViewModel @Inject constructor(
     fun onResume() {
         isEnabled.set(multiHopController.getIsEnabled())
         isSupported.set(multiHopController.isSupportedByPlan())
+        isSameProviderAllowed.set(multiHopController.isSameProviderAllowed)
     }
 
     fun reset() {
@@ -87,6 +93,11 @@ class MultiHopViewModel @Inject constructor(
         multiHopController.enable(state)
 
         navigator?.onMultiHopStateChanged(state)
+    }
+
+    fun enableSameProvider(state: Boolean) {
+        isSameProviderAllowed.set(state)
+        multiHopController.setIsSameProviderAllowed(state)
     }
 
     private fun applyActionFor(state : MultiHopController.State) {

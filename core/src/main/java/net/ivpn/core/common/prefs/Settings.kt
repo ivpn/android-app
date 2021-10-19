@@ -113,6 +113,12 @@ class Settings @Inject constructor(
             settingsPreference.setFilter(filter?.name)
         }
 
+    var isMultiHopSameProviderAllowed: Boolean
+        get() = settingsPreference.isMultiHopSameProviderAllowed
+        set(value) {
+            settingsPreference.isMultiHopSameProviderAllowed = value
+        }
+
     var isAutoUpdateEnabled: Boolean
         get() = settingsPreference.isAutoUpdateEnabled()
         set(value) {

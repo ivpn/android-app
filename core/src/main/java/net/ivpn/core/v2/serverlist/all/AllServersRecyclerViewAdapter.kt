@@ -189,7 +189,7 @@ class AllServersRecyclerViewAdapter(
             }
             else -> {
                 val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
-                ServerViewHolder(binding, navigator, listener)
+                ServerViewHolder(binding, navigator)
             }
         }
     }
