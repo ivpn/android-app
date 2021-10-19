@@ -39,8 +39,8 @@ import javax.inject.Inject
 
 @ApplicationScope
 class AccountViewModel @Inject constructor(
-        private val userPreference: EncryptedUserPreference,
-        private val sessionController: SessionController
+    private val userPreference: EncryptedUserPreference,
+    private val sessionController: SessionController
 ) : ViewModel() {
 
     companion object {
@@ -53,7 +53,6 @@ class AccountViewModel @Inject constructor(
     val subscriptionPlan = ObservableField<String>()
     val accountType = ObservableField<String>()
     val qrCode = ObservableField<Bitmap>()
-//    val subscriptionState = ObservableField<SubscriptionState>()
     val authenticated = ObservableBoolean()
     val isOnFreeTrial = ObservableBoolean()
     val isNativeSubscription = ObservableBoolean()
@@ -67,16 +66,16 @@ class AccountViewModel @Inject constructor(
 
     var navigator: AccountNavigator? = null
 
+    var logoutType: Type? = null
+
     init {
         sessionController.subscribe(object : SessionListenerImpl() {
             override fun onRemoveSuccess() {
-                dataLoading.set(false)
-                clearLocalCache()
+                onRemoveSessionSuccess()
             }
 
             override fun onRemoveError() {
-                dataLoading.set(false)
-                clearLocalCache()
+                onRemoveSessionFailed()
             }
         })
     }
@@ -88,7 +87,6 @@ class AccountViewModel @Inject constructor(
         availableUntil.set(getAvailableUntilValue())
         authenticated.set(isAuthenticated())
         isNativeSubscription.set(isNativeSubscription())
-//        subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
         isActive.set(getIsActiveValue())
         paymentMethod = getPaymentMethodValue()
@@ -104,9 +102,47 @@ class AccountViewModel @Inject constructor(
         qrCode.set(QRController.getQR(username.get(), foregroundColor, backgroundColor, dimension))
     }
 
-    fun logOut() {
+    fun logOut(type: Type) {
+        logoutType = type
         dataLoading.set(true)
         sessionController.logOut()
+    }
+
+    fun forceLogout() {
+        when (logoutType) {
+            Type.LOGOUT -> logoutType = Type.FORCE_LOGOUT
+            Type.LOGOUT_AND_CLEAR -> logoutType = Type.FORCE_LOGOUT_AND_CLEAR
+        }
+        dataLoading.set(true)
+        sessionController.logOut()
+    }
+
+    private fun onRemoveSessionSuccess() {
+        dataLoading.set(false)
+        clearLocalCache()
+        when (logoutType) {
+            Type.LOGOUT -> sessionController.clearSessionData()
+            Type.LOGOUT_AND_CLEAR -> sessionController.clearData()
+            Type.FORCE_LOGOUT -> sessionController.clearSessionData()
+            Type.FORCE_LOGOUT_AND_CLEAR -> sessionController.clearData()
+        }
+        navigator?.onLogOut()
+    }
+
+    private fun onRemoveSessionFailed() {
+        dataLoading.set(false)
+        when (logoutType) {
+            Type.LOGOUT -> navigator?.onLogOutFailed()
+            Type.LOGOUT_AND_CLEAR -> navigator?.onLogOutFailed()
+            Type.FORCE_LOGOUT -> {
+                sessionController.clearSessionData()
+                navigator?.onLogOut()
+            }
+            Type.FORCE_LOGOUT_AND_CLEAR -> {
+                sessionController.clearData()
+                navigator?.onLogOut()
+            }
+        }
     }
 
     fun cancel() {
@@ -120,7 +156,6 @@ class AccountViewModel @Inject constructor(
         availableUntil.set(getAvailableUntilValue())
         authenticated.set(isAuthenticated())
         isNativeSubscription.set(isNativeSubscription())
-//        subscriptionState.set(getSubscriptionState())
         subscriptionPlan.set(getSubscriptionPlan())
     }
 
@@ -157,7 +192,13 @@ class AccountViewModel @Inject constructor(
             (expireTime - currentTime) < DateUtil.DAYS_4 -> {
                 isExpired.set(false)
                 isExpiredIn.set(true)
-                textIsExpiredIn.set("Subscription will expire in ${DateUtil.formatSubscriptionTimeLeft(expireTime)}")
+                textIsExpiredIn.set(
+                    "Subscription will expire in ${
+                        DateUtil.formatSubscriptionTimeLeft(
+                            expireTime
+                        )
+                    }"
+                )
             }
             else -> {
                 isExpired.set(false)
@@ -215,5 +256,14 @@ class AccountViewModel @Inject constructor(
 
     interface AccountNavigator {
         fun onLogOut()
+
+        fun onLogOutFailed()
+    }
+
+    enum class Type {
+        LOGOUT,
+        LOGOUT_AND_CLEAR,
+        FORCE_LOGOUT,
+        FORCE_LOGOUT_AND_CLEAR
     }
 }

@@ -87,6 +87,11 @@ class Preference @Inject constructor() {
         clear(wireguardServersSharedPreferences)
     }
 
+    fun removeSessionData() {
+        clear(accountPreference)
+        clear(oldAccountSharedPreferences)
+    }
+
     private fun clear(sharedPreferences: SharedPreferences?) {
         sharedPreferences?.edit()?.clear()?.apply()
     }

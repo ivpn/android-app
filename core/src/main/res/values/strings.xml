@@ -326,6 +326,11 @@
     <string name="notification_wifi_watcher_content">IVPN will automatically start when you connect to an untrusted Wi-Fi network</string>
 
     <!--Dialogs-->
+    <string name="dialogs_force_logout_title">Server unreachable</string>
+    <string name="dialogs_force_logout_description">Unable to contact server to log out. Please check Internet connectivity. Do you want to force log out? This device will continue to count towards your device limit.</string>
+    <string name="dialogs_force_logout_positive_action">Force log out</string>
+    <string name="dialogs_force_logout_negative_action">Cancel</string>
+
     <string name="dialogs_log_out_title">Are you sure?</string>
     <string name="dialogs_log_out_message">This will disconnect you from IVPN.</string>
     <string name="dialogs_log_out_positive_button">LOG OUT</string>
@@ -447,6 +452,11 @@
 
     <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
     <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
+
+    <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
+    <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>
+    <string name="bottom_sheet_logout_preferences">Log out</string>
+    <string name="bottom_sheet_close">Close</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>

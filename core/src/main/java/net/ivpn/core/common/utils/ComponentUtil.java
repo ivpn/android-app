@@ -99,6 +99,14 @@ public class ComponentUtil {
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }
 
+    public void resetSessionData() {
+        preference.removeSessionData();
+        networkController.finishAll();
+        globalBehaviorController.finishAll();
+
+        NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
+    }
+
     private void initProfile() {
         protocolController.init();
         profileManager.readDefaultProfile();

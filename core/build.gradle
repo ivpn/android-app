@@ -41,7 +41,6 @@ android {
                 arguments '-DANDROID_TOOLCHAIN=clang',
                         '-DANDROID_STL=c++_static',
                         '-DANDROID_LD=deprecated',
-//                        "-DANDROID_PACKAGE_NAME=${groupName}",
                         "-DGRADLE_USER_HOME=${project.gradle.gradleUserHomeDir}"
             }
 

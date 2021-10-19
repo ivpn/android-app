@@ -43,12 +43,13 @@ import net.ivpn.core.databinding.FragmentAccountBinding
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
+class AccountFragment : Fragment(), AccountViewModel.AccountNavigator, LogOutNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountFragment::class.java)
@@ -61,10 +62,12 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     var signUp: SignUpController = IVPNApplication.signUpController
 
+    private var logOutDialogue: LogOutFragment? = null
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
         return binding.root
@@ -100,7 +103,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         binding.contentLayout.account = account
         account.navigator = this
         binding.contentLayout.logOut.setOnClickListener {
-            DialogBuilder.createOptionDialog(context, Dialogs.LOGOUT) { _: DialogInterface?, _: Int -> account.logOut() }
+            openLogOutDialogue()
         }
 
         binding.contentLayout.copyBtn.setOnClickListener {
@@ -111,9 +114,11 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
             addFunds()
         }
         binding.contentLayout.qr.post {
-            account.drawQR(resources.getColor(R.color.account_qr_foreground),
+            account.drawQR(
+                resources.getColor(R.color.account_qr_foreground),
                 resources.getColor(R.color.account_qr_background),
-                binding.contentLayout.qr.width)
+                binding.contentLayout.qr.width
+            )
         }
     }
 
@@ -132,7 +137,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     private fun copyAccountId() {
         account.username.get()?.let { userId ->
-            val myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val myClipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 
@@ -142,13 +148,47 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     private fun addFunds() {
         if (account.isAccountNewStyle()) {
-            signUp.signUpWithInactiveAccount(findNavControllerSafely(),
-                    Plan.getPlanByProductName(account.accountType.get()), account.isAccountNewStyle())
+            signUp.signUpWithInactiveAccount(
+                findNavControllerSafely(),
+                Plan.getPlanByProductName(account.accountType.get()), account.isAccountNewStyle()
+            )
         } else {
             val url = "https://www.ivpn.net/account/login"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
+        }
+    }
+
+    private fun openLogOutDialogue() {
+        if (!isAdded) {
+            return
+        }
+
+        logOutDialogue =
+            LogOutFragment()
+        logOutDialogue?.let {
+            it.show(childFragmentManager, it.tag)
+        }
+    }
+
+    override fun onLogoutAction() {
+        account.logOut(AccountViewModel.Type.LOGOUT)
+        logOutDialogue?.dismissAllowingStateLoss()
+    }
+
+    override fun onLogoutAndClearAction() {
+        account.logOut(AccountViewModel.Type.LOGOUT_AND_CLEAR)
+        logOutDialogue?.dismissAllowingStateLoss()
+    }
+
+    override fun onCloseAction() {
+        logOutDialogue?.dismissAllowingStateLoss()
+    }
+
+    override fun onLogOutFailed() {
+        DialogBuilder.createOptionDialog(requireContext(), Dialogs.FORCE_LOGOUT) {
+            account.forceLogout()
         }
     }
 }
