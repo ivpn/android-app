@@ -60,15 +60,12 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
         private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
 
-
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
         private const val WIREGUARD_KEY_GENERATION_TIME = "WIREGUARD_KEY_GENERATION_TIME"
         private const val WIREGUARD_KEY_REGENERATION_PERIOD = "WIREGUARD_KEY_REGENERATION_PERIOD"
         private const val RULE_CONNECT_TO_VPN = "RULE_CONNECT_TO_VPN"
         private const val RULE_DISCONNECT_FROM_VPN = "RULE_DISCONNECT_FROM_VPN"
-        private const val RULE_ENABLE_KILL_SWITCH = "RULE_ENABLE_KILL_SWITCH"
-        private const val RULE_DISABLE_KILL_SWITCH = "RULE_DISABLE_KILL_SWITCH"
         private const val IP_LIST = "IP_LIST"
         private const val IPV6_LIST = "IPV6_LIST"
         private const val LAST_USED_IP = "LAST_USED_IP"
@@ -106,6 +103,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
                     .apply()
         }
 
+    var killSwitch: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_KILL_SWITCH, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putBoolean(SETTINGS_KILL_SWITCH, value)
+                .apply()
+        }
+
     var ipv6List: String?
         get() {
             val value = sharedPreferences.getString(IPV6_LIST, null)
@@ -137,10 +144,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     fun getSettingMultiHop(): Boolean {
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false)
-    }
-
-    fun getSettingKillSwitch(): Boolean {
-        return sharedPreferences.getBoolean(SETTINGS_KILL_SWITCH, false)
     }
 
     fun getSettingStartOnBoot(): Boolean {
@@ -226,12 +229,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     fun putSettingCustomDNS(value: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_CUSTOM_DNS, value)
-                .apply()
-    }
-
-    fun putSettingKillSwitch(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_KILL_SWITCH, value)
                 .apply()
     }
 
@@ -367,14 +364,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getBoolean(RULE_DISCONNECT_FROM_VPN, true)
     }
 
-    fun getRuleEnableKillSwitch(): Boolean {
-        return sharedPreferences.getBoolean(RULE_ENABLE_KILL_SWITCH, false)
-    }
-
-    fun getRuleDisableKillSwitch(): Boolean {
-        return sharedPreferences.getBoolean(RULE_DISABLE_KILL_SWITCH, false)
-    }
-
     fun putRuleConnectToVpn(value: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(RULE_CONNECT_TO_VPN, value)
@@ -384,18 +373,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     fun putRuleDisconnectFromVpn(value: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(RULE_DISCONNECT_FROM_VPN, value)
-                .apply()
-    }
-
-    fun putRuleEnableKillSwitch(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(RULE_ENABLE_KILL_SWITCH, value)
-                .apply()
-    }
-
-    fun putRuleDisableKillSwitch(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(RULE_DISABLE_KILL_SWITCH, value)
                 .apply()
     }
 
@@ -478,9 +455,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         if (oldPreference.contains(SETTINGS_MULTI_HOP)) {
             putSettingMultiHop(oldPreference.getBoolean(SETTINGS_MULTI_HOP, false))
         }
-        if (oldPreference.contains(SETTINGS_KILL_SWITCH)) {
-            putSettingKillSwitch(oldPreference.getBoolean(SETTINGS_KILL_SWITCH, false))
-        }
         if (oldPreference.contains(SETTINGS_ADVANCED_KILL_SWITCH_DIALOG)) {
             putSettingAdvancedKillSwitch(oldPreference.getBoolean(SETTINGS_ADVANCED_KILL_SWITCH_DIALOG, true))
         }
@@ -549,12 +523,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         }
         if (oldPreference.contains(RULE_DISCONNECT_FROM_VPN)) {
             putRuleDisconnectFromVpn(oldPreference.getBoolean(RULE_DISCONNECT_FROM_VPN, true))
-        }
-        if (oldPreference.contains(RULE_ENABLE_KILL_SWITCH)) {
-            putRuleEnableKillSwitch(oldPreference.getBoolean(RULE_ENABLE_KILL_SWITCH, false))
-        }
-        if (oldPreference.contains(RULE_DISABLE_KILL_SWITCH)) {
-            putRuleDisableKillSwitch(oldPreference.getBoolean(RULE_DISABLE_KILL_SWITCH, false))
         }
         if (oldPreference.contains(IP_LIST)) {
             putIpList(oldPreference.getString(IP_LIST, null))

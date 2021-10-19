@@ -81,7 +81,6 @@ class ViewModelCleaner {
         antiTracker.reset()
         alwaysOnVPN.reset()
         connect.reset()
-        killswitch.reset()
         location.reset()
         logging.reset()
         multihop.reset()

@@ -52,6 +52,8 @@ class Preference @Inject constructor() {
 
         private const val ACCOUNT_PREF = "ENC_ACCOUNT_PREF"
         private const val OLD_ACCOUNT_PREF = "ACCOUNT_PREF"
+        private const val NOTIFICATION_DIALOGUE_PREF = "NOTIFICATION_DIALOGUE_PREF"
+
     }
 
     val isLogicVersionExist: Boolean
@@ -123,4 +125,7 @@ class Preference @Inject constructor() {
         )
     val oldAccountSharedPreferences: SharedPreferences
         get() = IVPNApplication.application.getSharedPreferences(OLD_ACCOUNT_PREF, Context.MODE_PRIVATE)
+    
+    val notificationDialoguePreference : SharedPreferences
+        get() = IVPNApplication.application.getSharedPreferences(NOTIFICATION_DIALOGUE_PREF, Context.MODE_PRIVATE)
 }

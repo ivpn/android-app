@@ -68,10 +68,6 @@
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
-            android:name="net.ivpn.core.vpn.local.KillSwitchPermissionActivity"
-            android:theme="@style/AppTheme.Transparent" />
-
-        <activity
             android:name="net.ivpn.core.common.shortcuts.ConnectionShortcutsActivity"
             android:theme="@style/AppTheme.Transparent" />
 
@@ -81,10 +77,6 @@
 
         <service
             android:name="net.ivpn.core.vpn.openvpn.IVPNService"
-            android:exported="false"
-            android:permission="android.permission.BIND_VPN_SERVICE" />
-        <service
-            android:name="net.ivpn.core.vpn.local.KillSwitchService"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE" />
         <service android:name="net.ivpn.core.vpn.local.WifiWatcherService" />

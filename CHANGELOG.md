@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.7.0 - 2021-10-19
+
+[Remove] In-app Kill Switch implementation  
+
 ## Version 2.6.0 - 2021-07-07
 
 [New] Ability to zoom map in/out  

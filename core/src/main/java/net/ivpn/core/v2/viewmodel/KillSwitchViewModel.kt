@@ -22,60 +22,16 @@ package net.ivpn.core.v2.viewmodel
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.widget.CompoundButton
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.vpn.GlobalBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class KillSwitchViewModel @Inject constructor(
-        private val settings: Settings,
-        buildController: BuildController,
-        private val globalBehaviorController: GlobalBehaviorController
+        buildController: BuildController
 ) : ViewModel() {
-
-    val isEnabled = ObservableBoolean()
-    var enableKillSwitch = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> tryEnable(value) }
 
     var isAdvancedModeSupported: Boolean = buildController.isAdvancedKillSwitchModeSupported
 
-    var navigator: KillSwitchNavigator? = null
-
-    init {
-        isEnabled.set(isKillSwitchEnabled())
-    }
-
-    fun update() {
-        isEnabled.set(isKillSwitchEnabled())
-    }
-
-    fun enable(value: Boolean) {
-        isEnabled.set(value)
-        settings.isKillSwitchEnabled = value
-        if (value) {
-            globalBehaviorController.enableKillSwitch()
-        } else {
-            globalBehaviorController.disableKillSwitch()
-        }
-    }
-
-    fun reset() {
-        isEnabled.set(isKillSwitchEnabled())
-    }
-
-    private fun tryEnable(value: Boolean) {
-        navigator?.tryEnableKillSwitch(value)
-    }
-
-    private fun isKillSwitchEnabled(): Boolean {
-        return settings.isKillSwitchEnabled
-    }
-
-    interface KillSwitchNavigator {
-        fun tryEnableKillSwitch(state: Boolean)
-    }
 }

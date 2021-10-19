@@ -1,11 +1,15 @@
-package net.ivpn.core.vpn.model;
+package net.ivpn.core.v2.viewmodel
+
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.Settings
+import javax.inject.Inject
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2021 Privatus Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,8 +26,18 @@ package net.ivpn.core.vpn.model;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-public enum KillSwitchRule {
-    ENABLE,
-    DISABLE,
-    NOTHING;
+@ApplicationScope
+class NotificationDialogueViewModel @Inject constructor(
+    val settings: Settings
+){
+
+    //We are reusing the Kill Switch field in the persistent storage to show notifications only for users who were using this feature.
+    var isKillSwitchDialogueNeedToBeShown: Boolean
+        set(value) {
+            settings.isKillSwitchEnabled = value
+        }
+        get() {
+            return settings.isKillSwitchEnabled
+        }
+
 }

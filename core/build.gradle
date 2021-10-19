@@ -27,8 +27,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 100
-        versionName "2.6.0"
+        versionCode 105
+        versionName "2.7.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -41,7 +41,6 @@ android {
                 arguments '-DANDROID_TOOLCHAIN=clang',
                         '-DANDROID_STL=c++_static',
                         '-DANDROID_LD=deprecated',
-//                        "-DANDROID_PACKAGE_NAME=${groupName}",
                         "-DGRADLE_USER_HOME=${project.gradle.gradleUserHomeDir}"
             }
 

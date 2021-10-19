@@ -70,8 +70,9 @@
 
     <string name="kill_switch_vpn">VPN Kill switch</string>
     <string name="kill_switch_vpn_description">Disables internet access when VPN connection drops</string>
-    <string name="kill_switch_native">Android native Kill switch</string>
-    <string name="kill_switch_native_description">You could select <u><b>Always on VPN</b></u> and <u><b>Block connections without VPN</b></u> in the device settings in addition or as an alternative to the IVPN Kill switch. \n\nPlease note that native Kill switch ignores IVPN split tunneling settings.</string>
+    <string name="kill_switch_native">Android native Kill Switch</string>
+    <string name="kill_switch_native_description">Kill Switch prevents your device from making external connections if you are disconnected from the VPN, keeping your internet traffic secure.\n\nTo enable it
+        select <u><b>Always on VPN</b></u> and <u><b>Block connections without VPN</b></u> in the device settings. \n\nPlease note that native Kill Switch ignores IVPN Split Tunneling settings.</string>
 
     <string name="settings_protocol_selection_description">Choose VPN protocol and associated with it settings.</string>
     <string name="settings_vpn_protocol">VPN protocol</string>
@@ -221,7 +222,7 @@
     <string name="subscription_multi_hop">Multi-hop</string>
     <string name="subscription_select">Select</string>
     <string name="subscription_free_trial">3-days free trial then</string>
-    
+
     <string name="billing_validating">Validating purchase…</string>
     <string name="billing_creating_account">Creating account…</string>
     <string name="billing_creating_new_session">Creating new session…</string>
@@ -358,8 +359,12 @@
     <string name="dialogs_mock_wrong_app">Mock Location is disabled</string>
     <string name="dialogs_mock_wrong_app_message">Please try again. If you need help, check our guide or contact our customer support.</string>
 
+    <string name="dialogs_remove_kill_switch">The IVPN kill switch has been removed, the Android OS kill switch now provides better security. To configure the Android kill switch follow the guide on the Kill Switch screen.</string>
+    <string name="dialogs_to_read_more">Read More</string>
+    <string name="dialogs_please_note">Warning</string>
+
     <string name="dialogs_auth_error_msg">Either your account ID is incorrect or your subscription has expired. Please check and try again.</string>
-    
+
     <string name="dialogs_no_active_subscription">The provided Account ID does not have an active subscription.</string>
     <string name="dialogs_activate_action">Activate Subscription</string>
 
@@ -487,6 +492,8 @@
     
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. Currently we only support Multi-hop connections using OpenVPN. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
+    <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. Currently we only support Multi-hop connections using OpenVPN. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
+
     <string name="shortcuts_connect">Connect</string>
     <string name="shortcuts_establish_vpn_connection">Establish VPN connection</string>
     <string name="shortcuts_disconnect">Disconnect</string>
@@ -521,7 +528,7 @@
     <!--Connect description-->
     <string name="content_description_entry_server_flag">Entry server flag</string>
     <string name="content_description_choose_entry_server">choose entry server</string>
-    
+
     <string name="sliding_panel_connection_details">Connection details</string>
     <string name="sliding_panel_antitracker">AntiTracker</string>
     <string name="sliding_panel_antitracker_description">AntiTracker blocks all known data trackers</string>
@@ -539,7 +546,7 @@
     <string name="network_protection_settings">Settings</string>
     <string name="network_protection_scanned">SCANNED</string>
     <string name="network_protection_saved">SAVED</string>
-    
+
     <string name="auth_log_in_label">Enter your Account ID</string>
     <string name="auth_create_new_account">Create a new account</string>
     <string name="auth_log_in">Log in</string>
@@ -576,7 +583,7 @@
     <string name="sign_up_period_3_year">3 year</string>
     <string name="sign_up_period_continue_to_payment">Pay</string>
     <string name="sign_up_progress">Querying available products…</string>
-    
+
     <string name="sign_up_account_created">Your account has been created.</string>
 
     <string name="account_label">Account Id</string>
@@ -588,7 +595,7 @@
     <string name="account_keep_safe">Please save your account ID in a safe place, you will use it to connect on another IVPN App or log in to the client area of the IVPN website. You can find this account ID later in the IVPN App Account screen.</string>
     <string name="account_continue">Select your plan to continue</string>
     <string name="account_clipboard">Account ID copied</string>
-    
+
     <string name="map_dialog_not_connected_title">Your current location</string>
     <string name="map_dialog_connected_title">Connected to</string>
     <string name="map_dialog_server">Protect yourself by connecting to</string>

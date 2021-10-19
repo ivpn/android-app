@@ -23,7 +23,6 @@ package net.ivpn.core.v2.killswitch
 */
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -38,17 +37,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
-import net.ivpn.core.common.extension.checkVPNPermission
 import net.ivpn.core.databinding.FragmentKillswitchBinding
+import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
-import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.viewmodel.KillSwitchViewModel
-import net.ivpn.core.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
+class KillSwitchFragment : Fragment() {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(KillSwitchFragment::class.java)
@@ -75,14 +72,8 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         initViews()
     }
 
-    override fun onResume() {
-        super.onResume()
-        killSwitch.update()
-    }
-
     override fun onStart() {
         super.onStart()
-        killSwitch.navigator = this
         activity?.let {
             if (it is MainActivity) {
                 it.setContentSecure(false)
@@ -104,23 +95,6 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode != Activity.RESULT_OK) {
-            LOGGER.debug("onActivityResult: RESULT_CANCELED")
-            return
-        }
-        LOGGER.debug("onActivityResult: RESULT_OK")
-
-        when (requestCode) {
-            ServiceConstants.ENABLE_KILL_SWITCH -> {
-                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
-                killSwitch.enable(true)
-            }
-        }
-    }
-
     @SuppressLint("InlinedApi")
     private fun openDeviceSettings() {
         LOGGER.info("Navigate to VPNs list device settings screen")
@@ -130,15 +104,6 @@ class KillSwitchFragment : Fragment(), KillSwitchViewModel.KillSwitchNavigator {
             exception.printStackTrace()
             LOGGER.error("Error while navigating to VPN device settings")
             DialogBuilder.createNotificationDialog(context, Dialogs.ALWAYS_ON_VPN_NOT_SUPPORTED)
-        }
-    }
-
-    override fun tryEnableKillSwitch(state: Boolean) {
-        LOGGER.info("enableKillSwitch = $state")
-        if (state) {
-            checkVPNPermission(ServiceConstants.ENABLE_KILL_SWITCH)
-        } else {
-            killSwitch.enable(false)
         }
     }
 }
