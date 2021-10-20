@@ -6,6 +6,9 @@
     <!--    For purchases-->
     <uses-permission android:name="com.android.vending.BILLING" />
 
+    <!--    To close system dialog-->
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
+
     <application
         android:name=".StoreIVPNApplication"
         android:allowBackup="false"
@@ -35,6 +38,7 @@
 
         <activity
             android:name=".billing.BillingActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.DialogNoActionBar" />
     </application>
 </manifest>

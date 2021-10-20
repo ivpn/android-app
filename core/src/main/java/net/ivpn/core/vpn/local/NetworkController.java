@@ -475,9 +475,6 @@ public class NetworkController implements ServiceConstants {
         if (action == null) return;
 
         switch (action) {
-            case APP_SETTINGS_ACTION:
-                openSettings();
-                break;
             case WIFI_CHANGED_ACTION:
                 onWifiChanged(StringUtil.formatWifiSSID(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE)));
                 break;
@@ -488,12 +485,6 @@ public class NetworkController implements ServiceConstants {
                 onNoNetwork();
                 break;
         }
-    }
-
-    private void openSettings() {
-        new NavDeepLinkBuilder(IVPNApplication.application)
-                .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.networkProtectionFragment).createTaskStackBuilder().startActivities();
     }
 
     private void registerReceiver() {
