@@ -82,6 +82,8 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     private ConfigManager configManager;
     private PingProvider pingProvider;
 
+    private long pauseDuration = 0;
+
     @Inject
     WireGuardBehavior(WireGuardKeyController wireGuardKeyController, ServersRepository serversRepository,
                       ConfigManager configManager, PingProvider pingProvider) {
@@ -314,6 +316,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     }
 
     private void pauseVpn(long pauseDuration) {
+        this.pauseDuration = pauseDuration;
         LOGGER.info("pauseVpn: state = " + state);
         behaviourListener.onDisconnectingFromVpn();
         setState(PAUSING);
@@ -326,6 +329,8 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         LOGGER.info("Stop, state = " + state);
         timer.stopTimer();
         stopVpn();
+        setState(NOT_CONNECTED);
+        updateNotification();
     }
 
     private void stopVpn() {
@@ -362,7 +367,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     }
 
     private void updateNotification() {
-        updateNotification(0);
+        updateNotification(pauseDuration);
     }
 
     private void updateNotification(long pauseDuration) {

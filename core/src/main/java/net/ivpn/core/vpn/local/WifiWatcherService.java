@@ -37,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
@@ -97,9 +98,6 @@ public class WifiWatcherService extends Service implements ServiceConstants {
                 isRunning.set(false);
                 showNotification(System.currentTimeMillis());
                 return endService();
-            case APP_SETTINGS_ACTION:
-                closeSystemDialogs();
-                return doSendBroadcast();
         }
         return START_NOT_STICKY;
     }
@@ -226,14 +224,15 @@ public class WifiWatcherService extends Service implements ServiceConstants {
     private PendingIntent getPendingIntent() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        return PendingIntent.getActivity(this, 0, intent, 0);
+        return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     private void addSettingsAction(NotificationCompat.Builder builder) {
-        Intent intent = new Intent(this, WifiWatcherService.class);
-        intent.setAction(APP_SETTINGS_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent[] intents = new NavDeepLinkBuilder(IVPNApplication.application)
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.networkProtectionFragment).createTaskStackBuilder().getIntents();
+        PendingIntent pendingIntent = PendingIntent.getActivities(this, IVPN_REQUEST_CODE,
+                intents, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_settings,
                 getString(R.string.notification_ks_settings_action), pendingIntent);
     }

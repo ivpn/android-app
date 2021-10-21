@@ -31,9 +31,7 @@ import net.ivpn.core.R
 import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.common.utils.StringUtil
 import net.ivpn.core.v2.connect.createSession.ConnectionState
-import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.vpn.controller.DefaultVPNStateListener
 import net.ivpn.core.vpn.controller.VpnBehaviorController
 import net.ivpn.core.vpn.controller.VpnStateListener
@@ -76,7 +74,7 @@ class AntiTrackerViewModel @Inject constructor(
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
 
         getAntiTrackerState()
-        getAntiTrackerDescription()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun getAntiTrackerSupport(): Boolean {
@@ -88,7 +86,7 @@ class AntiTrackerViewModel @Inject constructor(
         settings.isAntiSurveillanceEnabled = value
         isHardcoreModeUIEnabled.set(value)
         getAntiTrackerState()
-        getAntiTrackerDescription()
+        getAntiTrackerDescriptionValue()
     }
 
     private fun enableHardcoreMode(value: Boolean) {
@@ -106,7 +104,7 @@ class AntiTrackerViewModel @Inject constructor(
         state.set(if(isHardcoreModeEnabled.get()) AntiTrackerState.HARDCORE else AntiTrackerState.NORMAL)
     }
 
-    private fun getAntiTrackerDescription() {
+    private fun getAntiTrackerDescriptionValue() {
         val context = IVPNApplication.application
         if (isAntiSurveillanceEnabled.get()) {
             connectionState?.let {
@@ -130,7 +128,7 @@ class AntiTrackerViewModel @Inject constructor(
                     return
                 }
                 connectionState = state
-                getAntiTrackerDescription()
+                getAntiTrackerDescriptionValue()
             }
         }
     }

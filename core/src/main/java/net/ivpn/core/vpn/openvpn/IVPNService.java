@@ -51,6 +51,7 @@ import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.utils.DateUtil;
 import net.ivpn.core.v2.MainActivity;
+import net.ivpn.core.v2.timepicker.TimePickerActivity;
 import net.ivpn.core.vpn.ServiceConstants;
 
 import org.slf4j.Logger;
@@ -140,7 +141,6 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
 
         if (intent != null && PAUSE_ACTION.equals(intent.getAction())) {
             LOGGER.info("onStartCommand: PAUSE_ACTION");
-            closeSystemDialogs();
             doSendActionBroadcast(PAUSE_ACTION);
             return START_NOT_STICKY;
         }
@@ -272,7 +272,6 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         if (!starting) {
             LOGGER.info("endVpnService: stopForeground");
             stopForeground(true);
-//            VpnStatus.updateStateString("DISCONNECTED", "VPN is deactivated by the system");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 LOGGER.info("Stop service");
                 stopSelf(STOP_FOREGROUND_REMOVE);
@@ -386,16 +385,16 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         Intent intent = new Intent(this, IVPNService.class);
         intent.setAction(DISCONNECT_ACTION);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_notifications_disconnect,
                 getString(R.string.notification_disconnect), pendingIntent);
     }
 
     private void addPauseAction(NotificationCompat.Builder builder) {
-        Intent intent = new Intent(this, IVPNService.class);
-        intent.setAction(PAUSE_ACTION);
-        PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(this, TimePickerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, IVPN_REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_pause,
                 getString(R.string.notification_pause), pendingIntent);
     }
@@ -404,7 +403,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         Intent intent = new Intent(this, IVPNService.class);
         intent.setAction(RESUME_ACTION);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_play,
                 getString(R.string.notification_resume), pendingIntent);
     }
@@ -413,7 +412,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
         Intent intent = new Intent(this, IVPNService.class);
         intent.setAction(STOP_ACTION);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_stop,
                 getString(R.string.notification_stop), pendingIntent);
     }
@@ -592,7 +591,7 @@ public class IVPNService extends VpnService implements VpnStatus.StateListener, 
     PendingIntent getGraphPendingIntent() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return pendingIntent;
     }
