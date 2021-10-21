@@ -147,6 +147,9 @@
         <deepLink
             app:uri="android-app://net.ivpn.core/account_fragment"
             app:popUpTo="@+id/connectFragment"/>
+        <action
+            android:id="@+id/action_accountFragment_to_logOutFragment"
+            app:destination="@id/logOutFragment" />
     </fragment>
     <fragment
         android:id="@+id/antiTrackerFragment"
@@ -208,4 +211,9 @@
         android:id="@+id/mockLocationStep3Fragment"
         android:name="net.ivpn.core.v2.mocklocation.MockLocationStep3Fragment"
         android:label="Setup Completed" />
+
+    <dialog
+        android:id="@+id/logOutFragment"
+        android:name="net.ivpn.core.v2.account.LogOutFragment"
+        android:label="LogOutFragment" />
 </navigation>

@@ -171,7 +171,6 @@ class AccountViewModel @Inject constructor(
 
     private fun clearLocalCache() {
         authenticated.set(false)
-        navigator?.onLogOut()
     }
 
     private fun updateExpireData() {

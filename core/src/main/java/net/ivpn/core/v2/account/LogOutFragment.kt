@@ -22,7 +22,6 @@ package net.ivpn.core.v2.account
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,21 +29,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentLogoutBottomSheetBinding
+import net.ivpn.core.v2.viewmodel.AccountViewModel
+import javax.inject.Inject
 
 class LogOutFragment : BottomSheetDialogFragment() {
 
-    private var navigator: LogOutNavigator? = null
     private lateinit var binding: FragmentLogoutBottomSheetBinding
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (parentFragment is AccountFragment) {
-            navigator = parentFragment as LogOutNavigator?
-        }
-    }
+    @Inject
+    lateinit var account: AccountViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,11 +52,12 @@ class LogOutFragment : BottomSheetDialogFragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_logout_bottom_sheet, container, false
         )
-        return binding.getRoot()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         init()
     }
 
@@ -74,13 +73,19 @@ class LogOutFragment : BottomSheetDialogFragment() {
 
     private fun init() {
         binding.logOut.setOnClickListener { _ ->
-            navigator?.onLogoutAction()
+            popBackStack()
+            account.logOut(AccountViewModel.Type.LOGOUT)
         }
         binding.logOutAndClear.setOnClickListener { _ ->
-            navigator?.onLogoutAndClearAction()
+            popBackStack()
+            account.logOut(AccountViewModel.Type.LOGOUT_AND_CLEAR)
         }
         binding.close.setOnClickListener { _ ->
-            navigator?.onCloseAction()
+            popBackStack()
         }
+    }
+
+    private fun popBackStack() {
+        NavHostFragment.findNavController(this).popBackStack()
     }
 }

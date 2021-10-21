@@ -38,18 +38,20 @@ import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.findNavControllerSafely
+import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentAccountBinding
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.v2.connect.ConnectFragmentDirections
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class AccountFragment : Fragment(), AccountViewModel.AccountNavigator, LogOutNavigator {
+class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountFragment::class.java)
@@ -61,8 +63,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator, LogOutNav
     lateinit var account: AccountViewModel
 
     var signUp: SignUpController = IVPNApplication.signUpController
-
-    private var logOutDialogue: LogOutFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -161,29 +161,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator, LogOutNav
     }
 
     private fun openLogOutDialogue() {
-        if (!isAdded) {
-            return
-        }
-
-        logOutDialogue =
-            LogOutFragment()
-        logOutDialogue?.let {
-            it.show(childFragmentManager, it.tag)
-        }
-    }
-
-    override fun onLogoutAction() {
-        account.logOut(AccountViewModel.Type.LOGOUT)
-        logOutDialogue?.dismissAllowingStateLoss()
-    }
-
-    override fun onLogoutAndClearAction() {
-        account.logOut(AccountViewModel.Type.LOGOUT_AND_CLEAR)
-        logOutDialogue?.dismissAllowingStateLoss()
-    }
-
-    override fun onCloseAction() {
-        logOutDialogue?.dismissAllowingStateLoss()
+        val action = AccountFragmentDirections.actionAccountFragmentToLogOutFragment()
+        navigate(action)
     }
 
     override fun onLogOutFailed() {

@@ -26,21 +26,21 @@ import com.wireguard.android.backend.WireGuardUiService;
 
 import net.ivpn.core.common.shortcuts.ConnectionShortcutsActivity;
 import net.ivpn.core.common.tile.IVPNTileService;
-import net.ivpn.core.v2.customdns.DialogueCustomDNSViewModel;
-import net.ivpn.core.v2.mocklocation.MockLocationFragment;
-import net.ivpn.core.v2.mocklocation.MockLocationStep1Fragment;
-import net.ivpn.core.v2.mocklocation.MockLocationStep2Fragment;
-import net.ivpn.core.v2.mocklocation.MockLocationStep3Fragment;
-import net.ivpn.core.v2.timepicker.TimePickerActivity;
 import net.ivpn.core.v2.account.AccountFragment;
+import net.ivpn.core.v2.account.LogOutFragment;
 import net.ivpn.core.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.core.v2.antitracker.AntiTrackerFragment;
 import net.ivpn.core.v2.captcha.CaptchaFragment;
 import net.ivpn.core.v2.connect.ConnectFragment;
 import net.ivpn.core.v2.customdns.CustomDNSFragment;
+import net.ivpn.core.v2.customdns.DialogueCustomDNSViewModel;
 import net.ivpn.core.v2.killswitch.KillSwitchFragment;
 import net.ivpn.core.v2.login.LoginFragment;
 import net.ivpn.core.v2.map.MapView;
+import net.ivpn.core.v2.mocklocation.MockLocationFragment;
+import net.ivpn.core.v2.mocklocation.MockLocationStep1Fragment;
+import net.ivpn.core.v2.mocklocation.MockLocationStep2Fragment;
+import net.ivpn.core.v2.mocklocation.MockLocationStep3Fragment;
 import net.ivpn.core.v2.network.NetworkCommonFragment;
 import net.ivpn.core.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.core.v2.network.rule.NetworkProtectionRulesFragment;
@@ -59,6 +59,7 @@ import net.ivpn.core.v2.settings.SettingsFragment;
 import net.ivpn.core.v2.splittunneling.SplitTunnelingFragment;
 import net.ivpn.core.v2.sync.SyncFragment;
 import net.ivpn.core.v2.tfa.TFAFragment;
+import net.ivpn.core.v2.timepicker.TimePickerActivity;
 import net.ivpn.core.v2.viewmodel.ViewModelCleaner;
 import net.ivpn.core.vpn.AlwaysOnVpnService;
 import net.ivpn.core.vpn.OnBootBroadcastReceiver;
@@ -157,6 +158,8 @@ public interface ActivityComponent {
     void inject(MockLocationStep2Fragment fragment);
 
     void inject(MockLocationStep3Fragment fragment);
+
+    void inject(LogOutFragment fragment);
 
     void inject(MapView map);
 

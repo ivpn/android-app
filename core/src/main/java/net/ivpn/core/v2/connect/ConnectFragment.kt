@@ -647,11 +647,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
-//            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
-        } else {
-//            Handler().postDelayed({
-//                binding.slidingPanel.exitServerLayout.visibility = View.GONE
-//            }, 50)
         }
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)
@@ -665,7 +660,17 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
-        navigate(action)
+        label@with(findNavControllerSafely()) {
+            println("Tratata this = ${this}")
+            println("Tratata this?.currentDestination = ${this?.currentDestination}")
+            println("Tratata this?.currentDestination?.getAction(action.actionId) = ${this?.currentDestination?.getAction(action.actionId)}")
+
+            this?.currentDestination?.getAction(action.actionId)
+                ?.let {
+                    navigate(action)
+                }
+        }
+//        navigate(action)
     }
 
     private fun openNetworkScreen() {
