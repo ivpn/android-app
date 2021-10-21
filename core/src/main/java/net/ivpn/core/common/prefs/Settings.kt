@@ -113,6 +113,12 @@ class Settings @Inject constructor(
             settingsPreference.setNextVersion(nextVersion)
         }
 
+    var isKillSwitchEnabled: Boolean
+        get() = settingsPreference.killSwitch
+        set(value) {
+            settingsPreference.killSwitch = value
+        }
+
     var isMultiHopEnabled: Boolean
         get() = settingsPreference.getSettingMultiHop()
         set(value) {
@@ -135,12 +141,6 @@ class Settings @Inject constructor(
         get() = settingsPreference.isCustomDNSEnabled()
         set(value) {
             settingsPreference.putSettingCustomDNS(value)
-        }
-
-    var isKillSwitchEnabled: Boolean
-        get() = settingsPreference.getSettingKillSwitch()
-        set(value) {
-            settingsPreference.putSettingKillSwitch(value)
         }
 
     var isStartOnBootEnabled: Boolean

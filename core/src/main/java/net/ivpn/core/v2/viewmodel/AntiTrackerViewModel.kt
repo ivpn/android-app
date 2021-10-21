@@ -31,9 +31,7 @@ import net.ivpn.core.R
 import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.common.utils.StringUtil
 import net.ivpn.core.v2.connect.createSession.ConnectionState
-import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.vpn.controller.DefaultVPNStateListener
 import net.ivpn.core.vpn.controller.VpnBehaviorController
 import net.ivpn.core.vpn.controller.VpnStateListener

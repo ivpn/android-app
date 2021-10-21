@@ -275,7 +275,8 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:visibility="@{killSwitch.advancedModeSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
                     android:id="@+id/textView3"

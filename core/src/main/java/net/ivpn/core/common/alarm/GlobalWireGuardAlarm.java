@@ -81,7 +81,7 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
 
         Intent intent = new Intent(context, WireGuardKeyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, WIREGUARD_KEYS_ALARM_CODE, intent, 0);
+                context, WIREGUARD_KEYS_ALARM_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         LOGGER.info("initAlarmManager: currentTime = " + System.currentTimeMillis());
         LOGGER.info("initAlarmManager: startAt = " + (settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.DAY));
@@ -99,7 +99,7 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
 
         Intent intent = new Intent(context, WireGuardKeyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, WIREGUARD_KEYS_ALARM_CODE, intent, 0);
+                context, WIREGUARD_KEYS_ALARM_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         LOGGER.info("start: currentTime = " + System.currentTimeMillis());
         LOGGER.info("start: startAt = " + (settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.DAY));
@@ -114,7 +114,7 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
 
         Intent intent = new Intent(context, WireGuardKeyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, WIREGUARD_KEYS_ALARM_CODE, intent, 0);
+                context, WIREGUARD_KEYS_ALARM_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="net.ivpn.client">
 
+    <!--    To close system dialog-->
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
+
     <application
         android:name=".FDroidIVPNApplication"
         android:allowBackup="false"

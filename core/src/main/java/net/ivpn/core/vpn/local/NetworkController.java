@@ -42,7 +42,6 @@ import net.ivpn.core.common.utils.StringUtil;
 import net.ivpn.core.v2.network.OnNetworkSourceChangedListener;
 import net.ivpn.core.vpn.GlobalBehaviorController;
 import net.ivpn.core.vpn.ServiceConstants;
-import net.ivpn.core.vpn.model.KillSwitchRule;
 import net.ivpn.core.vpn.model.NetworkSource;
 import net.ivpn.core.vpn.model.NetworkState;
 import net.ivpn.core.vpn.model.VPNRule;
@@ -54,9 +53,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import static net.ivpn.core.vpn.model.KillSwitchRule.DISABLE;
-import static net.ivpn.core.vpn.model.KillSwitchRule.ENABLE;
-import static net.ivpn.core.vpn.model.KillSwitchRule.NOTHING;
 import static net.ivpn.core.vpn.model.NetworkSource.MOBILE_DATA;
 import static net.ivpn.core.vpn.model.NetworkSource.NO_NETWORK;
 import static net.ivpn.core.vpn.model.NetworkSource.WIFI;
@@ -442,44 +438,34 @@ public class NetworkController implements ServiceConstants {
     private void applyTrustedBehaviour() {
         LOGGER.info("Apply trusted behaviour");
         boolean shouldDisconnectFromVPN = settingsPreference.getRuleDisconnectFromVpn();
-        boolean shouldDisableKillSwitch = settingsPreference.getRuleDisableKillSwitch();
 
-        KillSwitchRule killSwitchRule = NOTHING;
         VPNRule vpnRule = VPNRule.NOTHING;
         if (shouldDisconnectFromVPN) {
             vpnRule = VPNRule.DISCONNECT;
         }
-        if (shouldDisableKillSwitch) {
-            killSwitchRule = DISABLE;
-        }
         if (isWifiWatcherSettingEnabled) {
-            globalBehaviorController.applyNetworkRules(killSwitchRule, vpnRule);
+            globalBehaviorController.applyNetworkRules(vpnRule);
         }
     }
 
     private void applyUntrustedBehaviour() {
         LOGGER.info("Apply untrusted behaviour");
         boolean shouldConnectToVpn = settingsPreference.getRuleConnectToVpn();
-        boolean shouldEnableKillSwitch = settingsPreference.getRuleEnableKillSwitch();
 
-        KillSwitchRule killSwitchRule = NOTHING;
         VPNRule vpnRule = VPNRule.NOTHING;
 
         if (shouldConnectToVpn) {
             vpnRule = VPNRule.CONNECT;
         }
-        if (shouldEnableKillSwitch) {
-            killSwitchRule = ENABLE;
-        }
         if (isWifiWatcherSettingEnabled) {
-            globalBehaviorController.applyNetworkRules(killSwitchRule, vpnRule);
+            globalBehaviorController.applyNetworkRules(vpnRule);
         }
     }
 
     private void applyNoneBehaviour() {
         LOGGER.info("Apply none behaviour");
         if (isWifiWatcherSettingEnabled) {
-            globalBehaviorController.applyNetworkRules(NOTHING, VPNRule.NOTHING);
+            globalBehaviorController.applyNetworkRules(VPNRule.NOTHING);
         }
     }
 
@@ -489,9 +475,6 @@ public class NetworkController implements ServiceConstants {
         if (action == null) return;
 
         switch (action) {
-            case APP_SETTINGS_ACTION:
-                openSettings();
-                break;
             case WIFI_CHANGED_ACTION:
                 onWifiChanged(StringUtil.formatWifiSSID(intent.getStringExtra(WIFI_WATCHER_ACTION_VALUE)));
                 break;
@@ -502,12 +485,6 @@ public class NetworkController implements ServiceConstants {
                 onNoNetwork();
                 break;
         }
-    }
-
-    private void openSettings() {
-        new NavDeepLinkBuilder(IVPNApplication.application)
-                .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.networkProtectionFragment).createTaskStackBuilder().startActivities();
     }
 
     private void registerReceiver() {
@@ -574,30 +551,6 @@ public class NetworkController implements ServiceConstants {
         if (source.getState().equals(TRUSTED)
                 || (source.getState().equals(DEFAULT) && source.getDefaultState().equals(TRUSTED))) {
             globalBehaviorController.applyVpnRule(isEnabled ? VPNRule.DISCONNECT : VPNRule.NOTHING);
-        }
-    }
-
-    public void changeEnableKillSwitchRule(boolean isEnabled) {
-        LOGGER.info("changeEnableKillSwitchRule: " + isEnabled);
-        settingsPreference.putRuleEnableKillSwitch(isEnabled);
-        if (source == null || source.equals(NO_NETWORK)) {
-            return;
-        }
-        if (source.getState().equals(UNTRUSTED)
-                || (source.getState().equals(DEFAULT) && source.getDefaultState().equals(UNTRUSTED))) {
-            globalBehaviorController.applyKillSwitchRule(isEnabled ? KillSwitchRule.ENABLE : KillSwitchRule.NOTHING);
-        }
-    }
-
-    public void changeDisableKillSwitchRule(boolean isEnabled) {
-        LOGGER.info("changeDisableKillSwitchRule: " + isEnabled);
-        settingsPreference.putRuleDisableKillSwitch(isEnabled);
-        if (source == null || source.equals(NO_NETWORK)) {
-            return;
-        }
-        if (source.getState().equals(TRUSTED)
-                || (source.getState().equals(DEFAULT) && source.getDefaultState().equals(TRUSTED))) {
-            globalBehaviorController.applyKillSwitchRule(isEnabled ? KillSwitchRule.DISABLE : KillSwitchRule.NOTHING);
         }
     }
 

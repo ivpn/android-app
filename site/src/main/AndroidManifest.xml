@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!--    To close system dialog-->
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
+
     <application
         android:name=".SiteIVPNApplication"
         android:allowBackup="false"

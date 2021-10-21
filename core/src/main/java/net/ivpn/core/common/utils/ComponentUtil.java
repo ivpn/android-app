@@ -110,7 +110,6 @@ public class ComponentUtil {
     private void initProfile() {
         protocolController.init();
         profileManager.readDefaultProfile();
-        globalBehaviorController.init();
         networkController.init();
     }
 

@@ -90,10 +90,6 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     @Inject
     lateinit var colorTheme: ColorThemeViewModel
 
-    var signUp: SignUpController = IVPNApplication.signUpController
-
-    var updates =  IVPNApplication.updatesController
-
     @Inject
     lateinit var mockLocation: MockLocationViewModel
 
@@ -101,7 +97,13 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
     lateinit var localBypass: BypassVpnViewModel
 
     @Inject
+    lateinit var killSwitch: KillSwitchViewModel
+
+    @Inject
     lateinit var ipv6: IPv6ViewModel
+
+    var signUp: SignUpController = IVPNApplication.signUpController
+    var updates =  IVPNApplication.updatesController
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -152,6 +154,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.mocklocation = mockLocation
         binding.contentLayout.localbypass = localBypass
         binding.contentLayout.ipv6 = ipv6
+        binding.contentLayout.killSwitch = killSwitch
 
         colorTheme.navigator = this
         mockLocation.navigator = this

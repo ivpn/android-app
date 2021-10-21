@@ -35,7 +35,7 @@ public class ValueSelectionBindingAdapter {
     }
 
     @BindingAdapter("listener")
-    public static void setListener(ValueSelectionView imageView, OnValueChangeListener listener) {
-        imageView.setOnValueChangedListener(listener);
+    public static void setListener(ValueSelectionView view, OnValueChangeListener listener) {
+        view.setOnValueChangedListener(listener);
     }
 }

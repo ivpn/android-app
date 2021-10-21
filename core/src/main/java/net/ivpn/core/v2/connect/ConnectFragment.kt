@@ -24,6 +24,7 @@ package net.ivpn.core.v2.connect
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -113,10 +114,15 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     @Inject
     lateinit var killswitch: KillSwitchViewModel
 
+    @Inject
+    lateinit var notifications: NotificationDialogueViewModel
+
     var signUp: SignUpController = IVPNApplication.signUpController
 
     var mapPopup: PopupWindow? = null
 
+    var notificationDialog: Dialog? = null
+      
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -143,19 +149,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         account.updateSessionStatus()
         checkLocationPermission()
         applySlidingPanelSide()
-
-        LOGGER.info("translationY = ${binding.slidingPanel.sheetLayout.translationY}")
     }
 
     override fun onStart() {
         LOGGER.info("onStart: Connect fragment")
         super.onStart()
         location.addLocationListener(binding.map.locationListener)
-        if (isPermissionGranted() && account.authenticated.get()) {
+        if (isPermissionGranted()) {
             network.updateNetworkSource(context)
-        }
-        if (killswitch.isEnabled.get()) {
-            checkVPNPermission(ServiceConstants.KILL_SWITCH_REQUEST_CODE)
         }
         activity?.let {
             if (it is MainActivity) {
@@ -163,12 +164,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 it.setContentSecure(false)
             }
         }
+        checkNotificationsToShown()
     }
 
     override fun onStop() {
         LOGGER.info("onStop: Connect fragment")
         super.onStop()
         location.removeLocationListener(binding.map.locationListener)
+        notificationDialog?.hide()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -182,10 +185,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         when (requestCode) {
             ServiceConstants.IVPN_REQUEST_CODE -> {
                 connect.onConnectRequest()
-            }
-            ServiceConstants.KILL_SWITCH_REQUEST_CODE -> {
-                LOGGER.debug("onActivityResult: ENABLE_KILL_SWITCH")
-                killswitch.enable(true)
             }
             CONNECT_BY_MAP -> {
                 connect.connectOrReconnect()
@@ -503,6 +502,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         return filteredList
     }
 
+    private fun checkNotificationsToShown() {
+        if (notifications.isKillSwitchDialogueNeedToBeShown) {
+            notificationDialog = DialogBuilder.createNonCancelableDialog(
+                requireContext(),
+                Dialogs.REMOVE_KILL_SWITCH,
+                positiveAction = {
+                    goToKillSwitchRemovingDescription()
+                    notifications.isKillSwitchDialogueNeedToBeShown = false
+                },
+                cancelAction = {
+                    notifications.isKillSwitchDialogueNeedToBeShown = false
+                })
+        }
+    }
+
     private fun applySlidingPanelSide() {
         recalculatePeekHeight()
     }
@@ -565,22 +579,21 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     private fun askPermissionRationale() {
         LOGGER.info("askPermissionRationale")
         DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.ASK_LOCATION_PERMISSION,
-            { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
-            { network.applyNetworkFeatureState(false) })
+            positiveAction = {
+                goToAndroidAppSettings()
+            },
+            cancelAction = { network.applyNetworkFeatureState(false) })
     }
 
     private fun askBackgroundPermissionRationale() {
         LOGGER.info("askPermissionRationale")
         DialogBuilder.createNonCancelableDialog(requireActivity(),
             Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
-            { _: DialogInterface?, _: Int -> goToAndroidAppSettings() },
-            { network.applyNetworkFeatureState(false) })
-    }
-
-    private fun showInformationDialog() {
-        LOGGER.info("showInformationDialog")
-        DialogBuilder.createNonCancelableDialog(requireActivity(), Dialogs.LOCATION_PERMISSION_INFO,
-            null, { askPermission() })
+            positiveAction = {
+                goToAndroidAppSettings()
+            }, cancelAction = {
+                network.applyNetworkFeatureState(false)
+            })
     }
 
     private fun isPermissionGranted(): Boolean {
@@ -589,10 +602,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
                 == PackageManager.PERMISSION_GRANTED)
-    }
-
-    private fun shouldRequestRationale(): Boolean {
-        return shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     private fun askPermission() {
@@ -709,6 +718,13 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         DialogBuilder.createNotificationDialog(context, dialogs)
     }
 
+    fun goToKillSwitchRemovingDescription() {
+        val url = "https://www.ivpn.net/blog/kill-switch-changes-ivpn-android/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    }
+
     override fun onAuthFailed() {
         LOGGER.info("onAuthFailed")
         disconnectVpnService(
@@ -743,11 +759,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     override fun accountVerificationFailed() {
         LOGGER.info("accountVerificationFailed")
         DialogBuilder.createNonCancelableDialog(context, Dialogs.SESSION_HAS_EXPIRED,
-            { _: DialogInterface?, _: Int ->
+            positiveAction = {
                 LOGGER.info("onClick: ")
                 logout()
             },
-            {
+            cancelAction = {
                 LOGGER.info("onCancel: ")
                 logout()
             })

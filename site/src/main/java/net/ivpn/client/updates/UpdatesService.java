@@ -194,7 +194,7 @@ public class UpdatesService extends Service implements ServiceConstants {
     private PendingIntent getContentIntent() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return pendingIntent;
     }
@@ -209,7 +209,7 @@ public class UpdatesService extends Service implements ServiceConstants {
         Intent intent = new Intent(this, UpdatesService.class);
         intent.setAction(UPDATE_PROCEED);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_file_download,
                 getString(R.string.notification_update_proceed), pendingIntent);
     }
@@ -218,7 +218,7 @@ public class UpdatesService extends Service implements ServiceConstants {
         Intent intent = new Intent(this, UpdatesService.class);
         intent.setAction(UPDATE_SKIP);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_cancel,
                 getString(R.string.notification_update_skip), pendingIntent);
     }
@@ -227,7 +227,7 @@ public class UpdatesService extends Service implements ServiceConstants {
         Intent intent = new Intent(this, UpdatesService.class);
         intent.setAction(UPDATE_SETTINGS);
         PendingIntent pendingIntent = PendingIntent.getService(this, IVPN_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         builder.addAction(R.drawable.ic_settings,
                 getString(R.string.notification_update_settings), pendingIntent);
     }

@@ -48,14 +48,14 @@ object MapDialogs {
     ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueForbiddenLocationBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.dialogue_forbidden_location, null, false
+            layoutInflater,
+            R.layout.dialogue_forbidden_location, null, false
         )
         binding.location = location
 
         val infoPopup = PopupWindow(binding.root,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
         infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
@@ -72,14 +72,14 @@ object MapDialogs {
     ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueServerLocationBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.dialogue_server_location, null, false
+            layoutInflater,
+            R.layout.dialogue_server_location, null, false
         )
         binding.location = location
 
         val infoPopup = PopupWindow(binding.root,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
         infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
@@ -99,8 +99,8 @@ object MapDialogs {
     ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueServerListLocationBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.dialogue_server_list_location, null, false
+            layoutInflater,
+            R.layout.dialogue_server_list_location, null, false
         )
         binding.viewPager.adapter = ServerLocationDialogueAdapter(parent.context, locations)
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, _ ->
@@ -128,8 +128,8 @@ object MapDialogs {
         })
 
         val infoPopup = PopupWindow(binding.root,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.isOutsideTouchable = true
         infoPopup.setBackgroundDrawable(ColorDrawable())
@@ -150,25 +150,25 @@ object MapDialogs {
     ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialogueLocationBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.dialogue_location, null, false
+            layoutInflater,
+            R.layout.dialogue_location, null, false
         )
         binding.location = location
         //The default width of view should big enough. Otherwise, enter animation will be broken for devices with Android 10
         //Spent 4 hours of my life to fix it.
         location?.let {
             binding.description.text = parent.context.getString(
-                    if (it.isConnected) {
-                        R.string.map_dialog_connected_title
-                    } else {
-                        R.string.map_dialog_not_connected_title
-                    }
+                if (it.isConnected) {
+                    R.string.map_dialog_connected_title
+                } else {
+                    R.string.map_dialog_not_connected_title
+                }
             )
         }
 
         val infoPopup = PopupWindow(binding.root,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
         infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
@@ -189,14 +189,14 @@ object MapDialogs {
     ) : PopupWindow {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: DialoguePauseBinding = DataBindingUtil.inflate(
-                layoutInflater,
-                R.layout.dialogue_pause, null, false
+            layoutInflater,
+            R.layout.dialogue_pause, null, false
         )
         binding.connection = connection
 
         val infoPopup = PopupWindow(binding.root,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
         infoPopup.isOutsideTouchable = true
         infoPopup.animationStyle = R.style.AppTheme_PopupAnimation
         infoPopup.setBackgroundDrawable(ColorDrawable())
