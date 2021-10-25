@@ -23,6 +23,7 @@ package net.ivpn.core.v2.protocol
 */
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -96,6 +97,7 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
             openWireGuardDetails()
         }
+        binding.contentLayout.protocolSelection.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initToolbar() {

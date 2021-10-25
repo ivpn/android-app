@@ -810,21 +810,6 @@
                         app:tint="@color/sliding_panel_arrow" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/comparison_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:alpha="0.5"
-                    android:letterSpacing="-0.02"
-                    android:text="@string/protocol_selection"
-                    android:textColor="@color/sliding_panel_text_color"
-                    android:textSize="14sp"
-                    android:textColorLink="@color/primary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/antitracker_title" />
-
                 <include
                     android:id="@+id/cards"
                     layout="@layout/view_sliding_panel_cards" />

@@ -4,6 +4,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <import type="net.ivpn.core.common.utils.DateUtil" />
 
         <import type="net.ivpn.core.vpn.Protocol" />
@@ -20,8 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/protocol_card_background">
+            android:background="@color/protocol_card_background"
+            android:orientation="vertical">
 
             <TextView
                 style="@style/SettingsSectionTitle"
@@ -33,27 +34,27 @@
                 android:id="@+id/openvpn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="64dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
+                android:minHeight="64dp"
                 android:orientation="horizontal"
-                android:paddingBottom="14dp"
                 android:paddingStart="16dp"
-                android:paddingTop="14dp">
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         style="@style/SettingsOptionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/protocol_text_color"
-                        android:text="@string/protocol_vpn_openvpn" />
+                        android:text="@string/protocol_vpn_openvpn"
+                        android:textColor="@color/protocol_text_color" />
 
                 </LinearLayout>
 
@@ -76,27 +77,27 @@
                 android:id="@+id/wireguard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="64dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
+                android:minHeight="64dp"
                 android:orientation="horizontal"
-                android:paddingBottom="14dp"
                 android:paddingStart="16dp"
-                android:paddingTop="14dp">
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         style="@style/SettingsOptionTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/protocol_text_color"
-                        android:text="@string/protocol_vpn_wireguard" />
+                        android:text="@string/protocol_vpn_wireguard"
+                        android:textColor="@color/protocol_text_color" />
                 </LinearLayout>
 
                 <RadioButton
@@ -107,6 +108,28 @@
                     app:buttonTint="@color/dialogue_button"
                     app:onChanged="@{viewmodel.wireGuardCheckedChangeListener}" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider" />
+
+            <TextView
+                android:id="@+id/comparison_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:alpha="0.5"
+                android:letterSpacing="-0.02"
+                android:text="@string/protocol_selection"
+                android:textColor="@color/sliding_panel_text_color"
+                android:textColorLink="@color/primary"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/antitracker_title" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

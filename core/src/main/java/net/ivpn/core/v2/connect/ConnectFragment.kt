@@ -276,7 +276,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 }
             }
         })
-        binding.slidingPanel.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initNavigation() {
