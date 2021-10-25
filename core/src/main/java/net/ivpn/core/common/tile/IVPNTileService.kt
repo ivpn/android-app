@@ -130,11 +130,5 @@ class IVPNTileService: TileService() {
         NavDeepLinkBuilder(IVPNApplication.application)
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.loginFragment).createTaskStackBuilder().startActivities()
-        closeSystemDialogs()
-    }
-
-    private fun closeSystemDialogs() {
-        val intent = Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
-        sendBroadcast(intent)
     }
 }
