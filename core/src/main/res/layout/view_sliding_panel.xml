@@ -319,7 +319,7 @@
                             style="@style/AppTheme.ServerHintText"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
-                            android:text="@{multihop.isEnabled() ? connect.entryServerConnectionHint : connect.serverConnectionHint}"
+                            android:text="@{multihop.isEnabled() ? connect.entryServerConnectionHint : connect.fastestServerConnectionHint}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -373,23 +373,6 @@
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
                             app:layout_constraintStart_toEndOf="@+id/fastest_server_name"
-                            app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
-
-                        <TextView
-                            android:id="@+id/fastest_badge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/fastest_badge_background"
-                            android:paddingHorizontal="4dp"
-                            android:paddingVertical="2dp"
-                            android:text="@string/fastest_server_badge"
-                            android:visibility="@{servers.fastestServerSetting ? View.VISIBLE : View.GONE}"
-                            android:textColor="@color/color_animation_white"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@+id/fastest_server_name"
-                            app:layout_constraintStart_toEndOf="@+id/fastest_ipv6_badge"
                             app:layout_constraintTop_toTopOf="@+id/fastest_server_name" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

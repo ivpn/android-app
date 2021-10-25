@@ -267,6 +267,9 @@
     <string name="exit_server_hint_connected">Traffic is routed via exit server</string>
     <string name="exit_server_hint_disconnected">Exit server is</string>
 
+    <string name="connect_fastest_server_hint_connected">Traffic is routed via server</string>
+    <string name="connect_fastest_server_hint_disconnected">Fastest available server</string>
+
     <string name="connect_hint_paused">TAP TO RESUME</string>
     <string name="connect_hint_pausing">PAUSING…</string>
     <string name="connect_hint_not_connected">TAP TO CONNECT</string>

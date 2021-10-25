@@ -64,6 +64,7 @@ class ConnectionViewModel @Inject constructor(
     val serverConnectionHint = ObservableField<String>()
     val entryServerConnectionHint = ObservableField<String>()
     val exitServerConnectionHint = ObservableField<String>()
+    val fastestServerConnectionHint = ObservableField<String>()
 
     val connectionState = ObservableField<ConnectionState>()
     val isPauseAvailable = ObservableBoolean()
@@ -175,6 +176,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_connected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_connected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_connected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_connected))
                     }
                     ConnectionState.CONNECTING -> {
                         isProtected.set(true)
@@ -185,6 +187,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
                     }
                     ConnectionState.DISCONNECTING -> {
                         isProtected.set(false)
@@ -195,6 +198,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
                     }
                     ConnectionState.NOT_CONNECTED -> {
                         isProtected.set(false)
@@ -205,6 +209,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
                     }
                     ConnectionState.PAUSING -> {
                         isProtected.set(true)
@@ -214,6 +219,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
                     }
                     ConnectionState.PAUSED -> {
                         isProtected.set(true)
@@ -224,6 +230,7 @@ class ConnectionViewModel @Inject constructor(
                         serverConnectionHint.set(context.getString(R.string.connect_server_hint_disconnected))
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
+                        fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
                     }
                 }
             }
