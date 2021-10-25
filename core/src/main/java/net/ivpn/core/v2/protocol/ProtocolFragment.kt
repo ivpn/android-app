@@ -24,6 +24,7 @@ package net.ivpn.core.v2.protocol
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -42,6 +43,7 @@ import net.ivpn.core.v2.viewmodel.ProtocolViewModel
 import net.ivpn.core.v2.protocol.port.Port
 import net.ivpn.core.v2.protocol.port.PortAdapter
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.v2.viewmodel.MultiHopViewModel
 import net.ivpn.core.vpn.Protocol
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -118,5 +120,9 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
 
     override fun openCustomDialogueError(title: String?, message: String?) {
         DialogBuilder.createFullCustomNotificationDialog(context, title, message)
+    }
+
+    override fun openNotifyDialogue(dialog: Dialogs?) {
+        DialogBuilder.createNotificationDialog(requireContext(), dialog)
     }
 }

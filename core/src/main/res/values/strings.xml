@@ -458,6 +458,8 @@
     <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
     <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
 
+    <string name="dialogs_wireguard_impossible_change_port">It is not possible to use the preferred port setting when Multi-Hop for WireGuard is enabled.</string>
+
     <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
     <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>
     <string name="bottom_sheet_logout_preferences">Log out</string>

@@ -30,11 +30,13 @@ import androidx.lifecycle.ViewModel
 import net.ivpn.core.R
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
+import net.ivpn.core.vpn.controller.VpnBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class MultiHopViewModel @Inject constructor(
-    private val multiHopController: MultiHopController
+    private val multiHopController: MultiHopController,
+    private val vpnBehaviorController: VpnBehaviorController
 ) : ViewModel() {
 
     val isEnabled = ObservableBoolean()
@@ -42,7 +44,7 @@ class MultiHopViewModel @Inject constructor(
     val isSameProviderAllowed = ObservableBoolean()
 
     var multiHopTouchListener = OnTouchListener { _, motionEvent ->
-        val state = multiHopController.getState()
+        val state = getState()
         if (state == MultiHopController.State.ENABLED) {
             return@OnTouchListener false
         }
@@ -77,12 +79,11 @@ class MultiHopViewModel @Inject constructor(
 
     fun enableMultiHop(state: Boolean) {
         if (isEnabled.get() == state) return
-        applyActionFor(multiHopController.getState())
-        when (multiHopController.getState()) {
+        applyActionFor(getState())
+        when (getState()) {
             MultiHopController.State.NOT_AUTHENTICATED,
             MultiHopController.State.SUBSCRIPTION_NOT_ACTIVE,
-            MultiHopController.State.VPN_ACTIVE,
-            MultiHopController.State.DISABLED_BY_PROTOCOL -> {
+            MultiHopController.State.VPN_ACTIVE-> {
                 return
             }
         }
@@ -111,14 +112,20 @@ class MultiHopViewModel @Inject constructor(
                     R.string.snackbar_disconnect_first
                 )
             }
-            MultiHopController.State.DISABLED_BY_PROTOCOL -> {
-                navigator?.notifyUser(
-                    R.string.snackbar_multihop_not_allowed_for_wg,
-                    R.string.snackbar_disconnect_first
-                )
-            }
             MultiHopController.State.ENABLED -> {
             }
+        }
+    }
+
+    private fun getState() : MultiHopController.State {
+        return if (!multiHopController.isAuthenticated()) {
+            MultiHopController.State.NOT_AUTHENTICATED
+        } else if (!multiHopController.isActive()) {
+            MultiHopController.State.SUBSCRIPTION_NOT_ACTIVE
+        } else if (vpnBehaviorController.isVPNActive) {
+            MultiHopController.State.VPN_ACTIVE
+        } else {
+            MultiHopController.State.ENABLED
         }
     }
 

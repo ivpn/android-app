@@ -34,6 +34,7 @@ import android.widget.CompoundButton;
 
 import net.ivpn.core.R;
 import net.ivpn.core.common.Mapper;
+import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.rest.Responses;
 import net.ivpn.core.rest.data.wireguard.ErrorResponse;
@@ -77,6 +78,7 @@ public class ProtocolViewModel {
     private Settings settings;
     private ProtocolController protocolController;
     private VpnBehaviorController vpnBehaviorController;
+    private MultiHopController multiHopController;
 
     public CompoundButton.OnCheckedChangeListener openVPNCheckedChangeListener = (buttonView, isChecked) -> {
         if (isChecked && protocol.get().equals(Protocol.WIREGUARD)) {
@@ -108,17 +110,25 @@ public class ProtocolViewModel {
             }
             return true;
         }
+        if (multiHopController.isEnabled()) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                navigator.openNotifyDialogue(Dialogs.WG_CANT_CHANGE_PORT);
+            }
+            return true;
+        }
         return false;
     };
 
     @Inject
     ProtocolViewModel(Context context, Settings settings, WireGuardKeyController keyController,
-                      ProtocolController protocolController, VpnBehaviorController vpnBehaviorController) {
+                      ProtocolController protocolController, VpnBehaviorController vpnBehaviorController,
+                      MultiHopController multiHopController) {
         this.context = context;
         this.settings = settings;
         this.keyController = keyController;
         this.protocolController = protocolController;
         this.vpnBehaviorController = vpnBehaviorController;
+        this.multiHopController = multiHopController;
 
         init();
     }

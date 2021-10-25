@@ -6,9 +6,11 @@ import com.wireguard.android.model.Tunnel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.multihop.MultiHopController
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.protocol.port.Port
 import org.slf4j.LoggerFactory
@@ -39,8 +41,9 @@ import javax.inject.Inject
 
 @ApplicationScope
 class ConfigManager @Inject constructor(
-        private val settings: Settings,
-        private val serversRepository: ServersRepository,
+    private val settings: Settings,
+    private val serversRepository: ServersRepository,
+    private val multiHopController: MultiHopController
 ) {
     var tunnel: Tunnel? = null
     var listener: Tunnel.OnStateChangedListener? = null
@@ -76,54 +79,111 @@ class ConfigManager @Inject constructor(
     }
 
     private fun generateConfig(): Config? {
-        val port = settings.wireGuardPort
         val server = serversRepository.getCurrentServer(ServerType.ENTRY)
-        return generateConfig(server, port)
+        return if (multiHopController.isReadyToUse()) {
+            val exitServer = serversRepository.getCurrentServer(ServerType.EXIT)
+            generateConfigForMultiHop(server, exitServer)
+        } else {
+            val port = settings.wireGuardPort
+            generateConfig(server, port)
+        }
     }
 
     private fun generateConfig(server: Server?, port: Port): Config? {
         val config = Config()
         val privateKey = settings.wireGuardPrivateKey
-        val ipAddress = settings.wireGuardIpAddress
 
         LOGGER.info("Generating config:")
         if (server == null || server.hosts == null) {
             return null
         }
+
+        val host = server.hosts.random()
+
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
-        val isIPv6Supported = server.hosts[0].ipv6 != null && settings.ipv6Setting
-        val localIPv6Address: String? = server.hosts[0].ipv6?.local_ip
 
-        val dnsString = getDNS(server)
-        if (isIPv6Supported && !localIPv6Address.isNullOrEmpty()) {
-            config.getInterface().setAddressString("$ipAddress/32,${localIPv6Address.split('/')[0]}$ipAddress/128")
-        } else {
-            config.getInterface().setAddressString(ipAddress)
-        }
+        setAddress(config, listOf(host))
+
+        val dnsString = getDNS(host)
         config.getInterface().setDnsString(dnsString)
-        val peers = ArrayList<Peer>()
-        var peer: Peer
-        for (host in server.hosts) {
-            peer = Peer()
-            peer.setAllowedIPsString("0.0.0.0/0, ::/0")
-            peer.setEndpointString(host.host + ":" + port.portNumber)
-            peer.publicKey = host.publicKey
-            peers.add(peer)
+
+        val peer = Peer().also {
+            it.setAllowedIPsString("0.0.0.0/0, ::/0")
+            it.setEndpointString(host.host + ":" + port.portNumber)
+            it.publicKey = host.publicKey
         }
-        config.peers = peers
+
+        config.peers = listOf(peer)
         return config
     }
 
-    private fun getDNS(server: Server?): String {
+    private fun generateConfigForMultiHop(entryServer: Server?, exitServer: Server?): Config? {
+        val config = Config()
+        val privateKey = settings.wireGuardPrivateKey
+
+        LOGGER.info("Generating config for multihop:")
+        if (entryServer == null || entryServer.hosts == null || exitServer == null || exitServer.hosts == null) {
+            return null
+        }
+        if (config.getInterface().publicKey == null) {
+            config.getInterface().privateKey = privateKey
+        }
+
+        val entryHost = entryServer.hosts.random()
+        val exitHost = exitServer.hosts.random()
+
+        setAddress(config, listOf(entryHost, exitHost))
+
+        val dnsString = getDNS(entryHost)
+        config.getInterface().setDnsString(dnsString)
+
+        val peer = Peer().also {
+            it.setAllowedIPsString("0.0.0.0/0, ::/0")
+            it.setEndpointString(entryHost.host + ":" + exitHost.multihopPort)
+            it.publicKey = exitHost.publicKey
+        }
+
+        config.peers = listOf(peer)
+        return config
+    }
+
+    private fun setAddress(config: Config, hosts: List<Host>) {
+        val ipAddress = settings.wireGuardIpAddress
+        val ipv6Setting = settings.ipv6Setting
+
+        if (hosts.isEmpty()) {
+            return
+        }
+
+        if (!ipv6Setting) {
+            config.getInterface().setAddressString(ipAddress)
+            return
+        }
+
+        for (host in hosts) {
+            if (host.ipv6 == null || host.ipv6.local_ip.isNullOrEmpty()) {
+                config.getInterface().setAddressString(ipAddress)
+                return
+            }
+        }
+
+        val entryHost = hosts[0]
+        val localIPv6AddressForEntry = entryHost.ipv6.local_ip
+
+        config.getInterface()
+            .setAddressString("$ipAddress/32,${localIPv6AddressForEntry!!.split('/')[0]}$ipAddress/128")
+    }
+
+    private fun getDNS(host: Host): String {
         val dns = settings.dns
         if (dns != null) {
             return dns
         }
-        return if (server!!.hosts == null || server.hosts[0] == null || server.hosts[0].localIp == null) {
+        return if (host.localIp == null) {
             DEFAULT_DNS
-        } else server.hosts[0].localIp.split("/".toRegex()).toTypedArray()[0]
+        } else host.localIp.split("/".toRegex()).toTypedArray()[0]
     }
 
     fun onTunnelStateChanged(state: Tunnel.State) {

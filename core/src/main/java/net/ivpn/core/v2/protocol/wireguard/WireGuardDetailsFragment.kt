@@ -136,4 +136,8 @@ class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
         findNavController().popBackStack()
         DialogBuilder.createFullCustomNotificationDialog(context, title, message)
     }
+
+    override fun openNotifyDialogue(dialog: Dialogs?) {
+        DialogBuilder.createNotificationDialog(requireContext(), dialog)
+    }
 }

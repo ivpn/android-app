@@ -660,17 +660,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun openSettingsScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToSettingsFragment()
-        label@with(findNavControllerSafely()) {
-            println("Tratata this = ${this}")
-            println("Tratata this?.currentDestination = ${this?.currentDestination}")
-            println("Tratata this?.currentDestination?.getAction(action.actionId) = ${this?.currentDestination?.getAction(action.actionId)}")
-
-            this?.currentDestination?.getAction(action.actionId)
-                ?.let {
-                    navigate(action)
-                }
-        }
-//        navigate(action)
+        navigate(action)
     }
 
     private fun openNetworkScreen() {
