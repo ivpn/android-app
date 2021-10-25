@@ -106,7 +106,6 @@ class IVPNTileService: TileService() {
     override fun onClick() {
         super.onClick()
 
-        println()
         if (!account.authenticated.get()) {
             openLoginScreen()
             return
