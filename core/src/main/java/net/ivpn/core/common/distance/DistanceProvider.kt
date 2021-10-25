@@ -95,7 +95,9 @@ class DistanceProvider @Inject constructor(
                 for ((server, _) in distances) {
                     distances[server] = getDistanceBetween(
                         it.latitude,
-                        it.longitude, server.latitude.toFloat(), server.longitude.toFloat()
+                        it.longitude,
+                        server.latitude.toFloat(),
+                        server.longitude.toFloat()
                     )
                 }
 
@@ -106,24 +108,40 @@ class DistanceProvider @Inject constructor(
         }
     }
 
-    private suspend fun getDistanceBetween(
-        latitude1: Float,
-        longitude1: Float,
-        latitude2: Float,
-        longitude2: Float
-    ): Float {
-        val radiusEarth = 6371
-        val dLat = deg2rad(latitude2 - latitude1)
-        val dLon = deg2rad(longitude2 - longitude1)
-        val a = sin(dLat / 2f) * sin(dLat / 2f) +
-                cos(deg2rad(latitude1)) * cos(deg2rad(latitude2)) *
-                sin(dLon / 2f) * sin(dLon / 2f)
+    companion object {
+        //Coordinates are in format (Latitude, Longitude)
+        //Returns result in kilometers
+        fun getDistanceBetween(
+            firstCoordinates: Pair<Float, Float>,
+            secondCoordinates: Pair<Float, Float>
+        ): Float {
+            return getDistanceBetween(
+                firstCoordinates.first,
+                firstCoordinates.second,
+                secondCoordinates.first,
+                secondCoordinates.second
+            )
+        }
 
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        return radiusEarth * c // Distance in km
-    }
+        fun getDistanceBetween(
+            latitude1: Float,
+            longitude1: Float,
+            latitude2: Float,
+            longitude2: Float
+        ): Float {
+            val radiusEarth = 6371
+            val dLat = deg2rad(latitude2 - latitude1)
+            val dLon = deg2rad(longitude2 - longitude1)
+            val a = sin(dLat / 2f) * sin(dLat / 2f) +
+                    cos(deg2rad(latitude1)) * cos(deg2rad(latitude2)) *
+                    sin(dLon / 2f) * sin(dLon / 2f)
 
-    private fun deg2rad(degrees: Float): Float {
-        return (degrees * (Math.PI / 180f)).toFloat()
+            val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+            return radiusEarth * c // Distance in km
+        }
+
+        private fun deg2rad(degrees: Float): Float {
+            return (degrees * (Math.PI / 180f)).toFloat()
+        }
     }
 }
