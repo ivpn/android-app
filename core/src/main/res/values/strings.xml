@@ -548,7 +548,7 @@
     <string name="sliding_panel_antitracker_description">AntiTracker blocks all known data trackers</string>
     <string name="sliding_panel_wifi_title">Wi-Fi network</string>
     <string name="sliding_panel_protocol_port_name">Protocol, Port</string>
-    <string name="sliding_panel_your_ip_title">Your IP</string>
+    <string name="sliding_panel_your_ip_title">IP Address</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>
     <string name="sliding_panel_location_not_match">Location does not match</string>
