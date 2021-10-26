@@ -273,8 +273,7 @@ class ServersRepository @Inject constructor(
     }
 
     fun tryUpdateIpList() {
-        println("settings.ipList = ${settings.ipList}")
-        if (settings.ipList != null) {
+        if (!settings.ipList.isNullOrEmpty()) {
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())

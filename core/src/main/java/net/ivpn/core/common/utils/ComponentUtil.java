@@ -34,6 +34,7 @@ import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.v2.mocklocation.MockLocationController;
 import net.ivpn.core.vpn.GlobalBehaviorController;
 import net.ivpn.core.vpn.ProtocolController;
 import net.ivpn.core.vpn.local.NetworkController;
@@ -56,13 +57,15 @@ public class ComponentUtil {
     private final MigrationController migrationController;
     private final LogUtil logUtil;
     private final PingProvider pingProvider;
+    private final MockLocationController mockLocationController;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
                   ServersRepository serversRepository, GlobalBehaviorController globalBehaviorController,
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
-                  MigrationController migrationController, PingProvider pingProvider) {
+                  MigrationController migrationController, PingProvider pingProvider,
+                  MockLocationController mockLocationController) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
@@ -74,6 +77,7 @@ public class ComponentUtil {
         this.profileManager = profileManager;
         this.migrationController = migrationController;
         this.pingProvider = pingProvider;
+        this.mockLocationController = mockLocationController;
     }
 
     public void performBaseComponentsInit() {
@@ -95,6 +99,9 @@ public class ComponentUtil {
         networkController.finishAll();
         globalBehaviorController.finishAll();
         IVPNApplication.updatesController.resetComponent();
+        logUtil.resetAll();
+        IVPNApplication.crashLoggingController.reset();
+        mockLocationController.reset();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }

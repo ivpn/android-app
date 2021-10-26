@@ -283,6 +283,7 @@ class LocationViewModel @Inject constructor(
             dataLoading.set(v6dataLoading)
         }
         response?.let {
+            println("IPv6 response = ${it}")
             val stateL = state
 
             if (stateL != null

@@ -23,6 +23,7 @@ package net.ivpn.core.v2.viewmodel
 */
 
 import net.ivpn.core.IVPNApplication
+import net.ivpn.core.v2.mocklocation.MockLocationViewModel
 import net.ivpn.core.v2.network.NetworkViewModel
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.updates.UpdatesController
@@ -72,11 +73,22 @@ class ViewModelCleaner {
     @Inject
     lateinit var network: NetworkViewModel
 
+    @Inject
+    lateinit var ipv6: IPv6ViewModel
+
+    @Inject
+    lateinit var mockLocation: MockLocationViewModel
+
+    @Inject
+    lateinit var bypass: BypassVpnViewModel
+
     var signUp: SignUpController = IVPNApplication.signUpController
 
     init {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
+    }
 
+    fun fullClean() {
         account.reset()
         antiTracker.reset()
         alwaysOnVPN.reset()
@@ -91,5 +103,11 @@ class ViewModelCleaner {
         protocol.reset()
         signUp.reset()
         network.reset()
+        ipv6.reset()
+        bypass.reset()
+    }
+
+    fun sessionClean() {
+        network.sessionClean()
     }
 }

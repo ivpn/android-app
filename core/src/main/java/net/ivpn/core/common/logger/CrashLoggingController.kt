@@ -30,4 +30,6 @@ abstract class CrashLoggingController {
     abstract fun init()
 
     abstract fun setState(isEnabled: Boolean)
+
+    abstract fun reset()
 }

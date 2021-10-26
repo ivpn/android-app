@@ -24,10 +24,13 @@ package net.ivpn.client.logging
 
 import net.ivpn.core.common.logger.CrashLoggingController
 
-class StubCrashLoggingController: CrashLoggingController() {
+class StubCrashLoggingController : CrashLoggingController() {
     override fun init() {
     }
 
     override fun setState(isEnabled: Boolean) {
+    }
+
+    override fun reset() {
     }
 }

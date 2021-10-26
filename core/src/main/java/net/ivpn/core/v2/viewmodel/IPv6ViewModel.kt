@@ -33,7 +33,7 @@ import javax.inject.Inject
 @ApplicationScope
 class IPv6ViewModel @Inject constructor(
         private val settings: Settings,
-        protocolController: ProtocolController
+        private val protocolController: ProtocolController
 ){
     val isIPv6Enabled = ObservableBoolean()
     val isIPv6Supported = ObservableBoolean()
@@ -44,6 +44,14 @@ class IPv6ViewModel @Inject constructor(
     var enableAllServerShownOptionListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAllServerShownOption(value) }
 
     init {
+        baseInit()
+    }
+
+    fun reset() {
+        baseInit()
+    }
+
+    private fun baseInit() {
         isIPv6Supported.set(protocolController.currentProtocol == Protocol.WIREGUARD)
         isIPv6Enabled.set(settings.ipv6Setting)
         isAllServerShown.set(settings.showAllServersSetting)

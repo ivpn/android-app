@@ -245,11 +245,12 @@ class SessionController @Inject constructor(
 
     fun clearData() {
         IVPNApplication.appComponent.provideComponentUtil().resetComponents()
-        ViewModelCleaner()
+        ViewModelCleaner().fullClean()
     }
 
     fun clearSessionData() {
         IVPNApplication.appComponent.provideComponentUtil().resetSessionData()
+        ViewModelCleaner().sessionClean()
     }
 
     private fun getProtocol(): Protocol {

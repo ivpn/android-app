@@ -39,8 +39,7 @@ class SentryController @Inject internal constructor(
 ) : CrashLoggingController() {
 
     override fun init() {
-        isSupported = true
-        isEnabled = settings.isSentryEnabled
+        baseInit()
 
         SentryAndroid.init(IVPNApplication.application) { options: SentryAndroidOptions ->
             // Add a callback that will be used before the event is sent to Sentry.
@@ -60,6 +59,15 @@ class SentryController @Inject internal constructor(
     override fun setState(isEnabled: Boolean) {
         this.isEnabled = isEnabled
         settings.isSentryEnabled = isEnabled
+    }
+
+    override fun reset() {
+        baseInit()
+    }
+
+    private fun baseInit() {
+        isSupported = true
+        isEnabled = settings.isSentryEnabled
     }
 
     companion object {

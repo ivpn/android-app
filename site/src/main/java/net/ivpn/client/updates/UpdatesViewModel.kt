@@ -150,6 +150,7 @@ class UpdatesViewModel @Inject constructor(
     }
 
     override fun resetComponent() {
+        isAutoUpdateEnabled.set(getAutoUpdateValue())
         updatesJobServiceUtil.clearUpdateJob(IVPNApplication.application)
         updateHelper.skipUpdate()
     }
