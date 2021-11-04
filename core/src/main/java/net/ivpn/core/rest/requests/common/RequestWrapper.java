@@ -48,7 +48,6 @@ public class RequestWrapper<T> implements Callback<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestWrapper.class);
 
-//    private static final String BASE_URL = BuildConfig.BASE_URL;
     private static final String BASE_URL = "api.ivpn.net";
     private static final String HTTPS = "https://";
     private static final String SLASH = "/";

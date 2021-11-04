@@ -34,6 +34,7 @@ import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.common.prefs.StickyPreference;
 import net.ivpn.core.v2.mocklocation.MockLocationController;
 import net.ivpn.core.vpn.GlobalBehaviorController;
 import net.ivpn.core.vpn.ProtocolController;
@@ -58,6 +59,7 @@ public class ComponentUtil {
     private final LogUtil logUtil;
     private final PingProvider pingProvider;
     private final MockLocationController mockLocationController;
+    private final StickyPreference stickyPreference;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
@@ -65,7 +67,7 @@ public class ComponentUtil {
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
                   MigrationController migrationController, PingProvider pingProvider,
-                  MockLocationController mockLocationController) {
+                  MockLocationController mockLocationController, StickyPreference stickyPreference) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
@@ -78,6 +80,7 @@ public class ComponentUtil {
         this.migrationController = migrationController;
         this.pingProvider = pingProvider;
         this.mockLocationController = mockLocationController;
+        this.stickyPreference = stickyPreference;
     }
 
     public void performBaseComponentsInit() {
@@ -96,8 +99,10 @@ public class ComponentUtil {
 
     public void resetComponents() {
         preference.removeAll();
+        stickyPreference.partlyReset();
         networkController.finishAll();
         globalBehaviorController.finishAll();
+        protocolController.reset();
         IVPNApplication.updatesController.resetComponent();
         logUtil.resetAll();
         IVPNApplication.crashLoggingController.reset();

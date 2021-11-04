@@ -213,6 +213,10 @@ class ServersPreference @Inject constructor(
         updateCurrentServersWithLocationFor(preference.serversSharedPreferences)
     }
 
+    fun updateCurrentServersWithPort() {
+        updateCurrentServersWithPortFor(preference.wireguardServersSharedPreferences)
+    }
+
     private fun updateCurrentServersWithLocationFor(preference: SharedPreferences) {
         val servers = Mapper.serverListFrom(preference.getString(SERVERS_LIST, null))
         if (servers == null || servers.isEmpty()) {
@@ -236,6 +240,35 @@ class ServersPreference @Inject constructor(
                     preference.edit()
                             .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
                             .apply()
+                    break
+                }
+            }
+        }
+    }
+
+    private fun updateCurrentServersWithPortFor(preference: SharedPreferences) {
+        val servers = Mapper.serverListFrom(preference.getString(SERVERS_LIST, null))
+        if (servers == null || servers.isEmpty()) {
+            return
+        }
+        val entryServer = Mapper.from(preference.getString(CURRENT_ENTER_SERVER, null))
+        val exitServer = Mapper.from(preference.getString(CURRENT_EXIT_SERVER, null))
+        if (entryServer != null && entryServer.hosts.random().multihopPort == 0) {
+            for (server in servers) {
+                if (server == entryServer) {
+                    preference.edit()
+                        .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
+                        .apply()
+                    break
+                }
+            }
+        }
+        if (exitServer != null && exitServer.hosts.random().multihopPort == 0) {
+            for (server in servers) {
+                if (server == exitServer) {
+                    preference.edit()
+                        .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
+                        .apply()
                     break
                 }
             }

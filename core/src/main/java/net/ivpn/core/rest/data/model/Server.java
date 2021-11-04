@@ -219,6 +219,7 @@ public class Server implements ConnectionOption {
                 ", type=" + type +
                 ", isFavourite=" + isFavourite +
                 ", latency=" + latency +
+                ", distance=" + distance +
                 '}';
     }
 

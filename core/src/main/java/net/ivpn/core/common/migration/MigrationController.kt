@@ -23,10 +23,7 @@ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
 import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.prefs.EncryptedSettingsPreference
-import net.ivpn.core.common.prefs.EncryptedUserPreference
-import net.ivpn.core.common.prefs.NetworkProtectionPreference
-import net.ivpn.core.common.prefs.Preference
+import net.ivpn.core.common.prefs.*
 import net.ivpn.core.vpn.ProtocolController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -37,7 +34,9 @@ class MigrationController @Inject constructor(
         private val preference: Preference,
         private val settingsPreference: EncryptedSettingsPreference,
         private val networkPreference: NetworkProtectionPreference,
-        private val protocolController: ProtocolController
+        private val protocolController: ProtocolController,
+        private val serversPreference: ServersPreference,
+        private val repository: ServersRepository
 ) {
 
     fun checkForUpdates() {
@@ -51,7 +50,7 @@ class MigrationController @Inject constructor(
             }
             return
         }
-        applyAllUpdates(currentVersion, Preference.LAST_LOGIC_VERSION)
+        applyAllUpdates(currentVersion + 1, Preference.LAST_LOGIC_VERSION)
     }
 
     private fun applyMandatoryUpdates() {
@@ -61,6 +60,7 @@ class MigrationController @Inject constructor(
 
     private fun applyAllUpdates(from: Int, to: Int) {
         LOGGER.info("applyAllUpdates: ")
+        println("Perform apply updates from $from to $to")
         for (i in from..to) {
             getUpdateFor(i)?.update()
         }
@@ -68,8 +68,10 @@ class MigrationController @Inject constructor(
     }
 
     private fun getUpdateFor(version: Int): Update? {
+        println("Perform getUpdateFor $version")
         return when (version) {
             2 -> UF1T2(userPreference, protocolController)
+            3 -> UF2T3(repository, serversPreference)
             else -> null
         }
     }

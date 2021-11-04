@@ -107,6 +107,7 @@ class ConfigManager @Inject constructor(
         setAddress(config, listOf(host))
 
         val dnsString = getDNS(host)
+        println("Config dns = $dnsString")
         config.getInterface().setDnsString(dnsString)
 
         val peer = Peer().also {
@@ -137,6 +138,7 @@ class ConfigManager @Inject constructor(
         setAddress(config, listOf(entryHost, exitHost))
 
         val dnsString = getDNS(entryHost)
+        println("Config dns = $dnsString")
         config.getInterface().setDnsString(dnsString)
 
         val peer = Peer().also {

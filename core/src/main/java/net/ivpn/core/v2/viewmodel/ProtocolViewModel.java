@@ -130,11 +130,11 @@ public class ProtocolViewModel {
         this.vpnBehaviorController = vpnBehaviorController;
         this.multiHopController = multiHopController;
 
+        this.keyController.setKeysEventsListener(getWireGuardKeysEventsListener());
         init();
     }
 
     private void init() {
-        this.keyController.setKeysEventsListener(getWireGuardKeysEventsListener());
 
         protocol.set(protocolController.getCurrentProtocol());
         openVPNPort.set(settings.getOpenVpnPort());
@@ -147,6 +147,7 @@ public class ProtocolViewModel {
     }
 
     public void reset() {
+        init();
     }
 
     public void setNavigator(ProtocolNavigator navigator) {
