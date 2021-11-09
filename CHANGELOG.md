@@ -10,21 +10,21 @@ All notable changes to this project will be documented in this file.
 [IMPROVED] Descriptions and UI overall  
 [FIXED] IVPN tile in the quick settings  
 
-[Download IVPN Client v. 2.8.0](https://www.ivpn.net/releases/android/IVPNv2.8.0site.apk)
+[Download IVPN Client v. 2.8.0](https://www.ivpn.net/releases/android/IVPNv2.8.0site.apk)  
 SHA256: c3b6c717be41f3a231dbf576525910204cb72a25aaaa8a4106d312a3cd16d736  
 
 ## Version 2.7.0(2.7.1) - 2021-10-19
 
 [Remove] In-app Kill Switch implementation
 
-[Download IVPN Client v. 2.7.1](https://cdn.ivpn.net/releases/android/IVPNv2.7.1site.apk)
+[Download IVPN Client v. 2.7.1](https://cdn.ivpn.net/releases/android/IVPNv2.7.1site.apk)  
 SHA256: 54f3bd56856c08ab55b9b81b536f1c92fca54a51bf4ba5b456cca365e9fc1f4f  
 
 ## Version 2.6.0 - 2021-07-07
 
 [NEW] Ability to zoom map in/out  
 
-[Download IVPN Client v. 2.6.0](https://cdn.ivpn.net/releases/android/IVPNv2.6.0site.apk)
+[Download IVPN Client v. 2.6.0](https://cdn.ivpn.net/releases/android/IVPNv2.6.0site.apk)  
 SHA256: 1e1e196dd159d083eb19570a95567b9392fdbea086226696bedfed06f53a8d4c
 
 ## Version 2.5.0(2.5.1-2.5.2) - 2021-06-30
@@ -32,7 +32,7 @@ SHA256: 1e1e196dd159d083eb19570a95567b9392fdbea086226696bedfed06f53a8d4c
 [NEW] IPv6 inside WireGuard tunnel  
 [NEW] IPv6 connection info  
 
-[Download IVPN Client v. 2.5.2](https://cdn.ivpn.net/releases/android/IVPNv2.5.2site.apk)
+[Download IVPN Client v. 2.5.2](https://cdn.ivpn.net/releases/android/IVPNv2.5.2site.apk)  
 SHA256: 244afbe2f7414d76796bfb34f9bada6c7b177265f591a6194a3b4ce829c3319c
 
 ## Version 2.4.0(2.4.1) - 2021-04-16
@@ -43,7 +43,7 @@ SHA256: 244afbe2f7414d76796bfb34f9bada6c7b177265f591a6194a3b4ce829c3319c
 [FIXED] Kill switch state on applying network protection rules  
 [FIXED] UI/UX for in-app purchases for the existing accounts  
 
-[Download IVPN Client v. 2.4.1](https://cdn.ivpn.net/releases/android/IVPNv2.4.1site.apk)
+[Download IVPN Client v. 2.4.1](https://cdn.ivpn.net/releases/android/IVPNv2.4.1site.apk)  
 SHA256: 3fa89f3ee041c388bf596348c1acb3ae3871d22aa750db0bd71538a28441488e
 
 ## Version 2.3.0(2.3.1) - 2021-02-25
@@ -54,7 +54,7 @@ SHA256: 3fa89f3ee041c388bf596348c1acb3ae3871d22aa750db0bd71538a28441488e
 [IMPROVED] Kill switch user interface  
 [IMPROVED] WireGuard is now default protocol  
 
-[Download IVPN Client v. 2.3.0](https://cdn.ivpn.net/releases/android/IVPNv2.3.0site.apk)
+[Download IVPN Client v. 2.3.0](https://cdn.ivpn.net/releases/android/IVPNv2.3.0site.apk)  
 SHA256: bdad20ef620d6725c9339bf8ad74f65075cd684be75deb8efb026bb92c023567
 
 ## Version 2.2.0 - 2021-01-29
@@ -64,7 +64,7 @@ SHA256: bdad20ef620d6725c9339bf8ad74f65075cd684be75deb8efb026bb92c023567
 [NEW] Support two-factor authentication for login  
 [NEW] Support captcha to mitigate attacks  
 
-[Download IVPN Client v. 2.2.0](https://cdn.ivpn.net/releases/android/IVPNv2.2.0_site.apk)
+[Download IVPN Client v. 2.2.0](https://cdn.ivpn.net/releases/android/IVPNv2.2.0_site.apk)  
 SHA256: c1c9b84a45c3ed98d4cce15f12c887cdbe84dcd00a3b8046ebfe6c75a073be67
 
 ## Version 2.1.0 - 2020-12-01
@@ -81,7 +81,7 @@ SHA256: c1c9b84a45c3ed98d4cce15f12c887cdbe84dcd00a3b8046ebfe6c75a073be67
 [Fixed] Crash on destroying the server list  
 [Fixed] Crashes on double navigation actions  
 
-[Download IVPN Client v. 2.1.0](https://cdn.ivpn.net/releases/android/IVPNv2.1.0site.apk)
+[Download IVPN Client v. 2.1.0](https://cdn.ivpn.net/releases/android/IVPNv2.1.0site.apk)  
 SHA256: b07512e5e27b336bd7a9f5098b2f9db76ec481d40236416dc417671724c3e05e
 
 ## Version 2.0.2 - 2020-10-12
