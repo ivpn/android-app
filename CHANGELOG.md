@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.0 - 2021-11-05
+
+[NEW] Multi-Hop for WireGuard protocol  
+[NEW] Option to keep app settings on logout  
+[NEW] Server sorting by proximity  
+[IMPROVED] Descriptions and UI overall  
+[FIXED] IVPN tile in the quick settings  
+
+[Download IVPN Client v. 2.8.0](https://www.ivpn.net/releases/android/IVPNv2.8.0site.apk)
+SHA256: c3b6c717be41f3a231dbf576525910204cb72a25aaaa8a4106d312a3cd16d736  
+
 ## Version 2.7.0(2.7.1) - 2021-10-19
 
 [Remove] In-app Kill Switch implementation
@@ -11,7 +22,7 @@ SHA256: 54f3bd56856c08ab55b9b81b536f1c92fca54a51bf4ba5b456cca365e9fc1f4f
 
 ## Version 2.6.0 - 2021-07-07
 
-[New] Ability to zoom map in/out  
+[NEW] Ability to zoom map in/out  
 
 [Download IVPN Client v. 2.6.0](https://cdn.ivpn.net/releases/android/IVPNv2.6.0site.apk)
 SHA256: 1e1e196dd159d083eb19570a95567b9392fdbea086226696bedfed06f53a8d4c
