@@ -237,7 +237,6 @@ class ServersRepository @Inject constructor(
 
             val availableServers = servers.filter { it.canBeUsedAsMultiHopWith(anotherServer)}
             val randomServer = availableServers.random()
-            println("${randomServer.description} is RANDOM server for $serverType")
             setCurrentServer(serverType, randomServer)
             listener?.onRandomServerSelected(randomServer, serverType)
         }
@@ -270,7 +269,6 @@ class ServersRepository @Inject constructor(
             settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
-            println("Perform first from list = ${it.wireGuardServerList.first()}")
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }

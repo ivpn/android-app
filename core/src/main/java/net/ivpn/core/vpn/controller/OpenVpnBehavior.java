@@ -274,7 +274,6 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
 
     @Override
     public void regenerateKeys() {
-
     }
 
     private void registerReceivers() {
