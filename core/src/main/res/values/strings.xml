@@ -44,6 +44,8 @@
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_crashes">Enable crash logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
+    <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
+    <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
     <string name="settings_kill_switch">Kill switch</string>
     <string name="setting_anti_surveillance">AntiTracker</string>
     <string name="setting_custom_dns">Custom DNS</string>
@@ -79,6 +81,7 @@
 
     <string name="snackbar_to_use_vpn_bypass_disconnect">To use VPN bypass, please disconnect first</string>
     <string name="snackbar_to_use_mock_location_disconnect">To use Mock Locations, please disconnect first</string>
+    <string name="snackbar_to_ipv6_location_disconnect">To use IPv6, please disconnect first</string>
     <string name="snackbar_to_use_antitracker_disconnect">To use AntiTracker, please disconnect first</string>
     <string name="snackbar_to_use_custom_dns_disconnect">To use Custom DNS, please disconnect first</string>
     <string name="snackbar_to_use_kill_switch_disconnect">To use Kill switch, please disconnect first</string>
@@ -136,7 +139,7 @@
     <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
     <string name="anti_surveillance_read_more">Read more</string>
     <string name="anti_tracker_description_state_disabled">AntiTracker is disabled</string>
-    <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and actively blocking known trackers</string>
+    <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and blocking known trackers</string>
     <string name="anti_tracker_description_state_not_active">AntiTracker will be enabled when connected to VPN"</string>
 
     <!--Mock Location-->
@@ -264,6 +267,9 @@
     <string name="exit_server_hint_connected">Traffic is routed via exit server</string>
     <string name="exit_server_hint_disconnected">Exit server is</string>
 
+    <string name="connect_fastest_server_hint_connected">Traffic is routed via server</string>
+    <string name="connect_fastest_server_hint_disconnected">Fastest available server</string>
+
     <string name="connect_hint_paused">TAP TO RESUME</string>
     <string name="connect_hint_pausing">PAUSING…</string>
     <string name="connect_hint_not_connected">TAP TO CONNECT</string>
@@ -324,6 +330,11 @@
     <string name="notification_wifi_watcher_content">IVPN will automatically start when you connect to an untrusted Wi-Fi network</string>
 
     <!--Dialogs-->
+    <string name="dialogs_force_logout_title">Server unreachable</string>
+    <string name="dialogs_force_logout_description">Unable to contact server to log out. Please check Internet connectivity. Do you want to force log out? This device will continue to count towards your device limit.</string>
+    <string name="dialogs_force_logout_positive_action">Force log out</string>
+    <string name="dialogs_force_logout_negative_action">Cancel</string>
+
     <string name="dialogs_log_out_title">Are you sure?</string>
     <string name="dialogs_log_out_message">This will disconnect you from IVPN.</string>
     <string name="dialogs_log_out_positive_button">LOG OUT</string>
@@ -439,6 +450,7 @@
     <string name="dialogs_filter_city">City</string>
     <string name="dialogs_filter_country">Country</string>
     <string name="dialogs_filter_latency">Latency</string>
+    <string name="dialogs_filter_distance">Proximity</string>
 
     <string name="dialogs_change_network_title">Change Network Status</string>
     <string name="dialogs_change_status_trusted">Trusted</string>
@@ -448,6 +460,13 @@
 
     <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
     <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
+
+    <string name="dialogs_wireguard_impossible_change_port">It is not possible to use the preferred port setting when Multi-Hop for WireGuard is enabled.</string>
+
+    <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
+    <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>
+    <string name="bottom_sheet_logout_preferences">Log out</string>
+    <string name="bottom_sheet_close">Close</string>
 
     <!--Purchases-->
     <string name="purchases_guide_first_step">Log into ivpn.net/clientarea and click on the "Renew" button</string>
@@ -532,7 +551,7 @@
     <string name="sliding_panel_antitracker_description">AntiTracker blocks all known data trackers</string>
     <string name="sliding_panel_wifi_title">Wi-Fi network</string>
     <string name="sliding_panel_protocol_port_name">Protocol, Port</string>
-    <string name="sliding_panel_your_ip_title">Your IP</string>
+    <string name="sliding_panel_your_ip_title">IP Address</string>
     <string name="sliding_panel_location_title">Location</string>
     <string name="sliding_panel_internet_provider_title">Internet Provider</string>
     <string name="sliding_panel_location_not_match">Location does not match</string>
@@ -608,4 +627,5 @@
     <string name="account_pro_devices_benefits"><![CDATA[Connect up to <b>7 devices</b>]]></string>
     <string name="account_pro_multihop_benefits"><![CDATA[Use <b>Multi-Hop</b> connections]]></string>
     <string name="account_no_active_subscription">No active subscription</string>
+    <string name="fastest_server_badge">FASTEST</string>
 </resources>

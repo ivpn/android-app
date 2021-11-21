@@ -25,24 +25,23 @@ package net.ivpn.core.common.multihop
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.EncryptedUserPreference
 import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.vpn.ProtocolController
 import net.ivpn.core.vpn.controller.VpnBehaviorController
 import javax.inject.Inject
 
 @ApplicationScope
 class MultiHopController @Inject constructor(
         val userPreference: EncryptedUserPreference,
-        val vpnBehaviorController: VpnBehaviorController,
-        val protocolController: ProtocolController,
         val settings: Settings
 ) {
 
     var isEnabled: Boolean
+    var isSameProviderAllowed: Boolean
 
     var listeners = ArrayList<OnValueChangeListener>()
 
     init {
         isEnabled = getIsEnabled()
+        isSameProviderAllowed = getIsSameProviderAllowed()
     }
 
     fun enable(value : Boolean) {
@@ -56,28 +55,43 @@ class MultiHopController @Inject constructor(
         notifyValueChanges()
     }
 
+    fun setIsSameProviderAllowed(value : Boolean) {
+        if (isSameProviderAllowed == value) {
+            return
+        }
+        isSameProviderAllowed = value
+
+        settings.isMultiHopSameProviderAllowed = value
+    }
+
     fun isSupportedByPlan(): Boolean {
-        return userPreference.getCapabilityMultiHop() && isAuthenticated() && isMultihopAllowedByProtocol()
+        return userPreference.getCapabilityMultiHop() && isAuthenticated()
     }
 
     fun getIsEnabled(): Boolean {
-        isEnabled = settings.isMultiHopEnabled && isMultihopAllowedByProtocol()
+        isEnabled = settings.isMultiHopEnabled
         return isEnabled
     }
 
-    fun getState() : State {
-        return if (!isAuthenticated()) {
-            State.NOT_AUTHENTICATED
-        } else if (!isActive()) {
-            State.SUBSCRIPTION_NOT_ACTIVE
-        } else if (isVpnActive()) {
-            State.VPN_ACTIVE
-        } else if (!isMultihopAllowedByProtocol()) {
-            State.DISABLED_BY_PROTOCOL
-        } else {
-            State.ENABLED
-        }
+    fun isReadyToUse(): Boolean {
+        return isEnabled && isSupportedByPlan()
     }
+
+    fun getIsSameProviderAllowed(): Boolean {
+        return settings.isMultiHopSameProviderAllowed
+    }
+
+//    fun getState() : State {
+//        return if (!isAuthenticated()) {
+//            State.NOT_AUTHENTICATED
+//        } else if (!isActive()) {
+//            State.SUBSCRIPTION_NOT_ACTIVE
+//        } else if (isVpnActive()) {
+//            State.VPN_ACTIVE
+//        } else {
+//            State.ENABLED
+//        }
+//    }
 
     fun addListener(listener : OnValueChangeListener) {
         listeners.add(listener)
@@ -94,29 +108,20 @@ class MultiHopController @Inject constructor(
         }
     }
 
-    private fun isAuthenticated() : Boolean {
+    fun isAuthenticated() : Boolean {
         val token: String = userPreference.getSessionToken()
         return token.isNotEmpty()
     }
 
-    private fun isActive(): Boolean {
+    fun isActive(): Boolean {
         return userPreference.getIsActive()
-    }
-
-    private fun isVpnActive(): Boolean {
-        return vpnBehaviorController.isVPNActive
-    }
-
-    private fun isMultihopAllowedByProtocol(): Boolean {
-        return protocolController.currentProtocol.isMultihopEnabled
     }
 
     enum class State {
         ENABLED,
         NOT_AUTHENTICATED,
         SUBSCRIPTION_NOT_ACTIVE,
-        VPN_ACTIVE,
-        DISABLED_BY_PROTOCOL
+        VPN_ACTIVE
     }
 
     interface OnValueChangeListener {

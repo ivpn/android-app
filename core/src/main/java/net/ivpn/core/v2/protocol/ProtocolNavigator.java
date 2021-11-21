@@ -34,4 +34,6 @@ public interface ProtocolNavigator {
 
     void openCustomDialogueError(String title, String message);
 
+    void openNotifyDialogue(Dialogs dialog);
+
 }

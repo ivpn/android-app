@@ -56,6 +56,10 @@ public class ProtocolController {
         notify(currentProtocol);
     }
 
+    public void reset() {
+        init();
+    }
+
     public Protocol getCurrentProtocol() {
         return currentProtocol;
     }

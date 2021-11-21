@@ -68,4 +68,8 @@ class StickyPreference @Inject constructor(
                     .putString(SETTINGS_NIGHT_MODE, mode)
                     .apply()
         }
+
+    fun partlyReset() {
+        currentProtocol = null
+    }
 }

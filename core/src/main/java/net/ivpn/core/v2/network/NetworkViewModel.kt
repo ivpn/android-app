@@ -287,4 +287,8 @@ class NetworkViewModel @Inject internal constructor(
         networkTitle.set(null)
         networkState.set(null)
     }
+
+    fun sessionClean() {
+        applyNetworkFeatureState(false)
+    }
 }

@@ -28,14 +28,14 @@ import net.ivpn.core.R
 import net.ivpn.core.databinding.ServerItemBinding
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.serverlist.AdapterListener
+import net.ivpn.core.v2.serverlist.dialog.Filters
 
 class ServerViewHolder(
         val binding: ServerItemBinding,
-        val navigator: AdapterListener,
-        val listener: HolderListener
+        val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean) {
+    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean, filter: Filters?) {
         binding.server = server
         binding.forbiddenServer = forbiddenServer
         binding.navigator = navigator
@@ -51,6 +51,7 @@ class ServerViewHolder(
             navigator.onServerSelected(server, forbiddenServer)
         }
         binding.ipv6Badge.isVisible = server.isIPv6Enabled && isIPv6Enabled
+        binding.filter = filter
         binding.executePendingBindings()
     }
 

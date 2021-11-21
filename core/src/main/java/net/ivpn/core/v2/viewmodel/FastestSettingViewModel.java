@@ -23,8 +23,11 @@ package net.ivpn.core.v2.viewmodel;
 */
 
 import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableList;
 
+import net.ivpn.core.common.pinger.OnFastestServerDetectorListener;
+import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.rest.data.model.Server;
 import net.ivpn.core.v2.serverlist.fastest.FastestSettingNavigator;
@@ -90,5 +93,4 @@ public class FastestSettingViewModel {
         excludedServers.remove(server);
         serversRepository.removeFromExcludedServerList(server);
     }
-
 }

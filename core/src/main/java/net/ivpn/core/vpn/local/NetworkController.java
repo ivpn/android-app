@@ -91,11 +91,6 @@ public class NetworkController implements ServiceConstants {
     public void init() {
         LOGGER.info("Init");
         initInnerState();
-//        isWifiWatcherSettingEnabled = settingsPreference.getSettingNetworkRules();
-//        defaultState = networkProtectionPreference.getDefaultNetworkState();
-//        mobileState = networkProtectionPreference.getMobileDataNetworkState();
-//        trustedWiFis = networkProtectionPreference.getTrustedWifiList();
-//        untrustedWiFis = networkProtectionPreference.getUntrustedWifiList();
         registerReceiver();
     }
 

@@ -29,10 +29,13 @@ import javax.inject.Inject
 
 @ApplicationScope
 class MockLocationViewModel @Inject constructor(
-        private val controller: MockLocationController
+    private val controller: MockLocationController
 ) : ViewModel() {
 
-    var mockLocationListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> tryEnableMockLocation(value) }
+    var mockLocationListener =
+        CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean ->
+            tryEnableMockLocation(value)
+        }
 
     var navigator: MockLocationNavigator? = null
 
@@ -44,9 +47,9 @@ class MockLocationViewModel @Inject constructor(
         return controller.isMockLocationEnabled()
     }
 
-     fun isMockLocationFeatureEnabled(): Boolean {
-         return controller.isMockLocationFeatureEnabled()
-     }
+    fun isMockLocationFeatureEnabled(): Boolean {
+        return controller.isMockLocationFeatureEnabled()
+    }
 
     fun enableMockLocation(isEnabled: Boolean) {
         controller.enableMockLocation(isEnabled)

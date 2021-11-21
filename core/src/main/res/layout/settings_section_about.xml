@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -28,22 +29,39 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_about" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/check_updates_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="horizontal"
                 android:visibility="@{updates.isSupported ? View.VISIBLE : View.GONE}">
 
                 <TextView
-                    android:id="@+id/updates"
+                    android:id="@+id/updates_title"
                     style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:text="@string/settings_updates_title" />
-            </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:text="@string/settings_updates_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/updates_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/updates_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/updates_title"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -51,11 +69,14 @@
                 android:background="@color/color_section_divider"
                 android:visibility="@{updates.isSupported ? View.VISIBLE : View.GONE}"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/terms_of_service_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:onClick="readTermsOfService"
                 android:orientation="horizontal">
 
@@ -64,19 +85,36 @@
                     style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:text="@string/settings_terms_of_service" />
-            </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:text="@string/settings_terms_of_service"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/tes_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/terms_of_service"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/terms_of_service"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/color_section_divider" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/privacy_policy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -85,9 +123,23 @@
                     style="@style/SettingsOptionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/settings_margin_left"
-                    android:text="@string/settings_privacy_policy" />
-            </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:text="@string/settings_privacy_policy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/privacy_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/privacy_policy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/privacy_policy"
+                    app:srcCompat="@drawable/ic_arrow_right"
+                    app:tint="@color/settings_option_description_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

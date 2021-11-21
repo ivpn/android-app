@@ -27,6 +27,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.distance.DistanceProvider
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.HttpClientFactory
@@ -51,6 +52,7 @@ class LocationViewModel @Inject constructor(
         private val serversRepository: ServersRepository,
         private val settings: Settings,
         private val httpClientFactory: HttpClientFactory,
+        private val distanceProvider: DistanceProvider,
         protocolController: ProtocolController,
         vpnBehaviorController: VpnBehaviorController
 ) : ViewModel() {
@@ -111,6 +113,7 @@ class LocationViewModel @Inject constructor(
                         isLocationAPIError.set(v4LocationAPIError)
                         homeLocation.set(homeV4Location)
                         locationUIData.set(v4locationUIData)
+                        distanceProvider.updateLocation(homeV4Location)
                     }
                     IPState.IPv6 -> {
                         LOGGER.info("Set data loading as ${v6dataLoading}")
@@ -118,6 +121,7 @@ class LocationViewModel @Inject constructor(
                         isLocationAPIError.set(v6LocationAPIError)
                         homeLocation.set(homeV6Location)
                         locationUIData.set(v6locationUIData)
+                        distanceProvider.updateLocation(homeV6Location)
                     }
                 }
                 ipState.set(uiState)
@@ -248,6 +252,7 @@ class LocationViewModel @Inject constructor(
                         for (listener in locationListeners) {
                             listener.onSuccess(location, stateL)
                         }
+                        distanceProvider.updateLocation(location)
                     }
                 }
             }
@@ -278,6 +283,7 @@ class LocationViewModel @Inject constructor(
             dataLoading.set(v6dataLoading)
         }
         response?.let {
+            println("IPv6 response = ${it}")
             val stateL = state
 
             if (stateL != null
@@ -294,6 +300,7 @@ class LocationViewModel @Inject constructor(
                         for (listener in locationListeners) {
                             listener.onSuccess(location, stateL)
                         }
+                        distanceProvider.updateLocation(location)
                     }
                 }
             }
@@ -396,7 +403,6 @@ class LocationViewModel @Inject constructor(
     }
 
     private fun checkLocationWithDelay() {
-//        dataLoading.set(true)
         Handler().postDelayed({
             checkLocation()
         }, 1000)

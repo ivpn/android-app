@@ -51,15 +51,21 @@ class Settings @Inject constructor(
             val isAntiSurveillanceEnabled = isAntiSurveillanceEnabled
             val isAntiSurveillanceHardcoreEnabled = isAntiSurveillanceHardcoreEnabled
             val isMultiHopEnabled = isMultiHopEnabled
-            val dns: String?
-            val hardcoreDns: String?
-            if (isMultiHopEnabled) {
-                dns = antiTrackerDefaultDNSMulti
-                hardcoreDns = antiTrackerHardcoreDNSMulti
-            } else {
-                dns = antiTrackerDefaultDNS
-                hardcoreDns = antiTrackerHardcoreDNS
+            val protocol = stickyPreference.currentProtocol
+
+            var dns: String? = antiTrackerDefaultDNS
+            var hardcoreDns: String? = antiTrackerHardcoreDNS
+
+            if (protocol == Protocol.OPENVPN) {
+                if (isMultiHopEnabled) {
+                    dns = antiTrackerDefaultDNSMulti
+                    hardcoreDns = antiTrackerHardcoreDNSMulti
+                } else {
+                    dns = antiTrackerDefaultDNS
+                    hardcoreDns = antiTrackerHardcoreDNS
+                }
             }
+
             if (isAntiSurveillanceEnabled) {
                 return if (isAntiSurveillanceHardcoreEnabled) {
                     hardcoreDns
@@ -123,6 +129,12 @@ class Settings @Inject constructor(
         get() = settingsPreference.getSettingMultiHop()
         set(value) {
             settingsPreference.putSettingMultiHop(value)
+        }
+
+    var isMultiHopSameProviderAllowed: Boolean
+        get() = settingsPreference.isMultiHopSameProviderAllowed
+        set(value) {
+            settingsPreference.isMultiHopSameProviderAllowed = value
         }
 
     var isNetworkRulesEnabled: Boolean

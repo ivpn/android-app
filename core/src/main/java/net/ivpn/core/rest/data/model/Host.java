@@ -27,6 +27,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Host {
 
+    @SerializedName("hostname")
+    @Expose
+    private String hostname;
     @SerializedName("host")
     @Expose
     private String host;
@@ -39,6 +42,9 @@ public class Host {
     @SerializedName("ipv6")
     @Expose
     private Ipv6 ipv6;
+    @SerializedName("multihop_port")
+    @Expose
+    private int multihopPort;
 
     public String getHost() {
         return host;
@@ -70,6 +76,22 @@ public class Host {
 
     public void setIpv6(Ipv6 ipv6) {
         this.ipv6 = ipv6;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
+    public int getMultihopPort() {
+        return multihopPort;
+    }
+
+    public void setMultihopPort(int multihopPort) {
+        this.multihopPort = multihopPort;
     }
 
     @Override

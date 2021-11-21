@@ -157,7 +157,7 @@ class SessionController @Inject constructor(
                                 userPreference.putIsActive(false)
                             }
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
-                                clearData()
+                                clearSessionData()
                             }
                         }
                         onUpdateError(null, errorResponse)
@@ -199,14 +199,12 @@ class SessionController @Inject constructor(
     }
 
     private fun onRemoveSuccess() {
-        clearData()
         for (listener in listeners) {
             listener.onRemoveSuccess()
         }
     }
 
     private fun onRemoveError() {
-        clearData()
         for (listener in listeners) {
             listener.onRemoveError()
         }
@@ -245,9 +243,14 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun clearData() {
+    fun clearData() {
         IVPNApplication.appComponent.provideComponentUtil().resetComponents()
-        ViewModelCleaner()
+        ViewModelCleaner().fullClean()
+    }
+
+    fun clearSessionData() {
+        IVPNApplication.appComponent.provideComponentUtil().resetSessionData()
+        ViewModelCleaner().sessionClean()
     }
 
     private fun getProtocol(): Protocol {

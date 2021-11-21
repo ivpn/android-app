@@ -30,9 +30,12 @@ import androidx.core.app.NotificationManagerCompat;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.migration.MigrationController;
+import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.common.prefs.StickyPreference;
+import net.ivpn.core.v2.mocklocation.MockLocationController;
 import net.ivpn.core.vpn.GlobalBehaviorController;
 import net.ivpn.core.vpn.ProtocolController;
 import net.ivpn.core.vpn.local.NetworkController;
@@ -54,13 +57,17 @@ public class ComponentUtil {
     private final ProfileManager profileManager;
     private final MigrationController migrationController;
     private final LogUtil logUtil;
+    private final PingProvider pingProvider;
+    private final MockLocationController mockLocationController;
+    private final StickyPreference stickyPreference;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
                   ServersRepository serversRepository, GlobalBehaviorController globalBehaviorController,
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
-                  MigrationController migrationController) {
+                  MigrationController migrationController, PingProvider pingProvider,
+                  MockLocationController mockLocationController, StickyPreference stickyPreference) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
@@ -71,6 +78,9 @@ public class ComponentUtil {
         this.configManager = configManager;
         this.profileManager = profileManager;
         this.migrationController = migrationController;
+        this.pingProvider = pingProvider;
+        this.mockLocationController = mockLocationController;
+        this.stickyPreference = stickyPreference;
     }
 
     public void performBaseComponentsInit() {
@@ -78,6 +88,7 @@ public class ComponentUtil {
         initWireGuard();
         initProfile();
         initApiAccessImprovement();
+        initPingProvider();
         initBillings();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         migrationController.checkForUpdates();
@@ -88,9 +99,22 @@ public class ComponentUtil {
 
     public void resetComponents() {
         preference.removeAll();
+        stickyPreference.partlyReset();
         networkController.finishAll();
         globalBehaviorController.finishAll();
+        protocolController.reset();
         IVPNApplication.updatesController.resetComponent();
+        logUtil.resetAll();
+        IVPNApplication.crashLoggingController.reset();
+        mockLocationController.reset();
+
+        NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
+    }
+
+    public void resetSessionData() {
+        preference.removeSessionData();
+        networkController.finishAll();
+        globalBehaviorController.finishAll();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }
@@ -108,6 +132,10 @@ public class ComponentUtil {
     private void initApiAccessImprovement() {
         serversRepository.tryUpdateIpList();
         serversRepository.tryUpdateServerLocations();
+    }
+
+    private void initPingProvider() {
+        pingProvider.getPings();
     }
 
     private void initLogger() {

@@ -53,7 +53,6 @@ class MockLocationController @Inject constructor(
         val context = IVPNApplication.application
         manager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        isEnabled = settingsPreference.mockLocationSettings
         if (isDeveloperOptionsEnabled() && isMockLocationFeatureEnabled()) {
             isEnabled = settingsPreference.mockLocationSettings
         }
@@ -132,6 +131,10 @@ class MockLocationController @Inject constructor(
             removeProvider(LocationManager.NETWORK_PROVIDER)
             isTestProviderAdded = false
         }
+    }
+
+    fun reset() {
+        isEnabled = false
     }
 
     private fun removeProvider(provider: String) {

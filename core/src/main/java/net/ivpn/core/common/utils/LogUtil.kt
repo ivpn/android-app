@@ -41,8 +41,6 @@ class LogUtil @Inject constructor(
         SLF4JBridgeHandler.install()
         if (isLoggingEnabled) {
             nativeEnableLogging()
-//            val root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger
-//            root.level = ch.qos.logback.classic.Level.OFF
         } else {
             nativeDisableLogging()
         }
@@ -61,6 +59,9 @@ class LogUtil @Inject constructor(
         settingsPreference.putSettingLogging(isLoggingEnabled)
     }
 
+    fun resetAll() {
+        isLoggingEnabled = settingsPreference.getSettingLogging()
+    }
 
     private fun nativeDisableLogging() {
         val root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger

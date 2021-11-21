@@ -69,9 +69,6 @@ class LoginFragment : Fragment(), LoginNavigator,
     @Inject
     lateinit var viewModel: LoginViewModel
 
-//    @Inject
-//    lateinit var signUp: SignUpViewModel
-
     var signUp: SignUpController = IVPNApplication.signUpController
 
     private var createSessionFragment: CreateSessionFragment? = null

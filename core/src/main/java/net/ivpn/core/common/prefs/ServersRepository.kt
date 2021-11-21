@@ -259,6 +259,10 @@ class ServersRepository @Inject constructor(
         if (getCachedServers() != null) {
             return
         }
+        updateServerListOffline()
+    }
+
+    fun updateServerListOffline() {
         val response = Mapper.getProtocolServers(ServersLoader.load())
         response?.let{
             it.markServerTypes()
@@ -268,13 +272,13 @@ class ServersRepository @Inject constructor(
             settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            println("Perform first from list = ${it.wireGuardServerList.first()}")
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }
 
     fun tryUpdateIpList() {
-        println("settings.ipList = ${settings.ipList}")
-        if (settings.ipList != null) {
+        if (!settings.ipList.isNullOrEmpty()) {
             return
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())

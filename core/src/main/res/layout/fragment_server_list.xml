@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:forbiddenItem="@{viewmodel.forbiddenServer}"
-                app:items="@{viewmodel.all}" />
+                app:items="@{viewmodel.all}"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </FrameLayout>

@@ -27,14 +27,12 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
-import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
-import net.ivpn.core.common.pinger.PingResultFormatter
-import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
+import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.v2.connect.createSession.ConnectionState
 import net.ivpn.core.vpn.controller.DefaultVPNStateListener
 import net.ivpn.core.vpn.controller.VpnBehaviorController
@@ -52,15 +50,14 @@ class ServersViewModel @Inject constructor(
 
     val entryRandomServer = ObservableBoolean()
     val exitRandomServer = ObservableBoolean()
-    val fastestServer = ObservableBoolean()
+    val fastestServerSetting = ObservableBoolean()
     val entryServerVisibility = ObservableBoolean()
     val exitServerVisibility = ObservableBoolean()
 
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
     val mapServer = ObservableField<Server>()
-    val pingResultExitServer = ObservableField<PingResultFormatter>()
-    val pingResultEnterServer = ObservableField<PingResultFormatter>()
+    val fastestServer = pingProvider.fastestServer
 
     private var isBackgroundUpdateDone = false
 
@@ -71,6 +68,7 @@ class ServersViewModel @Inject constructor(
 
     fun onResume() {
         initStates()
+        pingProvider.pingAll(false)
 
         if (!isBackgroundUpdateDone) {
             updateServersInBackground()
@@ -87,18 +85,12 @@ class ServersViewModel @Inject constructor(
         exitServer.set(getCurrentServer(ServerType.EXIT))
         mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
 
-        fastestServer.set(isFastestServerEnabled())
+        fastestServerSetting.set(isFastestServerEnabled())
         entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
         exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
 
-        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
-
-        pingResultExitServer.set(null)
-        pingResultEnterServer.set(null)
-
-        ping(entryServer.get(), getPingFinishListener(ServerType.ENTRY))
-        ping(exitServer.get(), getPingFinishListener(ServerType.EXIT))
     }
 
     private fun updateServersInBackground() {
@@ -152,11 +144,11 @@ class ServersViewModel @Inject constructor(
     }
 
     private fun updateServerVisibility() {
-        fastestServer.set(isFastestServerEnabled())
+        fastestServerSetting.set(isFastestServerEnabled())
         entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
         exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
 
-        entryServerVisibility.set(!fastestServer.get() && !entryRandomServer.get())
+        entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
     }
 
@@ -164,25 +156,11 @@ class ServersViewModel @Inject constructor(
         return vpnBehaviorController.isVPNActive
     }
 
-    private fun ping(server: Server?, listener: OnPingFinishListener) {
-        pingProvider.ping(server, listener)
-    }
-
     private fun getOnMultihopValueChanges(): MultiHopController.OnValueChangeListener {
         return object : MultiHopController.OnValueChangeListener {
             override fun onValueChange(value: Boolean) {
                 updateServerVisibility()
                 mapServer.set(if (value) exitServer.get() else entryServer.get())
-            }
-        }
-    }
-
-    private fun getPingFinishListener(serverType: ServerType): OnPingFinishListener {
-        return OnPingFinishListener { _, result: PingResultFormatter? ->
-            if (serverType == ServerType.ENTRY) {
-                pingResultEnterServer.set(result)
-            } else {
-                pingResultExitServer.set(result)
             }
         }
     }
@@ -234,6 +212,12 @@ class ServersViewModel @Inject constructor(
 
     fun isEntryServerIPv6BadgeEnabled(): Boolean {
         entryServer.get()?.let {
+            return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
+        } ?: return false
+    }
+
+    fun isFastestServerIPv6BadgeEnabled(): Boolean {
+        fastestServer.value?.let {
             return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
         } ?: return false
     }

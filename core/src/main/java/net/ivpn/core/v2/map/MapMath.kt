@@ -124,7 +124,6 @@ class MapMath {
     }
 
     private fun validateXCoordinate(onScroll: Boolean = false, direction: Float = 0f) {
-        println("Before validation totalX = $totalX onScroll = $onScroll direction")
         if (totalX < -borderGap) {
             totalX = -borderGap
         }

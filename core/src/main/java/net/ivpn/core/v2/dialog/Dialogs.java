@@ -27,6 +27,7 @@ import net.ivpn.core.R;
 public enum Dialogs {
     LOGOUT(R.string.dialogs_log_out_title, R.string.dialogs_log_out_message,
             R.string.dialogs_log_out_positive_button, R.string.dialogs_log_out_negative_button),
+    FORCE_LOGOUT(R.string.dialogs_force_logout_title, R.string.dialogs_force_logout_description, R.string.dialogs_force_logout_positive_action, R.string.dialogs_force_logout_negative_action),
     SESSION_TOO_MANY(R.string.dialogs_session_too_many_title, R.string.dialogs_session_too_many_message,
             R.string.dialogs_session_force_login, R.string.dialogs_cancel),
     CREATE_SESSION_ERROR(R.string.dialogs_error, R.string.dialogs_create_session_error_message, -1, R.string.dialogs_ok),
@@ -76,7 +77,8 @@ public enum Dialogs {
     CREATE_ACCOUNT_ERROR(R.string.dialogs_error, R.string.dialogs_create_account_error_message, -1, R.string.dialogs_ok),
     MOCK_LOCATION_DEVELOPER_OPTION_ERROR(R.string.dialogs_mock_location_developer_options, R.string.dialogs_mock_location_developer_options_message, -1, R.string.dialogs_ok),
     MOCK_LOCATION_APP_ERROR(R.string.dialogs_mock_wrong_app, R.string.dialogs_mock_wrong_app_message, -1, R.string.dialogs_ok),
-    REMOVE_KILL_SWITCH(R.string.dialogs_please_note, R.string.dialogs_remove_kill_switch, R.string.dialogs_to_read_more, R.string.dialogs_ok);
+    REMOVE_KILL_SWITCH(R.string.dialogs_please_note, R.string.dialogs_remove_kill_switch, R.string.dialogs_to_read_more, R.string.dialogs_ok),
+    WG_CANT_CHANGE_PORT(R.string.dialogs_please_note, R.string.dialogs_wireguard_impossible_change_port, -1, R.string.dialogs_ok);
 
     private int titleId;
     private int messageId;

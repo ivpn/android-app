@@ -22,6 +22,7 @@ package net.ivpn.core.v2.serverlist
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.core.common.pinger.PingResultFormatter
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.serverlist.dialog.Filters
 
@@ -32,4 +33,6 @@ interface ServerBasedRecyclerViewAdapter {
     fun replaceData(items: List<Server>)
 
     fun setFilter(filter: Filters?)
+
+    fun setPings(pings: Map<Server, PingResultFormatter?>)
 }

@@ -25,6 +25,7 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.ivpn.core.v2.serverlist.dialog.Filters;
 import net.ivpn.core.v2.serverlist.items.ConnectionOption;
 import net.ivpn.core.vpn.Protocol;
 
@@ -73,6 +74,7 @@ public class Server implements ConnectionOption {
 
     private boolean isFavourite = false;
     private long latency = Long.MAX_VALUE;
+    private float distance = Long.MAX_VALUE;
 
     public String getGateway() {
         return gateway;
@@ -116,6 +118,11 @@ public class Server implements ConnectionOption {
 
     public String getDescription() {
         return city + ", " + countryCode;
+    }
+
+    public String getDescription(Filters filter) {
+        if (filter == Filters.COUNTRY) return countryCode + ", " + city;
+        return getDescription();
     }
 
     public List<Host> getHosts() {
@@ -166,9 +173,21 @@ public class Server implements ConnectionOption {
         this.latency = latency;
     }
 
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
     public boolean canBeUsedAsMultiHopWith(Server server) {
         if (server == null) return true;
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
+    }
+
+    public boolean isPingInfoSameWith(Server server) {
+        return this.equals(server) && this.latency == server.latency;
     }
 
     public boolean isIPv6Enabled() {
@@ -176,6 +195,14 @@ public class Server implements ConnectionOption {
         return hosts.get(0).getIpv6() != null
                 && hosts.get(0).getIpv6().getLocal_ip() != null
                 && !hosts.get(0).getIpv6().getLocal_ip().isEmpty();
+    }
+
+    public String getIpAddress() {
+        if (type == null || type == Protocol.OPENVPN) {
+            return ipAddresses.get(0);
+        } else {
+            return hosts.get(0).getHost();
+        }
     }
 
     @Override
@@ -192,6 +219,7 @@ public class Server implements ConnectionOption {
                 ", type=" + type +
                 ", isFavourite=" + isFavourite +
                 ", latency=" + latency +
+                ", distance=" + distance +
                 '}';
     }
 

@@ -153,7 +153,6 @@ class MapView @JvmOverloads constructor(
 
     val locationListener = object : LocationViewModel.CheckLocationListener {
         override fun onSuccess(location: Location, connectionState: ConnectionState) {
-            println("Location listener on Success connectionState = $connectionState location = ${location.city}")
             if (connectionState == ConnectionState.NOT_CONNECTED
                     || connectionState == ConnectionState.PAUSED) {
                 setLocation(location)
@@ -345,7 +344,6 @@ class MapView @JvmOverloads constructor(
 
     var connectionState: ConnectionState? = null
     fun setConnectionState(state: ConnectionState?, gateway: Location?) {
-        println("Animation Set connection state = ${state}, gateway = ${gateway}")
         if (state == null) {
             return
         }
@@ -387,7 +385,6 @@ class MapView @JvmOverloads constructor(
     }
 
     fun setGatewayLocations(serverLocations: List<ServerLocation>?) {
-        println("Set servers locations")
         this.serverLocations = serverLocations
 
         serverLocations?.let {
@@ -412,8 +409,6 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun setLocation(location: Location?) {
-        println("Set location as $location")
-        println("Previous location is ${this.location}")
         if (this.location == location) {
             return
         }
@@ -468,7 +463,6 @@ class MapView @JvmOverloads constructor(
         }
 
         job = GlobalScope.launch {
-            println("Start to init map")
             math.setScreenSize(width.toFloat(), height.toFloat())
             initTiles()
             isInit = true
@@ -481,7 +475,6 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun postInit() {
-        println("isInit = true")
         updateCoordinates(true)
     }
 

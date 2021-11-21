@@ -38,4 +38,6 @@ ext {
     powerMockito = '1.6.2'
     hamcrestVersion = '2.1'
     espressoCore = '3.0.1'
+    lifecycleVersion = '2.3.1'
+    coroutenes = '1.5.2'
 }

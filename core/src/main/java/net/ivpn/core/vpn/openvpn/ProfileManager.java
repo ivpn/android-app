@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 
 import net.ivpn.core.common.ProfileStorage;
 import net.ivpn.core.common.dagger.ApplicationScope;
+import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.prefs.EncryptedUserPreference;
 import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
@@ -50,13 +51,13 @@ public class ProfileManager {
     private VpnProfile currentProfile;
 
     private EncryptedUserPreference userPreference;
-    private Settings settings;
+    private MultiHopController multiHopController;
     private ServersRepository serversRepository;
 
     @Inject
-    public ProfileManager(EncryptedUserPreference userPreference, Settings settings, ServersRepository serversRepository) {
+    public ProfileManager(EncryptedUserPreference userPreference, MultiHopController multiHopController, ServersRepository serversRepository) {
         this.userPreference = userPreference;
-        this.settings = settings;
+        this.multiHopController = multiHopController;
         this.serversRepository = serversRepository;
     }
 
@@ -108,7 +109,7 @@ public class ProfileManager {
             username = userPreference.getSessionVpnUsername();
         }
 
-        boolean isMultiHopEnabled = settings.isMultiHopEnabled();
+        boolean isMultiHopEnabled = multiHopController.isReadyToUse();
         if (isMultiHopEnabled) {
             Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
             if (exitServer == null) return;

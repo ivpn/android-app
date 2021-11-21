@@ -140,6 +140,58 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         initViews()
     }
 
+    override fun onResume() {
+        LOGGER.info("onResume: Connect fragment")
+        super.onResume()
+        servers.onResume()
+        account.onResume()
+        multihop.onResume()
+        account.updateSessionStatus()
+        checkLocationPermission()
+        applySlidingPanelSide()
+    }
+
+    override fun onStart() {
+        LOGGER.info("onStart: Connect fragment")
+        super.onStart()
+        location.addLocationListener(binding.map.locationListener)
+        if (isPermissionGranted()) {
+            network.updateNetworkSource(context)
+        }
+        activity?.let {
+            if (it is MainActivity) {
+                it.setAdjustNothingMode()
+                it.setContentSecure(false)
+            }
+        }
+        checkNotificationsToShown()
+    }
+
+    override fun onStop() {
+        LOGGER.info("onStop: Connect fragment")
+        super.onStop()
+        location.removeLocationListener(binding.map.locationListener)
+        notificationDialog?.hide()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            LOGGER.info("onActivityResult: RESULT_CANCELED")
+            return
+        }
+
+        LOGGER.info("onActivityResult: RESULT_OK")
+        when (requestCode) {
+            ServiceConstants.IVPN_REQUEST_CODE -> {
+                connect.onConnectRequest()
+            }
+            CONNECT_BY_MAP -> {
+                connect.connectOrReconnect()
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mapPopup?.dismiss()
@@ -187,6 +239,12 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         binding.slidingPanel.connect = connect
         binding.slidingPanel.cards.location = location
 
+        binding.lifecycleOwner = this
+
+        servers.fastestServer.observe(viewLifecycleOwner) {
+            binding.slidingPanel.fastestServer = it
+        }
+
         initNavigation()
     }
 
@@ -218,7 +276,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 }
             }
         })
-        binding.slidingPanel.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun initNavigation() {
@@ -444,60 +501,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         return filteredList
     }
 
-    override fun onResume() {
-        LOGGER.info("onResume: Connect fragment")
-        super.onResume()
-        servers.onResume()
-        account.onResume()
-        multihop.onResume()
-        account.updateSessionStatus()
-        checkLocationPermission()
-        applySlidingPanelSide()
-
-        LOGGER.info("translationY = ${binding.slidingPanel.sheetLayout.translationY}")
-    }
-
-    override fun onStart() {
-        LOGGER.info("onStart: Connect fragment")
-        super.onStart()
-        location.addLocationListener(binding.map.locationListener)
-        if (isPermissionGranted()) {
-            network.updateNetworkSource(context)
-        }
-        activity?.let {
-            if (it is MainActivity) {
-                it.setAdjustNothingMode()
-                it.setContentSecure(false)
-            }
-        }
-        checkNotificationsToShown()
-    }
-
-    override fun onStop() {
-        LOGGER.info("onStop: Connect fragment")
-        super.onStop()
-        location.removeLocationListener(binding.map.locationListener)
-        notificationDialog?.hide()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            LOGGER.info("onActivityResult: RESULT_CANCELED")
-            return
-        }
-
-        LOGGER.info("onActivityResult: RESULT_OK")
-        when (requestCode) {
-            ServiceConstants.IVPN_REQUEST_CODE -> {
-                connect.onConnectRequest()
-            }
-            CONNECT_BY_MAP -> {
-                connect.connectOrReconnect()
-            }
-        }
-    }
-
     private fun checkNotificationsToShown() {
         if (notifications.isKillSwitchDialogueNeedToBeShown) {
             notificationDialog = DialogBuilder.createNonCancelableDialog(
@@ -528,6 +531,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun checkLocationPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O_MR1) {
+            return
+        }
+        if (!account.authenticated.get()) {
             return
         }
         val isEnabled: Boolean = network.isNetworkFeatureEnabled.get()
@@ -584,8 +590,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             Dialogs.ASK_BACKGROUND_LOCATION_PERMISSION,
             positiveAction = {
                 goToAndroidAppSettings()
-            }, cancelAction =
-            { network.applyNetworkFeatureState(false) })
+            }, cancelAction = {
+                network.applyNetworkFeatureState(false)
+            })
     }
 
     private fun isPermissionGranted(): Boolean {
@@ -639,11 +646,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         peekHeight = resources.getDimension(R.dimen.slider_layout_basic_height)
         if (multihop.isEnabled.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_server_layout_height)
-//            binding.slidingPanel.exitServerLayout.visibility = View.VISIBLE
-        } else {
-//            Handler().postDelayed({
-//                binding.slidingPanel.exitServerLayout.visibility = View.GONE
-//            }, 50)
         }
         if (multihop.isSupported.get()) {
             peekHeight += resources.getDimension(R.dimen.slider_layout_multihop_switch_height)
@@ -695,7 +697,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun disconnectVpnService(
         needToReset: Boolean, dialog: Dialogs?,
-        listener: DialogInterface.OnClickListener
+        listener: () -> Unit
     ) {
         if (dialog != null) {
             DialogBuilder.createOptionDialog(context, dialog, listener)
@@ -721,7 +723,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("onAuthFailed")
         disconnectVpnService(
             true, Dialogs.ON_CONNECTION_AUTHENTICATION_ERROR
-        ) { _: DialogInterface?, _: Int ->
+        ) {
             LOGGER.info("onClick: ")
             logout()
         }
@@ -769,8 +771,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onTimeOut() {
         LOGGER.info("onTimeOut")
-        disconnectVpnService(true, Dialogs.TRY_RECONNECT,
-            DialogInterface.OnClickListener { _: DialogInterface?, _: Int -> connect.onConnectRequest() })
+        disconnectVpnService(true, Dialogs.TRY_RECONNECT) { connect.onConnectRequest() }
     }
 
     override fun logout() {

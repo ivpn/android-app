@@ -81,7 +81,6 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
     override fun onResume() {
         super.onResume()
         LOGGER.info("onResume")
-        viewModel.onResume()
         filterViewModel.onResume()
     }
 

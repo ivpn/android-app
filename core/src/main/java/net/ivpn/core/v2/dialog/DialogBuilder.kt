@@ -61,7 +61,7 @@ object DialogBuilder {
     @JvmStatic
     fun createOptionDialog(
         context: Context?, dialogAttr: Dialogs,
-        listener: DialogInterface.OnClickListener?
+        positiveAction: (() -> Unit)?
     ) {
         LOGGER.info("Create dialog $dialogAttr")
         if (context == null) {
@@ -71,7 +71,9 @@ object DialogBuilder {
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
         if (dialogAttr.positiveBtnId != -1) {
-            builder.setPositiveButton(context.getString(dialogAttr.positiveBtnId), listener)
+            builder.setPositiveButton(context.getString(dialogAttr.positiveBtnId)) {_: DialogInterface, _: Int ->
+                positiveAction?.invoke()
+            }
         }
         builder.setNegativeButton(context.getString(dialogAttr.negativeBtnId), null)
         if ((context as Activity).isFinishing) {
