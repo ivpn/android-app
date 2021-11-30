@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.1 - 2021-11-30
+
+[FIXED] User is not logged out when session is removed  
+[FIXED] Exit server is not displayed in the notifications area  
+[FIXED] Random exit server does not work with WireGuard Multi-Hop  
+
+[Download IVPN Client v. 2.8.1](https://www.ivpn.net/releases/android/IVPNv2.8.1site.apk)  
+SHA256: ddcff86bfa3035cae3f4af3ce7fc4d699caa0a5eba849f8526c94f8a7fe4bf03    
+
 ## Version 2.8.0 - 2021-11-05
 
 [NEW] Multi-Hop for WireGuard protocol  
