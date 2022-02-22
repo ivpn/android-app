@@ -44,6 +44,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
+        android:hasFragileUserData="false"
         tools:overrideLibrary="com.google.zxing.client.android"
         tools:ignore="GoogleAppIndexingWarning, HardcodedDebugMode">
 
