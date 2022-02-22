@@ -19,6 +19,7 @@
         android:largeHeap="true"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="false"
         tools:ignore="HardcodedDebugMode" >
 
         <meta-data
