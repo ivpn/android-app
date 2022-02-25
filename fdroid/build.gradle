@@ -19,6 +19,7 @@ android {
             keyPassword keystoreProperties['release.key.password']
             storeFile file(keystoreProperties['release.store.file'])
             storePassword keystoreProperties['release.store.password']
+            v1SigningEnabled false
             v2SigningEnabled true
         }
     }
