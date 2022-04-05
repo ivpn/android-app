@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.2 - 2022-04-05
+
+[IMPROVED] Mitigate StrandHogg vulnerability  
+[IMPROVED] Explicitly disable all clear-text HTTP communications  
+[IMPROVED] Disable v1 APK signature  
+
+[Download IVPN Client v. 2.8.2](https://www.ivpn.net/releases/android/IVPNv2.8.2site.apk)  
+SHA256: 229e3d5f64cf892f48d59473413e18375527939550634804637da70303b321aa    
+
 ## Version 2.8.1 - 2021-11-30
 
 [FIXED] User is not logged out when session is removed  
