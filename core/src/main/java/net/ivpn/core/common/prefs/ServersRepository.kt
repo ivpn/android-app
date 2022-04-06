@@ -54,15 +54,12 @@ class ServersRepository @Inject constructor(
     }
 
     private val currentServers = EnumMap<Protocol, EnumMap<ServerType, Server?>>(Protocol::class.java)
-    private var onFavouritesChangedListeners: MutableList<OnFavouriteServersChangedListener>? = null
-    private var onServerListUpdatedListeners: MutableList<OnServerListUpdatedListener>? = null
-    private var onServerChangedListeners: List<OnServerChangedListener>? = null
+    private var onFavouritesChangedListeners: MutableList<OnFavouriteServersChangedListener> = ArrayList()
+    private var onServerListUpdatedListeners: MutableList<OnServerListUpdatedListener> = ArrayList()
+    private var onServerChangedListeners: List<OnServerChangedListener> = ArrayList()
     private var request: Request<ServersListResponse>? = null
 
     init {
-        onFavouritesChangedListeners = ArrayList()
-        onServerListUpdatedListeners = ArrayList()
-        onServerChangedListeners = ArrayList()
         currentServers[Protocol.OPENVPN] = EnumMap(ServerType::class.java)
         currentServers[Protocol.WIREGUARD] = EnumMap(ServerType::class.java)
     }
@@ -208,7 +205,7 @@ class ServersRepository @Inject constructor(
 
             override fun onError(string: String) {
                 LOGGER.error("Updating server list, state = ERROR", string)
-                for (listener in onServerListUpdatedListeners!!) {
+                for (listener in onServerListUpdatedListeners) {
                     listener.onError()
                 }
             }
@@ -218,7 +215,7 @@ class ServersRepository @Inject constructor(
     fun fastestServerSelected() {
         serversPreference.putSettingFastestServer(true)
         serversPreference.putSettingRandomServer(false, ServerType.ENTRY)
-        for (listener in onServerChangedListeners!!) {
+        for (listener in onServerChangedListeners) {
             listener.onServerChanged()
         }
     }
@@ -228,7 +225,7 @@ class ServersRepository @Inject constructor(
         if (type == ServerType.ENTRY) {
             serversPreference.putSettingFastestServer(false)
         }
-        for (listener in onServerChangedListeners!!) {
+        for (listener in onServerChangedListeners) {
             listener.onServerChanged()
         }
     }
@@ -249,7 +246,7 @@ class ServersRepository @Inject constructor(
         serversPreference.putSettingFastestServer(false)
         serversPreference.putSettingRandomServer(false, type)
         setCurrentServer(type, server)
-        for (listener in onServerChangedListeners!!) {
+        for (listener in onServerChangedListeners) {
             listener.onServerChanged()
         }
     }
@@ -272,7 +269,6 @@ class ServersRepository @Inject constructor(
             settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
-            println("Perform first from list = ${it.wireGuardServerList.first()}")
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }

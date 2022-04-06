@@ -39,6 +39,7 @@ import com.wireguard.android.model.Tunnel;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
 import net.ivpn.core.common.Mapper;
+import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.pinger.OnFastestServerDetectorListener;
 import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.rest.data.model.ServerType;
@@ -86,6 +87,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     private ServersRepository serversRepository;
     private ConfigManager configManager;
     private PingProvider pingProvider;
+    private MultiHopController multiHopController;
 
     @Volatile
     private Server _fastestServer = null;
@@ -99,12 +101,14 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
                       ServersRepository serversRepository,
                       ConfigManager configManager,
-                      PingProvider pingProvider) {
+                      PingProvider pingProvider,
+                      MultiHopController multiHopController) {
         LOGGER.info("Creating");
         keyController = wireGuardKeyController;
         this.serversRepository = serversRepository;
         this.configManager = configManager;
         this.pingProvider = pingProvider;
+        this.multiHopController = multiHopController;
 
         configManager.setListener(this);
         listeners.add(pingProvider.getVPNStateListener());
@@ -302,7 +306,8 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             return;
         }
 
-        if (isFastestServerEnabled()) {
+        System.out.println("RANDOM: isFastestServerEnabled = " + isFastestServerEnabled());
+        if (isFastestServerEnabled() && !multiHopController.isEnabled()) {
             findFastestServerAndConnect();
         } else {
             checkRandomServerOptions();
@@ -447,12 +452,18 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         if (isRandomEntryServerEnabled()) {
             serversRepository.getRandomServerFor(ServerType.ENTRY, getRandomServerSelectionListener());
         }
+        if (isRandomExitServerEnabled()) {
+            serversRepository.getRandomServerFor(ServerType.EXIT, getRandomServerSelectionListener());
+        }
     }
 
     private boolean isRandomEntryServerEnabled() {
         return serversRepository.getSettingRandomServer(ServerType.ENTRY);
     }
 
+    private boolean isRandomExitServerEnabled() {
+        return serversRepository.getSettingRandomServer(ServerType.EXIT);
+    }
 
     private OnRandomServerSelectionListener getRandomServerSelectionListener() {
         return (server, serverType) -> {

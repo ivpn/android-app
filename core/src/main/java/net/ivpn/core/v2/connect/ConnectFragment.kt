@@ -25,7 +25,6 @@ package net.ivpn.core.v2.connect
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -33,7 +32,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -52,17 +50,16 @@ import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.checkVPNPermission
 import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
-import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentConnectBinding
 import net.ivpn.core.rest.data.model.ServerLocation
+import net.ivpn.core.rest.data.model.ServerType
+import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
 import net.ivpn.core.v2.connect.createSession.ConnectionState
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
-import net.ivpn.core.v2.viewmodel.ProtocolViewModel
-import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.map.MapView
 import net.ivpn.core.v2.map.model.Location
 import net.ivpn.core.v2.network.NetworkViewModel

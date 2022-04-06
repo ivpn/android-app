@@ -36,15 +36,13 @@ import androidx.lifecycle.Observer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.core.IVPNApplication;
-import net.ivpn.core.R;
-import net.ivpn.core.common.pinger.OnFastestServerDetectorListener;
+import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.pinger.PingProvider;
-import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.utils.DomainResolver;
-import net.ivpn.core.common.utils.ToastUtil;
 import net.ivpn.core.rest.data.model.Server;
+import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.v2.connect.createSession.ConnectionState;
 import net.ivpn.core.vpn.OnVpnStatusChangedListener;
 import net.ivpn.core.vpn.ServiceConstants;
@@ -88,6 +86,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     private PingProvider pingProvider;
     private DomainResolver domainResolver;
     private BroadcastReceiver connectionStatusReceiver;
+    private MultiHopController multiHopController;
 
     private Handler handler;
     private Runnable commonRunnable = () -> {
@@ -123,12 +122,13 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     @Inject
     OpenVpnBehavior(ServersRepository serversRepository,
                     Settings settings, PingProvider pingProvider,
-                    DomainResolver domainResolver) {
+                    DomainResolver domainResolver, MultiHopController multiHopController) {
         LOGGER.info("OpenVpn behaviour");
         this.serversRepository = serversRepository;
         this.settings = settings;
         this.pingProvider = pingProvider;
         this.domainResolver = domainResolver;
+        this.multiHopController = multiHopController;
         handler = new Handler(Looper.myLooper());
         listeners.add(pingProvider.getVPNStateListener());
 
@@ -208,7 +208,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     public void startConnecting() {
         LOGGER.info("startConnecting, state = " + state);
         if (state == NOT_CONNECTED || state == PAUSED) {
-            if (isFastestServerEnabled()) {
+            if (isFastestServerEnabled() && !multiHopController.isEnabled()) {
                 startConnectWithFastestServer();
             } else {
                 checkRandomServerOptions();
@@ -264,7 +264,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
     @Override
     public void reconnect() {
         LOGGER.info("Reconnect, state = " + state);
-        if (isFastestServerEnabled()) {
+        if (isFastestServerEnabled() && !multiHopController.isEnabled()) {
             startReconnectWithFastestServer();
         } else {
             checkRandomServerOptions();
@@ -274,7 +274,6 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
 
     @Override
     public void regenerateKeys() {
-
     }
 
     private void registerReceivers() {
@@ -339,7 +338,7 @@ public class OpenVpnBehavior extends VpnBehavior implements OnVpnStatusChangedLi
         if (state.equals(CONNECTING) || state.equals(CONNECTED)) {
             startDisconnectProcess();
         } else {
-            if (isFastestServerEnabled()) {
+            if (isFastestServerEnabled() && !multiHopController.isEnabled()) {
                 startConnectWithFastestServer();
             } else {
                 checkRandomServerOptions();

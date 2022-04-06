@@ -18,6 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
+import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.utils.DateUtil;
@@ -47,7 +48,10 @@ public class WireGuardUiService extends Service implements ServiceConstants {
 
     private CountDownTimer timer;
     private NotificationManager notificationManager;
-    @Inject ServersRepository serversRepository;
+    @Inject
+    Settings settings;
+    @Inject
+    ServersRepository serversRepository;
 
     private long lastTick;
     private int notificationId;
@@ -179,10 +183,11 @@ public class WireGuardUiService extends Service implements ServiceConstants {
 
     private void showNotification(long when, ConnectionStatus status) {
         Log.d(TAG, "showNotification: ");
+        boolean isMultiHopEnabled = settings.isMultiHopEnabled();
 
         int iconId = R.drawable.ic_stat_name;
-        String title = getTitle(status);
-        String msg = getMessage(status);
+        String title = getTitle(status, isMultiHopEnabled);
+        String msg = getMessage(status, isMultiHopEnabled);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ServiceConstants.VPN_CHANNEL);
 
@@ -215,13 +220,14 @@ public class WireGuardUiService extends Service implements ServiceConstants {
         startForeground(notificationId, notification);
     }
 
-    private String getTitle(ConnectionStatus status) {
+    private String getTitle(ConnectionStatus status, boolean isMultiHopEnabled) {
+        String subtitle = isMultiHopEnabled ? " Multi-Hop" : "";
         switch (status) {
             case CONNECTING: {
-                return getString(R.string.notification_title_connecting);
+                return getString(R.string.notification_title_connecting) + subtitle;
             }
             case CONNECTED: {
-                return getString(R.string.notification_title_connected);
+                return getString(R.string.notification_title_connected) + subtitle;
             }
             case PAUSED: {
                 return getString(R.string.notification_title_paused);
@@ -232,7 +238,8 @@ public class WireGuardUiService extends Service implements ServiceConstants {
         }
     }
 
-    private String getMessage(ConnectionStatus status) {
+    private String getMessage(ConnectionStatus status, boolean isMultiHopEnabled) {
+        String subMessage = getMultiHopMessagePart(isMultiHopEnabled);
         switch (status) {
             case PAUSED: {
                 return getString(R.string.notification_resumed_in) + " " + DateUtil.formatNotificationTimerCountDown(lastTick);
@@ -240,12 +247,22 @@ public class WireGuardUiService extends Service implements ServiceConstants {
             case CONNECTED:
             case CONNECTING: {
                 Server server = serversRepository.getCurrentServer(ServerType.ENTRY);
-                return server == null ? "" : server.getDescription();
+                return (server == null ? "" : server.getDescription()) + subMessage;
             }
             default: {
                 return "";
             }
         }
+    }
+
+    private String getMultiHopMessagePart(boolean isMultiHopEnabled) {
+        if (isMultiHopEnabled) {
+            Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
+            if (exitServer != null) {
+                return " -> " + exitServer.getDescription();
+            }
+        }
+        return "";
     }
 
     private PendingIntent getContentIntent() {

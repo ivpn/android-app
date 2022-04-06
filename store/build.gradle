@@ -20,16 +20,18 @@ android {
             keyPassword keystoreProperties['release.key.password']
             storeFile file(keystoreProperties['release.store.file'])
             storePassword keystoreProperties['release.store.password']
+            v1SigningEnabled false
+            v2SigningEnabled true
         }
     }
 
-    compileSdkVersion 31
+    compileSdkVersion 30
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 107
-        versionName "2.8.0"
+        targetSdkVersion 30
+        versionCode 113
+        versionName "2.8.2"
 
         manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
