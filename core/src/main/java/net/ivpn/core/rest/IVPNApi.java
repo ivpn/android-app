@@ -50,7 +50,7 @@ import retrofit2.http.POST;
 
 public interface IVPNApi {
 
-    @GET("v4/servers.json")
+    @GET("v5/servers.json")
     Call<ServersListResponse> getServers();
 
     @GET("v4/geo-lookup")
