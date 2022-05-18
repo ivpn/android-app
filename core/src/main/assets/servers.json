@@ -773,27 +773,6 @@
       ]
     },
     {
-      "gateway":"us-wa.wg.ivpn.net",
-      "country_code":"US",
-      "country":"United States",
-      "city":"Seattle, WA",
-      "latitude":47.6211,
-      "longitude":-122.3244,
-      "isp":"Leaseweb",
-      "hosts":[
-        {
-          "hostname":"us-wa1.wg.ivpn.net",
-          "host":"23.19.87.237",
-          "public_key":"LVe6jFXTc4uOzhERlcP62gGCPLxTQz8PINbUmRf+nGs=",
-          "local_ip":"172.16.0.1/12",
-          "ipv6":{
-            "local_ip":"fd00:4956:504e:ffff::/96"
-          },
-          "multihop_port":21701
-        }
-      ]
-    },
-    {
       "gateway":"pl.wg.ivpn.net",
       "country_code":"PL",
       "country":"Poland",
@@ -842,16 +821,14 @@
       "city":"Oslo",
       "latitude":59.9167,
       "longitude":10.75,
-      "isp":"Servethewrld",
+      "isp":"Servetheworld",
       "hosts":[
         {
           "hostname":"no1.wg.ivpn.net",
           "host":"91.189.177.156",
           "public_key":"xFO6ksbO3Gr05rRgAW0O5Veoi4bpTgz2G9RvtBzK7Cg=",
           "local_ip":"172.16.0.1/12",
-          "ipv6":{
-
-          },
+          "ipv6":{},
           "multihop_port":25301
         }
       ]
@@ -1105,6 +1082,16 @@
             "local_ip":"fd00:4956:504e:ffff::/96"
           },
           "multihop_port":26601
+        },
+        {
+          "hostname":"au-nsw2.wg.ivpn.net",
+          "host":"146.70.78.75",
+          "public_key":"q+wbp7GjiTszp5G16rNpGCqxkL0qSY3CH4pcgD6UsVQ=",
+          "local_ip":"172.16.0.1/12",
+          "ipv6":{
+            "local_ip":"fd00:4956:504e:ffff::/96"
+          },
+          "multihop_port":27801
         }
       ]
     },
@@ -1254,6 +1241,27 @@
           "multihop_port":27701
         }
       ]
+    },
+    {
+      "gateway":"us-wa.wg.ivpn.net",
+      "country_code":"US",
+      "country":"United States",
+      "city":"Seattle, WA",
+      "latitude":47.6211,
+      "longitude":-122.3244,
+      "isp":"Tzulo",
+      "hosts":[
+        {
+          "hostname":"us-wa2.wg.ivpn.net",
+          "host":"198.44.131.4",
+          "public_key":"VcrOOozBUCIURU0AnqMAE7AkMmC7Qrp+j/PzPbgbalU=",
+          "local_ip":"172.16.0.1/12",
+          "ipv6":{
+            "local_ip":"fd00:4956:504e:ffff::/96"
+          },
+          "multihop_port":27801
+        }
+      ]
     }
   ],
   "openvpn":[
@@ -1265,11 +1273,27 @@
       "latitude":34.1139,
       "longitude":-118.4068,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "173.254.196.58",
-        "69.12.80.146",
-        "198.54.129.99",
-        "173.254.204.202"
+      "hosts":[
+        {
+          "hostname":"us-ca1.gw.ivpn.net",
+          "host":"173.254.196.58",
+          "multihop_port":22201
+        },
+        {
+          "hostname":"us-ca2.gw.ivpn.net",
+          "host":"69.12.80.146",
+          "multihop_port":22401
+        },
+        {
+          "hostname":"us-ca3.gw.ivpn.net",
+          "host":"198.54.129.99",
+          "multihop_port":21301
+        },
+        {
+          "hostname":"us-ca4.gw.ivpn.net",
+          "host":"173.254.204.202",
+          "multihop_port":21901
+        }
       ]
     },
     {
@@ -1280,8 +1304,12 @@
       "latitude":44.4334,
       "longitude":26.0999,
       "isp":"M247",
-      "ip_addresses":[
-        "37.120.206.50"
+      "hosts":[
+        {
+          "hostname":"ro1.gw.ivpn.net",
+          "host":"37.120.206.50",
+          "multihop_port":22301
+        }
       ]
     },
     {
@@ -1292,9 +1320,17 @@
       "latitude":50.1,
       "longitude":8.675,
       "isp":"Leaseweb",
-      "ip_addresses":[
-        "178.162.222.40",
-        "178.162.211.114"
+      "hosts":[
+        {
+          "hostname":"de1.gw.ivpn.net",
+          "host":"178.162.222.40",
+          "multihop_port":23001
+        },
+        {
+          "hostname":"de2.gw.ivpn.net",
+          "host":"178.162.211.114",
+          "multihop_port":22001
+        }
       ]
     },
     {
@@ -1305,13 +1341,37 @@
       "latitude":52.35,
       "longitude":4.9166,
       "isp":"Leaseweb",
-      "ip_addresses":[
-        "95.211.172.95",
-        "95.211.172.68",
-        "95.211.187.228",
-        "95.211.187.222",
-        "95.211.95.22",
-        "95.211.172.18"
+      "hosts":[
+        {
+          "hostname":"nl4.gw.ivpn.net",
+          "host":"95.211.172.95",
+          "multihop_port":23201
+        },
+        {
+          "hostname":"nl3.gw.ivpn.net",
+          "host":"95.211.172.68",
+          "multihop_port":23101
+        },
+        {
+          "hostname":"nl6.gw.ivpn.net",
+          "host":"95.211.187.228",
+          "multihop_port":24101
+        },
+        {
+          "hostname":"nl5.gw.ivpn.net",
+          "host":"95.211.187.222",
+          "multihop_port":23901
+        },
+        {
+          "hostname":"nl7.gw.ivpn.net",
+          "host":"95.211.95.22",
+          "multihop_port":22501
+        },
+        {
+          "hostname":"nl8.gw.ivpn.net",
+          "host":"95.211.172.18",
+          "multihop_port":22801
+        }
       ]
     },
     {
@@ -1322,8 +1382,12 @@
       "latitude":48.8667,
       "longitude":2.3333,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "185.246.211.179"
+      "hosts":[
+        {
+          "hostname":"fr1.gw.ivpn.net",
+          "host":"185.246.211.179",
+          "multihop_port":23401
+        }
       ]
     },
     {
@@ -1334,8 +1398,12 @@
       "latitude":64.15,
       "longitude":-21.95,
       "isp":"Advania",
-      "ip_addresses":[
-        "82.221.107.178"
+      "hosts":[
+        {
+          "hostname":"is1.gw.ivpn.net",
+          "host":"82.221.107.178",
+          "multihop_port":23501
+        }
       ]
     },
     {
@@ -1346,9 +1414,17 @@
       "latitude":22.305,
       "longitude":114.185,
       "isp":"Leaseweb",
-      "ip_addresses":[
-        "209.58.189.163",
-        "209.58.188.13"
+      "hosts":[
+        {
+          "hostname":"hk1.gw.ivpn.net",
+          "host":"209.58.189.163",
+          "multihop_port":23301
+        },
+        {
+          "hostname":"hk2.gw.ivpn.net",
+          "host":"209.58.188.13",
+          "multihop_port":27501
+        }
       ]
     },
     {
@@ -1359,9 +1435,17 @@
       "latitude":32.7936,
       "longitude":-96.7662,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "96.44.189.194",
-        "96.44.142.74"
+      "hosts":[
+        {
+          "hostname":"us-tx1.gw.ivpn.net",
+          "host":"96.44.189.194",
+          "multihop_port":21001
+        },
+        {
+          "hostname":"us-tx2.gw.ivpn.net",
+          "host":"96.44.142.74",
+          "multihop_port":25001
+        }
       ]
     },
     {
@@ -1372,9 +1456,17 @@
       "latitude":51.5,
       "longitude":-0.1167,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "185.59.221.88",
-        "185.59.221.133"
+      "hosts":[
+        {
+          "hostname":"gb2.gw.ivpn.net",
+          "host":"185.59.221.88",
+          "multihop_port":24201
+        },
+        {
+          "hostname":"gb1.gw.ivpn.net",
+          "host":"185.59.221.133",
+          "multihop_port":20801
+        }
       ]
     },
     {
@@ -1385,8 +1477,12 @@
       "latitude":40.7774,
       "longitude":-111.93,
       "isp":"100TB",
-      "ip_addresses":[
-        "198.105.216.28"
+      "hosts":[
+        {
+          "hostname":"us-ut1.gw.ivpn.net",
+          "host":"198.105.216.28",
+          "multihop_port":24401
+        }
       ]
     },
     {
@@ -1397,8 +1493,12 @@
       "latitude":45.47,
       "longitude":9.205,
       "isp":"SEFlow",
-      "ip_addresses":[
-        "158.58.172.73"
+      "hosts":[
+        {
+          "hostname":"it1.gw.ivpn.net",
+          "host":"158.58.172.73",
+          "multihop_port":24301
+        }
       ]
     },
     {
@@ -1409,8 +1509,12 @@
       "latitude":59.3508,
       "longitude":18.0973,
       "isp":"GleSyS",
-      "ip_addresses":[
-        "80.67.10.138"
+      "hosts":[
+        {
+          "hostname":"se1.gw.ivpn.net",
+          "host":"80.67.10.138",
+          "multihop_port":24001
+        }
       ]
     },
     {
@@ -1421,9 +1525,17 @@
       "latitude":33.7627,
       "longitude":-84.4225,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "104.129.24.146",
-        "107.150.22.74"
+      "hosts":[
+        {
+          "hostname":"us-ga1.gw.ivpn.net",
+          "host":"104.129.24.146",
+          "multihop_port":24501
+        },
+        {
+          "hostname":"us-ga2.gw.ivpn.net",
+          "host":"107.150.22.74",
+          "multihop_port":24810
+        }
       ]
     },
     {
@@ -1434,8 +1546,12 @@
       "latitude":25.7839,
       "longitude":-80.2102,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "173.44.49.90"
+      "hosts":[
+        {
+          "hostname":"us-fl1.gw.ivpn.net",
+          "host":"173.44.49.90",
+          "multihop_port":24601
+        }
       ]
     },
     {
@@ -1446,9 +1562,17 @@
       "latitude":43.7,
       "longitude":-79.42,
       "isp":"Amanah",
-      "ip_addresses":[
-        "172.86.186.170",
-        "104.254.90.178"
+      "hosts":[
+        {
+          "hostname":"ca2.gw.ivpn.net",
+          "host":"172.86.186.170",
+          "multihop_port":22101
+        },
+        {
+          "hostname":"ca1.gw.ivpn.net",
+          "host":"104.254.90.178",
+          "multihop_port":23801
+        }
       ]
     },
     {
@@ -1459,9 +1583,17 @@
       "latitude":47.38,
       "longitude":8.55,
       "isp":"Privatelayer",
-      "ip_addresses":[
-        "141.255.166.194",
-        "185.212.170.138"
+      "hosts":[
+        {
+          "hostname":"ch3.gw.ivpn.net",
+          "host":"141.255.166.194",
+          "multihop_port":22901
+        },
+        {
+          "hostname":"ch1.gw.ivpn.net",
+          "host":"185.212.170.138",
+          "multihop_port":23601
+        }
       ]
     },
     {
@@ -1472,9 +1604,17 @@
       "latitude":41.8373,
       "longitude":-87.6862,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "107.150.28.82",
-        "72.11.137.146"
+      "hosts":[
+        {
+          "hostname":"us-il1.gw.ivpn.net",
+          "host":"107.150.28.82",
+          "multihop_port":21401
+        },
+        {
+          "hostname":"us-il2.gw.ivpn.net",
+          "host":"72.11.137.146",
+          "multihop_port":24901
+        }
       ]
     },
     {
@@ -1485,9 +1625,17 @@
       "latitude":40.737764,
       "longitude":-74.151747,
       "isp":"Quadranet",
-      "ip_addresses":[
-        "23.226.128.18",
-        "194.36.111.50"
+      "hosts":[
+        {
+          "hostname":"us-nj3.gw.ivpn.net",
+          "host":"23.226.128.18",
+          "multihop_port":21610
+        },
+        {
+          "hostname":"us-nj4.gw.ivpn.net",
+          "host":"194.36.111.50",
+          "multihop_port":27401
+        }
       ]
     },
     {
@@ -1498,20 +1646,12 @@
       "latitude":40.4,
       "longitude":-3.6834,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "185.93.3.193"
-      ]
-    },
-    {
-      "gateway":"us-wa.gw.ivpn.net",
-      "country_code":"US",
-      "country":"United States",
-      "city":"Seattle, WA",
-      "latitude":47.6211,
-      "longitude":-122.3244,
-      "isp":"Leaseweb",
-      "ip_addresses":[
-        "23.19.87.209"
+      "hosts":[
+        {
+          "hostname":"es1.gw.ivpn.net",
+          "host":"185.93.3.193",
+          "multihop_port":21501
+        }
       ]
     },
     {
@@ -1522,9 +1662,17 @@
       "latitude":40.6943,
       "longitude":-73.9249,
       "isp":"M247",
-      "ip_addresses":[
-        "212.103.48.194",
-        "89.187.178.144"
+      "hosts":[
+        {
+          "hostname":"us-ny2.gw.ivpn.net",
+          "host":"212.103.48.194",
+          "multihop_port":21801
+        },
+        {
+          "hostname":"us-ny3.gw.ivpn.net",
+          "host":"89.187.178.144",
+          "multihop_port":27601
+        }
       ]
     },
     {
@@ -1535,8 +1683,12 @@
       "latitude":52.25,
       "longitude":21,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "185.246.208.86"
+      "hosts":[
+        {
+          "hostname":"pl1.gw.ivpn.net",
+          "host":"185.246.208.86",
+          "multihop_port":25101
+        }
       ]
     },
     {
@@ -1547,8 +1699,12 @@
       "latitude":50.0833,
       "longitude":14.466,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "195.181.160.167"
+      "hosts":[
+        {
+          "hostname":"cz1.gw.ivpn.net",
+          "host":"195.181.160.167",
+          "multihop_port":25201
+        }
       ]
     },
     {
@@ -1558,9 +1714,13 @@
       "city":"Oslo",
       "latitude":59.9167,
       "longitude":10.75,
-      "isp":"Servethewrld",
-      "ip_addresses":[
-        "194.242.10.150"
+      "isp":"Servetheworld",
+      "hosts":[
+        {
+          "hostname":"no1.gw.ivpn.net",
+          "host":"194.242.10.150",
+          "multihop_port":25301
+        }
       ]
     },
     {
@@ -1571,8 +1731,12 @@
       "latitude":47.5,
       "longitude":19.0833,
       "isp":"M247",
-      "ip_addresses":[
-        "185.189.114.186"
+      "hosts":[
+        {
+          "hostname":"hu1.gw.ivpn.net",
+          "host":"185.189.114.186",
+          "multihop_port":25401
+        }
       ]
     },
     {
@@ -1583,8 +1747,12 @@
       "latitude":55.6786,
       "longitude":12.5635,
       "isp":"M247",
-      "ip_addresses":[
-        "185.245.84.226"
+      "hosts":[
+        {
+          "hostname":"dk1.gw.ivpn.net",
+          "host":"185.245.84.226",
+          "multihop_port":25501
+        }
       ]
     },
     {
@@ -1595,8 +1763,12 @@
       "latitude":48.2,
       "longitude":16.3666,
       "isp":"M247",
-      "ip_addresses":[
-        "185.244.212.66"
+      "hosts":[
+        {
+          "hostname":"at1.gw.ivpn.net",
+          "host":"185.244.212.66",
+          "multihop_port":25601
+        }
       ]
     },
     {
@@ -1607,8 +1779,12 @@
       "latitude":50.8333,
       "longitude":4.3333,
       "isp":"M247",
-      "ip_addresses":[
-        "194.187.251.10"
+      "hosts":[
+        {
+          "hostname":"be1.gw.ivpn.net",
+          "host":"194.187.251.10",
+          "multihop_port":25701
+        }
       ]
     },
     {
@@ -1619,8 +1795,12 @@
       "latitude":42.6833,
       "longitude":23.3167,
       "isp":"M247",
-      "ip_addresses":[
-        "82.102.23.18"
+      "hosts":[
+        {
+          "hostname":"bg1.gw.ivpn.net",
+          "host":"82.102.23.18",
+          "multihop_port":25901
+        }
       ]
     },
     {
@@ -1631,8 +1811,12 @@
       "latitude":48.15,
       "longitude":17.117,
       "isp":"M247",
-      "ip_addresses":[
-        "185.245.85.250"
+      "hosts":[
+        {
+          "hostname":"sk1.gw.ivpn.net",
+          "host":"185.245.85.250",
+          "multihop_port":25801
+        }
       ]
     },
     {
@@ -1643,8 +1827,12 @@
       "latitude":35.685,
       "longitude":139.7514,
       "isp":"M247",
-      "ip_addresses":[
-        "91.207.174.234"
+      "hosts":[
+        {
+          "hostname":"jp1.gw.ivpn.net",
+          "host":"91.207.174.234",
+          "multihop_port":26201
+        }
       ]
     },
     {
@@ -1655,8 +1843,12 @@
       "latitude":1.293,
       "longitude":103.8558,
       "isp":"M247",
-      "ip_addresses":[
-        "185.128.24.186"
+      "hosts":[
+        {
+          "hostname":"sg1.gw.ivpn.net",
+          "host":"185.128.24.186",
+          "multihop_port":26101
+        }
       ]
     },
     {
@@ -1667,8 +1859,12 @@
       "latitude":50,
       "longitude":36.25,
       "isp":"Xservers",
-      "ip_addresses":[
-        "193.203.48.54"
+      "hosts":[
+        {
+          "hostname":"ua1.gw.ivpn.net",
+          "host":"193.203.48.54",
+          "multihop_port":26301
+        }
       ]
     },
     {
@@ -1679,8 +1875,12 @@
       "latitude":60.1756,
       "longitude":24.9341,
       "isp":"Creanova",
-      "ip_addresses":[
-        "185.112.82.12"
+      "hosts":[
+        {
+          "hostname":"fi1.gw.ivpn.net",
+          "host":"185.112.82.12",
+          "multihop_port":26001
+        }
       ]
     },
     {
@@ -1691,8 +1891,12 @@
       "latitude":33.5722,
       "longitude":-112.0891,
       "isp":"M247",
-      "ip_addresses":[
-        "193.37.254.130"
+      "hosts":[
+        {
+          "hostname":"us-az1.gw.ivpn.net",
+          "host":"193.37.254.130",
+          "multihop_port":26401
+        }
       ]
     },
     {
@@ -1703,8 +1907,12 @@
       "latitude":36.2333,
       "longitude":-115.2654,
       "isp":"M247",
-      "ip_addresses":[
-        "185.242.5.34"
+      "hosts":[
+        {
+          "hostname":"us-nv1.gw.ivpn.net",
+          "host":"185.242.5.34",
+          "multihop_port":26501
+        }
       ]
     },
     {
@@ -1715,8 +1923,17 @@
       "latitude":-33.92,
       "longitude":151.1852,
       "isp":"M247",
-      "ip_addresses":[
-        "46.102.153.242"
+      "hosts":[
+        {
+          "hostname":"au-nsw1.gw.ivpn.net",
+          "host":"46.102.153.242",
+          "multihop_port":26601
+        },
+        {
+          "hostname":"au-nsw2.gw.ivpn.net",
+          "host":"146.70.78.74",
+          "multihop_port":27801
+        }
       ]
     },
     {
@@ -1727,8 +1944,12 @@
       "latitude":-20.53,
       "longitude":-47.39,
       "isp":"Qnax",
-      "ip_addresses":[
-        "45.162.229.130"
+      "hosts":[
+        {
+          "hostname":"br1.gw.ivpn.net",
+          "host":"45.162.229.130",
+          "multihop_port":26701
+        }
       ]
     },
     {
@@ -1739,8 +1960,12 @@
       "latitude":44.8186,
       "longitude":20.468,
       "isp":"M247",
-      "ip_addresses":[
-        "141.98.103.250"
+      "hosts":[
+        {
+          "hostname":"rs1.gw.ivpn.net",
+          "host":"141.98.103.250",
+          "multihop_port":26801
+        }
       ]
     },
     {
@@ -1751,8 +1976,12 @@
       "latitude":53.5004,
       "longitude":-2.248,
       "isp":"M247",
-      "ip_addresses":[
-        "89.238.141.228"
+      "hosts":[
+        {
+          "hostname":"gb-man1.gw.ivpn.net",
+          "host":"89.238.141.228",
+          "multihop_port":26901
+        }
       ]
     },
     {
@@ -1763,8 +1992,12 @@
       "latitude":45.5,
       "longitude":-73.5833,
       "isp":"M247",
-      "ip_addresses":[
-        "87.101.92.26"
+      "hosts":[
+        {
+          "hostname":"ca-qc1.gw.ivpn.net",
+          "host":"87.101.92.26",
+          "multihop_port":27001
+        }
       ]
     },
     {
@@ -1775,8 +2008,12 @@
       "latitude":38.7227,
       "longitude":-9.1449,
       "isp":"Hostwebis",
-      "ip_addresses":[
-        "94.46.175.112"
+      "hosts":[
+        {
+          "hostname":"pt1.gw.ivpn.net",
+          "host":"94.46.175.112",
+          "multihop_port":27101
+        }
       ]
     },
     {
@@ -1787,8 +2024,12 @@
       "latitude":49.6117,
       "longitude":6.13,
       "isp":"Evoluso",
-      "ip_addresses":[
-        "92.223.89.53"
+      "hosts":[
+        {
+          "hostname":"lu1.gw.ivpn.net",
+          "host":"92.223.89.53",
+          "multihop_port":27201
+        }
       ]
     },
     {
@@ -1799,8 +2040,12 @@
       "latitude":32.08,
       "longitude":34.77,
       "isp":"HQServ",
-      "ip_addresses":[
-        "185.191.207.194"
+      "hosts":[
+        {
+          "hostname":"il1.gw.ivpn.net",
+          "host":"185.191.207.194",
+          "multihop_port":27301
+        }
       ]
     },
     {
@@ -1811,8 +2056,28 @@
       "latitude":39.0437,
       "longitude":-77.4875,
       "isp":"Datapacket",
-      "ip_addresses":[
-        "37.19.206.105"
+      "hosts":[
+        {
+          "hostname":"us-va1.gw.ivpn.net",
+          "host":"37.19.206.105",
+          "multihop_port":27701
+        }
+      ]
+    },
+    {
+      "gateway":"us-wa.gw.ivpn.net",
+      "country_code":"US",
+      "country":"United States",
+      "city":"Seattle, WA",
+      "latitude":47.6211,
+      "longitude":-122.3244,
+      "isp":"Tzulo",
+      "hosts":[
+        {
+          "hostname":"us-wa2.gw.ivpn.net",
+          "host":"198.44.131.3",
+          "multihop_port":27801
+        }
       ]
     }
   ],
