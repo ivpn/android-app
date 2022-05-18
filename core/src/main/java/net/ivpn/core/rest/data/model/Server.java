@@ -198,11 +198,7 @@ public class Server implements ConnectionOption {
     }
 
     public String getIpAddress() {
-        if (type == null || type == Protocol.OPENVPN) {
-            return ipAddresses.get(0);
-        } else {
-            return hosts.get(0).getHost();
-        }
+        return hosts.get(0).getHost();
     }
 
     @Override
