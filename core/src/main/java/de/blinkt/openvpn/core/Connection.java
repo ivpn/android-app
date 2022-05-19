@@ -10,12 +10,18 @@ import android.util.Log;
 
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.common.prefs.ServersRepository;
+import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.utils.DomainResolver;
+import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.v2.protocol.port.Port;
+import net.ivpn.core.rest.data.model.Server;
+import net.ivpn.core.rest.data.model.Host;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -33,6 +39,10 @@ public class Connection implements Serializable, Cloneable {
     transient Settings settings;
     @Inject
     transient DomainResolver domainResolver;
+    @Inject
+    transient ServersRepository serversRepository;
+    @Inject
+    transient MultiHopController multiHopController;
 
     public Connection() {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
@@ -96,7 +106,15 @@ public class Connection implements Serializable, Cloneable {
 
     private void applyAppSettings() {
         Port port = settings.getOpenVpnPort();
-        mServerPort = String.valueOf(port.getPortNumber());
+        if (multiHopController.isReadyToUse()) {
+            Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
+            List<Host> hosts = exitServer.getHosts();
+            Random rand = new Random();
+            Host exitHost = hosts.get(rand.nextInt(hosts.size()));
+            mServerPort = String.valueOf(exitHost.getMultihopPort());
+        } else {
+            mServerPort = String.valueOf(port.getPortNumber());
+        }
         mUseUdp = port.isUDP();
     }
 
