@@ -68,6 +68,7 @@ public class ProtocolViewModel {
     public ObservableField<Port> openVPNPort = new ObservableField<>();
     public ObservableField<Port> wireGuardPort = new ObservableField<>();
     public ObservableField<String> regenerationPeriod = new ObservableField<>();
+    public ObservableField<MultiHopController> multiHop = new ObservableField<>();
 
     public ObservableField<WireGuardInfo> wgInfo = new ObservableField<>();
 
@@ -110,7 +111,7 @@ public class ProtocolViewModel {
             }
             return true;
         }
-        if (multiHopController.isEnabled()) {
+        if (multiHopController.isEnabled() && protocol.get().equals(Protocol.WIREGUARD)) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 navigator.openNotifyDialogue(Dialogs.WG_CANT_CHANGE_PORT);
             }
@@ -144,6 +145,7 @@ public class ProtocolViewModel {
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
 
         wgInfo.set(getWireGuardInfo());
+        multiHop.set(multiHopController);
     }
 
     public void reset() {
