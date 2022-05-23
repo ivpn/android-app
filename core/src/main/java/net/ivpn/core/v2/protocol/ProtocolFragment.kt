@@ -90,7 +90,9 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
         val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN))
+        val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesForMultiHop())
         binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
+        binding.contentLayout.openvpnProtocolSettings.openvpnMultihopSpinner.adapter = openMultihopVpnPortAdapter
         val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD))
         binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
 
