@@ -183,6 +183,14 @@ public class ProtocolViewModel {
         }
     }
 
+    public String getDescriptionMultihop() {
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
+            return "WireGuard" + ", " + wireGuardPort.get().getProtocol();
+        } else {
+            return "OpenVPN" + ", " + openVPNPort.get().getProtocol();
+        }
+    }
+
     private void tryEnableWgProtocol() {
         LOGGER.info("Try to enable WireGuard protocol");
         if (wireGuardPublicKey == null || wireGuardPublicKey.isEmpty()) {
