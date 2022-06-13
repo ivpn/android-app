@@ -40,6 +40,8 @@ public enum Port {
     UDP_2050(Port.UDP, 2050, OPENVPN),
     UDP_53(Port.UDP, 53, OPENVPN),
     UDP_1194(Port.UDP, 1194, OPENVPN),
+    UDP_80(Port.UDP, 80, OPENVPN),
+    UDP_443(Port.UDP, 443, OPENVPN),
     TCP_443(Port.TCP, 443, OPENVPN),
     TCP_1443(Port.TCP, 1443, OPENVPN),
     TCP_80(Port.TCP, 80, OPENVPN),
@@ -50,7 +52,9 @@ public enum Port {
     WG_UDP_30587(Port.UDP, 30587, WIREGUARD),
     WG_UDP_41893(Port.UDP, 41893, WIREGUARD),
     WG_UDP_48574(Port.UDP, 48574, WIREGUARD),
-    WG_UDP_58237(Port.UDP, 58237, WIREGUARD);
+    WG_UDP_58237(Port.UDP, 58237, WIREGUARD),
+    WG_UDP_80(Port.UDP, 80, WIREGUARD),
+    WG_UDP_443(Port.UDP, 443, WIREGUARD);
 
     public static final String UDP = "UDP";
     public static final String TCP = "TCP";
@@ -69,9 +73,9 @@ public enum Port {
 
     public static Port[] valuesFor(Protocol protocol) {
         if (protocol.equals(WIREGUARD)) {
-            return new Port[]{WG_UDP_53, WG_UDP_1194, WG_UDP_2049, WG_UDP_2050, WG_UDP_30587, WG_UDP_41893, WG_UDP_48574, WG_UDP_58237};
+            return new Port[]{WG_UDP_53, WG_UDP_1194, WG_UDP_2049, WG_UDP_2050, WG_UDP_30587, WG_UDP_41893, WG_UDP_48574, WG_UDP_58237, WG_UDP_80, WG_UDP_443};
         } else {
-            return new Port[]{UDP_2049, UDP_2050, UDP_53, UDP_1194, TCP_443, TCP_1443, TCP_80};
+            return new Port[]{UDP_2049, UDP_2050, UDP_53, UDP_1194, UDP_80, UDP_443, TCP_443, TCP_1443, TCP_80};
         }
     }
 
