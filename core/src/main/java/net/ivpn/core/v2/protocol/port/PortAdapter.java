@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import net.ivpn.core.common.multihop.MultiHopController;
 
 import net.ivpn.core.R;
 
@@ -39,13 +40,15 @@ public class PortAdapter extends ArrayAdapter<Port> {
     private int layoutResourceId;
     private Port[] ports;
     private int currentPosition;
+    private MultiHopController multiHopController;
 
     public PortAdapter(Context context, int layoutResourceId,
-                       Port[] ports) {
+                       Port[] ports, MultiHopController multiHopController) {
         super(context, layoutResourceId, ports);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.ports = ports;
+        this.multiHopController = multiHopController;
     }
 
     @Override
@@ -73,7 +76,12 @@ public class PortAdapter extends ArrayAdapter<Port> {
         }
 
         Port item = ports[position];
-        holder.portTextView.setText(item.toThumbnail());
+        if (multiHopController.isEnabled()) {
+            holder.portTextView.setText(item.getProtocol());
+        } else {
+            holder.portTextView.setText(item.toThumbnail());
+        }
+
         return row;
     }
 
@@ -96,7 +104,12 @@ public class PortAdapter extends ArrayAdapter<Port> {
         }
 
         Port item = ports[position];
-        holder.portTextView.setText(item.toThumbnail());
+        if (multiHopController.isEnabled()) {
+            holder.portTextView.setText(item.getProtocol());
+        } else {
+            holder.portTextView.setText(item.toThumbnail());
+        }
+
         return row;
     }
 

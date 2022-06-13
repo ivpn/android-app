@@ -32,6 +32,7 @@ import net.ivpn.core.vpn.Protocol;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.ArrayList;
 
 public class Server implements ConnectionOption {
 
@@ -109,7 +110,11 @@ public class Server implements ConnectionOption {
     }
 
     public List<String> getIpAddresses() {
-        return ipAddresses;
+        List<String> addresses = new ArrayList<String>();
+        for (Host host : hosts) {
+            addresses.add(host.getHost());
+        }
+        return addresses;
     }
 
     public void setIpAddresses(List<String> ipAddresses) {
@@ -198,11 +203,7 @@ public class Server implements ConnectionOption {
     }
 
     public String getIpAddress() {
-        if (type == null || type == Protocol.OPENVPN) {
-            return ipAddresses.get(0);
-        } else {
-            return hosts.get(0).getHost();
-        }
+        return hosts.get(0).getHost();
     }
 
     @Override

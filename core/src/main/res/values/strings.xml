@@ -51,6 +51,7 @@
     <string name="setting_custom_dns">Custom DNS</string>
     <string name="settings_multi_hop_description">You will be redirected through 2 servers.</string>
     <string name="settings_port_label">Preferred protocol &amp; port</string>
+    <string name="settings_preferred_protocol_label">Preferred protocol</string>
     <string name="settings_send_logs">SEND LOGS</string>
     <string name="settings_split_tunneling">Split tunneling</string>
     <string name="settings_do_not_collect_your_data">We can\'t see these until you send them to us.</string>
@@ -461,7 +462,7 @@
     <string name="dialogs_create_account_error_message">There was a problem creating a new account.</string>
     <string name="dialogs_create_session_error_message">There was a error creating a new session.</string>
 
-    <string name="dialogs_wireguard_impossible_change_port">It is not possible to use the preferred port setting when Multi-Hop for WireGuard is enabled.</string>
+    <string name="dialogs_wireguard_impossible_change_port">It is not possible to use the preferred port setting when Multi-Hop is enabled.</string>
 
     <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
     <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>

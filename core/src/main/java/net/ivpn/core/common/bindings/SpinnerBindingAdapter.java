@@ -32,6 +32,9 @@ import net.ivpn.core.v2.protocol.port.OnPortSelectedListener;
 import net.ivpn.core.v2.protocol.port.Port;
 import net.ivpn.core.v2.protocol.port.PortAdapter;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SpinnerBindingAdapter {
 
     @BindingAdapter("onChanged")
@@ -60,6 +63,8 @@ public class SpinnerBindingAdapter {
 
     @BindingAdapter("selectedItem")
     public static void setPort(AppCompatSpinner view, Port port) {
-        view.setSelection(port.ordinalForProtocol());
+        final PortAdapter adapter = (PortAdapter) view.getAdapter();
+        List<Port> ports = Arrays.asList(adapter.getAllowedPorts());
+        view.setSelection(ports.indexOf(port));
     }
 }

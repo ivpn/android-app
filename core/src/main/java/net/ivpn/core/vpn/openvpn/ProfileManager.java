@@ -108,15 +108,7 @@ public class ProfileManager {
         if (token != null && !token.isEmpty()) {
             username = userPreference.getSessionVpnUsername();
         }
-
-        boolean isMultiHopEnabled = multiHopController.isReadyToUse();
-        if (isMultiHopEnabled) {
-            Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
-            if (exitServer == null) return;
-            profile.mUsername = username + "@" + StringUtil.getLocationFromGateway(exitServer.getGateway());
-        } else {
-            profile.mUsername = username;
-        }
+        profile.mUsername = username;
     }
 
     private VpnProfile getProfile() {
@@ -130,17 +122,22 @@ public class ProfileManager {
     private void updateGateway() {
         LOGGER.info("Updating gateway... ");
         Server entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
+        Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
         if (entryServer == null) {
             return;
         }
 
         VpnProfile suitableProfile = getProfile().copy(entryServer.getCountry());
         suitableProfile.mServerName = entryServer.getGateway();
-        suitableProfile.mRemoteCN = StringUtil.getLocationFromGateway(entryServer.getGateway());
         suitableProfile.mPassword = null;
         suitableProfile.mName = entryServer.getDescription();
         suitableProfile.ipAddresses = entryServer.getIpAddresses();
         suitableProfile.moveOptionsToConnection();
+        if (multiHopController.isReadyToUse()) {
+            suitableProfile.mRemoteCN = StringUtil.getLocationFromGateway(exitServer.getGateway());
+        } else {
+            suitableProfile.mRemoteCN = StringUtil.getLocationFromGateway(entryServer.getGateway());
+        }
 
         currentProfile = suitableProfile;
     }

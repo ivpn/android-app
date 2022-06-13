@@ -38,7 +38,8 @@
                 android:minHeight="64dp"
                 android:orientation="horizontal"
                 android:paddingTop="14dp"
-                android:paddingBottom="14dp">
+                android:paddingBottom="14dp"
+                android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     style="@style/SettingsOptionTitle"

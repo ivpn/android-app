@@ -75,6 +75,10 @@ public enum Port {
         }
     }
 
+    public static Port[] valuesForMultiHop() {
+        return new Port[]{UDP_2049, TCP_443};
+    }
+
     Port(String protocol, int portNumber, Protocol vpnProtocol) {
         this.portNumber = portNumber;
         this.protocol = protocol;
