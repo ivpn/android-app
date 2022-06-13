@@ -29,7 +29,7 @@ public class Utils {
         if (plan == null) {
             return "";
         } else {
-            return "IVPN" + plan;
+            return "IVPN " + plan;
         }
     }
 }
