@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.3 - 2022-06-13
+
+[IMPROVED] New implementation for OpenVPN Multi-Hop  
+[IMPROVED] New ports for WireGuard and OpenVPN  
+[FIXED] Minor UI fixes  
+
+[Download IVPN Client v. 2.8.3](https://www.ivpn.net/releases/android/IVPNv2.8.3site.apk)  
+SHA256: 8569cff849bcf27667f95a8f9f89ac1ca297376b6f77e68608f85438fea4fa26  
+
 ## Version 2.8.2 - 2022-04-05
 
 [IMPROVED] Mitigate StrandHogg vulnerability  
