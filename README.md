@@ -38,7 +38,7 @@ Project dependencies:
 * [retrofit2](https://github.com/square/retrofit)
 * [gson](https://github.com/google/gson)
 * [streamsupport](https://github.com/streamsupport/streamsupport)
-* [sentry-android](https://github.com/kishikawakatsumi/KeychainAccess)
+* [sentry-android](https://github.com/getsentry/sentry-java)
 * [slf4j](https://github.com/qos-ch/slf4j)
 * [logback-android](https://github.com/tony19/logback-android)
 * [mockito](https://github.com/mockito/mockito)
