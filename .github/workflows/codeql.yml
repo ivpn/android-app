@@ -50,7 +50,7 @@ jobs:
     - name: CodeQL Go
       uses: github/codeql-action/init@v2
       with:
-        languages: [ 'go' ]
+        languages: go
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
