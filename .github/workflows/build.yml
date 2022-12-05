@@ -24,7 +24,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Gradle clean
-      run: ./gradlew :core:clean
-    - name: Gradle assemble
+    - name: Gradle :core:assemble
       run: ./gradlew :core:assemble -x validateSigningProductionRelease
+    - name: Gradle :site:assemble
+      run: ./gradlew :site:assemble -x validateSigningProductionRelease
