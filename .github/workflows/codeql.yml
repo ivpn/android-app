@@ -47,15 +47,15 @@ jobs:
         category: "/language:Java"
     
     # CodeQL Analysis for Go
-    - name: CodeQL Go
-      uses: github/codeql-action/init@v2
-      with:
-        languages: go
+    # - name: CodeQL Go
+    #   uses: github/codeql-action/init@v2
+    #   with:
+    #     languages: go
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    # - name: Autobuild
+    #   uses: github/codeql-action/autobuild@v2
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:Go"
+    # - name: Perform CodeQL Analysis
+    #   uses: github/codeql-action/analyze@v2
+    #   with:
+    #     category: "/language:Go"
