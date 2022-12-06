@@ -850,7 +850,7 @@ public class VpnProfile implements Serializable, Cloneable {
                the public/private part in the TLS exchange
              */
             @SuppressLint("GetInstance")
-            Cipher rsaSigner = Cipher.getInstance("RSA/ECB/PKCS1PADDING");
+            Cipher rsaSigner = Cipher.getInstance("RSA/ECB/OAEPPadding");
 
             rsaSigner.init(Cipher.ENCRYPT_MODE, privateKey);
 
