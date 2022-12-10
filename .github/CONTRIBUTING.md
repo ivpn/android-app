@@ -6,6 +6,7 @@ As a contributor, here are the guidelines we would like you to follow:
 * [Contributing Code](#contributing)
 * [Creating an Issue](#issue)
 * [Pull Requests](#pr)
+* [Commit Message Guidelines](#commit)
 
 <a name="contributing"></a>
 ## Contributing Code
@@ -60,3 +61,38 @@ Where <type> can be `epic`, `feature`, `task`, `bugfix`, `hotfix` or `release`.
 `main` - The production branch. Clone or fork this repository for the latest copy.
 `develop` - The active development branch. Pull requests should be directed to this branch.
 `<feature branch>` - The feature of fix branch. Pull requests should be made from this branch into `develop` brach.
+
+<a name="commit"></a>
+## Commit Message Guidelines
+
+We have very precise rules over how our git commit messages should be formatted. This leads to readable messages that are easy to follow when looking through the project history.
+
+### Commit message format
+
+We follow the [Conventional Commits specification](https://www.conventionalcommits.org/). A commit message consists of a **header**, **body** and **footer**.  The header has a **type**, **scope** and **subject**:
+
+```
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+The **header** is mandatory and the **scope** of the header is optional.
+
+### Type
+
+Must be one of the following:
+
+* **feat**: A new feature  
+* **fix**: A bug fix  
+* **docs**: Documentation only changes  
+* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)  
+* **refactor**: A code change that neither fixes a bug nor adds a feature  
+* **perf**: A code change that improves performance  
+* **test**: Adding missing tests  
+* **build**: Changes that affect the build system  
+* **ci**: Changes to our CI configuration files and scripts  
+* **vendor**: Bumping a dependency like libchromiumcontent or node  
+* **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
