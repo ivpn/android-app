@@ -189,6 +189,7 @@ class SignUpViewModel @Inject constructor(
         val url = "https://www.ivpn.net/account/login"
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         IVPNApplication.application.startActivity(intent)
     }
 
