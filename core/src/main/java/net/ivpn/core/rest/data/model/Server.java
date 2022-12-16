@@ -203,6 +203,7 @@ public class Server implements ConnectionOption {
     }
 
     public String getIpAddress() {
+        if (hosts == null || hosts.isEmpty()) return "";
         return hosts.get(0).getHost();
     }
 
