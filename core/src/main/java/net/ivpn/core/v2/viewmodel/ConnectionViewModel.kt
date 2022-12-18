@@ -30,6 +30,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.R
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.utils.ConnectivityUtil
 import net.ivpn.core.common.utils.StringUtil
@@ -50,7 +51,8 @@ import javax.inject.Inject
 @ApplicationScope
 class ConnectionViewModel @Inject constructor(
         private val context: Context,
-        private val vpnBehaviorController: VpnBehaviorController
+        private val vpnBehaviorController: VpnBehaviorController,
+        private val pingProvider: PingProvider
 ) : ViewModel(), SessionController.SessionListener {
 
     companion object {
@@ -210,6 +212,7 @@ class ConnectionViewModel @Inject constructor(
                         entryServerConnectionHint.set(context.getString(R.string.entry_server_hint_disconnected))
                         exitServerConnectionHint.set(context.getString(R.string.exit_server_hint_disconnected))
                         fastestServerConnectionHint.set(context.getString(R.string.connect_fastest_server_hint_disconnected))
+                        pingProvider.pingAll(true, false)
                     }
                     ConnectionState.PAUSING -> {
                         isProtected.set(true)

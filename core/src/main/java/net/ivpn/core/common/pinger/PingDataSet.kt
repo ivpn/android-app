@@ -47,9 +47,11 @@ class PingDataSet @Inject constructor() {
     val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
 
-    suspend fun pingAll(servers: List<Server>) {
+    suspend fun pingAll(servers: List<Server>, shouldResetServers: Boolean) {
         scope.launch {
-            reset(servers)
+            if (shouldResetServers) {
+                reset(servers)
+            }
             for (server in servers) {
                 launch {
                     innerPing(server)
