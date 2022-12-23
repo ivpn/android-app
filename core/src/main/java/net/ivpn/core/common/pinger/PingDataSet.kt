@@ -70,6 +70,10 @@ class PingDataSet @Inject constructor(
         }
     }
 
+    fun refreshFastestServer() {
+        pings.postValue(_pings.toMutableMap())
+    }
+
     private suspend fun innerPing(server: Server) {
         val result = Ping.onAddress(server.ipAddress)
             .setTimeOutMillis(TIMEOUT)

@@ -29,7 +29,6 @@ import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
 import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.prefs.ServersRepository
-import net.ivpn.core.common.prefs.ServersPreference
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
@@ -44,7 +43,6 @@ import javax.inject.Inject
 class ServersViewModel @Inject constructor(
         val serversRepository: ServersRepository,
         private val multiHopController: MultiHopController,
-        private val serversPreference: ServersPreference,
         val settings: Settings,
         val vpnBehaviorController: VpnBehaviorController,
         val pingProvider: PingProvider
@@ -59,13 +57,12 @@ class ServersViewModel @Inject constructor(
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
     val mapServer = ObservableField<Server>()
-    var fastestServer = pingProvider.fastestServer
+    val fastestServer = pingProvider.fastestServer
 
     private var isBackgroundUpdateDone = false
 
     init {
         multiHopController.addListener(getOnMultihopValueChanges())
-        serversPreference.addListener(getOnServersPreferenceValueChanges())
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
     }
 
@@ -164,14 +161,6 @@ class ServersViewModel @Inject constructor(
             override fun onValueChange(value: Boolean) {
                 updateServerVisibility()
                 mapServer.set(if (value) exitServer.get() else entryServer.get())
-            }
-        }
-    }
-
-    private fun getOnServersPreferenceValueChanges(): ServersPreference.OnValueChangeListener {
-        return object : ServersPreference.OnValueChangeListener {
-            override fun onValueChange() {
-                fastestServer = pingProvider.fastestServer
             }
         }
     }
