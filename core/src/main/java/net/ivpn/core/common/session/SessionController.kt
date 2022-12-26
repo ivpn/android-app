@@ -168,6 +168,7 @@ class SessionController @Inject constructor(
 
     fun logOut() {
         vpnBehaviorController.disconnect()
+        vpnBehaviorController.stopActionByUser()
 
         val token = userPreference.getSessionToken()
         val requestBody = DeleteSessionRequestBody(token)
