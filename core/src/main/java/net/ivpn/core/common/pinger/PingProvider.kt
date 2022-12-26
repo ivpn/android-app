@@ -62,7 +62,7 @@ class PingProvider @Inject internal constructor(
         protocolController.addOnProtocolChangedListener(onProtocolChangedListener)
     }
 
-    fun pingAll(shouldUseHardReset: Boolean) {
+    fun pingAll(shouldUseHardReset: Boolean, shouldResetServers: Boolean = true) {
         val currentProtocol = protocolController.currentProtocol
         if (currentProtocol == lastPingedProtocol && !(needToFindNewlyFastestServer
                     || shouldUseHardReset || isFrequencyLimitationSatisfied)
@@ -76,7 +76,7 @@ class PingProvider @Inject internal constructor(
         lastPingedProtocol = currentProtocol
         lastCalculationTimeStamp = System.currentTimeMillis()
         scope.launch {
-            pingsData.pingAll(servers)
+            pingsData.pingAll(servers, shouldResetServers)
         }
     }
 
