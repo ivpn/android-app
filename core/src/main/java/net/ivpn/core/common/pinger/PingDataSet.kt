@@ -30,11 +30,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.rest.data.model.Server
 import javax.inject.Inject
 
 @ApplicationScope
-class PingDataSet @Inject constructor() {
+class PingDataSet @Inject constructor(
+    private val serversRepository: ServersRepository
+) {
 
     val pings: MutableLiveData<MutableMap<Server, PingResultFormatter?>> = MutableLiveData()
     val fastestServer = Transformations.map(pings) {
@@ -67,6 +70,10 @@ class PingDataSet @Inject constructor() {
                 innerPing(server)
             }
         }
+    }
+
+    fun refreshFastestServer() {
+        pings.postValue(_pings.toMutableMap())
     }
 
     private suspend fun innerPing(server: Server) {
@@ -117,10 +124,11 @@ class PingDataSet @Inject constructor() {
     private fun calculateFastestServer(pings: MutableMap<Server, PingResultFormatter?>): Server? {
         var fastestServer: Server? = null
         var lowestPing = Long.MAX_VALUE
+        var excludedServers = serversRepository.getExcludedServersList()
         for ((server, result) in pings) {
             fastestServer?.let { _ ->
                 result?.let { result ->
-                    if (result.isPingAvailable && lowestPing > result.ping) {
+                    if (!excludedServers.contains(server) && result.isPingAvailable && lowestPing > result.ping) {
                         fastestServer = server
                         lowestPing = result.ping
                     }
