@@ -29,8 +29,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 114
-        versionName "2.8.3"
+        versionCode 115
+        versionName "2.8.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -110,6 +110,9 @@ android {
             include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             universalApk true
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
