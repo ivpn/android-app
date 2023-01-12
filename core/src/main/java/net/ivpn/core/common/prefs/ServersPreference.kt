@@ -53,6 +53,8 @@ class ServersPreference @Inject constructor(
         private const val SETTINGS_RANDOM_EXIT_SERVER = "SETTINGS_RANDOM_EXIT_SERVER"
     }
 
+    var listeners = ArrayList<OnValueChangeListener>()
+
     private val properSharedPreference: SharedPreferences
         get() {
             val protocol = protocolController.currentProtocol
@@ -170,6 +172,7 @@ class ServersPreference @Inject constructor(
         sharedPreferences.edit()
                 .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
                 .apply()
+        notifyValueChanges()
     }
 
     fun removeFromExcludedServerList(server: Server) {
@@ -179,6 +182,7 @@ class ServersPreference @Inject constructor(
         sharedPreferences.edit()
                 .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
                 .apply()
+        notifyValueChanges()
     }
 
     fun putSettingFastestServer(value: Boolean) {
@@ -274,4 +278,23 @@ class ServersPreference @Inject constructor(
             }
         }
     }
+
+    fun addListener(listener: OnValueChangeListener) {
+        listeners.add(listener)
+    }
+
+    fun removeListener(listener: OnValueChangeListener) {
+        listeners.remove(listener)
+    }
+
+    private fun notifyValueChanges() {
+        for (listener in listeners) {
+            listener.onValueChange()
+        }
+    }
+
+    interface OnValueChangeListener {
+        fun onValueChange()
+    }
+
 }
