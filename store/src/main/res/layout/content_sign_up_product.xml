@@ -140,6 +140,18 @@
                     android:alpha="0.6" />
 
                 <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="16dp"
+                    android:alpha="0.6"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView38"
+                    app:layout_constraintStart_toEndOf="@+id/divider"
+                    app:layout_constraintTop_toTopOf="@+id/textView38"
+                    app:srcCompat="@drawable/ic_check"
+                    app:tint="@color/login_text_color" />
+
+                <ImageView
                     android:id="@+id/imageView21"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
@@ -251,6 +263,19 @@
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView10"
                     app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:alpha="0.6"
+                    android:text="@string/sign_up_product_antitracker"
+                    android:textColor="@color/login_text_color"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView10"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
                 <Button
                     android:id="@+id/standard_plan_button"
