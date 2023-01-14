@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.4 - Unreleased
+
+[FIXED] South Africa server label missing in the map  
+[FIXED] Server latency information not updated when disconnecting from VPN  
+[FIXED] Connection remains paused after logout  
+[FIXED] Fastest server configuration not working  
+[FIXED] Minor UI fixes  
+[FIXED] Crash when parsing server info  
+[FIXED] Crash when populating installed apps for Split Tunneling  
+[FIXED] Crash when redirecting legacy account to website signup  
+[FIXED] Crash on initial Play Store payment  
+
 ## Version 2.8.3 - 2022-06-13
 
 [IMPROVED] New implementation for OpenVPN Multi-Hop  
