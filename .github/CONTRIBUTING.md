@@ -7,6 +7,7 @@ As a contributor, here are the guidelines we would like you to follow:
 * [Creating an Issue](#issue)
 * [Pull Requests](#pr)
 * [Commit Message Guidelines](#commit)
+* [Beta Program](#beta-program)
 
 <a name="contributing"></a>
 ## Contributing Code
@@ -96,3 +97,24 @@ Must be one of the following:
 * **ci**: Changes to our CI configuration files and scripts  
 * **vendor**: Bumping a dependency like libchromiumcontent or node  
 * **chore**: Changes to the build process or auxiliary tools and libraries such as documentation generation
+
+<a name="beta-program"></a>
+## IVPN Android App Beta Program
+
+Users with an active IVPN account can join our Android app beta program:  
+
+### Join on an Android device
+
+1. Find the IVPN app on the Play Store or open [https://play.google.com/store/apps/details?id=net.ivpn.client](https://play.google.com/store/apps/details?id=net.ivpn.client)
+2. Find the "Join the beta" section and tap "Join"
+3. You can leave the beta program on the IVPN Android app Play Store page
+
+### Join on the web
+1. Open [https://play.google.com/apps/testing/net.ivpn.client](https://play.google.com/apps/testing/net.ivpn.client)
+2. Click "Become a tester" and download the app from the Play Store
+3. You can leave the beta program on the IVPN Android app Play Store page
+
+Any feedback will be very useful to us. You can submit feedback either by opening an issue on [GitHub](https://github.com/ivpn/android-app/issues), or send a direct message to beta@ivpn.net.
+
+**IMPORTANT NOTE:**  
+Do not use IVPN prerelease (beta) apps in situations where you need to protect your privacy or security, but only for testing new unreleased features and improvements.
