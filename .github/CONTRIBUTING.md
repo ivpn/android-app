@@ -114,7 +114,7 @@ Users with an active IVPN account can join our Android app beta program:
 2. Click "Become a tester" and download the app from the Play Store
 3. You can leave the beta program on the IVPN Android app Play Store page
 
-Any feedback will be very useful to us. You can submit feedback either by opening an issue on [GitHub](https://github.com/ivpn/android-app/issues), or send a direct message to beta@ivpn.net.
+Any feedback is useful for improving our app. You can submit feedback either by opening an issue on [GitHub](https://github.com/ivpn/android-app/issues), or via email addressed to beta@ivpn.net.
 
 **IMPORTANT NOTE:**  
 Do not use IVPN prerelease (beta) apps in situations where you need to protect your privacy or security, but only for testing new unreleased features and improvements.
