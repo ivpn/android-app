@@ -74,7 +74,7 @@ public class WireGuardKeyController {
         long lastGeneratedV = settings.getGenerationTime();
         int regenerationPeriod = settings.getRegenerationPeriod();
 
-        return currentTimeStamp > lastGeneratedV + regenerationPeriod * DateUtil.DAY;
+        return currentTimeStamp > lastGeneratedV + regenerationPeriod * DateUtil.MINUTE;
     }
 
     boolean isKeysHardExpired() {

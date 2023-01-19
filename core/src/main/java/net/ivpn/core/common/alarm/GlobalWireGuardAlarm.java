@@ -87,8 +87,8 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
         LOGGER.info("initAlarmManager: startAt = " + (settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.DAY));
         LOGGER.info( "initAlarmManager: every = " + settingsPreference.getRegenerationPeriod() * DateUtil.DAY);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + DateUtil.HOUR,
-                DateUtil.HOUR, pendingIntent);
+                System.currentTimeMillis() + DateUtil.MINUTE,
+                DateUtil.MINUTE, pendingIntent);
     }
 
     public void start() {
@@ -105,8 +105,8 @@ public class GlobalWireGuardAlarm implements ServiceConstants {
         LOGGER.info("start: startAt = " + (settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.DAY));
         LOGGER.info( "start: every = " + settingsPreference.getRegenerationPeriod() * DateUtil.DAY);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.DAY,
-                settingsPreference.getRegenerationPeriod() * DateUtil.DAY, pendingIntent);
+                settingsPreference.getGenerationTime() + settingsPreference.getRegenerationPeriod() * DateUtil.MINUTE,
+                settingsPreference.getRegenerationPeriod() * DateUtil.MINUTE, pendingIntent);
     }
 
     public void stop() {
