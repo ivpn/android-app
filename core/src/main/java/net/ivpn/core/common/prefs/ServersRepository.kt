@@ -407,8 +407,8 @@ class ServersRepository @Inject constructor(
         get() = protocolController.currentProtocol
 
     private fun getCurrentServers(): EnumMap<ServerType, Server?> {
-        val currentProtocol = currentProtocolType
-        return currentServers[currentProtocol]!!
+        // return currentServers[currentProtocolType]!!
+        return currentServers[Protocol.WIREGUARD]!!
     }
 
     private fun getSuitableServers(response: ServersListResponse): List<Server> {

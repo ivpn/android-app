@@ -93,13 +93,13 @@ class ServersPreference @Inject constructor(
 
     val settingFastestServer: Boolean
         get() {
-            val sharedPreferences = properSharedPreference
+            val sharedPreferences = preference.serversSharedPreferences
             return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true)
         }
 
     fun setCurrentServer(serverType: ServerType?, server: Server?) {
         if (serverType == null || server == null) return
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         sharedPreferences.edit()
                 .putString(serverKey, Mapper.from(server))
@@ -136,7 +136,7 @@ class ServersPreference @Inject constructor(
 
     fun getCurrentServer(serverType: ServerType?): Server? {
         if (serverType == null) return null
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         return Mapper.from(sharedPreferences.getString(serverKey, null))
     }
@@ -186,7 +186,7 @@ class ServersPreference @Inject constructor(
     }
 
     fun putSettingFastestServer(value: Boolean) {
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply()
@@ -197,7 +197,7 @@ class ServersPreference @Inject constructor(
             SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         sharedPreferences.edit()
                 .putBoolean(key, value)
                 .apply()
@@ -208,7 +208,7 @@ class ServersPreference @Inject constructor(
             SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         return sharedPreferences.getBoolean(key, false)
     }
 
