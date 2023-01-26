@@ -110,6 +110,7 @@ public class Server implements ConnectionOption {
     }
 
     public List<String> getIpAddresses() {
+        if (hosts == null || hosts.isEmpty()) return "";
         List<String> addresses = new ArrayList<String>();
         for (Host host : hosts) {
             addresses.add(host.getHost());
