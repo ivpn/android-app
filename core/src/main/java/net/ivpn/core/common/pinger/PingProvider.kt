@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.OnServerListUpdatedListener
 import net.ivpn.core.common.prefs.ServersRepository
+import net.ivpn.core.common.prefs.ServersPreference
 import net.ivpn.core.common.utils.DateUtil
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.connect.createSession.ConnectionState
@@ -45,7 +46,8 @@ import javax.inject.Inject
 class PingProvider @Inject internal constructor(
     private var pingsData :PingDataSet,
     private val protocolController: ProtocolController,
-    private val serversRepository: ServersRepository
+    private val serversRepository: ServersRepository,
+    private val serversPreference: ServersPreference
 ) {
     private var lastCalculationTimeStamp: Long = 0
 
@@ -59,10 +61,11 @@ class PingProvider @Inject internal constructor(
 
     init {
         serversRepository.addOnServersListUpdatedListener(onServerListUpdatedListener)
+        serversPreference.addListener(getOnServersPreferenceValueChanges())
         protocolController.addOnProtocolChangedListener(onProtocolChangedListener)
     }
 
-    fun pingAll(shouldUseHardReset: Boolean) {
+    fun pingAll(shouldUseHardReset: Boolean, shouldResetServers: Boolean = true) {
         val currentProtocol = protocolController.currentProtocol
         if (currentProtocol == lastPingedProtocol && !(needToFindNewlyFastestServer
                     || shouldUseHardReset || isFrequencyLimitationSatisfied)
@@ -76,7 +79,7 @@ class PingProvider @Inject internal constructor(
         lastPingedProtocol = currentProtocol
         lastCalculationTimeStamp = System.currentTimeMillis()
         scope.launch {
-            pingsData.pingAll(servers)
+            pingsData.pingAll(servers, shouldResetServers)
         }
     }
 
@@ -105,6 +108,14 @@ class PingProvider @Inject internal constructor(
             }
             pingAll(true)
         }
+
+    private fun getOnServersPreferenceValueChanges(): ServersPreference.OnValueChangeListener {
+        return object : ServersPreference.OnValueChangeListener {
+            override fun onValueChange() {
+                pingsData.refreshFastestServer()
+            }
+        }
+    }
 
     val vPNStateListener: VpnStateListener
         get() = object : DefaultVPNStateListener() {

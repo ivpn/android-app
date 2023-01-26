@@ -24,8 +24,7 @@
         android:label="Select IVPN Plan">
         <action
             android:id="@+id/action_signUpProductFragment_to_signUpPeriodFragment2"
-            app:destination="@id/signUpPeriodFragment2"
-            app:popUpTo="@+id/connectFragment" />
+            app:destination="@id/signUpPeriodFragment2" />
     </fragment>
     <action
         android:id="@+id/action_global_signUpProductFragment"

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.8.4 - Unreleased
+## Version 2.8.4 -  2023-01-24
 
 [FIXED] South Africa server label missing in the map  
 [FIXED] Server latency information not updated when disconnecting from VPN  
@@ -12,8 +12,10 @@ All notable changes to this project will be documented in this file.
 [FIXED] Crash when parsing server info  
 [FIXED] Crash when populating installed apps for Split Tunneling  
 [FIXED] Crash when redirecting legacy account to website signup  
-[FIXED] Crash on log out  
 [FIXED] Crash on initial Play Store payment  
+
+[Download IVPN Client v. 2.8.4](https://www.ivpn.net/releases/android/IVPNv2.8.4site.apk)  
+SHA256: b78256459903fef2ec23608792ad030a9581fd0e34620080270005222524fdac  
 
 ## Version 2.8.3 - 2022-06-13
 

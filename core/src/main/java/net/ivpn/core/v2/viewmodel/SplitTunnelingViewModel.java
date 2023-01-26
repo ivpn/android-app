@@ -129,7 +129,11 @@ public class SplitTunnelingViewModel {
 
         InflateApplicationInfoAsyncTask(PackageManager packageManager) {
             this.packageManager = packageManager;
-            this.applicationInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+            try {
+                this.applicationInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
