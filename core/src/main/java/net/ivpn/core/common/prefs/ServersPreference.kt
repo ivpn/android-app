@@ -77,6 +77,18 @@ class ServersPreference @Inject constructor(
             return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
         }
 
+    val openvpnServersList: List<Server>?
+        get() {
+            val sharedPreferences = preference.serversSharedPreferences
+            return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
+        }
+
+    val wireguardServersList: List<Server>?
+        get() {
+            val sharedPreferences = preference.wireguardServersSharedPreferences
+            return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
+        }
+
     val favouritesServersList: MutableList<Server>
         get() {
             val sharedPreferences = properSharedPreference
@@ -87,6 +99,20 @@ class ServersPreference @Inject constructor(
     val excludedServersList: MutableList<Server>
         get() {
             val sharedPreferences = properSharedPreference
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            return servers ?: ArrayList()
+        }
+
+    val openvpnExcludedServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.serversSharedPreferences
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            return servers ?: ArrayList()
+        }
+
+    val wireguardExcludedServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.wireguardServersSharedPreferences
             val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
             return servers ?: ArrayList()
         }
@@ -163,25 +189,45 @@ class ServersPreference @Inject constructor(
     }
 
     fun addToExcludedServersList(server: Server?) {
-        val servers = excludedServersList
-        if (server == null || servers.contains(server)) {
+        if (server == null || excludedServersList.contains(server)) {
             return
         }
-        servers.add(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
-                .apply()
+        val openvpnServers = openvpnExcludedServersList
+        val wireguardServers = wireguardExcludedServersList
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (openvpnServer != null) {
+            openvpnServers.add(openvpnServer)
+        }
+        if (wireguardServer != null) {
+            wireguardServers.add(wireguardServer)
+        }
+        preference.serversSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
+            .apply()
+        preference.wireguardServersSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
+            .apply()
         notifyValueChanges()
     }
 
     fun removeFromExcludedServerList(server: Server) {
-        val servers = excludedServersList
-        servers.remove(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
-                .apply()
+        val openvpnServers = openvpnExcludedServersList
+        val wireguardServers = wireguardExcludedServersList
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (openvpnServer != null) {
+            openvpnServers.remove(openvpnServer)
+        }
+        if (wireguardServer != null) {
+            wireguardServers.remove(wireguardServer)
+        }
+        preference.serversSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
+            .apply()
+        preference.wireguardServersSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
+            .apply()
         notifyValueChanges()
     }
 
