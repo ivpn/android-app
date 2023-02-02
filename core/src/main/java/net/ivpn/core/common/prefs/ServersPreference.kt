@@ -189,19 +189,15 @@ class ServersPreference @Inject constructor(
     }
 
     fun addToExcludedServersList(server: Server?) {
-        if (server == null || excludedServersList.contains(server)) {
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (server == null || openvpnServer == null || wireguardServer == null || excludedServersList.contains(server)) {
             return
         }
         val openvpnServers = openvpnExcludedServersList
         val wireguardServers = wireguardExcludedServersList
-        val openvpnServer = openvpnServersList?.first { it == server }
-        val wireguardServer = wireguardServersList?.first { it == server }
-        if (openvpnServer != null) {
-            openvpnServers.add(openvpnServer)
-        }
-        if (wireguardServer != null) {
-            wireguardServers.add(wireguardServer)
-        }
+        openvpnServers.add(openvpnServer)
+        wireguardServers.add(wireguardServer)
         preference.serversSharedPreferences.edit()
             .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
             .apply()
@@ -212,16 +208,15 @@ class ServersPreference @Inject constructor(
     }
 
     fun removeFromExcludedServerList(server: Server) {
-        val openvpnServers = openvpnExcludedServersList
-        val wireguardServers = wireguardExcludedServersList
         val openvpnServer = openvpnServersList?.first { it == server }
         val wireguardServer = wireguardServersList?.first { it == server }
-        if (openvpnServer != null) {
-            openvpnServers.remove(openvpnServer)
+        if (openvpnServer == null || wireguardServer == null) {
+            return
         }
-        if (wireguardServer != null) {
-            wireguardServers.remove(wireguardServer)
-        }
+        val openvpnServers = openvpnExcludedServersList
+        val wireguardServers = wireguardExcludedServersList
+        openvpnServers.remove(openvpnServer)
+        wireguardServers.remove(wireguardServer)
         preference.serversSharedPreferences.edit()
             .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
             .apply()
