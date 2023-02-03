@@ -37,6 +37,8 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
+                    android:background="#ffffff"
+                    android:padding="6dp"
                     android:contentDescription="@string/account_qr_code"
                     app:bitmap="@{account.qrCode}"
                     app:layout_constraintDimensionRatio="1:1"
