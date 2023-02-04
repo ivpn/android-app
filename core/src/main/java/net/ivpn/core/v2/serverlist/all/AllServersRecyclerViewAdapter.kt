@@ -355,14 +355,15 @@ class AllServersRecyclerViewAdapter(
 
     override fun onChangeState(server: Server, isFavourite: Boolean) {
         var position = displayServers.indexOf(server)
-        if (position >= 0) {
-            notifyItemChanged(position, isFavourite)
-        }
+        if (position < 0) return
+        notifyItemChanged(position, isFavourite)
 
         position = servers.indexOf(server)
+        if (position < 0) return
         servers[position].isFavourite = isFavourite
 
         position = filteredServers.indexOf(server)
+        if (position < 0) return
         filteredServers[position].isFavourite = isFavourite
     }
 
