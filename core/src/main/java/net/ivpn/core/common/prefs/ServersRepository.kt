@@ -187,8 +187,6 @@ class ServersRepository @Inject constructor(
                 setServerList(response.openVpnServerList, response.wireGuardServerList)
                 settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
                 settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
-                settings.antiTrackerDefaultDNSMulti = response.config.antiTracker.default.multihopIp
-                settings.antiTrackerHardcoreDNSMulti = response.config.antiTracker.hardcore.multihopIp
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 for (listener in onServerListUpdatedListeners!!) {
@@ -265,8 +263,6 @@ class ServersRepository @Inject constructor(
             it.markServerTypes()
             settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
             settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
-            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
-            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
             setServerList(it.openVpnServerList, it.wireGuardServerList)
@@ -281,8 +277,6 @@ class ServersRepository @Inject constructor(
         response?.let {
             settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
             settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
-            settings.antiTrackerDefaultDNSMulti = it.config.antiTracker.default.multihopIp
-            settings.antiTrackerHardcoreDNSMulti = it.config.antiTracker.hardcore.multihopIp
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
         }
