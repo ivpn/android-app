@@ -12,6 +12,7 @@ IVPN Android app is distributed on the [Google Play Store](https://play.google.c
 * [Versioning](#versioning)
 * [Contributing](#contributing)
 * [Security Policy](#security)
+* [Signing certificate hash](#signing-cert)
 * [License](#license)
 * [Authors](#authors)
 * [Acknowledgements](#acknowledgements)
@@ -91,6 +92,17 @@ If you are interested in contributing to IVPN for Android project, please read o
 ## Security Policy
 
 If you want to report a security problem, please read our [Security Policy](/.github/SECURITY.md).
+
+<a name="signing-cert"></a>
+## Signing certificate hash
+
+IVPN Android app SHA-256 signing certificate hash:
+
+```
+067a40c4193aad51ac87f9ddfdebb15e24a1850babfa4821c28c5c25c3fdc071
+```
+
+The same SHA-256 hash is also published on the IVPN [website](https://www.ivpn.net/apps-android/).
 
 <a name="license"></a>
 ## License
