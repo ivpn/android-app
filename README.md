@@ -99,7 +99,7 @@ If you want to report a security problem, please read our [Security Policy](/.gi
 IVPN Android app SHA-256 signing certificate hash:
 
 ```
-067a40c4193aad51ac87f9ddfdebb15e24a1850babfa4821c28c5c25c3fdc071
+88a6b40fc97fdc842f231f50eb12de116f5b759e3c5b38aaccaf6a7b393c85bb
 ```
 
 The same SHA-256 hash is also published on the IVPN [website](https://www.ivpn.net/apps-android/).
