@@ -50,17 +50,8 @@ class Settings @Inject constructor(
         get() {
             val isAntiSurveillanceEnabled = isAntiSurveillanceEnabled
             val isAntiSurveillanceHardcoreEnabled = isAntiSurveillanceHardcoreEnabled
-            val isMultiHopEnabled = isMultiHopEnabled
-            val protocol = stickyPreference.currentProtocol
-
             var dns: String? = antiTrackerDefaultDNS
             var hardcoreDns: String? = antiTrackerHardcoreDNS
-
-            if (protocol == Protocol.OPENVPN) {
-                dns = antiTrackerDefaultDNS
-                hardcoreDns = antiTrackerHardcoreDNS
-            }
-
             if (isAntiSurveillanceEnabled) {
                 return if (isAntiSurveillanceHardcoreEnabled) {
                     hardcoreDns
