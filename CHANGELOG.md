@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.8.4 -  2023-01-24
+## Version 2.8.5 - Unreleased
+
+[IMPROVED] Update Android Gradle plugin  
+
+## Version 2.8.4 - 2023-01-24
 
 [FIXED] South Africa server label missing in the map  
 [FIXED] Server latency information not updated when disconnecting from VPN  
