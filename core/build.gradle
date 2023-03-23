@@ -29,8 +29,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 114
-        versionName "2.8.3"
+        versionCode 116
+        versionName "2.8.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -92,6 +92,7 @@ android {
     }
     externalNativeBuild {
         cmake {
+            version '3.22.1'
             path 'CMakeLists.txt'
         }
     }
@@ -110,6 +111,9 @@ android {
             include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             universalApk true
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
