@@ -1,5 +1,8 @@
 # IVPN for Android
 
+[![Build](https://github.com/ivpn/android-app/actions/workflows/build.yml/badge.svg)](https://github.com/ivpn/android-app/actions/workflows/build.yml)
+[![CodeQL](https://github.com/ivpn/android-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/ivpn/android-app/actions/workflows/codeql.yml)
+
 **IVPN for Android** is a native app built using Java and Kotlin languages. Some of the features include: multiple protocols (OpenVPN, WireGuard), Kill-switch, Multi-Hop, Trusted Networks, AntiTracker, Custom DNS, Always-on VPN, Start on boot and etc.
 IVPN Android app is distributed on the [Google Play Store](https://play.google.com/store/apps/details?id=net.ivpn.client) and [F-Droid](https://f-droid.org/packages/net.ivpn.client/).
 
@@ -9,6 +12,7 @@ IVPN Android app is distributed on the [Google Play Store](https://play.google.c
 * [Versioning](#versioning)
 * [Contributing](#contributing)
 * [Security Policy](#security)
+* [Signing certificate hash](#signing-cert)
 * [License](#license)
 * [Authors](#authors)
 * [Acknowledgements](#acknowledgements)
@@ -88,6 +92,17 @@ If you are interested in contributing to IVPN for Android project, please read o
 ## Security Policy
 
 If you want to report a security problem, please read our [Security Policy](/.github/SECURITY.md).
+
+<a name="signing-cert"></a>
+## Signing certificate hash
+
+IVPN Android app SHA-256 signing certificate hash:
+
+```
+88a6b40fc97fdc842f231f50eb12de116f5b759e3c5b38aaccaf6a7b393c85bb
+```
+
+The same SHA-256 hash is also published on the IVPN [website](https://www.ivpn.net/apps-android/).
 
 <a name="license"></a>
 ## License
