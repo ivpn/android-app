@@ -139,10 +139,14 @@ class ServersPreference @Inject constructor(
 
     fun setCurrentServer(serverType: ServerType?, server: Server?) {
         if (serverType == null || server == null) return
-        val sharedPreferences = preference.serversSharedPreferences
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
-        sharedPreferences.edit()
-                .putString(serverKey, Mapper.from(server))
+        preference.serversSharedPreferences.edit()
+                .putString(serverKey, Mapper.from(openvpnServer))
+                .apply()
+        preference.wireguardServersSharedPreferences.edit()
+                .putString(serverKey, Mapper.from(wireguardServer))
                 .apply()
     }
 
@@ -176,7 +180,7 @@ class ServersPreference @Inject constructor(
 
     fun getCurrentServer(serverType: ServerType?): Server? {
         if (serverType == null) return null
-        val sharedPreferences = preference.serversSharedPreferences
+        val sharedPreferences = properSharedPreference
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         return Mapper.from(sharedPreferences.getString(serverKey, null))
     }
