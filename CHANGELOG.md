@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.8.5 - Unreleased
+## Version 2.8.5 - 2023-04-02
 
 [IMPROVED] Update Android Gradle plugin  
 
