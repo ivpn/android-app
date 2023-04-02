@@ -188,19 +188,23 @@ class ServersPreference @Inject constructor(
     fun addFavouriteServer(server: Server?) {
         val openvpnServer = openvpnServersList?.first { it == server }
         val wireguardServer = wireguardServersList?.first { it == server }
-        if (server == null || openvpnServer == null || wireguardServer == null || favouritesServersList.contains(server)) {
+        if (server == null || openvpnServer == null || wireguardServer == null) {
             return
         }
         val openvpnServers = openvpnFavouritesServersList
         val wireguardServers = wireguardFavouritesServersList
-        openvpnServers.add(openvpnServer)
-        wireguardServers.add(wireguardServer)
-        preference.serversSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
-            .apply()
-        preference.wireguardServersSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
-            .apply()
+        if (!openvpnServers.contains(openvpnServer)) {
+            openvpnServers.add(openvpnServer)
+            preference.serversSharedPreferences.edit()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
+                .apply()
+        }
+        if (!wireguardServers.contains(wireguardServer)) {
+            wireguardServers.add(wireguardServer)
+            preference.wireguardServersSharedPreferences.edit()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
+                .apply()
+        }
     }
 
     fun removeFavouriteServer(server: Server) {
