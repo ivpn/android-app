@@ -10,6 +10,8 @@
         <item name="android:textColorPrimary">@color/colorControlNormal</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="android:textColorPrimary">@color/colorControlNormal</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="popupWindowStyle">@style/AppTheme.Popup</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/account_outlined_button_text</item>
         <item name="backgroundTint">@color/account_outlined_button_stroke</item>
     </style>
+
 </resources>
