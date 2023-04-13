@@ -196,7 +196,15 @@ public class BillingManagerWrapper {
         final String accountId = userPreference.getBlankUsername();
         final String purchaseToken = purchase.getPurchaseToken();
         ArrayList<String> skus = purchase.getSkus();
-        if (accountId.isEmpty() || purchaseToken.isEmpty() || skus.isEmpty()) {
+        if (accountId == null || accountId.isEmpty()) {
+            setPurchaseState(INITIAL_PAYMENT_ERROR);
+            return;
+        }
+        if (purchaseToken == null || purchaseToken.isEmpty()) {
+            setPurchaseState(INITIAL_PAYMENT_ERROR);
+            return;
+        }
+        if (skus == null || skus.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
