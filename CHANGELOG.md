@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.8.6 - Unreleased
+## Version 2.8.6 - 2023-04-13
 
 [IMPROVED] Use the same server settings for both OpenVPN and WireGuard  
 [IMPROVED] By default, connect OpenVPN using IP address instead of DNS hostname  
