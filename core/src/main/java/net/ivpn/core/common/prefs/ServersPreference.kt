@@ -77,9 +77,35 @@ class ServersPreference @Inject constructor(
             return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
         }
 
+    val openvpnServersList: List<Server>?
+        get() {
+            val sharedPreferences = preference.serversSharedPreferences
+            return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
+        }
+
+    val wireguardServersList: List<Server>?
+        get() {
+            val sharedPreferences = preference.wireguardServersSharedPreferences
+            return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
+        }
+
     val favouritesServersList: MutableList<Server>
         get() {
             val sharedPreferences = properSharedPreference
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
+            return servers ?: ArrayList()
+        }
+
+    val openvpnFavouritesServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.serversSharedPreferences
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
+            return servers ?: ArrayList()
+        }
+
+    val wireguardFavouritesServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.wireguardServersSharedPreferences
             val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
             return servers ?: ArrayList()
         }
@@ -91,18 +117,36 @@ class ServersPreference @Inject constructor(
             return servers ?: ArrayList()
         }
 
+    val openvpnExcludedServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.serversSharedPreferences
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            return servers ?: ArrayList()
+        }
+
+    val wireguardExcludedServersList: MutableList<Server>
+        get() {
+            val sharedPreferences = preference.wireguardServersSharedPreferences
+            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            return servers ?: ArrayList()
+        }
+
     val settingFastestServer: Boolean
         get() {
-            val sharedPreferences = properSharedPreference
+            val sharedPreferences = preference.serversSharedPreferences
             return sharedPreferences.getBoolean(SETTINGS_FASTEST_SERVER, true)
         }
 
     fun setCurrentServer(serverType: ServerType?, server: Server?) {
         if (serverType == null || server == null) return
-        val sharedPreferences = properSharedPreference
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
-        sharedPreferences.edit()
-                .putString(serverKey, Mapper.from(server))
+        preference.serversSharedPreferences.edit()
+                .putString(serverKey, Mapper.from(openvpnServer))
+                .apply()
+        preference.wireguardServersSharedPreferences.edit()
+                .putString(serverKey, Mapper.from(wireguardServer))
                 .apply()
     }
 
@@ -142,51 +186,85 @@ class ServersPreference @Inject constructor(
     }
 
     fun addFavouriteServer(server: Server?) {
-        val servers = favouritesServersList
-        if (server == null || servers.contains(server)) {
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (server == null || openvpnServer == null || wireguardServer == null) {
             return
         }
-        servers.add(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(servers))
+        val openvpnServers = openvpnFavouritesServersList
+        val wireguardServers = wireguardFavouritesServersList
+        if (!openvpnServers.contains(openvpnServer)) {
+            openvpnServers.add(openvpnServer)
+            preference.serversSharedPreferences.edit()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
                 .apply()
+        }
+        if (!wireguardServers.contains(wireguardServer)) {
+            wireguardServers.add(wireguardServer)
+            preference.wireguardServersSharedPreferences.edit()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
+                .apply()
+        }
     }
 
     fun removeFavouriteServer(server: Server) {
-        val servers = favouritesServersList
-        servers.remove(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(servers))
-                .apply()
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (openvpnServer == null || wireguardServer == null) {
+            return
+        }
+        val openvpnServers = openvpnFavouritesServersList
+        val wireguardServers = wireguardFavouritesServersList
+        openvpnServers.remove(openvpnServer)
+        wireguardServers.remove(wireguardServer)
+        preference.serversSharedPreferences.edit()
+            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
+            .apply()
+        preference.wireguardServersSharedPreferences.edit()
+            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
+            .apply()
     }
 
     fun addToExcludedServersList(server: Server?) {
-        val servers = excludedServersList
-        if (server == null || servers.contains(server)) {
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (server == null || openvpnServer == null || wireguardServer == null || excludedServersList.contains(server)) {
             return
         }
-        servers.add(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
-                .apply()
+        val openvpnServers = openvpnExcludedServersList
+        val wireguardServers = wireguardExcludedServersList
+        openvpnServers.add(openvpnServer)
+        wireguardServers.add(wireguardServer)
+        preference.serversSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
+            .apply()
+        preference.wireguardServersSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
+            .apply()
         notifyValueChanges()
     }
 
     fun removeFromExcludedServerList(server: Server) {
-        val servers = excludedServersList
-        servers.remove(server)
-        val sharedPreferences = properSharedPreference
-        sharedPreferences.edit()
-                .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(servers))
-                .apply()
+        val openvpnServer = openvpnServersList?.first { it == server }
+        val wireguardServer = wireguardServersList?.first { it == server }
+        if (openvpnServer == null || wireguardServer == null) {
+            return
+        }
+        val openvpnServers = openvpnExcludedServersList
+        val wireguardServers = wireguardExcludedServersList
+        openvpnServers.remove(openvpnServer)
+        wireguardServers.remove(wireguardServer)
+        preference.serversSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
+            .apply()
+        preference.wireguardServersSharedPreferences.edit()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
+            .apply()
         notifyValueChanges()
     }
 
     fun putSettingFastestServer(value: Boolean) {
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_FASTEST_SERVER, value)
                 .apply()
@@ -197,7 +275,7 @@ class ServersPreference @Inject constructor(
             SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         sharedPreferences.edit()
                 .putBoolean(key, value)
                 .apply()
@@ -208,7 +286,7 @@ class ServersPreference @Inject constructor(
             SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
-        val sharedPreferences = properSharedPreference
+        val sharedPreferences = preference.serversSharedPreferences
         return sharedPreferences.getBoolean(key, false)
     }
 

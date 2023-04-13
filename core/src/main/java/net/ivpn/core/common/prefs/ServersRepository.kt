@@ -65,11 +65,7 @@ class ServersRepository @Inject constructor(
     }
 
     fun getCurrentServer(serverType: ServerType): Server? {
-        var server = getCurrentServers()[serverType]
-        if (server == null) {
-            server = serversPreference.getCurrentServer(serverType)
-            setCurrentServer(serverType, server)
-        }
+        var server = serversPreference.getCurrentServer(serverType)
         if (server == null) {
             server = getDefaultServer(serverType)
             setCurrentServer(serverType, server)
