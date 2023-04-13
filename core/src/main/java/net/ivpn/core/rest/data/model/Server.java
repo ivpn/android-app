@@ -111,6 +111,7 @@ public class Server implements ConnectionOption {
 
     public List<String> getIpAddresses() {
         List<String> addresses = new ArrayList<String>();
+        if (hosts == null || hosts.isEmpty()) return addresses;
         for (Host host : hosts) {
             addresses.add(host.getHost());
         }
