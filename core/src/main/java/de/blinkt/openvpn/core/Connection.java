@@ -52,10 +52,10 @@ public class Connection implements Serializable, Cloneable {
         applyAppSettings();
         String cfg = "";
 
-        if (domainResolver.isResolved() || (ipAddresses == null || ipAddresses.isEmpty())) {
-            cfg += getServerConnectionConfWithDomain();
-        } else {
+        if (ipAddresses != null && !ipAddresses.isEmpty()) {
             cfg += getServerConnectionConfWithIpAddresses();
+        } else {
+            cfg += getServerConnectionConfWithDomain();
         }
 
         if (mConnectTimeout != 0)
@@ -81,7 +81,7 @@ public class Connection implements Serializable, Cloneable {
         } else {
             cfg.append(" tcp-client\n");
         }
-        Log.d("ConnectionBla", "getServerConnectionConfWithDomain: " + cfg);
+        Log.d("Connection", "getServerConnectionConfWithDomain: " + cfg);
         return cfg.toString();
     }
 
@@ -100,7 +100,7 @@ public class Connection implements Serializable, Cloneable {
             }
         }
         cfg.append("remote-random\n");
-        Log.d("ConnectionBla", "getServerConnectionConfWithIpAddresses: " + cfg.toString());
+        Log.d("Connection", "getServerConnectionConfWithIpAddresses: " + cfg.toString());
         return cfg.toString();
     }
 
