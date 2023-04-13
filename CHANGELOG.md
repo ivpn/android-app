@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.8.6 - Unreleased
+
+[IMPROVED] Use the same server settings for both OpenVPN and WireGuard  
+[IMPROVED] By default, connect OpenVPN using IP address instead of DNS hostname  
+[IMPROVED] Small UI improvements  
+[FIXED] Issue with no traffic when using OpenVPN MultiHop with AntiTracker  
+[FIXED] Resolved app crashes  
+
 ## Version 2.8.5 - 2023-04-02
 
 [IMPROVED] Update Android Gradle plugin  
