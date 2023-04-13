@@ -50,22 +50,8 @@ class Settings @Inject constructor(
         get() {
             val isAntiSurveillanceEnabled = isAntiSurveillanceEnabled
             val isAntiSurveillanceHardcoreEnabled = isAntiSurveillanceHardcoreEnabled
-            val isMultiHopEnabled = isMultiHopEnabled
-            val protocol = stickyPreference.currentProtocol
-
             var dns: String? = antiTrackerDefaultDNS
             var hardcoreDns: String? = antiTrackerHardcoreDNS
-
-            if (protocol == Protocol.OPENVPN) {
-                if (isMultiHopEnabled) {
-                    dns = antiTrackerDefaultDNSMulti
-                    hardcoreDns = antiTrackerHardcoreDNSMulti
-                } else {
-                    dns = antiTrackerDefaultDNS
-                    hardcoreDns = antiTrackerHardcoreDNS
-                }
-            }
-
             if (isAntiSurveillanceEnabled) {
                 return if (isAntiSurveillanceHardcoreEnabled) {
                     hardcoreDns
@@ -203,18 +189,6 @@ class Settings @Inject constructor(
         get() = settingsPreference.getAntiSurveillanceHardcoreDns()
         set(dns) {
             settingsPreference.putAntiSurveillanceHardcoreDns(dns)
-        }
-
-    var antiTrackerDefaultDNSMulti: String?
-        get() = settingsPreference.getAntiSurveillanceDnsMulti()
-        set(dns) {
-            settingsPreference.putAntiSurveillanceDnsMulti(dns)
-        }
-
-    var antiTrackerHardcoreDNSMulti: String?
-        get() = settingsPreference.getAntiSurveillanceHardcoreDnsMulti()
-        set(dns) {
-            settingsPreference.putAntiSurveillanceHardcoreDnsMulti(dns)
         }
 
     var openVpnPort: Port

@@ -55,9 +55,6 @@ public class AntiTracker {
         @SerializedName("ip")
         @Expose
         private String ip;
-        @SerializedName("multihop-ip")
-        @Expose
-        private String multihopIp;
 
         public String getIp() {
             return ip;
@@ -65,14 +62,6 @@ public class AntiTracker {
 
         public void setIp(String ip) {
             this.ip = ip;
-        }
-
-        public String getMultihopIp() {
-            return multihopIp;
-        }
-
-        public void setMultihopIp(String multihopIp) {
-            this.multihopIp = multihopIp;
         }
 
     }
@@ -82,9 +71,6 @@ public class AntiTracker {
         @SerializedName("ip")
         @Expose
         private String ip;
-        @SerializedName("multihop-ip")
-        @Expose
-        private String multihopIp;
 
         public String getIp() {
             return ip;
@@ -92,14 +78,6 @@ public class AntiTracker {
 
         public void setIp(String ip) {
             this.ip = ip;
-        }
-
-        public String getMultihopIp() {
-            return multihopIp;
-        }
-
-        public void setMultihopIp(String multihopIp) {
-            this.multihopIp = multihopIp;
         }
 
     }
