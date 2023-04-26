@@ -29,11 +29,13 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
+import net.ivpn.core.rest.data.model.PortResponse
 import net.ivpn.core.v2.protocol.port.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.List
 
 @ApplicationScope
 class Settings @Inject constructor(
@@ -207,6 +209,14 @@ class Settings @Inject constructor(
         }
         set(port) {
             settingsPreference.setWgPort(port.toJson())
+        }
+
+    var wireGuardPorts: List<PortResponse>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getWgPorts())
+        }
+        set(ports) {
+            settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
         }
 
     var customDNSValue: String?

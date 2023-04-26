@@ -185,6 +185,7 @@ class ServersRepository @Inject constructor(
                 settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
+                settings.wireGuardPorts = response.config.ports.wireguard
                 for (listener in onServerListUpdatedListeners!!) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
