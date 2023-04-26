@@ -202,6 +202,14 @@ class Settings @Inject constructor(
             settingsPreference.setOpenvpnPort(port.toJson())
         }
 
+    var openVpnPorts: List<PortResponse>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getOpenvpnPorts())
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
+        }
+
     var wireGuardPort: Port
         get() {
             val portJson = settingsPreference.getWgPort()

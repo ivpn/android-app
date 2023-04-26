@@ -186,6 +186,7 @@ class ServersRepository @Inject constructor(
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard
+                settings.openVpnPorts = response.config.ports.openvpn
                 for (listener in onServerListUpdatedListeners!!) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }

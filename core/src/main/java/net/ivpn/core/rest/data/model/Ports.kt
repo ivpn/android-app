@@ -43,4 +43,8 @@ class Ports {
     @Expose
     lateinit var wireguard: List<PortResponse>
 
+    @SerializedName("openvpn")
+    @Expose
+    lateinit var openvpn: List<PortResponse>
+
 }
