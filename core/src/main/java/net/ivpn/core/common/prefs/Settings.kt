@@ -193,10 +193,10 @@ class Settings @Inject constructor(
             settingsPreference.putAntiSurveillanceHardcoreDns(dns)
         }
 
-    var openVpnPort: Port
+    var openVpnPort: PortResponse
         get() {
             val portJson = settingsPreference.getOpenvpnPort()
-            return if (portJson!!.isEmpty()) Port.UDP_2049 else Port.from(portJson)
+            return if (portJson!!.isEmpty()) PortResponse.defaultOvPort else PortResponse.from(portJson)
         }
         set(port) {
             settingsPreference.setOpenvpnPort(port.toJson())
@@ -210,10 +210,10 @@ class Settings @Inject constructor(
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
         }
 
-    var wireGuardPort: Port
+    var wireGuardPort: PortResponse
         get() {
             val portJson = settingsPreference.getWgPort()
-            return if (portJson!!.isEmpty()) Port.WG_UDP_2049 else Port.from(portJson)
+            return if (portJson!!.isEmpty()) PortResponse.defaultWgPort else PortResponse.from(portJson)
         }
         set(port) {
             settingsPreference.setWgPort(port.toJson())

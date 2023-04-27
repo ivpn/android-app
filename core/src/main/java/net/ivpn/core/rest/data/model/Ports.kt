@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class PortResponse {
+class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
 
     @SerializedName("type")
     @Expose
@@ -36,13 +36,26 @@ class PortResponse {
     @Expose
     var portNumber: Int? = null
 
-    fun from(json: String): PortResponse {
-        val gson = Gson()
-        return gson.fromJson(json, PortResponse::class.java)
-    }
-
     fun toJson(): String {
         return Gson().toJson(this)
+    }
+
+    fun next(): PortResponse {
+        return PortResponse("UDP", 2049)
+    }
+
+    companion object {
+
+        fun from(json: String): PortResponse {
+            return Gson().fromJson(json, PortResponse::class.java)
+        }
+
+        val defaultWgPort: PortResponse
+            get() = PortResponse("UDP", 2049)
+
+        val defaultOvPort: PortResponse
+            get() = PortResponse("TCP", 443)
+
     }
 
 }
