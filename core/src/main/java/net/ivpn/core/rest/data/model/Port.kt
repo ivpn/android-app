@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
+class Port(_protocol: String = "UDP", _portNumber: Int = 0) {
 
     @SerializedName("type")
     @Expose
@@ -44,8 +44,8 @@ class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
         return "$protocol $portNumber"
     }
 
-    fun next(): PortResponse {
-        return PortResponse("UDP", 2049)
+    fun next(): Port {
+        return Port("UDP", 2049)
     }
 
     fun isUDP(): Boolean {
@@ -54,18 +54,18 @@ class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
 
     companion object {
 
-        fun from(json: String): PortResponse {
-            return Gson().fromJson(json, PortResponse::class.java)
+        fun from(json: String): Port {
+            return Gson().fromJson(json, Port::class.java)
         }
 
-        val defaultWgPort: PortResponse
-            get() = PortResponse("UDP", 2049)
+        val defaultWgPort: Port
+            get() = Port("UDP", 2049)
 
-        val defaultOvPort: PortResponse
-            get() = PortResponse("TCP", 443)
+        val defaultOvPort: Port
+            get() = Port("TCP", 443)
 
-        val valuesForMultiHop: List<PortResponse>
-            get() = listOf(PortResponse("UDP", 2049), PortResponse("TCP", 443))
+        val valuesForMultiHop: List<Port>
+            get() = listOf(Port("UDP", 2049), Port("TCP", 443))
 
     }
 
@@ -75,10 +75,10 @@ class Ports {
 
     @SerializedName("wireguard")
     @Expose
-    lateinit var wireguard: List<PortResponse>
+    lateinit var wireguard: List<Port>
 
     @SerializedName("openvpn")
     @Expose
-    lateinit var openvpn: List<PortResponse>
+    lateinit var openvpn: List<Port>
 
 }

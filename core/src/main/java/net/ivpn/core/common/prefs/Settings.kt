@@ -29,7 +29,7 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
-import net.ivpn.core.rest.data.model.PortResponse
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
 import java.util.*
@@ -192,16 +192,16 @@ class Settings @Inject constructor(
             settingsPreference.putAntiSurveillanceHardcoreDns(dns)
         }
 
-    var openVpnPort: PortResponse
+    var openVpnPort: Port
         get() {
             val portJson = settingsPreference.getOpenvpnPort()
-            return if (portJson!!.isEmpty()) PortResponse.defaultOvPort else PortResponse.from(portJson)
+            return if (portJson!!.isEmpty()) Port.defaultOvPort else Port.from(portJson)
         }
         set(port) {
             settingsPreference.setOpenvpnPort(port.toJson())
         }
 
-    var openVpnPorts: List<PortResponse>
+    var openVpnPorts: List<Port>
         get() {
             return Mapper.portsFrom(settingsPreference.getOpenvpnPorts())
         }
@@ -209,16 +209,16 @@ class Settings @Inject constructor(
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
         }
 
-    var wireGuardPort: PortResponse
+    var wireGuardPort: Port
         get() {
             val portJson = settingsPreference.getWgPort()
-            return if (portJson!!.isEmpty()) PortResponse.defaultWgPort else PortResponse.from(portJson)
+            return if (portJson!!.isEmpty()) Port.defaultWgPort else Port.from(portJson)
         }
         set(port) {
             settingsPreference.setWgPort(port.toJson())
         }
 
-    var wireGuardPorts: List<PortResponse>
+    var wireGuardPorts: List<Port>
         get() {
             return Mapper.portsFrom(settingsPreference.getWgPorts())
         }

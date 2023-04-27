@@ -34,19 +34,19 @@ import android.widget.TextView;
 import net.ivpn.core.common.multihop.MultiHopController;
 
 import net.ivpn.core.R;
-import net.ivpn.core.rest.data.model.PortResponse;
+import net.ivpn.core.rest.data.model.Port;
 
 import java.util.List;
 
-public class PortAdapter extends ArrayAdapter<PortResponse> {
+public class PortAdapter extends ArrayAdapter<Port> {
     private Context context;
     private int layoutResourceId;
-    private List<PortResponse> ports;
+    private List<Port> ports;
     private int currentPosition;
     private MultiHopController multiHopController;
 
     public PortAdapter(Context context, int layoutResourceId,
-                       List<PortResponse> ports, MultiHopController multiHopController) {
+                       List<Port> ports, MultiHopController multiHopController) {
         super(context, layoutResourceId, ports);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -78,7 +78,7 @@ public class PortAdapter extends ArrayAdapter<PortResponse> {
             holder.currentIcon.setVisibility(View.GONE);
         }
 
-        PortResponse item = ports.get(position);
+        Port item = ports.get(position);
         if (multiHopController.isEnabled()) {
             holder.portTextView.setText(item.getProtocol());
         } else {
@@ -106,7 +106,7 @@ public class PortAdapter extends ArrayAdapter<PortResponse> {
             holder = (Holder) row.getTag();
         }
 
-        PortResponse item = ports.get(position);
+        Port item = ports.get(position);
         if (multiHopController.isEnabled()) {
             holder.portTextView.setText(item.getProtocol());
         } else {
@@ -120,7 +120,7 @@ public class PortAdapter extends ArrayAdapter<PortResponse> {
         this.currentPosition = position;
     }
 
-    public List<PortResponse> getAllowedPorts() {
+    public List<Port> getAllowedPorts() {
         return ports;
     }
 

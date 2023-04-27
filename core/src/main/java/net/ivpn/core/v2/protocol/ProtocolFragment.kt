@@ -46,7 +46,7 @@ import net.ivpn.core.v2.protocol.port.PortAdapter
 import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.viewmodel.MultiHopViewModel
 import net.ivpn.core.common.multihop.MultiHopController;
-import net.ivpn.core.rest.data.model.PortResponse
+import net.ivpn.core.rest.data.model.Port
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -95,7 +95,7 @@ class ProtocolFragment @Inject constructor(
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
         val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.openVpnPorts, multiHopController)
-        val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, PortResponse.valuesForMultiHop, multiHopController)
+        val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesForMultiHop, multiHopController)
         binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
         binding.contentLayout.openvpnProtocolSettings.openvpnMultihopSpinner.adapter = openMultihopVpnPortAdapter
         val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.wireGuardPorts, multiHopController)

@@ -22,8 +22,8 @@ package net.ivpn.core.v2.protocol.port;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.core.rest.data.model.PortResponse;
+import net.ivpn.core.rest.data.model.Port;
 
 public interface OnPortSelectedListener {
-    void onPortSelected(PortResponse port);
+    void onPortSelected(Port port);
 }

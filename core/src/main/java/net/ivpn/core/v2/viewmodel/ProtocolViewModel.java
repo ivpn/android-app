@@ -37,7 +37,7 @@ import net.ivpn.core.common.Mapper;
 import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.rest.Responses;
-import net.ivpn.core.rest.data.model.PortResponse;
+import net.ivpn.core.rest.data.model.Port;
 import net.ivpn.core.rest.data.wireguard.ErrorResponse;
 import net.ivpn.core.v2.protocol.ProtocolNavigator;
 import net.ivpn.core.v2.dialog.Dialogs;
@@ -65,8 +65,8 @@ public class ProtocolViewModel {
     public ObservableBoolean dataLoading = new ObservableBoolean();
     public ObservableField<String> loadingMessage = new ObservableField<>();
     public ObservableField<Protocol> protocol = new ObservableField<>();
-    public ObservableField<PortResponse> openVPNPort = new ObservableField<>();
-    public ObservableField<PortResponse> wireGuardPort = new ObservableField<>();
+    public ObservableField<Port> openVPNPort = new ObservableField<>();
+    public ObservableField<Port> wireGuardPort = new ObservableField<>();
     public ObservableField<String> regenerationPeriod = new ObservableField<>();
     public ObservableField<MultiHopController> multiHop = new ObservableField<>();
 
@@ -212,7 +212,7 @@ public class ProtocolViewModel {
         protocolController.setCurrentProtocol(protocol);
     }
 
-    void setPort(PortResponse port) {
+    void setPort(Port port) {
         LOGGER.info(TAG, "Set port: " + port);
         if (protocol.get().equals(Protocol.WIREGUARD)) {
             settings.setWireGuardPort(port);

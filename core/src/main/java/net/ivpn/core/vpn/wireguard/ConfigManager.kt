@@ -11,7 +11,7 @@ import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Host
-import net.ivpn.core.rest.data.model.PortResponse
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -89,7 +89,7 @@ class ConfigManager @Inject constructor(
         }
     }
 
-    private fun generateConfig(server: Server?, port: PortResponse): Config? {
+    private fun generateConfig(server: Server?, port: Port): Config? {
         val config = Config()
         val privateKey = settings.wireGuardPrivateKey
 
