@@ -30,7 +30,6 @@ import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
 import net.ivpn.core.rest.data.model.PortResponse
-import net.ivpn.core.v2.protocol.port.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
 import java.util.*

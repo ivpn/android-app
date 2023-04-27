@@ -40,8 +40,16 @@ class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
         return Gson().toJson(this)
     }
 
+    fun toThumbnail(): String {
+        return "$protocol $portNumber"
+    }
+
     fun next(): PortResponse {
         return PortResponse("UDP", 2049)
+    }
+
+    fun isUDP(): Boolean {
+        return protocol.equals("UDP", ignoreCase = true)
     }
 
     companion object {
@@ -55,6 +63,9 @@ class PortResponse(_protocol: String = "UDP", _portNumber: Int = 0) {
 
         val defaultOvPort: PortResponse
             get() = PortResponse("TCP", 443)
+
+        val valuesForMultiHop: List<PortResponse>
+            get() = listOf(PortResponse("UDP", 2049), PortResponse("TCP", 443))
 
     }
 
