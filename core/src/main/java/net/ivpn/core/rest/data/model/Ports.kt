@@ -22,6 +22,7 @@ package net.ivpn.core.rest.data.model
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -29,11 +30,20 @@ class PortResponse {
 
     @SerializedName("type")
     @Expose
-    var type: String? = null
+    var protocol: String? = null
 
     @SerializedName("port")
     @Expose
-    var port: Int? = null
+    var portNumber: Int? = null
+
+    fun from(json: String): PortResponse {
+        val gson = Gson()
+        return gson.fromJson(json, PortResponse::class.java)
+    }
+
+    fun toJson(): String {
+        return Gson().toJson(this)
+    }
 
 }
 
