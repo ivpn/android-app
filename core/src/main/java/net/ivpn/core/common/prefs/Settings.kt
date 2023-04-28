@@ -262,11 +262,11 @@ class Settings @Inject constructor(
     fun nextPort() {
         val protocol = stickyPreference.currentProtocol
         if (protocol == Protocol.OPENVPN) {
-            val nextPort = openVpnPort.next()
+            val nextPort = openVpnPort.next(openVpnPorts)
             Log.d(TAG, "nextPort: next port = ")
             openVpnPort = nextPort
         } else {
-            val nextPort = wireGuardPort.next()
+            val nextPort = wireGuardPort.next(wireGuardPorts)
             Log.d(TAG, "nextPort: next port = ")
             wireGuardPort = nextPort
         }

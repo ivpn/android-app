@@ -44,8 +44,9 @@ class Port(_protocol: String, _portNumber: Int) {
         return "$protocol $portNumber"
     }
 
-    fun next(): Port {
-        return Port("UDP", 2049)
+    fun next(ports: List<Port>): Port {
+        val position = ports.indexOf(this)
+        return if (position != ports.size - 1) ports[position + 1] else ports[0]
     }
 
     fun isUDP(): Boolean {
