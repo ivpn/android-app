@@ -25,7 +25,6 @@ package net.ivpn.core.v2.protocol
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -44,15 +43,12 @@ import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.viewmodel.ProtocolViewModel
 import net.ivpn.core.v2.protocol.port.PortAdapter
 import net.ivpn.core.v2.MainActivity
-import net.ivpn.core.v2.viewmodel.MultiHopViewModel
 import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.rest.data.model.Port
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
-class ProtocolFragment @Inject constructor(
-        val settings: Settings
-) : Fragment(), ProtocolNavigator {
+class ProtocolFragment : Fragment(), ProtocolNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ProtocolFragment::class.java)
@@ -64,6 +60,8 @@ class ProtocolFragment @Inject constructor(
     lateinit var viewModel: ProtocolViewModel
     @Inject
     lateinit var multiHopController: MultiHopController
+    @Inject
+    lateinit var settings: Settings
 
     override fun onCreateView(
             inflater: LayoutInflater,

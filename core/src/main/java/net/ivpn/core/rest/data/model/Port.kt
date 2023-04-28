@@ -26,15 +26,15 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Port(_protocol: String = "UDP", _portNumber: Int = 0) {
+class Port(_protocol: String, _portNumber: Int) {
 
     @SerializedName("type")
     @Expose
-    var protocol: String? = null
+    var protocol: String = _protocol
 
     @SerializedName("port")
     @Expose
-    var portNumber: Int? = null
+    var portNumber: Int = _portNumber
 
     fun toJson(): String {
         return Gson().toJson(this)
