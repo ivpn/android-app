@@ -76,12 +76,15 @@ You can use each of them to build the application by Gradle from the command lin
 <a name="versioning"></a>
 ## Versioning
 
-Project is using versioning for creating release versions in the format:
+Project is using [Semantic Versioning (SemVer)](https://semver.org) for creating release versions.
 
-`x.y`
+SemVer is a 3-component system in the format of `x.y.z` where:
 
 `x` stands for a **major** version  
-`y` stands for a **minor** version
+`y` stands for a **minor** version  
+`z` stands for a **patch**
+
+So we have: `Major.Minor.Patch` 
 
 <a name="contributing"></a>
 ## Contributing
