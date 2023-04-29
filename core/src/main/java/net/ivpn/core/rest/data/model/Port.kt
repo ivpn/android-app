@@ -36,6 +36,9 @@ class Port(_protocol: String, _portNumber: Int) {
     @Expose
     var portNumber: Int = _portNumber
 
+    override fun equals(other: Any?): Boolean =
+        other is Port && other.portNumber == this.portNumber && other.protocol == this.protocol
+
     fun toJson(): String {
         return Gson().toJson(this)
     }
