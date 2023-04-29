@@ -41,7 +41,6 @@ class Port(_protocol: String, _portNumber: Int) {
         return protocol == other.protocol && portNumber == other.portNumber
     }
 
-
     fun toJson(): String {
         return Gson().toJson(this)
     }
