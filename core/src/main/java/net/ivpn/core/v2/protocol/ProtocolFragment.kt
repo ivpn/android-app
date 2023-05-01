@@ -25,7 +25,6 @@ package net.ivpn.core.v2.protocol
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -37,16 +36,15 @@ import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.SnackbarUtil
 import net.ivpn.core.common.extension.navigate
+import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.databinding.FragmentProtocolBinding
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.viewmodel.ProtocolViewModel
-import net.ivpn.core.v2.protocol.port.Port
 import net.ivpn.core.v2.protocol.port.PortAdapter
 import net.ivpn.core.v2.MainActivity
-import net.ivpn.core.v2.viewmodel.MultiHopViewModel
 import net.ivpn.core.common.multihop.MultiHopController;
-import net.ivpn.core.vpn.Protocol
+import net.ivpn.core.rest.data.model.Port
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -62,6 +60,8 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
     lateinit var viewModel: ProtocolViewModel
     @Inject
     lateinit var multiHopController: MultiHopController
+    @Inject
+    lateinit var settings: Settings
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -92,11 +92,11 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
 
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
-        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.OPENVPN), multiHopController)
-        val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesForMultiHop(), multiHopController)
+        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.openVpnPorts, multiHopController)
+        val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesForMultiHop, multiHopController)
         binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
         binding.contentLayout.openvpnProtocolSettings.openvpnMultihopSpinner.adapter = openMultihopVpnPortAdapter
-        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesFor(Protocol.WIREGUARD), multiHopController)
+        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.wireGuardPorts, multiHopController)
         binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
 
         binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
