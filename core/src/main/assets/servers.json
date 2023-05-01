@@ -11,24 +11,26 @@
       "hosts": [
         {
           "hostname": "ca1.wg.ivpn.net",
+          "dns_name": "ca1.wg.ivpn.net",
           "host": "37.120.130.58",
           "public_key": "rg+GGDmjM4Vxo1hURvKmgm9yonb6qcoKbPCP/DNDBnI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 20.05,
+          "load": 20.88,
           "multihop_port": 23810
         },
         {
           "hostname": "ca-qc1.wg.ivpn.net",
+          "dns_name": "ca-qc1.gw.ivpn.net",
           "host": "87.101.92.29",
           "public_key": "98JU1mdCR8vD1aNZg017/NjBeTjuuCKUaLw0zfz/CUE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 32.46,
+          "load": 40.8,
           "multihop_port": 27001
         }
       ]
@@ -44,35 +46,38 @@
       "hosts": [
         {
           "hostname": "ch1.wg.ivpn.net",
+          "dns_name": "ch1.wg.ivpn.net",
           "host": "141.255.164.66",
           "public_key": "jVZJ61i1xxkAfriDHpwvF/GDuTvZUqhwoWSjkOJvaUA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 22.83,
+          "load": 29.71,
           "multihop_port": 23610
         },
         {
           "hostname": "ch01.wg.ivpn.net",
+          "dns_name": "ch1.gw.ivpn.net",
           "host": "185.212.170.141",
           "public_key": "dU7gLfcupYd37LW0q6cxC6PHMba+eUFAUOoU/ryXZkY=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 27.4,
+          "load": 29.63,
           "multihop_port": 23601
         },
         {
           "hostname": "ch3.wg.ivpn.net",
+          "dns_name": "ch3.gw.ivpn.net",
           "host": "141.255.166.198",
           "public_key": "JBpgBKtqIneRuEga7mbP2PAk/e4HPRaC11H0A0+R3lA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 12.51,
+          "load": 16.83,
           "multihop_port": 22901
         }
       ]
@@ -88,36 +93,51 @@
       "hosts": [
         {
           "hostname": "de1.wg.ivpn.net",
+          "dns_name": "de1.wg.ivpn.net",
           "host": "185.102.219.26",
           "public_key": "mS3/WpXjnMAMmXjSpd4nFzx9HSE3ubv2WyjpyH2REgs=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 16.51,
+          "load": 41.35,
           "multihop_port": 23010
         },
         {
           "hostname": "de01.wg.ivpn.net",
+          "dns_name": "de1.gw.ivpn.net",
           "host": "178.162.212.24",
           "public_key": "Sc5AUZieg0qX8kyCy9p0OHRES4n0CHtHHM+ZPyERFTc=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 20.88,
+          "load": 40.74,
           "multihop_port": 23001
         },
         {
           "hostname": "de2.wg.ivpn.net",
+          "dns_name": "de2.gw.ivpn.net",
           "host": "37.58.60.151",
           "public_key": "QhY3OtBf4FFafKtLO33e6k8JnAl8e6ktFcRUyLjCDVY=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 19.75,
+          "load": 63.01,
           "multihop_port": 22001
+        },
+        {
+          "hostname": "de3.wg.ivpn.net",
+          "dns_name": "de3.gw.ivpn.net",
+          "host": "146.70.160.170",
+          "public_key": "CugQQtD8YJKRwS5IukNWkMcyqOzlOxfGRPhGeQRAb2Y=",
+          "local_ip": "172.16.0.1/12",
+          "ipv6": {
+            "local_ip": "fd00:4956:504e:ffff::/96"
+          },
+          "load": 9.59,
+          "multihop_port": 21050
         }
       ]
     },
@@ -132,35 +152,38 @@
       "hosts": [
         {
           "hostname": "gb1.wg.ivpn.net",
+          "dns_name": "gb1.wg.ivpn.net",
           "host": "81.92.202.114",
           "public_key": "7+jos+Eg+hMEOQE4Std6OJ+WVnCcmbqS1/EbPwn9w3s=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.67,
+          "load": 19.21,
           "multihop_port": 20810
         },
         {
           "hostname": "gb01.wg.ivpn.net",
+          "dns_name": "gb1.gw.ivpn.net",
           "host": "185.59.221.140",
           "public_key": "yKK5x+D17Jr3Q12T/UBaDjNVmNdZBsqpvTqH6YfsGHg=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 38.94,
+          "load": 34.56,
           "multihop_port": 20801
         },
         {
           "hostname": "gb2.wg.ivpn.net",
+          "dns_name": "gb2.gw.ivpn.net",
           "host": "185.59.221.225",
           "public_key": "x0BTRaxsdxAd58ZyU2YMX4bmuj+Eg+8/urT2F3Vs1n8=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 8.02,
+          "load": 6.32,
           "multihop_port": 24201
         }
       ]
@@ -176,25 +199,27 @@
       "hosts": [
         {
           "hostname": "it1.wg.ivpn.net",
+          "dns_name": "it1.wg.ivpn.net",
           "host": "82.102.21.90",
           "public_key": "Aj6b81yrDk7I913R+fuSW/NAmIl87N73vHgY5/WQY0Q=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.88,
+          "load": 7.09,
           "multihop_port": 24310
         },
         {
-          "hostname": "it01.wg.ivpn.net",
-          "host": "158.58.172.89",
-          "public_key": "QTzR5R6jeDI/cQ0CXPIqOby9GR5nn+4Bcf4bK536Vy0=",
+          "hostname": "it2.wg.ivpn.net",
+          "dns_name": "it2.gw.ivpn.net",
+          "host": "84.17.59.149",
+          "public_key": "IYi+s9DZusPErv0k2Ls/jgdubmeCrUcEJ1cNgmxPx0k=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 21.42,
-          "multihop_port": 24301
+          "load": 11.86,
+          "multihop_port": 21100
         }
       ]
     },
@@ -209,79 +234,86 @@
       "hosts": [
         {
           "hostname": "nl1.wg.ivpn.net",
+          "dns_name": "nl1.wg.ivpn.net",
           "host": "185.102.218.104",
           "public_key": "AsMT2FqpkZbjzWeDch6GwufF5odl259W/hIkGytVfWo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 11.39,
+          "load": 35.27,
           "multihop_port": 20301
         },
         {
           "hostname": "nl3.wg.ivpn.net",
+          "dns_name": "nl3.gw.ivpn.net",
           "host": "95.211.95.9",
           "public_key": "XDU6Syq1DY82IMatsHV0x/TAtbLiRwh/SdFCXlEn40c=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.2,
+          "load": 21.25,
           "multihop_port": 23101
         },
         {
           "hostname": "nl4.wg.ivpn.net",
+          "dns_name": "nl4.gw.ivpn.net",
           "host": "95.211.95.19",
           "public_key": "cVB66gPq5cZ9dfXY+e2pbsCyih5o1zk04l5c5VCsV1g=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 11,
+          "load": 11.21,
           "multihop_port": 23201
         },
         {
           "hostname": "nl5.wg.ivpn.net",
+          "dns_name": "nl5.gw.ivpn.net",
           "host": "95.211.243.162",
           "public_key": "NCagAawwRixI6Iw/NWiGD8lbjDNCl0aTICZKJtO/1HA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 29.9,
+          "load": 29.09,
           "multihop_port": 23901
         },
         {
           "hostname": "nl6.wg.ivpn.net",
+          "dns_name": "nl6.gw.ivpn.net",
           "host": "95.211.243.182",
           "public_key": "hMWpqb3FEATHIbImPVWB/5z2nWIXghwpnJjevPY+1H0=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 18.92,
+          "load": 14.27,
           "multihop_port": 24101
         },
         {
           "hostname": "nl7.wg.ivpn.net",
+          "dns_name": "nl7.gw.ivpn.net",
           "host": "95.211.172.105",
           "public_key": "hQNYqtfOOAEz0IGshLx/TI9hUrfR9gIIkjVm4VsCbBM=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 40.26,
+          "load": 9.57,
           "multihop_port": 22501
         },
         {
           "hostname": "nl8.wg.ivpn.net",
+          "dns_name": "nl8.gw.ivpn.net",
           "host": "95.211.198.167",
           "public_key": "/nY1/OhVhdHtbnU/s31zYUuPBH0pizv4DemW5KDOUkg=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 14.9,
+          "load": 24.42,
           "multihop_port": 22801
         }
       ]
@@ -297,24 +329,26 @@
       "hosts": [
         {
           "hostname": "se1.wg.ivpn.net",
+          "dns_name": "se1.wg.ivpn.net",
           "host": "37.120.153.226",
           "public_key": "2n0nFE1g/+vQr2AOQPm9Igyiy0zh9uTTultvOOSkMRo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 5.95,
+          "load": 15.64,
           "multihop_port": 24010
         },
         {
           "hostname": "se01.wg.ivpn.net",
+          "dns_name": "se1.gw.ivpn.net",
           "host": "80.67.10.141",
           "public_key": "u8VHnYEpoEjJWDAF9NAUkU6s810RnkMuhEfFD9U0cGo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 10.74,
+          "load": 9.84,
           "multihop_port": 24001
         }
       ]
@@ -330,24 +364,26 @@
       "hosts": [
         {
           "hostname": "sg1.wg.ivpn.net",
+          "dns_name": "sg1.wg.ivpn.net",
           "host": "37.120.151.122",
           "public_key": "hSg0At4uwuIhmTy5UT4fRbi5AN6JO2ZWTuIvqd4nHCE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.01,
+          "load": 8.48,
           "multihop_port": 26110
         },
         {
           "hostname": "sg01.wg.ivpn.net",
+          "dns_name": "sg1.gw.ivpn.net",
           "host": "185.128.24.189",
           "public_key": "pWk0u1Xq8FHC+xpkN+C6yEKOTEanorR5zMCSfHlLzFw=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 34.4,
+          "load": 23.61,
           "multihop_port": 26101
         }
       ]
@@ -363,57 +399,74 @@
       "hosts": [
         {
           "hostname": "us-ca1.wg.ivpn.net",
+          "dns_name": "us-ca1.wg.ivpn.net",
           "host": "185.180.13.41",
           "public_key": "FGl78s9Ct6xNamQ2/CtAyXwGePrrU0kiZxfM27pm8XA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.67,
+          "load": 8.6,
           "multihop_port": 22210
         },
         {
           "hostname": "us-ca01.wg.ivpn.net",
+          "dns_name": "us-ca1.gw.ivpn.net",
           "host": "216.144.236.44",
           "public_key": "B+qXdkIuETpzI0bfhGUAHN4SU91Tjs6ItdFlu93S42I=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.93,
+          "load": 7.89,
+          "multihop_port": 22201
+        },
+        {
+          "hostname": "us-ca01.wg.ivpn.net",
+          "dns_name": "us-ca1.gw.ivpn.net",
+          "host": "216.144.236.44",
+          "public_key": "B+qXdkIuETpzI0bfhGUAHN4SU91Tjs6ItdFlu93S42I=",
+          "local_ip": "172.16.0.1/12",
+          "ipv6": {
+            "local_ip": "fd00:4956:504e:ffff::/96"
+          },
+          "load": 8.03,
           "multihop_port": 22201
         },
         {
           "hostname": "us-ca2.wg.ivpn.net",
+          "dns_name": "us-ca2.gw.ivpn.net",
           "host": "216.144.236.68",
           "public_key": "qv4Tupfon5NUSwzDpM8zPizSwJZn2h+9CqrufcyDOko=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.15,
+          "load": 8.47,
           "multihop_port": 22401
         },
         {
           "hostname": "us-ca3.wg.ivpn.net",
+          "dns_name": "us-ca3.gw.ivpn.net",
           "host": "198.54.129.100",
           "public_key": "J5+Bx84LxNPdWEhewOvBV/fGWiDluIBlAcr1QlJZil8=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.61,
+          "load": 10.22,
           "multihop_port": 21301
         },
         {
           "hostname": "us-ca4.wg.ivpn.net",
+          "dns_name": "us-ca4.gw.ivpn.net",
           "host": "216.144.237.83",
           "public_key": "dYPXYr6HSRJPe3MhALwGWNtdEy1+EPE9Kqv7cTrUXk8=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.35,
+          "load": 8.16,
           "multihop_port": 21901
         }
       ]
@@ -429,35 +482,38 @@
       "hosts": [
         {
           "hostname": "us-ga1.wg.ivpn.net",
+          "dns_name": "us-ga1.wg.ivpn.net",
           "host": "185.93.0.212",
           "public_key": "jD8h+pL5/d6fmYcTzl0lR8AWzQVN5XkwRFSmM/3NcDM=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 10.3,
+          "load": 21.4,
           "multihop_port": 24510
         },
         {
           "hostname": "us-ga01.wg.ivpn.net",
+          "dns_name": "us-ga1.gw.ivpn.net",
           "host": "104.129.24.149",
           "public_key": "EJFl28aYpZKfmJqb1jxxTEnGx6kaH2USVrigpHKKXhs=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.57,
+          "load": 15.01,
           "multihop_port": 24501
         },
         {
           "hostname": "us-ga2.wg.ivpn.net",
+          "dns_name": "us-ga2.gw.ivpn.net",
           "host": "107.150.22.77",
           "public_key": "hr2uQOEGCvGeDkoCQJ2dCI8dM8Iu5aKhb1PIvJ9q72E=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 6.83,
+          "load": 10.92,
           "multihop_port": 24810
         }
       ]
@@ -473,35 +529,38 @@
       "hosts": [
         {
           "hostname": "us-il1.wg.ivpn.net",
+          "dns_name": "us-il1.wg.ivpn.net",
           "host": "89.187.181.116",
           "public_key": "hku9gjamhoii8OvxZgx+TdUDIkOAQYFu39qbav2AyUQ=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 10.39,
+          "load": 11.38,
           "multihop_port": 21410
         },
         {
           "hostname": "us-il01.wg.ivpn.net",
+          "dns_name": "us-il1.gw.ivpn.net",
           "host": "72.11.137.158",
           "public_key": "Uy5a8JOqneAUY1dC5s9jubLnotbyIfBsLP2nZuzRbHs=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.02,
+          "load": 81.13,
           "multihop_port": 21401
         },
         {
           "hostname": "us-il2.wg.ivpn.net",
+          "dns_name": "us-il2.gw.ivpn.net",
           "host": "72.11.137.148",
           "public_key": "ANhVUMAQgStPVNRHW8mg0ZtN1YI1QHyXfNCO8+USNQQ=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.96,
+          "load": 25.85,
           "multihop_port": 24901
         }
       ]
@@ -517,35 +576,38 @@
       "hosts": [
         {
           "hostname": "us-ny1.wg.ivpn.net",
+          "dns_name": "us-ny1.wg.ivpn.net",
           "host": "91.132.137.170",
           "public_key": "6/tjvgb7HFl7UuvBSegolxa1zKr3iSlDrlCexCmhAGE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 7.96,
+          "load": 7.92,
           "multihop_port": 21210
         },
         {
           "hostname": "us-ny2.wg.ivpn.net",
+          "dns_name": "us-ny2.gw.ivpn.net",
           "host": "212.103.48.195",
           "public_key": "c7DwY2uT+6ulWAJ5u8qJNWHroA0qyJLcdNzf/f2kkhs=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 13.12,
+          "load": 7.15,
           "multihop_port": 21801
         },
         {
           "hostname": "us-ny3.wg.ivpn.net",
+          "dns_name": "us-ny3.gw.ivpn.net",
           "host": "89.187.178.145",
           "public_key": "m5/Ssw9SN3WuE+yD/fAsH5G8iuI8TcDGEiZZnPgiMCc=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 8.81,
+          "load": 8.63,
           "multihop_port": 27601
         }
       ]
@@ -561,35 +623,38 @@
       "hosts": [
         {
           "hostname": "us-tx1.wg.ivpn.net",
+          "dns_name": "us-tx1.wg.ivpn.net",
           "host": "198.55.124.114",
           "public_key": "JPT1veXLmasj2uQDstX24mpR7VWD+GmV8JDkidkz91Q=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 36.87,
+          "load": 21.51,
           "multihop_port": 21010
         },
         {
           "hostname": "us-tx01.wg.ivpn.net",
+          "dns_name": "us-tx1.gw.ivpn.net",
           "host": "96.44.189.197",
           "public_key": "LvWf548mFddi8PTrIGL6uD1/l85LU8z0Rc8tpvw2Vls=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 7.46,
+          "load": 6.26,
           "multihop_port": 21001
         },
         {
           "hostname": "us-tx2.wg.ivpn.net",
+          "dns_name": "us-tx2.gw.ivpn.net",
           "host": "96.44.142.77",
           "public_key": "om8hOGUcEvoOhHvJZoBHxNF4jxY/+Ml9Iy1WOSC/pFo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.29,
+          "load": 33.46,
           "multihop_port": 25001
         }
       ]
@@ -605,13 +670,14 @@
       "hosts": [
         {
           "hostname": "at1.wg.ivpn.net",
+          "dns_name": "at1.gw.ivpn.net",
           "host": "185.244.212.69",
           "public_key": "83LUBnP97SFpnS0y1MpEAFcg8MIiQJgW1FRv/8Mc40g=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 38.5,
+          "load": 89.53,
           "multihop_port": 25601
         }
       ]
@@ -627,24 +693,26 @@
       "hosts": [
         {
           "hostname": "au-nsw1.wg.ivpn.net",
+          "dns_name": "au-nsw1.gw.ivpn.net",
           "host": "46.102.153.246",
           "public_key": "KmSrG48t5xw9CJCPlYLBG3JnmiY0CnUgyRM5TUEwZhM=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 66.55,
+          "load": 85.79,
           "multihop_port": 26601
         },
         {
           "hostname": "au-nsw2.wg.ivpn.net",
+          "dns_name": "au-nsw2.gw.ivpn.net",
           "host": "146.70.78.75",
           "public_key": "q+wbp7GjiTszp5G16rNpGCqxkL0qSY3CH4pcgD6UsVQ=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 93.78,
+          "load": 98.41,
           "multihop_port": 27901
         }
       ]
@@ -660,13 +728,14 @@
       "hosts": [
         {
           "hostname": "be1.wg.ivpn.net",
+          "dns_name": "be1.gw.ivpn.net",
           "host": "194.187.251.13",
           "public_key": "awriP5lpdxEMWKuG+A1DOg+vb1M5jd3WhynIMB61BhU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 36.73,
+          "load": 36.98,
           "multihop_port": 25701
         }
       ]
@@ -682,13 +751,14 @@
       "hosts": [
         {
           "hostname": "bg1.wg.ivpn.net",
+          "dns_name": "bg1.gw.ivpn.net",
           "host": "82.102.23.21",
           "public_key": "WDSsdJE6wvATIWfzQwayPtE/0DaXBQgW/hPm7sQSJmU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 77.7,
+          "load": 55.13,
           "multihop_port": 25901
         }
       ]
@@ -704,13 +774,14 @@
       "hosts": [
         {
           "hostname": "br1.wg.ivpn.net",
+          "dns_name": "br1.gw.ivpn.net",
           "host": "45.162.229.133",
           "public_key": "eN1f15S3YzRyYCALiPGRQcjkQO9xntcdqPhJJ6TOymc=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 21.93,
+          "load": 21.05,
           "multihop_port": 26701
         }
       ]
@@ -726,24 +797,26 @@
       "hosts": [
         {
           "hostname": "ca01.wg.ivpn.net",
+          "dns_name": "ca1.gw.ivpn.net",
           "host": "104.254.90.181",
           "public_key": "mdGnCZwinuOVGg46zsWnFhhenfFId6jht9GBTKB+xUA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 78.3,
+          "load": 74.75,
           "multihop_port": 23801
         },
         {
           "hostname": "ca2.wg.ivpn.net",
+          "dns_name": "ca2.gw.ivpn.net",
           "host": "172.86.186.173",
           "public_key": "5qHV10ZbFgEGnF6wg9QpKeh1l6Di2JUG/5PdNaaoNW8=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 37.88,
+          "load": 81.62,
           "multihop_port": 22101
         }
       ]
@@ -759,13 +832,14 @@
       "hosts": [
         {
           "hostname": "cz1.wg.ivpn.net",
+          "dns_name": "cz1.gw.ivpn.net",
           "host": "185.180.14.41",
           "public_key": "gVbEq2cGRzwCSGPqT2oRSYYN+P6IK3uvvRffErASDSk=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 19.43,
+          "load": 20.71,
           "multihop_port": 25201
         }
       ]
@@ -781,13 +855,14 @@
       "hosts": [
         {
           "hostname": "dk1.wg.ivpn.net",
+          "dns_name": "dk1.gw.ivpn.net",
           "host": "185.245.84.229",
           "public_key": "jTsV5gOD7lT4egDj9rhKwO2OO2X7bKs2EQPcZEnUWDE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 100,
+          "load": 97,
           "multihop_port": 25501
         }
       ]
@@ -803,13 +878,14 @@
       "hosts": [
         {
           "hostname": "es1.wg.ivpn.net",
+          "dns_name": "es1.gw.ivpn.net",
           "host": "84.17.62.98",
           "public_key": "w7umiArTtlJ4Pk6Ii9WX5VXK5vw/Qu+Z37/icKlIYWo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 10.94,
+          "load": 53.84,
           "multihop_port": 21501
         }
       ]
@@ -825,13 +901,14 @@
       "hosts": [
         {
           "hostname": "fi1.wg.ivpn.net",
+          "dns_name": "fi1.gw.ivpn.net",
           "host": "194.34.134.63",
           "public_key": "mIxEzfjZ2wV6jJVj30w38ECd2LSH4bw/HLMnM2ICHiI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 72.97,
+          "load": 90.49,
           "multihop_port": 26001
         }
       ]
@@ -847,13 +924,14 @@
       "hosts": [
         {
           "hostname": "fr1.wg.ivpn.net",
+          "dns_name": "fr1.gw.ivpn.net",
           "host": "185.246.211.185",
           "public_key": "g7BuMzj3r/noLiLR4qhQMcvU6GSIY8RGEnaYtdYsFX4=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 32.39,
+          "load": 43.82,
           "multihop_port": 23401
         }
       ]
@@ -869,13 +947,14 @@
       "hosts": [
         {
           "hostname": "gb-man1.wg.ivpn.net",
+          "dns_name": "gb-man1.gw.ivpn.net",
           "host": "89.238.141.231",
           "public_key": "+hf4DYilNEIjTdSOuCNcWdqVyaRoxGzXw7wvNl7f7Rg=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 21.96,
+          "load": 11.28,
           "multihop_port": 26901
         }
       ]
@@ -891,24 +970,26 @@
       "hosts": [
         {
           "hostname": "hk2.wg.ivpn.net",
+          "dns_name": "hk2.gw.ivpn.net",
           "host": "64.120.120.239",
           "public_key": "kyolyq4cJydI3vQB2ESTIUAy2Fq0bpOf+Qe7GIq6XEA=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.53,
+          "load": 26.95,
           "multihop_port": 27501
         },
         {
           "hostname": "hk3.wg.ivpn.net",
+          "dns_name": "hk3.gw.ivpn.net",
           "host": "118.107.244.206",
           "public_key": "qq1simsFNm2FpZM0J8u8Aa0rkk5HEasvLksPyLv+0Sk=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.4,
+          "load": 5.86,
           "multihop_port": 20800
         }
       ]
@@ -924,13 +1005,14 @@
       "hosts": [
         {
           "hostname": "hu1.wg.ivpn.net",
+          "dns_name": "hu1.gw.ivpn.net",
           "host": "185.189.114.189",
           "public_key": "G30fNdXrnlqtqqOLF23QXWzFdLIKDxLW60HoYPvqml8=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 100,
+          "load": 48.85,
           "multihop_port": 25401
         }
       ]
@@ -946,13 +1028,14 @@
       "hosts": [
         {
           "hostname": "il01.wg.ivpn.net",
+          "dns_name": "il1.gw.ivpn.net",
           "host": "185.191.207.197",
           "public_key": "HR9gAjpxXU3YVt6kehBw5n8yVYVE0iIgJdc4HTqOzEE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 60.5,
+          "load": 9.7,
           "multihop_port": 27301
         }
       ]
@@ -968,13 +1051,14 @@
       "hosts": [
         {
           "hostname": "is1.wg.ivpn.net",
+          "dns_name": "is1.gw.ivpn.net",
           "host": "82.221.107.185",
           "public_key": "nZZT6TlQ2dXlVe3P3B5ozEScHYMWH4JY4y3to8w5dz0=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 79.37,
+          "load": 54.32,
           "multihop_port": 23501
         }
       ]
@@ -984,30 +1068,20 @@
       "country_code": "JP",
       "country": "Japan",
       "city": "Tokyo",
-      "latitude": 35.685,
-      "longitude": 139.7514,
-      "isp": "M247",
+      "latitude": 35.62,
+      "longitude": 139.74,
+      "isp": "TheGigabit",
       "hosts": [
         {
-          "hostname": "jp1.wg.ivpn.net",
-          "host": "91.207.174.237",
-          "public_key": "tb9WdC3LSho3d1rI5N7kfG9e42/d+u4LPVdEYERPsSQ=",
-          "local_ip": "172.16.0.1/12",
-          "ipv6": {
-            "local_ip": "fd00:4956:504e:ffff::/96"
-          },
-          "load": 36.78,
-          "multihop_port": 26201
-        },
-        {
           "hostname": "jp2.wg.ivpn.net",
+          "dns_name": "jp2.gw.ivpn.net",
           "host": "185.135.77.81",
           "public_key": "YuhEd9+a90/+uucZC+qzsyMHkfe/GiwG1dq7g2HegXQ=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 10.98,
+          "load": 12.73,
           "multihop_port": 20830
         }
       ]
@@ -1023,13 +1097,14 @@
       "hosts": [
         {
           "hostname": "lu1.wg.ivpn.net",
+          "dns_name": "lu1.gw.ivpn.net",
           "host": "92.223.89.57",
           "public_key": "hUS1OAFLGwpba8+oc5mifYtohZt/RTro5dMyYBLYHjI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 84.98,
+          "load": 66.02,
           "multihop_port": 27201
         }
       ]
@@ -1045,13 +1120,14 @@
       "hosts": [
         {
           "hostname": "my1.wg.ivpn.net",
+          "dns_name": "my1.gw.ivpn.net",
           "host": "61.4.97.153",
           "public_key": "M9SsMCpUw7ad6YbqQr8r2saBK2zAf3tBj82DzsQjgkY=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.67,
+          "load": 8.87,
           "multihop_port": 20810
         }
       ]
@@ -1067,11 +1143,12 @@
       "hosts": [
         {
           "hostname": "no1.wg.ivpn.net",
+          "dns_name": "no1.gw.ivpn.net",
           "host": "91.189.177.156",
           "public_key": "xFO6ksbO3Gr05rRgAW0O5Veoi4bpTgz2G9RvtBzK7Cg=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {},
-          "load": 0,
+          "load": 23.55,
           "multihop_port": 25301
         }
       ]
@@ -1087,13 +1164,14 @@
       "hosts": [
         {
           "hostname": "pl1.wg.ivpn.net",
+          "dns_name": "pl1.gw.ivpn.net",
           "host": "185.246.208.109",
           "public_key": "1JDmF79rWj5C+kHp71AbdHne/yGaizWCd2bLfSFvYjo=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 39.85,
+          "load": 25,
           "multihop_port": 25101
         }
       ]
@@ -1109,13 +1187,14 @@
       "hosts": [
         {
           "hostname": "pt1.wg.ivpn.net",
+          "dns_name": "pt1.gw.ivpn.net",
           "host": "94.46.175.113",
           "public_key": "nMnA82YVrvEK80GVoY/0Z9McWeqjcLzuMYSL+86j5nU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 9.47,
+          "load": 6.49,
           "multihop_port": 27101
         }
       ]
@@ -1131,13 +1210,14 @@
       "hosts": [
         {
           "hostname": "ro1.wg.ivpn.net",
+          "dns_name": "ro1.gw.ivpn.net",
           "host": "37.120.206.53",
           "public_key": "F2uQ57hysZTlw8WYELnyCw9Lga80wNYoYwkrrxyXKmw=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 61.33,
+          "load": 61.81,
           "multihop_port": 22301
         }
       ]
@@ -1153,13 +1233,14 @@
       "hosts": [
         {
           "hostname": "rs1.wg.ivpn.net",
+          "dns_name": "rs1.gw.ivpn.net",
           "host": "141.98.103.253",
           "public_key": "xLN/lpQThQ3z3tvYf7VqdAsRL/nton1Vhv2kCZlQtWE=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 83.66,
+          "load": 98.53,
           "multihop_port": 26801
         }
       ]
@@ -1171,18 +1252,19 @@
       "city": "Bratislava",
       "latitude": 48.15,
       "longitude": 17.117,
-      "isp": "M247",
+      "isp": "Datapacket",
       "hosts": [
         {
-          "hostname": "sk1.wg.ivpn.net",
-          "host": "185.245.85.253",
-          "public_key": "MOBWWpEgNsKbFj4BEyWSDFLlkBs5iUFiqdSdTFTDBko=",
+          "hostname": "sk2.wg.ivpn.net",
+          "dns_name": "sk2.gw.ivpn.net",
+          "host": "156.146.40.205",
+          "public_key": "xxEl8CIjNLpig6fp7z4USHZLK35Nu5HENFNwTdeAbzU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 100,
-          "multihop_port": 25801
+          "load": 12.27,
+          "multihop_port": 20400
         }
       ]
     },
@@ -1197,13 +1279,14 @@
       "hosts": [
         {
           "hostname": "tw1.wg.ivpn.net",
+          "dns_name": "tw1.gw.ivpn.net",
           "host": "185.189.160.59",
           "public_key": "fMTCCbbKqPp60fkqnaQvJ9mX2r6zBlt7xhUp8sGfJQY=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 5.06,
+          "load": 7.13,
           "multihop_port": 20820
         }
       ]
@@ -1219,13 +1302,14 @@
       "hosts": [
         {
           "hostname": "ua1.wg.ivpn.net",
+          "dns_name": "ua1.gw.ivpn.net",
           "host": "176.103.57.129",
           "public_key": "mIxEzfjZ2wV6jJVj30w38ECd2LSH4bw/HLMnM2ICHiI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 7.25,
+          "load": 10.9,
           "multihop_port": 26301
         }
       ]
@@ -1241,13 +1325,14 @@
       "hosts": [
         {
           "hostname": "us-az1.wg.ivpn.net",
+          "dns_name": "us-az1.gw.ivpn.net",
           "host": "193.37.254.133",
           "public_key": "Ts4MGazxpxL9rrYbERjgxa+kCEX85ou9gHoaJvDsRiI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 11.76,
+          "load": 9.55,
           "multihop_port": 26401
         }
       ]
@@ -1263,13 +1348,14 @@
       "hosts": [
         {
           "hostname": "us-fl1.wg.ivpn.net",
+          "dns_name": "us-fl1.gw.ivpn.net",
           "host": "173.44.49.93",
           "public_key": "Rkzo9WgxJBiKyEbkZvqGWtOVh9Gk9Vd7wL49SHXdHig=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 17.56,
+          "load": 21.77,
           "multihop_port": 24601
         }
       ]
@@ -1285,24 +1371,26 @@
       "hosts": [
         {
           "hostname": "us-nj3.wg.ivpn.net",
+          "dns_name": "us-nj3.gw.ivpn.net",
           "host": "23.226.128.21",
           "public_key": "AX7C1LO0ECUcHRYgX4/tIDYdR8npvfB/+pf4AfI3OHU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 12.28,
+          "load": 20.28,
           "multihop_port": 21610
         },
         {
           "hostname": "us-nj4.wg.ivpn.net",
+          "dns_name": "us-nj4.gw.ivpn.net",
           "host": "194.36.111.54",
           "public_key": "1Te4AfL1yKo2k4jzPALnRPfKE3YSzXKo4XIRHPz5FxI=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 11.78,
+          "load": 20.92,
           "multihop_port": 27401
         }
       ]
@@ -1318,13 +1406,14 @@
       "hosts": [
         {
           "hostname": "us-nv1.wg.ivpn.net",
+          "dns_name": "us-nv1.gw.ivpn.net",
           "host": "185.242.5.37",
           "public_key": "PRpvAZyoNWNm/KHlqafjtYoZtn1PkIPylUE4WbuYmgM=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 11,
+          "load": 8.89,
           "multihop_port": 26501
         }
       ]
@@ -1340,13 +1429,14 @@
       "hosts": [
         {
           "hostname": "us-ut1.wg.ivpn.net",
+          "dns_name": "us-ut1.gw.ivpn.net",
           "host": "206.190.145.92",
           "public_key": "KirI7bpxD186CuYiOqNHF+QUe6YmRYf6CN3pXWOJT2k=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 26.75,
+          "load": 37.49,
           "multihop_port": 24401
         }
       ]
@@ -1362,13 +1452,14 @@
       "hosts": [
         {
           "hostname": "us-va1.wg.ivpn.net",
+          "dns_name": "us-va1.gw.ivpn.net",
           "host": "37.19.206.106",
           "public_key": "ZCnZK6U+cRuP/WgzIDb/P6UG2rX/KyCRd5vJ1hAbr2E=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 54.95,
+          "load": 45.73,
           "multihop_port": 27701
         }
       ]
@@ -1384,13 +1475,14 @@
       "hosts": [
         {
           "hostname": "us-wa2.wg.ivpn.net",
+          "dns_name": "us-wa2.gw.ivpn.net",
           "host": "198.44.131.4",
           "public_key": "VcrOOozBUCIURU0AnqMAE7AkMmC7Qrp+j/PzPbgbalU=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 18.12,
+          "load": 39.58,
           "multihop_port": 27801
         }
       ]
@@ -1406,13 +1498,14 @@
       "hosts": [
         {
           "hostname": "za1.wg.ivpn.net",
+          "dns_name": "za1.gw.ivpn.net",
           "host": "169.150.238.108",
           "public_key": "tgrAA+uJZppS9esgOi0pe3rHajQQ7c/KF8WPOua6qy4=",
           "local_ip": "172.16.0.1/12",
           "ipv6": {
             "local_ip": "fd00:4956:504e:ffff::/96"
           },
-          "load": 17.65,
+          "load": 44.54,
           "multihop_port": 20840
         }
       ]
@@ -1430,8 +1523,9 @@
       "hosts": [
         {
           "hostname": "at1.gw.ivpn.net",
+          "dns_name": "at1.gw.ivpn.net",
           "host": "185.244.212.66",
-          "load": 38.5,
+          "load": 89.53,
           "multihop_port": 25601,
           "obfs": {
             "obfs3_multihop_port": 25602,
@@ -1452,8 +1546,9 @@
       "hosts": [
         {
           "hostname": "au-nsw1.gw.ivpn.net",
+          "dns_name": "au-nsw1.gw.ivpn.net",
           "host": "46.102.153.242",
-          "load": 66.55,
+          "load": 85.79,
           "multihop_port": 26601,
           "obfs": {
             "obfs3_multihop_port": 26602,
@@ -1463,8 +1558,9 @@
         },
         {
           "hostname": "au-nsw2.gw.ivpn.net",
+          "dns_name": "au-nsw2.gw.ivpn.net",
           "host": "146.70.78.74",
-          "load": 93.78,
+          "load": 98.41,
           "multihop_port": 27901,
           "obfs": {
             "obfs3_multihop_port": 27902,
@@ -1485,8 +1581,9 @@
       "hosts": [
         {
           "hostname": "be1.gw.ivpn.net",
+          "dns_name": "be1.gw.ivpn.net",
           "host": "194.187.251.10",
-          "load": 36.73,
+          "load": 36.98,
           "multihop_port": 25701,
           "obfs": {
             "obfs3_multihop_port": 25702,
@@ -1507,8 +1604,9 @@
       "hosts": [
         {
           "hostname": "bg1.gw.ivpn.net",
+          "dns_name": "bg1.gw.ivpn.net",
           "host": "82.102.23.18",
-          "load": 77.7,
+          "load": 55.13,
           "multihop_port": 25901,
           "obfs": {
             "obfs3_multihop_port": 25902,
@@ -1529,8 +1627,9 @@
       "hosts": [
         {
           "hostname": "br1.gw.ivpn.net",
+          "dns_name": "br1.gw.ivpn.net",
           "host": "45.162.229.130",
-          "load": 21.93,
+          "load": 21.05,
           "multihop_port": 26701,
           "obfs": {
             "obfs3_multihop_port": 26702,
@@ -1551,8 +1650,9 @@
       "hosts": [
         {
           "hostname": "ca-qc1.gw.ivpn.net",
+          "dns_name": "ca-qc1.gw.ivpn.net",
           "host": "87.101.92.26",
-          "load": 32.46,
+          "load": 40.8,
           "multihop_port": 27001,
           "obfs": {
             "obfs3_multihop_port": 27002,
@@ -1573,8 +1673,9 @@
       "hosts": [
         {
           "hostname": "ca1.gw.ivpn.net",
+          "dns_name": "ca1.gw.ivpn.net",
           "host": "104.254.90.178",
-          "load": 78.3,
+          "load": 74.75,
           "multihop_port": 23801,
           "obfs": {
             "obfs3_multihop_port": 23802,
@@ -1584,8 +1685,9 @@
         },
         {
           "hostname": "ca2.gw.ivpn.net",
+          "dns_name": "ca2.gw.ivpn.net",
           "host": "172.86.186.170",
-          "load": 37.88,
+          "load": 81.62,
           "multihop_port": 22101,
           "obfs": {
             "obfs3_multihop_port": 22102,
@@ -1606,8 +1708,9 @@
       "hosts": [
         {
           "hostname": "ch1.gw.ivpn.net",
+          "dns_name": "ch1.gw.ivpn.net",
           "host": "185.212.170.138",
-          "load": 27.4,
+          "load": 29.63,
           "multihop_port": 23601,
           "obfs": {
             "obfs3_multihop_port": 23602,
@@ -1617,8 +1720,9 @@
         },
         {
           "hostname": "ch3.gw.ivpn.net",
+          "dns_name": "ch3.gw.ivpn.net",
           "host": "141.255.166.194",
-          "load": 12.51,
+          "load": 16.83,
           "multihop_port": 22901,
           "obfs": {
             "obfs3_multihop_port": 22902,
@@ -1639,8 +1743,9 @@
       "hosts": [
         {
           "hostname": "cz1.gw.ivpn.net",
+          "dns_name": "cz1.gw.ivpn.net",
           "host": "195.181.160.167",
-          "load": 19.43,
+          "load": 20.71,
           "multihop_port": 25201,
           "obfs": {
             "obfs3_multihop_port": 25202,
@@ -1661,8 +1766,9 @@
       "hosts": [
         {
           "hostname": "de1.gw.ivpn.net",
+          "dns_name": "de1.gw.ivpn.net",
           "host": "178.162.222.40",
-          "load": 20.88,
+          "load": 40.74,
           "multihop_port": 23001,
           "obfs": {
             "obfs3_multihop_port": 23002,
@@ -1672,13 +1778,26 @@
         },
         {
           "hostname": "de2.gw.ivpn.net",
+          "dns_name": "de2.gw.ivpn.net",
           "host": "178.162.211.114",
-          "load": 19.75,
+          "load": 63.01,
           "multihop_port": 22001,
           "obfs": {
             "obfs3_multihop_port": 22002,
             "obfs4_multihop_port": 22003,
             "obfs4_key": "dEhLA4ZsvVP8+PRvlSHKwmW8JyzR1Bwy7+BFKF7Ux4L2B5YvdqqOrv/8eHliEj2mm2Z8Iw"
+          }
+        },
+        {
+          "hostname": "de3.gw.ivpn.net",
+          "dns_name": "de3.gw.ivpn.net",
+          "host": "146.70.160.162",
+          "load": 9.59,
+          "multihop_port": 21050,
+          "obfs": {
+            "obfs3_multihop_port": 21051,
+            "obfs4_multihop_port": 21052,
+            "obfs4_key": "IFf+iLf7lgc0K81tQkZL5zndlWflvnLZyYSGGNLtSXLLivlIeBuXCPFDJ7fkL3TOd5uhOA"
           }
         }
       ]
@@ -1694,8 +1813,9 @@
       "hosts": [
         {
           "hostname": "dk1.gw.ivpn.net",
+          "dns_name": "dk1.gw.ivpn.net",
           "host": "185.245.84.226",
-          "load": 100,
+          "load": 97,
           "multihop_port": 25501,
           "obfs": {
             "obfs3_multihop_port": 25502,
@@ -1716,8 +1836,9 @@
       "hosts": [
         {
           "hostname": "es1.gw.ivpn.net",
+          "dns_name": "es1.gw.ivpn.net",
           "host": "185.93.3.193",
-          "load": 10.94,
+          "load": 53.84,
           "multihop_port": 21501,
           "obfs": {
             "obfs3_multihop_port": 21502,
@@ -1738,8 +1859,9 @@
       "hosts": [
         {
           "hostname": "fi1.gw.ivpn.net",
+          "dns_name": "fi1.gw.ivpn.net",
           "host": "185.112.82.12",
-          "load": 72.97,
+          "load": 90.49,
           "multihop_port": 26001,
           "obfs": {
             "obfs3_multihop_port": 26002,
@@ -1760,8 +1882,9 @@
       "hosts": [
         {
           "hostname": "fr1.gw.ivpn.net",
+          "dns_name": "fr1.gw.ivpn.net",
           "host": "185.246.211.179",
-          "load": 32.39,
+          "load": 43.82,
           "multihop_port": 23401,
           "obfs": {
             "obfs3_multihop_port": 23402,
@@ -1782,8 +1905,9 @@
       "hosts": [
         {
           "hostname": "gb-man1.gw.ivpn.net",
+          "dns_name": "gb-man1.gw.ivpn.net",
           "host": "89.238.141.228",
-          "load": 21.96,
+          "load": 11.28,
           "multihop_port": 26901,
           "obfs": {
             "obfs3_multihop_port": 26902,
@@ -1804,8 +1928,9 @@
       "hosts": [
         {
           "hostname": "gb1.gw.ivpn.net",
+          "dns_name": "gb1.gw.ivpn.net",
           "host": "185.59.221.133",
-          "load": 38.94,
+          "load": 34.56,
           "multihop_port": 20801,
           "obfs": {
             "obfs3_multihop_port": 20802,
@@ -1815,8 +1940,9 @@
         },
         {
           "hostname": "gb2.gw.ivpn.net",
+          "dns_name": "gb2.gw.ivpn.net",
           "host": "185.59.221.88",
-          "load": 8.02,
+          "load": 6.32,
           "multihop_port": 24201,
           "obfs": {
             "obfs3_multihop_port": 24202,
@@ -1837,8 +1963,9 @@
       "hosts": [
         {
           "hostname": "hk2.gw.ivpn.net",
+          "dns_name": "hk2.gw.ivpn.net",
           "host": "209.58.188.13",
-          "load": 9.53,
+          "load": 26.95,
           "multihop_port": 27501,
           "obfs": {
             "obfs3_multihop_port": 27502,
@@ -1848,8 +1975,9 @@
         },
         {
           "hostname": "hk3.gw.ivpn.net",
+          "dns_name": "hk3.gw.ivpn.net",
           "host": "118.107.244.184",
-          "load": 9.4,
+          "load": 5.86,
           "multihop_port": 20800,
           "obfs": {
             "obfs3_multihop_port": 20801,
@@ -1870,8 +1998,9 @@
       "hosts": [
         {
           "hostname": "hu1.gw.ivpn.net",
+          "dns_name": "hu1.gw.ivpn.net",
           "host": "185.189.114.186",
-          "load": 100,
+          "load": 48.85,
           "multihop_port": 25401,
           "obfs": {
             "obfs3_multihop_port": 25402,
@@ -1892,8 +2021,9 @@
       "hosts": [
         {
           "hostname": "il1.gw.ivpn.net",
+          "dns_name": "il1.gw.ivpn.net",
           "host": "185.191.207.194",
-          "load": 60.5,
+          "load": 9.7,
           "multihop_port": 27301,
           "obfs": {
             "obfs3_multihop_port": 27302,
@@ -1914,8 +2044,9 @@
       "hosts": [
         {
           "hostname": "is1.gw.ivpn.net",
+          "dns_name": "is1.gw.ivpn.net",
           "host": "82.221.107.178",
-          "load": 79.37,
+          "load": 54.32,
           "multihop_port": 23501,
           "obfs": {
             "obfs3_multihop_port": 23502,
@@ -1932,17 +2063,18 @@
       "city": "Milan",
       "latitude": 45.47,
       "longitude": 9.205,
-      "isp": "SEFlow",
+      "isp": "Datapacket",
       "hosts": [
         {
-          "hostname": "it1.gw.ivpn.net",
-          "host": "158.58.172.73",
-          "load": 21.42,
-          "multihop_port": 24301,
+          "hostname": "it2.gw.ivpn.net",
+          "dns_name": "it2.gw.ivpn.net",
+          "host": "84.17.59.137",
+          "load": 11.86,
+          "multihop_port": 21100,
           "obfs": {
-            "obfs3_multihop_port": 24302,
-            "obfs4_multihop_port": 24303,
-            "obfs4_key": "yJXSlTJloo6tlAxf0MI9Bu4schtcL2NlVqMPgbrhnrT/1pTZUaOUH7F7nLbVe4JSCSyeZg"
+            "obfs3_multihop_port": 21101,
+            "obfs4_multihop_port": 21102,
+            "obfs4_key": "8msjDzd52ALBZF9Ej8i6BYXc4qSTiG8P739Px77EHp0uOVd5/VvDhrBfGcBQxDIgBlUeLw"
           }
         }
       ]
@@ -1952,25 +2084,15 @@
       "country_code": "JP",
       "country": "Japan",
       "city": "Tokyo",
-      "latitude": 35.685,
-      "longitude": 139.7514,
-      "isp": "M247",
+      "latitude": 35.62,
+      "longitude": 139.74,
+      "isp": "TheGigabit",
       "hosts": [
         {
-          "hostname": "jp1.gw.ivpn.net",
-          "host": "91.207.174.234",
-          "load": 36.78,
-          "multihop_port": 26201,
-          "obfs": {
-            "obfs3_multihop_port": 26202,
-            "obfs4_multihop_port": 26203,
-            "obfs4_key": "CBqi0EpfoUzP/ijwYn9A9yEpItrhtX+BAKF0rvcUGv///UNzzXKNz+0RhBLdQayZx6y6TA"
-          }
-        },
-        {
           "hostname": "jp2.gw.ivpn.net",
+          "dns_name": "jp2.gw.ivpn.net",
           "host": "185.135.77.35",
-          "load": 10.98,
+          "load": 12.73,
           "multihop_port": 20830,
           "obfs": {
             "obfs3_multihop_port": 20831,
@@ -1991,8 +2113,9 @@
       "hosts": [
         {
           "hostname": "lu1.gw.ivpn.net",
+          "dns_name": "lu1.gw.ivpn.net",
           "host": "92.223.89.53",
-          "load": 84.98,
+          "load": 66.02,
           "multihop_port": 27201,
           "obfs": {
             "obfs3_multihop_port": 27202,
@@ -2013,8 +2136,9 @@
       "hosts": [
         {
           "hostname": "my1.gw.ivpn.net",
+          "dns_name": "my1.gw.ivpn.net",
           "host": "61.4.97.148",
-          "load": 9.67,
+          "load": 8.87,
           "multihop_port": 20810,
           "obfs": {
             "obfs3_multihop_port": 20811,
@@ -2035,8 +2159,9 @@
       "hosts": [
         {
           "hostname": "nl3.gw.ivpn.net",
+          "dns_name": "nl3.gw.ivpn.net",
           "host": "95.211.172.68",
-          "load": 6.2,
+          "load": 21.25,
           "multihop_port": 23101,
           "obfs": {
             "obfs3_multihop_port": 23102,
@@ -2046,8 +2171,9 @@
         },
         {
           "hostname": "nl4.gw.ivpn.net",
+          "dns_name": "nl4.gw.ivpn.net",
           "host": "95.211.172.95",
-          "load": 11,
+          "load": 11.21,
           "multihop_port": 23201,
           "obfs": {
             "obfs3_multihop_port": 23202,
@@ -2057,8 +2183,9 @@
         },
         {
           "hostname": "nl5.gw.ivpn.net",
+          "dns_name": "nl5.gw.ivpn.net",
           "host": "95.211.187.222",
-          "load": 29.9,
+          "load": 29.09,
           "multihop_port": 23901,
           "obfs": {
             "obfs3_multihop_port": 23902,
@@ -2068,8 +2195,9 @@
         },
         {
           "hostname": "nl6.gw.ivpn.net",
+          "dns_name": "nl6.gw.ivpn.net",
           "host": "95.211.187.228",
-          "load": 18.92,
+          "load": 14.27,
           "multihop_port": 24101,
           "obfs": {
             "obfs3_multihop_port": 24102,
@@ -2079,8 +2207,9 @@
         },
         {
           "hostname": "nl7.gw.ivpn.net",
+          "dns_name": "nl7.gw.ivpn.net",
           "host": "95.211.95.22",
-          "load": 40.26,
+          "load": 9.57,
           "multihop_port": 22501,
           "obfs": {
             "obfs3_multihop_port": 22502,
@@ -2090,8 +2219,9 @@
         },
         {
           "hostname": "nl8.gw.ivpn.net",
+          "dns_name": "nl8.gw.ivpn.net",
           "host": "95.211.172.18",
-          "load": 14.9,
+          "load": 24.42,
           "multihop_port": 22801,
           "obfs": {
             "obfs3_multihop_port": 22802,
@@ -2112,8 +2242,9 @@
       "hosts": [
         {
           "hostname": "no1.gw.ivpn.net",
+          "dns_name": "no1.gw.ivpn.net",
           "host": "194.242.10.150",
-          "load": 14.92,
+          "load": 23.55,
           "multihop_port": 25301,
           "obfs": {
             "obfs3_multihop_port": 25302,
@@ -2134,8 +2265,9 @@
       "hosts": [
         {
           "hostname": "pl1.gw.ivpn.net",
+          "dns_name": "pl1.gw.ivpn.net",
           "host": "185.246.208.86",
-          "load": 39.85,
+          "load": 25,
           "multihop_port": 25101,
           "obfs": {
             "obfs3_multihop_port": 25102,
@@ -2156,8 +2288,9 @@
       "hosts": [
         {
           "hostname": "pt1.gw.ivpn.net",
+          "dns_name": "pt1.gw.ivpn.net",
           "host": "94.46.175.112",
-          "load": 9.47,
+          "load": 6.49,
           "multihop_port": 27101,
           "obfs": {
             "obfs3_multihop_port": 27102,
@@ -2178,8 +2311,9 @@
       "hosts": [
         {
           "hostname": "ro1.gw.ivpn.net",
+          "dns_name": "ro1.gw.ivpn.net",
           "host": "37.120.206.50",
-          "load": 61.33,
+          "load": 61.81,
           "multihop_port": 22301,
           "obfs": {
             "obfs3_multihop_port": 22302,
@@ -2200,8 +2334,9 @@
       "hosts": [
         {
           "hostname": "rs1.gw.ivpn.net",
+          "dns_name": "rs1.gw.ivpn.net",
           "host": "141.98.103.250",
-          "load": 83.66,
+          "load": 98.53,
           "multihop_port": 26801,
           "obfs": {
             "obfs3_multihop_port": 26802,
@@ -2222,8 +2357,9 @@
       "hosts": [
         {
           "hostname": "se1.gw.ivpn.net",
+          "dns_name": "se1.gw.ivpn.net",
           "host": "80.67.10.138",
-          "load": 10.74,
+          "load": 9.84,
           "multihop_port": 24001,
           "obfs": {
             "obfs3_multihop_port": 24002,
@@ -2244,8 +2380,9 @@
       "hosts": [
         {
           "hostname": "sg1.gw.ivpn.net",
+          "dns_name": "sg1.gw.ivpn.net",
           "host": "185.128.24.186",
-          "load": 34.4,
+          "load": 23.61,
           "multihop_port": 26101,
           "obfs": {
             "obfs3_multihop_port": 26102,
@@ -2262,17 +2399,18 @@
       "city": "Bratislava",
       "latitude": 48.15,
       "longitude": 17.117,
-      "isp": "M247",
+      "isp": "Datapacket",
       "hosts": [
         {
-          "hostname": "sk1.gw.ivpn.net",
-          "host": "185.245.85.250",
-          "load": 100,
-          "multihop_port": 25801,
+          "hostname": "sk2.gw.ivpn.net",
+          "dns_name": "sk2.gw.ivpn.net",
+          "host": "156.146.40.202",
+          "load": 12.27,
+          "multihop_port": 20400,
           "obfs": {
-            "obfs3_multihop_port": 25802,
-            "obfs4_multihop_port": 25803,
-            "obfs4_key": "8sl7oPfNHdCd2xYi98xWC6mBXyPvzio34UbfUbCPEU+8wo7DVbrR9mf8goR0Ievqzax4Hw"
+            "obfs3_multihop_port": 20401,
+            "obfs4_multihop_port": 20402,
+            "obfs4_key": "ALsqb8RNZcvMzBsxnf4WQQYklUL0P6TUhyoXiwK1XPOEcCtW278YediLvTvOMeD5WLkPKg"
           }
         }
       ]
@@ -2288,8 +2426,9 @@
       "hosts": [
         {
           "hostname": "tw1.gw.ivpn.net",
+          "dns_name": "tw1.gw.ivpn.net",
           "host": "185.189.160.6",
-          "load": 5.06,
+          "load": 7.13,
           "multihop_port": 20820,
           "obfs": {
             "obfs3_multihop_port": 20821,
@@ -2310,8 +2449,9 @@
       "hosts": [
         {
           "hostname": "ua1.gw.ivpn.net",
+          "dns_name": "ua1.gw.ivpn.net",
           "host": "176.103.58.123",
-          "load": 7.25,
+          "load": 10.9,
           "multihop_port": 26301,
           "obfs": {
             "obfs3_multihop_port": 26302,
@@ -2332,8 +2472,9 @@
       "hosts": [
         {
           "hostname": "us-az1.gw.ivpn.net",
+          "dns_name": "us-az1.gw.ivpn.net",
           "host": "193.37.254.130",
-          "load": 11.76,
+          "load": 9.55,
           "multihop_port": 26401,
           "obfs": {
             "obfs3_multihop_port": 26402,
@@ -2354,8 +2495,21 @@
       "hosts": [
         {
           "hostname": "us-ca1.gw.ivpn.net",
+          "dns_name": "us-ca1.gw.ivpn.net",
           "host": "173.254.196.58",
-          "load": 6.93,
+          "load": 7.89,
+          "multihop_port": 22201,
+          "obfs": {
+            "obfs3_multihop_port": 22202,
+            "obfs4_multihop_port": 22203,
+            "obfs4_key": "C/Ct5AG8tkV0Yi7MnXv+bNvExY8Dgii4OeJ7DA7lIq3HptUa+WbG+IAR/UIDaMn8VeXDIg"
+          }
+        },
+        {
+          "hostname": "us-ca1.gw.ivpn.net",
+          "dns_name": "us-ca1.gw.ivpn.net",
+          "host": "173.254.196.58",
+          "load": 8.03,
           "multihop_port": 22201,
           "obfs": {
             "obfs3_multihop_port": 22202,
@@ -2365,8 +2519,9 @@
         },
         {
           "hostname": "us-ca2.gw.ivpn.net",
+          "dns_name": "us-ca2.gw.ivpn.net",
           "host": "69.12.80.146",
-          "load": 6.15,
+          "load": 8.47,
           "multihop_port": 22401,
           "obfs": {
             "obfs3_multihop_port": 22402,
@@ -2376,8 +2531,9 @@
         },
         {
           "hostname": "us-ca3.gw.ivpn.net",
+          "dns_name": "us-ca3.gw.ivpn.net",
           "host": "198.54.129.99",
-          "load": 9.61,
+          "load": 10.22,
           "multihop_port": 21301,
           "obfs": {
             "obfs3_multihop_port": 21302,
@@ -2387,8 +2543,9 @@
         },
         {
           "hostname": "us-ca4.gw.ivpn.net",
+          "dns_name": "us-ca4.gw.ivpn.net",
           "host": "173.254.204.202",
-          "load": 6.35,
+          "load": 8.16,
           "multihop_port": 21901,
           "obfs": {
             "obfs3_multihop_port": 21902,
@@ -2409,8 +2566,9 @@
       "hosts": [
         {
           "hostname": "us-fl1.gw.ivpn.net",
+          "dns_name": "us-fl1.gw.ivpn.net",
           "host": "173.44.49.90",
-          "load": 17.56,
+          "load": 21.77,
           "multihop_port": 24601,
           "obfs": {
             "obfs3_multihop_port": 24602,
@@ -2431,8 +2589,9 @@
       "hosts": [
         {
           "hostname": "us-ga1.gw.ivpn.net",
+          "dns_name": "us-ga1.gw.ivpn.net",
           "host": "104.129.24.146",
-          "load": 9.57,
+          "load": 15.01,
           "multihop_port": 24501,
           "obfs": {
             "obfs3_multihop_port": 24502,
@@ -2442,8 +2601,9 @@
         },
         {
           "hostname": "us-ga2.gw.ivpn.net",
+          "dns_name": "us-ga2.gw.ivpn.net",
           "host": "107.150.22.74",
-          "load": 6.83,
+          "load": 10.92,
           "multihop_port": 24810,
           "obfs": {
             "obfs3_multihop_port": 24811,
@@ -2464,8 +2624,9 @@
       "hosts": [
         {
           "hostname": "us-il1.gw.ivpn.net",
+          "dns_name": "us-il1.gw.ivpn.net",
           "host": "107.150.28.82",
-          "load": 9.02,
+          "load": 81.13,
           "multihop_port": 21401,
           "obfs": {
             "obfs3_multihop_port": 21402,
@@ -2475,8 +2636,9 @@
         },
         {
           "hostname": "us-il2.gw.ivpn.net",
+          "dns_name": "us-il2.gw.ivpn.net",
           "host": "72.11.137.146",
-          "load": 9.96,
+          "load": 25.85,
           "multihop_port": 24901,
           "obfs": {
             "obfs3_multihop_port": 24902,
@@ -2497,8 +2659,9 @@
       "hosts": [
         {
           "hostname": "us-nj3.gw.ivpn.net",
+          "dns_name": "us-nj3.gw.ivpn.net",
           "host": "23.226.128.18",
-          "load": 12.28,
+          "load": 20.28,
           "multihop_port": 21610,
           "obfs": {
             "obfs3_multihop_port": 21611,
@@ -2508,8 +2671,9 @@
         },
         {
           "hostname": "us-nj4.gw.ivpn.net",
+          "dns_name": "us-nj4.gw.ivpn.net",
           "host": "194.36.111.50",
-          "load": 11.78,
+          "load": 20.92,
           "multihop_port": 27401,
           "obfs": {
             "obfs3_multihop_port": 27402,
@@ -2530,8 +2694,9 @@
       "hosts": [
         {
           "hostname": "us-nv1.gw.ivpn.net",
+          "dns_name": "us-nv1.gw.ivpn.net",
           "host": "185.242.5.34",
-          "load": 11,
+          "load": 8.89,
           "multihop_port": 26501,
           "obfs": {
             "obfs3_multihop_port": 26502,
@@ -2552,8 +2717,9 @@
       "hosts": [
         {
           "hostname": "us-ny2.gw.ivpn.net",
+          "dns_name": "us-ny2.gw.ivpn.net",
           "host": "212.103.48.194",
-          "load": 13.12,
+          "load": 7.15,
           "multihop_port": 21801,
           "obfs": {
             "obfs3_multihop_port": 21802,
@@ -2563,8 +2729,9 @@
         },
         {
           "hostname": "us-ny3.gw.ivpn.net",
+          "dns_name": "us-ny3.gw.ivpn.net",
           "host": "89.187.178.144",
-          "load": 8.81,
+          "load": 8.63,
           "multihop_port": 27601,
           "obfs": {
             "obfs3_multihop_port": 27602,
@@ -2585,8 +2752,9 @@
       "hosts": [
         {
           "hostname": "us-tx1.gw.ivpn.net",
+          "dns_name": "us-tx1.gw.ivpn.net",
           "host": "96.44.189.194",
-          "load": 7.46,
+          "load": 6.26,
           "multihop_port": 21001,
           "obfs": {
             "obfs3_multihop_port": 21002,
@@ -2596,8 +2764,9 @@
         },
         {
           "hostname": "us-tx2.gw.ivpn.net",
+          "dns_name": "us-tx2.gw.ivpn.net",
           "host": "96.44.142.74",
-          "load": 9.29,
+          "load": 33.46,
           "multihop_port": 25001,
           "obfs": {
             "obfs3_multihop_port": 25002,
@@ -2618,8 +2787,9 @@
       "hosts": [
         {
           "hostname": "us-ut1.gw.ivpn.net",
+          "dns_name": "us-ut1.gw.ivpn.net",
           "host": "198.105.216.28",
-          "load": 26.75,
+          "load": 37.49,
           "multihop_port": 24401,
           "obfs": {
             "obfs3_multihop_port": 24402,
@@ -2640,8 +2810,9 @@
       "hosts": [
         {
           "hostname": "us-va1.gw.ivpn.net",
+          "dns_name": "us-va1.gw.ivpn.net",
           "host": "37.19.206.105",
-          "load": 54.95,
+          "load": 45.73,
           "multihop_port": 27701,
           "obfs": {
             "obfs3_multihop_port": 27702,
@@ -2662,8 +2833,9 @@
       "hosts": [
         {
           "hostname": "us-wa2.gw.ivpn.net",
+          "dns_name": "us-wa2.gw.ivpn.net",
           "host": "198.44.131.3",
-          "load": 18.12,
+          "load": 39.58,
           "multihop_port": 27801,
           "obfs": {
             "obfs3_multihop_port": 27802,
@@ -2684,8 +2856,9 @@
       "hosts": [
         {
           "hostname": "za1.gw.ivpn.net",
+          "dns_name": "za1.gw.ivpn.net",
           "host": "169.150.238.103",
-          "load": 17.65,
+          "load": 44.54,
           "multihop_port": 20840,
           "obfs": {
             "obfs3_multihop_port": 20841,
