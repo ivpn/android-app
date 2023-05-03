@@ -4,7 +4,7 @@
 [![CodeQL](https://github.com/ivpn/android-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/ivpn/android-app/actions/workflows/codeql.yml)
 
 **IVPN for Android** is a native app built using Java and Kotlin languages. Some of the features include: multiple protocols (OpenVPN, WireGuard), Kill-switch, Multi-Hop, Trusted Networks, AntiTracker, Custom DNS, Always-on VPN, Start on boot and etc.
-IVPN Android app is distributed on the [Google Play Store](https://play.google.com/store/apps/details?id=net.ivpn.client) and [F-Droid](https://f-droid.org/packages/net.ivpn.client/).
+IVPN Android app is distributed on the [Google Play Store](https://play.google.com/store/apps/details?id=net.ivpn.client), [F-Droid](https://f-droid.org/packages/net.ivpn.client/), and [Accrescent](https://accrescent.app/app/net.ivpn.client).
 
 * [About this Repo](#about-repo)
 * [Installation](#installation)
@@ -76,12 +76,15 @@ You can use each of them to build the application by Gradle from the command lin
 <a name="versioning"></a>
 ## Versioning
 
-Project is using versioning for creating release versions in the format:
+Project is using [Semantic Versioning (SemVer)](https://semver.org) for creating release versions.
 
-`x.y`
+SemVer is a 3-component system in the format of `x.y.z` where:
 
 `x` stands for a **major** version  
-`y` stands for a **minor** version
+`y` stands for a **minor** version  
+`z` stands for a **patch**
+
+So we have: `Major.Minor.Patch` 
 
 <a name="contributing"></a>
 ## Contributing
