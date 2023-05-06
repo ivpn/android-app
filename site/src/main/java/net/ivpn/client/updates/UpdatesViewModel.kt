@@ -32,6 +32,7 @@ import net.ivpn.client.dagger.SiteScope
 import net.ivpn.client.updater.OnUpdateCheckListener
 import net.ivpn.client.updater.Update
 import net.ivpn.client.updater.UpdateHelper
+import net.ivpn.client.BuildConfig
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.prefs.Settings
@@ -59,6 +60,8 @@ class UpdatesViewModel @Inject constructor(
     val isInProgress = ObservableBoolean()
     var enableAutoUpdates = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAutoUpdates(value) }
     private val listener: OnUpdateCheckListener = getUpdateCheckListener()
+    private val versionName: String = BuildConfig.VERSION_NAME
+    private val versionCode: Int = BuildConfig.VERSION_CODE
 
     init {
         isUpdatesSupported.set(true)
@@ -153,6 +156,10 @@ class UpdatesViewModel @Inject constructor(
         isAutoUpdateEnabled.set(getAutoUpdateValue())
         updatesJobServiceUtil.clearUpdateJob(IVPNApplication.application)
         updateHelper.skipUpdate()
+    }
+
+    override fun appVersion(): String {
+        return "$versionName ($versionCode)"
     }
 
 }
