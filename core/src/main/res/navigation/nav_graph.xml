@@ -100,6 +100,9 @@
         <action
             android:id="@+id/action_protocolFragment_to_wireGuardDetailsFragment"
             app:destination="@id/wireGuardDetailsFragment" />
+        <action
+            android:id="@+id/action_protocolFragment_to_portsFragment"
+            app:destination="@id/portsFragment" />
     </fragment>
     <fragment
         android:id="@+id/customDNSFragment"
@@ -111,7 +114,6 @@
         android:label=" ">
         <argument
             android:name="serverType"
-            android:defaultValue="ENTRY"
             app:argType="net.ivpn.core.rest.data.model.ServerType" />
         <action
             android:id="@+id/action_serverListFragment_to_fastestSettingFragment"
@@ -178,6 +180,10 @@
         android:id="@+id/wireGuardDetailsFragment"
         android:name="net.ivpn.core.v2.protocol.wireguard.WireGuardDetailsFragment"
         android:label="WireGuard Details" />
+    <fragment
+        android:id="@+id/portsFragment"
+        android:name="net.ivpn.core.v2.protocol.port.PortsFragment"
+        android:label="Ports" />
     <fragment
         android:id="@+id/killSwitchFragment"
         android:name="net.ivpn.core.v2.killswitch.KillSwitchFragment"
