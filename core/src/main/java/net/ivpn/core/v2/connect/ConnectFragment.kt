@@ -171,6 +171,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         notificationDialog?.hide()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
@@ -194,6 +195,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         mapPopup?.dismiss()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String?>,
         grantResults: IntArray
