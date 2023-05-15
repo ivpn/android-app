@@ -41,15 +41,15 @@ fun PortsScreen() {
 
 @Composable
 fun PortListItem(port: ProtocolPort) {
-    Row {
+    Row(
+        modifier = Modifier
+            .clickable {}
+    ) {
         Column(
             modifier = Modifier
                 .padding(18.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
-                .clickable {
-
-                }
         ) {
             Text(text = "${port.proto} ${port.port}")
         }
