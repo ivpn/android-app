@@ -27,7 +27,8 @@
         <androidx.compose.ui.platform.ComposeView
             android:id="@+id/view_ports"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingTop="?attr/actionBarSize" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

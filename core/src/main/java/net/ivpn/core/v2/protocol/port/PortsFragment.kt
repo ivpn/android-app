@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentPortsBinding
+import net.ivpn.core.ui.theme.AppTheme
 
 class PortsFragment : Fragment() {
 
@@ -25,7 +26,9 @@ class PortsFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ports, container, false)
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_ports).setContent {
-                PortsScreen()
+                AppTheme {
+                    PortsScreen()
+                }
             }
         }
     }
