@@ -1,5 +1,6 @@
 package net.ivpn.core.v2.protocol.port
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,7 @@ fun PortsScreen() {
         ProtocolPort("UDP", 2002),
         ProtocolPort("UDP", 2003),
         ProtocolPort("UDP", 2004),
-        ProtocolPort("TCP" , 2005),
+        ProtocolPort("TCP", 2005),
         ProtocolPort("TCP", 2006)
     )
 
@@ -44,6 +45,9 @@ fun PortListItem(port: ProtocolPort) {
                 .padding(18.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
+                .clickable {
+
+                }
         ) {
             Text(text = "${port.proto} ${port.port}")
         }
