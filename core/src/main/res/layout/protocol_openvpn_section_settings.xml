@@ -42,13 +42,14 @@
                 android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
 
                 <TextView
-                    style="@style/SettingsOptionTitle"
+                    android:id="@+id/openvpn_ports"
+                    style="@style/SettingsAction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/settings_margin_left"
                     android:layout_weight="1"
                     android:text="@string/settings_port_label"
-                    android:textColor="@color/protocol_text_color" />
+                    android:textAllCaps="true" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/openvpn_spinner"

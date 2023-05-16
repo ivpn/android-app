@@ -50,7 +50,7 @@
     <string name="setting_anti_surveillance">AntiTracker</string>
     <string name="setting_custom_dns">Custom DNS</string>
     <string name="settings_multi_hop_description">You will be redirected through 2 servers.</string>
-    <string name="settings_port_label">Preferred protocol &amp; port</string>
+    <string name="settings_port_label">Preferred port</string>
     <string name="settings_preferred_protocol_label">Preferred protocol</string>
     <string name="settings_send_logs">SEND LOGS</string>
     <string name="settings_split_tunneling">Split tunneling</string>

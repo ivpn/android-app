@@ -183,7 +183,7 @@
     <fragment
         android:id="@+id/portsFragment"
         android:name="net.ivpn.core.v2.protocol.port.PortsFragment"
-        android:label="Ports" />
+        android:label="Select Port" />
     <fragment
         android:id="@+id/killSwitchFragment"
         android:name="net.ivpn.core.v2.killswitch.KillSwitchFragment"

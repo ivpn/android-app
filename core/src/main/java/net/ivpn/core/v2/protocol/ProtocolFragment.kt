@@ -98,7 +98,12 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         binding.contentLayout.openvpnProtocolSettings.openvpnMultihopSpinner.adapter = openMultihopVpnPortAdapter
         val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.wireGuardPorts, multiHopController)
         binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
-
+        binding.contentLayout.openvpnProtocolSettings.openvpnPorts.setOnClickListener {
+            openPortsDetails()
+        }
+        binding.contentLayout.wgProtocolSettings.wireguardPorts.setOnClickListener {
+            openPortsDetails()
+        }
         binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
             openWireGuardDetails()
         }
@@ -110,6 +115,11 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun openPortsDetails() {
+        val action = ProtocolFragmentDirections.actionProtocolFragmentToPortsFragment()
+        navigate(action)
     }
 
     private fun openWireGuardDetails() {
