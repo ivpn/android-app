@@ -15,25 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-
-data class ProtocolPort(
-    val proto: String,
-    val port: Int
-)
+import net.ivpn.core.rest.data.model.Port
 
 @Composable
-fun PortsScreen(navController: NavController?) {
-    val portsList = listOf(
-        ProtocolPort("UDP", 2001),
-        ProtocolPort("UDP", 2002),
-        ProtocolPort("UDP", 2003),
-        ProtocolPort("UDP", 2004),
-        ProtocolPort("TCP", 2005),
-        ProtocolPort("TCP", 2006)
-    )
+fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
     Surface {
         LazyColumn {
-            items(portsList) {
+            items(viewModel.getPorts()) {
                 PortListItem(port = it, navController = navController)
             }
         }
@@ -41,7 +29,7 @@ fun PortsScreen(navController: NavController?) {
 }
 
 @Composable
-fun PortListItem(port: ProtocolPort, navController: NavController?) {
+fun PortListItem(port: Port, navController: NavController?) {
     Row(
         modifier = Modifier
             .clickable {
@@ -54,7 +42,7 @@ fun PortListItem(port: ProtocolPort, navController: NavController?) {
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
         ) {
-            Text(text = "${port.proto} ${port.port}")
+            Text(text = "${port.protocol} ${port.portNumber}")
         }
     }
     Divider()

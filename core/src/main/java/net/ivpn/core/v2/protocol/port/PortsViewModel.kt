@@ -1,0 +1,37 @@
+package net.ivpn.core.v2.protocol.port
+
+import androidx.lifecycle.ViewModel
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.rest.data.model.Port
+import net.ivpn.core.vpn.Protocol
+import net.ivpn.core.vpn.ProtocolController
+import javax.inject.Inject
+
+@ApplicationScope
+class PortsViewModel @Inject constructor(
+    private val settings: Settings,
+    private val protocolController: ProtocolController
+) : ViewModel() {
+
+    var protocol: Protocol = protocolController.currentProtocol
+    val openVPNPort: Port = settings.openVpnPort
+    val wireGuardPort: Port = settings.wireGuardPort
+
+    fun getPorts(): List<Port> {
+        return if (protocolController.currentProtocol == Protocol.WIREGUARD) {
+            settings.wireGuardPorts
+        } else {
+            settings.openVpnPorts
+        }
+    }
+
+    fun setPort(port: Port) {
+        if (protocolController.currentProtocol == Protocol.WIREGUARD) {
+            settings.wireGuardPort = port
+        } else {
+            settings.openVpnPort = port
+        }
+    }
+
+}
