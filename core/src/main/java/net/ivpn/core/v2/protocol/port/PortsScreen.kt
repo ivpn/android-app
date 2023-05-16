@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 data class ProtocolPort(
     val proto: String,
@@ -21,7 +22,7 @@ data class ProtocolPort(
 )
 
 @Composable
-fun PortsScreen() {
+fun PortsScreen(navController: NavController?) {
     val portsList = listOf(
         ProtocolPort("UDP", 2001),
         ProtocolPort("UDP", 2002),
@@ -33,17 +34,19 @@ fun PortsScreen() {
     Surface {
         LazyColumn {
             items(portsList) {
-                PortListItem(port = it)
+                PortListItem(port = it, navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun PortListItem(port: ProtocolPort) {
+fun PortListItem(port: ProtocolPort, navController: NavController?) {
     Row(
         modifier = Modifier
-            .clickable {}
+            .clickable {
+                navController?.popBackStack()
+            }
     ) {
         Column(
             modifier = Modifier
