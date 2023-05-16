@@ -38,7 +38,7 @@ fun PortListItem(port: Port, navController: NavController?) {
     ) {
         Column(
             modifier = Modifier
-                .padding(18.dp)
+                .padding(horizontal = 18.dp, vertical = 16.dp)
                 .fillMaxWidth()
                 .align(Alignment.CenterVertically)
         ) {
