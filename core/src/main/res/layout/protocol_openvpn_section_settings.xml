@@ -50,24 +50,16 @@
                     android:layout_weight="1"
                     android:text="@string/settings_port_label"
                     android:textAllCaps="true" />
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/openvpn_spinner"
-                    style="@style/Platform.Widget.AppCompat.Spinner"
+                
+                <TextView
+                    style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="12dp"
-                    android:backgroundTint="@color/protocol_text_color"
                     android:gravity="center_vertical"
-                    android:minWidth="130dp"
                     android:overlapAnchor="true"
-                    android:popupBackground="@color/dialogue_background"
-                    android:spinnerMode="dropdown"
-                    android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.GONE : View.VISIBLE}"
-                    app:onChanged="@{viewmodel.onPortChangedListener}"
-                    app:onTouch="@{viewmodel.portsTouchListener}"
-                    app:selectedItem="@{viewmodel.openVPNPort}" />
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/protocol_text_color"
+                    android:text="@{viewmodel.openVPNPort.toThumbnail()}" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

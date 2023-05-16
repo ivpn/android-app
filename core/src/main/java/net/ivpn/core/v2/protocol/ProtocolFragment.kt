@@ -92,12 +92,12 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
 
     private fun initViews() {
         binding.contentLayout.viewmodel = viewModel
-        val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.openVpnPorts, multiHopController)
         val openMultihopVpnPortAdapter = PortAdapter(context, R.layout.port_item, Port.valuesForMultiHop, multiHopController)
-        binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
         binding.contentLayout.openvpnProtocolSettings.openvpnMultihopSpinner.adapter = openMultihopVpnPortAdapter
-        val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.wireGuardPorts, multiHopController)
-        binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
+        // val openVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.openVpnPorts, multiHopController)
+        // binding.contentLayout.openvpnProtocolSettings.openvpnSpinner.adapter = openVpnPortAdapter
+        // val wgVpnPortAdapter = PortAdapter(context, R.layout.port_item, settings.wireGuardPorts, multiHopController)
+        // binding.contentLayout.wgProtocolSettings.wgSpinner.adapter = wgVpnPortAdapter
         binding.contentLayout.openvpnProtocolSettings.openvpnPorts.setOnClickListener {
             openPortsDetails()
         }
