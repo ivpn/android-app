@@ -6,8 +6,13 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
-private val DarkColorPalette = darkColors()
-private val LightColorPalette = lightColors()
+private val DarkColorPalette = darkColors(
+    primary = colorPrimary
+)
+
+private val LightColorPalette = lightColors(
+    primary = colorPrimary
+)
 
 @Composable
 fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
