@@ -29,10 +29,7 @@ import net.ivpn.core.R
 @Composable
 fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
     Surface {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+        Column {
             LazyColumn {
                 items(viewModel.getPorts()) {
                     PortListItem(it, navController, viewModel)
