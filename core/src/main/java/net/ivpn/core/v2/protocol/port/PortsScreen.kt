@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.ui.theme.colorPrimary
+import androidx.compose.ui.res.stringResource
+import net.ivpn.core.R
 
 @Composable
 fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
@@ -80,7 +82,7 @@ fun AddCustomPortAction(navController: NavController?) {
                 navController?.navigate(action)
             }
         ) {
-            Text("Add custom port".uppercase())
+            Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
         }
     }
 }
