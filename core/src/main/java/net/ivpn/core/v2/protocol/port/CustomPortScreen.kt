@@ -1,6 +1,5 @@
 package net.ivpn.core.v2.protocol.port
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,9 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import net.ivpn.core.R
+import net.ivpn.core.ui.theme.LocalColors
 
-@SuppressLint("RememberReturnType")
 @Composable
 fun CustomPortScreen() {
     Surface {
@@ -39,7 +39,7 @@ fun PortInput() {
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
-        Text("Port")
+        TextFieldLabel("Port")
         TextField(
             value = "",
             onValueChange = {},
@@ -59,7 +59,7 @@ fun SelectPortType() {
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
-        Text("Type")
+        TextFieldLabel("Type")
         Column {
             radioOptions.forEach { text ->
                 Row(
@@ -101,4 +101,14 @@ fun SaveCustomPortAction() {
             Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
         }
     }
+}
+
+@Composable
+fun TextFieldLabel(text: String) {
+    Text(
+        text = text,
+        color = LocalColors.current.textFieldLabel,
+        modifier = Modifier.padding(vertical = 6.dp),
+        fontSize = 14.sp
+    )
 }
