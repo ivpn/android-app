@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -68,10 +68,10 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
 fun AddCustomPortAction(navController: NavController?) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 10.dp, vertical = 16.dp)
+            .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
-        TextButton(
+        Button(
             onClick = {
                 val action = PortsFragmentDirections.actionPortFragmentToCustomPortFragment()
                 navController?.navigate(action)
