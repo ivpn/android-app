@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
@@ -18,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.ivpn.core.R
@@ -41,10 +44,12 @@ fun PortInput() {
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
+        val textState = remember { mutableStateOf(TextFieldValue()) }
         TextFieldLabel("Port")
         OutlinedTextField(
-            value = "",
-            onValueChange = { it },
+            value = textState.value,
+            onValueChange = { textState.value = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             placeholder = { Text("5500 - 19999, 30000 - 65000") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
@@ -61,7 +66,7 @@ fun PortInput() {
 fun SelectPortType() {
     val radioOptions = listOf("UDP", "TCP")
     val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(radioOptions[1])
+        mutableStateOf(radioOptions[0])
     }
     Row(
         verticalAlignment = Alignment.CenterVertically,
