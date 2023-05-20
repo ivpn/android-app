@@ -18,14 +18,14 @@ val LocalColors = staticCompositionLocalOf {
     CustomColors()
 }
 
-val OnLightCustomColors = CustomColors(
-    textFieldLabel = Color(0xFF2A394B),
+val CustomLightColorPalette = CustomColors(
+    textFieldLabel = Color(0xA02A394B),
     textFieldBackground = Color(0x54D3DFE6),
     textFieldText = Color(0xFF2A394B),
     textFieldPlaceholder = Color(0x802A394B)
 )
 
-val OnDarkCustomColors = CustomColors(
+val CustomDarkColorPalette = CustomColors(
     textFieldLabel = Color(0xFFFFFFFF),
     textFieldBackground = Color(0xFF1C1C1E),
     textFieldText = Color(0xFFFFFFFF),

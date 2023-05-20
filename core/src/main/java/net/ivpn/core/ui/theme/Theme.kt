@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
 private val DarkColorPalette = darkColors(
-    primary = colorPrimary
+    primary = colorPrimary,
+    secondary = colorPrimary
 )
 
 private val LightColorPalette = lightColors(
-    primary = colorPrimary
+    primary = colorPrimary,
+    secondary = colorPrimary
 )
 
 @Composable
@@ -22,8 +24,8 @@ fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() 
         else LightColorPalette
 
     val customColors =
-        if (darkTheme) OnDarkCustomColors
-        else OnLightCustomColors
+        if (darkTheme) CustomDarkColorPalette
+        else CustomLightColorPalette
 
     CompositionLocalProvider(
         LocalColors provides customColors
