@@ -83,7 +83,7 @@ class CustomPortViewModel @Inject constructor(
 
     private fun List<IntRange>.combineIntervals(): List<IntRange> {
         val combined = mutableListOf<IntRange>()
-        var accumulator = 0..0 // empty range
+        var accumulator = 0..0
 
         for (interval in sortedBy { it.first }) {
             if (accumulator == 0..0) {
@@ -95,7 +95,7 @@ class CustomPortViewModel @Inject constructor(
             } else if (accumulator.last + 1 >= interval.first) {
                 // interval hangs off the back end of accumulator
                 accumulator = (accumulator.first..interval.last)
-            } else if (accumulator.last <= interval.first) {
+            } else {
                 // interval does not overlap
                 combined.add(accumulator)
                 accumulator = interval
