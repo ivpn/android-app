@@ -88,11 +88,7 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
 
 @Composable
 fun AddCustomPortAction(navController: NavController?) {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 18.dp, vertical = 16.dp)
-            .fillMaxWidth()
-    ) {
+    Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(
             onClick = {
                 val action = PortsFragmentDirections.actionPortFragmentToCustomPortFragment()
