@@ -62,7 +62,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
         private const val WG_PORT_LIST = "WG_PORT_LIST"
+        private const val WG_PORT_RANGE_LIST = "WG_PORT_RANGE_LIST"
         private const val OV_PORT_LIST = "OV_PORT_LIST"
+        private const val OV_PORT_RANGE_LIST = "OV_PORT_RANGE_LIST"
         private const val WIREGUARD_KEY_GENERATION_TIME = "WIREGUARD_KEY_GENERATION_TIME"
         private const val WIREGUARD_KEY_REGENERATION_PERIOD = "WIREGUARD_KEY_REGENERATION_PERIOD"
         private const val RULE_CONNECT_TO_VPN = "RULE_CONNECT_TO_VPN"
@@ -323,6 +325,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(OV_PORT_LIST, "")
     }
 
+    fun setOpenvpnPortRanges(json: String?) {
+        sharedPreferences.edit()
+            .putString(OV_PORT_RANGE_LIST, json)
+            .apply()
+    }
+
+    fun getOpenvpnPortRanges(): String? {
+        return sharedPreferences.getString(OV_PORT_RANGE_LIST, "")
+    }
+
     fun setWgPorts(json: String?) {
         sharedPreferences.edit()
             .putString(WG_PORT_LIST, json)
@@ -331,6 +343,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     fun getWgPorts(): String? {
         return sharedPreferences.getString(WG_PORT_LIST, "")
+    }
+
+    fun setWgPortRanges(json: String?) {
+        sharedPreferences.edit()
+            .putString(WG_PORT_RANGE_LIST, json)
+            .apply()
+    }
+
+    fun getWgPortRanges(): String? {
+        return sharedPreferences.getString(WG_PORT_RANGE_LIST, "")
     }
 
     fun getSettingsWgPrivateKey(): String? {

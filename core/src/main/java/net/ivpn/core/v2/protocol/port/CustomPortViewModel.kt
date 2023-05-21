@@ -3,6 +3,7 @@ package net.ivpn.core.v2.protocol.port
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
 import javax.inject.Inject
@@ -15,5 +16,13 @@ class CustomPortViewModel @Inject constructor(
 
     val protocol: Protocol
         get() = protocolController.currentProtocol
+
+    fun getPortRanges(): List<Port> {
+        return if (protocol == Protocol.WIREGUARD) {
+            settings.wireGuardPortRanges
+        } else {
+            settings.openVpnPortRanges
+        }
+    }
 
 }

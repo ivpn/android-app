@@ -209,6 +209,14 @@ class Settings @Inject constructor(
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
         }
 
+    var openVpnPortRanges: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getOpenvpnPortRanges())
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnPortRanges(Mapper.stringFromPorts(ports))
+        }
+
     var wireGuardPort: Port
         get() {
             val portJson = settingsPreference.getWgPort()
@@ -224,6 +232,14 @@ class Settings @Inject constructor(
         }
         set(ports) {
             settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardPortRanges: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getWgPortRanges())
+        }
+        set(ports) {
+            settingsPreference.setWgPortRanges(Mapper.stringFromPorts(ports))
         }
 
     var customDNSValue: String?

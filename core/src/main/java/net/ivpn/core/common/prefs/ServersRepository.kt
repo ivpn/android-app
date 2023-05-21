@@ -187,14 +187,16 @@ class ServersRepository @Inject constructor(
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
                 settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
-                for (listener in onServerListUpdatedListeners!!) {
+                settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
+                settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+                for (listener in onServerListUpdatedListeners) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
             }
 
             override fun onError(throwable: Throwable) {
                 LOGGER.error("Updating server list, state = ERROR", throwable)
-                for (listener in onServerListUpdatedListeners!!) {
+                for (listener in onServerListUpdatedListeners) {
                     listener.onError(throwable)
                 }
             }
