@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
@@ -39,11 +38,7 @@ fun CustomPortScreen() {
 
 @Composable
 fun PortInput() {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 18.dp, vertical = 16.dp)
-            .fillMaxWidth()
-    ) {
+    Column(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         val textState = remember { mutableStateOf(TextFieldValue()) }
         TextFieldLabel("Port")
         OutlinedTextField(
@@ -74,23 +69,12 @@ fun SelectPortType() {
     ) {
         TextFieldLabel("Type")
         radioOptions.forEach { text ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .selectable(
-                        selected = (text == selectedOption),
-                        onClick = {
-                            onOptionSelected(text)
-                        }
-                    )
-            ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(
                     selected = (text == selectedOption),
                     onClick = { onOptionSelected(text) }
                 )
-                Text(
-                    text = text
-                )
+                Text(text)
             }
         }
     }
@@ -98,14 +82,8 @@ fun SelectPortType() {
 
 @Composable
 fun SaveCustomPortAction() {
-    Row(
-        modifier = Modifier
-            .padding(horizontal = 18.dp, vertical = 16.dp)
-            .fillMaxWidth()
-    ) {
-        Button(
-            onClick = {}
-        ) {
+    Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
+        Button(onClick = {}) {
             Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
         }
     }
