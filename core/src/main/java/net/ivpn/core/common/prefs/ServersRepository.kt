@@ -89,7 +89,7 @@ class ServersRepository @Inject constructor(
 
     fun getDefaultServer(serverType: ServerType): Server? {
         val servers = getServers(false)
-        if (servers != null && servers.isNotEmpty()) {
+        if (!servers.isNullOrEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
             for (server in servers) {
                 if (server.canBeUsedAsMultiHopWith(anotherServer)) {
@@ -108,9 +108,7 @@ class ServersRepository @Inject constructor(
     fun getServers(isForced: Boolean): List<Server>? {
         var servers = serversPreference.serversList
         if (isForced || servers == null) {
-            //update server list online
             updateServerList(isForced)
-            //update servers list offline
             tryUpdateServerListOffline()
             servers = serversPreference.serversList
         }
@@ -131,7 +129,6 @@ class ServersRepository @Inject constructor(
         val servers = serversPreference.serversList
         val locations: MutableList<ServerLocation> = ArrayList()
         if (servers == null) return
-
         for (server in servers) {
             locations.add(ServerLocation(
                     server.city,
@@ -195,14 +192,14 @@ class ServersRepository @Inject constructor(
             }
 
             override fun onError(throwable: Throwable) {
-                LOGGER.error("Updating server list, state = ERROR", throwable)
+                LOGGER.error("Updating server list, state = ERROR")
                 for (listener in onServerListUpdatedListeners) {
                     listener.onError(throwable)
                 }
             }
 
             override fun onError(string: String) {
-                LOGGER.error("Updating server list, state = ERROR", string)
+                LOGGER.error("Updating server list, state = ERROR")
                 for (listener in onServerListUpdatedListeners) {
                     listener.onError()
                 }
@@ -230,9 +227,8 @@ class ServersRepository @Inject constructor(
 
     fun getRandomServerFor(serverType: ServerType, listener: OnRandomServerSelectionListener?) {
         val servers = getServers(false)
-        if (servers != null && servers.isNotEmpty()) {
+        if (!servers.isNullOrEmpty()) {
             val anotherServer = serversPreference.getCurrentServer(ServerType.getAnotherType(serverType))
-
             val availableServers = servers.filter { it.canBeUsedAsMultiHopWith(anotherServer)}
             val randomServer = availableServers.random()
             setCurrentServer(serverType, randomServer)
@@ -356,45 +352,12 @@ class ServersRepository @Inject constructor(
         return serversPreference.getSettingRandomServer(serverType)
     }
 
-    fun getPossibleServersList(): List<Server> {
-        val excludedServers = getExcludedServersList()
-        var serverList = getCachedServers()
-        if (serverList == null) {
-            tryUpdateServerListOffline()
-            serverList = getCachedServers()
-        }
-        val possibleServersList: MutableList<Server> = ArrayList()
-        serverList?.let { allServers ->
-            excludedServers?.let {
-                for (server in allServers) {
-                    if (!it.contains(server)) {
-                        possibleServersList.add(server)
-                    }
-                }
-            }
-        }
-        if (possibleServersList.size == 0) {
-            getDefaultServer(ServerType.ENTRY)?.let {
-                possibleServersList.add(it)
-            }
-        }
-        return possibleServersList
-    }
-
-    fun addFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners?.add(listener)
-    }
-
-    fun removeFavouriteServerListener(listener: OnFavouriteServersChangedListener) {
-        onFavouritesChangedListeners?.remove(listener)
-    }
-
     fun addOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners?.add(listener)
+        onServerListUpdatedListeners.add(listener)
     }
 
     fun removeOnServersListUpdatedListener(listener: OnServerListUpdatedListener) {
-        onServerListUpdatedListeners?.remove(listener)
+        onServerListUpdatedListeners.remove(listener)
     }
 
     private val currentProtocolType: Protocol
@@ -414,10 +377,10 @@ class ServersRepository @Inject constructor(
     }
 
     private fun notifyFavouriteServerAdded(server: Server) {
-        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerAdded(server) }
+        onFavouritesChangedListeners.forEach { it.notifyFavouriteServerAdded(server) }
     }
 
     private fun notifyFavouriteServerRemoved(server: Server) {
-        onFavouritesChangedListeners?.forEach { it.notifyFavouriteServerRemoved(server) }
+        onFavouritesChangedListeners.forEach { it.notifyFavouriteServerRemoved(server) }
     }
 }
