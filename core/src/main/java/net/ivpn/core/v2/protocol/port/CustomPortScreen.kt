@@ -30,7 +30,7 @@ import net.ivpn.core.ui.theme.LocalColors
 fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewModel) {
     Surface {
         Column {
-            PortInput()
+            PortInput(viewModel)
             SelectPortType()
             SaveCustomPortAction()
         }
@@ -38,7 +38,7 @@ fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewMod
 }
 
 @Composable
-fun PortInput() {
+fun PortInput(viewModel: CustomPortViewModel) {
     Column(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         val textState = remember { mutableStateOf(TextFieldValue()) }
         TextFieldLabel("Port")
@@ -46,7 +46,7 @@ fun PortInput() {
             value = textState.value,
             onValueChange = { textState.value = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            placeholder = { Text("5500 - 19999, 30000 - 65000") },
+            placeholder = { Text(viewModel.portRangesText) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = LocalColors.current.textFieldBackground,
