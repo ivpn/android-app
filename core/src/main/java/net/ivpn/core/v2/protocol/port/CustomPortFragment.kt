@@ -10,13 +10,25 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.databinding.FragmentCustomPortBinding
 import net.ivpn.core.ui.theme.AppTheme
+import javax.inject.Inject
 
+@ApplicationScope
 class CustomPortFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModel: CustomPortViewModel
+
     lateinit var binding: FragmentCustomPortBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +39,7 @@ class CustomPortFragment : Fragment() {
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_custom_port).setContent {
                 AppTheme {
-                    CustomPortScreen()
+                    CustomPortScreen(navController = findNavController(), viewModel = viewModel)
                 }
             }
         }

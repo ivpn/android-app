@@ -22,11 +22,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import net.ivpn.core.R
 import net.ivpn.core.ui.theme.LocalColors
 
 @Composable
-fun CustomPortScreen() {
+fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewModel) {
     Surface {
         Column {
             PortInput()
