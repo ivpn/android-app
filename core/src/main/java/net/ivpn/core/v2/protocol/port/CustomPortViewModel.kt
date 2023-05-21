@@ -42,6 +42,9 @@ class CustomPortViewModel @Inject constructor(
             return combinedRanges.joinToString(", ") { "${it.first} - ${it.last}" }
         }
 
+    val enableType: Boolean
+        get() = protocol == Protocol.OPENVPN
+
     private val protocol: Protocol
         get() = protocolController.currentProtocol
 

@@ -53,7 +53,7 @@ fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewMod
     Surface {
         Column {
             PortInput(viewModel)
-            SelectPortType()
+            SelectPortType(viewModel)
             SaveCustomPortAction()
         }
     }
@@ -81,23 +81,25 @@ fun PortInput(viewModel: CustomPortViewModel) {
 }
 
 @Composable
-fun SelectPortType() {
-    val radioOptions = listOf("UDP", "TCP")
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(radioOptions[0])
-    }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
-    ) {
-        TextFieldLabel("Type")
-        radioOptions.forEach { text ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                RadioButton(
-                    selected = (text == selectedOption),
-                    onClick = { onOptionSelected(text) }
-                )
-                Text(text)
+fun SelectPortType(viewModel: CustomPortViewModel) {
+    if (viewModel.enableType) {
+        val radioOptions = listOf("UDP", "TCP")
+        val (selectedOption, onOptionSelected) = remember {
+            mutableStateOf(radioOptions[0])
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
+        ) {
+            TextFieldLabel("Type")
+            radioOptions.forEach { text ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    RadioButton(
+                        selected = (text == selectedOption),
+                        onClick = { onOptionSelected(text) }
+                    )
+                    Text(text)
+                }
             }
         }
     }
