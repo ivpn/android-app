@@ -38,14 +38,8 @@ class CustomPortViewModel @Inject constructor(
 
     val portRangesText: String
         get() {
-            val combinedRanges = combinedIntervals(getRanges().sortedBy { it.first })
-            val textRanges = mutableListOf<String>()
-
-            for (range in combinedRanges) {
-                textRanges.add("${range.first} - ${range.last}")
-            }
-
-            return textRanges.joinToString(", ")
+            val combinedRanges = getRanges().sortedBy { it.first }.combineIntervals()
+            return combinedRanges.joinToString(", ") { "${it.first} - ${it.last}" }
         }
 
     private val protocol: Protocol
@@ -53,11 +47,10 @@ class CustomPortViewModel @Inject constructor(
 
     fun validate(port: Int): String? {
         for (range in getRanges()) {
-            if (range.contains(port)) {
+            if (port in range) {
                 return null
             }
         }
-
         return "Enter port number in the range: $portRangesText"
     }
 
@@ -85,34 +78,32 @@ class CustomPortViewModel @Inject constructor(
         return intRanges
     }
 
-    companion object {
-        fun combinedIntervals(intervals: List<IntRange>): List<IntRange> {
-            val combined = mutableListOf<IntRange>()
-            var accumulator = (0..0) // empty range
+    private fun List<IntRange>.combineIntervals(): List<IntRange> {
+        val combined = mutableListOf<IntRange>()
+        var accumulator = 0..0 // empty range
 
-            for (interval in intervals.sortedBy { it.first }) {
-                if (accumulator == (0..0)) {
-                    accumulator = interval
-                }
-
-                if (accumulator.last >= interval.last) {
-                    // interval is already inside accumulator
-                } else if (accumulator.last + 1 >= interval.first) {
-                    // interval hangs off the back end of accumulator
-                    accumulator = (accumulator.first..interval.last)
-                } else if (accumulator.last <= interval.first) {
-                    // interval does not overlap
-                    combined.add(accumulator)
-                    accumulator = interval
-                }
+        for (interval in sortedBy { it.first }) {
+            if (accumulator == 0..0) {
+                accumulator = interval
             }
 
-            if (accumulator != (0..0)) {
+            if (accumulator.last >= interval.last) {
+                // interval is already inside accumulator
+            } else if (accumulator.last + 1 >= interval.first) {
+                // interval hangs off the back end of accumulator
+                accumulator = (accumulator.first..interval.last)
+            } else if (accumulator.last <= interval.first) {
+                // interval does not overlap
                 combined.add(accumulator)
+                accumulator = interval
             }
-
-            return combined
         }
+
+        if (accumulator != 0..0) {
+            combined.add(accumulator)
+        }
+
+        return combined
     }
 
 }
