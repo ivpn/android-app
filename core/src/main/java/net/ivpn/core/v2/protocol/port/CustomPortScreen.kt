@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
@@ -107,21 +108,36 @@ fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<Strin
 
 @Composable
 fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
+    val showErrorDialog = remember { mutableStateOf(false) }
+    val validPortRange = remember { mutableStateOf("") }
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
-        val portNumber = portState.value.text.toIntOrNull()
-        if (portNumber != null) {
-            val invalidPortMessage = viewModel.validate(portNumber)
-            if (!invalidPortMessage.isNullOrEmpty()) {
-                // showErrorDialog(invalidPortMessage)
+            val portNumber = portState.value.text.toIntOrNull()
+            val error = viewModel.validate(portNumber?: 0)
+            if (error == null) {
+                val port = portNumber?.let { Port(typeState.value, it) }
+                if (port != null) {
+                    viewModel.addCustomPort(port)
+                    navController?.popBackStack()
+                }
             } else {
-                val port = Port(typeState.value, portNumber)
-                viewModel.addPort(port)
-                navController?.popBackStack()
+                validPortRange.value = error
+                showErrorDialog.value = true
             }
-        }
         }) {
             Text(stringResource(R.string.protocol_add_custom_port).uppercase())
+        }
+        if (showErrorDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showErrorDialog.value = false },
+                title = { Text(stringResource(R.string.dialogs_error)) },
+                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${validPortRange.value}") },
+                confirmButton = {
+                    Button(onClick = { showErrorDialog.value = false }) {
+                        Text(stringResource(R.string.dialogs_ok))
+                    }
+                }
+            )
         }
     }
 }

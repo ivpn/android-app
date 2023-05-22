@@ -59,7 +59,7 @@ class CustomPortViewModel @Inject constructor(
         return portRangesText
     }
 
-    fun addPort(port: Port) {
+    fun addCustomPort(port: Port) {
         if (protocol == Protocol.WIREGUARD) {
             val ports = settings.wireGuardCustomPorts
             settings.wireGuardCustomPorts = ports.plus(port)
