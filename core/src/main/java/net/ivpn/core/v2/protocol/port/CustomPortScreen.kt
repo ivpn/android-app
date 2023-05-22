@@ -66,7 +66,7 @@ fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewMod
 @Composable
 fun PortInput(viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>) {
     Column(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
-        TextFieldLabel("Port")
+        TextFieldLabel(stringResource(R.string.protocol_port))
         OutlinedTextField(
             value = portState.value,
             onValueChange = { portState.value = it },
@@ -86,13 +86,13 @@ fun PortInput(viewModel: CustomPortViewModel, portState: MutableState<TextFieldV
 @Composable
 fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<String>) {
     if (viewModel.enableType) {
-        val radioOptions = listOf("UDP", "TCP")
+        val portTypes = listOf("UDP", "TCP")
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
         ) {
-            TextFieldLabel("Type")
-            radioOptions.forEach { text ->
+            TextFieldLabel(stringResource(R.string.protocol_type))
+            portTypes.forEach { text ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
                         selected = (text == typeState.value),
@@ -121,7 +121,7 @@ fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortVie
             }
         }
         }) {
-            Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
+            Text(stringResource(R.string.protocol_add_custom_port).uppercase())
         }
     }
 }

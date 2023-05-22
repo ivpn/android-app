@@ -101,7 +101,7 @@ fun AddCustomPortAction(navController: NavController?) {
                 navController?.navigate(action)
             }
         ) {
-            Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
+            Text(stringResource(R.string.protocol_add_custom_port).uppercase())
         }
     }
 }
