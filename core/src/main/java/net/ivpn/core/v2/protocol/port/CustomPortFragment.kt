@@ -61,7 +61,7 @@ class CustomPortFragment : Fragment() {
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_custom_port).setContent {
                 AppTheme {
-                    CustomPortScreen(navController = findNavController(), viewModel = viewModel)
+                    CustomPortScreen(findNavController(), viewModel)
                 }
             }
         }

@@ -109,19 +109,16 @@ fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<Strin
 @Composable
 fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
     val showErrorDialog = remember { mutableStateOf(false) }
-    val validPortRange = remember { mutableStateOf("") }
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
             val portNumber = portState.value.text.toIntOrNull()
-            val error = viewModel.validate(portNumber?: 0)
-            if (error == null) {
+            if (viewModel.isValid(portNumber?: 0)) {
                 val port = portNumber?.let { Port(typeState.value, it) }
                 if (port != null) {
                     viewModel.addCustomPort(port)
                     navController?.popBackStack()
                 }
             } else {
-                validPortRange.value = error
                 showErrorDialog.value = true
             }
         }) {
@@ -131,7 +128,7 @@ fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortVie
             AlertDialog(
                 onDismissRequest = { showErrorDialog.value = false },
                 title = { Text(stringResource(R.string.dialogs_error)) },
-                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${validPortRange.value}") },
+                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}") },
                 confirmButton = {
                     Button(onClick = { showErrorDialog.value = false }) {
                         Text(stringResource(R.string.dialogs_ok))

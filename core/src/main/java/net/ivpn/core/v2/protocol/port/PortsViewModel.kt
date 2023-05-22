@@ -38,11 +38,6 @@ class PortsViewModel @Inject constructor(
 
     val protocol: Protocol
         get() = protocolController.currentProtocol
-    private val openVPNPort: Port
-        get() = settings.openVpnPort
-    private val wireGuardPort: Port
-        get() = settings.wireGuardPort
-
 
     fun getPorts(): List<Port> {
         return if (protocol == Protocol.WIREGUARD) {
@@ -62,9 +57,9 @@ class PortsViewModel @Inject constructor(
 
     fun getPort(): Port {
         return if (protocol == Protocol.WIREGUARD) {
-            wireGuardPort
+            settings.wireGuardPort
         } else {
-            openVPNPort
+            settings.openVpnPort
         }
     }
 

@@ -61,7 +61,7 @@ class PortsFragment : Fragment() {
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_ports).setContent {
                 AppTheme {
-                    PortsScreen(navController = findNavController(), viewModel = viewModel)
+                    PortsScreen(findNavController(), viewModel)
                 }
             }
         }

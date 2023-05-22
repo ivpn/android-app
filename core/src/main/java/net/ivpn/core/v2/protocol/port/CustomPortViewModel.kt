@@ -48,13 +48,13 @@ class CustomPortViewModel @Inject constructor(
     private val protocol: Protocol
         get() = protocolController.currentProtocol
 
-    fun validate(port: Int): String? {
+    fun isValid(port: Int): Boolean {
         for (range in getRanges()) {
             if (port in range) {
-                return null
+                return true
             }
         }
-        return portRangesText
+        return false
     }
 
     fun addCustomPort(port: Port) {
