@@ -33,6 +33,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -130,8 +131,8 @@ fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortVie
                 title = { Text(stringResource(R.string.dialogs_error)) },
                 text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}") },
                 confirmButton = {
-                    Button(onClick = { showErrorDialog.value = false }) {
-                        Text(stringResource(R.string.dialogs_ok))
+                    TextButton(onClick = { showErrorDialog.value = false }) {
+                        Text(stringResource(R.string.dialogs_ok).uppercase())
                     }
                 }
             )
