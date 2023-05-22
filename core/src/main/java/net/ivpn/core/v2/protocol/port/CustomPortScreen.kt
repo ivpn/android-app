@@ -52,23 +52,24 @@ import net.ivpn.core.ui.theme.LocalColors
 
 @Composable
 fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewModel) {
-    val textState = remember { mutableStateOf(TextFieldValue()) }
+    val portState = remember { mutableStateOf(TextFieldValue()) }
+    val typeState = remember { mutableStateOf("UDP") }
     Surface {
         Column {
-            PortInput(viewModel, textState)
-            SelectPortType(viewModel)
-            SaveCustomPortAction(viewModel, textState)
+            PortInput(viewModel, portState)
+            SelectPortType(viewModel, typeState)
+            SaveCustomPortAction(navController, viewModel, portState, typeState)
         }
     }
 }
 
 @Composable
-fun PortInput(viewModel: CustomPortViewModel, textState: MutableState<TextFieldValue>) {
+fun PortInput(viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>) {
     Column(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         TextFieldLabel("Port")
         OutlinedTextField(
-            value = textState.value,
-            onValueChange = { textState.value = it },
+            value = portState.value,
+            onValueChange = { portState.value = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             placeholder = { Text(viewModel.portRangesText) },
             modifier = Modifier.fillMaxWidth(),
@@ -83,12 +84,9 @@ fun PortInput(viewModel: CustomPortViewModel, textState: MutableState<TextFieldV
 }
 
 @Composable
-fun SelectPortType(viewModel: CustomPortViewModel) {
+fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<String>) {
     if (viewModel.enableType) {
         val radioOptions = listOf("UDP", "TCP")
-        val (selectedOption, onOptionSelected) = remember {
-            mutableStateOf(radioOptions[0])
-        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp)
@@ -97,8 +95,8 @@ fun SelectPortType(viewModel: CustomPortViewModel) {
             radioOptions.forEach { text ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
-                        selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) }
+                        selected = (text == typeState.value),
+                        onClick = { typeState.value = text }
                     )
                     Text(text)
                 }
@@ -108,17 +106,18 @@ fun SelectPortType(viewModel: CustomPortViewModel) {
 }
 
 @Composable
-fun SaveCustomPortAction(viewModel: CustomPortViewModel, textState: MutableState<TextFieldValue>) {
+fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
-        val portNumber = textState.value.text.toIntOrNull()
+        val portNumber = portState.value.text.toIntOrNull()
         if (portNumber != null) {
             val invalidPortMessage = viewModel.validate(portNumber)
             if (!invalidPortMessage.isNullOrEmpty()) {
                 // showErrorDialog(invalidPortMessage)
             } else {
-                val port = Port("UDP", portNumber)
+                val port = Port(typeState.value, portNumber)
                 viewModel.addPort(port)
+                navController?.popBackStack()
             }
         }
         }) {
