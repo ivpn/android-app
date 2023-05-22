@@ -502,6 +502,7 @@
     <string name="protocol_wg_regeneration_description">Using the same internal IP address and keys for extended period of time may not be ideal for various reasons when connected with WireGuard protocol.</string>
     <string name="protocol_wg_key_rotation_description">Keys rotation will start automatically in the defined interval. It will also change the internal IP address.</string>
     <string name="protocol_port">Port</string>
+    <string name="protocol_custom">Custom</string>
     <string name="protocol_type">Type</string>
     <string name="protocol_add_custom_port">Add custom port</string>
     <string name="protocol_valid_port_range">Enter port number in the range:</string>

@@ -22,9 +22,7 @@ package net.ivpn.core.v2.protocol.port
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.provider.Settings.Global.getString
 import androidx.lifecycle.ViewModel
-import net.ivpn.core.R
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Port

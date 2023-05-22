@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -38,13 +39,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.ui.theme.colorPrimary
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import net.ivpn.core.R
+import net.ivpn.core.ui.theme.LocalColors
 
 @Composable
 fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
@@ -68,6 +72,7 @@ fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
 @Composable
 fun PortListItem(port: Port, navController: NavController?, viewModel: PortsViewModel, isCustom: Boolean = false) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clickable {
                 viewModel.setPort(port)
@@ -78,7 +83,12 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
     ) {
         Text(port.toThumbnail())
         if (isCustom) {
-            Text("Custom")
+            Spacer(Modifier.width(10.dp))
+            Text(
+                text = stringResource(R.string.protocol_custom),
+                color = LocalColors.current.secondaryLabel,
+                fontSize = 11.sp
+            )
         }
         if (port == viewModel.getPort()) {
             Spacer(Modifier.weight(1f))
