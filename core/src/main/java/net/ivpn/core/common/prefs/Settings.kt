@@ -203,7 +203,8 @@ class Settings @Inject constructor(
 
     var openVpnPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getOpenvpnPorts())
+            val portsJson = settingsPreference.getOpenvpnPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
@@ -211,7 +212,8 @@ class Settings @Inject constructor(
 
     var openVpnCustomPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getOpenvpnCustomPorts())
+            val portsJson = settingsPreference.getOpenvpnCustomPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setOpenvpnCustomPorts(Mapper.stringFromPorts(ports))
@@ -236,7 +238,8 @@ class Settings @Inject constructor(
 
     var wireGuardPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getWgPorts())
+            val portsJson = settingsPreference.getWgPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
@@ -244,7 +247,8 @@ class Settings @Inject constructor(
 
     var wireGuardCustomPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getWgCustomPorts())
+            val portsJson = settingsPreference.getWgCustomPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setWgCustomPorts(Mapper.stringFromPorts(ports))

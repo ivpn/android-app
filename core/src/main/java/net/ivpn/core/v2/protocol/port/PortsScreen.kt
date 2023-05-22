@@ -54,6 +54,9 @@ fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
                 items(viewModel.getPorts()) {
                     PortListItem(it, navController, viewModel)
                 }
+                items(viewModel.getCustomPorts()) {
+                    PortListItem(it, navController, viewModel, isCustom = true)
+                }
                 item {
                     AddCustomPortAction(navController)
                 }
@@ -63,7 +66,7 @@ fun PortsScreen(navController: NavController?, viewModel: PortsViewModel) {
 }
 
 @Composable
-fun PortListItem(port: Port, navController: NavController?, viewModel: PortsViewModel) {
+fun PortListItem(port: Port, navController: NavController?, viewModel: PortsViewModel, isCustom: Boolean = false) {
     Row(
         modifier = Modifier
             .clickable {
@@ -74,6 +77,9 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
             .fillMaxWidth()
     ) {
         Text(port.toThumbnail())
+        if (isCustom) {
+            Text("Custom")
+        }
         if (port == viewModel.getPort()) {
             Spacer(Modifier.weight(1f))
             Icon(

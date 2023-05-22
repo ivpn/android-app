@@ -52,6 +52,14 @@ class PortsViewModel @Inject constructor(
         }
     }
 
+    fun getCustomPorts(): List<Port> {
+        return if (protocol == Protocol.WIREGUARD) {
+            settings.wireGuardCustomPorts
+        } else {
+            settings.openVpnCustomPorts
+        }
+    }
+
     fun getPort(): Port {
         return if (protocol == Protocol.WIREGUARD) {
             wireGuardPort
