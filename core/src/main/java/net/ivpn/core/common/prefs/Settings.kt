@@ -209,6 +209,14 @@ class Settings @Inject constructor(
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
         }
 
+    var openVpnCustomPorts: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getOpenvpnCustomPorts())
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnCustomPorts(Mapper.stringFromPorts(ports))
+        }
+
     var openVpnPortRanges: List<Port>
         get() {
             return Mapper.portsFrom(settingsPreference.getOpenvpnPortRanges())
@@ -232,6 +240,14 @@ class Settings @Inject constructor(
         }
         set(ports) {
             settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardCustomPorts: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getWgCustomPorts())
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPorts(Mapper.stringFromPorts(ports))
         }
 
     var wireGuardPortRanges: List<Port>

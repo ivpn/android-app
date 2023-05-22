@@ -61,11 +61,11 @@ class CustomPortViewModel @Inject constructor(
 
     fun addPort(port: Port) {
         if (protocol == Protocol.WIREGUARD) {
-            val ports = settings.wireGuardPorts
-            settings.wireGuardPorts = ports.plus(port)
+            val ports = settings.wireGuardCustomPorts
+            settings.wireGuardCustomPorts = ports.plus(port)
         } else {
-            val ports = settings.openVpnPorts
-            settings.openVpnPorts = ports.plus(port)
+            val ports = settings.openVpnCustomPorts
+            settings.openVpnCustomPorts = ports.plus(port)
         }
     }
 
