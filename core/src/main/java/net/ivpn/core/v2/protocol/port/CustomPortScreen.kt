@@ -34,6 +34,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,23 +47,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import net.ivpn.core.R
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.ui.theme.LocalColors
 
 @Composable
 fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewModel) {
+    val textState = remember { mutableStateOf(TextFieldValue()) }
     Surface {
         Column {
-            PortInput(viewModel)
+            PortInput(viewModel, textState)
             SelectPortType(viewModel)
-            SaveCustomPortAction()
+            SaveCustomPortAction(viewModel, textState)
         }
     }
 }
 
 @Composable
-fun PortInput(viewModel: CustomPortViewModel) {
+fun PortInput(viewModel: CustomPortViewModel, textState: MutableState<TextFieldValue>) {
     Column(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
-        val textState = remember { mutableStateOf(TextFieldValue()) }
         TextFieldLabel("Port")
         OutlinedTextField(
             value = textState.value,
@@ -106,9 +108,20 @@ fun SelectPortType(viewModel: CustomPortViewModel) {
 }
 
 @Composable
-fun SaveCustomPortAction() {
+fun SaveCustomPortAction(viewModel: CustomPortViewModel, textState: MutableState<TextFieldValue>) {
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
-        Button(onClick = {}) {
+        Button(onClick = {
+        val portNumber = textState.value.text.toIntOrNull()
+        if (portNumber != null) {
+            val invalidPortMessage = viewModel.validate(portNumber)
+            if (!invalidPortMessage.isNullOrEmpty()) {
+                // showErrorDialog(invalidPortMessage)
+            } else {
+                val port = Port("UDP", portNumber)
+                viewModel.addPort(port)
+            }
+        }
+        }) {
             Text(stringResource(R.string.settings_port_add_custom_port).uppercase())
         }
     }

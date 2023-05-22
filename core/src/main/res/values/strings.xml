@@ -71,6 +71,7 @@
     <string name="settings_ipv6_description">You will receive an IPv6 address even if your ISP doesn\'t provide it for you.</string>
     <string name="settings_ipv6_filter_description">Servers with IPv6 support will have a special badge in the server list.</string>
     <string name="settings_port_add_custom_port">Add custom port</string>
+    <string name="settings_port_valid_port_range">Enter port number in the range:</string>
 
     <string name="kill_switch_vpn">VPN Kill switch</string>
     <string name="kill_switch_vpn_description">Disables internet access when VPN connection drops</string>
