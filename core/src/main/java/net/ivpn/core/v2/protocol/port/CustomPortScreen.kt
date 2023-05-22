@@ -128,8 +128,8 @@ fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortVie
         if (showErrorDialog.value) {
             AlertDialog(
                 onDismissRequest = { showErrorDialog.value = false },
-                title = { Text(stringResource(R.string.dialogs_error)) },
-                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}") },
+                title = { Text(stringResource(R.string.dialogs_error), fontSize = 20.sp) },
+                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}", fontSize = 16.sp) },
                 confirmButton = {
                     TextButton(onClick = { showErrorDialog.value = false }) {
                         Text(stringResource(R.string.dialogs_ok).uppercase())
