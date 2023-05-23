@@ -60,7 +60,7 @@ fun CustomPortScreen(navController: NavController?, viewModel: CustomPortViewMod
         Column {
             PortInput(viewModel, portState)
             SelectPortType(viewModel, typeState)
-            SaveCustomPortAction(navController, viewModel, portState, typeState)
+            AddCustomPortAction(navController, viewModel, portState, typeState)
         }
     }
 }
@@ -108,7 +108,7 @@ fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<Strin
 }
 
 @Composable
-fun SaveCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
+fun AddCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
     val showErrorDialog = remember { mutableStateOf(false) }
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
