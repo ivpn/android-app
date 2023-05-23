@@ -112,6 +112,7 @@ class AccountViewModel @Inject constructor(
         when (logoutType) {
             Type.LOGOUT -> logoutType = Type.FORCE_LOGOUT
             Type.LOGOUT_AND_CLEAR -> logoutType = Type.FORCE_LOGOUT_AND_CLEAR
+            else -> {}
         }
         dataLoading.set(true)
         sessionController.logOut()
@@ -125,6 +126,7 @@ class AccountViewModel @Inject constructor(
             Type.LOGOUT_AND_CLEAR -> sessionController.clearData()
             Type.FORCE_LOGOUT -> sessionController.clearSessionData()
             Type.FORCE_LOGOUT_AND_CLEAR -> sessionController.clearData()
+            else -> {}
         }
         navigator?.onLogOut()
     }
@@ -142,6 +144,7 @@ class AccountViewModel @Inject constructor(
                 sessionController.clearData()
                 navigator?.onLogOut()
             }
+            else -> {}
         }
     }
 

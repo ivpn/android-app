@@ -118,6 +118,7 @@ class LoginFragment : Fragment(), LoginNavigator,
         initToolbar()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         println("OnActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
