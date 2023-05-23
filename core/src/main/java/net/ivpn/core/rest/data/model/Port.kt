@@ -61,7 +61,21 @@ class Port(_protocol: String, _portNumber: Int) {
     companion object {
 
         fun from(json: String): Port {
+            if (isLegacyFormat(json)) {
+                return portFromLegacyFormat(json)
+            }
             return Gson().fromJson(json, Port::class.java)
+        }
+
+        private fun isLegacyFormat(json: String): Boolean {
+            val portJson = json.replace("WG_", "").replace("\"", "")
+            return portJson.startsWith("UDP") || portJson.startsWith("TCP")
+        }
+
+        private fun portFromLegacyFormat(json: String): Port {
+            val portJson = json.replace("WG_", "").replace("\"", "")
+            val portItems = portJson.split("_")
+            return Port(portItems.first(), portItems.last().toInt())
         }
 
         val defaultWgPort: Port
