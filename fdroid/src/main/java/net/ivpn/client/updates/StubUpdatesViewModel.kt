@@ -38,4 +38,8 @@ class StubUpdatesViewModel : UpdatesController {
 
     override fun resetComponent() {
     }
+
+    override fun appVersion(): String {
+        return ""
+    }
 }
