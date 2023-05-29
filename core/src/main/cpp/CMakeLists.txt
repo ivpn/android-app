@@ -7,6 +7,7 @@ git_describe(OPENVPN3_GIT "${CMAKE_CURRENT_SOURCE_DIR}/openvpn3" "--tags" "--alw
 message("OpenVPN 2.x version ${OPENVPN2_GIT}")
 message("OpenVPN 3.x version ${OPENVPN3_GIT}")
 
+
 # Set mbedtls options
 OPTION(ENABLE_PROGRAMS "" OFF)
 OPTION(USE_SHARED_MBEDTLS_LIBRARY "" OFF)
@@ -20,9 +21,6 @@ SET(OPENVPN3OSSL ON)
 # STATIC or SHARED
 SET(SSLLIBTYPE STATIC)
 SET(OPENSSL_PATH "openssl")
-
-set(CMAKE_CXX_STANDARD 17)
-
 
 #add_subdirectory(lzo)
 include(tools.cmake)
@@ -45,10 +43,9 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
             -c++
             -java -package net.openvpn.ovpn3
             -outcurrentdir
-            -DOPENVPN_PLATFORM_ANDROID
             -I${CMAKE_CURRENT_SOURCE_DIR}/openvpn3/client
             -I${CMAKE_CURRENT_SOURCE_DIR}/openvpn3
-            ${CMAKE_CURRENT_SOURCE_DIR}/openvpn3/client/ovpncli.i)
+            ${CMAKE_CURRENT_SOURCE_DIR}/openvpn3/javacli/ovpncli.i)
 
 
     # proper way bunt unfinished
@@ -60,8 +57,6 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
 
     set(ovpn3_SRCS
             openvpn3/client/ovpncli.cpp
-            openvpn3/openvpn/openssl/xkey/xkey_provider.c
-            openvpn3/openvpn/openssl/xkey/xkey_helper.c
             ovpncli_wrap.cxx)
 
     add_library(ovpn3 SHARED ${ovpn3_SRCS})
@@ -86,17 +81,18 @@ if (NOT ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} MATCHES "build/intermediates/cmake/.*s
         target_link_libraries(ovpn3 mbedtls mbedx509 mbedcrypto lzo lz4)
     endif ()
 
+    target_compile_options(ovpn3 PRIVATE -std=c++1y)
     target_compile_definitions(ovpn3 PRIVATE
             -DHAVE_CONFIG_H
             -DHAVE_LZO
             -DHAVE_LZ4
             -DASIO_STANDALONE
             -DUSE_ASIO
-            -DOPENVPN_CORE_GIT_VERSION=\"${OPENVPN3_GIT}\"
+            -DGIT_VERSION_STRING=\"${OPENVPN3_GIT}\"
+            -DNO_ROUTE_EXCLUDE_EMULATION
             -DOPENVPN_SHOW_SESSION_TOKEN
             -DOPENSSL_API_COMPAT=0x10200000L
-            -DOPENVPN_ALLOW_INSECURE_CERTPROFILE
-             -DENABLE_EXTERNAL_PKI
+
             )
 else ()
     message("Not budiling OpenVPN for output dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
@@ -117,6 +113,11 @@ else ()
     message("Not budiling SSLSpeedTest for output dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 endif ()
 
+# The magic Jellybean keystore signing hack. Beware dragons and dlsyms magic ahead
+add_library(jbcrypto SHARED jbcrypto/jbcrypto.cpp)
+target_link_libraries(jbcrypto log dl)
+target_compile_options(jbcrypto PRIVATE)
+
 set(openvpn_srcs
         src/compat/compat-basename.c
         src/compat/compat-daemon.c
@@ -134,8 +135,6 @@ set(openvpn_srcs
         src/openvpn/crypto_mbedtls.c
         src/openvpn/cryptoapi.c
         src/openvpn/dhcp.c
-        src/openvpn/dns.c
-        src/openvpn/dns.h
         src/openvpn/error.c
         src/openvpn/event.c
         src/openvpn/env_set.c
@@ -164,10 +163,10 @@ set(openvpn_srcs
         src/openvpn/occ.c
         src/openvpn/openvpn.c
         src/openvpn/options.c
-        src/openvpn/options_util.c
         src/openvpn/otime.c
         src/openvpn/packet_id.c
         src/openvpn/perf.c
+        src/openvpn/pf.c
         src/openvpn/ping.c
         src/openvpn/pkcs11.c
         src/openvpn/pkcs11_openssl.c
@@ -191,9 +190,6 @@ set(openvpn_srcs
         src/openvpn/ssl_openssl.c
         src/openvpn/ssl_mbedtls.c
         src/openvpn/ssl_ncp.c
-        src/openvpn/ssl_pkt.c
-        src/openvpn/ssl_pkt.h
-        src/openvpn/ssl_util.c
         src/openvpn/ssl_verify.c
         src/openvpn/ssl_verify_openssl.c
         src/openvpn/ssl_verify_mbedtls.c
@@ -201,8 +197,6 @@ set(openvpn_srcs
         src/openvpn/tls_crypt.c
         src/openvpn/tun.c
         src/openvpn/vlan.c
-        src/openvpn/xkey_helper.c
-        src/openvpn/xkey_provider.c
         src/openvpn/comp-lz4.c
         src/openvpn/comp.c
         src/openvpn/compstub.c
@@ -225,7 +219,7 @@ target_compile_definitions(openvpn PRIVATE
         -DCONFIGURE_GIT_REVISION=\"${OPENVPN2_GIT}\"
         -DCONFIGURE_GIT_FLAGS=\"\"
         -DTARGET_ABI=\"${ANDROID_ABI}\"
-        -DOPENSSL_API_COMPAT=0x11000000L
+        -DOPENSSL_API_COMPAT=0x10200000L
         )
 
 if (${OPENVPN2MBED})
