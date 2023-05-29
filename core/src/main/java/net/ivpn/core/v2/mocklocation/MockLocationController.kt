@@ -104,13 +104,16 @@ class MockLocationController @Inject constructor(
     }
 
     private fun mockLocationWith(server: Server) {
-        addTestProviders(LocationManager.GPS_PROVIDER)
-        addTestProviders(LocationManager.NETWORK_PROVIDER)
+        val providers = getProvidersToMock()
+        providers.forEach { provider ->
+            addTestProviders(provider)
+        }
         isTestProviderAdded = true
         runnable = Runnable {
             if (isMockLocationFeatureEnabled()) {
-                setMock(LocationManager.GPS_PROVIDER, server.latitude, server.longitude)
-                setMock(LocationManager.NETWORK_PROVIDER, server.latitude, server.longitude)
+                providers.forEach { provider ->
+                    setMock(provider, server.latitude, server.longitude)
+                }
             }
             runnable?.let {
                 handler.postDelayed(it, 50)
@@ -120,6 +123,27 @@ class MockLocationController @Inject constructor(
         runnable?.let {
             handler.post(it)
         }
+    }
+
+    private fun LocationManager.hasProviderCompat(provider: String) : Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return hasProvider(provider)
+        }
+        return getProviders(false).contains(provider)
+    }
+
+    private fun getProvidersToMock() : List<String> {
+        val result = mutableListOf<String>()
+        val providers = arrayOf(
+            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
+        )
+        providers.forEach { provider ->
+            if (manager.hasProviderCompat(provider)) {
+                result.add(provider)
+            }
+        }
+        return result
     }
 
     fun stop() {
