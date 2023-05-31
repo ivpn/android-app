@@ -137,6 +137,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         initViews()
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        onResume()
+    }
+
     override fun onResume() {
         LOGGER.info("onResume: Connect fragment")
         super.onResume()
