@@ -29,11 +29,12 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
-import net.ivpn.core.v2.protocol.port.Port
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.List
 
 @ApplicationScope
 class Settings @Inject constructor(
@@ -194,19 +195,35 @@ class Settings @Inject constructor(
     var openVpnPort: Port
         get() {
             val portJson = settingsPreference.getOpenvpnPort()
-            return if (portJson!!.isEmpty()) Port.UDP_2049 else Port.from(portJson)
+            return if (portJson!!.isEmpty()) Port.defaultOvPort else Port.from(portJson)
         }
         set(port) {
             settingsPreference.setOpenvpnPort(port.toJson())
         }
 
+    var openVpnPorts: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getOpenvpnPorts())
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
+        }
+
     var wireGuardPort: Port
         get() {
             val portJson = settingsPreference.getWgPort()
-            return if (portJson!!.isEmpty()) Port.WG_UDP_2049 else Port.from(portJson)
+            return if (portJson!!.isEmpty()) Port.defaultWgPort else Port.from(portJson)
         }
         set(port) {
             settingsPreference.setWgPort(port.toJson())
+        }
+
+    var wireGuardPorts: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getWgPorts())
+        }
+        set(ports) {
+            settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
         }
 
     var customDNSValue: String?
@@ -245,11 +262,11 @@ class Settings @Inject constructor(
     fun nextPort() {
         val protocol = stickyPreference.currentProtocol
         if (protocol == Protocol.OPENVPN) {
-            val nextPort = openVpnPort.next()
+            val nextPort = openVpnPort.next(openVpnPorts)
             Log.d(TAG, "nextPort: next port = ")
             openVpnPort = nextPort
         } else {
-            val nextPort = wireGuardPort.next()
+            val nextPort = wireGuardPort.next(wireGuardPorts)
             Log.d(TAG, "nextPort: next port = ")
             wireGuardPort = nextPort
         }

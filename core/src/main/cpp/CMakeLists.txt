@@ -123,9 +123,6 @@ set(openvpn_srcs
         src/compat/compat-daemon.c
         src/compat/compat-dirname.c
         src/compat/compat-gettimeofday.c
-        src/compat/compat-inet_ntop.c
-        src/compat/compat-inet_pton.c
-        src/compat/compat-lz4.c
         src/openvpn/argv.c
         src/openvpn/auth_token.c
         src/openvpn/base64.c
@@ -199,6 +196,7 @@ set(openvpn_srcs
         src/openvpn/status.c
         src/openvpn/tls_crypt.c
         src/openvpn/tun.c
+        src/openvpn/vlan.c
         src/openvpn/comp-lz4.c
         src/openvpn/comp.c
         src/openvpn/compstub.c
@@ -228,12 +226,12 @@ if (${OPENVPN2MBED})
     target_compile_definitions(openvpn PRIVATE
             -DENABLE_CRYPTO_MBEDTLS=1
             )
-    target_link_libraries(openvpn mbedtls mbedx509 mbedcrypto lzo)
+    target_link_libraries(openvpn mbedtls mbedx509 mbedcrypto lzo lz4)
 else ()
     target_compile_definitions(openvpn PRIVATE
             -DENABLE_CRYPTO_OPENSSL=1
             )
-    target_link_libraries(openvpn crypto ssl lzo)
+    target_link_libraries(openvpn crypto ssl lzo lz4)
 endif ()
 
 add_executable(libovpnexec.so minivpn/minivpn.c)

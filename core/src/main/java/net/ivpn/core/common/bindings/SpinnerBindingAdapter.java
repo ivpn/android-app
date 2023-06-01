@@ -28,8 +28,8 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
 
+import net.ivpn.core.rest.data.model.Port;
 import net.ivpn.core.v2.protocol.port.OnPortSelectedListener;
-import net.ivpn.core.v2.protocol.port.Port;
 import net.ivpn.core.v2.protocol.port.PortAdapter;
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class SpinnerBindingAdapter {
         view.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                Port[] ports = adapter.getAllowedPorts();
+                Port[] ports = adapter.getAllowedPorts().toArray(new Port[0]);
                 listener.onPortSelected(ports[position]);
                 adapter.setCurrentPosition(position);
             }
@@ -64,7 +64,7 @@ public class SpinnerBindingAdapter {
     @BindingAdapter("selectedItem")
     public static void setPort(AppCompatSpinner view, Port port) {
         final PortAdapter adapter = (PortAdapter) view.getAdapter();
-        List<Port> ports = Arrays.asList(adapter.getAllowedPorts());
+        List<Port> ports = adapter.getAllowedPorts();
         view.setSelection(ports.indexOf(port));
     }
 }

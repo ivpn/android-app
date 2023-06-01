@@ -40,6 +40,7 @@
     <string name="settings_other">Advanced settings</string>
     <string name="settings_terms_of_service">Terms of service</string>
     <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_version">VERSION</string>
     <string name="settings_color_theme">Color theme</string>
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_crashes">Enable crash logging</string>
