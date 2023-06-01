@@ -140,6 +140,34 @@
                     app:srcCompat="@drawable/ic_arrow_right"
                     app:tint="@color/settings_option_description_text" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_section_divider" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/app_version_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_section_height"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/app_version"
+                    style="@style/SettingsOptionDescription"
+                    android:layout_marginStart="16dp"
+                    android:text="@{@string/settings_version + ` ` + updates.appVersion}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@android:color/transparent"
-            app:queryHint="Search a server" />
+            app:queryHint="Search servers" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
