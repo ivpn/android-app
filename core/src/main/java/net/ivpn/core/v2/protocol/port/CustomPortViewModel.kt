@@ -63,13 +63,8 @@ class CustomPortViewModel @Inject constructor(
     }
     
     fun addCustomPort(port: Port) {
-        if (protocol == Protocol.WIREGUARD) {
-            val ports = settings.wireGuardCustomPorts
-            settings.wireGuardCustomPorts = ports.plus(port)
-        } else {
-            val ports = settings.openVpnCustomPorts
-            settings.openVpnCustomPorts = ports.plus(port)
-        }
+        settings.openVpnCustomPorts = settings.openVpnCustomPorts.plus(port)
+        if (port.isUDP()) settings.wireGuardCustomPorts = settings.wireGuardCustomPorts.plus(port)
     }
 
     private fun getPorts(): List<Port> {
@@ -90,7 +85,6 @@ class CustomPortViewModel @Inject constructor(
 
     private fun mapPortsToIntRanges(ports: List<Port>): List<IntRange> {
         val intRanges = mutableListOf<IntRange>()
-
         for (port in ports) {
             val range = port.range
             val intRange = range.min..range.max
@@ -103,7 +97,6 @@ class CustomPortViewModel @Inject constructor(
     private fun List<IntRange>.combineIntervals(): List<IntRange> {
         val combined = mutableListOf<IntRange>()
         var accumulator = 0..0
-
         for (interval in sortedBy { it.first }) {
             if (accumulator == 0..0) {
                 accumulator = interval
@@ -120,7 +113,6 @@ class CustomPortViewModel @Inject constructor(
                 accumulator = interval
             }
         }
-
         if (accumulator != 0..0) {
             combined.add(accumulator)
         }
