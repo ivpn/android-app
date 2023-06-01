@@ -48,15 +48,20 @@ class CustomPortViewModel @Inject constructor(
     private val protocol: Protocol
         get() = protocolController.currentProtocol
 
-    fun isValid(port: Int): Boolean {
+    fun isValid(port: Port): Boolean {
         for (range in getRanges()) {
-            if (port in range) {
+            if (port.portNumber in range) {
                 return true
             }
         }
         return false
     }
 
+    fun isDuplicate(port: Port): Boolean {
+        val ports = getPorts()
+        return ports.contains(port)
+    }
+    
     fun addCustomPort(port: Port) {
         if (protocol == Protocol.WIREGUARD) {
             val ports = settings.wireGuardCustomPorts
@@ -65,6 +70,10 @@ class CustomPortViewModel @Inject constructor(
             val ports = settings.openVpnCustomPorts
             settings.openVpnCustomPorts = ports.plus(port)
         }
+    }
+
+    private fun getPorts(): List<Port> {
+        return settings.wireGuardPorts + settings.openVpnPorts
     }
 
     private fun getPortRanges(): List<Port> {
