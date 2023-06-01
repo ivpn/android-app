@@ -33,4 +33,7 @@ interface UpdatesController {
     fun initUpdateService()
 
     fun resetComponent()
+
+    fun appVersion(): String
+    
 }
