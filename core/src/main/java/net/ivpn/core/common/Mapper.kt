@@ -26,6 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import net.ivpn.core.rest.data.ServersListResponse
+import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import java.util.*
@@ -59,6 +60,15 @@ object Mapper {
 
     fun stringFrom(servers: List<Server?>?): String {
         return Gson().toJson(servers)
+    }
+
+    fun stringFromPorts(ports: List<Port?>?): String {
+        return Gson().toJson(ports)
+    }
+
+    fun portsFrom(json: String?): List<Port> {
+        val type = object : TypeToken<List<Port>>() {}.type
+        return Gson().fromJson(json, type)
     }
 
     fun stringFromIps(ips: List<String>?): String? {

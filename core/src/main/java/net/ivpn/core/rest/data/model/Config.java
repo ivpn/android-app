@@ -33,6 +33,9 @@ public class Config {
     @SerializedName("api")
     @Expose
     private Api api;
+    @SerializedName("ports")
+    @Expose
+    private Ports ports;
 
     public AntiTracker getAntiTracker() {
         return antitracker;
@@ -48,6 +51,14 @@ public class Config {
 
     public void setApi(Api api) {
         this.api = api;
+    }
+
+    public Ports getPorts() {
+        return ports;
+    }
+
+    public void setPorts(Ports ports) {
+        this.ports = ports;
     }
 
 }

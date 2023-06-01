@@ -13,8 +13,8 @@ import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.utils.DomainResolver;
+import net.ivpn.core.rest.data.model.Port;
 import net.ivpn.core.rest.data.model.ServerType;
-import net.ivpn.core.v2.protocol.port.Port;
 import net.ivpn.core.rest.data.model.Server;
 import net.ivpn.core.rest.data.model.Host;
 
