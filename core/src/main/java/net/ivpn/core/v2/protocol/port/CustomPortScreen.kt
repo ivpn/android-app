@@ -73,6 +73,7 @@ fun PortInput(viewModel: CustomPortViewModel, portState: MutableState<TextFieldV
             value = portState.value,
             onValueChange = { portState.value = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
             placeholder = { Text(viewModel.portRangesText) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
@@ -109,29 +110,33 @@ fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<Strin
 
 @Composable
 fun AddCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
-    val showErrorDialog = remember { mutableStateOf(false) }
+    val errorMessage = remember { mutableStateOf("") }
+    val errorIsValid = stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}"
+    val errorIsDuplicate = stringResource(R.string.protocol_port_already_exists)
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
             val portNumber = portState.value.text.toIntOrNull()
-            if (viewModel.isValid(portNumber?: 0)) {
-                val port = portNumber?.let { Port(typeState.value, it) }
-                if (port != null) {
-                    viewModel.addCustomPort(port)
-                    navController?.popBackStack()
-                }
+            val port = portNumber?.let { Port(typeState.value, it) }
+            if (port == null) {
+                errorMessage.value = errorIsValid
+            } else if (!viewModel.isValid(port)) {
+                errorMessage.value = errorIsValid
+            } else if (viewModel.isDuplicate(port)) {
+                errorMessage.value = errorIsDuplicate
             } else {
-                showErrorDialog.value = true
+                viewModel.addCustomPort(port)
+                navController?.popBackStack()
             }
         }) {
             Text(stringResource(R.string.protocol_add_custom_port).uppercase())
         }
-        if (showErrorDialog.value) {
+        if (errorMessage.value.isNotEmpty()) {
             AlertDialog(
-                onDismissRequest = { showErrorDialog.value = false },
+                onDismissRequest = { errorMessage.value = "" },
                 title = { Text(stringResource(R.string.dialogs_error), fontSize = 20.sp) },
-                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}", fontSize = 16.sp) },
+                text = { Text(errorMessage.value, fontSize = 16.sp) },
                 confirmButton = {
-                    TextButton(onClick = { showErrorDialog.value = false }) {
+                    TextButton(onClick = { errorMessage.value = "" }) {
                         Text(stringResource(R.string.dialogs_ok).uppercase())
                     }
                 }
