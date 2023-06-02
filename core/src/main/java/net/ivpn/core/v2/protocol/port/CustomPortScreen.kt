@@ -112,15 +112,19 @@ fun SelectPortType(viewModel: CustomPortViewModel, typeState: MutableState<Strin
 fun AddCustomPortAction(navController: NavController?, viewModel: CustomPortViewModel, portState: MutableState<TextFieldValue>, typeState: MutableState<String>) {
     val showErrorDialog = remember { mutableStateOf(false) }
     val errorMessage = remember { mutableStateOf("") }
-    val errorMessage1 = stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}"
-    val errorMessage2 = stringResource(R.string.protocol_valid_port_range)
+    val customPort = remember { mutableStateOf(Port("UPD", 0)) }
+    val errorIsValid = stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}"
+    val errorIsDuplicate = stringResource(R.string.protocol_port) + " ${customPort.value.toThumbnail()} " + stringResource(R.string.protocol_already_exists)
     Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp)) {
         Button(onClick = {
             val portNumber = portState.value.text.toIntOrNull()
             val port = portNumber?.let { Port(typeState.value, it) }
-            if (port != null) errorMessage.value = errorMessage1
-            if (!viewModel.isValid(port!!))  errorMessage.value = errorMessage1
-            if (!viewModel.isDuplicate(port)) errorMessage.value = errorMessage2
+            if (port != null) errorMessage.value = errorIsValid
+            if (!viewModel.isValid(port!!))  errorMessage.value = errorIsValid
+            if (!viewModel.isDuplicate(port)) {
+                customPort.value = port
+                errorMessage.value = errorIsDuplicate
+            }
             if (errorMessage.value.isEmpty()) {
                 viewModel.addCustomPort(port)
                 navController?.popBackStack()
@@ -132,7 +136,7 @@ fun AddCustomPortAction(navController: NavController?, viewModel: CustomPortView
             AlertDialog(
                 onDismissRequest = { errorMessage.value = "" },
                 title = { Text(stringResource(R.string.dialogs_error), fontSize = 20.sp) },
-                text = { Text(stringResource(R.string.protocol_valid_port_range) + " ${viewModel.portRangesText}", fontSize = 16.sp) },
+                text = { Text(errorMessage.value, fontSize = 16.sp) },
                 confirmButton = {
                     TextButton(onClick = { showErrorDialog.value = false }) {
                         Text(stringResource(R.string.dialogs_ok).uppercase())
