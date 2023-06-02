@@ -65,6 +65,15 @@ class CustomPortViewModel @Inject constructor(
     fun addCustomPort(port: Port) {
         settings.openVpnCustomPorts = settings.openVpnCustomPorts.plus(port)
         if (port.isUDP()) settings.wireGuardCustomPorts = settings.wireGuardCustomPorts.plus(port)
+        setPort(port)
+    }
+
+    private fun setPort(port: Port) {
+        if (protocol == Protocol.WIREGUARD) {
+            settings.wireGuardPort = port
+        } else {
+            settings.openVpnPort = port
+        }
     }
 
     private fun getPorts(): List<Port> {
