@@ -507,7 +507,7 @@
     <string name="protocol_type">Type</string>
     <string name="protocol_add_custom_port">Add custom port</string>
     <string name="protocol_valid_port_range">Enter port number in the range:</string>
-    <string name="protocol_already_exists">already exists</string>
+    <string name="protocol_port_already_exists">Port already exists</string>
 
     <string name="protocol_wg_keys">Keys</string>
     <string name="protocol_wg_public_key">Public key</string>
