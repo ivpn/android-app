@@ -89,7 +89,7 @@ class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRang
             get() = Port("UDP", 2049)
 
         val valuesForMultiHop: List<Port>
-            get() = listOf(Port("UDP", 2049), Port("UDP", 2049))
+            get() = listOf(Port("UDP", 2049), Port("TCP", 443))
 
     }
 
