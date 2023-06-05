@@ -77,7 +77,7 @@ class CustomPortViewModel @Inject constructor(
     }
 
     private fun getPorts(): List<Port> {
-        return settings.wireGuardPorts + settings.openVpnPorts
+        return settings.wireGuardPorts + settings.wireGuardCustomPorts + settings.openVpnPorts + settings.openVpnCustomPorts
     }
 
     private fun getPortRanges(): List<Port> {
