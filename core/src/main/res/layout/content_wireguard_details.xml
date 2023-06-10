@@ -52,6 +52,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/regenerate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|start"
@@ -60,7 +61,6 @@
                         android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
 
                         <TextView
-                            android:id="@+id/regenerate"
                             style="@style/SettingsAction"
                             android:layout_marginVertical="12dp"
                             android:layout_width="wrap_content"
