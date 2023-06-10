@@ -203,10 +203,28 @@ class Settings @Inject constructor(
 
     var openVpnPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getOpenvpnPorts())
+            val portsJson = settingsPreference.getOpenvpnPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setOpenvpnPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var openVpnCustomPorts: List<Port>
+        get() {
+            val portsJson = settingsPreference.getOpenvpnCustomPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnCustomPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var openVpnPortRanges: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getOpenvpnPortRanges())
+        }
+        set(ports) {
+            settingsPreference.setOpenvpnPortRanges(Mapper.stringFromPorts(ports))
         }
 
     var wireGuardPort: Port
@@ -220,10 +238,28 @@ class Settings @Inject constructor(
 
     var wireGuardPorts: List<Port>
         get() {
-            return Mapper.portsFrom(settingsPreference.getWgPorts())
+            val portsJson = settingsPreference.getWgPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
         }
         set(ports) {
             settingsPreference.setWgPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardCustomPorts: List<Port>
+        get() {
+            val portsJson = settingsPreference.getWgCustomPorts()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardPortRanges: List<Port>
+        get() {
+            return Mapper.portsFrom(settingsPreference.getWgPortRanges())
+        }
+        set(ports) {
+            settingsPreference.setWgPortRanges(Mapper.stringFromPorts(ports))
         }
 
     var customDNSValue: String?

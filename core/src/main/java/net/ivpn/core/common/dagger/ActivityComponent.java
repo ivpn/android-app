@@ -47,6 +47,8 @@ import net.ivpn.core.v2.network.rule.NetworkProtectionRulesFragment;
 import net.ivpn.core.v2.network.saved.SavedNetworksFragment;
 import net.ivpn.core.v2.network.scanned.ScannedNetworksFragment;
 import net.ivpn.core.v2.protocol.ProtocolFragment;
+import net.ivpn.core.v2.protocol.port.CustomPortFragment;
+import net.ivpn.core.v2.protocol.port.PortsFragment;
 import net.ivpn.core.v2.protocol.wireguard.WireGuardDetailsFragment;
 import net.ivpn.core.v2.serverlist.ServerListTabFragment;
 import net.ivpn.core.v2.serverlist.all.AllServersRecyclerViewAdapter;
@@ -160,6 +162,10 @@ public interface ActivityComponent {
     void inject(MockLocationStep3Fragment fragment);
 
     void inject(LogOutFragment fragment);
+
+    void inject(PortsFragment fragment);
+
+    void inject(CustomPortFragment fragment);
 
     void inject(MapView map);
 

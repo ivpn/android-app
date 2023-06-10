@@ -45,5 +45,6 @@ fun setInputState(view: FrameLayout, state: InputState?) {
         InputState.ERROR -> {
             view.setBackgroundResource(R.drawable.input_field_error_background)
         }
+        else -> {}
     }
 }

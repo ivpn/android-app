@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Port(_protocol: String, _portNumber: Int) {
+class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRange()) {
 
     @SerializedName("type")
     @Expose
@@ -35,6 +35,10 @@ class Port(_protocol: String, _portNumber: Int) {
     @SerializedName("port")
     @Expose
     var portNumber: Int = _portNumber
+
+    @SerializedName("range")
+    @Expose
+    var range: PortRange = _portRange
 
     override fun equals(other: Any?): Boolean {
         if (other !is Port) return false
@@ -85,7 +89,7 @@ class Port(_protocol: String, _portNumber: Int) {
             get() = Port("UDP", 2049)
 
         val valuesForMultiHop: List<Port>
-            get() = listOf(Port("UDP", 2049), Port("UDP", 2049))
+            get() = listOf(Port("UDP", 2049), Port("TCP", 443))
 
     }
 
@@ -100,5 +104,17 @@ class Ports {
     @SerializedName("openvpn")
     @Expose
     lateinit var openvpn: List<Port>
+
+}
+
+class PortRange {
+
+    @SerializedName("min")
+    @Expose
+    var min: Int = 0
+
+    @SerializedName("max")
+    @Expose
+    var max: Int = 0
 
 }

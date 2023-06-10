@@ -86,6 +86,7 @@ class MultiHopViewModel @Inject constructor(
             MultiHopController.State.VPN_ACTIVE-> {
                 return
             }
+            else -> {}
         }
 
         isEnabled.set(state)

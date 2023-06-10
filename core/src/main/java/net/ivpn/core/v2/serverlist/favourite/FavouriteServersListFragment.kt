@@ -77,6 +77,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         filterViewModel.listeners.add(this)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null) {
@@ -146,6 +147,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         viewmodel.favouriteListeners.add(adapter)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
