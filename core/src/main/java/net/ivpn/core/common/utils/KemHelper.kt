@@ -33,7 +33,7 @@ enum class KemAlgorithm(val value: String) {
 
 class KEM(algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)) {
 
-    val algorithms: List<KemAlgorithm> = listOf()
+    private val algorithms = listOf<KemAlgorithm>()
     private val publicKeys = mutableListOf<String>()
     private val privateKeys = mutableListOf<String>()
     private val ciphers = mutableListOf<String>()
@@ -62,7 +62,7 @@ class KEM(algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)) {
     }
 
     private fun generateKeys(algorithm: KemAlgorithm): Pair<String, String> {
-        val client = KeyEncapsulation("Kyber1024")
+        val client = KeyEncapsulation(algorithm.toString())
         val publicKey = client.generate_keypair()
         val secretKey = client.encap_secret(publicKey)
         val publicKeyBase64 = Base64.encode(publicKey, Base64.DEFAULT).decodeToString()
@@ -72,7 +72,7 @@ class KEM(algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)) {
 
     private fun decodeCipher(algorithm: KemAlgorithm, privateKeyBase64: String, cipherBase64: String): String {
         val secretKey = Base64.decode(privateKeyBase64, Base64.DEFAULT)
-        val client = KeyEncapsulation("Kyber1024", secretKey)
+        val client = KeyEncapsulation(algorithm.toString(), secretKey)
         val cipherText = Base64.decode(cipherBase64, Base64.DEFAULT)
         val sharedSecret = client.decap_secret(cipherText)
         return Base64.encode(sharedSecret, Base64.DEFAULT).decodeToString()
