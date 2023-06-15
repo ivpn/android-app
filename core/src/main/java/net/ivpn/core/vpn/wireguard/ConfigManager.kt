@@ -114,6 +114,7 @@ class ConfigManager @Inject constructor(
             it.setAllowedIPsString("0.0.0.0/0, ::/0")
             it.setEndpointString(host.host + ":" + port.portNumber)
             it.publicKey = host.publicKey
+            it.preSharedKey = settings.wireGuardPresharedKey
         }
 
         config.peers = listOf(peer)

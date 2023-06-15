@@ -295,6 +295,9 @@ class Settings @Inject constructor(
             settingsPreference.setSettingsWgIpAddress(ipAddress)
         }
 
+    val wireGuardPresharedKey: String?
+        get() = settingsPreference.getSettingsWgPresharedKey()
+
     fun nextPort() {
         val protocol = stickyPreference.currentProtocol
         if (protocol == Protocol.OPENVPN) {

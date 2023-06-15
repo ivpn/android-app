@@ -193,7 +193,7 @@ public class Peer implements Parcelable{
             setPersistentKeepalive(0);
     }
 
-    private void setPreSharedKey(@Nullable String preSharedKey) {
+    public void setPreSharedKey(@Nullable String preSharedKey) {
         if (preSharedKey != null && preSharedKey.isEmpty())
             preSharedKey = null;
         if (preSharedKey != null)
