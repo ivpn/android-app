@@ -94,7 +94,7 @@ class KEM {
                 digest.update(secretBytes)
             }
             val hashBytes = digest.digest()
-            Base64.encode(hashBytes, Base64.DEFAULT).decodeToString()
+            Base64.encode(hashBytes, Base64.DEFAULT).decodeToString().trim()
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
             null
