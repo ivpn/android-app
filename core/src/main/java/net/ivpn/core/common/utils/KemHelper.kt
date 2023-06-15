@@ -22,18 +22,18 @@ package net.ivpn.core.common.utils
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.util.Base64
 import net.ivpn.liboqs.KeyEncapsulation
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import android.util.Base64
 
 enum class KemAlgorithm(val value: String) {
     Kyber1024("Kyber1024")
 }
 
-class KEM(algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)) {
+class KEM {
 
-    private val algorithms = listOf<KemAlgorithm>()
+    private val algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)
     private val publicKeys = mutableListOf<String>()
     private val privateKeys = mutableListOf<String>()
     private val ciphers = mutableListOf<String>()
@@ -64,9 +64,9 @@ class KEM(algorithms: List<KemAlgorithm> = listOf(KemAlgorithm.Kyber1024)) {
     private fun generateKeys(algorithm: KemAlgorithm): Pair<String, String> {
         val client = KeyEncapsulation(algorithm.toString())
         val publicKey = client.generate_keypair()
-        val secretKey = client.encap_secret(publicKey)
+        val secretKey = client.export_secret_key()
         val publicKeyBase64 = Base64.encode(publicKey, Base64.DEFAULT).decodeToString()
-        val secretKeyBase64 = Base64.encode(secretKey.left, Base64.DEFAULT).decodeToString()
+        val secretKeyBase64 = Base64.encode(secretKey, Base64.DEFAULT).decodeToString()
         return Pair(publicKeyBase64, secretKeyBase64)
     }
 
