@@ -36,16 +36,21 @@ public class AddWireGuardPublicKeyRequestBody {
     @SerializedName("connected_public_key")
     @Expose
     private String connectedPublicKey;
+    @SerializedName("kem_public_key1")
+    @Expose
+    private String kemPublicKey;
 
-    public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey, String connectedPublicKey) {
+    public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey, String connectedPublicKey, String kemPublicKey) {
         this.sessionToken = sessionToken;
         this.publicKey = publicKey;
         this.connectedPublicKey = connectedPublicKey;
+        this.kemPublicKey = kemPublicKey;
     }
 
-    public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey) {
+    public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey, String kemPublicKey) {
         this.sessionToken = sessionToken;
         this.publicKey = publicKey;
+        this.kemPublicKey = kemPublicKey;
     }
 
     public String getSessionToken() {
