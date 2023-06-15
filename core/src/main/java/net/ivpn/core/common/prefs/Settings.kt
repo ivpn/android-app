@@ -339,6 +339,7 @@ class Settings @Inject constructor(
     fun removeWireGuardKeys() {
         settingsPreference.setSettingsWgPrivateKey("")
         settingsPreference.setSettingsWgPublicKey("")
+        settingsPreference.setSettingsWgPresharedKey("")
     }
 
     fun saveWireGuardKeypair(keypair: Keypair?) {
@@ -348,5 +349,9 @@ class Settings @Inject constructor(
         val alarm = IVPNApplication.appComponent.provideGlobalWireGuardAlarm()
         alarm.stop()
         alarm.start()
+    }
+
+    fun saveWireGuardPresharedKey(key: String?) {
+        settingsPreference.setSettingsWgPresharedKey(key)
     }
 }
