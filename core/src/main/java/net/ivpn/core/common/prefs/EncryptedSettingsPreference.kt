@@ -45,6 +45,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_WG_PRIVATE_KEY = "SETTINGS_WG_PRIVATE_KEY"
         private const val SETTINGS_WG_PUBLIC_KEY = "SETTINGS_WG_PUBLIC_KEY"
         private const val SETTINGS_WG_IP_ADDRESS = "SETTINGS_WG_IP_ADDRESS"
+        private const val SETTINGS_WG_PRESHARED_KEY = "SETTINGS_WG_PRESHARED_KEY"
         private const val SETTINGS_CUSTOM_DNS = "SETTINGS_CUSTOM_DNS"
         private const val SETTINGS_ANTI_SURVEILLANCE = "SETTINGS_ANTI_SURVEILLANCE"
         private const val SETTINGS_ANTI_SURVEILLANCE_HARDCORE = "SETTINGS_ANTI_SURVEILLANCE_HARDCORE"
@@ -407,6 +408,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(SETTINGS_WG_IP_ADDRESS, "")
     }
 
+    fun getSettingsWgPresharedKey(): String? {
+        return sharedPreferences.getString(SETTINGS_WG_PRESHARED_KEY, "")
+    }
+
+    fun setSettingsWgPresharedKey(publicKey: String?) {
+        sharedPreferences.edit()
+            .putString(SETTINGS_WG_PRESHARED_KEY, publicKey)
+            .apply()
+    }
+
     fun isAutoUpdateEnabled(): Boolean {
         return sharedPreferences.getBoolean(SETTINGS_AUTO_UPDATE, true)
     }
@@ -527,6 +538,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         }
         if (oldPreference.contains(SETTINGS_WG_IP_ADDRESS)) {
             setSettingsWgIpAddress(oldPreference.getString(SETTINGS_WG_IP_ADDRESS, ""))
+        }
+        if (oldPreference.contains(SETTINGS_WG_PRESHARED_KEY)) {
+            setSettingsWgPrivateKey(oldPreference.getString(SETTINGS_WG_PRESHARED_KEY, ""))
         }
         if (oldPreference.contains(SETTINGS_CUSTOM_DNS)) {
             putSettingCustomDNS(oldPreference.getBoolean(SETTINGS_CUSTOM_DNS, false))
