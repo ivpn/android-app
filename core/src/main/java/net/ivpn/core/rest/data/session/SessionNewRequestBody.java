@@ -33,6 +33,9 @@ public class SessionNewRequestBody {
     @SerializedName("wg_public_key")
     @Expose
     private String wgPublicKey;
+    @SerializedName("kem_public_key1")
+    @Expose
+    private String kemPublicKey;
     @SerializedName("app_name")
     @Expose
     private String appName;
@@ -49,24 +52,27 @@ public class SessionNewRequestBody {
     @Expose
     private String captchaValue;
 
-    public SessionNewRequestBody(String username, String wgPublicKey, Boolean force) {
+    public SessionNewRequestBody(String username, String wgPublicKey, String kemPublicKey, Boolean force) {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
+        this.kemPublicKey = kemPublicKey;
         this.appName = "IVPN for Android";
         this.force = force;
     }
 
-    public SessionNewRequestBody(String username, String wgPublicKey, Boolean force, String tfaToken) {
+    public SessionNewRequestBody(String username, String wgPublicKey, String kemPublicKey, Boolean force, String tfaToken) {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
+        this.kemPublicKey = kemPublicKey;
         this.appName = "IVPN for Android";
         this.force = force;
         this.tfaToken = tfaToken;
     }
 
-    public SessionNewRequestBody(String username, String wgPublicKey, Boolean force, String captchaId, String captchaValue) {
+    public SessionNewRequestBody(String username, String wgPublicKey, String kemPublicKey, Boolean force, String captchaId, String captchaValue) {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
+        this.kemPublicKey = kemPublicKey;
         this.appName = "IVPN for Android";
         this.force = force;
         this.captchaId = captchaId;
@@ -94,6 +100,7 @@ public class SessionNewRequestBody {
         return "SessionNewRequestBody{" +
                 "username='" + username + '\'' +
                 ", wgPublicKey='" + wgPublicKey + '\'' +
+                ", kemPublicKey='" + kemPublicKey + '\'' +
                 ", appName='" + appName + '\'' +
                 ", force=" + force +
                 ", tfaToken='" + tfaToken + '\'' +

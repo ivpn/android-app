@@ -36,6 +36,9 @@ public class WireGuard {
     @SerializedName("ip_address")
     @Expose
     private String ipAddress;
+    @SerializedName("kem_cipher1")
+    @Expose
+    private String kemCipher1;
 
     public Integer getStatus() {
         return status;
@@ -60,6 +63,8 @@ public class WireGuard {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getKemCipher1() { return kemCipher1; }
 
     @Override
     public String toString() {
