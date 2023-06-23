@@ -519,6 +519,7 @@
     <string name="protocol_wg_quantum_resistance">Quantum Resistance</string>
     <string name="protocol_wg_quantum_resistance_enabled">Enabled</string>
     <string name="protocol_wg_quantum_resistance_disabled">Disabled</string>
+    <string name="protocol_wg_quantum_resistance_info">Quantum Resistance: Indicates whether your current WireGuard VPN connection is using additional protection measures against potential future quantum computer attacks.\n\nWhen Enabled, a Pre-shared key has been securely exchanged between your device and the server using post-quantum Key Encapsulation Mechanism (KEM) algorithms. If Disabled, the current VPN connection, while secure under today\'s standards, does not include this extra layer of quantum resistance.</string>
     
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
