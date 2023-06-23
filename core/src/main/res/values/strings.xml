@@ -516,6 +516,7 @@
     <string name="protocol_wg_expiration_date">Expiration date</string>
     <string name="protocol_wg_will_rotate">Will be automatically rotated</string>
     <string name="protocol_wg_regenerate">Regenerate</string>
+    <string name="protocol_wg_quantum_resistance">Quantum Resistance</string>
     
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
