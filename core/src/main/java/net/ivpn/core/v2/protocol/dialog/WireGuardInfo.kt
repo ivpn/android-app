@@ -40,6 +40,11 @@ class WireGuardInfo(
         }
     }
 
+    val isQREnabled: Boolean
+        get() {
+            return !presharedKey.isNullOrEmpty()
+        }
+
     val lastGenerated: String
         get() {
             return if (publicKey.isBlank()) {

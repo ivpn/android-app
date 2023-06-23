@@ -313,7 +313,7 @@
                 android:lineSpacingExtra="24sp"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="@{viewmodel.wgInfo.validUntil}"
+                android:text="@{viewmodel.wgInfo.isQREnabled ? @string/protocol_wg_quantum_resistance_enabled : @string/protocol_wg_quantum_resistance_disabled}"
                 android:textColor="@color/protocol_text_color"
                 android:textSize="16sp"
                 android:textStyle="normal"
