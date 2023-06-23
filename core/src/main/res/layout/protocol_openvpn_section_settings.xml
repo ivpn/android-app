@@ -32,6 +32,7 @@
                 android:text="@string/protocol_settings" />
 
             <LinearLayout
+                android:id="@+id/openvpn_ports"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
@@ -42,7 +43,6 @@
                 android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
 
                 <TextView
-                    android:id="@+id/openvpn_ports"
                     style="@style/SettingsAction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
