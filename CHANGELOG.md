@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.9.0 - 2023-06-29
+
+[NEW] Custom ports  
+[NEW] Support for Android 13 Themed Icons  
+[IMPROVED] OpenSSL updated to 1.1.1l  
+[NOTE] Removed references to Port Forwarding  
+
+[Download IVPN Client v2.8.6](https://www.ivpn.net/releases/android/IVPNv2.9.0site.apk)  
+SHA256: a09a8ea6ac49a385219c99a865100829fbd430637336de7e793700d3bd170fed  
+
 ## Version 2.8.6 - 2023-04-13
 
 [IMPROVED] Use the same server settings for both OpenVPN and WireGuard  
