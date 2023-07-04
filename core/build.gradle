@@ -29,8 +29,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 117
-        versionName "2.8.6"
+        versionCode 118
+        versionName "2.9.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
