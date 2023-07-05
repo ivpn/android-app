@@ -32,6 +32,7 @@
                 android:text="@string/protocol_settings" />
 
             <LinearLayout
+                android:id="@+id/wireguard_ports"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:gravity="center_vertical"
@@ -42,7 +43,6 @@
                 android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
 
                 <TextView
-                    android:id="@+id/wireguard_ports"
                     style="@style/SettingsAction"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -139,6 +139,7 @@
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:id="@+id/wireguard_details"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
                 android:layout_marginStart="@dimen/settings_margin_left"
@@ -148,7 +149,6 @@
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
 
                 <TextView
-                    android:id="@+id/wireguard_details"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
                     android:paddingVertical="12dp"
