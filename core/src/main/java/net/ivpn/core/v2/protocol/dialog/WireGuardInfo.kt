@@ -40,9 +40,9 @@ class WireGuardInfo(
         }
     }
 
-    val isQREnabled: Boolean
+    val isQRDisabled: Boolean
         get() {
-            return !presharedKey.isNullOrEmpty()
+            return presharedKey.isNullOrEmpty()
         }
 
     val lastGenerated: String
