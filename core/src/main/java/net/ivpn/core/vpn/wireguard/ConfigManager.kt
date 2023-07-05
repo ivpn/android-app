@@ -151,6 +151,10 @@ class ConfigManager @Inject constructor(
             it.publicKey = exitHost.publicKey
         }
 
+        if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
+            peer.preSharedKey = settings.wireGuardPresharedKey
+        }
+
         config.peers = listOf(peer)
         return config
     }
