@@ -67,18 +67,10 @@ class AntiTrackerDns {
 
 }
 
-class DnsServers {
+class AntiTrackerPlus {
 
     @SerializedName("DnsServers")
     @Expose
     lateinit var list: List<AntiTrackerDns>
-
-}
-
-class AntiTrackerPlus {
-
-    @SerializedName("antitracker_plus")
-    @Expose
-    lateinit var dnsServers: DnsServers
 
 }

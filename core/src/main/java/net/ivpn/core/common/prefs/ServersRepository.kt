@@ -186,6 +186,7 @@ class ServersRepository @Inject constructor(
                 settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
                 settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
                 settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+                settings.antiTrackerList = response.config.antiTrackerPlus.list
                 for (listener in onServerListUpdatedListeners) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }

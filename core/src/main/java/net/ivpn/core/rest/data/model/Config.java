@@ -30,6 +30,9 @@ public class Config {
     @SerializedName("antitracker")
     @Expose
     private AntiTracker antitracker;
+    @SerializedName("antitracker_plus")
+    @Expose
+    private AntiTrackerPlus antitrackerPlus;
     @SerializedName("api")
     @Expose
     private Api api;
@@ -43,6 +46,14 @@ public class Config {
 
     public void setAntiTracker(AntiTracker antitracker) {
         this.antitracker = antitracker;
+    }
+
+    public AntiTrackerPlus getAntiTrackerPlus() {
+        return antitrackerPlus;
+    }
+
+    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
+        this.antitrackerPlus = antitrackerPlus;
     }
 
     public Api getApi() {
