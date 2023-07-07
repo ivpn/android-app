@@ -29,6 +29,7 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
+import net.ivpn.core.rest.data.model.AntiTrackerDns
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
@@ -297,6 +298,14 @@ class Settings @Inject constructor(
 
     val wireGuardPresharedKey: String?
         get() = settingsPreference.getSettingsWgPresharedKey()
+
+    var antiTrackerList: List<AntiTrackerDns>
+        get() {
+            return Mapper.antiTrackerListFrom(settingsPreference.getAntiTrackerList())
+        }
+        set(list) {
+            settingsPreference.setAntiTrackerList(Mapper.stringFromAntiTrackerList(list))
+        }
 
     fun nextPort() {
         val protocol = stickyPreference.currentProtocol
