@@ -76,6 +76,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val IPV6_LIST = "IPV6_LIST"
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
+        private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -501,6 +502,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     fun getAntiTrackerList(): String? {
         return sharedPreferences.getString(ANTITRACKER_LIST, "")
+    }
+
+    fun setAntiTrackerDns(json: String?) {
+        sharedPreferences.edit()
+            .putString(ANTITRACKER_DNS, json)
+            .apply()
+    }
+
+    fun getAntiTrackerDns(): String? {
+        return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 
     private fun putIsMigrated(isMigrated: Boolean) {

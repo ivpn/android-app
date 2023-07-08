@@ -81,6 +81,15 @@ object Mapper {
         return Gson().toJson(list)
     }
 
+    fun antiTrackerDnsFrom(json: String?): AntiTrackerDns {
+        val type = object : TypeToken<AntiTrackerDns>() {}.type
+        return Gson().fromJson(json, type)
+    }
+
+    fun stringFromAntiTrackerDns(dns: AntiTrackerDns?): String {
+        return Gson().toJson(dns)
+    }
+
     fun stringFromIps(ips: List<String>?): String? {
         if (ips == null) return null
         return Gson().toJson(ips)

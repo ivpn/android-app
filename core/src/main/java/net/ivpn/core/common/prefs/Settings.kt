@@ -307,6 +307,15 @@ class Settings @Inject constructor(
             settingsPreference.setAntiTrackerList(Mapper.stringFromAntiTrackerList(list))
         }
 
+    var antiTrackerDns: AntiTrackerDns?
+        get() {
+            val json = settingsPreference.getAntiTrackerDns()
+            return if (json!!.isEmpty()) null else Mapper.antiTrackerDnsFrom(json)
+        }
+        set(dns) {
+            settingsPreference.setAntiTrackerDns(Mapper.stringFromAntiTrackerDns(dns))
+        }
+
     fun nextPort() {
         val protocol = stickyPreference.currentProtocol
         if (protocol == Protocol.OPENVPN) {
