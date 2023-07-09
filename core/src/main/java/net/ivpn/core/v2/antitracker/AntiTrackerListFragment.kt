@@ -37,9 +37,13 @@ import net.ivpn.core.R
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.databinding.FragmentAntiTrackerListBinding
 import net.ivpn.core.ui.theme.AppTheme
+import javax.inject.Inject
 
 @ApplicationScope
 class AntiTrackerListFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModel: AntiTrackerListViewModel
 
     lateinit var binding: FragmentAntiTrackerListBinding
 
@@ -57,7 +61,7 @@ class AntiTrackerListFragment : Fragment() {
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_ports).setContent {
                 AppTheme {
-
+                    AntiTrackerListScreen(viewModel)
                 }
             }
         }
