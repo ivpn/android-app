@@ -59,7 +59,7 @@ class AntiTrackerListFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_anti_tracker_list, container, false)
         return binding.root.apply {
-            findViewById<ComposeView>(R.id.view_ports).setContent {
+            findViewById<ComposeView>(R.id.view_anti_tracker_list).setContent {
                 AppTheme {
                     AntiTrackerListScreen(findNavController(), viewModel)
                 }

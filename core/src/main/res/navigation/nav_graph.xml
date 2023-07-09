@@ -157,7 +157,13 @@
         android:id="@+id/antiTrackerFragment"
         android:name="net.ivpn.core.v2.antitracker.AntiTrackerFragment"
         android:label="AntiTracker" />
-
+        <action
+            android:id="@+id/action_antiTrackerFragment_to_antiTrackerListFragment"
+            app:destination="@id/antiTrackerListFragment" />
+    <fragment
+        android:id="@+id/antiTrackerListFragment"
+        android:name="net.ivpn.core.v2.antitracker.AntiTrackerListFragment"
+        android:label="Block List" />
     <fragment
         android:id="@+id/TFAFragment"
         android:name="net.ivpn.core.v2.tfa.TFAFragment"

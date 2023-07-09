@@ -35,6 +35,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.databinding.FragmentAntitrackerBinding
 import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.viewmodel.AntiTrackerViewModel
@@ -79,6 +80,10 @@ class AntiTrackerFragment: Fragment() {
         }
         binding.contentLayout.readMoreHardcore.setOnClickListener {
             readMoreHardcore()
+        }
+        binding.contentLayout.changeAntiTracker.setOnClickListener {
+            val action = AntiTrackerFragmentDirections.actionAntiTrackerFragmentToAntiTrackerListFragment()
+            navigate(action)
         }
     }
 
