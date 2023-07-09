@@ -27,7 +27,18 @@ fun AntiTrackerListScreen(navController: NavController?, viewModel: AntiTrackerL
     Surface {
         Column {
             LazyColumn {
-                items(viewModel.getAntiTrackerList()) {
+                item {
+                    Text("Pre-defined lists")
+                    Divider()
+                }
+                items(viewModel.antiTrackerBasicList) {
+                    AntiTrackerListItem(it, navController, viewModel)
+                }
+                item {
+                    Text("Individual lists")
+                    Divider()
+                }
+                items(viewModel.antiTrackerIndividualList) {
                     AntiTrackerListItem(it, navController, viewModel)
                 }
             }
@@ -48,7 +59,7 @@ fun AntiTrackerListItem(dns: AntiTrackerDns, navController: NavController?, view
             .fillMaxWidth()
     ) {
         Text(dns.toThumbnail())
-        if (dns == viewModel.getAntiTrackerDns()) {
+        if (dns == viewModel.antiTrackerDns) {
             Spacer(Modifier.weight(1f))
             Icon(
                 imageVector = Icons.Filled.Check,

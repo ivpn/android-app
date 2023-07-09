@@ -33,13 +33,16 @@ class AntiTrackerListViewModel @Inject constructor(
     private val settings: Settings
 ) : ViewModel() {
 
-    fun getAntiTrackerList(): List<AntiTrackerDns> {
-        return settings.antiTrackerList
-    }
+    private val basicList = arrayOf("Basic", "Comprehensive", "Restrictive")
 
-    fun getAntiTrackerDns(): AntiTrackerDns? {
-        return settings.antiTrackerDns
-    }
+    val antiTrackerBasicList: List<AntiTrackerDns>
+        get() = settings.antiTrackerList.filter { basicList.contains(it.name) }
+
+    val antiTrackerIndividualList: List<AntiTrackerDns>
+        get() = settings.antiTrackerList.filter { !basicList.contains(it.name) }
+
+    val antiTrackerDns: AntiTrackerDns?
+        get() =  settings.antiTrackerDns
 
     fun setAntiTrackerDns(dns: AntiTrackerDns) {
         settings.antiTrackerDns = dns
