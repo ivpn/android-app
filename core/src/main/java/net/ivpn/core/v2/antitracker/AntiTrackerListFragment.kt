@@ -61,7 +61,7 @@ class AntiTrackerListFragment : Fragment() {
         return binding.root.apply {
             findViewById<ComposeView>(R.id.view_ports).setContent {
                 AppTheme {
-                    AntiTrackerListScreen(viewModel)
+                    AntiTrackerListScreen(findNavController(), viewModel)
                 }
             }
         }
