@@ -17,7 +17,9 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import net.ivpn.core.rest.data.model.AntiTrackerDns
 import net.ivpn.core.ui.theme.colorPrimary
@@ -28,15 +30,13 @@ fun AntiTrackerListScreen(navController: NavController?, viewModel: AntiTrackerL
         Column {
             LazyColumn {
                 item {
-                    Text("Pre-defined lists")
-                    Divider()
+                    AntiTrackerListSection("Pre-defined lists")
                 }
                 items(viewModel.antiTrackerBasicList) {
                     AntiTrackerListItem(it, navController, viewModel)
                 }
                 item {
-                    Text("Individual lists")
-                    Divider()
+                    AntiTrackerListSection("Individual lists")
                 }
                 items(viewModel.antiTrackerIndividualList) {
                     AntiTrackerListItem(it, navController, viewModel)
@@ -44,6 +44,24 @@ fun AntiTrackerListScreen(navController: NavController?, viewModel: AntiTrackerL
             }
         }
     }
+}
+
+@Composable
+fun AntiTrackerListSection(title: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(start = 18.dp, top = 32.dp, end = 18.dp, bottom = 16.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            color = colorPrimary,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp
+        )
+    }
+    Divider()
 }
 
 @Composable
