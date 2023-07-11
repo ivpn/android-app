@@ -29,7 +29,7 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
-import net.ivpn.core.rest.data.model.AntiTrackerDns
+import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
@@ -182,10 +182,10 @@ class Settings @Inject constructor(
     }
 
     val antiTrackerDefaultDNS: String
-        get() = antiTrackerDns?.normal ?: "10.0.254.2"
+        get() = antiTracker?.normal ?: "10.0.254.2"
 
     val antiTrackerHardcoreDNS: String
-        get() = antiTrackerDns?.hardcore ?: "10.0.254.3"
+        get() = antiTracker?.hardcore ?: "10.0.254.3"
 
     var openVpnPort: Port
         get() {
@@ -293,7 +293,7 @@ class Settings @Inject constructor(
     val wireGuardPresharedKey: String?
         get() = settingsPreference.getSettingsWgPresharedKey()
 
-    var antiTrackerList: List<AntiTrackerDns>
+    var antiTrackerList: List<AntiTracker>
         get() {
             return Mapper.antiTrackerListFrom(settingsPreference.getAntiTrackerList())
         }
@@ -301,13 +301,13 @@ class Settings @Inject constructor(
             settingsPreference.setAntiTrackerList(Mapper.stringFromAntiTrackerList(list))
         }
 
-    var antiTrackerDns: AntiTrackerDns?
+    var antiTracker: AntiTracker?
         get() {
-            val json = settingsPreference.getAntiTrackerDns()
-            return if (json!!.isEmpty()) null else Mapper.antiTrackerDnsFrom(json)
+            val json = settingsPreference.getAntiTracker()
+            return if (json!!.isEmpty()) null else Mapper.antiTrackerFrom(json)
         }
         set(dns) {
-            settingsPreference.setAntiTrackerDns(Mapper.stringFromAntiTrackerDns(dns))
+            settingsPreference.setAntiTracker(Mapper.stringFromAntiTracker(dns))
         }
 
     fun nextPort() {

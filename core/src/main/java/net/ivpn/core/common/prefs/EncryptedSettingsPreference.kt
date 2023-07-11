@@ -482,13 +482,13 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(ANTITRACKER_LIST, "")
     }
 
-    fun setAntiTrackerDns(json: String?) {
+    fun setAntiTracker(json: String?) {
         sharedPreferences.edit()
             .putString(ANTITRACKER_DNS, json)
             .apply()
     }
 
-    fun getAntiTrackerDns(): String? {
+    fun getAntiTracker(): String? {
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 

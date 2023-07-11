@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class AntiTrackerDns {
+class AntiTracker {
 
     @SerializedName("Name")
     @Expose
@@ -45,7 +45,7 @@ class AntiTrackerDns {
     var hardcore: String = ""
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AntiTrackerDns) return false
+        if (other !is AntiTracker) return false
         return name == other.name && normal == other.normal
     }
 
@@ -59,8 +59,8 @@ class AntiTrackerDns {
 
     companion object {
 
-        fun from(json: String): AntiTrackerDns {
-            return Gson().fromJson(json, AntiTrackerDns::class.java)
+        fun from(json: String): AntiTracker {
+            return Gson().fromJson(json, AntiTracker::class.java)
         }
 
     }
@@ -71,6 +71,6 @@ class AntiTrackerPlus {
 
     @SerializedName("DnsServers")
     @Expose
-    lateinit var list: List<AntiTrackerDns>
+    lateinit var list: List<AntiTracker>
 
 }

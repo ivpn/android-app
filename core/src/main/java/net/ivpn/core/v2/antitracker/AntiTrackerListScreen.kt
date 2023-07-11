@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import net.ivpn.core.R
-import net.ivpn.core.rest.data.model.AntiTrackerDns
+import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.ui.theme.colorPrimary
 
 @Composable
@@ -67,19 +67,19 @@ fun AntiTrackerListSection(title: String) {
 }
 
 @Composable
-fun AntiTrackerListItem(dns: AntiTrackerDns, navController: NavController?, viewModel: AntiTrackerListViewModel) {
+fun AntiTrackerListItem(dns: AntiTracker, navController: NavController?, viewModel: AntiTrackerListViewModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .clickable {
-                viewModel.setAntiTrackerDns(dns)
+                viewModel.setAntiTracker(dns)
                 navController?.popBackStack()
             }
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
         Text(dns.toThumbnail())
-        if (dns == viewModel.antiTrackerDns) {
+        if (dns == viewModel.antiTracker) {
             Spacer(Modifier.weight(1f))
             Icon(
                 imageVector = Icons.Filled.Check,

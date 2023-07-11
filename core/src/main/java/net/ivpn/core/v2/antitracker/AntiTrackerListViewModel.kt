@@ -25,7 +25,7 @@ package net.ivpn.core.v2.antitracker
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.rest.data.model.AntiTrackerDns
+import net.ivpn.core.rest.data.model.AntiTracker
 import javax.inject.Inject
 
 @ApplicationScope
@@ -35,17 +35,17 @@ class AntiTrackerListViewModel @Inject constructor(
 
     private val basicList = arrayOf("Basic", "Comprehensive", "Restrictive")
 
-    val antiTrackerBasicList: List<AntiTrackerDns>
+    val antiTrackerBasicList: List<AntiTracker>
         get() = settings.antiTrackerList.filter { basicList.contains(it.name) }
 
-    val antiTrackerIndividualList: List<AntiTrackerDns>
+    val antiTrackerIndividualList: List<AntiTracker>
         get() = settings.antiTrackerList.filter { !basicList.contains(it.name) }
 
-    val antiTrackerDns: AntiTrackerDns?
-        get() =  settings.antiTrackerDns
+    val antiTracker: AntiTracker?
+        get() =  settings.antiTracker
 
-    fun setAntiTrackerDns(dns: AntiTrackerDns) {
-        settings.antiTrackerDns = dns
+    fun setAntiTracker(dns: AntiTracker) {
+        settings.antiTracker = dns
     }
 
 }

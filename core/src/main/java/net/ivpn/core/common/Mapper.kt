@@ -26,7 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import net.ivpn.core.rest.data.ServersListResponse
-import net.ivpn.core.rest.data.model.AntiTrackerDns
+import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.wireguard.ErrorResponse
@@ -72,21 +72,21 @@ object Mapper {
         return Gson().fromJson(json, type)
     }
 
-    fun antiTrackerListFrom(json: String?): List<AntiTrackerDns> {
-        val type = object : TypeToken<List<AntiTrackerDns>>() {}.type
+    fun antiTrackerListFrom(json: String?): List<AntiTracker> {
+        val type = object : TypeToken<List<AntiTracker>>() {}.type
         return Gson().fromJson(json, type)
     }
 
-    fun stringFromAntiTrackerList(list: List<AntiTrackerDns?>?): String {
+    fun stringFromAntiTrackerList(list: List<AntiTracker?>?): String {
         return Gson().toJson(list)
     }
 
-    fun antiTrackerDnsFrom(json: String?): AntiTrackerDns {
-        val type = object : TypeToken<AntiTrackerDns>() {}.type
+    fun antiTrackerFrom(json: String?): AntiTracker {
+        val type = object : TypeToken<AntiTracker>() {}.type
         return Gson().fromJson(json, type)
     }
 
-    fun stringFromAntiTrackerDns(dns: AntiTrackerDns?): String {
+    fun stringFromAntiTracker(dns: AntiTracker?): String {
         return Gson().toJson(dns)
     }
 
