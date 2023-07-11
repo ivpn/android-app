@@ -178,8 +178,6 @@ class ServersRepository @Inject constructor(
                 LOGGER.info(response.toString())
                 response.markServerTypes()
                 setServerList(response.openVpnServerList, response.wireGuardServerList)
-                settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-                settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
@@ -261,10 +259,16 @@ class ServersRepository @Inject constructor(
         val response = Mapper.getProtocolServers(ServersLoader.load())
         response?.let{
             it.markServerTypes()
-            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
-            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
+            settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
+            settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
+            settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+            settings.antiTrackerList = response.config.antiTrackerPlus.list
+            if (settings.antiTrackerDns == null) {
+                settings.antiTrackerDns = settings.antiTrackerList.first()
+            }
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }
@@ -275,8 +279,14 @@ class ServersRepository @Inject constructor(
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
         response?.let {
-            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
-            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
+            settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
+            settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
+            settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+            settings.antiTrackerList = response.config.antiTrackerPlus.list
+            if (settings.antiTrackerDns == null) {
+                settings.antiTrackerDns = settings.antiTrackerList.first()
+            }
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
         }

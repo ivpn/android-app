@@ -181,17 +181,11 @@ class Settings @Inject constructor(
         settingsPreference.ipv6List = ips
     }
 
-    var antiTrackerDefaultDNS: String?
-        get() = settingsPreference.getAntiSurveillanceDns()
-        set(dns) {
-            settingsPreference.putAntiSurveillanceDns(dns)
-        }
+    val antiTrackerDefaultDNS: String
+        get() = antiTrackerDns?.normal ?: "10.0.254.2"
 
-    var antiTrackerHardcoreDNS: String?
-        get() = settingsPreference.getAntiSurveillanceHardcoreDns()
-        set(dns) {
-            settingsPreference.putAntiSurveillanceHardcoreDns(dns)
-        }
+    val antiTrackerHardcoreDNS: String
+        get() = antiTrackerDns?.hardcore ?: "10.0.254.3"
 
     var openVpnPort: Port
         get() {
