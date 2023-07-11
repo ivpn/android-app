@@ -143,6 +143,8 @@
     <string name="anti_tracker_description_state_disabled">AntiTracker is disabled</string>
     <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and blocking known trackers</string>
     <string name="anti_tracker_description_state_not_active">AntiTracker will be enabled when connected to VPN"</string>
+    <string name="anti_tracker_pre_defined">Pre-defined lists</string>
+    <string name="anti_tracker_individual">Individual lists</string>
 
     <!--Mock Location-->
     <string name="mock_location_enable_developer_options">Enable developer options</string>

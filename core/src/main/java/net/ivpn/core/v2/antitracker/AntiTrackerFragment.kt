@@ -73,6 +73,11 @@ class AntiTrackerFragment: Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        antiTracker.reset()
+    }
+
     private fun initViews() {
         binding.contentLayout.antitracker = antiTracker
         binding.contentLayout.readMoreAntitracker.setOnClickListener {

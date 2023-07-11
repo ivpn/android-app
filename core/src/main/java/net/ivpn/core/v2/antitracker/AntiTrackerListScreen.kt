@@ -17,10 +17,12 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import net.ivpn.core.R
 import net.ivpn.core.rest.data.model.AntiTrackerDns
 import net.ivpn.core.ui.theme.colorPrimary
 
@@ -30,13 +32,13 @@ fun AntiTrackerListScreen(navController: NavController?, viewModel: AntiTrackerL
         Column {
             LazyColumn {
                 item {
-                    AntiTrackerListSection("Pre-defined lists")
+                    AntiTrackerListSection(stringResource(R.string.anti_tracker_pre_defined))
                 }
                 items(viewModel.antiTrackerBasicList) {
                     AntiTrackerListItem(it, navController, viewModel)
                 }
                 item {
-                    AntiTrackerListSection("Individual lists")
+                    AntiTrackerListSection(stringResource(R.string.anti_tracker_individual))
                 }
                 items(viewModel.antiTrackerIndividualList) {
                     AntiTrackerListItem(it, navController, viewModel)

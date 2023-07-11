@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/custom_dns_text_color"
                         android:alpha="0.6"
-                        android:text="Basic"
+                        android:text="@{antitracker.antiTrackerList}"
                         android:textSize="16dp" />
                 </LinearLayout>
 
