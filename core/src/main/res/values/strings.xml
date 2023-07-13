@@ -136,7 +136,8 @@
 
     <!--Anti-surveillance-->
     <string name="anti_surveillance_enable_title">Enable AntiTracker</string>
-    <string name="anti_surveillance_description">Block lists refer to DNS blocking lists used by our AntiTracker. The \'Basic\', \'Comprehensive\', and \'Restrictive\' options are combinations of individual lists, each offering a different level of protection. You also have the freedom to select from individual lists for a more tailored AntiTracker experience.</string>
+    <string name="anti_surveillance_description">When AntiTracker is enabled, IVPN blocks ads, malicious websites, and third-party trackers using our private DNS servers.</string>
+    <string name="anti_surveillance_block_list_description">Block lists refer to DNS blocking lists used by our AntiTracker. The \'Basic\', \'Comprehensive\', and \'Restrictive\' options are combinations of individual lists, each offering a different level of protection. You also have the freedom to select from individual lists for a more tailored AntiTracker experience.</string>
     <string name="anti_surveillance_hardcore">Hardcore Mode</string>
     <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook)</string>
     <string name="anti_surveillance_read_more">Read more</string>
@@ -145,6 +146,8 @@
     <string name="anti_tracker_description_state_not_active">AntiTracker will be enabled when connected to VPN"</string>
     <string name="anti_tracker_pre_defined">Pre-defined lists</string>
     <string name="anti_tracker_individual">Individual lists</string>
+    <string name="anti_block_list">Block list</string>
+    <string name="anti_change_list">Change list</string>
 
     <!--Mock Location-->
     <string name="mock_location_enable_developer_options">Enable developer options</string>

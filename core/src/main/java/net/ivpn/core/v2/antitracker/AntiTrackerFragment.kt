@@ -83,6 +83,9 @@ class AntiTrackerFragment: Fragment() {
         binding.contentLayout.readMoreAntitracker.setOnClickListener {
             readMore()
         }
+        binding.contentLayout.readMoreBlockList.setOnClickListener {
+            readMoreBlockList()
+        }
         binding.contentLayout.readMoreHardcore.setOnClickListener {
             readMoreHardcore()
         }
@@ -100,6 +103,12 @@ class AntiTrackerFragment: Fragment() {
     }
 
     private fun readMore() {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.ivpn.net/antitracker/")
+        startActivity(openURL)
+    }
+
+    private fun readMoreBlockList() {
         val openURL = Intent(Intent.ACTION_VIEW)
         openURL.data = Uri.parse("https://www.ivpn.net/knowledgebase/antitracker/blocklists/")
         startActivity(openURL)

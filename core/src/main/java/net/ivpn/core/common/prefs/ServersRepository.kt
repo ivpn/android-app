@@ -265,10 +265,6 @@ class ServersRepository @Inject constructor(
             settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
             settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
             settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
-            settings.antiTrackerList = response.config.antiTrackerPlus.list
-            if (settings.antiTracker == null) {
-                settings.antiTracker = settings.antiTrackerList.first()
-            }
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }
@@ -283,10 +279,6 @@ class ServersRepository @Inject constructor(
             settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
             settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
             settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
-            settings.antiTrackerList = response.config.antiTrackerPlus.list
-            if (settings.antiTracker == null) {
-                settings.antiTracker = settings.antiTrackerList.first()
-            }
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
         }

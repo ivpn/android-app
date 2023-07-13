@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="antitracker"
             type="net.ivpn.core.v2.viewmodel.AntiTrackerViewModel" />
@@ -64,6 +62,48 @@
 
                 </LinearLayout>
 
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:lineSpacingExtra="3sp"
+                    android:textColor="@color/antitracker_text"
+                    android:alpha="0.6"
+                    android:text="@string/anti_surveillance_description"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/read_more_antitracker"
+                    style="@style/SettingsAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/anti_surveillance_read_more"
+                    android:textAllCaps="true" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_sections_inner_margin" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:background="@color/antitracker_card_background"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -74,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="3sp"
-                        android:text="Block list"
+                        android:text="@string/anti_block_list"
                         android:textAlignment="viewStart"
                         android:textColor="@color/custom_dns_text_color"
                         android:textSize="16sp"
@@ -107,7 +147,7 @@
                         style="@style/SettingsAction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Change list"
+                        android:text="@string/anti_change_list"
                         android:textAllCaps="true"/>
                 </LinearLayout>
 
@@ -119,12 +159,12 @@
                     android:lineSpacingExtra="3sp"
                     android:textColor="@color/antitracker_text"
                     android:alpha="0.6"
-                    android:text="@string/anti_surveillance_description"
+                    android:text="@string/anti_surveillance_block_list_description"
                     android:textAlignment="viewStart"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/read_more_antitracker"
+                    android:id="@+id/read_more_block_list"
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
