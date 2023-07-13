@@ -73,7 +73,7 @@ fun AntiTrackerListItem(dns: AntiTracker, navController: NavController?, viewMod
         modifier = Modifier
             .clickable {
                 viewModel.setAntiTracker(dns)
-                navController?.popBackStack()
+                navController?.popBackStack(R.id.antiTrackerFragment, false)
             }
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()

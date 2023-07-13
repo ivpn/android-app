@@ -76,7 +76,7 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
         modifier = Modifier
             .clickable {
                 viewModel.setPort(port)
-                navController?.popBackStack()
+                navController?.popBackStack(R.id.protocolFragment, false)
             }
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
