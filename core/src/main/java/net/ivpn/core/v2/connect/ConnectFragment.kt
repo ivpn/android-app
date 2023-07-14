@@ -340,6 +340,14 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
                 return@setOnClickListener
             }
 
+            if (connect.isVpnActive()) {
+                notifyUser(
+                    R.string.snackbar_to_use_antitracker_disconnect,
+                    R.string.snackbar_disconnect_first
+                )
+                return@setOnClickListener
+            }
+
             openAntiTrackerScreen()
         }
         binding.slidingPanel.enterServerLayout.setOnClickListener {
