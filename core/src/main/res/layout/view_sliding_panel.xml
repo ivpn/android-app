@@ -634,8 +634,8 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/antitracker_switch"
-                        android:layout_width="48dp"
-                        android:layout_height="24dp"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
                         android:layout_marginEnd="16dp"
                         android:checked="@{antitracker.isAntiSurveillanceEnabled}"
                         android:theme="@style/AppTheme.SwitchCompat"
