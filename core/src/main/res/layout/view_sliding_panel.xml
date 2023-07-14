@@ -604,9 +604,12 @@
                     android:background="@color/sliding_panel_line_color"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/antitracker_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/sliding_panel_background"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="@{antitracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
 
                     <View

@@ -16,6 +16,10 @@
             app:destination="@id/protocolFragment"
             app:popUpTo="@+id/connectFragment"/>
         <action
+            android:id="@+id/action_connectFragment_to_antiTrackerFragment"
+            app:destination="@id/antiTrackerFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
             android:id="@+id/action_connectFragment_to_serverListFragment"
             app:destination="@id/serverListFragment"
             app:popUpTo="@+id/connectFragment"/>
