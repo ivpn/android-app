@@ -139,7 +139,7 @@
     <string name="anti_surveillance_description">When AntiTracker is enabled, IVPN blocks ads, malicious websites, and third-party trackers using our private DNS servers.</string>
     <string name="anti_surveillance_block_list_description">Block lists refer to DNS blocking lists used by our AntiTracker. The \'Basic\', \'Comprehensive\', and \'Restrictive\' options are combinations of individual lists, each offering a different level of protection. You also have the freedom to select from individual lists for a more tailored AntiTracker experience.</string>
     <string name="anti_surveillance_hardcore">Hardcore Mode</string>
-    <string name="anti_surveillance_hardcore_description">Hardcore mode blocks the leading companies with business models relying on user surveillance (currently: Google and Facebook)</string>
+    <string name="anti_surveillance_hardcore_description">Adding Hardcore mode will block the leading companies with business models relying on user surveillance (currently: Google and Facebook).</string>
     <string name="anti_surveillance_read_more">Read more</string>
     <string name="anti_tracker_description_state_disabled">AntiTracker is disabled</string>
     <string name="anti_tracker_description_state_enabled">AntiTracker is enabled and blocking known trackers</string>
