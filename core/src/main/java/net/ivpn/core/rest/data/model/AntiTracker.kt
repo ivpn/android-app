@@ -25,6 +25,8 @@ package net.ivpn.core.rest.data.model
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import net.ivpn.core.common.prefs.EncryptedUserPreference
+import net.ivpn.core.common.prefs.Settings
 
 class AntiTracker {
 
@@ -57,7 +59,20 @@ class AntiTracker {
         return description
     }
 
+    fun getDefaultList(lists: List<AntiTracker>, settings: Settings, userPreference: EncryptedUserPreference): AntiTracker? {
+        if (userPreference.getSessionToken().isNotEmpty() || settings.isAntiSurveillanceEnabled || settings.isAntiSurveillanceHardcoreEnabled) {
+            val filteredList = lists.filter { it.name == oisdbigList }
+            return filteredList.firstOrNull()
+        }
+
+        val filteredList = lists.filter { it.name == basicList }
+        return filteredList.firstOrNull()
+    }
+
     companion object {
+
+        const val basicList = "Basic"
+        const val oisdbigList = "Oisdbig"
 
         fun from(json: String): AntiTracker {
             return Gson().fromJson(json, AntiTracker::class.java)

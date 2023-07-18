@@ -28,6 +28,7 @@ import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.data.ServersListResponse
+import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
@@ -46,7 +47,8 @@ class ServersRepository @Inject constructor(
         private val settings: Settings,
         private val httpClientFactory: HttpClientFactory,
         private val protocolController: ProtocolController,
-        private val serversPreference: ServersPreference
+        private val serversPreference: ServersPreference,
+        private val userPreference: EncryptedUserPreference
 ): Serializable {
 
     companion object {
@@ -186,7 +188,8 @@ class ServersRepository @Inject constructor(
                 settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
                 settings.antiTrackerList = response.config.antiTrackerPlus.list
                 if (settings.antiTracker == null) {
-                    settings.antiTracker = settings.antiTrackerList.first()
+                    val defaultDns = AntiTracker()
+                    settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
                 }
                 for (listener in onServerListUpdatedListeners) {
                     listener.onSuccess(getSuitableServers(response), isForced)
