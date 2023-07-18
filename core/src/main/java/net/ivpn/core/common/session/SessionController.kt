@@ -66,7 +66,7 @@ class SessionController @Inject constructor(
 
     private val listeners = arrayListOf<SessionListener>()
 
-    private val kem = KEM();
+    private var kem = KEM()
 
     fun subscribe(listener: SessionListener) {
         listeners.add(listener)
@@ -275,6 +275,7 @@ class SessionController @Inject constructor(
     }
 
     private fun getKemPublicKey(): String {
+        kem = KEM()
         return kem.getPublicKey(KemAlgorithm.Kyber1024)
     }
 
