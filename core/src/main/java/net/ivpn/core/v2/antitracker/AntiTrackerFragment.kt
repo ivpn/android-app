@@ -110,7 +110,7 @@ class AntiTrackerFragment: Fragment() {
 
     private fun readMoreBlockList() {
         val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.ivpn.net/knowledgebase/antitracker/blocklists/")
+        openURL.data = Uri.parse("https://www.ivpn.net/knowledgebase/general/antitracker-plus-lists-explained/")
         startActivity(openURL)
     }
 
