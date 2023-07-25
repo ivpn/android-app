@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 [IMPROVED] OpenSSL updated to 1.1.1l  
 [NOTE] Removed references to Port Forwarding  
 
-[Download IVPN Client v2.8.6](https://www.ivpn.net/releases/android/IVPNv2.9.0site.apk)  
+[Download IVPN Client v2.9.0](https://www.ivpn.net/releases/android/IVPNv2.9.0site.apk)  
 SHA256: 72842519c72d837ea0831db1f33c89dbf359a753d2d067c99e5ca051c0c75c54  
 
 ## Version 2.8.6 - 2023-04-13
