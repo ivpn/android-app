@@ -39,6 +39,9 @@ public class AddWireGuardPublicKeyResponse {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("kem_cipher1")
+    @Expose
+    private String kemCipher1;
 
     public String getResult() {
         return result;
@@ -70,6 +73,12 @@ public class AddWireGuardPublicKeyResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getKemCipher1() { return kemCipher1; }
+
+    public void setKemCipher1(String kemCipher1) {
+        this.kemCipher1 = kemCipher1;
     }
 
     @Override

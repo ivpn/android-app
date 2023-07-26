@@ -78,7 +78,8 @@ public enum Dialogs {
     MOCK_LOCATION_DEVELOPER_OPTION_ERROR(R.string.dialogs_mock_location_developer_options, R.string.dialogs_mock_location_developer_options_message, -1, R.string.dialogs_ok),
     MOCK_LOCATION_APP_ERROR(R.string.dialogs_mock_wrong_app, R.string.dialogs_mock_wrong_app_message, -1, R.string.dialogs_ok),
     REMOVE_KILL_SWITCH(R.string.dialogs_please_note, R.string.dialogs_remove_kill_switch, R.string.dialogs_to_read_more, R.string.dialogs_ok),
-    WG_CANT_CHANGE_PORT(R.string.dialogs_please_note, R.string.dialogs_wireguard_impossible_change_port, -1, R.string.dialogs_ok);
+    WG_CANT_CHANGE_PORT(R.string.dialogs_please_note, R.string.dialogs_wireguard_impossible_change_port, -1, R.string.dialogs_ok),
+    WG_QUANTUM_RESISTANCE_INFO(R.string.protocol_wg_quantum_resistance, R.string.protocol_wg_quantum_resistance_info, -1, R.string.dialogs_ok);
 
     private int titleId;
     private int messageId;

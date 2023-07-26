@@ -28,6 +28,8 @@ import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.prefs.EncryptedUserPreference
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.common.utils.KEM
+import net.ivpn.core.common.utils.KemAlgorithm
 import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
@@ -64,6 +66,8 @@ class SessionController @Inject constructor(
 
     private val listeners = arrayListOf<SessionListener>()
 
+    private var kem = KEM()
+
     fun subscribe(listener: SessionListener) {
         listeners.add(listener)
     }
@@ -78,7 +82,8 @@ class SessionController @Inject constructor(
             token: String
     ) {
         val keys = getKeypair()
-        val body = SessionNewRequestBody(username, keys?.publicKey, force, token)
+        val kemPublicKey = getKemPublicKey()
+        val body = SessionNewRequestBody(username, keys?.publicKey, kemPublicKey, force, token)
 
         innerCreateSession(body, keys)
     }
@@ -89,14 +94,16 @@ class SessionController @Inject constructor(
             captchaId: String, captchaValue: String
     ) {
         val keys = getKeypair()
-        val body = SessionNewRequestBody(username, keys?.publicKey, force, captchaId, captchaValue)
+        val kemPublicKey = getKemPublicKey()
+        val body = SessionNewRequestBody(username, keys?.publicKey, kemPublicKey, force, captchaId, captchaValue)
 
         innerCreateSession(body, keys)
     }
 
     fun createSession(force: Boolean, username: String? = getUsername()) {
         val keys = getKeypair()
-        val body = SessionNewRequestBody(username, keys?.publicKey, force)
+        val kemPublicKey = getKemPublicKey()
+        val body = SessionNewRequestBody(username, keys?.publicKey, kemPublicKey, force)
 
         innerCreateSession(body, keys)
     }
@@ -267,6 +274,11 @@ class SessionController @Inject constructor(
         }
     }
 
+    private fun getKemPublicKey(): String {
+        kem = KEM()
+        return kem.getPublicKey(KemAlgorithm.Kyber1024)
+    }
+
     private fun getUsername(): String? {
         return userPreference.getUserLogin()
     }
@@ -321,6 +333,12 @@ class SessionController @Inject constructor(
     private fun putWireGuardData(wireGuard: WireGuard) {
         LOGGER.info("Save WireGuard data")
         settings.wireGuardIpAddress = wireGuard.ipAddress
+        if (wireGuard.kemCipher1.isNotEmpty()) {
+            kem.setCipher(KemAlgorithm.Kyber1024, wireGuard.kemCipher1)
+            settings.saveWireGuardPresharedKey(kem.calculatePresharedKey())
+        } else {
+            settings.saveWireGuardPresharedKey(null)
+        }
     }
 
     private fun resetWireGuard() {

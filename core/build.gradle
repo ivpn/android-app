@@ -245,6 +245,9 @@ dependencies {
     androidTestUtil 'androidx.test:orchestrator:1.3.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // liboqs
+    implementation project(path: ':liboqs-android')
 }
 
 repositories {

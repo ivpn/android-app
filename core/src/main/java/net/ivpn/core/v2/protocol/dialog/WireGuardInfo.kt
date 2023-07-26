@@ -27,6 +27,7 @@ import net.ivpn.core.common.utils.DateUtil
 class WireGuardInfo(
         val publicKey: String,
         val ipAddress: String,
+        val presharedKey: String?,
         private val lastGeneratedTime: Long,
         private val regenerationPeriod: Long
 ) {
@@ -38,6 +39,11 @@ class WireGuardInfo(
             ipAddress
         }
     }
+
+    val isQRDisabled: Boolean
+        get() {
+            return presharedKey.isNullOrEmpty()
+        }
 
     val lastGenerated: String
         get() {

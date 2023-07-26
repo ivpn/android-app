@@ -168,11 +168,12 @@ public class ProtocolViewModel {
 
     public WireGuardInfo getWireGuardInfo() {
         String ipAddress = settings.getWireGuardIpAddress();
+        String presharedKey = settings.getWireGuardPresharedKey();
 
         long regenerationPeriod = keyController.getRegenerationPeriod();
         long lastGeneratedTime = settings.getGenerationTime();
 
-        return new WireGuardInfo(wireGuardPublicKey, ipAddress, lastGeneratedTime, regenerationPeriod);
+        return new WireGuardInfo(wireGuardPublicKey, ipAddress, presharedKey, lastGeneratedTime, regenerationPeriod);
     }
 
     public String getDescription() {

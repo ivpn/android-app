@@ -116,6 +116,10 @@ class ConfigManager @Inject constructor(
             it.publicKey = host.publicKey
         }
 
+        if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
+            peer.preSharedKey = settings.wireGuardPresharedKey
+        }
+
         config.peers = listOf(peer)
         return config
     }
@@ -145,6 +149,10 @@ class ConfigManager @Inject constructor(
             it.setAllowedIPsString("0.0.0.0/0, ::/0")
             it.setEndpointString(entryHost.host + ":" + exitHost.multihopPort)
             it.publicKey = exitHost.publicKey
+        }
+
+        if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
+            peer.preSharedKey = settings.wireGuardPresharedKey
         }
 
         config.peers = listOf(peer)

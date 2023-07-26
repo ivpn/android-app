@@ -93,6 +93,9 @@ class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
         binding.contentLayout.wireguardInfo.ipClipboardCopy.setOnClickListener {
             copyIpAddressToClipboard()
         }
+        binding.contentLayout.wireguardInfo.wgQuantumResistanceInfo.setOnClickListener {
+            openQuantumResistanceInfo()
+        }
         binding.contentLayout.regenerate.setOnClickListener {
             reGenerateKeys()
         }
@@ -120,6 +123,10 @@ class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         viewModel.copyWgIpToClipboard(clipboard)
         ToastUtil.toast(R.string.protocol_wg_ip_address_copied)
+    }
+
+    private fun openQuantumResistanceInfo() {
+        DialogBuilder.createNotificationDialog(context, Dialogs.WG_QUANTUM_RESISTANCE_INFO)
     }
 
     override fun notifyUser(msgId: Int, actionId: Int, listener: View.OnClickListener?) {

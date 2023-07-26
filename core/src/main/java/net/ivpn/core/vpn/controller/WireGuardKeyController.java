@@ -29,6 +29,7 @@ import net.ivpn.core.common.prefs.EncryptedUserPreference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.utils.DateUtil;
+import net.ivpn.core.common.utils.KemAlgorithm;
 import net.ivpn.core.rest.HttpClientFactory;
 import net.ivpn.core.rest.RequestListener;
 import net.ivpn.core.rest.Responses;
@@ -36,6 +37,7 @@ import net.ivpn.core.rest.data.wireguard.AddWireGuardPublicKeyRequestBody;
 import net.ivpn.core.rest.data.wireguard.AddWireGuardPublicKeyResponse;
 import net.ivpn.core.rest.requests.common.Request;
 import net.ivpn.core.rest.requests.common.RequestWrapper;
+import net.ivpn.core.common.utils.KEM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,15 +137,17 @@ public class WireGuardKeyController {
     private void setKey(boolean provideOldKey) {
         Keypair keys = settings.generateWireGuardKeys();
         String oldPublicKey = settings.getWireGuardPublicKey();
+        KEM kem = new KEM();
+        String kemPublicKey = kem.getPublicKey(KemAlgorithm.Kyber1024);
 
         AddWireGuardPublicKeyRequestBody requestBody;
         if (provideOldKey) {
             requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
-                    keys.getPublicKey(), oldPublicKey);
+                    keys.getPublicKey(), oldPublicKey, kemPublicKey);
         } else {
             settings.removeWireGuardKeys();
             requestBody = new AddWireGuardPublicKeyRequestBody(getSessionToken(),
-                    keys.getPublicKey());
+                    keys.getPublicKey(), kemPublicKey);
         }
 
         addKeyRequest = new Request<>(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4);
@@ -160,6 +164,12 @@ public class WireGuardKeyController {
                 if (response.getStatus() == Responses.SUCCESS) {
                     settings.setWireGuardIpAddress(response.getIpAddress());
                     settings.saveWireGuardKeypair(keys);
+                    if (!response.getKemCipher1().isEmpty()) {
+                        kem.setCipher(KemAlgorithm.Kyber1024, response.getKemCipher1());
+                        settings.saveWireGuardPresharedKey(kem.calculatePresharedKey());
+                    } else {
+                        settings.saveWireGuardPresharedKey(null);
+                    }
                     keysEventsListener.onKeyGeneratedSuccess();
                 } else {
                     keysEventsListener.onKeyGeneratedError(null, null);
