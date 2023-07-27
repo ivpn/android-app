@@ -27,7 +27,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
-import com.android.billingclient.api.SkuDetails
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.QueryProductDetailsParams.Product
 import net.ivpn.client.R
 import net.ivpn.client.billing.BillingListener
 import net.ivpn.client.billing.BillingManagerWrapper
@@ -70,11 +72,11 @@ class SignUpViewModel @Inject constructor(
     val selectedPeriod = ObservableField<Period?>()
     val selectedPlan = ObservableField<Plan>()
 
-    val oneWeek = ObservableField<SkuDetails>()
-    val oneMonth = ObservableField<SkuDetails>()
-    val oneYear = ObservableField<SkuDetails>()
-    val twoYear = ObservableField<SkuDetails>()
-    val threeYear = ObservableField<SkuDetails>()
+    val oneWeek = ObservableField<ProductDetails>()
+    val oneMonth = ObservableField<ProductDetails>()
+    val oneYear = ObservableField<ProductDetails>()
+    val twoYear = ObservableField<ProductDetails>()
+    val threeYear = ObservableField<ProductDetails>()
     val oneYearDiscount = ObservableField<String>()
     val twoYearDiscount = ObservableField<String>()
     val threeYearDiscount = ObservableField<String>()
@@ -118,15 +120,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun purchase(activity: Activity) {
-        getProperSkuDetail()?.let {
-            billingManager.setSkuDetails(it)
-//            billingManager.setProductName(getProperProductName())
+        getProperProductDetail()?.let {
+            billingManager.setProductDetails(it)
             billingManager.startPurchase(activity)
         }
     }
 
-    fun getPrice(skuDetails: SkuDetails?): String? {
-        return skuDetails?.price
+    fun getPrice(productDetails: ProductDetails): String? {
+        return productDetails.oneTimePurchaseOfferDetails?.formattedPrice
     }
 
     private fun isBlankAccountFresh(): Boolean {
@@ -225,7 +226,7 @@ class SignUpViewModel @Inject constructor(
         })
     }
 
-    private fun getProperSkuDetail(): SkuDetails? {
+    private fun getProperProductDetail(): ProductDetails? {
         return when(selectedPeriod.get()) {
             Period.ONE_WEEK -> oneWeek.get()
             Period.ONE_MONTH -> oneMonth.get()
@@ -257,48 +258,55 @@ class SignUpViewModel @Inject constructor(
         return selectedPlan.get()?.productName
     }
 
-    private fun checkSkuDetails() {
-        val skuList = ArrayList<String>()
+    private fun checkProductDetails() {
+        val productList = ArrayList<Product>()
+
         for (plan in Plan.values()) {
             for (period in Period.values()) {
-                skuList.add(plan.skuPath + period.skuPath)
+                productList.add(
+                    Product.newBuilder()
+                        .setProductId(plan.skuPath + period.skuPath)
+                        .setProductType(BillingClient.ProductType.INAPP)
+                        .build()
+                )
             }
         }
-        billingManager.checkSkuDetails(skuList)
+
+        billingManager.checkProductDetails(productList)
     }
 
     override fun onInitStateChanged(isInit: Boolean, errorCode: Int) {
         LOGGER.info("Is billing manager init? - $isInit, errorCode = $errorCode")
         if (isInit) {
-            checkSkuDetails()
+            checkProductDetails()
         } else {
             handleError(errorCode)
         }
     }
 
-    override fun onCheckingSkuDetailsSuccess(skuDetailsList: MutableList<SkuDetails>?) {
-        LOGGER.info("processSkuDetails")
+    override fun onCheckingProductDetailsSuccess(productDetailsList: List<ProductDetails>) {
+        LOGGER.info("productDetailsList")
         dataLoading.set(false)
 
-        skuDetailsList?.let { details ->
+        productDetailsList.let { details ->
             selectedPlan.get()?.let { plan ->
-                for (skuDetails in details) {
-                    LOGGER.info("Check ${skuDetails.sku}")
-                    when (skuDetails.sku) {
+                for (productDetails in details) {
+                    LOGGER.info("Check ${productDetails.productId}")
+                    when (productDetails.productId) {
                         plan.skuPath + Period.ONE_WEEK.skuPath -> {
-                            oneWeek.set(skuDetails)
+                            oneWeek.set(productDetails)
                         }
                         plan.skuPath + Period.ONE_MONTH.skuPath -> {
-                            oneMonth.set(skuDetails)
+                            oneMonth.set(productDetails)
                         }
                         plan.skuPath + Period.ONE_YEAR.skuPath -> {
-                            oneYear.set(skuDetails)
+                            oneYear.set(productDetails)
                         }
                         plan.skuPath + Period.TWO_YEARS.skuPath -> {
-                            twoYear.set(skuDetails)
+                            twoYear.set(productDetails)
                         }
                         plan.skuPath + Period.THREE_YEARS.skuPath -> {
-                            threeYear.set(skuDetails)
+                            threeYear.set(productDetails)
                         }
                     }
                 }
@@ -310,33 +318,33 @@ class SignUpViewModel @Inject constructor(
                 selectPeriod(Period.ONE_YEAR)
             }
 
-            for (skuDetails in details) {
-                when (skuDetails.sku) {
+            for (productDetails in details) {
+                when (productDetails.productId) {
                     Plan.STANDARD.skuPath + Period.ONE_WEEK.skuPath -> {
-                        standardWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                        standardWeek.set(getPricePerPeriodString(productDetails, "Week"))
                     }
                     Plan.STANDARD.skuPath + Period.ONE_MONTH.skuPath -> {
-                        standardMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                        standardMonth.set(getPricePerPeriodString(productDetails, "Month"))
                     }
                     Plan.STANDARD.skuPath + Period.ONE_YEAR.skuPath -> {
-                        standardYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                        standardYear.set(getPricePerPeriodString(productDetails, "Year"))
                     }
                     Plan.PRO.skuPath + Period.ONE_WEEK.skuPath -> {
-                        proWeek.set(getPricePerPeriodString(skuDetails, "Week"))
+                        proWeek.set(getPricePerPeriodString(productDetails, "Week"))
                     }
                     Plan.PRO.skuPath + Period.ONE_MONTH.skuPath -> {
-                        proMonth.set(getPricePerPeriodString(skuDetails, "Month"))
+                        proMonth.set(getPricePerPeriodString(productDetails, "Month"))
                     }
                     Plan.PRO.skuPath + Period.ONE_YEAR.skuPath -> {
-                        proYear.set(getPricePerPeriodString(skuDetails, "Year"))
+                        proYear.set(getPricePerPeriodString(productDetails, "Year"))
                     }
                 }
             }
         }
     }
 
-    private fun getPricePerPeriodString(skuDetails: SkuDetails, period: String): String {
-        return "${skuDetails.price} / $period"
+    private fun getPricePerPeriodString(productDetails: ProductDetails, period: String): String {
+        return "${productDetails.oneTimePurchaseOfferDetails?.formattedPrice} / $period"
     }
 
     override fun onPurchaseError(errorStatus: Int, errorMessage: String?) {
@@ -366,11 +374,11 @@ class SignUpViewModel @Inject constructor(
     private fun calculateYearDiscount() {
         var monthPrice: Long = 0
         oneMonth.get()?.let {
-            monthPrice = it.priceAmountMicros
+            monthPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         var yearPrice: Long = 0
         oneYear.get()?.let {
-            yearPrice = it.priceAmountMicros
+            yearPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         if (monthPrice == 0L) {
             return
@@ -382,11 +390,11 @@ class SignUpViewModel @Inject constructor(
     private fun calculateTwoYearDiscount() {
         var monthPrice: Long = 0
         oneMonth.get()?.let {
-            monthPrice = it.priceAmountMicros
+            monthPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         var twoYearsPrice: Long = 0
         twoYear.get()?.let {
-            twoYearsPrice = it.priceAmountMicros
+            twoYearsPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         if (monthPrice == 0L) {
             return
@@ -398,11 +406,11 @@ class SignUpViewModel @Inject constructor(
     private fun calculateThreeYearDiscount() {
         var monthPrice: Long = 0
         oneMonth.get()?.let {
-            monthPrice = it.priceAmountMicros
+            monthPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         var threeYearsPrice: Long = 0
         threeYear.get()?.let {
-            threeYearsPrice = it.priceAmountMicros
+            threeYearsPrice = it.oneTimePurchaseOfferDetails?.priceAmountMicros ?: 0
         } ?: return
         if (monthPrice == 0L) {
             return

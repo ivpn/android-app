@@ -23,7 +23,7 @@ package net.ivpn.client.billing;
 */
 
 
-import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.ProductDetails;
 import net.ivpn.client.billing.BillingManagerWrapper.PurchaseState;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public interface BillingListener {
 
     void onPurchaseStateChanged(PurchaseState state);
 
-    void onCheckingSkuDetailsSuccess(List<SkuDetails> skuDetailsList);
+    void onCheckingProductDetailsSuccess(List<ProductDetails> productDetailsList);
 
     void onPurchaseError(int errorStatus, String errorMessage);
 
