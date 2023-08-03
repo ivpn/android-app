@@ -329,6 +329,27 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
             openProtocolScreen()
         }
+        binding.slidingPanel.antitrackerLayout.setOnClickListener {
+            if (!account.authenticated.get()) {
+                openLoginScreen()
+                return@setOnClickListener
+            }
+
+            if (!account.isActive.get()) {
+                openAddFundsScreen()
+                return@setOnClickListener
+            }
+
+            if (connect.isVpnActive()) {
+                notifyUser(
+                    R.string.snackbar_to_use_antitracker_disconnect,
+                    R.string.snackbar_disconnect_first
+                )
+                return@setOnClickListener
+            }
+
+            openAntiTrackerScreen()
+        }
         binding.slidingPanel.enterServerLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -683,6 +704,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     private fun openProtocolScreen() {
         val action = ConnectFragmentDirections.actionConnectFragmentToProtocolFragment()
+        navigate(action)
+    }
+
+    private fun openAntiTrackerScreen() {
+        val action = ConnectFragmentDirections.actionConnectFragmentToAntiTrackerFragment()
         navigate(action)
     }
 

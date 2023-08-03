@@ -16,6 +16,10 @@
             app:destination="@id/protocolFragment"
             app:popUpTo="@+id/connectFragment"/>
         <action
+            android:id="@+id/action_connectFragment_to_antiTrackerFragment"
+            app:destination="@id/antiTrackerFragment"
+            app:popUpTo="@+id/connectFragment"/>
+        <action
             android:id="@+id/action_connectFragment_to_serverListFragment"
             app:destination="@id/serverListFragment"
             app:popUpTo="@+id/connectFragment"/>
@@ -157,7 +161,13 @@
         android:id="@+id/antiTrackerFragment"
         android:name="net.ivpn.core.v2.antitracker.AntiTrackerFragment"
         android:label="AntiTracker" />
-
+        <action
+            android:id="@+id/action_antiTrackerFragment_to_antiTrackerListFragment"
+            app:destination="@id/antiTrackerListFragment" />
+    <fragment
+        android:id="@+id/antiTrackerListFragment"
+        android:name="net.ivpn.core.v2.antitracker.AntiTrackerListFragment"
+        android:label="Block List" />
     <fragment
         android:id="@+id/TFAFragment"
         android:name="net.ivpn.core.v2.tfa.TFAFragment"

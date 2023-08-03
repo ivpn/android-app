@@ -27,9 +27,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Config {
 
-    @SerializedName("antitracker")
+    @SerializedName("antitracker_plus")
     @Expose
-    private AntiTracker antitracker;
+    private AntiTrackerPlus antitrackerPlus;
     @SerializedName("api")
     @Expose
     private Api api;
@@ -37,12 +37,12 @@ public class Config {
     @Expose
     private Ports ports;
 
-    public AntiTracker getAntiTracker() {
-        return antitracker;
+    public AntiTrackerPlus getAntiTrackerPlus() {
+        return antitrackerPlus;
     }
 
-    public void setAntiTracker(AntiTracker antitracker) {
-        this.antitracker = antitracker;
+    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
+        this.antitrackerPlus = antitrackerPlus;
     }
 
     public Api getApi() {
