@@ -316,7 +316,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.getPrice(viewmodel.threeYear)}"
+                                android:text="@{viewmodel.threeYear.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
