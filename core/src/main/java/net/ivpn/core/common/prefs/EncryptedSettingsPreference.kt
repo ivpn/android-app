@@ -49,8 +49,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_CUSTOM_DNS = "SETTINGS_CUSTOM_DNS"
         private const val SETTINGS_ANTI_SURVEILLANCE = "SETTINGS_ANTI_SURVEILLANCE"
         private const val SETTINGS_ANTI_SURVEILLANCE_HARDCORE = "SETTINGS_ANTI_SURVEILLANCE_HARDCORE"
-        private const val SETTINGS_ANTI_SURVEILLANCE_DNS = "SETTINGS_ANTI_SURVEILLANCE_DNS"
-        private const val SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS = "SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS"
         private const val SETTINGS_CUSTOM_DNS_VALUE = "SETTINGS_CUSTOM_DNS_VALUE"
         private const val SETTINGS_AUTO_UPDATE = "SETTINGS_AUTO_UPDATE"
         private const val SETTINGS_NEXT_VERSION = "SETTINGS_NEXT_VERSION"
@@ -75,6 +73,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val IP_LIST = "IP_LIST"
         private const val IPV6_LIST = "IPV6_LIST"
         private const val LAST_USED_IP = "LAST_USED_IP"
+        private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
+        private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -174,14 +174,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getBoolean(SETTINGS_ANTI_SURVEILLANCE_HARDCORE, false)
     }
 
-    fun getAntiSurveillanceDns(): String? {
-        return sharedPreferences.getString(SETTINGS_ANTI_SURVEILLANCE_DNS, "10.0.254.2")
-    }
-
-    fun getAntiSurveillanceHardcoreDns(): String? {
-        return sharedPreferences.getString(SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS, "10.0.254.3")
-    }
-
     fun getIsAdvancedKillSwitchDialogEnabled(): Boolean {
         return sharedPreferences.getBoolean(SETTINGS_ADVANCED_KILL_SWITCH_DIALOG, true)
     }
@@ -255,18 +247,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     fun putAntiSurveillanceHardcore(value: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(SETTINGS_ANTI_SURVEILLANCE_HARDCORE, value)
-                .apply()
-    }
-
-    fun putAntiSurveillanceDns(value: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_ANTI_SURVEILLANCE_DNS, value)
-                .apply()
-    }
-
-    fun putAntiSurveillanceHardcoreDns(value: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS, value)
                 .apply()
     }
 
@@ -492,6 +472,26 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
                 .apply()
     }
 
+    fun setAntiTrackerList(json: String?) {
+        sharedPreferences.edit()
+            .putString(ANTITRACKER_LIST, json)
+            .apply()
+    }
+
+    fun getAntiTrackerList(): String? {
+        return sharedPreferences.getString(ANTITRACKER_LIST, "")
+    }
+
+    fun setAntiTracker(json: String?) {
+        sharedPreferences.edit()
+            .putString(ANTITRACKER_DNS, json)
+            .apply()
+    }
+
+    fun getAntiTracker(): String? {
+        return sharedPreferences.getString(ANTITRACKER_DNS, "")
+    }
+
     private fun putIsMigrated(isMigrated: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(IS_MIGRATED, isMigrated)
@@ -550,12 +550,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         }
         if (oldPreference.contains(SETTINGS_ANTI_SURVEILLANCE_HARDCORE)) {
             putAntiSurveillanceHardcore(oldPreference.getBoolean(SETTINGS_ANTI_SURVEILLANCE_HARDCORE, false))
-        }
-        if (oldPreference.contains(SETTINGS_ANTI_SURVEILLANCE_DNS)) {
-            putAntiSurveillanceDns(oldPreference.getString(SETTINGS_ANTI_SURVEILLANCE_DNS, "10.0.254.2"))
-        }
-        if (oldPreference.contains(SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS)) {
-            putAntiSurveillanceHardcoreDns(oldPreference.getString(SETTINGS_ANTI_SURVEILLANCE_HARDCORE_DNS, "10.0.254.3"))
         }
         if (oldPreference.contains(SETTINGS_CUSTOM_DNS_VALUE)) {
             setCustomDNSValue(oldPreference.getString(SETTINGS_CUSTOM_DNS_VALUE, ""))

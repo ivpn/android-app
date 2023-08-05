@@ -28,6 +28,7 @@ import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.data.ServersListResponse
+import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
@@ -46,7 +47,8 @@ class ServersRepository @Inject constructor(
         private val settings: Settings,
         private val httpClientFactory: HttpClientFactory,
         private val protocolController: ProtocolController,
-        private val serversPreference: ServersPreference
+        private val serversPreference: ServersPreference,
+        private val userPreference: EncryptedUserPreference
 ): Serializable {
 
     companion object {
@@ -178,14 +180,17 @@ class ServersRepository @Inject constructor(
                 LOGGER.info(response.toString())
                 response.markServerTypes()
                 setServerList(response.openVpnServerList, response.wireGuardServerList)
-                settings.antiTrackerDefaultDNS = response.config.antiTracker.default.ip
-                settings.antiTrackerHardcoreDNS = response.config.antiTracker.hardcore.ip
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
                 settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
                 settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
                 settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+                settings.antiTrackerList = response.config.antiTrackerPlus.list
+                if (settings.antiTracker == null) {
+                    val defaultDns = AntiTracker()
+                    settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
+                }
                 for (listener in onServerListUpdatedListeners) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
@@ -257,10 +262,17 @@ class ServersRepository @Inject constructor(
         val response = Mapper.getProtocolServers(ServersLoader.load())
         response?.let{
             it.markServerTypes()
-            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
-            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
+            settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
+            settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
+            settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+            settings.antiTrackerList = response.config.antiTrackerPlus.list
+            if (settings.antiTracker == null) {
+                val defaultDns = AntiTracker()
+                settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
+            }
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }
@@ -271,8 +283,15 @@ class ServersRepository @Inject constructor(
         }
         val response = Mapper.getProtocolServers(ServersLoader.load())
         response?.let {
-            settings.antiTrackerDefaultDNS = it.config.antiTracker.default.ip
-            settings.antiTrackerHardcoreDNS = it.config.antiTracker.hardcore.ip
+            settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
+            settings.openVpnPorts = response.config.ports.openvpn.filter { it.portNumber > 0 }
+            settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
+            settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
+            settings.antiTrackerList = response.config.antiTrackerPlus.list
+            if (settings.antiTracker == null) {
+                val defaultDns = AntiTracker()
+                settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
+            }
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
         }

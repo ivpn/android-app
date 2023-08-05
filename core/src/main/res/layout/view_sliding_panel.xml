@@ -604,9 +604,12 @@
                     android:background="@color/sliding_panel_line_color"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/antitracker_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/sliding_panel_background"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:visibility="@{antitracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
 
                     <View
@@ -631,8 +634,8 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/antitracker_switch"
-                        android:layout_width="48dp"
-                        android:layout_height="24dp"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
                         android:layout_marginEnd="16dp"
                         android:checked="@{antitracker.isAntiSurveillanceEnabled}"
                         android:theme="@style/AppTheme.SwitchCompat"

@@ -30,6 +30,7 @@ import net.ivpn.core.v2.account.AccountFragment;
 import net.ivpn.core.v2.account.LogOutFragment;
 import net.ivpn.core.v2.alwaysonvpn.AlwaysOnVPNFragment;
 import net.ivpn.core.v2.antitracker.AntiTrackerFragment;
+import net.ivpn.core.v2.antitracker.AntiTrackerListFragment;
 import net.ivpn.core.v2.captcha.CaptchaFragment;
 import net.ivpn.core.v2.connect.ConnectFragment;
 import net.ivpn.core.v2.customdns.CustomDNSFragment;
@@ -140,6 +141,8 @@ public interface ActivityComponent {
     void inject(AccountFragment fragment);
 
     void inject(AntiTrackerFragment fragment);
+
+    void inject(AntiTrackerListFragment fragment);
 
     void inject(SavedNetworksFragment fragment);
 

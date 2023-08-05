@@ -50,6 +50,7 @@ class AntiTrackerViewModel @Inject constructor(
     val isHardcoreModeUIEnabled = ObservableBoolean()
 
     val antiTrackerDescription = ObservableField<String>()
+    val antiTrackerList = ObservableField<String>()
 
     val state = ObservableField<AntiTrackerState>()
 
@@ -72,6 +73,7 @@ class AntiTrackerViewModel @Inject constructor(
         isAntiSurveillanceEnabled.set(settings.isAntiSurveillanceEnabled)
         isHardcoreModeEnabled.set(settings.isAntiSurveillanceHardcoreEnabled)
         isHardcoreModeUIEnabled.set(isAntiSurveillanceEnabled.get())
+        antiTrackerList.set(settings.antiTracker?.description ?: "")
 
         getAntiTrackerState()
         getAntiTrackerDescriptionValue()
