@@ -126,10 +126,6 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun getPrice(productDetails: ProductDetails): String? {
-        return productDetails.oneTimePurchaseOfferDetails?.formattedPrice
-    }
-
     private fun isBlankAccountFresh(): Boolean {
         return System.currentTimeMillis() - blankAccountGeneratedDate < DateUtil.WEEK
     }
