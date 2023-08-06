@@ -180,6 +180,7 @@ class ServersRepository @Inject constructor(
                 LOGGER.info(response.toString())
                 response.markServerTypes()
                 setServerList(response.openVpnServerList, response.wireGuardServerList)
+                updateLocations()
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
