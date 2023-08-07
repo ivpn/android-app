@@ -25,5 +25,5 @@ package net.ivpn.core.common;
 public class Constant {
     public static final String SUPPORT_EMAIL = "support@ivpn.net";
 
-    public static final String UPDATE_URL = "https://cdn.ivpn.net/updates/android/ivpn_android_appcast.json";
+    public static final String UPDATE_URL = "https://www.ivpn.net/updates/android/ivpn_android_appcast.json";
 }
