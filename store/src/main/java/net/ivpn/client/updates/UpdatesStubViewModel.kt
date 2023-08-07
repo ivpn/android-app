@@ -1,6 +1,7 @@
 package net.ivpn.client.updates
 
 import androidx.navigation.NavController
+import net.ivpn.client.BuildConfig
 import net.ivpn.core.v2.updates.UpdatesController
 
 /*
@@ -40,6 +41,6 @@ class UpdatesStubViewModel: UpdatesController {
     }
 
     override fun appVersion(): String {
-        return ""
+        return BuildConfig.VERSION_NAME
     }
 }
