@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.0 - 2023-08-07
+
+[NEW] Post-Quantum Resistant WireGuard Connections  
+[NEW] AntiTracker Plus additional block lists  
+[FIXED] Minor UI fixes  
+
+[Download IVPN Client v2.10.0](https://www.ivpn.net/releases/android/IVPNv2.10.0site.apk)  
+SHA256: d01e664ce45898fe75b293fae60f705f6f6cddf6f0d44084a9404910b2caa712  
+
 ## Version 2.9.0 - 2023-06-29
 
 [NEW] Custom ports  
