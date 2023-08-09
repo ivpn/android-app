@@ -31,6 +31,7 @@ android {
         targetSdkVersion 31
         versionCode 122
         versionName "2.10.0"
+        ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
