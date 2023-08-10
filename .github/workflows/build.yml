@@ -19,7 +19,6 @@ jobs:
       run: git submodule update --init --recursive
     
     - name: Set up NDK
-    - uses: actions/checkout@v2
     - uses: nttld/setup-ndk@v1
       with:
         ndk-version: r25b
