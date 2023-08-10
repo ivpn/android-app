@@ -18,6 +18,12 @@ jobs:
     - name: Checkout submodules
       run: git submodule update --init --recursive
     
+    - name: Set up NDK
+    - uses: actions/checkout@v2
+    - uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r25b
+    
     - name: Install liboqs dependencies
       run: sudo apt-get update && sudo apt-get install -y astyle cmake gcc ninja-build libssl-dev python3-pytest python3-pytest-xdist unzip xsltproc doxygen graphviz python3-yaml valgrind
 
