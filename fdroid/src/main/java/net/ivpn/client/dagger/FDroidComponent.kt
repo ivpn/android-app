@@ -9,7 +9,7 @@ import net.ivpn.core.common.dagger.ApplicationComponent
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
