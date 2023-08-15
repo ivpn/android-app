@@ -60,7 +60,6 @@ class UpdatesViewModel @Inject constructor(
     val isInProgress = ObservableBoolean()
     var enableAutoUpdates = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableAutoUpdates(value) }
     private val listener: OnUpdateCheckListener = getUpdateCheckListener()
-    private val versionName: String = BuildConfig.VERSION_NAME
 
     init {
         isUpdatesSupported.set(true)
@@ -158,7 +157,7 @@ class UpdatesViewModel @Inject constructor(
     }
 
     override fun appVersion(): String {
-        return versionName
+        return BuildConfig.VERSION_NAME
     }
 
 }
