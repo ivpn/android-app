@@ -52,11 +52,7 @@ public class Connection implements Serializable, Cloneable {
         applyAppSettings();
         String cfg = "";
 
-        if (ipAddresses != null && !ipAddresses.isEmpty()) {
-            cfg += getServerConnectionConfWithIpAddresses();
-        } else {
-            cfg += getServerConnectionConfWithDomain();
-        }
+        cfg += getServerConnectionConfWithIpAddresses();
 
         if (mConnectTimeout != 0)
             cfg += String.format(Locale.US, " connect-timeout  %d\n", mConnectTimeout);
@@ -67,22 +63,6 @@ public class Connection implements Serializable, Cloneable {
             cfg += "\n";
         }
         return cfg;
-    }
-
-    private String getServerConnectionConfWithDomain() {
-        StringBuilder cfg = new StringBuilder();
-        cfg.append("remote ");
-        cfg.append(mServerName);
-        cfg.append(" ");
-
-        cfg.append(mServerPort);
-        if (mUseUdp) {
-            cfg.append(" udp\n");
-        } else {
-            cfg.append(" tcp-client\n");
-        }
-        Log.d("Connection", "getServerConnectionConfWithDomain: " + cfg);
-        return cfg.toString();
     }
 
     private String getServerConnectionConfWithIpAddresses() {
