@@ -181,7 +181,7 @@ public final class GoBackend implements Backend {
         NetworkSpace routes = new NetworkSpace();
         routes.addIP(new CIDRIP("0.0.0.0", "0.0.0.0"), true);
         if (settings.getLocalBypass()) {
-            for (String net : NetworkUtils.getLocalNetworks(context, false)) {
+            for (String net : NetworkUtils.getAllowedLanNetworks()) {
                 String[] netParts = net.split("/");
                 String ipAddress = netParts[0];
                 int netMask = Integer.parseInt(netParts[1]);

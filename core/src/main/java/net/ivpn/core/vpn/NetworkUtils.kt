@@ -33,6 +33,16 @@ import java.util.*
 object NetworkUtils {
 
     @JvmStatic
+    val allowedLanNetworks = arrayOf(
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "fc00::/7",
+        "fe80::/10"
+    )
+
+    @JvmStatic
     fun getLocalNetworks(context: Context, ipv6: Boolean): Vector<String> {
         val nets = Vector<String>()
         val conn = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -63,4 +73,5 @@ object NetworkUtils {
             }
         }
     }
+
 }
