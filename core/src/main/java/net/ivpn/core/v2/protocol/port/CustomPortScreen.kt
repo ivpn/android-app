@@ -5,7 +5,7 @@ package net.ivpn.core.v2.protocol.port
  https://github.com/ivpn/android-app
 
  Created by Juraj Hilje.
- Copyright (c) 2023 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 

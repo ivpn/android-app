@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.1 - 2023-08-15
+
+[FIXED] App crashing on 32-bit devices due to missing liboqs library  
+[FIXED] Minor UI fixes  
+
+[Download IVPN Client v2.10.1](https://www.ivpn.net/releases/android/IVPNv2.10.1site.apk)  
+SHA256: 049d39816d3f776ad901744d9f14227460de248d134a13f447b4a736f8a5d6d2  
+
 ## Version 2.10.0 - 2023-08-07
 
 [NEW] Post-Quantum Resistant WireGuard Connections  

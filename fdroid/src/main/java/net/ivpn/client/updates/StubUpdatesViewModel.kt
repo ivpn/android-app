@@ -5,7 +5,7 @@ package net.ivpn.client.updates
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -23,6 +23,7 @@ package net.ivpn.client.updates
 */
 
 import androidx.navigation.NavController
+import net.ivpn.client.BuildConfig
 import net.ivpn.core.v2.updates.UpdatesController
 
 class StubUpdatesViewModel : UpdatesController {
@@ -40,6 +41,6 @@ class StubUpdatesViewModel : UpdatesController {
     }
 
     override fun appVersion(): String {
-        return ""
+        return BuildConfig.VERSION_NAME
     }
 }
