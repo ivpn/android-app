@@ -144,36 +144,47 @@ def File registerGenTask(variantName, variantDirName) {
     return baseDir
 }
 
-tasks.register("buildLiboqsArm64", Exec) {
-    def script = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
-    def ndkPath = android.ndkDirectory
-    def arch = "arm64-v8a"
-    def platform = "android-21"
-    def mechanisms = "KEM_kyber_1024;"
-    commandLine script, ndkPath, "-a", arch, "-p", platform, "-m", mechanisms
+def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
+def kemPlatform = "android-21"
+def kemMechanisms = "KEM_kyber_1024;"
+
+tasks.register("buildLiboqsARM64", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
+}
+
+tasks.register("buildLiboqsARM", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "armeabi-v7a", "-p", kemPlatform, "-m", kemMechanisms
+}
+
+tasks.register("buildLiboqsX8664", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "x86_64", "-p", kemPlatform, "-m", kemMechanisms
 }
 
 tasks.register("buildLiboqsX86", Exec) {
-    def script = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
-    def ndkPath = android.ndkDirectory
-    def arch = "x86_64"
-    def platform = "android-21"
-    def mechanisms = "KEM_kyber_1024;"
-    commandLine script, ndkPath, "-a", arch, "-p", platform, "-m", mechanisms
+    commandLine kemScript, android.ndkDirectory, "-a", "x86", "-p", kemPlatform, "-m", kemMechanisms
 }
 
 android.libraryVariants.all { variant ->
     def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
     def generateOpenVPN3Swig = tasks.named("generateOpenVPN3Swig${variant.name}").get()
-    def buildLiboqsArm64 = tasks.named("buildLiboqsArm64").get()
+    def buildLiboqsARM64 = tasks.named("buildLiboqsARM64").get()
+    def buildLiboqsARM = tasks.named("buildLiboqsARM").get()
+    def buildLiboqsX8664 = tasks.named("buildLiboqsX8664").get()
     def buildLiboqsX86 = tasks.named("buildLiboqsX86").get()
     variant.registerJavaGeneratingTask(generateOpenVPN3Swig, sourceDir)
-    variant.registerJavaGeneratingTask(buildLiboqsArm64, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsARM64, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsARM, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsX8664, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX86, sourceDir)
 }
 
 project.afterEvaluate {
-    preBuild.dependsOn(tasks.named("buildLiboqsArm64").get(), tasks.named("buildLiboqsX86").get())
+    preBuild.dependsOn(
+        tasks.named("buildLiboqsARM64").get(),
+        tasks.named("buildLiboqsARM").get(),
+        tasks.named("buildLiboqsX8664").get(),
+        tasks.named("buildLiboqsX86").get()
+    )
 }
 
 ext {
