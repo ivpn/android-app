@@ -5,6 +5,7 @@
 
 package de.blinkt.openvpn.core;
 
+import java.math.BigInteger;
 import java.util.Locale;
 
 public class CIDRIP {
@@ -57,15 +58,29 @@ public class CIDRIP {
     }
 
     public static long getInt(String ipaddr) {
-        String[] ipt = ipaddr.split("\\.");
-        long ip = 0;
+        if (ipaddr.contains(":")) {
+            // IPv6 address
+            String[] blocks = ipaddr.split(":");
+            long ip = 0;
 
-        ip += Long.parseLong(ipt[0]) << 24;
-        ip += Integer.parseInt(ipt[1]) << 16;
-        ip += Integer.parseInt(ipt[2]) << 8;
-        ip += Integer.parseInt(ipt[3]);
+            for (String block : blocks) {
+                String expandedBlock = String.format("%4s", block).replace(' ', '0');
+                ip = (ip << 16) + Long.parseLong(expandedBlock, 16);
+            }
 
-        return ip;
+            return ip;
+        } else {
+            // IPv4 address
+            String[] ipt = ipaddr.split("\\.");
+            long ip = 0;
+
+            ip += Long.parseLong(ipt[0]) << 24;
+            ip += Integer.parseInt(ipt[1]) << 16;
+            ip += Integer.parseInt(ipt[2]) << 8;
+            ip += Integer.parseInt(ipt[3]);
+
+            return ip;
+        }
     }
 
     public long getInt() {
