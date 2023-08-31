@@ -19,3 +19,6 @@
 [submodule "core/src/main/cpp/lz4"]
 	path = core/src/main/cpp/lz4
 	url = https://github.com/lz4/lz4.git
+[submodule "liboqs-android/jni/liboqs"]
+	path = liboqs-android/jni/liboqs
+	url = https://github.com/ivpn/liboqs
