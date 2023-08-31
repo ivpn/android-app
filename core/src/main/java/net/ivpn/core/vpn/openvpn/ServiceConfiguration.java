@@ -48,6 +48,7 @@ import javax.inject.Inject;
 
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.CIDRIP;
+import de.blinkt.openvpn.core.NativeUtils;
 import de.blinkt.openvpn.core.NetworkSpace;
 
 /**
@@ -203,13 +204,29 @@ public class ServiceConfiguration {
     }
 
     private void addLocalNetworksToRoutes(boolean isLocalLanAllow) {
-        if (isLocalLanAllow) {
-            for (String net : NetworkUtils.getAllowedLanNetworks()) {
-                String[] netParts = net.split("/");
-                String ipAddress = netParts[0];
-                int netMask = Integer.parseInt(netParts[1]);
-                routes.addIP(new CIDRIP(ipAddress, netMask), false);
+        // Add local network interfaces
+        String[] localRoutes = NativeUtils.getIfconfig();
+
+        // The formatDate of localRoutes is kind of broken because I don't really like JNI
+        for (int i = 0; i < localRoutes.length; i += 3) {
+            String intf = localRoutes[i];
+            String ipAddr = localRoutes[i + 1];
+            String netMask = localRoutes[i + 2];
+
+            if (intf == null || intf.equals("lo") ||
+                    intf.startsWith("tun") || intf.startsWith("rmnet"))
+                continue;
+
+            if (ipAddr == null || netMask == null) {
+                LOGGER.error("Local routes are broken?! (Report to author) " + TextUtils.join("|", localRoutes));
+                continue;
             }
+
+            if (localIP != null && ipAddr.equals(localIP.mIp))
+                continue;
+
+            if (isLocalLanAllow && NetworkUtils.isValidLocalNetwork(ipAddr))
+                routes.addIP(new CIDRIP(ipAddr, netMask), false);
         }
     }
 

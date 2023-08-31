@@ -74,4 +74,12 @@ object NetworkUtils {
         }
     }
 
+    @JvmStatic
+    fun isValidLocalNetwork(ip: String): Boolean {
+        return allowedLanNetworks.any {
+            ip.startsWith(it.substringBefore(".0")) ||
+                    ip.startsWith(it.substringBefore("::"))
+        }
+    }
+
 }
