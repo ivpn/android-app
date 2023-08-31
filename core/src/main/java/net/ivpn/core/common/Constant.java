@@ -5,7 +5,7 @@ package net.ivpn.core.common;
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -25,5 +25,5 @@ package net.ivpn.core.common;
 public class Constant {
     public static final String SUPPORT_EMAIL = "support@ivpn.net";
 
-    public static final String UPDATE_URL = "https://cdn.ivpn.net/updates/android/ivpn_android_appcast.json";
+    public static final String UPDATE_URL = "https://www.ivpn.net/updates/android/ivpn_android_appcast.json";
 }

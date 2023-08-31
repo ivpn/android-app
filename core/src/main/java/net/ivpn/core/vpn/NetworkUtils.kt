@@ -5,7 +5,7 @@ package net.ivpn.core.vpn
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -31,6 +31,16 @@ import java.net.Inet6Address
 import java.util.*
 
 object NetworkUtils {
+
+    @JvmStatic
+    val allowedLanNetworks = arrayOf(
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "fc00::/7",
+        "fe80::/10"
+    )
 
     @JvmStatic
     fun getLocalNetworks(context: Context, ipv6: Boolean): Vector<String> {
@@ -63,4 +73,13 @@ object NetworkUtils {
             }
         }
     }
+
+    @JvmStatic
+    fun isValidLocalNetwork(ip: String): Boolean {
+        return allowedLanNetworks.any {
+            ip.startsWith(it.substringBefore(".0")) ||
+                    ip.startsWith(it.substringBefore("::"))
+        }
+    }
+
 }

@@ -185,7 +185,9 @@ public final class GoBackend implements Backend {
                 String[] netParts = net.split("/");
                 String ipAddress = netParts[0];
                 int netMask = Integer.parseInt(netParts[1]);
-                routes.addIP(new CIDRIP(ipAddress, netMask), false);
+                if (NetworkUtils.isValidLocalNetwork(ipAddress)) {
+                    routes.addIP(new CIDRIP(ipAddress, netMask), false);
+                }
             }
         }
         return routes;

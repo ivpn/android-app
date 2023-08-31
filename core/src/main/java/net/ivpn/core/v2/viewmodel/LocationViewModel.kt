@@ -5,7 +5,7 @@ package net.ivpn.core.v2.viewmodel
  https://github.com/ivpn/android-app
 
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -28,11 +28,13 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.distance.DistanceProvider
+import net.ivpn.core.common.prefs.OnServerListUpdatedListener
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
+import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.proofs.LocationResponse
 import net.ivpn.core.rest.requests.common.Request
@@ -102,6 +104,7 @@ class LocationViewModel @Inject constructor(
         vpnBehaviorController.addVpnStateListener(getVpnStateListener())
         checkLocation()
         protocolController.addOnProtocolChangedListener(getOnProtocolChangeListener())
+        serversRepository.addOnServersListUpdatedListener(getOnServerListUpdatedListener())
         uiIPStateListener = object : OnIPStateChangedListener {
             override fun onIPStateChanged(uiState: IPState) {
                 if (uiState == ipState.get()) return
@@ -370,6 +373,16 @@ class LocationViewModel @Inject constructor(
 
     private fun getOnProtocolChangeListener(): OnProtocolChangedListener {
         return OnProtocolChangedListener { locations.set(serversRepository.locations) }
+    }
+
+    private fun getOnServerListUpdatedListener(): OnServerListUpdatedListener {
+        return object : OnServerListUpdatedListener {
+            override fun onSuccess(servers: List<Server>, isForced: Boolean) {
+                locations.set(serversRepository.locations)
+            }
+            override fun onError(throwable: Throwable) {}
+            override fun onError() {}
+        }
     }
 
     private fun getVpnStateListener(): VpnStateListener {

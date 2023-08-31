@@ -4,7 +4,7 @@ package net.ivpn.client.billing;
  https://github.com/ivpn/android-app
  <p>
  Created by Oleksandr Mykhailenko.
- Copyright (c) 2020 Privatus Limited.
+ Copyright (c) 2023 IVPN Limited.
  <p>
  This file is part of the IVPN Android app.
  <p>

@@ -5,7 +5,7 @@ IVPN Android app
 https://github.com/ivpn/android-app
 
 Created by Oleksandr Mykhailenko.
-Copyright (c) 2020 Privatus Limited.
+Copyright (c) 2023 IVPN Limited.
 
 This file is part of the IVPN Android app.
 
@@ -180,6 +180,7 @@ class ServersRepository @Inject constructor(
                 LOGGER.info(response.toString())
                 response.markServerTypes()
                 setServerList(response.openVpnServerList, response.wireGuardServerList)
+                updateLocations()
                 settings.setIpList(Mapper.stringFromIps(response.config.api.ips))
                 settings.setIPv6List(Mapper.stringFromIps(response.config.api.ipv6s))
                 settings.wireGuardPorts = response.config.ports.wireguard.filter { it.portNumber > 0 }
