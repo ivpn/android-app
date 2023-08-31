@@ -32,6 +32,7 @@ android {
         targetSdkVersion 31
         versionCode 124
         versionName "2.10.2"
+        ndkVersion "25.1.8937393"
 
         manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']

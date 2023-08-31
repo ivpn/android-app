@@ -31,6 +31,7 @@ android {
         targetSdkVersion 31
         versionCode 124
         versionName "2.10.2"
+        ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
@@ -143,12 +144,47 @@ def File registerGenTask(variantName, variantDirName) {
     return baseDir
 }
 
+def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
+def kemPlatform = "android-21"
+def kemMechanisms = "KEM_kyber_1024;"
+
+tasks.register("buildLiboqsARM64", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
+}
+
+tasks.register("buildLiboqsARM", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "armeabi-v7a", "-p", kemPlatform, "-m", kemMechanisms
+}
+
+tasks.register("buildLiboqsX8664", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "x86_64", "-p", kemPlatform, "-m", kemMechanisms
+}
+
+tasks.register("buildLiboqsX86", Exec) {
+    commandLine kemScript, android.ndkDirectory, "-a", "x86", "-p", kemPlatform, "-m", kemMechanisms
+}
 
 android.libraryVariants.all { variant ->
     def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
-    def task = tasks.named("generateOpenVPN3Swig${variant.name}").get()
+    def generateOpenVPN3Swig = tasks.named("generateOpenVPN3Swig${variant.name}").get()
+    def buildLiboqsARM64 = tasks.named("buildLiboqsARM64").get()
+    def buildLiboqsARM = tasks.named("buildLiboqsARM").get()
+    def buildLiboqsX8664 = tasks.named("buildLiboqsX8664").get()
+    def buildLiboqsX86 = tasks.named("buildLiboqsX86").get()
+    variant.registerJavaGeneratingTask(generateOpenVPN3Swig, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsARM64, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsARM, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsX8664, sourceDir)
+    variant.registerJavaGeneratingTask(buildLiboqsX86, sourceDir)
+}
 
-    variant.registerJavaGeneratingTask(task, sourceDir)
+project.afterEvaluate {
+    preBuild.dependsOn(
+        tasks.named("buildLiboqsARM64").get(),
+        tasks.named("buildLiboqsARM").get(),
+        tasks.named("buildLiboqsX8664").get(),
+        tasks.named("buildLiboqsX86").get()
+    )
 }
 
 ext {
