@@ -151,23 +151,6 @@ public class BillingManager implements PurchasesUpdatedListener {
         executeServiceRequest(queryRequest);
     }
 
-//    public void initiatePurchaseFlow(final Activity activity, final SkuDetails skuDetails, final String oldSku,
-//                                     int proration) {
-//        LOGGER.info("initiatePurchaseFlow");
-//        LOGGER.info("Current SKU = " + oldSku);
-//        LOGGER.info("New SKU = " + skuDetails.getSku());
-//        LOGGER.info("proration mode = " + proration);
-//        Runnable purchaseFlowRequest = () -> {
-//            LOGGER.info("Launching in-app purchase flow. Replace old SKU? " + (oldSku != null));
-//            BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
-//                    .setSkuDetails(skuDetails)
-//                    .build();
-//            billingClient.launchBillingFlow(activity, purchaseParams);
-//        };
-//
-//        executeServiceRequest(purchaseFlowRequest);
-//    }
-
     public void initiatePurchaseFlow(final Activity activity, final ProductDetails productDetails, final String oldProductId,
                                      int proration) {
         LOGGER.info("initiatePurchaseFlow");
