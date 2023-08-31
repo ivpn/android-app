@@ -32,6 +32,7 @@ import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
 import net.ivpn.core.common.prefs.PackagesPreference;
 import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.vpn.NetworkUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -224,7 +225,7 @@ public class ServiceConfiguration {
             if (localIP != null && ipAddr.equals(localIP.mIp))
                 continue;
 
-            if (isLocalLanAllow)
+            if (isLocalLanAllow && NetworkUtils.isValidLocalNetwork(ipAddr))
                 routes.addIP(new CIDRIP(ipAddr, netMask), false);
         }
     }
