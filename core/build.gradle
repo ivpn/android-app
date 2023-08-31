@@ -25,10 +25,10 @@ android {
         }
     }
 
-    compileSdkVersion 31
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 124
         versionName "2.10.2"
         ndkVersion "25.1.8937393"
