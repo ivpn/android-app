@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.3 - 2023-09-06
+
+[IMPROVED] Refactored rules for LAN access  
+[IMPROVED] Removed possibility to connect to OpenVPN server using hostname  
+[IMPROVED] Target Android API level 33  
+
+[Download IVPN Client v2.10.3](https://www.ivpn.net/releases/android/IVPNv2.10.3site.apk)  
+SHA256: 936d4b6520d93e1fee06d334b4fec4a4185e8d8c1059d23fa322b4005b718179  
+
 ## Version 2.10.1 - 2023-08-15
 
 [FIXED] App crashing on 32-bit devices due to missing liboqs library  
