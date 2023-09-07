@@ -22,6 +22,7 @@ package net.ivpn.core.v2.map
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -95,10 +96,10 @@ class MapView @JvmOverloads constructor(
         }
 
         override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                distanceX: Float,
-                distanceY: Float
+            e1: MotionEvent,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
         ): Boolean {
             math.appendX(distanceX)
             math.appendY(distanceY)
@@ -120,30 +121,27 @@ class MapView @JvmOverloads constructor(
             return super.onSingleTapUp(event)
         }
 
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
-            return super.onDoubleTap(e)
-        }
     }
     private val gestureDetector = GestureDetector(this.context, gestureListener)
 
     private val scaleGestureListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-        override fun onScale(detector: ScaleGestureDetector?): Boolean {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
 
             serverLocationsData.isReady = false
             locationData.isReady = false
-            detector?.let {
+            detector.let {
                 math.applyScaleFactor(it.scaleFactor, it.focusX, it.focusY)
             }
 
             return true
         }
 
-        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+        override fun onScaleEnd(detector: ScaleGestureDetector) {
             updateCoordinates()
             super.onScaleEnd(detector)
         }
 
-        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             serverLocationsData.isReady = false
             locationData.isReady = false
             return super.onScaleBegin(detector)
@@ -172,9 +170,14 @@ class MapView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        scaleGestureDetector.onTouchEvent(event)
-        gestureDetector.onTouchEvent(event)
+        if (event != null) {
+            scaleGestureDetector.onTouchEvent(event)
+        }
+        if (event != null) {
+            gestureDetector.onTouchEvent(event)
+        }
         return true
     }
 
@@ -478,7 +481,7 @@ class MapView @JvmOverloads constructor(
         updateCoordinates(true)
     }
 
-    var coordinateJob: Job? = null
+    private var coordinateJob: Job? = null
     private fun updateCoordinates(isFirstInit: Boolean = false) {
         coordinateJob?.cancel()
 
@@ -524,7 +527,7 @@ class MapView @JvmOverloads constructor(
         }
     }
 
-    var bitmapCache: LruCache<String, Bitmap?>? = null
+    private var bitmapCache: LruCache<String, Bitmap?>? = null
     private var thumbnails: HashMap<String, Bitmap?>? = null
     private fun initTiles() {
         val path = resources.getString(R.string.path_to_tiles)
@@ -574,7 +577,7 @@ class MapView @JvmOverloads constructor(
         return prepareBitmapJob
     }
 
-    val defaultTransparentDrawable = ResourcesCompat.getDrawable(
+    private val defaultTransparentDrawable = ResourcesCompat.getDrawable(
             context.resources,
             R.drawable.fill_transparent,
             null
@@ -601,6 +604,7 @@ class MapView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("DiscouragedApi")
     private fun getIdentifier(context: Context, name: String): Int {
         return context.resources.getIdentifier(name, "drawable", IVPNApplication.application.packageName)
     }

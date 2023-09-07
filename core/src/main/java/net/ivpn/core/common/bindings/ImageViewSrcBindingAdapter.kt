@@ -74,7 +74,7 @@ fun setImageResource(imageView: ImageView, server: Server?) {
             + countryCode.toLowerCase() + ".png")
     val drawable: Drawable
     try {
-        drawable = Drawable.createFromStream(context.assets.open(path), null)
+        drawable = Drawable.createFromStream(context.assets.open(path), null)!!
         imageView.setImageDrawable(drawable)
     } catch (e: IOException) {
         e.printStackTrace()
@@ -98,7 +98,7 @@ fun setImageResource(imageView: ImageView, countryCode: String?) {
             + countryCode.toLowerCase() + ".png")
     val drawable: Drawable
     try {
-        drawable = Drawable.createFromStream(context.assets.open(path), null)
+        drawable = Drawable.createFromStream(context.assets.open(path), null)!!
         imageView.setImageDrawable(drawable)
     } catch (e: IOException) {
         e.printStackTrace()
