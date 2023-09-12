@@ -127,7 +127,7 @@ public class BillingManagerWrapper {
 
                 for (Purchase purchase : purchases) {
                     if (purchase.isAcknowledged()
-                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSkus().get(0))) {
+                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getProducts().get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -193,21 +193,21 @@ public class BillingManagerWrapper {
         setPurchaseState(INITIAL_PAYMENT);
         final String accountId = userPreference.getBlankUsername();
         final String purchaseToken = purchase.getPurchaseToken();
-        ArrayList<String> skus = purchase.getSkus();
+        List<String> products = purchase.getProducts();
         if (accountId == null || accountId.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
-        if (purchaseToken == null || purchaseToken.isEmpty()) {
+        if (purchaseToken.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
-        if (skus == null || skus.isEmpty()) {
+        if (products.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
 
-        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, skus.get(0), purchaseToken);
+        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, products.get(0), purchaseToken);
         Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
 
@@ -216,7 +216,7 @@ public class BillingManagerWrapper {
                 if (response.getStatus() == Responses.SUCCESS) {
                     createSession(accountId);
 
-                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(skus.get(0))) {
+                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(products.get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -259,7 +259,7 @@ public class BillingManagerWrapper {
 
     private void addFundsRequest(String sessionToken) {
         setPurchaseState(INITIAL_PAYMENT);
-        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSkus().get(0), purchase.getPurchaseToken());
+        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getProducts().get(0), purchase.getPurchaseToken());
         Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
