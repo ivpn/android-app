@@ -54,18 +54,18 @@ class MapAnimator(val listener: AnimatorListener) {
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
         movementAnimator.duration = MapView.CENTER_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 animationState = AnimationState.NONE
                 listener.onCenterAnimationFinish(locations, dialogState)
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
 
         })
@@ -87,18 +87,18 @@ class MapAnimator(val listener: AnimatorListener) {
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
         movementAnimator.duration = MapView.CENTER_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 animationState = AnimationState.NONE
                 listener.onCenterAnimationFinish(null, dialogState)
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
 
         })
@@ -115,18 +115,18 @@ class MapAnimator(val listener: AnimatorListener) {
         val hideAnimator = ValueAnimator.ofFloat(0f, 1f)
         hideAnimator.duration = MapView.HIDE_ANIMATION_DURATION
         hideAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 startMovementAnimation(startX, startY)
 //                listener.onEndMovementAnimation()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 stopWaveAnimation()
             }
 
@@ -146,18 +146,18 @@ class MapAnimator(val listener: AnimatorListener) {
         val movementAnimator = ValueAnimator.ofFloat(0f, 1f)
         movementAnimator.duration = MapView.MOVEMENT_ANIMATION_DURATION
         movementAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 startAppearAnimation()
                 listener.onEndMovementAnimation()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 stopWaveAnimation()
                 listener.onStartMovementAnimation()
             }
@@ -175,18 +175,18 @@ class MapAnimator(val listener: AnimatorListener) {
         val appearAnimator = ValueAnimator.ofFloat(0f, 1f)
         appearAnimator.duration = MapView.APPEAR_ANIMATION_DURATION
         appearAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 animationState = AnimationState.NONE
                 listener.onEndAppearAnimation()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
             }
 
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
 
         })

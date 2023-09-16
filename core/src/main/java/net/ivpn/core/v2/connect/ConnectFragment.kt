@@ -38,6 +38,8 @@ import android.view.View
 import android.view.View.FOCUS_UP
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -119,6 +121,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     var mapPopup: PopupWindow? = null
 
     var notificationDialog: Dialog? = null
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
       
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -135,6 +139,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

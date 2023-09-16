@@ -24,7 +24,7 @@ android {
         }
     }
 
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "net.ivpn.client"
