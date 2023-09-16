@@ -23,7 +23,6 @@ package net.ivpn.client.billing;
 */
 
 import android.app.Activity;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,20 +34,21 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsParams;
-import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
 
 import net.ivpn.client.StoreIVPNApplication;
 import net.ivpn.client.dagger.BillingScope;
-import net.ivpn.core.common.dagger.ApplicationScope;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -136,34 +136,38 @@ public class BillingManager implements PurchasesUpdatedListener {
         executeServiceRequest(queryToExecute);
     }
 
-    public void querySkuDetailsAsync(@BillingClient.SkuType final String itemType, final List<String> skuList,
-                              final SkuDetailsResponseListener listener) {
-        LOGGER.info("querySkuDetailsAsync");
+    public void queryProductDetailsAsync(ArrayList<QueryProductDetailsParams.Product> productList, final ProductDetailsResponseListener listener) {
+        LOGGER.info("queryProductDetailsAsync");
         // Creating a runnable from the request to use it inside our connection retry policy below
         Runnable queryRequest = () -> {
             // Query the purchase async
-            LOGGER.info("Execute querying sku details");
-            SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-            params.setSkusList(skuList).setType(itemType);
-            billingClient.querySkuDetailsAsync(params.build(),
-                    listener);
+            LOGGER.info("Execute querying product details");
+            QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                    .setProductList(productList)
+                    .build();
+            billingClient.queryProductDetailsAsync(params, listener);
         };
 
         executeServiceRequest(queryRequest);
     }
 
-    public void initiatePurchaseFlow(final Activity activity, final SkuDetails skuDetails, final String oldSku,
+    public void initiatePurchaseFlow(final Activity activity, final ProductDetails productDetails, final String oldProductId,
                                      int proration) {
         LOGGER.info("initiatePurchaseFlow");
-        LOGGER.info("Current SKU = " + oldSku);
-        LOGGER.info("New SKU = " + skuDetails.getSku());
+        LOGGER.info("Current ProductId = " + oldProductId);
+        LOGGER.info("New ProductId = " + productDetails.getProductId());
         LOGGER.info("proration mode = " + proration);
         Runnable purchaseFlowRequest = () -> {
-            LOGGER.info("Launching in-app purchase flow. Replace old SKU? " + (oldSku != null));
-            BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
-                    .setSkuDetails(skuDetails)
+            LOGGER.info("Launching in-app purchase flow. Replace old ProductId? " + (oldProductId != null));
+            List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = Collections.singletonList(
+                    BillingFlowParams.ProductDetailsParams.newBuilder()
+                            .setProductDetails(productDetails)
+                            .build()
+            );
+            BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                    .setProductDetailsParamsList(productDetailsParamsList)
                     .build();
-            billingClient.launchBillingFlow(activity, purchaseParams);
+            billingClient.launchBillingFlow(activity, billingFlowParams);
         };
 
         executeServiceRequest(purchaseFlowRequest);

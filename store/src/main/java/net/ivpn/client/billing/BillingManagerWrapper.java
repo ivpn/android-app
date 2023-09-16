@@ -26,14 +26,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.QueryProductDetailsParams;
 
 import net.ivpn.client.dagger.BillingScope;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.common.billing.ConsumableProducts;
-import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.prefs.EncryptedUserPreference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
@@ -82,7 +81,7 @@ public class BillingManagerWrapper {
 
     private final List<BillingListener> listeners;
 
-    private SkuDetails skuDetails;
+    private ProductDetails productDetails;
     private Purchase purchase;
 
     private boolean isInit;
@@ -128,7 +127,7 @@ public class BillingManagerWrapper {
 
                 for (Purchase purchase : purchases) {
                     if (purchase.isAcknowledged()
-                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getSkus().get(0))) {
+                            && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getProducts().get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -151,19 +150,18 @@ public class BillingManagerWrapper {
     public void startPurchase(Activity activity) {
         LOGGER.info("Purchasing...");
         setPurchaseState(PurchaseState.PURCHASING);
-        String currentSku = purchase != null ? purchase.getSkus().get(0) : null;
-        billingManager.initiatePurchaseFlow(activity, skuDetails, currentSku, 0);
+        String currentProductId = purchase != null ? purchase.getProducts().get(0) : null;
+        billingManager.initiatePurchaseFlow(activity, productDetails, currentProductId, 0);
     }
 
-    public void checkSkuDetails(List<String> skuList) {
-        LOGGER.info("Query sku details...");
-
-        billingManager.querySkuDetailsAsync(BillingClient.SkuType.INAPP, skuList, (billingResult, skuDetailsList) -> {
-            LOGGER.info("Sku details, result = " + billingResult.getResponseCode());
-            LOGGER.info("Sku details, error = " + billingResult.getDebugMessage());
-            LOGGER.info("Sku details, listeners size = " + billingResult.getDebugMessage());
+    public void checkProductDetails(ArrayList<QueryProductDetailsParams.Product> productList) {
+        LOGGER.info("Query product details...");
+        billingManager.queryProductDetailsAsync(productList, (billingResult, productDetailsList) -> {
+            LOGGER.info("Product details, result = " + billingResult.getResponseCode());
+            LOGGER.info("Product details, error = " + billingResult.getDebugMessage());
+            LOGGER.info("Product details, listeners size = " + billingResult.getDebugMessage());
             for (BillingListener listener : listeners) {
-                listener.onCheckingSkuDetailsSuccess(skuDetailsList);
+                listener.onCheckingProductDetailsSuccess(productDetailsList);
             }
         });
     }
@@ -195,21 +193,21 @@ public class BillingManagerWrapper {
         setPurchaseState(INITIAL_PAYMENT);
         final String accountId = userPreference.getBlankUsername();
         final String purchaseToken = purchase.getPurchaseToken();
-        ArrayList<String> skus = purchase.getSkus();
+        List<String> products = purchase.getProducts();
         if (accountId == null || accountId.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
-        if (purchaseToken == null || purchaseToken.isEmpty()) {
+        if (purchaseToken.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
-        if (skus == null || skus.isEmpty()) {
+        if (products.isEmpty()) {
             setPurchaseState(INITIAL_PAYMENT_ERROR);
             return;
         }
 
-        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, skus.get(0), purchaseToken);
+        InitialPaymentRequestBody requestBody = new InitialPaymentRequestBody(accountId, products.get(0), purchaseToken);
         Request<InitialPaymentResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.initialPayment(requestBody), new RequestListener<InitialPaymentResponse>() {
 
@@ -218,7 +216,7 @@ public class BillingManagerWrapper {
                 if (response.getStatus() == Responses.SUCCESS) {
                     createSession(accountId);
 
-                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(skus.get(0))) {
+                    if (purchase != null && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(products.get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
                 }
@@ -261,7 +259,7 @@ public class BillingManagerWrapper {
 
     private void addFundsRequest(String sessionToken) {
         setPurchaseState(INITIAL_PAYMENT);
-        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getSkus().get(0), purchase.getPurchaseToken());
+        AddFundsRequestBody requestBody = new AddFundsRequestBody(sessionToken, purchase.getProducts().get(0), purchase.getPurchaseToken());
         Request<AddFundsResponse> request = new Request<>(settings, httpClientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4);
         request.start(api -> api.addFunds(requestBody), new RequestListener<AddFundsResponse>() {
 
@@ -314,8 +312,8 @@ public class BillingManagerWrapper {
         }
     }
 
-    public void setSkuDetails(SkuDetails skuDetails) {
-        this.skuDetails = skuDetails;
+    public void setProductDetails(ProductDetails productDetails) {
+        this.productDetails = productDetails;
     }
 
     public Purchase getPurchase() {

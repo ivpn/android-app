@@ -25,7 +25,7 @@ package net.ivpn.client.billing;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
-import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.ProductDetails;
 
 import net.ivpn.client.StoreIVPNApplication;
 import net.ivpn.core.R;
@@ -45,7 +45,7 @@ public class BillingViewModel implements BillingListener {
     public final ObservableField<String> processDescription = new ObservableField<>();
 
     private BillingNavigator navigator;
-    private BillingManagerWrapper billingManagerWrapper;
+    private final BillingManagerWrapper billingManagerWrapper;
 
     @Inject
     BillingViewModel(BillingManagerWrapper billingManagerWrapper) {
@@ -109,8 +109,8 @@ public class BillingViewModel implements BillingListener {
     }
 
     @Override
-    public void onCheckingSkuDetailsSuccess(List<SkuDetails> skuDetailsList) {
-        //Nothing to do here
+    public void onCheckingProductDetailsSuccess(List<ProductDetails> productDetailsList) {
+        // Nothing to do here
     }
 
     @Override

@@ -26,7 +26,7 @@ class Tunnel(var name: String, var config: Config?, private var state: State) {
             this.state = state
             LOGGER.info("Set state = $state")
             withContext(Dispatchers.IO) {
-                IVPNApplication.appComponent?.provideGoBackend()?.setState(this@Tunnel, state, config)
+                IVPNApplication.appComponent.provideGoBackend()?.setState(this@Tunnel, state, config)
             }
         } catch (e: Exception) {
             LOGGER.error(e.localizedMessage)

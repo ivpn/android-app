@@ -71,7 +71,7 @@ fun setImageResource(imageView: ImageView, server: Server?) {
         countryCode = "gb"
     }
     val path = ("flag" + File.separator
-            + countryCode.toLowerCase() + ".png")
+            + countryCode.lowercase() + ".png")
     val drawable: Drawable
     try {
         drawable = Drawable.createFromStream(context.assets.open(path), null)
@@ -95,7 +95,7 @@ fun setImageResource(imageView: ImageView, countryCode: String?) {
         countryCode = "gb"
     }
     val path = ("flag" + File.separator
-            + countryCode.toLowerCase() + ".png")
+            + countryCode.lowercase() + ".png")
     val drawable: Drawable
     try {
         drawable = Drawable.createFromStream(context.assets.open(path), null)

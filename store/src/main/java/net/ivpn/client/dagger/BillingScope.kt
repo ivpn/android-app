@@ -22,10 +22,8 @@ package net.ivpn.client.dagger
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 import javax.inject.Scope
 
 @Scope
-@Retention(RetentionPolicy.RUNTIME)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class BillingScope

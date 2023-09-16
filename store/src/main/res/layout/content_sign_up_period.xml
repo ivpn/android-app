@@ -151,7 +151,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.oneWeek.getPrice}"
+                                android:text="@{viewmodel.oneWeek.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -185,7 +185,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.oneMonth.getPrice}"
+                                android:text="@{viewmodel.oneMonth.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -229,7 +229,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.oneYear.getPrice}"
+                                android:text="@{viewmodel.oneYear.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -273,7 +273,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.twoYear.getPrice}"
+                                android:text="@{viewmodel.twoYear.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -316,7 +316,7 @@
                                 android:layout_marginRight="16dp"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="@{viewmodel.getPrice(viewmodel.threeYear)}"
+                                android:text="@{viewmodel.threeYear.oneTimePurchaseOfferDetails.formattedPrice}"
                                 android:textColor="@color/dialogue_text"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
