@@ -104,7 +104,7 @@
         </service>
 
         <service
-            android:name="com.wireguard.android.backend.GoBackend$WireGuardVpnService"
+            android:name="com.wireguard.android.backend.GoBackend$VpnService"
             android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE" />
 

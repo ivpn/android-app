@@ -83,6 +83,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
@@ -209,6 +210,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
 
+    // WireGuard
+    implementation "com.wireguard.android:tunnel:1.0.20211029"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
+
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
@@ -284,6 +289,10 @@ dependencies {
 
     // liboqs
     implementation project(path: ':liboqs-android')
+
+    // For crash logging.
+    implementation 'io.sentry:sentry-android:4.3.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 }
 
 repositories {
