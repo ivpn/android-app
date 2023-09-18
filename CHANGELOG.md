@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.4 - 2023-09-18
+
+[IMPROVED] Upgraded payment library  
+[FIXED] App notifications not working on Android 13  
+
+[Download IVPN Client v2.10.4](https://www.ivpn.net/releases/android/IVPNv2.10.4site.apk)  
+SHA256: 4f0827db0cfcac596a87d204eb8d9f128cb6d493cdbb57070afdd7a71e9d6472  
+
 ## Version 2.10.3 - 2023-09-06
 
 [IMPROVED] Refactored rules for LAN access  
