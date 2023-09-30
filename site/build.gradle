@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
+    // id 'kotlin-android-extensions'
 }
 
 def keystoreProperties = new Properties()
@@ -80,14 +80,14 @@ android {
         enabled = true
     }
 
-    androidExtensions {
-        experimental = true
-    }
+    // androidExtensions {
+    //     experimental = true
+    // }
 
-    dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
-    }
+    // dexOptions {
+    //     incremental true
+    //     javaMaxHeapSize "4g"
+    // }
 }
 
 kapt {
