@@ -5,7 +5,7 @@ buildscript {
     ext.kotlin_coroutines_version = '1.2.1'
     ext.nav_version = '2.3.5'
     ext.compose_version = '1.4.1'
-    ext.dagger_version = '2.42'
+    ext.dagger_version = '2.44'
     repositories {
         google()
         jcenter()
@@ -44,6 +44,6 @@ ext {
     powerMockito = '1.6.2'
     hamcrestVersion = '2.1'
     espressoCore = '3.0.1'
-    lifecycleVersion = '2.3.1'
+    lifecycleVersion = '2.4.1'
     coroutenes = '1.5.2'
 }
