@@ -135,7 +135,7 @@ class SignUpViewModel @Inject constructor(
             if (accountID.isEmpty() || !isBlankAccountFresh()) {
                 createNewAccount()
             } else {
-                IVPNApplication.moduleNavGraph.startDestination = R.id.signUpAccountCreatedFragment
+                IVPNApplication.moduleNavGraph.setStartDestination(R.id.signUpAccountCreatedFragment)
                 navController?.navigate(IVPNApplication.moduleNavGraph.id)
             }
         } ?: kotlin.run {
@@ -146,7 +146,7 @@ class SignUpViewModel @Inject constructor(
     override fun signUpWith(navController: NavController?, username: String?) {
         blankAccountID.set(username)
 
-        IVPNApplication.moduleNavGraph.startDestination = R.id.signUpProductFragment
+        IVPNApplication.moduleNavGraph.setStartDestination(R.id.signUpProductFragment)
         navController?.navigate(IVPNApplication.moduleNavGraph.id)
     }
 
@@ -156,7 +156,7 @@ class SignUpViewModel @Inject constructor(
             blankAccountID.set(null)
             selectedPlan.set(plan)
 
-            IVPNApplication.moduleNavGraph.startDestination = R.id.signUpPeriodFragment2
+            IVPNApplication.moduleNavGraph.setStartDestination(R.id.signUpPeriodFragment2)
             navController?.navigate(IVPNApplication.moduleNavGraph.id)
         } else {
             openSite()

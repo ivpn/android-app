@@ -161,8 +161,8 @@ class UpdateHelper @Inject constructor(
         LOGGER.info("Open settings")
 
         NavDeepLinkBuilder(IVPNApplication.application)
-                .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.settingsFragment)
+                .setGraph(net.ivpn.core.R.navigation.nav_graph)
+                .setDestination(net.ivpn.core.R.id.settingsFragment)
                 .createTaskStackBuilder()
                 .startActivities()
 

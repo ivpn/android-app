@@ -105,7 +105,7 @@ class SignUpAccountCreatedFragment : Fragment() {
             val myClip: ClipData = ClipData.newPlainText("User Id", userId)
             myClipboard.setPrimaryClip(myClip)
 
-            ToastUtil.toast(R.string.account_clipboard)
+            ToastUtil.toast(net.ivpn.core.R.string.account_clipboard)
         }
     }
 
