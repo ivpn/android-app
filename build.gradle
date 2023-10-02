@@ -9,9 +9,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://storage.googleapis.com/r8-releases/raw/master"
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.2'
