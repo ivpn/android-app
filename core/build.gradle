@@ -62,11 +62,9 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            matchingFallbacks = ["release"]
         }
         debug {
             signingConfig signingConfigs.debug
-            matchingFallbacks = ["debug"]
         }
     }
     lintOptions {
@@ -86,7 +84,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17
@@ -284,9 +281,6 @@ dependencies {
     // For crash logging.
     implementation 'io.sentry:sentry-android:4.3.0'
     implementation "androidx.multidex:multidex:2.0.1"
-
-    // WireGuard
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 }
 
 repositories {
