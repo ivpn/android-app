@@ -23,7 +23,7 @@ package net.ivpn.core.common.pinger
 */
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,9 +40,7 @@ class PingDataSet @Inject constructor(
 ) {
 
     val pings: MutableLiveData<MutableMap<Server, PingResultFormatter?>> = MutableLiveData()
-    val fastestServer = Transformations.map(pings) {
-        calculateFastestServer(it)
-    }
+    val fastestServer = pings.map { calculateFastestServer(it) }
 
     private var _pings: MutableMap<Server, PingResultFormatter?> = mutableMapOf()
 

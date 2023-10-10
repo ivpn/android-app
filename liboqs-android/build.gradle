@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    namespace "net.ivpn.liboqs"
+
     compileSdkVersion 33
     defaultConfig {
         minSdkVersion 21
@@ -21,7 +23,6 @@ android {
 
     buildTypes {
         release {
-            debuggable false
             jniDebuggable false
             zipAlignEnabled true
             minifyEnabled false
@@ -30,8 +31,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     externalNativeBuild {

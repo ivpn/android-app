@@ -142,7 +142,7 @@ class UpdatesViewModel @Inject constructor(
     }
 
     override fun openUpdatesScreen(navController: NavController?) {
-        IVPNApplication.moduleNavGraph.startDestination = R.id.updatesFragment
+        IVPNApplication.moduleNavGraph.setStartDestination(R.id.updatesFragment)
         navController?.navigate(IVPNApplication.moduleNavGraph.id)
     }
 

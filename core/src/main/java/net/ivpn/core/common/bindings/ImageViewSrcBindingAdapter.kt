@@ -39,20 +39,6 @@ import java.io.File
 import java.io.IOException
 
 @BindingAdapter("android:src")
-fun setImageUri(view: ImageView, imageUri: String?) {
-    if (imageUri == null) {
-        view.setImageURI(null)
-    } else {
-        view.setImageURI(Uri.parse(imageUri))
-    }
-}
-
-@BindingAdapter("android:src")
-fun setImageUri(view: ImageView, imageUri: Uri?) {
-    view.setImageURI(imageUri)
-}
-
-@BindingAdapter("android:src")
 fun setImageDrawable(view: ImageView, drawable: Drawable?) {
     view.setImageDrawable(drawable)
 }

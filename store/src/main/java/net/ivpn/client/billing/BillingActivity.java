@@ -101,7 +101,7 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     @Override
     public void createPurchaseErrorDialog(String errorCode, String errorMessage) {
         DialogBuilder.createFullCustomNotificationDialog(this,
-                this.getString(R.string.dialogs_error) + " " + errorCode,
+                this.getString(net.ivpn.core.R.string.dialogs_error) + " " + errorCode,
                 errorMessage != null ? errorMessage : "", dialog -> {
                     BillingActivity.this.finish();
                 });

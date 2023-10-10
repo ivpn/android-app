@@ -26,12 +26,12 @@ import androidx.databinding.BindingAdapter
 import net.ivpn.core.common.views.IPSelectorView
 import net.ivpn.core.v2.viewmodel.LocationViewModel
 
-@BindingAdapter("app:ipstate")
+@BindingAdapter("ipstate")
 fun setState(view: IPSelectorView, state: LocationViewModel.IPState) {
     view.setState(state)
 }
 
-@BindingAdapter("app:ipStateListener")
+@BindingAdapter("ipStateListener")
 fun setStateListener(view: IPSelectorView, listener: LocationViewModel.OnIPStateChangedListener?) {
     view.setStateListener(listener)
 }
