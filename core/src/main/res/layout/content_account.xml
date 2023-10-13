@@ -147,6 +147,7 @@
                     android:alpha="0.7"
                     android:text="@string/account_active_until"
                     android:textColor="@color/account_text"
+                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line2" />
 
@@ -160,6 +161,7 @@
                     android:text="@{account.isActive() ? DateUtil.formatDate(account.availableUntil) : @string/account_no_active_subscription}"
                     android:textColor="@color/account_text"
                     android:textSize="16sp"
+                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/active_until_label" />
 
@@ -169,6 +171,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="24dp"
                     android:background="@color/account_line"
+                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/active_until" />
@@ -202,6 +205,7 @@
                     android:text="@string/account_add_more_time"
                     android:textColor="@color/primary"
                     android:textSize="15sp"
+                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@+id/active_until"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/active_until_label" />
