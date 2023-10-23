@@ -147,7 +147,10 @@ public class SplitTunnelingViewModel {
             List<ApplicationItem> items = new LinkedList<>();
             for (ApplicationInfo info : applicationInfoList) {
                 try {
-                    if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
+                    if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
+                            null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
+                            null != packageManager.getInstallerPackageName(info.packageName)
+                    ) {
                         items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
                                 info.loadIcon(packageManager)));
                     }
