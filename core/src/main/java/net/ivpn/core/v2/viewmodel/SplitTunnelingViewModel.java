@@ -145,14 +145,17 @@ public class SplitTunnelingViewModel {
         @Override
         protected List<ApplicationItem> doInBackground(Void... voids) {
             List<ApplicationItem> items = new LinkedList<>();
+            Set<String> packageNames = new HashSet<>();
             for (ApplicationInfo info : applicationInfoList) {
                 try {
                     if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
                             null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
                             null != packageManager.getInstallerPackageName(info.packageName)
                     ) {
-                        items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
-                                info.loadIcon(packageManager)));
+                        if (packageNames.add(info.loadLabel(packageManager).toString())) {
+                            items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
+                                    info.loadIcon(packageManager)));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
