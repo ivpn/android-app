@@ -211,8 +211,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_section_divider"
-                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}" />
+                android:background="@color/color_section_divider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/anti_tracker_layout"
@@ -222,8 +221,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:visibility="@{antiTracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/antitracker_title"
