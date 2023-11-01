@@ -459,7 +459,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun isSentryEnabled(): Boolean {
-        return sharedPreferences.getBoolean(SETTINGS_SENTRY, true)
+        return sharedPreferences.getBoolean(SETTINGS_SENTRY, false)
     }
 
     fun getFilter(): String? {
