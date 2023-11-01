@@ -609,8 +609,7 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:visibility="@{antitracker.isAntiTrackerSupported ? View.VISIBLE : View.GONE}">
+                    android:focusable="true">
 
                     <View
                         android:id="@+id/sepation_line"
