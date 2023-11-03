@@ -118,22 +118,6 @@ data class V2RayConfig(
         }
     }
 
-    fun getLocalPort(): Pair<Int, Boolean> {
-        if (inbounds.isNotEmpty()) {
-            val port = inbounds[0].port.toIntOrNull() ?: 0
-            val isTcp = inbounds[0].settings.network == "tcp"
-            return Pair(port, isTcp)
-        }
-        return Pair(0, false)
-    }
-
-    fun setLocalPort(port: Int, isTcp: Boolean) {
-        if (inbounds.isNotEmpty()) {
-            inbounds[0].port = port.toString()
-            inbounds[0].settings.network = if (isTcp) "tcp" else "udp"
-        }
-    }
-
     companion object {
         private fun createFromTemplate(
             outboundIp: String,
