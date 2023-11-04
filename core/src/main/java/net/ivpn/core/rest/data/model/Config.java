@@ -25,17 +25,25 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import net.ivpn.core.common.v2ray.V2RaySettings;
+
 public class Config {
 
     @SerializedName("antitracker_plus")
     @Expose
     private AntiTrackerPlus antitrackerPlus;
+
     @SerializedName("api")
     @Expose
     private Api api;
+
     @SerializedName("ports")
     @Expose
     private Ports ports;
+
+    @SerializedName("v2ray")
+    @Expose
+    private V2RaySettings v2ray;
 
     public AntiTrackerPlus getAntiTrackerPlus() {
         return antitrackerPlus;
