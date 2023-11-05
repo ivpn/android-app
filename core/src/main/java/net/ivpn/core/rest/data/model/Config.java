@@ -49,6 +49,10 @@ public class Config {
         return antitrackerPlus;
     }
 
+    public V2RaySettings getV2RaySettings() {
+        return v2ray;
+    }
+
     public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
         this.antitrackerPlus = antitrackerPlus;
     }

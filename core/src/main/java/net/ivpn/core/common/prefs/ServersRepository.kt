@@ -188,6 +188,7 @@ class ServersRepository @Inject constructor(
                 settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
                 settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
                 settings.antiTrackerList = response.config.antiTrackerPlus.list
+                settings.v2raySettings = response.config.v2RaySettings
                 if (settings.antiTracker == null) {
                     val defaultDns = AntiTracker()
                     settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
@@ -270,6 +271,7 @@ class ServersRepository @Inject constructor(
             settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
             settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
             settings.antiTrackerList = response.config.antiTrackerPlus.list
+            settings.v2raySettings = response.config.v2RaySettings
             if (settings.antiTracker == null) {
                 val defaultDns = AntiTracker()
                 settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
@@ -289,6 +291,7 @@ class ServersRepository @Inject constructor(
             settings.wireGuardPortRanges = response.config.ports.wireguard.filter { it.range != null }
             settings.openVpnPortRanges = response.config.ports.openvpn.filter { it.range != null }
             settings.antiTrackerList = response.config.antiTrackerPlus.list
+            settings.v2raySettings = response.config.v2RaySettings
             if (settings.antiTracker == null) {
                 val defaultDns = AntiTracker()
                 settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
