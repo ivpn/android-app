@@ -313,7 +313,8 @@ class Settings @Inject constructor(
 
     var v2raySettings: V2RaySettings?
         get() {
-            return Mapper.v2raySettingsFrom(settingsPreference.getV2raySettings())
+            val json = settingsPreference.getV2raySettings()
+            return if (json!!.isEmpty()) null else Mapper.v2raySettingsFrom(json)
         }
         set(settings) {
             settingsPreference.setV2raySettings(Mapper.stringFromV2raySettings(settings))
