@@ -25,6 +25,7 @@ package net.ivpn.core.common
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
+import net.ivpn.core.common.v2ray.V2RaySettings
 import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
@@ -88,6 +89,15 @@ object Mapper {
 
     fun stringFromAntiTracker(dns: AntiTracker?): String {
         return Gson().toJson(dns)
+    }
+
+    fun v2raySettingsFrom(json: String?): V2RaySettings {
+        val type = object : TypeToken<V2RaySettings>() {}.type
+        return Gson().fromJson(json, type)
+    }
+
+    fun stringFromV2raySettings(settings: V2RaySettings?): String {
+        return Gson().toJson(settings)
     }
 
     fun stringFromIps(ips: List<String>?): String? {
