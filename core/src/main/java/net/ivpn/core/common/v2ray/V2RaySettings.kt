@@ -27,8 +27,3 @@ class V2RaySettings {
         get() = wireguard.firstOrNull()?.portNumber ?: 0
 
 }
-
-//data class V2RayPort(
-//    val type: String,
-//    val port: Int
-//)
