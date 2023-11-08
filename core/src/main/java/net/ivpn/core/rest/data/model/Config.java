@@ -41,16 +41,8 @@ public class Config {
     @Expose
     private Ports ports;
 
-    @SerializedName("v2ray")
-    @Expose
-    private V2RaySettings v2ray;
-
     public AntiTrackerPlus getAntiTrackerPlus() {
         return antitrackerPlus;
-    }
-
-    public V2RaySettings getV2RaySettings() {
-        return v2ray;
     }
 
     public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {

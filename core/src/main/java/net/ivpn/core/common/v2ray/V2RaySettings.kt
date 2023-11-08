@@ -4,14 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import net.ivpn.core.rest.data.model.Port
 
-data class V2RaySettings(
-    var outboundIp: String = "",
-    var outboundPort: Int = 0,
-    var inboundIp: String = "",
-    var inboundPort: Int = 0,
-    var dnsName: String = ""
-//    var wireguard: List<V2RayPort> = listOf()
-) {
+class V2RaySettings {
 
     @SerializedName("id")
     @Expose
@@ -20,6 +13,12 @@ data class V2RaySettings(
     @SerializedName("wireguard")
     @Expose
     lateinit var wireguard: List<Port>
+
+    var outboundIp: String = ""
+    var outboundPort: Int = 0
+    var inboundIp: String = ""
+    var inboundPort: Int = 0
+    var dnsName: String = ""
 
     val tlsSrvName: String
         get() = dnsName.replace("ivpn.net", "inet-telecom.com")

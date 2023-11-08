@@ -108,11 +108,7 @@ class Ports {
 
     @SerializedName("v2ray")
     @Expose
-    private val v2ray: V2RaySettings? = null
-
-    fun getV2RaySettings(): V2RaySettings? {
-        return v2ray
-    }
+    lateinit var v2ray: V2RaySettings
 
 }
 
