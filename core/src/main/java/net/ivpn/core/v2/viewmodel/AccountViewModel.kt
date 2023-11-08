@@ -166,6 +166,10 @@ class AccountViewModel @Inject constructor(
         return accountType.get()?.equals("IVPN Standard") ?: false
     }
 
+    fun isAccountLegacy(): Boolean {
+        return accountType.get()?.equals("Member VPN Pro Account") ?: false
+    }
+
     fun isAccountNewStyle(): Boolean {
         return paymentMethod?.let {
             it == "prepaid"
