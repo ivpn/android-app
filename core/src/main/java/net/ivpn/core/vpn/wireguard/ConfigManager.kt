@@ -84,9 +84,9 @@ class ConfigManager @Inject constructor(
             if (v2raySettings != null) {
                 v2raySettings.inboundIp = host.host
                 v2raySettings.inboundPort = v2raySettings.singleHopInboundPort
-                // v2raySettings.outboundIp = host.v2ray
+                v2raySettings.outboundIp = host.v2ray
                 v2raySettings.outboundPort = port
-                // v2raySettings.dnsName = host.dnsName
+                v2raySettings.dnsName = host.dnsName
                 settings.v2raySettings = v2raySettings
             }
         }
@@ -119,6 +119,7 @@ class ConfigManager @Inject constructor(
         }
 
         setAddress(config, listOf(host))
+        setV2ray(host, port.portNumber)
 
         val dnsString = getDNS(host)
         println("Config dns = $dnsString")
@@ -154,6 +155,7 @@ class ConfigManager @Inject constructor(
         val exitHost = exitServer.hosts.random()
 
         setAddress(config, listOf(entryHost, exitHost))
+        setV2ray(exitHost, exitHost.multihopPort)
 
         val dnsString = getDNS(entryHost)
         println("Config dns = $dnsString")

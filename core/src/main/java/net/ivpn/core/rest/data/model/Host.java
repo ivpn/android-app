@@ -46,6 +46,14 @@ public class Host {
     @Expose
     private int multihopPort;
 
+    @SerializedName("dns_name")
+    @Expose
+    private String dnsName;
+
+    @SerializedName("v2ray")
+    @Expose
+    private String v2ray;
+
     public String getHost() {
         return host;
     }
@@ -92,6 +100,14 @@ public class Host {
 
     public void setMultihopPort(int multihopPort) {
         this.multihopPort = multihopPort;
+    }
+
+    public String getDnsName() {
+        return dnsName;
+    }
+
+    public String getV2ray() {
+        return v2ray;
     }
 
     @Override
