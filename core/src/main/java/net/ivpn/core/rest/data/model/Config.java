@@ -25,8 +25,6 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import net.ivpn.core.common.v2ray.V2RaySettings;
-
 public class Config {
 
     @SerializedName("antitracker_plus")
