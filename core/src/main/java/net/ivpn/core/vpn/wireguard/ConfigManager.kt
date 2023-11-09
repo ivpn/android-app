@@ -1,22 +1,5 @@
 package net.ivpn.core.vpn.wireguard
 
-import com.wireguard.android.config.Config
-import com.wireguard.android.config.Peer
-import com.wireguard.android.model.Tunnel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.multihop.MultiHopController
-import net.ivpn.core.rest.data.model.ServerType
-import net.ivpn.core.common.prefs.ServersRepository
-import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.rest.data.model.Host
-import net.ivpn.core.rest.data.model.Port
-import net.ivpn.core.rest.data.model.Server
-import org.slf4j.LoggerFactory
-import java.util.*
-import javax.inject.Inject
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -39,6 +22,23 @@ import javax.inject.Inject
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.wireguard.android.config.Config
+import com.wireguard.android.config.Peer
+import com.wireguard.android.model.Tunnel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.multihop.MultiHopController
+import net.ivpn.core.rest.data.model.ServerType
+import net.ivpn.core.common.prefs.ServersRepository
+import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.common.v2ray.V2RayCore
+import net.ivpn.core.rest.data.model.Host
+import net.ivpn.core.rest.data.model.Port
+import net.ivpn.core.rest.data.model.Server
+import org.slf4j.LoggerFactory
+import javax.inject.Inject
+
 @ApplicationScope
 class ConfigManager @Inject constructor(
     private val settings: Settings,
@@ -51,6 +51,9 @@ class ConfigManager @Inject constructor(
             tunnel?.listener = value
             field = value
         }
+
+    @Inject
+    lateinit var v2ray: V2RayCore
 
     fun init() {
         LOGGER.info("init")

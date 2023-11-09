@@ -126,7 +126,7 @@ data class V2RayConfig(
             inboundPort: Int,
             outboundUserId: String
         ): V2RayConfig {
-            val config = parse("config.json")
+            val config = parse("v2ray-config.json")
             if (config.inbounds.isNotEmpty()) {
                 config.inbounds[0].settings.address = inboundIp
                 config.inbounds[0].settings.port = inboundPort
