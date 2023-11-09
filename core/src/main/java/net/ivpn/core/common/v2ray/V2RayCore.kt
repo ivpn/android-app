@@ -1,39 +1,63 @@
 package net.ivpn.core.common.v2ray
 
-class V2RayCore {
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
 
-    companion object {
-        fun start(): Error? {
-            close()
-//            var error: Error? = null
+ Created by Juraj Hilje.
+ Copyright (c) 2023 IVPN Limited.
 
-            val config = makeConfig()
+ This file is part of the IVPN Android app.
 
-            // Start V2Ray
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-            return null
-        }
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
 
-        fun close(): Error? {
-//            var error: Error? = null
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
 
-            // Stop V2Ray
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.Settings
+import javax.inject.Inject
 
-            return null
-        }
+@ApplicationScope
+class V2RayCore @Inject constructor(
+    private val settings: Settings
+) {
 
-        fun makeConfig(): V2RayConfig? {
-            return null
-//            val settings = V2RaySettings()
-//
-//            return V2RayConfig.createQuick(
-//                outboundIp = settings.outboundIp,
-//                outboundPort = settings.outboundPort,
-//                inboundIp = settings.inboundIp,
-//                inboundPort = settings.inboundPort,
-//                outboundUserId = settings.id,
-//                tlsSrvName = settings.tlsSrvName
-//            )
-        }
+    fun start(): Error? {
+        close()
+        // var error: Error? = null
+        // TODO: Start V2Ray
+        val config = makeConfig()
+        return null
     }
+
+    fun close(): Error? {
+        // var error: Error? = null
+        // TODO: Stop V2Ray
+        return null
+    }
+
+    private fun makeConfig(): V2RayConfig? {
+        val v2raySettings = settings.v2raySettings
+        if (v2raySettings != null) {
+            return V2RayConfig.createQuick(
+                v2raySettings.outboundIp,
+                v2raySettings.outboundPort,
+                v2raySettings.inboundIp,
+                v2raySettings.inboundPort,
+                v2raySettings.id,
+                v2raySettings.tlsSrvName
+            )
+        }
+        return null
+    }
+
 }
