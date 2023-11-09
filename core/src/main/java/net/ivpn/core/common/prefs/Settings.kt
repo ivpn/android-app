@@ -311,6 +311,18 @@ class Settings @Inject constructor(
             settingsPreference.setAntiTracker(Mapper.stringFromAntiTracker(dns))
         }
 
+    var v2ray: Boolean
+        get() = settingsPreference.v2ray
+        set(v2ray) {
+            settingsPreference.v2ray = v2ray
+        }
+
+    var v2rayProtocol: String
+        get() = settingsPreference.v2rayProtocol ?: "udp"
+        set(v2rayProtocol) {
+            settingsPreference.v2rayProtocol = v2rayProtocol
+        }
+
     var v2raySettings: V2RaySettings?
         get() {
             val json = settingsPreference.getV2raySettings()
