@@ -24,6 +24,8 @@ package net.ivpn.core.common.v2ray
 
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.Settings
+import v2rayControl.Instance
+import v2rayControl.V2rayControl
 import javax.inject.Inject
 
 @ApplicationScope
@@ -31,18 +33,20 @@ class V2RayCore @Inject constructor(
     private val settings: Settings
 ) {
 
-    fun start(): Error? {
-        close()
-        // var error: Error? = null
-        // TODO: Start V2Ray
+    private var instance: Instance? = null
+
+    fun start(){
+        stop()
         val config = makeConfig()
-        return null
+        if (config != null) {
+            instance = V2rayControl.start(config.jsonString())
+        }
     }
 
-    fun close(): Error? {
-        // var error: Error? = null
-        // TODO: Stop V2Ray
-        return null
+    fun stop() {
+        if (instance != null) {
+            V2rayControl.stop(instance)
+        }
     }
 
     private fun makeConfig(): V2RayConfig? {
