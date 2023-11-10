@@ -278,6 +278,9 @@ dependencies {
     // liboqs
     implementation project(path: ':liboqs-android')
 
+    // V2Ray
+    implementation files('libs/V2RayControl.aar')
+
     // For crash logging.
     implementation 'io.sentry:sentry-android:4.3.0'
     implementation "androidx.multidex:multidex:2.0.1"
