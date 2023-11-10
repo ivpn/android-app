@@ -140,6 +140,7 @@ def File registerGenTask(variantName, variantDirName) {
 def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
 def kemPlatform = "android-21"
 def kemMechanisms = "KEM_kyber_1024;"
+def v2rayScript = "./build-v2ray.sh"
 
 tasks.register("buildLiboqsARM64", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
@@ -157,6 +158,10 @@ tasks.register("buildLiboqsX86", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "x86", "-p", kemPlatform, "-m", kemMechanisms
 }
 
+tasks.register("buildV2ray", Exec) {
+    commandLine v2rayScript
+}
+
 android.libraryVariants.all { variant ->
     def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
     def generateOpenVPN3Swig = tasks.named("generateOpenVPN3Swig${variant.name}").get()
@@ -164,11 +169,13 @@ android.libraryVariants.all { variant ->
     def buildLiboqsARM = tasks.named("buildLiboqsARM").get()
     def buildLiboqsX8664 = tasks.named("buildLiboqsX8664").get()
     def buildLiboqsX86 = tasks.named("buildLiboqsX86").get()
+    def buildV2ray = tasks.named("buildV2ray").get()
     variant.registerJavaGeneratingTask(generateOpenVPN3Swig, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM64, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX8664, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX86, sourceDir)
+    variant.registerJavaGeneratingTask(buildV2ray, sourceDir)
 }
 
 project.afterEvaluate {
@@ -176,7 +183,8 @@ project.afterEvaluate {
         tasks.named("buildLiboqsARM64").get(),
         tasks.named("buildLiboqsARM").get(),
         tasks.named("buildLiboqsX8664").get(),
-        tasks.named("buildLiboqsX86").get()
+        tasks.named("buildLiboqsX86").get(),
+        tasks.named("buildV2ray").get()
     )
 }
 
