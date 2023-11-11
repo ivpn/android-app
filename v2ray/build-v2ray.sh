@@ -2,10 +2,14 @@
 
 set -e
 
+# Make sure script will work the same if called from
+# root directory or scripts directory
+parent_path=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
+cd "$parent_path"
 mkdir -p libs
 
 echo "=> Get gomobile.."
-cd v2RayControl
+cd V2RayControl
 PATH=$PATH:~/go/bin
 go get golang.org/x/mobile/cmd/gomobile
 

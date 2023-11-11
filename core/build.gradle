@@ -140,7 +140,7 @@ def File registerGenTask(variantName, variantDirName) {
 def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
 def kemPlatform = "android-21"
 def kemMechanisms = "KEM_kyber_1024;"
-def v2rayScript = "./build-v2ray.sh"
+def v2rayScript = "./../v2ray/build-v2ray.sh"
 
 tasks.register("buildLiboqsARM64", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
@@ -287,7 +287,7 @@ dependencies {
     implementation project(path: ':liboqs-android')
 
     // V2Ray
-    implementation files('libs/V2RayControl.aar')
+    implementation project(path: ':v2ray')
 
     // For crash logging.
     implementation 'io.sentry:sentry-android:4.3.0'
