@@ -160,6 +160,7 @@ tasks.register("buildLiboqsX86", Exec) {
 
 tasks.register("buildV2ray", Exec) {
     commandLine v2rayScript
+    outputs.upToDateWhen { false }
 }
 
 android.libraryVariants.all { variant ->
