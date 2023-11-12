@@ -140,7 +140,7 @@ def File registerGenTask(variantName, variantDirName) {
 def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
 def kemPlatform = "android-21"
 def kemMechanisms = "KEM_kyber_1024;"
-def v2rayScript = "./../v2ray/build-v2ray.sh"
+def v2rayScript = "./../v2ray/build.sh"
 
 tasks.register("buildLiboqsARM64", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
