@@ -1,10 +1,14 @@
 module golang.zx2c4.com/wireguard/android
 
-go 1.16
+go 1.19
 
 require (
-	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
-	golang.org/x/net v0.0.0-20210220033124-5f55cee0dc0d // indirect
-	golang.org/x/sys v0.0.0-20210220050731-9a76102bfb43
-	golang.zx2c4.com/wireguard v0.0.0-20210222142647-219296a1e787
+	golang.org/x/sys v0.6.0
+	golang.zx2c4.com/wireguard v0.0.0-20230223181233-21636207a675
+)
+
+require (
+	golang.org/x/crypto v0.7.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.zx2c4.com/wintun v0.0.0-20230126152724-0fa3db229ce2 // indirect
 )

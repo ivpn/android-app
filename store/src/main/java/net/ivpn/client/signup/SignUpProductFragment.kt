@@ -115,8 +115,8 @@ class SignUpProductFragment : Fragment(), SignUpViewModel.SignUpNavigator {
 
     override fun onGoogleConnectFailure() {
         if (activity != null) {
-            DialogBuilder.createFullCustomNotificationDialog(activity, getString(R.string.dialogs_error),
-                    getString(R.string.billing_error_message)) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, getString(net.ivpn.core.R.string.dialogs_error),
+                    getString(net.ivpn.core.R.string.billing_error_message)) {
                 findNavControllerSafely()?.popBackStack()
             }
         }

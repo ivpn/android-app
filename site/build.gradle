@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
 }
 
 def keystoreProperties = new Properties()
@@ -13,6 +12,8 @@ if (new File("keystore.properties").exists()) {
 }
 
 android {
+    namespace "net.ivpn.client"
+    
     signingConfigs {
         release {
             keyAlias keystoreProperties['release.key.alias']
@@ -69,24 +70,15 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17
     }
 
     dataBinding {
         enabled = true
-    }
-
-    androidExtensions {
-        experimental = true
-    }
-
-    dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
     }
 }
 
@@ -105,24 +97,24 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
-    //Dagger
+    // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
-    //Powerful library for logging
+    // Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
 
-    //Navigation component
+    // Navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    //Navigation component dynamic feature module support
+    // Navigation component dynamic feature module support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    //For crash logging.
+    // For crash logging.
     implementation 'io.sentry:sentry-android:4.3.0'
 
     implementation "androidx.multidex:multidex:2.0.1"

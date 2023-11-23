@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
@@ -14,6 +13,8 @@ if (new File("keystore.properties").exists()) {
 }
 
 android {
+    namespace "net.ivpn.core"
+    
     signingConfigs {
         release {
             keyAlias keystoreProperties['release.key.alias']
@@ -81,11 +82,11 @@ android {
         enabled = true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_17
     }
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
@@ -96,14 +97,6 @@ android {
             version '3.22.1'
             path 'CMakeLists.txt'
         }
-    }
-    androidExtensions {
-        experimental = true
-    }
-
-    dexOptions {
-        incremental true
-        javaMaxHeapSize "4g"
     }
 
     splits {
@@ -228,37 +221,37 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
 
-    //Used to support stream API from JAVA8 and JAVA9
-    //ToDo remove it in future
+    // Used to support stream API from JAVA8 and JAVA9
+    // ToDo remove it in future
     implementation "net.sourceforge.streamsupport:android-retrofuture:$streamsupportVersion"
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
-    //Sliding up panel
+    // Sliding up panel
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 
-    //Constraint layout
+    // Constraint layout
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 
-//    QR support
+    // QR support
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
 
-    //Encrypted shared preference
+    // Encrypted shared preference
     implementation "androidx.security:security-crypto:1.1.0-alpha03"
 
-    //Powerful library for logging
+    // Powerful library for logging
     implementation 'org.slf4j:slf4j-api:1.7.24'
     implementation 'org.slf4j:jul-to-slf4j:1.7.0'
     implementation 'com.github.tony19:logback-android:2.0.0'
 
-    //Navigation component
+    // Navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    //LiveData component
+    // LiveData component
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
 
-    //Coroutines
+    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutenes"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutenes"
 
@@ -272,7 +265,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
 
-    //Dagger
+    // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
@@ -284,6 +277,10 @@ dependencies {
 
     // liboqs
     implementation project(path: ':liboqs-android')
+
+    // For crash logging.
+    implementation 'io.sentry:sentry-android:4.3.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 }
 
 repositories {
