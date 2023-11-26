@@ -73,11 +73,12 @@
                         android:layout_weight="1" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/enable_anti_surveillance"
+                        android:id="@+id/show_system_apps"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:checked="@{viewmodel.isAllItemsAllowed}"
+                        android:checked="@{viewmodel.showSystemApps}"
+                        app:onChanged="@{viewmodel.toggleSystemApps}"
                         android:thumb="@drawable/common_thumb_selector"
                         app:track="@drawable/common_track_selector" />
 
@@ -95,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adapter="@{viewmodel.adapter}"
-                app:apps="@{viewmodel.apps}"
+                app:apps="@{viewmodel.showSystemApps ? viewmodel.systemApps : viewmodel.apps}"
                 app:not_allowed_apps="@{viewmodel.disallowedApps}"
                 app:selection_listener="@{viewmodel.selectionChangedListener}"/>
 
