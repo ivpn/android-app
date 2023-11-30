@@ -78,10 +78,7 @@ public class SplitTunnelingViewModel {
         this.adapter.set(adapter);
         this.menuHandler = adapter.getMenuHandler();
         this.preference = preference;
-
-        disallowedApps.clear();
-        disallowedApps.addAll(getDisallowedPackages());
-
+        reloadDisallowedApps();
         isAllItemsAllowed.set(disallowedApps.size() == 0);
     }
 
@@ -92,11 +89,19 @@ public class SplitTunnelingViewModel {
     public void selectAll() {
         allowAllPackages();
         menuHandler.selectAll();
+        reloadDisallowedApps();
     }
 
     public void deselectAll() {
         disallowAllApps(new HashSet<>(apps));
+        disallowAllApps(new HashSet<>(systemApps));
         menuHandler.deselectAll();
+        reloadDisallowedApps();
+    }
+
+    private void reloadDisallowedApps() {
+        disallowedApps.clear();
+        disallowedApps.addAll(getDisallowedPackages());
     }
 
     private void toggleSystemApps(Boolean value) {
@@ -159,16 +164,16 @@ public class SplitTunnelingViewModel {
             Set<String> systemPackageNames = new HashSet<>();
             for (ApplicationInfo info : applicationInfoList) {
                 try {
-                    if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
-                            null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
-                            null != packageManager.getInstallerPackageName(info.packageName)
-                    ) {
-                        if (packageNames.add(info.loadLabel(packageManager).toString())) {
-                            items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
-                                    info.loadIcon(packageManager)));
-                        }
-                    }
                     if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.INTERNET, info.packageName)) {
+                        if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
+                                null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
+                                null != packageManager.getInstallerPackageName(info.packageName)
+                        ) {
+                            if (packageNames.add(info.loadLabel(packageManager).toString())) {
+                                items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
+                                        info.loadIcon(packageManager)));
+                            }
+                        }
                         if (systemPackageNames.add(info.loadLabel(packageManager).toString())) {
                             systemItems.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
                                     info.loadIcon(packageManager)));
