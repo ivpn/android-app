@@ -93,8 +93,10 @@ public class SplitTunnelingViewModel {
     }
 
     public void deselectAll() {
-        disallowAllApps(new HashSet<>(apps));
-        disallowAllApps(new HashSet<>(systemApps));
+        ObservableArrayList<ApplicationItem> allApps = new ObservableArrayList<>();
+        allApps.addAll(apps);
+        allApps.addAll(systemApps);
+        disallowAllApps(new HashSet<>(allApps));
         menuHandler.deselectAll();
         reloadDisallowedApps();
     }
