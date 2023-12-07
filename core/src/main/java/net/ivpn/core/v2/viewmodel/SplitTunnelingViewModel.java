@@ -93,8 +93,10 @@ public class SplitTunnelingViewModel {
     }
 
     public void deselectAll() {
-        disallowAllApps(new HashSet<>(apps));
-        disallowAllApps(new HashSet<>(systemApps));
+        ObservableArrayList<ApplicationItem> allApps = new ObservableArrayList<>();
+        allApps.addAll(apps);
+        allApps.addAll(systemApps);
+        disallowAllApps(new HashSet<>(allApps));
         menuHandler.deselectAll();
         reloadDisallowedApps();
     }
@@ -165,9 +167,10 @@ public class SplitTunnelingViewModel {
             for (ApplicationInfo info : applicationInfoList) {
                 try {
                     if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.INTERNET, info.packageName)) {
-                        if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
+                        if ((null != packageManager.getLaunchIntentForPackage(info.packageName) ||
                                 null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
-                                null != packageManager.getInstallerPackageName(info.packageName)
+                                null != packageManager.getInstallerPackageName(info.packageName) &&
+                                        (info.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
                         ) {
                             if (packageNames.add(info.loadLabel(packageManager).toString())) {
                                 items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
