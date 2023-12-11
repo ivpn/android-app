@@ -48,19 +48,55 @@
                     android:textSize="14sp"
                     android:textStyle="normal" />
 
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/split_line_color" />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:lineSpacingExtra="8sp"
+                        android:text="@string/split_tunneling_show_system_apps"
+                        android:textColor="@color/antitracker_text"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/show_system_apps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:checked="@{viewmodel.showSystemApps}"
+                        app:onChanged="@{viewmodel.toggleSystemApps}"
+                        android:thumb="@drawable/common_thumb_selector"
+                        app:track="@drawable/common_track_selector" />
+
+                </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/split_line_color" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adapter="@{viewmodel.adapter}"
-                app:apps="@{viewmodel.apps}"
+                app:apps="@{viewmodel.showSystemApps ? viewmodel.systemApps : viewmodel.apps}"
                 app:not_allowed_apps="@{viewmodel.disallowedApps}"
                 app:selection_listener="@{viewmodel.selectionChangedListener}"/>
 
