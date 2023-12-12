@@ -22,9 +22,11 @@ package net.ivpn.core.v2.viewmodel;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.Manifest;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.widget.CompoundButton;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
@@ -45,10 +47,13 @@ import javax.inject.Inject;
 public class SplitTunnelingViewModel {
 
     public final ObservableBoolean dataLoading = new ObservableBoolean();
+    public final ObservableBoolean showSystemApps = new ObservableBoolean();
     public final ObservableBoolean isAllItemsAllowed = new ObservableBoolean();
     public final ObservableArrayList<ApplicationItem> apps = new ObservableArrayList<>();
+    public final ObservableArrayList<ApplicationItem> systemApps = new ObservableArrayList<>();
     public final ObservableArrayList<String> disallowedApps = new ObservableArrayList<String>();
     public final ObservableField<SplitTunnelingRecyclerViewAdapter> adapter = new ObservableField<>();
+    public CompoundButton.OnCheckedChangeListener toggleSystemApps = (compoundButton, value) -> toggleSystemApps(value);
     public final OnApplicationItemSelectionChangedListener selectionChangedListener = new OnApplicationItemSelectionChangedListener() {
         @Override
         public void onApplicationItemSelectionChanged(ApplicationItem applicationItem, boolean isSelected) {
@@ -73,10 +78,7 @@ public class SplitTunnelingViewModel {
         this.adapter.set(adapter);
         this.menuHandler = adapter.getMenuHandler();
         this.preference = preference;
-
-        disallowedApps.clear();
-        disallowedApps.addAll(getDisallowedPackages());
-
+        reloadDisallowedApps();
         isAllItemsAllowed.set(disallowedApps.size() == 0);
     }
 
@@ -87,11 +89,25 @@ public class SplitTunnelingViewModel {
     public void selectAll() {
         allowAllPackages();
         menuHandler.selectAll();
+        reloadDisallowedApps();
     }
 
     public void deselectAll() {
-        disallowAllApps(new HashSet<>(apps));
+        ObservableArrayList<ApplicationItem> allApps = new ObservableArrayList<>();
+        allApps.addAll(apps);
+        allApps.addAll(systemApps);
+        disallowAllApps(new HashSet<>(allApps));
         menuHandler.deselectAll();
+        reloadDisallowedApps();
+    }
+
+    private void reloadDisallowedApps() {
+        disallowedApps.clear();
+        disallowedApps.addAll(getDisallowedPackages());
+    }
+
+    private void toggleSystemApps(Boolean value) {
+        showSystemApps.set(value);
     }
 
     private void disallowAllApps(Set<ApplicationItem> applicationItems) {
@@ -145,15 +161,24 @@ public class SplitTunnelingViewModel {
         @Override
         protected List<ApplicationItem> doInBackground(Void... voids) {
             List<ApplicationItem> items = new LinkedList<>();
+            List<ApplicationItem> systemItems = new LinkedList<>();
             Set<String> packageNames = new HashSet<>();
+            Set<String> systemPackageNames = new HashSet<>();
             for (ApplicationInfo info : applicationInfoList) {
                 try {
-                    if (null != packageManager.getLaunchIntentForPackage(info.packageName) ||
-                            null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
-                            null != packageManager.getInstallerPackageName(info.packageName)
-                    ) {
-                        if (packageNames.add(info.loadLabel(packageManager).toString())) {
-                            items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
+                    if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.INTERNET, info.packageName)) {
+                        if ((null != packageManager.getLaunchIntentForPackage(info.packageName) ||
+                                null != packageManager.getLeanbackLaunchIntentForPackage(info.packageName) ||
+                                null != packageManager.getInstallerPackageName(info.packageName) &&
+                                        (info.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+                        ) {
+                            if (packageNames.add(info.loadLabel(packageManager).toString())) {
+                                items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
+                                        info.loadIcon(packageManager)));
+                            }
+                        }
+                        if (systemPackageNames.add(info.loadLabel(packageManager).toString())) {
+                            systemItems.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
                                     info.loadIcon(packageManager)));
                         }
                     }
@@ -161,13 +186,15 @@ public class SplitTunnelingViewModel {
                     e.printStackTrace();
                 }
             }
+            apps.clear();
+            apps.addAll(items);
+            systemApps.clear();
+            systemApps.addAll(systemItems);
             return items;
         }
 
         @Override
         protected void onPostExecute(List<ApplicationItem> applicationItems) {
-            apps.clear();
-            apps.addAll(applicationItems);
             dataLoading.set(false);
         }
     }
