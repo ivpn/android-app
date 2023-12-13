@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.5 - 2023-12-13
+
+[IMPROVED] Show non-launchable and system apps in the Split Tunneling list  
+[IMPROVED] Update WireGuard to the latest version  
+[IMPROVED] Crash logging option disabled by default  
+
+[Download IVPN Client v2.10.5](https://www.ivpn.net/releases/android/IVPNv2.10.5site.apk)  
+SHA256: bdf7c6e4191f4ad175c752eb78437d17bc99c2c907dd0d887fa3cb8a46c402a9  
+
 ## Version 2.10.4 - 2023-09-18
 
 [IMPROVED] Upgraded payment library  
