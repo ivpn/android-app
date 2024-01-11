@@ -31,6 +31,9 @@ public class SessionStatusResponse {
     @SerializedName("status")
     @Expose
     private Integer status;
+    @SerializedName("device_name")
+    @Expose
+    private String deviceName;
     @SerializedName("service_status")
     @Expose
     private ServiceStatus serviceStatus;
@@ -41,6 +44,10 @@ public class SessionStatusResponse {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
     }
 
     public ServiceStatus getServiceStatus() {
