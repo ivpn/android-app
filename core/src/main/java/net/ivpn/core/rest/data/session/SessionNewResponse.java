@@ -41,6 +41,9 @@ public class SessionNewResponse {
     @SerializedName("vpn_password")
     @Expose
     private String vpnPassword;
+    @SerializedName("device_name")
+    @Expose
+    private String deviceName;
     @SerializedName("service_status")
     @Expose
     private ServiceStatus serviceStatus;
@@ -74,6 +77,10 @@ public class SessionNewResponse {
 
     public String getVpnPassword() {
         return vpnPassword;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
     }
 
     public void setVpnPassword(String vpnPassword) {
