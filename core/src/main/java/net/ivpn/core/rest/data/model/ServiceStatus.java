@@ -53,6 +53,9 @@ public class ServiceStatus {
     @SerializedName("capabilities")
     @Expose
     private List<String> capabilities = null;
+    @SerializedName("device_management")
+    @Expose
+    private Boolean deviceManagement;
 
     public Boolean getIsActive() {
         return isActive;
@@ -116,6 +119,10 @@ public class ServiceStatus {
 
     public void setCurrentPlan(String currentPlan) {
         this.currentPlan = currentPlan;
+    }
+
+    public Boolean getDeviceManagement() {
+        return deviceManagement;
     }
 
     @Override
