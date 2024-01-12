@@ -630,6 +630,7 @@
     <string name="account_keep_safe">Please save your account ID in a safe place, you will use it to connect on another IVPN App or log in to the client area of the IVPN website. You can find this account ID later in the IVPN App Account screen.</string>
     <string name="account_continue">Select your plan to continue</string>
     <string name="account_clipboard">Account ID copied</string>
+    <string name="device_name_label">Device Name</string>
 
     <string name="map_dialog_not_connected_title">Your current location</string>
     <string name="map_dialog_connected_title">Connected to</string>

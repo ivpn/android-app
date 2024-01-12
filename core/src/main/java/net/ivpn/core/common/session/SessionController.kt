@@ -306,7 +306,9 @@ class SessionController @Inject constructor(
         userPreference.putCurrentPlan(serviceStatus.currentPlan)
         userPreference.putPaymentMethod(serviceStatus.paymentMethod)
         userPreference.putIsActive(serviceStatus.isActive)
-        userPreference.putDeviceManagement(serviceStatus.deviceManagement)
+        serviceStatus.deviceManagement?.let {
+            userPreference.putDeviceManagement(it)
+        }
         if (serviceStatus.capabilities != null) {
             userPreference.putIsUserOnPrivateEmailBeta(serviceStatus.capabilities.contains(Responses.PRIVATE_EMAILS))
             val multiHopCapabilities = serviceStatus.capabilities.contains(Responses.MULTI_HOP)
