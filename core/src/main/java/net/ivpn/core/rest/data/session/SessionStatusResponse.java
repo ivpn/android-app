@@ -62,6 +62,7 @@ public class SessionStatusResponse {
     public String toString() {
         return "SessionStatusResponse{" +
                 "status=" + status +
+                ", deviceName=" + deviceName +
                 ", serviceStatus=" + serviceStatus +
                 '}';
     }

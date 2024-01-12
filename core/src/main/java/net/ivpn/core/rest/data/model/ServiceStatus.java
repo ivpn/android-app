@@ -135,6 +135,7 @@ public class ServiceStatus {
                 ", isRenewable='" + isRenewable + '\'' +
                 ", willAutoRebill='" + willAutoRebill + '\'' +
                 ", isOnFreeTrial='" + isOnFreeTrial + '\'' +
+                ", deviceManagement='" + deviceManagement + '\'' +
                 ", capabilities=" + capabilities +
                 '}';
     }

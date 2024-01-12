@@ -108,6 +108,7 @@ public class SessionNewResponse {
         return "SessionNewResponse{" +
                 "status=" + status +
                 ", serviceStatus=" + serviceStatus +
+                ", deviceName=" + deviceName +
                 ", wireGuard=" + wireGuard +
                 '}';
     }
