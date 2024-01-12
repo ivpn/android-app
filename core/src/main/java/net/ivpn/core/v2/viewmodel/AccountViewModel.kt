@@ -58,6 +58,8 @@ class AccountViewModel @Inject constructor(
     val isNativeSubscription = ObservableBoolean()
     val availableUntil = ObservableLong()
     val isActive = ObservableBoolean()
+    val deviceManagement = ObservableBoolean()
+    val deviceName = ObservableField<String>()
 
     val isExpired = ObservableBoolean()
     val isExpiredIn = ObservableBoolean()
@@ -90,6 +92,8 @@ class AccountViewModel @Inject constructor(
         subscriptionPlan.set(getSubscriptionPlan())
         isActive.set(getIsActiveValue())
         paymentMethod = getPaymentMethodValue()
+        deviceManagement.set(getDeviceManagement())
+        deviceName.set(getDeviceName())
 
         updateExpireData()
     }
@@ -258,6 +262,14 @@ class AccountViewModel @Inject constructor(
 
     private fun getPaymentMethodValue(): String {
         return userPreference.getPaymentMethod()
+    }
+
+    private fun getDeviceManagement(): Boolean {
+        return userPreference.getDeviceManagement()
+    }
+
+    private fun getDeviceName(): String? {
+        return userPreference.getDeviceName()
     }
 
     interface AccountNavigator {
