@@ -146,6 +146,7 @@ class SessionController @Inject constructor(
                         if (response.status != null && response.status == Responses.SUCCESS) {
                             LOGGER.info("Session status response received successfully")
                             LOGGER.info(response.toString())
+                            userPreference.putDeviceName(response.deviceName)
                             saveSessionStatus(response.serviceStatus)
                             onUpdateSuccess()
                         }
@@ -292,6 +293,7 @@ class SessionController @Inject constructor(
         userPreference.putSessionToken(response.token)
         userPreference.putSessionUsername(response.vpnUsername)
         userPreference.putSessionPassword(response.vpnPassword)
+        userPreference.putDeviceName(response.deviceName)
         saveSessionStatus(response.serviceStatus)
     }
 
@@ -304,6 +306,7 @@ class SessionController @Inject constructor(
         userPreference.putCurrentPlan(serviceStatus.currentPlan)
         userPreference.putPaymentMethod(serviceStatus.paymentMethod)
         userPreference.putIsActive(serviceStatus.isActive)
+        userPreference.putDeviceManagement(serviceStatus.deviceManagement)
         if (serviceStatus.capabilities != null) {
             userPreference.putIsUserOnPrivateEmailBeta(serviceStatus.capabilities.contains(Responses.PRIVATE_EMAILS))
             val multiHopCapabilities = serviceStatus.capabilities.contains(Responses.MULTI_HOP)
