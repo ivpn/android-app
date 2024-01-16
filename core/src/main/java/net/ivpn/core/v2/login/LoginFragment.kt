@@ -241,15 +241,15 @@ class LoginFragment : Fragment(), LoginNavigator,
         createSessionFragment?.dismissAllowingStateLoss()
     }
 
-    override fun enableDeviceManagement() {
+    override fun enableDeviceManagement(url: String) {
         val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.ivpn.net/account/device-management")
+        openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
 
-    override fun upgradePlan() {
+    override fun upgradePlan(url: String) {
         val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse("https://www.ivpn.net/account/change-product")
+        openURL.data = Uri.parse(url)
         startActivity(openURL)
     }
 

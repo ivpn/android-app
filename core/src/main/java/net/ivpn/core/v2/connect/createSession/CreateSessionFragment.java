@@ -141,6 +141,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private View getDmProBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         BottomSheetDmProBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dm_pro, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
         binding.forceLogout.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.onForceLogout();
@@ -148,7 +149,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         });
         binding.enableDeviceManagement.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.enableDeviceManagement();
+                navigator.enableDeviceManagement(deviceManagementUrl);
             }
         });
         binding.tryAgain.setOnClickListener(view -> {
@@ -166,6 +167,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private View getProBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         BottomSheetProBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_pro, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
         binding.forceLogout.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.onForceLogout();
@@ -173,7 +175,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         });
         binding.enableDeviceManagement.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.enableDeviceManagement();
+                navigator.enableDeviceManagement(deviceManagementUrl);
             }
         });
         binding.close.setOnClickListener(view -> {
@@ -186,6 +188,8 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private View getDmStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         BottomSheetDmStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dm_standard, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
         binding.forceLogout.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.onForceLogout();
@@ -193,7 +197,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         });
         binding.enableDeviceManagement.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.enableDeviceManagement();
+                navigator.enableDeviceManagement(deviceManagementUrl);
             }
         });
         binding.tryAgain.setOnClickListener(view -> {
@@ -203,7 +207,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         });
         binding.upgradePlan.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.upgradePlan();
+                navigator.upgradePlan(upgradeToUrl);
             }
         });
         binding.close.setOnClickListener(view -> {
@@ -216,6 +220,8 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private View getStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         BottomSheetStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_standard, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
         binding.forceLogout.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.onForceLogout();
@@ -223,12 +229,12 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         });
         binding.enableDeviceManagement.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.enableDeviceManagement();
+                navigator.enableDeviceManagement(deviceManagementUrl);
             }
         });
         binding.upgradePlan.setOnClickListener(view -> {
             if (navigator != null) {
-                navigator.upgradePlan();
+                navigator.upgradePlan(upgradeToUrl);
             }
         });
         binding.close.setOnClickListener(view -> {
