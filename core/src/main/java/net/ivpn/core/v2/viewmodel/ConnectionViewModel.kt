@@ -277,7 +277,7 @@ class ConnectionViewModel @Inject constructor(
                 navigator?.logout()
             }
             Responses.SESSION_TOO_MANY -> {
-                navigator?.openSessionLimitReachedDialogue()
+                navigator?.openSessionLimitReachedDialogue(errorResponse)
             }
         }
     }

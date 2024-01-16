@@ -56,6 +56,7 @@ import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentConnectBinding
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
+import net.ivpn.core.rest.data.session.SessionNewErrorResponse
 import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
 import net.ivpn.core.v2.connect.createSession.ConnectionState
@@ -802,9 +803,9 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             })
     }
 
-    override fun openSessionLimitReachedDialogue() {
+    override fun openSessionLimitReachedDialogue(error: SessionNewErrorResponse) {
         createSessionFragment =
-            CreateSessionFragment()
+            CreateSessionFragment(error)
         createSessionFragment.show(childFragmentManager, createSessionFragment.tag)
     }
 
