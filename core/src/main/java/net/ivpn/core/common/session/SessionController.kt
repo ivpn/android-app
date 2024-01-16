@@ -125,7 +125,7 @@ class SessionController @Inject constructor(
 
                     override fun onError(error: String) {
                         LOGGER.error("On create session error = $error")
-                        val errorResponse = Mapper.errorResponseFrom(error)
+                        val errorResponse = Mapper.sessionNewErrorResponseFrom(error)
                         onCreateError(null, errorResponse)
                     }
                 })
@@ -235,7 +235,7 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    private fun onCreateError(throwable: Throwable?, errorResponse: SessionNewErrorResponse?) {
         for (listener in listeners) {
             listener.onCreateError(throwable, errorResponse)
         }
@@ -358,7 +358,7 @@ class SessionController @Inject constructor(
 
         fun onCreateSuccess(response: SessionNewResponse)
 
-        fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?)
+        fun onCreateError(throwable: Throwable?, errorResponse: SessionNewErrorResponse?)
 
         fun onUpdateSuccess()
 
