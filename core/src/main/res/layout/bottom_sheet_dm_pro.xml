@@ -103,7 +103,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_refresh"
+                android:src="@drawable/ic_exit"
                 android:alpha="0.9"
                 android:tint="@color/bottom_sheet_text" />
 

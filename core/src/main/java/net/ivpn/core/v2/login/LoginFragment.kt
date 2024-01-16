@@ -24,6 +24,7 @@ package net.ivpn.core.v2.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -241,11 +242,15 @@ class LoginFragment : Fragment(), LoginNavigator,
     }
 
     override fun enableDeviceManagement() {
-        TODO("Not yet implemented")
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.ivpn.net/account/device-management")
+        startActivity(openURL)
     }
 
     override fun upgradePlan() {
-        TODO("Not yet implemented")
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse("https://www.ivpn.net/account/change-product")
+        startActivity(openURL)
     }
 
     override fun cancel() {
