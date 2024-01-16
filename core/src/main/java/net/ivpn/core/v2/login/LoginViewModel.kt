@@ -294,7 +294,7 @@ class LoginViewModel @Inject constructor(
             Responses.SESSION_TOO_MANY -> {
                 pendingCaptcha = captcha.get()
                 pending2FAToken = tfaToken.get()
-                navigator?.openSessionLimitReachedDialogue()
+                navigator?.openSessionLimitReachedDialogue(errorResponse)
             }
             Responses.INVALID_CAPTCHA -> {
                 error.set("Invalid captcha, please try again")

@@ -44,6 +44,7 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.getNavigationResultBoolean
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.databinding.FragmentLoginBinding
+import net.ivpn.core.rest.data.session.SessionNewErrorResponse
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.connect.createSession.CreateSessionNavigator
 import net.ivpn.core.v2.dialog.DialogBuilder
@@ -153,12 +154,6 @@ class LoginFragment : Fragment(), LoginNavigator,
         binding.contentLayout.qrCode.setOnClickListener {
             openQRScanner()
         }
-
-        getNavigationResultBoolean("session_limit_dialogue")?.observe(viewLifecycleOwner) {
-            if (it) {
-                openSessionLimitReachedDialogue()
-            }
-        }
     }
 
     private fun initToolbar() {
@@ -195,12 +190,12 @@ class LoginFragment : Fragment(), LoginNavigator,
         DialogBuilder.createNotificationDialog(context, dialog)
     }
 
-    override fun openSessionLimitReachedDialogue() {
+    override fun openSessionLimitReachedDialogue(error: SessionNewErrorResponse) {
         if (!isAdded) {
             return
         }
         createSessionFragment =
-            CreateSessionFragment()
+            CreateSessionFragment(error)
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
         }

@@ -39,14 +39,21 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import net.ivpn.core.R;
 import net.ivpn.core.databinding.BottomSheetBinding;
+import net.ivpn.core.rest.data.session.SessionNewErrorResponse;
 import net.ivpn.core.v2.login.LoginFragment;
+import net.ivpn.core.common.billing.addfunds.Plan;
+
+import java.util.Objects;
 
 public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private CreateSessionNavigator navigator;
     private BottomSheetBinding binding;
 
-    public CreateSessionFragment() {
+    private SessionNewErrorResponse error;
+
+    public CreateSessionFragment(SessionNewErrorResponse error) {
+        this.error = error;
     }
 
     @Override
@@ -65,9 +72,31 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.bottom_sheet, container, false);
+        Plan plan = Plan.Companion.getPlanByProductName(Objects.requireNonNull(error.getData()).getCurrentPlan());
+        boolean deviceManagement = Objects.requireNonNull(error.getData()).getDeviceManagement();
 
+        // Device Management enabled, Pro plan
+        if (deviceManagement && plan.equals(Plan.PRO)) {
+            Log.d("INFO OK", "Device Management enabled, Pro plan");
+        }
+
+        // Device Management enabled, Pro plan
+        if (!deviceManagement && plan.equals(Plan.PRO)) {
+            Log.d("INFO OK", "Device Management disabled, Pro plan");
+        }
+
+        // Device Management enabled, Pro plan
+        if (deviceManagement && plan.equals(Plan.STANDARD)) {
+            Log.d("INFO OK", "Device Management enabled, Standard plan");
+        }
+
+        // Device Management enabled, Pro plan
+        if (!deviceManagement && plan.equals(Plan.STANDARD)) {
+            Log.d("INFO OK", "Device Management disabled, Standard plan");
+        }
+
+        // Default
+        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet, container, false);
         return binding.getRoot();
     }
 
