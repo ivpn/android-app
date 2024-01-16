@@ -28,5 +28,9 @@ public interface CreateSessionNavigator {
 
     void tryAgain();
 
+    void enableDeviceManagement();
+
+    void upgradePlan();
+
     void cancel();
 }

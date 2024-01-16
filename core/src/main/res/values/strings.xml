@@ -350,7 +350,14 @@
 
     <string name="dialogs_session_too_many_title">Session limit</string>
     <string name="dialogs_session_too_many_message">You\'ve reached the session limit, force login to logout of all other devices.</string>
+    <string name="dialogs_session_too_many_message_short">You have exceeded the maximum number of sessions</string>
     <string name="dialogs_session_force_login">Force login</string>
+    <string name="dialogs_session_log_out_all">Log out from all devices</string>
+    <string name="dialogs_session_retry">Retry</string>
+    <string name="dialogs_session_visit_dm">Visit Device Management</string>
+    <string name="dialogs_session_enable_dm">Enable Device Management</string>
+    <string name="dialogs_session_upgrade">Upgrade for 7 devices</string>
+    <string name="dialogs_session_cancel">Cancel login</string>
 
     <string name="dialogs_error">Error</string>
     <string name="dialogs_address_error_msg">The format of your email address is not correct, please check and try again.</string>

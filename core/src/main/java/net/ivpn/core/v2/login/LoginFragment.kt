@@ -240,6 +240,14 @@ class LoginFragment : Fragment(), LoginNavigator,
         createSessionFragment?.dismissAllowingStateLoss()
     }
 
+    override fun enableDeviceManagement() {
+        TODO("Not yet implemented")
+    }
+
+    override fun upgradePlan() {
+        TODO("Not yet implemented")
+    }
+
     override fun cancel() {
         createSessionFragment?.dismissAllowingStateLoss()
     }

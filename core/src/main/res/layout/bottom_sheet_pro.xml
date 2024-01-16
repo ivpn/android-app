@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/bottom_sheet"
+        android:id="@+id/bottom_sheet_pro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bottom_sheet_background"
@@ -64,7 +64,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/try_again"
+            android:id="@+id/enable_device_management"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
@@ -75,7 +75,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_refresh"
+                android:src="@drawable/ic_exit"
                 android:alpha="0.9"
                 android:tint="@color/bottom_sheet_text" />
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/dialogs_session_retry"
+                android:text="@string/dialogs_session_enable_dm"
                 android:textColor="@color/bottom_sheet_text"
                 android:textSize="16sp"
                 android:textStyle="normal" />
