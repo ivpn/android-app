@@ -77,24 +77,25 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Plan plan = Plan.Companion.getPlanByProductName(Objects.requireNonNull(error.getData()).getCurrentPlan());
         boolean deviceManagement = Objects.requireNonNull(error.getData()).getDeviceManagement();
+        boolean isAccountNewStyle = Objects.requireNonNull(error.getData()).getPaymentMethod().equals("prepaid");
 
         // Device Management enabled, Pro plan
-        if (deviceManagement && plan.equals(Plan.PRO)) {
+        if (deviceManagement && plan.equals(Plan.PRO) && isAccountNewStyle) {
             return getDmProBinding(inflater, container);
         }
 
         // Device Management disabled, Pro plan
-        if (!deviceManagement && plan.equals(Plan.PRO)) {
+        if (!deviceManagement && plan.equals(Plan.PRO) && isAccountNewStyle) {
             return getProBinding(inflater, container);
         }
 
         // Device Management enabled, Standard plan
-        if (deviceManagement && plan.equals(Plan.STANDARD)) {
+        if (deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
             return getDmStandardBinding(inflater, container);
         }
 
         // Device Management disabled, Standard plan
-        if (!deviceManagement && plan.equals(Plan.STANDARD)) {
+        if (!deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
             return getStandardBinding(inflater, container);
         }
 
@@ -178,6 +179,11 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
                 navigator.enableDeviceManagement(deviceManagementUrl);
             }
         });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
         binding.close.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.cancel();
@@ -230,6 +236,11 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         binding.enableDeviceManagement.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.enableDeviceManagement(deviceManagementUrl);
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
             }
         });
         binding.upgradePlan.setOnClickListener(view -> {
