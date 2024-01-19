@@ -131,6 +131,10 @@
         android:id="@+id/loginFragment"
         android:name="net.ivpn.core.v2.login.LoginFragment"
         android:label="Log in">
+        <argument
+            android:name="showLogoutAlert"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_loginFragment_to_syncFragment"
             app:destination="@id/syncFragment"

@@ -703,8 +703,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         navigate(action)
     }
 
-    private fun openLoginScreen() {
-        val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
+    private fun openLoginScreen(showLogoutAlert: Boolean = false) {
+        val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment(showLogoutAlert)
         navigate(action)
     }
 
@@ -854,6 +854,6 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun onDeviceLoggedOut() {
-        openLoginScreen()
+        openLoginScreen(true)
     }
 }
