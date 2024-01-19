@@ -45,4 +45,7 @@ open class SessionListenerImpl: SessionListener {
 
     override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
     }
+
+    override fun onDeviceLoggedOut() {
+    }
 }

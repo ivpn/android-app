@@ -44,8 +44,6 @@ import net.ivpn.core.databinding.FragmentAccountBinding
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
-import net.ivpn.core.v2.connect.ConnectFragmentDirections
-import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
@@ -173,5 +171,8 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         DialogBuilder.createOptionDialog(requireContext(), Dialogs.FORCE_LOGOUT) {
             account.forceLogout()
         }
+    }
+
+    override fun onDeviceLoggedOut() {
     }
 }

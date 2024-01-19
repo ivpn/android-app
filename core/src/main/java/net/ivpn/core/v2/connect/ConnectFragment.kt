@@ -74,7 +74,7 @@ import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
-    LocationViewModel.LocationUpdatesUIListener {
+    LocationViewModel.LocationUpdatesUIListener, AccountViewModel.AccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -240,6 +240,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         multihop.navigator = this
         connect.navigator = this
         location.uiListener = this
+        account.navigator = this
 
         binding.location = location
         binding.connection = connect
@@ -844,5 +845,15 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onLocationUpdated() {
         recalculatePeekHeight()
+    }
+
+    override fun onLogOut() {
+    }
+
+    override fun onLogOutFailed() {
+    }
+
+    override fun onDeviceLoggedOut() {
+        openLoginScreen()
     }
 }

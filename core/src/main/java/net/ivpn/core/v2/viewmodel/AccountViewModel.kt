@@ -79,6 +79,10 @@ class AccountViewModel @Inject constructor(
             override fun onRemoveError() {
                 onRemoveSessionFailed()
             }
+
+            override fun onDeviceLoggedOut() {
+                navigator?.onDeviceLoggedOut()
+            }
         })
     }
 
@@ -276,6 +280,8 @@ class AccountViewModel @Inject constructor(
         fun onLogOut()
 
         fun onLogOutFailed()
+
+        fun onDeviceLoggedOut()
     }
 
     enum class Type {

@@ -292,4 +292,7 @@ class ConnectionViewModel @Inject constructor(
             }
         }
     }
+
+    override fun onDeviceLoggedOut() {
+    }
 }

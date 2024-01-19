@@ -167,6 +167,7 @@ class SessionController @Inject constructor(
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
                                 clearSessionData()
                                 onRemoveSuccess()
+                                onDeviceLoggedOut()
                             }
                         }
                         onUpdateError(null, errorResponse)
@@ -250,6 +251,12 @@ class SessionController @Inject constructor(
     private fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
         for (listener in listeners) {
             listener.onUpdateError(throwable, errorResponse)
+        }
+    }
+
+    private fun onDeviceLoggedOut() {
+        for (listener in listeners) {
+            listener.onDeviceLoggedOut()
         }
     }
 
@@ -363,5 +370,7 @@ class SessionController @Inject constructor(
         fun onUpdateSuccess()
 
         fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?)
+
+        fun onDeviceLoggedOut()
     }
 }
