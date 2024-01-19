@@ -356,7 +356,7 @@
     <string name="dialogs_session_retry">Retry</string>
     <string name="dialogs_session_visit_dm">Visit Device Management</string>
     <string name="dialogs_session_enable_dm">Enable Device Management</string>
-    <string name="dialogs_session_upgrade">Upgrade for 7 devices</string>
+    <string name="dialogs_session_upgrade">Switch to IVPN Pro</string>
     <string name="dialogs_session_cancel">Cancel login</string>
 
     <string name="dialogs_error">Error</string>
