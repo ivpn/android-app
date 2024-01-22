@@ -160,6 +160,13 @@
         <action
             android:id="@+id/action_accountFragment_to_logOutFragment"
             app:destination="@id/logOutFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_connectFragment"
+            app:destination="@id/connectFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/connectFragment"/>
     </fragment>
     <fragment
         android:id="@+id/antiTrackerFragment"

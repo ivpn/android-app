@@ -84,14 +84,6 @@ class AccountViewModel @Inject constructor(
             override fun onDeviceLoggedOut() {
                 navigator?.onDeviceLoggedOut()
             }
-
-            override fun onUpdateSuccess() {
-                navigator?.onSessionUpdateSuccess()
-            }
-
-            override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
-                navigator?.onSessionUpdateError(throwable, errorResponse)
-            }
         })
     }
 
@@ -291,10 +283,6 @@ class AccountViewModel @Inject constructor(
         fun onLogOutFailed()
 
         fun onDeviceLoggedOut()
-
-        fun onSessionUpdateSuccess()
-
-        fun onSessionUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
     }
 
     enum class Type {

@@ -45,6 +45,7 @@ import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.v2.connect.ConnectFragmentDirections
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
@@ -83,6 +84,9 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     override fun onResume() {
         super.onResume()
         account.onResume()
+        if (!account.authenticated.get()) {
+            openHomeScreen()
+        }
     }
 
     override fun onStart() {
@@ -172,6 +176,16 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         navigate(action)
     }
 
+    private fun openLoginScreen() {
+        val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment(true)
+        navigate(action)
+    }
+
+    private fun openHomeScreen() {
+        val action = AccountFragmentDirections.actionAccountFragmentToConnectFragment()
+        navigate(action)
+    }
+
     override fun onLogOutFailed() {
         DialogBuilder.createOptionDialog(requireContext(), Dialogs.FORCE_LOGOUT) {
             account.forceLogout()
@@ -179,11 +193,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     }
 
     override fun onDeviceLoggedOut() {
-    }
-
-    override fun onSessionUpdateSuccess() {
-    }
-
-    override fun onSessionUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
+        openLoginScreen()
     }
 }

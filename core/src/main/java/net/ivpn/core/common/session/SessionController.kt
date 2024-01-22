@@ -165,7 +165,6 @@ class SessionController @Inject constructor(
                             }
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
                                 clearSessionData()
-                                onRemoveSuccess()
                                 onDeviceLoggedOut()
                             }
                         }

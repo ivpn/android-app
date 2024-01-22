@@ -856,10 +856,4 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     override fun onDeviceLoggedOut() {
         openLoginScreen(true)
     }
-
-    override fun onSessionUpdateSuccess() {
-    }
-
-    override fun onSessionUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
-    }
 }
