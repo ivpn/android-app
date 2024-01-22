@@ -25,42 +25,30 @@ package net.ivpn.core.rest.data.session;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class SessionNewErrorData {
-
-    @SerializedName("current_plan")
+class SessionErrorResponse {
+    
+    @SerializedName("status")
     @Expose
-    var currentPlan: String = ""
+    var status: Int = 0
 
-    @SerializedName("device_management")
+    @SerializedName("message")
     @Expose
-    var deviceManagement: Boolean = false
+    var message: String = ""
 
-    @SerializedName("device_management_url")
+    @SerializedName("captcha_id")
     @Expose
-    var deviceManagementUrl: String = ""
+    val captchaId: String? = null
 
-    @SerializedName("limit")
+    @SerializedName("captcha_image")
     @Expose
-    var limit: Int = 0
+    val captchaImage: String? = null
 
-    @SerializedName("payment_method")
+    @SerializedName("data")
     @Expose
-    var paymentMethod: String = ""
-
-    @SerializedName("upgradable")
-    @Expose
-    var upgradable: Boolean = false
-
-    @SerializedName("upgrade_to_plan")
-    @Expose
-    var upgradeToPlan: String = ""
-
-    @SerializedName("upgrade_to_url")
-    @Expose
-    var upgradeToUrl: String = ""
+    var data:SessionErrorData? = null
 
     override fun toString(): String {
-        return "SessionNewErrorData(currentPlan='$currentPlan', deviceManagement=$deviceManagement, deviceManagementUrl='$deviceManagementUrl', limit=$limit, paymentMethod='$paymentMethod', upgradable=$upgradable, upgradeToPlan='$upgradeToPlan', upgradeToUrl='$upgradeToUrl')"
+        return "SessionErrorResponse(status=$status, message='$message', captchaId=$captchaId, captchaImage=$captchaImage, data=$data)"
     }
 
 }

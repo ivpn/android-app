@@ -35,7 +35,7 @@ import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.utils.ConnectivityUtil
 import net.ivpn.core.common.utils.StringUtil
 import net.ivpn.core.rest.Responses
-import net.ivpn.core.rest.data.session.SessionNewErrorResponse
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.session.SessionNewResponse
 import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
@@ -258,7 +258,7 @@ class ConnectionViewModel @Inject constructor(
         }
     }
 
-    override fun onCreateError(throwable: Throwable?, errorResponse: SessionNewErrorResponse?) {
+    override fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         if (!ConnectivityUtil.isOnline(context)) {
             navigator?.openErrorDialog(Dialogs.CONNECTION_ERROR)
             return

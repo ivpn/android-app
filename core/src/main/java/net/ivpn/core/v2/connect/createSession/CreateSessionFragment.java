@@ -44,7 +44,7 @@ import net.ivpn.core.databinding.BottomSheetLegacyStandardBinding;
 import net.ivpn.core.databinding.BottomSheetProBinding;
 import net.ivpn.core.databinding.BottomSheetDmStandardBinding;
 import net.ivpn.core.databinding.BottomSheetStandardBinding;
-import net.ivpn.core.rest.data.session.SessionNewErrorResponse;
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.v2.login.LoginFragment;
 import net.ivpn.core.common.billing.addfunds.Plan;
 
@@ -54,9 +54,9 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private CreateSessionNavigator navigator;
 
-    private final SessionNewErrorResponse error;
+    private final SessionErrorResponse error;
 
-    public CreateSessionFragment(SessionNewErrorResponse error) {
+    public CreateSessionFragment(SessionErrorResponse error) {
         this.error = error;
     }
 

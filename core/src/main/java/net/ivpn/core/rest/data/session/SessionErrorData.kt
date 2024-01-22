@@ -25,30 +25,42 @@ package net.ivpn.core.rest.data.session;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class SessionNewErrorResponse {
-    
-    @SerializedName("status")
-    @Expose
-    var status: Int = 0
+class SessionErrorData {
 
-    @SerializedName("message")
+    @SerializedName("current_plan")
     @Expose
-    var message: String = ""
+    var currentPlan: String = ""
 
-    @SerializedName("captcha_id")
+    @SerializedName("device_management")
     @Expose
-    val captchaId: String? = null
+    var deviceManagement: Boolean = false
 
-    @SerializedName("captcha_image")
+    @SerializedName("device_management_url")
     @Expose
-    val captchaImage: String? = null
+    var deviceManagementUrl: String = ""
 
-    @SerializedName("data")
+    @SerializedName("limit")
     @Expose
-    var data:SessionNewErrorData? = null
+    var limit: Int = 0
+
+    @SerializedName("payment_method")
+    @Expose
+    var paymentMethod: String = ""
+
+    @SerializedName("upgradable")
+    @Expose
+    var upgradable: Boolean = false
+
+    @SerializedName("upgrade_to_plan")
+    @Expose
+    var upgradeToPlan: String = ""
+
+    @SerializedName("upgrade_to_url")
+    @Expose
+    var upgradeToUrl: String = ""
 
     override fun toString(): String {
-        return "SessionNewErrorResponse(status=$status, message='$message', captchaId=$captchaId, captchaImage=$captchaImage, data=$data)"
+        return "SessionErrorData(currentPlan='$currentPlan', deviceManagement=$deviceManagement, deviceManagementUrl='$deviceManagementUrl', limit=$limit, paymentMethod='$paymentMethod', upgradable=$upgradable, upgradeToPlan='$upgradeToPlan', upgradeToUrl='$upgradeToUrl')"
     }
 
 }

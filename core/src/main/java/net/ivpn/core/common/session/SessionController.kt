@@ -236,7 +236,7 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onCreateError(throwable: Throwable?, errorResponse: SessionNewErrorResponse?) {
+    private fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         for (listener in listeners) {
             listener.onCreateError(throwable, errorResponse)
         }
@@ -365,7 +365,7 @@ class SessionController @Inject constructor(
 
         fun onCreateSuccess(response: SessionNewResponse)
 
-        fun onCreateError(throwable: Throwable?, errorResponse: SessionNewErrorResponse?)
+        fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
 
         fun onUpdateSuccess()
 

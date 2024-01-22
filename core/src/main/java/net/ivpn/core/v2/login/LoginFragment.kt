@@ -43,7 +43,7 @@ import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.databinding.FragmentLoginBinding
-import net.ivpn.core.rest.data.session.SessionNewErrorResponse
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.connect.createSession.CreateSessionNavigator
 import net.ivpn.core.v2.dialog.DialogBuilder
@@ -196,7 +196,7 @@ class LoginFragment : Fragment(), LoginNavigator,
         DialogBuilder.createNotificationDialog(context, dialog)
     }
 
-    override fun openSessionLimitReachedDialogue(error: SessionNewErrorResponse) {
+    override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
         if (!isAdded) {
             return
         }
