@@ -41,6 +41,7 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentAccountBinding
+import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
@@ -76,6 +77,7 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        updateSessionStatus()
     }
 
     override fun onResume() {
@@ -133,8 +135,11 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     private fun initToolbar() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun updateSessionStatus() {
+        account.updateSessionStatus()
     }
 
     private fun copyAccountId() {
@@ -174,5 +179,11 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     }
 
     override fun onDeviceLoggedOut() {
+    }
+
+    override fun onSessionUpdateSuccess() {
+    }
+
+    override fun onSessionUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
     }
 }
