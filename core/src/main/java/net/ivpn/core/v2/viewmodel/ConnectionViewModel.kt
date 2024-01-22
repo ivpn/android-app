@@ -37,7 +37,6 @@ import net.ivpn.core.common.utils.StringUtil
 import net.ivpn.core.rest.Responses
 import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.session.SessionNewResponse
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
 import net.ivpn.core.v2.connect.createSession.ConnectionState
 import net.ivpn.core.v2.dialog.Dialogs
@@ -285,7 +284,7 @@ class ConnectionViewModel @Inject constructor(
     override fun onUpdateSuccess() {
     }
 
-    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         errorResponse?.let {
             if (it.status == Responses.SESSION_NOT_FOUND){
                 navigator?.logout()

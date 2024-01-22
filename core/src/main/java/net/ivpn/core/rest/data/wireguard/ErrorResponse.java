@@ -29,15 +29,10 @@ public class ErrorResponse {
     @SerializedName("status")
     @Expose
     private Integer status;
+
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("captcha_id")
-    @Expose
-    private String captchaId = null;
-    @SerializedName("captcha_image")
-    @Expose
-    private String captchaImage = null;
 
     public Integer getStatus() {
         return status;
@@ -53,22 +48,6 @@ public class ErrorResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getCaptchaId() {
-        return captchaId;
-    }
-
-    public void setCaptchaId(String captchaId) {
-        this.captchaId = captchaId;
-    }
-
-    public String getCaptchaImage() {
-        return captchaImage;
-    }
-
-    public void setCaptchaImage(String captchaImage) {
-        this.captchaImage = captchaImage;
     }
 
     @Override

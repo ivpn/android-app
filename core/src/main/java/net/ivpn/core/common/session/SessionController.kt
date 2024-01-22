@@ -37,7 +37,6 @@ import net.ivpn.core.rest.Responses
 import net.ivpn.core.rest.data.model.ServiceStatus
 import net.ivpn.core.rest.data.model.WireGuard
 import net.ivpn.core.rest.data.session.*
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.rest.requests.common.Request
 import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.v2.login.LoginViewModel
@@ -125,7 +124,7 @@ class SessionController @Inject constructor(
 
                     override fun onError(error: String) {
                         LOGGER.error("On create session error = $error")
-                        val errorResponse = Mapper.sessionNewErrorResponseFrom(error)
+                        val errorResponse = Mapper.sessionErrorResponseFrom(error)
                         onCreateError(null, errorResponse)
                     }
                 })
@@ -159,7 +158,7 @@ class SessionController @Inject constructor(
 
                     override fun onError(error: String) {
                         LOGGER.error("Error while getting account status to see the confirmation$error")
-                        val errorResponse = Mapper.errorResponseFrom(error)
+                        val errorResponse = Mapper.sessionErrorResponseFrom(error)
                         errorResponse?.let {
                             if (it.status == Responses.SERVICE_IS_NOT_ACTIVE) {
                                 userPreference.putIsActive(false)
@@ -248,7 +247,7 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    private fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         for (listener in listeners) {
             listener.onUpdateError(throwable, errorResponse)
         }
@@ -369,7 +368,7 @@ class SessionController @Inject constructor(
 
         fun onUpdateSuccess()
 
-        fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?)
+        fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
 
         fun onDeviceLoggedOut()
     }

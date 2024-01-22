@@ -108,7 +108,7 @@ object Mapper {
     }
 
     @JvmStatic
-    fun sessionNewErrorResponseFrom(json: String?): SessionErrorResponse? {
+    fun sessionErrorResponseFrom(json: String?): SessionErrorResponse? {
         return if (json == null || json.isEmpty()) null else try {
             Gson().fromJson(json, SessionErrorResponse::class.java)
         } catch (jsonSyntaxException: JsonSyntaxException) {

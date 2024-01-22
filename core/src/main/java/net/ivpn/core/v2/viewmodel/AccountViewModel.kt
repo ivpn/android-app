@@ -34,7 +34,7 @@ import net.ivpn.core.common.qr.QRController
 import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.session.SessionListenerImpl
 import net.ivpn.core.common.utils.DateUtil
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -89,7 +89,7 @@ class AccountViewModel @Inject constructor(
                 navigator?.onSessionUpdateSuccess()
             }
 
-            override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+            override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
                 navigator?.onSessionUpdateError(throwable, errorResponse)
             }
         })
@@ -294,7 +294,7 @@ class AccountViewModel @Inject constructor(
 
         fun onSessionUpdateSuccess()
 
-        fun onSessionUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?)
+        fun onSessionUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
     }
 
     enum class Type {

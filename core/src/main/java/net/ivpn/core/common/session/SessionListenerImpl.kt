@@ -25,7 +25,6 @@ package net.ivpn.core.common.session
 import net.ivpn.core.common.session.SessionController.*
 import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.session.SessionNewResponse
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 
 open class SessionListenerImpl: SessionListener {
     override fun onRemoveSuccess() {
@@ -43,7 +42,7 @@ open class SessionListenerImpl: SessionListener {
     override fun onUpdateSuccess() {
     }
 
-    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
     }
 
     override fun onDeviceLoggedOut() {

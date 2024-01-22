@@ -37,15 +37,12 @@ import com.wireguard.android.backend.WireGuardUiService;
 import com.wireguard.android.model.Tunnel;
 
 import net.ivpn.core.IVPNApplication;
-import net.ivpn.core.R;
 import net.ivpn.core.common.Mapper;
 import net.ivpn.core.common.multihop.MultiHopController;
-import net.ivpn.core.common.pinger.OnFastestServerDetectorListener;
 import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.utils.DateUtil;
-import net.ivpn.core.common.utils.ToastUtil;
 import net.ivpn.core.rest.Responses;
 import net.ivpn.core.rest.data.model.Server;
 import net.ivpn.core.rest.data.wireguard.ErrorResponse;

@@ -41,7 +41,7 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentAccountBinding
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
@@ -184,6 +184,6 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     override fun onSessionUpdateSuccess() {
     }
 
-    override fun onSessionUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    override fun onSessionUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
     }
 }
