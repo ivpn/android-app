@@ -40,6 +40,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import net.ivpn.core.R;
 import net.ivpn.core.databinding.BottomSheetBinding;
 import net.ivpn.core.databinding.BottomSheetDmProBinding;
+import net.ivpn.core.databinding.BottomSheetLegacyStandardBinding;
 import net.ivpn.core.databinding.BottomSheetProBinding;
 import net.ivpn.core.databinding.BottomSheetDmStandardBinding;
 import net.ivpn.core.databinding.BottomSheetStandardBinding;
@@ -99,7 +100,12 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
             return getStandardBinding(inflater, container);
         }
 
-        // Default
+        // Legacy account, Standard plan
+        if (plan.equals(Plan.STANDARD)) {
+            return getLegacyStandardBinding(inflater, container);
+        }
+
+        // Legacy account, Pro plan
         return getDefaultBinding(inflater, container);
     }
 
@@ -130,6 +136,32 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         binding.tryAgain.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.tryAgain();
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private View getLegacyStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetLegacyStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_legacy_standard, container, false);
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.upgradePlan.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.upgradePlan(upgradeToUrl);
             }
         });
         binding.close.setOnClickListener(view -> {
