@@ -41,11 +41,9 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentAccountBinding
-import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
-import net.ivpn.core.v2.connect.ConnectFragmentDirections
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
@@ -194,5 +192,9 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
 
     override fun onDeviceLoggedOut() {
         openLoginScreen()
+    }
+
+    override fun onSessionStatusUpdate() {
+        onResume()
     }
 }
