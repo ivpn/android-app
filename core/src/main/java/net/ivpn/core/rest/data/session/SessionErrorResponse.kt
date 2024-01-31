@@ -47,8 +47,10 @@ class SessionErrorResponse {
     @Expose
     var data:SessionErrorData? = null
 
+    var isAccountNewStyle: Boolean = true
+
     override fun toString(): String {
-        return "SessionErrorResponse(status=$status, message='$message', captchaId=$captchaId, captchaImage=$captchaImage, data=$data)"
+        return "SessionErrorResponse(status=$status, message='$message', captchaId=$captchaId, captchaImage=$captchaImage, data=$data, isAccountNewStyle=$isAccountNewStyle)"
     }
 
 }

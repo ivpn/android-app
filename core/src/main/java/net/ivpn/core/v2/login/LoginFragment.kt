@@ -200,8 +200,7 @@ class LoginFragment : Fragment(), LoginNavigator,
         if (!isAdded) {
             return
         }
-        createSessionFragment =
-            CreateSessionFragment(error)
+        createSessionFragment = CreateSessionFragment(error)
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
         }

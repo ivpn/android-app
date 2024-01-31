@@ -29,22 +29,16 @@ import net.ivpn.core.rest.data.session.SessionNewResponse
 open class SessionListenerImpl: SessionListener {
     override fun onRemoveSuccess() {
     }
-
     override fun onRemoveError() {
     }
-
     override fun onCreateSuccess(response: SessionNewResponse) {
     }
-
     override fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
     }
-
     override fun onUpdateSuccess() {
     }
-
     override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
     }
-
     override fun onDeviceLoggedOut() {
     }
 }
