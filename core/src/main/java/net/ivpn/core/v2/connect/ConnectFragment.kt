@@ -805,8 +805,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     }
 
     override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
-        createSessionFragment =
-            CreateSessionFragment(error)
+        createSessionFragment = CreateSessionFragment(error)
         createSessionFragment.show(childFragmentManager, createSessionFragment.tag)
     }
 

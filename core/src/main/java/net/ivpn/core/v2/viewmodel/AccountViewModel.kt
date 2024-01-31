@@ -46,6 +46,10 @@ class AccountViewModel @Inject constructor(
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
+
+        fun isNewStyleAccount(username: String): Boolean {
+            return username.startsWith("i-")
+        }
     }
 
     val dataLoading = ObservableBoolean()
@@ -182,9 +186,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountNewStyle(): Boolean {
-        return paymentMethod?.let {
-            it == "prepaid"
-        } ?: false
+        return isNewStyleAccount(username.get().toString())
     }
 
     private fun clearLocalCache() {

@@ -40,6 +40,7 @@ import net.ivpn.core.rest.data.session.*
 import net.ivpn.core.rest.requests.common.Request
 import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.v2.login.LoginViewModel
+import net.ivpn.core.v2.viewmodel.AccountViewModel
 import net.ivpn.core.v2.viewmodel.ViewModelCleaner
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
@@ -125,6 +126,9 @@ class SessionController @Inject constructor(
                     override fun onError(error: String) {
                         LOGGER.error("On create session error = $error")
                         val errorResponse = Mapper.sessionErrorResponseFrom(error)
+                        if (errorResponse != null) {
+                            errorResponse.isAccountNewStyle = AccountViewModel.isNewStyleAccount(body.username)
+                        }
                         onCreateError(null, errorResponse)
                     }
                 })
@@ -358,17 +362,11 @@ class SessionController @Inject constructor(
 
     interface SessionListener {
         fun onRemoveSuccess()
-
         fun onRemoveError()
-
         fun onCreateSuccess(response: SessionNewResponse)
-
         fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
-
         fun onUpdateSuccess()
-
         fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
-
         fun onDeviceLoggedOut()
     }
 }
