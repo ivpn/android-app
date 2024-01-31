@@ -78,7 +78,7 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Plan plan = Plan.Companion.getPlanByProductName(Objects.requireNonNull(error.getData()).getCurrentPlan());
         boolean deviceManagement = Objects.requireNonNull(error.getData()).getDeviceManagement();
-        boolean isAccountNewStyle = Objects.requireNonNull(error.getData()).getPaymentMethod().equals("prepaid");
+        boolean isAccountNewStyle = error.isAccountNewStyle();
 
         // Device Management enabled, Pro plan
         if (deviceManagement && plan.equals(Plan.PRO) && isAccountNewStyle) {
