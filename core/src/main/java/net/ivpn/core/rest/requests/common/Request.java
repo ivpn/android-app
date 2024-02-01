@@ -33,7 +33,7 @@ public class Request<T> {
 
     public Request(Settings settings, HttpClientFactory httpClientFactory, ServersRepository serversRepository,
                    Duration duration, RequestWrapper.IpMode mode) {
-        int timeOut = duration == Duration.SHORT ? 10 : 30;
+        int timeOut = duration == Duration.SHORT ? 15 : 45;
         requestWrapper = new RequestWrapper<T>(settings, httpClientFactory, serversRepository, timeOut, mode);
     }
 
