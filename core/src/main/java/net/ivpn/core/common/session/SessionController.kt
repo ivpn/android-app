@@ -109,7 +109,7 @@ class SessionController @Inject constructor(
     }
 
     private fun innerCreateSession(body: SessionNewRequestBody, keys: Keypair?) {
-        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
+        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4)
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
@@ -179,7 +179,7 @@ class SessionController @Inject constructor(
 
         val token = userPreference.getSessionToken()
         val requestBody = DeleteSessionRequestBody(token)
-        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
+        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4)
 
         deleteSessionRequest?.start({ api: IVPNApi -> api.deleteSession(requestBody) },
                 object : RequestListener<DeleteSessionResponse?> {
