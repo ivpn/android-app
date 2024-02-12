@@ -24,6 +24,7 @@ package net.ivpn.core.v2.login
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -31,19 +32,18 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-//import com.google.zxing.integration.android.IntentIntegrator
-//import com.google.zxing.integration.android.IntentResult
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.findNavControllerSafely
-import net.ivpn.core.common.extension.getNavigationResultBoolean
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.databinding.FragmentLoginBinding
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.connect.createSession.CreateSessionNavigator
 import net.ivpn.core.v2.dialog.DialogBuilder
@@ -52,10 +52,8 @@ import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.qr.QRActivity
 import net.ivpn.core.v2.signup.CreateAccountNavigator
 import net.ivpn.core.v2.signup.SignUpController
-//import net.ivpn.client.v2.qr.QRActivity
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
-import kotlin.math.sign
 
 class LoginFragment : Fragment(), LoginNavigator,
     CreateSessionNavigator, CreateAccountNavigator {
@@ -74,6 +72,8 @@ class LoginFragment : Fragment(), LoginNavigator,
     private var createSessionFragment: CreateSessionFragment? = null
 
     private var originalMode: Int? = null
+
+    private val args : LoginFragmentArgs by navArgs()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -116,6 +116,7 @@ class LoginFragment : Fragment(), LoginNavigator,
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        parseNavArgs()
     }
 
     @Deprecated("Deprecated in Java")
@@ -153,12 +154,6 @@ class LoginFragment : Fragment(), LoginNavigator,
         binding.contentLayout.qrCode.setOnClickListener {
             openQRScanner()
         }
-
-        getNavigationResultBoolean("session_limit_dialogue")?.observe(viewLifecycleOwner) {
-            if (it) {
-                openSessionLimitReachedDialogue()
-            }
-        }
     }
 
     private fun initToolbar() {
@@ -175,6 +170,12 @@ class LoginFragment : Fragment(), LoginNavigator,
             setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
             setPrompt("Place a QR code inside viewfinder to scan Account Id.")
             initiateScan()
+        }
+    }
+
+    private fun parseNavArgs() {
+        if (args.showLogoutAlert) {
+            DialogBuilder.createNotificationDialog(context, Dialogs.DEVICE_LOGGED_OUT);
         }
     }
 
@@ -195,12 +196,11 @@ class LoginFragment : Fragment(), LoginNavigator,
         DialogBuilder.createNotificationDialog(context, dialog)
     }
 
-    override fun openSessionLimitReachedDialogue() {
+    override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
         if (!isAdded) {
             return
         }
-        createSessionFragment =
-            CreateSessionFragment()
+        createSessionFragment = CreateSessionFragment(error)
         createSessionFragment?.let {
             it.show(childFragmentManager, it.tag)
         }
@@ -243,6 +243,18 @@ class LoginFragment : Fragment(), LoginNavigator,
     override fun tryAgain() {
         viewModel.login(false)
         createSessionFragment?.dismissAllowingStateLoss()
+    }
+
+    override fun enableDeviceManagement(url: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(url)
+        startActivity(openURL)
+    }
+
+    override fun upgradePlan(url: String) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(url)
+        startActivity(openURL)
     }
 
     override fun cancel() {

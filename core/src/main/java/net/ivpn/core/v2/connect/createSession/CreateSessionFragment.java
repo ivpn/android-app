@@ -39,14 +39,25 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import net.ivpn.core.R;
 import net.ivpn.core.databinding.BottomSheetBinding;
+import net.ivpn.core.databinding.BottomSheetDmProBinding;
+import net.ivpn.core.databinding.BottomSheetLegacyStandardBinding;
+import net.ivpn.core.databinding.BottomSheetProBinding;
+import net.ivpn.core.databinding.BottomSheetDmStandardBinding;
+import net.ivpn.core.databinding.BottomSheetStandardBinding;
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.v2.login.LoginFragment;
+import net.ivpn.core.common.billing.addfunds.Plan;
+
+import java.util.Objects;
 
 public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     private CreateSessionNavigator navigator;
-    private BottomSheetBinding binding;
 
-    public CreateSessionFragment() {
+    private final SessionErrorResponse error;
+
+    public CreateSessionFragment(SessionErrorResponse error) {
+        this.error = error;
     }
 
     @Override
@@ -65,10 +76,37 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.bottom_sheet, container, false);
+        Plan plan = Plan.Companion.getPlanByProductName(Objects.requireNonNull(error.getData()).getCurrentPlan());
+        boolean deviceManagement = Objects.requireNonNull(error.getData()).getDeviceManagement();
+        boolean isAccountNewStyle = error.isAccountNewStyle();
 
-        return binding.getRoot();
+        // Device Management enabled, Pro plan
+        if (deviceManagement && plan.equals(Plan.PRO) && isAccountNewStyle) {
+            return getDmProBinding(inflater, container);
+        }
+
+        // Device Management disabled, Pro plan
+        if (!deviceManagement && plan.equals(Plan.PRO) && isAccountNewStyle) {
+            return getProBinding(inflater, container);
+        }
+
+        // Device Management enabled, Standard plan
+        if (deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
+            return getDmStandardBinding(inflater, container);
+        }
+
+        // Device Management disabled, Standard plan
+        if (!deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
+            return getStandardBinding(inflater, container);
+        }
+
+        // Legacy account, Standard plan
+        if (plan.equals(Plan.STANDARD)) {
+            return getLegacyStandardBinding(inflater, container);
+        }
+
+        // Legacy account, Pro plan
+        return getDefaultBinding(inflater, container);
     }
 
     @Override
@@ -88,7 +126,13 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         }
     }
 
-    private void init() {
+    private View getDefaultBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet, container, false);
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
         binding.tryAgain.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.tryAgain();
@@ -99,10 +143,151 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
                 navigator.cancel();
             }
         });
+        return binding.getRoot();
+    }
+
+    private View getLegacyStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetLegacyStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_legacy_standard, container, false);
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
         binding.forceLogout.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.onForceLogout();
             }
         });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.upgradePlan.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.upgradePlan(upgradeToUrl);
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private View getDmProBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetDmProBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dm_pro, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
+        binding.enableDeviceManagement.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.enableDeviceManagement(deviceManagementUrl);
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private View getProBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetProBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_pro, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
+        binding.enableDeviceManagement.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.enableDeviceManagement(deviceManagementUrl);
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private View getDmStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetDmStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_dm_standard, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
+        binding.enableDeviceManagement.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.enableDeviceManagement(deviceManagementUrl);
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.upgradePlan.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.upgradePlan(upgradeToUrl);
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private View getStandardBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        BottomSheetStandardBinding binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_standard, container, false);
+        String deviceManagementUrl = Objects.requireNonNull(error.getData()).getDeviceManagementUrl();
+        String upgradeToUrl = Objects.requireNonNull(error.getData()).getUpgradeToUrl();
+        binding.forceLogout.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.onForceLogout();
+            }
+        });
+        binding.enableDeviceManagement.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.enableDeviceManagement(deviceManagementUrl);
+            }
+        });
+        binding.tryAgain.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.tryAgain();
+            }
+        });
+        binding.upgradePlan.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.upgradePlan(upgradeToUrl);
+            }
+        });
+        binding.close.setOnClickListener(view -> {
+            if (navigator != null) {
+                navigator.cancel();
+            }
+        });
+        return binding.getRoot();
+    }
+
+    private void init() {
     }
 }

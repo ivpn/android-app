@@ -22,6 +22,7 @@ package net.ivpn.core.v2.login;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.v2.dialog.Dialogs;
 
 public interface LoginNavigator {
@@ -29,7 +30,7 @@ public interface LoginNavigator {
     void onLoginWithBlankAccount();
     void onLoginWithInactiveAccount();
     void onInvalidAccount();
-    void openSessionLimitReachedDialogue();
+    void openSessionLimitReachedDialogue(SessionErrorResponse error);
     void openCaptcha();
     void openErrorDialogue(Dialogs dialogs);
     void openCustomErrorDialogue(String title, String message);

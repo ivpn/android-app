@@ -38,6 +38,7 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.extension.setNavigationResultBoolean
 import net.ivpn.core.databinding.FragmentTfaBinding
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
@@ -163,7 +164,7 @@ class TFAFragment : Fragment(), LoginNavigator {
         //Nothing to do
     }
 
-    override fun openSessionLimitReachedDialogue() {
+    override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
         setNavigationResultBoolean(true, "session_limit_dialogue")
         findNavController().popBackStack()
     }

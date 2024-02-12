@@ -38,7 +38,7 @@ import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.rest.Responses;
 import net.ivpn.core.rest.data.model.Port;
-import net.ivpn.core.rest.data.wireguard.ErrorResponse;
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.v2.protocol.ProtocolNavigator;
 import net.ivpn.core.v2.dialog.Dialogs;
 import net.ivpn.core.v2.protocol.dialog.WireGuardInfo;
@@ -236,17 +236,18 @@ public class ProtocolViewModel {
             }
         }
 
-        ErrorResponse errorResponse = Mapper.errorResponseFrom(error);
-        if (error == null || errorResponse.getStatus() == null || errorResponse.getMessage() == null) {
+        SessionErrorResponse errorResponse = Mapper.sessionErrorResponseFrom(error);
+        if (error == null) {
             navigator.openDialogueError(Dialogs.WG_UPLOADING_KEY_ERROR);
             return;
+        } else {
+            errorResponse.getMessage();
         }
 
         if (errorResponse.getStatus() == Responses.WIREGUARD_KEY_LIMIT_REACHED) {
             navigator.openDialogueError(Dialogs.WG_MAXIMUM_KEYS_REACHED);
         } else {
-            navigator.openCustomDialogueError(context.getString(R.string.dialogs_error) + errorResponse.getStatus(),
-                    errorResponse.getMessage() != null ? errorResponse.getMessage() : "");
+            navigator.openCustomDialogueError(context.getString(R.string.dialogs_error) + errorResponse.getStatus(), errorResponse.getMessage());
         }
     }
 

@@ -39,6 +39,7 @@ import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.extension.setNavigationResultBoolean
 import net.ivpn.core.databinding.FragmentCaptchaBinding
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.login.LoginNavigator
@@ -153,7 +154,7 @@ class CaptchaFragment : Fragment(), LoginNavigator {
         findNavController().popBackStack()
     }
 
-    override fun openSessionLimitReachedDialogue() {
+    override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
         setNavigationResultBoolean(true, "session_limit_dialogue")
         findNavController().popBackStack()
     }

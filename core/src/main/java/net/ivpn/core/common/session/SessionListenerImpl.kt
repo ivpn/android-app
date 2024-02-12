@@ -23,25 +23,22 @@ package net.ivpn.core.common.session
 */
 
 import net.ivpn.core.common.session.SessionController.*
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.session.SessionNewResponse
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 
 open class SessionListenerImpl: SessionListener {
     override fun onRemoveSuccess() {
     }
-
     override fun onRemoveError() {
     }
-
     override fun onCreateSuccess(response: SessionNewResponse) {
     }
-
-    override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    override fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
     }
-
     override fun onUpdateSuccess() {
     }
-
-    override fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    override fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
+    }
+    override fun onDeviceLoggedOut() {
     }
 }

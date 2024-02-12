@@ -56,6 +56,7 @@ import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.databinding.FragmentConnectBinding
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.connect.createSession.ConnectionNavigator
 import net.ivpn.core.v2.connect.createSession.ConnectionState
@@ -73,7 +74,7 @@ import javax.inject.Inject
 
 class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
     ConnectionNavigator, MapDialogs.GatewayListener, MapDialogs.LocationListener,
-    LocationViewModel.LocationUpdatesUIListener {
+    LocationViewModel.LocationUpdatesUIListener, AccountViewModel.AccountNavigator {
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConnectFragment::class.java)
@@ -239,6 +240,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         multihop.navigator = this
         connect.navigator = this
         location.uiListener = this
+        account.navigator = this
 
         binding.location = location
         binding.connection = connect
@@ -701,8 +703,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         navigate(action)
     }
 
-    private fun openLoginScreen() {
-        val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment()
+    private fun openLoginScreen(showLogoutAlert: Boolean = false) {
+        val action = ConnectFragmentDirections.actionConnectFragmentToLoginFragment(showLogoutAlert)
         navigate(action)
     }
 
@@ -802,9 +804,8 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
             })
     }
 
-    override fun openSessionLimitReachedDialogue() {
-        createSessionFragment =
-            CreateSessionFragment()
+    override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
+        createSessionFragment = CreateSessionFragment(error)
         createSessionFragment.show(childFragmentManager, createSessionFragment.tag)
     }
 
@@ -843,5 +844,18 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
 
     override fun onLocationUpdated() {
         recalculatePeekHeight()
+    }
+
+    override fun onLogOut() {
+    }
+
+    override fun onLogOutFailed() {
+    }
+
+    override fun onDeviceLoggedOut() {
+        openLoginScreen(true)
+    }
+
+    override fun onSessionStatusUpdate() {
     }
 }

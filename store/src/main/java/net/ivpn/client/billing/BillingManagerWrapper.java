@@ -45,8 +45,8 @@ import net.ivpn.core.rest.data.addfunds.AddFundsRequestBody;
 import net.ivpn.core.rest.data.addfunds.AddFundsResponse;
 import net.ivpn.core.rest.data.addfunds.InitialPaymentRequestBody;
 import net.ivpn.core.rest.data.addfunds.InitialPaymentResponse;
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.rest.data.session.SessionNewResponse;
-import net.ivpn.core.rest.data.wireguard.ErrorResponse;
 import net.ivpn.core.rest.requests.common.Request;
 import net.ivpn.core.rest.requests.common.RequestWrapper;
 
@@ -248,7 +248,7 @@ public class BillingManagerWrapper {
             }
 
             @Override
-            public void onCreateError(@Nullable Throwable throwable, @Nullable ErrorResponse errorResponse) {
+            public void onCreateError(@Nullable Throwable throwable, @Nullable SessionErrorResponse errorResponse) {
                 LOGGER.info("On create session Error: " + throwable + "/n" + errorResponse);
                 sessionController.unSubscribe(this);
                 setPurchaseState(CREATE_SESSION_ERROR);
@@ -297,7 +297,7 @@ public class BillingManagerWrapper {
             }
 
             @Override
-            public void onUpdateError(@Nullable Throwable throwable, @Nullable ErrorResponse errorResponse) {
+            public void onUpdateError(@Nullable Throwable throwable, @Nullable SessionErrorResponse errorResponse) {
                 LOGGER.info("On create session Error: " + throwable + "/n" + errorResponse);
                 sessionController.unSubscribe(this);
                 setPurchaseState(UPDATE_SESSION_ERROR);
