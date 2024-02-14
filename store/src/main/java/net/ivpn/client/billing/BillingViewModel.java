@@ -72,39 +72,39 @@ public class BillingViewModel implements BillingListener {
     public void onPurchaseStateChanged(BillingManagerWrapper.PurchaseState state) {
         LOGGER.info("PurchaseState = " + state);
         switch (state) {
-            case NONE:
-                dataLoading.set(false);
-                break;
-            case INITIAL_PAYMENT:
-            case PURCHASING:
-            case VALIDATING:
+            case NONE -> dataLoading.set(false);
+            case INITIAL_PAYMENT, PURCHASING, VALIDATING -> {
                 dataLoading.set(true);
                 processDescription.set(getString(R.string.billing_validating));
-                break;
-            case CREATE_ACCOUNT:
+            }
+            case CREATE_ACCOUNT -> {
                 dataLoading.set(true);
                 processDescription.set(getString(R.string.billing_creating_account));
-                break;
-            case CREATE_SESSION:
+            }
+            case CREATE_SESSION -> {
                 dataLoading.set(true);
                 processDescription.set(getString(R.string.billing_creating_new_session));
-                break;
-            case INITIAL_PAYMENT_ERROR:
+            }
+            case INITIAL_PAYMENT_ERROR -> {
                 dataLoading.set(false);
                 navigator.createPurchaseErrorDialog("", "There was an error while creating your account. Contact our support or reopen the application to try again.");
-                break;
-            case ADD_FUNDS_ERROR:
+            }
+            case ADD_FUNDS_ERROR -> {
                 dataLoading.set(false);
                 navigator.createPurchaseErrorDialog("", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
-                break;
-            case UPDATE_SESSION_ERROR:
+            }
+            case PURCHASE_PENDING -> {
+                dataLoading.set(false);
+                navigator.createDialog("Pending payment", "Payment is pending for approval. We will complete the transaction as soon as payment is approved.");
+            }
+            case UPDATE_SESSION_ERROR -> {
                 dataLoading.set(false);
                 navigator.createPurchaseErrorDialog("", "There was an error while updating your session. Contact our support or reopen the application to try again.");
-                break;
-            case DONE:
+            }
+            case DONE -> {
                 dataLoading.set(false);
                 navigator.onSuccessBilling();
-                break;
+            }
         }
     }
 

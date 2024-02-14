@@ -51,9 +51,8 @@ import net.ivpn.core.rest.requests.common.Request
 import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.v2.signup.SignUpController
 import org.slf4j.LoggerFactory
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.math.floor
 
 @BillingScope
@@ -360,6 +359,16 @@ class SignUpViewModel @Inject constructor(
     }
 
     override fun onPurchaseStateChanged(state: BillingManagerWrapper.PurchaseState?) {
+        when (state) {
+            BillingManagerWrapper.PurchaseState.PURCHASE_PENDING -> {
+                navigator?.createDialog(
+                    "Pending payment",
+                    "Payment is pending for approval. We will complete the transaction as soon as payment is approved."
+                )
+            }
+
+            else -> {}
+        }
     }
 
     private fun handleError(error: Int) {
@@ -421,5 +430,7 @@ class SignUpViewModel @Inject constructor(
         fun onAddFundsFinish()
 
         fun onGoogleConnectFailure()
+
+        fun createDialog(title: String?, message: String?)
     }
 }

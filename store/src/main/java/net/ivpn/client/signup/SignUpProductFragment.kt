@@ -121,4 +121,13 @@ class SignUpProductFragment : Fragment(), SignUpViewModel.SignUpNavigator {
             }
         }
     }
+
+    override fun createDialog(title: String?, message: String?) {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, title,
+                message) {
+                findNavControllerSafely()?.popBackStack()
+            }
+        }
+    }
 }

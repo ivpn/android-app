@@ -60,12 +60,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.ADD_FUNDS_ERROR;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.CREATE_SESSION_ERROR;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_ERROR;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION_ERROR;
+import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.PURCHASE_PENDING;
 
 @BillingScope
 public class BillingManagerWrapper {
@@ -130,8 +132,15 @@ public class BillingManagerWrapper {
                             && ConsumableProducts.INSTANCE.getConsumableSKUs().contains(purchase.getProducts().get(0))) {
                         billingManager.consumePurchase(purchase);
                     }
+
+                    if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
+                        setPurchaseState(PURCHASE_PENDING);
+                    }
+
+                    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                        startValidatingActivity(purchase);
+                    }
                 }
-                startValidatingActivity(purchases.get(0));
             }
 
             @Override
@@ -268,18 +277,18 @@ public class BillingManagerWrapper {
                 if (response.getStatus() == Responses.SUCCESS) {
                     updateSession();
                 } else {
-                    setPurchaseState(INITIAL_PAYMENT_ERROR);
+                    setPurchaseState(ADD_FUNDS_ERROR);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                setPurchaseState(INITIAL_PAYMENT_ERROR);
+                setPurchaseState(ADD_FUNDS_ERROR);
             }
 
             @Override
             public void onError(String string) {
-                setPurchaseState(INITIAL_PAYMENT_ERROR);
+                setPurchaseState(ADD_FUNDS_ERROR);
             }
         });
     }
@@ -346,6 +355,7 @@ public class BillingManagerWrapper {
         CREATE_SESSION_ERROR,
         UPDATE_SESSION,
         UPDATE_SESSION_ERROR,
-        ADD_FUNDS_ERROR
+        ADD_FUNDS_ERROR,
+        PURCHASE_PENDING
     }
 }
