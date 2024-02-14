@@ -31,8 +31,8 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 130
-        versionName "2.10.7"
+        versionCode 131
+        versionName "2.10.8"
         ndkVersion "25.1.8937393"
 
         manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
