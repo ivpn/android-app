@@ -52,6 +52,8 @@
         tools:overrideLibrary="com.google.zxing.client.android"
         tools:ignore="GoogleAppIndexingWarning, HardcodedDebugMode">
 
+        <meta-data android:name="io.sentry.auto-init" android:value="false" />
+
         <activity
             android:name="net.ivpn.core.v2.timepicker.TimePickerActivity"
             android:theme="@style/AppTheme.Transparent" />
