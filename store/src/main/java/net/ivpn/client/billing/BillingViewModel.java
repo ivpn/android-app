@@ -93,7 +93,11 @@ public class BillingViewModel implements BillingListener {
                 dataLoading.set(false);
                 navigator.createPurchaseErrorDialog("", "There was an error while adding funds to your account. Contact our support or reopen the application to try again.");
             }
-            case PURCHASE_PENDING -> {
+            case PAYMENT_PENDING -> {
+                dataLoading.set(false);
+                navigator.createDialog("Pending payment", "Payment is pending for approval. We will complete the transaction as soon as payment is approved.");
+            }
+            case INITIAL_PAYMENT_PENDING -> {
                 dataLoading.set(false);
                 navigator.createDialog("Pending payment", "Payment is pending for approval. We will complete the transaction as soon as payment is approved.");
             }
