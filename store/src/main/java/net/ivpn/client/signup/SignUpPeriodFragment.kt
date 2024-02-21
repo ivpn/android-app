@@ -137,4 +137,22 @@ class SignUpPeriodFragment : Fragment(), SignUpViewModel.SignUpNavigator {
             }
         }
     }
+
+    override fun createDialog(title: String?, message: String?) {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, title,
+                message) {
+                findNavControllerSafely()?.popBackStack()
+            }
+        }
+    }
+
+    override fun createInitialDialog(title: String?, message: String?) {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, title,
+                message) {
+                findNavControllerSafely()?.navigate(net.ivpn.core.R.id.connectFragment)
+            }
+        }
+    }
 }

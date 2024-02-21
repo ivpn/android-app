@@ -108,6 +108,15 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
     }
 
     @Override
+    public void createDialog(String title, String message) {
+        DialogBuilder.createFullCustomNotificationDialog(this,
+                title,
+                message, dialog -> {
+                    BillingActivity.this.finish();
+                });
+    }
+
+    @Override
     public void onAccountCreated() {
         finish();
     }
