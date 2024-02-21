@@ -67,7 +67,8 @@ import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.INITIA
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_ERROR;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION;
 import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.UPDATE_SESSION_ERROR;
-import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.PURCHASE_PENDING;
+import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.PAYMENT_PENDING;
+import static net.ivpn.client.billing.BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_PENDING;
 
 @BillingScope
 public class BillingManagerWrapper {
@@ -134,7 +135,12 @@ public class BillingManagerWrapper {
                     }
 
                     if (purchase.getPurchaseState() == Purchase.PurchaseState.PENDING) {
-                        setPurchaseState(PURCHASE_PENDING);
+                        String sessionToken = userPreference.getSessionToken();
+                        if (sessionToken.isEmpty()) {
+                            setPurchaseState(INITIAL_PAYMENT_PENDING);
+                        } else {
+                            setPurchaseState(PAYMENT_PENDING);
+                        }
                     }
 
                     if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
@@ -356,6 +362,7 @@ public class BillingManagerWrapper {
         UPDATE_SESSION,
         UPDATE_SESSION_ERROR,
         ADD_FUNDS_ERROR,
-        PURCHASE_PENDING
+        PAYMENT_PENDING,
+        INITIAL_PAYMENT_PENDING
     }
 }

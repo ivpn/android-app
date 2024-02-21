@@ -360,8 +360,15 @@ class SignUpViewModel @Inject constructor(
 
     override fun onPurchaseStateChanged(state: BillingManagerWrapper.PurchaseState?) {
         when (state) {
-            BillingManagerWrapper.PurchaseState.PURCHASE_PENDING -> {
+            BillingManagerWrapper.PurchaseState.PAYMENT_PENDING -> {
                 navigator?.createDialog(
+                    "Pending payment",
+                    "Payment is pending for approval. We will complete the transaction as soon as payment is approved."
+                )
+            }
+
+            BillingManagerWrapper.PurchaseState.INITIAL_PAYMENT_PENDING -> {
+                navigator?.createInitialDialog(
                     "Pending payment",
                     "Payment is pending for approval. We will complete the transaction as soon as payment is approved."
                 )
@@ -432,5 +439,7 @@ class SignUpViewModel @Inject constructor(
         fun onGoogleConnectFailure()
 
         fun createDialog(title: String?, message: String?)
+
+        fun createInitialDialog(title: String?, message: String?)
     }
 }

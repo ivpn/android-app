@@ -130,4 +130,13 @@ class SignUpProductFragment : Fragment(), SignUpViewModel.SignUpNavigator {
             }
         }
     }
+
+    override fun createInitialDialog(title: String?, message: String?) {
+        if (activity != null) {
+            DialogBuilder.createFullCustomNotificationDialog(activity, title,
+                message) {
+                findNavControllerSafely()?.navigate(net.ivpn.core.R.id.connectFragment)
+            }
+        }
+    }
 }
