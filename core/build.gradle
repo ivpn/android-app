@@ -73,7 +73,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDir 'src/main/libs'
+            jniLibs.srcDir 'libs'
             assets.srcDirs = ["src/main/assets", "build/ovpnassets"]
         }
     }

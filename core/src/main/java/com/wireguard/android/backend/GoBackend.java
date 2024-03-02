@@ -34,7 +34,11 @@ import net.ivpn.core.vpn.wireguard.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -49,8 +53,22 @@ import javax.inject.Inject;
 import de.blinkt.openvpn.core.CIDRIP;
 import de.blinkt.openvpn.core.NetworkSpace;
 
+import android.net.LocalSocket;
+import android.net.LocalSocketAddress;
+
 @ApplicationScope
 public final class GoBackend implements Backend {
+
+    private static final int VPN_MTU = 1280;
+    private static final String PRIVATE_VLAN4_CLIENT = "26.26.26.1";
+    private static final String PRIVATE_VLAN4_ROUTER = "26.26.26.2";
+    private static final String PRIVATE_VLAN6_CLIENT = "da26:2626::1";
+    private static final String PRIVATE_VLAN6_ROUTER = "da26:2626::2";
+    private static final String TUN2SOCKS = "libtun2socks.so";
+
+    private Process process;
+    private ParcelFileDescriptor mInterface;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GoBackend.class);
 
     private static GhettoCompletableFuture<WireGuardVpnService> vpnService = new GhettoCompletableFuture<>();
@@ -254,6 +272,8 @@ public final class GoBackend implements Backend {
                     throw new Exception("Go backend v" + wgVersion());
                 LOGGER.info("Tunnel already up");
                 currentTunnelHandle = wgTurnOn(tunnel.getName(), tun.detachFd(), goConfig);
+                mInterface = tun;
+                runTun2socks(tun);
             }
             if (currentTunnelHandle < 0)
                 throw new Exception("Unable to turn tunnel on (wgTurnOn return " + currentTunnelHandle + ')');
@@ -278,6 +298,75 @@ public final class GoBackend implements Backend {
         }
 
         tunnel.onStateChange(state);
+    }
+
+    private void runTun2socks(ParcelFileDescriptor tun) {
+        int socksPort = 16661;
+        ArrayList<String> cmd = new ArrayList<>();
+        cmd.add(new File(context.getApplicationInfo().nativeLibraryDir, TUN2SOCKS).getAbsolutePath());
+        cmd.add("--netif-ipaddr");
+        cmd.add(PRIVATE_VLAN4_ROUTER);
+        cmd.add("--netif-netmask");
+        cmd.add("255.255.255.252");
+        cmd.add("--socks-server-addr");
+        cmd.add("127.0.0.1:" + socksPort);
+        cmd.add("--tunmtu");
+        cmd.add(Integer.toString(VPN_MTU));
+        cmd.add("--sock-path");
+        cmd.add(new File(context.getFilesDir(), "sock_path").getAbsolutePath());
+        cmd.add("--enable-udprelay");
+        cmd.add("--loglevel");
+        cmd.add("notice");
+
+        try {
+            ProcessBuilder proBuilder = new ProcessBuilder(cmd);
+            proBuilder.redirectErrorStream(true);
+            process = proBuilder
+                    .directory(context.getFilesDir())
+                    .start();
+
+            new Thread(() -> {
+                Log.d("INFO RUN", TUN2SOCKS + " check");
+                try {
+                    process.waitFor();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("INFO RUN", TUN2SOCKS + " exited");
+                Log.d("INFO RUN", TUN2SOCKS + " restart");
+                runTun2socks(tun);
+            }).start();
+
+            Log.d("INFO RUN", process.toString());
+
+            sendFd(tun);
+        } catch (IOException e) {
+            Log.d("INFO RUN", e.toString());
+        }
+    }
+
+    private void sendFd(ParcelFileDescriptor tun) {
+        int tries = 0;
+        while (true) {
+            try {
+                Thread.sleep(50L << tries);
+                Log.d("INFO SEND", "sendFd tries: " + tries);
+                FileDescriptor fd = tun.getFileDescriptor();
+                String path = new File(context.getFilesDir(), "sock_path").getAbsolutePath();
+                Log.d("INFO SEND", path);
+
+                LocalSocket localSocket = new LocalSocket();
+                localSocket.connect(new LocalSocketAddress(path, LocalSocketAddress.Namespace.FILESYSTEM));
+                localSocket.setFileDescriptorsForSend(new FileDescriptor[]{fd});
+                localSocket.getOutputStream().write(42);
+
+                break;
+            } catch (Exception e) {
+                Log.d("INFO SEND", e.toString());
+                if (tries > 5) break;
+                tries += 1;
+            }
+        }
     }
 
     private void addNotAllowedApps(android.net.VpnService.Builder builder) {

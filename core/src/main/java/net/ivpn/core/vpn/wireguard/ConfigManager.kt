@@ -61,6 +61,7 @@ class ConfigManager @Inject constructor(
 
     fun startWireGuard() {
         applyConfigToTunnel(generateConfig())
+        v2ray.start()
         GlobalScope.launch {
             tunnel?.setState(Tunnel.State.UP)
         }
@@ -69,6 +70,7 @@ class ConfigManager @Inject constructor(
     fun stopWireGuard() {
         GlobalScope.launch {
             tunnel?.setState(Tunnel.State.DOWN)
+            v2ray.stop()
         }
     }
 
@@ -116,7 +118,8 @@ class ConfigManager @Inject constructor(
 
         val peer = Peer().also {
             it.setAllowedIPsString("0.0.0.0/0, ::/0")
-            it.setEndpointString(host.host + ":" + port.portNumber)
+//            it.setEndpointString(host.host + ":" + port.portNumber)
+            it.setEndpointString("127.0.0.1:16661")
             it.publicKey = host.publicKey
         }
 
@@ -192,17 +195,17 @@ class ConfigManager @Inject constructor(
     }
 
     private fun setV2ray(host: Host, port: Int) {
-        if (settings.v2ray) {
-            val v2raySettings = settings.v2raySettings
-            if (v2raySettings != null) {
-                v2raySettings.inboundIp = host.host
-                v2raySettings.inboundPort = v2raySettings.singleHopInboundPort
-                v2raySettings.outboundIp = host.v2ray
-                v2raySettings.outboundPort = port
-                v2raySettings.dnsName = host.dnsName
-                settings.v2raySettings = v2raySettings
-            }
+//        if (settings.v2ray) {
+        val v2raySettings = settings.v2raySettings
+        if (v2raySettings != null) {
+            v2raySettings.inboundIp = host.host
+            v2raySettings.inboundPort = v2raySettings.singleHopInboundPort
+            v2raySettings.outboundIp = host.v2ray
+            v2raySettings.outboundPort = port
+            v2raySettings.dnsName = host.dnsName
+            settings.v2raySettings = v2raySettings
         }
+//        }
     }
 
     private fun getDNS(host: Host): String {
