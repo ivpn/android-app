@@ -36,39 +36,4 @@ public class Rand {
             throw new RuntimeException("Cannot switch rand algorithm");
         }
     }
-
-    /**
-    * \brief Wrapper for OQS_API void OQS_randombytes_nist_kat_init(
-    *                                   const uint8_t *entropy_input,
-    *                                   const uint8_t *personalization_string,
-    *                                   int security_strength);
-    *
-    * \param Entropy input seed, must be exactly 48 bytes long
-    * \param Entropy seed length
-    * \param Optional personalization string, which, if non-empty, must be at
-    * least 48 byte[] long
-    * \param personalization string length
-    */
-    private static native void randombytes_nist_kat_init(byte[] entropy_input,
-                                            byte[] personalization_string,
-                                            long personalization_string_len);
-
-    public static void randombytes_nist_kat_init(byte[] entropy_input) {
-        randombytes_nist_kat_init(entropy_input, null);
-    }
-
-    public static void randombytes_nist_kat_init(byte[] entropy_input,
-                                            byte[] personalization_string) {
-        if (entropy_input.length != 48) {
-            throw new RuntimeException("The entropy source must be exactly 48 byte[] long");
-        }
-        if (personalization_string == null) {
-            randombytes_nist_kat_init(entropy_input, null, 0);
-            return;
-        }
-        if (personalization_string.length < 48) {
-            throw new RuntimeException("The personalization string must be either empty or at least 48 byte[] long");
-        }
-        randombytes_nist_kat_init(entropy_input, personalization_string, personalization_string.length);
-    }
 }
