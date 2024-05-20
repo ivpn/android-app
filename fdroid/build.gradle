@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "net.ivpn.client"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 131
         versionName "2.10.8"
