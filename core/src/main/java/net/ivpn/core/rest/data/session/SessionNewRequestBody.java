@@ -36,6 +36,9 @@ public class SessionNewRequestBody {
     @SerializedName("kem_public_key1")
     @Expose
     private String kemPublicKey;
+    @SerializedName("kem_library_version")
+    @Expose
+    private String kemLibraryVersion;
     @SerializedName("app_name")
     @Expose
     private String appName;
@@ -56,6 +59,7 @@ public class SessionNewRequestBody {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
         this.kemPublicKey = kemPublicKey;
+        this.kemLibraryVersion = "0.10.0";
         this.appName = "IVPN for Android";
         this.force = force;
     }
@@ -64,6 +68,7 @@ public class SessionNewRequestBody {
         this.username = username;
         this.wgPublicKey = wgPublicKey;
         this.kemPublicKey = kemPublicKey;
+        this.kemLibraryVersion = "0.10.0";
         this.appName = "IVPN for Android";
         this.force = force;
         this.tfaToken = tfaToken;
