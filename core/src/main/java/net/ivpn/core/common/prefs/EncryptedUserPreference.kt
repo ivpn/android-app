@@ -44,6 +44,8 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
         private const val SESSION_TOKEN = "SESSION_TOKEN"
         private const val SESSION_VPN_USERNAME = "SESSION_VPN_USERNAME"
         private const val SESSION_VPN_PASSWORD = "SESSION_VPN_PASSWORD"
+        private const val DEVICE_MANAGEMENT = "DEVICE_MANAGEMENT"
+        private const val DEVICE_NAME = "DEVICE_NAME"
 
         private const val BLANK_USERNAME = "BLANK_USERNAME"
         private const val BLANK_USERNAME_GENERATED_DATE = "BLANK_USERNAME_GENERATED_DATE"
@@ -93,6 +95,18 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
                 .apply()
     }
 
+    fun putDeviceManagement(deviceManagement: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean(DEVICE_MANAGEMENT, deviceManagement)
+            .apply()
+    }
+
+    fun putDeviceName(deviceName: String?) {
+        sharedPreferences.edit()
+            .putString(DEVICE_NAME, deviceName)
+            .apply()
+    }
+
     fun putCapabilityMultiHop(isAvailable: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(USER_MULTI_HOP, isAvailable)
@@ -137,6 +151,14 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
 
     fun getSessionVpnPassword(): String? {
         return sharedPreferences.getString(SESSION_VPN_PASSWORD, "")
+    }
+
+    fun getDeviceManagement(): Boolean {
+        return sharedPreferences.getBoolean(DEVICE_MANAGEMENT, false)
+    }
+
+    fun getDeviceName(): String? {
+        return sharedPreferences.getString(DEVICE_NAME, "")
     }
 
     fun getSessionToken(): String {

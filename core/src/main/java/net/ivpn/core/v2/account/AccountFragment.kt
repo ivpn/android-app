@@ -44,8 +44,6 @@ import net.ivpn.core.databinding.FragmentAccountBinding
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
-import net.ivpn.core.v2.connect.ConnectFragmentDirections
-import net.ivpn.core.v2.connect.createSession.CreateSessionFragment
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import org.slf4j.LoggerFactory
@@ -78,11 +76,15 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        updateSessionStatus()
     }
 
     override fun onResume() {
         super.onResume()
         account.onResume()
+        if (!account.authenticated.get()) {
+            openHomeScreen()
+        }
     }
 
     override fun onStart() {
@@ -135,8 +137,11 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
     private fun initToolbar() {
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun updateSessionStatus() {
+        account.updateSessionStatus()
     }
 
     private fun copyAccountId() {
@@ -169,9 +174,27 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
         navigate(action)
     }
 
+    private fun openLoginScreen() {
+        val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment(true)
+        navigate(action)
+    }
+
+    private fun openHomeScreen() {
+        val action = AccountFragmentDirections.actionAccountFragmentToConnectFragment()
+        navigate(action)
+    }
+
     override fun onLogOutFailed() {
         DialogBuilder.createOptionDialog(requireContext(), Dialogs.FORCE_LOGOUT) {
             account.forceLogout()
         }
+    }
+
+    override fun onDeviceLoggedOut() {
+        openLoginScreen()
+    }
+
+    override fun onSessionStatusUpdate() {
+        onResume()
     }
 }

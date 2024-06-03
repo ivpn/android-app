@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.7 - 2024-02-12
+
+[NEW] Device Management  
+[IMPROVED] Increased timeout for API requests  
+
+[Download IVPN Client v2.10.7](https://www.ivpn.net/releases/android/IVPNv2.10.7site.apk)  
+SHA256: e091ee87d73eda39036854ca02be2c0451502730043fe39a8242403124965ceb  
+
+## Version 2.10.6 - 2023-12-18
+
+[FIXED] Crash when opening the app on F-Droid  
+
 ## Version 2.10.5 - 2023-12-13
 
 [IMPROVED] Show non-launchable and system apps in the Split Tunneling list  

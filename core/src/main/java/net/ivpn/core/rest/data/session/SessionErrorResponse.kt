@@ -1,11 +1,11 @@
-package net.ivpn.core.rest.data.wireguard;
+package net.ivpn.core.rest.data.session;
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
- Created by Oleksandr Mykhailenko.
- Copyright (c) 2023 IVPN Limited.
+ Created by Juraj Hilje.
+ Copyright (c) 2024 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -25,36 +25,32 @@ package net.ivpn.core.rest.data.wireguard;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ErrorResponse {
+class SessionErrorResponse {
+    
     @SerializedName("status")
     @Expose
-    private Integer status;
+    var status: Int = 0
 
     @SerializedName("message")
     @Expose
-    private String message;
+    var message: String = ""
 
-    public Integer getStatus() {
-        return status;
+    @SerializedName("captcha_id")
+    @Expose
+    val captchaId: String? = null
+
+    @SerializedName("captcha_image")
+    @Expose
+    val captchaImage: String? = null
+
+    @SerializedName("data")
+    @Expose
+    var data:SessionErrorData? = null
+
+    var isAccountNewStyle: Boolean = true
+
+    override fun toString(): String {
+        return "SessionErrorResponse(status=$status, message='$message', captchaId=$captchaId, captchaImage=$captchaImage, data=$data, isAccountNewStyle=$isAccountNewStyle)"
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "ErrorResponse{" +
-                "status=" + status +
-                ", message='" + message + '\'' +
-                '}';
-    }
 }

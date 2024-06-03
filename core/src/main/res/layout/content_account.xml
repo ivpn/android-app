@@ -93,6 +93,33 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/username" />
 
+                <TextView
+                    android:id="@+id/device_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:alpha="0.7"
+                    android:text="@string/device_name_label"
+                    android:textColor="@color/account_text"
+                    android:visibility="@{account.deviceManagement ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/active" />
+                
+                <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:letterSpacing="-0.02"
+                    android:text="@{account.deviceName}"
+                    android:textColor="@color/account_text"
+                    android:visibility="@{account.deviceManagement ? View.VISIBLE : View.GONE}"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/device_name_label" />
+
                 <View
                     android:id="@+id/line"
                     android:layout_width="0dp"

@@ -92,6 +92,34 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/upgrade_plan"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_exit"
+                android:alpha="0.9"
+                android:tint="@color/bottom_sheet_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/dialogs_session_upgrade"
+                android:textColor="@color/bottom_sheet_text"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/close"
             android:layout_width="match_parent"
             android:layout_height="56dp"

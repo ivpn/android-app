@@ -39,18 +39,23 @@ public class AddWireGuardPublicKeyRequestBody {
     @SerializedName("kem_public_key1")
     @Expose
     private String kemPublicKey;
+    @SerializedName("kem_library_version")
+    @Expose
+    private String kemLibraryVersion;
 
     public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey, String connectedPublicKey, String kemPublicKey) {
         this.sessionToken = sessionToken;
         this.publicKey = publicKey;
         this.connectedPublicKey = connectedPublicKey;
         this.kemPublicKey = kemPublicKey;
+        this.kemLibraryVersion = "0.10.0";
     }
 
     public AddWireGuardPublicKeyRequestBody(String sessionToken, String publicKey, String kemPublicKey) {
         this.sessionToken = sessionToken;
         this.publicKey = publicKey;
         this.kemPublicKey = kemPublicKey;
+        this.kemLibraryVersion = "0.10.0";
     }
 
     public String getSessionToken() {

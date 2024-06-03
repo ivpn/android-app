@@ -15,7 +15,7 @@ public class Sigs {
     /**
      * The single Sigs class instance.
      */
-    private static Sigs single_instance = null;
+    private static Sigs single_instance = null; 
 
     private Sigs() {}
 
@@ -23,9 +23,9 @@ public class Sigs {
      * \brief Make sure that at most one instance is generated.
      * \return Singleton instance
      */
-    public static synchronized Sigs get_instance() {
+    public static synchronized Sigs get_instance() { 
         if (single_instance == null) {
-            single_instance = new Sigs();
+            single_instance = new Sigs(); 
         }
         return single_instance; 
     }

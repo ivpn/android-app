@@ -22,27 +22,18 @@ package net.ivpn.core.v2.connect.createSession;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.core.rest.data.session.SessionErrorResponse;
 import net.ivpn.core.v2.dialog.Dialogs;
 
 public interface ConnectionNavigator {
-
     void askConnectionPermission();
-
     void onAuthFailed();
-
     void onTimeOut();
-
     void notifyAnotherPortUsedToConnect();
-
     void logout();
-
-    void openSessionLimitReachedDialogue();
-
+    void openSessionLimitReachedDialogue(SessionErrorResponse error);
     void accountVerificationFailed();
-
     void openNoNetworkDialog();
-
     void openErrorDialog(Dialogs dialogs);
-
     void onChangeConnectionStatus(ConnectionState state);
 }

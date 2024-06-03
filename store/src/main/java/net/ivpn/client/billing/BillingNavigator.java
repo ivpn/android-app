@@ -32,6 +32,8 @@ public interface BillingNavigator {
 
     void createPurchaseErrorDialog(String errorCode, String errorMessage);
 
+    void createDialog(String title, String message);
+
     void onAccountCreated();
 
     void onAddFundsFinish();
