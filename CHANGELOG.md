@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.8 - Unreleased
+
+[IMPROVED] Post-Quantum library updated to the latest version  
+[IMPROVED] Support for pending payments  
+[NOTE] Removed support for Android 7.0 and older  
+
 ## Version 2.10.7 - 2024-02-12
 
 [NEW] Device Management  
