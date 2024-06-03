@@ -2,11 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.10.8 - Unreleased
+## Version 2.10.8 - 2024-06-03
 
 [IMPROVED] Post-Quantum library updated to the latest version  
 [IMPROVED] Support for pending payments  
 [NOTE] Removed support for Android 7.0 and older  
+
+[Download IVPN Client v2.10.8](https://www.ivpn.net/releases/android/IVPNv2.10.8site.apk)  
+SHA256: 5f3de49a59b80f06087f440d3e7d939d2f815d7ba944a1a75c90a20e447865cd  
 
 ## Version 2.10.7 - 2024-02-12
 
