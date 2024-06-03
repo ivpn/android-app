@@ -3,7 +3,7 @@
 	url = https://git.zx2c4.com/wireguard-tools
 [submodule "core/src/main/cpp/openvpn"]
 	path = core/src/main/cpp/openvpn
-	url = https://github.com/schwabe/openvpn
+	url = https://github.com/ivpn/android-openvpn
 [submodule "core/src/main/cpp/openssl"]
 	path = core/src/main/cpp/openssl
 	url = https://github.com/schwabe/platform_external_openssl
