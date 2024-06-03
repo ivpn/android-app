@@ -47,7 +47,6 @@ JNIEXPORT jobject JNICALL Java_net_ivpn_liboqs_KeyEncapsulation_get_1KEM_1detail
 
     // Call back constructor to allocate a new instance, with an int argument
     jobject _nativeKED = (*env)->NewObject(env, cls, constructor_meth_id_, obj);
-    // We need to pass obj (superclass) additionally to run on android: https://stackoverflow.com/questions/25363027/jni-getmethodid-not-working-for-constructor-of-inner-class
 
     OQS_KEM *kem = (OQS_KEM *) getHandle(env, obj, "native_kem_handle_");
 

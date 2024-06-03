@@ -41,24 +41,3 @@ JNIEXPORT jint JNICALL Java_net_ivpn_liboqs_Rand_randombytes_1switch_1algorithm_
     (*env)->ReleaseStringUTFChars(env, jstr, alg_name_native);
     return (rv_ == OQS_SUCCESS) ? 0 : -1;
 }
-
-/*
- * Class:     org_openquantumsafe_Rand
- * Method:    randombytes_nist_kat_init
- * Signature: ([B[BJ)V
- */
-JNIEXPORT void JNICALL Java_net_ivpn_liboqs_Rand_randombytes_1nist_1kat_1init
-  (JNIEnv *env, jclass cls, jbyteArray jentropy_input, jbyteArray jpers_str, jlong pers_str_len)
-{
-    jbyte *entropy_input_native = (*env)->GetByteArrayElements(env, jentropy_input, 0);
-
-    if (pers_str_len == 0) {
-        OQS_randombytes_nist_kat_init_256bit((uint8_t*) entropy_input_native, NULL);
-    } else {
-        jbyte *pers_str_native = (*env)->GetByteArrayElements(env, jpers_str, 0);
-        OQS_randombytes_nist_kat_init_256bit((uint8_t*) entropy_input_native, (uint8_t*) pers_str_native);
-        (*env)->ReleaseByteArrayElements(env, jpers_str, pers_str_native, JNI_ABORT);
-    }
-
-    (*env)->ReleaseByteArrayElements(env, jentropy_input, entropy_input_native, JNI_ABORT);
-}

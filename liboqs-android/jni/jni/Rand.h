@@ -23,14 +23,6 @@ JNIEXPORT jbyteArray JNICALL Java_net_ivpn_liboqs_Rand_randombytes
 JNIEXPORT jint JNICALL Java_net_ivpn_liboqs_Rand_randombytes_1switch_1algorithm_1native
   (JNIEnv *, jclass, jstring);
 
-/*
- * Class:     org_openquantumsafe_Rand
- * Method:    randombytes_nist_kat_init
- * Signature: ([B[BJ)V
- */
-JNIEXPORT void JNICALL Java_net_ivpn_liboqs_Rand_randombytes_1nist_1kat_1init
-  (JNIEnv *, jclass, jbyteArray, jbyteArray, jlong);
-
 #ifdef __cplusplus
 }
 #endif
