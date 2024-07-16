@@ -25,12 +25,12 @@ android {
         }
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 131
         versionName "2.10.8"
         ndkVersion "25.1.8937393"
@@ -115,7 +115,7 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     // For crash logging.
-    implementation 'io.sentry:sentry-android:4.3.0'
+    implementation 'io.sentry:sentry-android:6.13.1'
 
     implementation "androidx.multidex:multidex:2.0.1"
 
