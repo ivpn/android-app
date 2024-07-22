@@ -155,6 +155,7 @@ class CaptchaFragment : Fragment(), LoginNavigator {
     }
 
     override fun openSessionLimitReachedDialogue(error: SessionErrorResponse) {
+        viewModel.sessionError = error
         setNavigationResultBoolean(true, "session_limit_dialogue")
         findNavController().popBackStack()
     }

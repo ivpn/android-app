@@ -41,6 +41,7 @@ import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.findNavControllerSafely
+import net.ivpn.core.common.extension.getNavigationResultBoolean
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.databinding.FragmentLoginBinding
 import net.ivpn.core.rest.data.session.SessionErrorResponse
@@ -153,6 +154,11 @@ class LoginFragment : Fragment(), LoginNavigator,
         }
         binding.contentLayout.qrCode.setOnClickListener {
             openQRScanner()
+        }
+        getNavigationResultBoolean("session_limit_dialogue")?.observe(viewLifecycleOwner) {
+            if (it) {
+                viewModel.sessionError?.let { it1 -> openSessionLimitReachedDialogue(it1) }
+            }
         }
     }
 
