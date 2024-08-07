@@ -26,14 +26,14 @@ android {
         }
     }
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 131
-        versionName "2.10.8"
+        targetSdkVersion 34
+        versionCode 132
+        versionName "2.10.9"
         ndkVersion "25.1.8937393"
 
         manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
@@ -97,7 +97,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 
     // Purchases
-    implementation 'com.android.billingclient:billing:6.0.0'
+    implementation 'com.android.billingclient:billing:6.1.0'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -119,9 +119,9 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     // For crash logging.
-    implementation 'io.sentry:sentry-android:4.3.0'
+    implementation 'io.sentry:sentry-android:6.13.1'
 
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
