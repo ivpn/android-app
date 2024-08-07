@@ -76,6 +76,8 @@ class LoginViewModel @Inject constructor(
     var pendingCaptcha: String? = null
     var pending2FAToken: String? = null
 
+    var sessionError: SessionErrorResponse? = null
+
     var tfaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
         if (hasFocus) {
             tfaInputState.get()?.let {
