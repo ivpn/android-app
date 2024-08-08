@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.9 - 2024-08-08
+
+[IMPROVED] Target Android API level 34  
+[FIXED] 2FA login not working when session limit is reached  
+
+[Download IVPN Client v2.10.9](https://www.ivpn.net/releases/android/IVPNv2.10.9site.apk)  
+SHA256: cd68f954ec349277bec818988c57494a7f64f4447d0c5804607c95977a1b1db2  
+
 ## Version 2.10.8 - 2024-06-03
 
 [IMPROVED] Post-Quantum library updated to the latest version  
