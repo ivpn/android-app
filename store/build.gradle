@@ -36,7 +36,6 @@ android {
         versionName "2.10.9"
         ndkVersion "25.1.8937393"
 
-        manifestPlaceholders = [SENTRY_DSN: keystoreProperties['sentry.dsn']]
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
         multiDexEnabled true
     }
@@ -117,9 +116,6 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     implementation "androidx.multidex:multidex:2.0.1"
-
-    // For crash logging.
-    implementation 'io.sentry:sentry-android:6.13.1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

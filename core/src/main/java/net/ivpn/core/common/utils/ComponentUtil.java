@@ -105,7 +105,6 @@ public class ComponentUtil {
         protocolController.reset();
         IVPNApplication.updatesController.resetComponent();
         logUtil.resetAll();
-        IVPNApplication.crashLoggingController.reset();
         mockLocationController.reset();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();

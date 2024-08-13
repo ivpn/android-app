@@ -43,7 +43,6 @@
     <string name="settings_version">VERSION</string>
     <string name="settings_color_theme">Color theme</string>
     <string name="settings_enable_logging">Enable logging</string>
-    <string name="settings_enable_crashes">Enable crash logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
     <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
     <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
@@ -56,7 +55,6 @@
     <string name="settings_send_logs">SEND LOGS</string>
     <string name="settings_split_tunneling">Split tunneling</string>
     <string name="settings_do_not_collect_your_data">We can\'t see these until you send them to us.</string>
-    <string name="settings_crash_logging_description">Anonymous crash logs will be sent to IVPN to help us improve the application.</string>
     <string name="settings_split_tunneling_description">Choose which apps you want to use with IVPN.</string>
     <string name="settings_kill_switch_description">Allow using internet only when IVPN connection is enabled.</string>
     <string name="settings_always_on_vpn_description">Can help to improve protection.</string>

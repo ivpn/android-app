@@ -26,7 +26,6 @@ import androidx.multidex.MultiDexApplication
 import net.ivpn.client.dagger.DaggerSiteComponent
 import net.ivpn.client.dagger.SiteComponent
 import net.ivpn.client.navigation.SiteNavigation
-import net.ivpn.client.sentry.SentryController
 import net.ivpn.client.signup.SiteSignUpViewModel
 import net.ivpn.client.updates.UpdatesViewModel
 import net.ivpn.core.IVPNApplication
@@ -45,9 +44,6 @@ class SiteIVPNApplication: MultiDexApplication() {
     lateinit var viewModel: SiteSignUpViewModel
 
     @Inject
-    lateinit var sentry: SentryController
-
-    @Inject
     lateinit var updates: UpdatesViewModel
 
     override fun onCreate() {
@@ -56,8 +52,6 @@ class SiteIVPNApplication: MultiDexApplication() {
         val appComponent = IVPNApplication.initBy(this)
         initFeatureConfig()
         initComponents(appComponent)
-        //Init crash controller at first
-        initCrashLogging()
         initUpdatesController()
         IVPNApplication.initBaseComponents()
         initSignUpController()
@@ -79,10 +73,5 @@ class SiteIVPNApplication: MultiDexApplication() {
 
     private fun initFeatureConfig() {
         IVPNApplication.applyFeatureConfig(SiteFeatureConfig())
-    }
-
-    private fun initCrashLogging() {
-        sentry.init()
-        IVPNApplication.crashLoggingController = sentry
     }
 }

@@ -29,59 +29,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}">
-
-                <TextView
-                    android:id="@+id/textView9"
-                    style="@style/SettingsOptionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/settings_enable_crashes"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    style="@style/SettingsOptionDescription"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:text="@string/settings_crash_logging_description"
-                    android:textAlignment="viewStart"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/enable_crashes"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/enable_crashes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:checked="@{logging.isCrashLoggingEnabled()}"
-                    android:thumb="@drawable/common_thumb_selector"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:onChanged="@{logging.enableCrashLoggingListener}"
-                    app:track="@drawable/common_track_selector" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/color_section_divider"
-                android:visibility="@{logging.isSentrySupported ? View.VISIBLE : View.GONE}" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
