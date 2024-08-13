@@ -23,21 +23,6 @@
         android:hasFragileUserData="false"
         tools:ignore="HardcodedDebugMode" >
 
-        <meta-data
-            android:name="io.sentry.dsn"
-            android:value="${SENTRY_DSN}" />
-
-        <meta-data
-            android:name="io.sentry.debug"
-            android:value="true" />
-        <meta-data
-            android:name="io.sentry.auto-init"
-            android:value="false" />
-
-        <meta-data
-            android:name="io.sentry.anr.enable"
-            android:value="false" />
-
         <activity
             android:name=".billing.BillingActivity"
             android:exported="false"
