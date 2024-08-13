@@ -278,8 +278,6 @@ dependencies {
     // liboqs
     implementation project(path: ':liboqs-android')
 
-    // For crash logging.
-    implementation 'io.sentry:sentry-android:6.13.1'
     implementation "androidx.multidex:multidex:2.0.1"
 }
 
