@@ -39,19 +39,14 @@ class LoggingViewModel @Inject constructor(
 ) : ViewModel()  {
 
     val isLoggingEnabled = ObservableBoolean()
-    val isCrashLoggingEnabled = ObservableBoolean()
-    val isSentrySupported = ObservableBoolean()
 
     var enableLoggingListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableLogging(value) }
-    var enableCrashLoggingListener = CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean -> enableCrashLogging(value) }
 
     init {
     }
 
     fun onResume() {
         isLoggingEnabled.set(getLoggingValue())
-        isCrashLoggingEnabled.set(isSentryEnabled())
-        isSentrySupported.set(getSentrySupport())
     }
 
     fun getLogFileUri(context: Context?): Uri {
@@ -60,29 +55,14 @@ class LoggingViewModel @Inject constructor(
 
     fun reset() {
         isLoggingEnabled.set(getLoggingValue())
-        isCrashLoggingEnabled.set(isSentryEnabled())
-        isSentrySupported.set(getSentrySupport())
     }
 
     private fun getLoggingValue(): Boolean {
         return logUtil.isLoggingEnabled
     }
 
-    private fun isSentryEnabled(): Boolean {
-        return IVPNApplication.crashLoggingController.isEnabled
-    }
-
-    private fun getSentrySupport(): Boolean {
-        return IVPNApplication.crashLoggingController.isSupported
-    }
-
     private fun enableLogging(value: Boolean) {
         isLoggingEnabled.set(value)
         logUtil.enableLogging(value)
-    }
-
-    private fun enableCrashLogging(value: Boolean) {
-        isCrashLoggingEnabled.set(value)
-        IVPNApplication.crashLoggingController.setState(value)
     }
 }
