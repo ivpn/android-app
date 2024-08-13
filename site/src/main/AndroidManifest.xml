@@ -5,8 +5,11 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!--    To close system dialog-->
+    <!-- To close system dialog-->
     <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
+
+    <!-- VPN <service> for API Level 34+ -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <application
         android:name=".SiteIVPNApplication"
@@ -24,11 +27,13 @@
 
         <service
             android:name=".updates.UpdatesService"
+            android:foregroundServiceType="specialUse"
             android:exported="false" />
 
         <service
             android:name=".updates.UpdatesJobService"
             android:exported="false"
+            android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
