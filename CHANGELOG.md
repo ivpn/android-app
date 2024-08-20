@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## Version 2.10.10 - Unreleased
+## Version 2.10.10 - 2024-08-20
 
 [FIXED] Crash when using Network Protection  
 [FIXED] Crash when using the Update button  
 [FIXED] Connect VPN using the Quick Settings tile  
 [NOTE] Removed option to report crash logs with Sentry  
+
+[Download IVPN Client v2.10.10](https://www.ivpn.net/releases/android/IVPNv2.10.10site.apk)  
+SHA256: 484ede3adabda94bc78768d3f3b1dc12732cbb76eb886216bc693850a469f5fe 
 
 ## Version 2.10.9 - 2024-08-08
 
