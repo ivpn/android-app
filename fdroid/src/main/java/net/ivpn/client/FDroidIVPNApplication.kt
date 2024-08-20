@@ -25,7 +25,6 @@ package net.ivpn.client
 import androidx.multidex.MultiDexApplication
 import net.ivpn.client.dagger.DaggerFDroidComponent
 import net.ivpn.client.dagger.FDroidComponent
-import net.ivpn.client.logging.StubCrashLoggingController
 import net.ivpn.client.navigation.FDroidNavigation
 import net.ivpn.client.signup.FDroidSignUpViewModel
 import net.ivpn.client.updates.StubUpdatesViewModel
@@ -44,8 +43,6 @@ class FDroidIVPNApplication: MultiDexApplication() {
     @Inject
     lateinit var signup: FDroidSignUpViewModel
 
-    var crashController = StubCrashLoggingController()
-
     var updates = StubUpdatesViewModel()
 
     override fun onCreate() {
@@ -55,8 +52,6 @@ class FDroidIVPNApplication: MultiDexApplication() {
         initFeatureConfig()
         initComponents(appComponent)
         initUpdatesController()
-        //Init crash controller at first
-        initCrashLogging()
         IVPNApplication.initBaseComponents()
         initSignUpController()
         IVPNApplication.customNavigation = FDroidNavigation()
@@ -77,10 +72,5 @@ class FDroidIVPNApplication: MultiDexApplication() {
 
     private fun initFeatureConfig() {
         IVPNApplication.applyFeatureConfig(FDroidFeatureConfig())
-    }
-
-    private fun initCrashLogging() {
-        crashController.init()
-        IVPNApplication.crashLoggingController = crashController
     }
 }

@@ -35,7 +35,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val IS_MIGRATED = "IS_MIGRATED"
 
         private const val SETTINGS_LOGGING = "SETTINGS_LOGGING"
-        private const val SETTINGS_SENTRY = "SETTINGS_SENTRY"
         private const val SETTINGS_MULTI_HOP = "SETTINGS_MULTI_HOP"
         private const val SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED = "SETTINGS_MULTI_HOP_SAME_PROVIDER_ALLOWED"
         private const val SETTINGS_KILL_SWITCH = "SETTINGS_KILL_SWITCH"
@@ -452,16 +451,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(LAST_USED_IP, null)
     }
 
-    fun enableSentry(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_SENTRY, value)
-                .apply()
-    }
-
-    fun isSentryEnabled(): Boolean {
-        return sharedPreferences.getBoolean(SETTINGS_SENTRY, false)
-    }
-
     fun getFilter(): String? {
         return sharedPreferences.getString(SETTINGS_FILTER, null)
     }
@@ -514,9 +503,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
         if (oldPreference.contains(SETTINGS_LOGGING)) {
             putSettingLogging(oldPreference.getBoolean(SETTINGS_LOGGING, false))
-        }
-        if (oldPreference.contains(SETTINGS_SENTRY)) {
-            enableSentry(oldPreference.getBoolean(SETTINGS_SENTRY, true))
         }
         if (oldPreference.contains(SETTINGS_MULTI_HOP)) {
             putSettingMultiHop(oldPreference.getBoolean(SETTINGS_MULTI_HOP, false))

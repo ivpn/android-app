@@ -7,7 +7,6 @@ import androidx.navigation.NavGraph
 import net.ivpn.core.common.FeatureConfig
 import net.ivpn.core.common.dagger.ApplicationComponent
 import net.ivpn.core.common.dagger.DaggerApplicationComponent
-import net.ivpn.core.common.logger.CrashLoggingController
 import net.ivpn.core.common.navigation.CustomNavigation
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.updates.UpdatesController
@@ -42,7 +41,6 @@ object IVPNApplication {
     lateinit var updatesController: UpdatesController
     lateinit var customNavigation: CustomNavigation
     lateinit var moduleNavGraph: NavGraph
-    lateinit var crashLoggingController: CrashLoggingController
     lateinit var config: FeatureConfig
 
     fun initBy(application: Application): ApplicationComponent{
@@ -65,10 +63,6 @@ object IVPNApplication {
 
     fun applyUpdatesController(controller: UpdatesController) {
         updatesController = controller
-    }
-
-    fun applyCrashController(crashController: CrashLoggingController) {
-        this.crashLoggingController = crashController
     }
 
     fun applyFeatureConfig(config: FeatureConfig) {
