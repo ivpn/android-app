@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.10 - Unreleased
+
+[FIXED] Crash when using Network Protection  
+[FIXED] Crash when using the Update button  
+[FIXED] Connect VPN using the Quick Settings tile  
+[NOTE] Removed option to report crash logs with Sentry  
+
 ## Version 2.10.9 - 2024-08-08
 
 [IMPROVED] Target Android API level 34  
