@@ -13,7 +13,10 @@ keystore.properties
 /.idea/
 /core/.cxx/
 core/.cxx/
+core/libs/
 v2ray/libs/
+v2ray/*.jar
+v2ray/*.aar
 /store/production/
 /production/
 liboqs-android/**/*.so
