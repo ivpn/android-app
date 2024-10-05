@@ -5,12 +5,12 @@ plugins {
 android {
     namespace "net.ivpn.liboqs"
 
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 130
-        versionName "2.10.7"
+        targetSdkVersion 34
+        versionCode 135
+        versionName "2.10.10"
         ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

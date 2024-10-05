@@ -139,15 +139,15 @@ class ServersPreference @Inject constructor(
 
     fun setCurrentServer(serverType: ServerType?, server: Server?) {
         if (serverType == null || server == null) return
-        val openvpnServer = openvpnServersList?.first { it == server }
-        val wireguardServer = wireguardServersList?.first { it == server }
+        val openvpnServer = openvpnServersList?.firstOrNull { it == server }
+        val wireguardServer = wireguardServersList?.firstOrNull { it == server }
         val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         preference.serversSharedPreferences.edit()
-                .putString(serverKey, Mapper.from(openvpnServer))
-                .apply()
+            .putString(serverKey, Mapper.from(openvpnServer))
+            .apply()
         preference.wireguardServersSharedPreferences.edit()
-                .putString(serverKey, Mapper.from(wireguardServer))
-                .apply()
+            .putString(serverKey, Mapper.from(wireguardServer))
+            .apply()
     }
 
     fun putOpenVpnServerList(servers: List<Server?>?) {

@@ -43,7 +43,6 @@
     <string name="settings_version">VERSION</string>
     <string name="settings_color_theme">Color theme</string>
     <string name="settings_enable_logging">Enable logging</string>
-    <string name="settings_enable_crashes">Enable crash logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
     <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
     <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
@@ -56,7 +55,6 @@
     <string name="settings_send_logs">SEND LOGS</string>
     <string name="settings_split_tunneling">Split tunneling</string>
     <string name="settings_do_not_collect_your_data">We can\'t see these until you send them to us.</string>
-    <string name="settings_crash_logging_description">Anonymous crash logs will be sent to IVPN to help us improve the application.</string>
     <string name="settings_split_tunneling_description">Choose which apps you want to use with IVPN.</string>
     <string name="settings_kill_switch_description">Allow using internet only when IVPN connection is enabled.</string>
     <string name="settings_always_on_vpn_description">Can help to improve protection.</string>
@@ -186,7 +184,7 @@
     <string name="servers_sync_retry">Retry</string>
 
     <!--Split Tunneling-->
-    <string name="split_tunneling_description">Split tunnelling allows you to control which apps use the VPN tunnel. New apps that you install will automatically use the VPN tunnel.</string>
+    <string name="split_tunneling_description">Split tunnelling allows you to control which apps use the VPN tunnel. New apps that you install will automatically use the VPN tunnel. Only apps with internet permission are listed.</string>
     <string name="split_tunneling_turn_on_all">TURN ON ALL</string>
     <string name="split_tunneling_turn_off_all">TURN OFF ALL</string>
     <string name="split_tunneling_show_system_apps">Show system apps</string>
@@ -210,7 +208,7 @@
     <string name="network_disconnect_from_vpn">Disconnect from IVPN</string>
     <string name="network_disable_killswitch">Disable kill-switch</string>
     <string name="network_saved_empty_state_title">Mark one of the scanned network as TRUSTED or UNTRUSTED to add it here</string>
-    <string name="network_scanned_empty_state_title">Once we find a WiFi networks they will be displayed here</string>
+    <string name="network_scanned_empty_state_title">Once we find Wi-Fi networks they will be displayed here</string>
     <string name="network_current_network">Current network</string>
 
     <!--Validation Screen-->
@@ -631,7 +629,7 @@
 
     <string name="sign_up_account_created">Your account has been created.</string>
 
-    <string name="account_label">Account Id</string>
+    <string name="account_label">Account ID</string>
     <string name="account_active">Active</string>
     <string name="account_inactive">Inactive</string>
     <string name="account_type">Account type</string>
