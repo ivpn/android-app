@@ -55,6 +55,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_MOCK_LOCATION = "SETTINGS_MOCK_LOCATION"
         private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
         private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
+        private const val SETTINGS_V2RAY = "SETTINGS_V2RAY"
+        private const val SETTINGS_V2RAY_PROTOCOL = "SETTINGS_V2RAY_PROTOCOL"
         private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
 
         private const val OV_PORT = "OV_PORT"
@@ -74,6 +76,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
         private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
+        private const val V2RAY_SETTINGS = "V2RAY_SETTINGS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -106,6 +109,26 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             sharedPreferences.edit()
                     .putBoolean(SETTINGS_IPV6, value)
                     .apply()
+        }
+
+    var v2ray: Boolean
+        get() {
+            return sharedPreferences.getBoolean(SETTINGS_V2RAY, false)
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putBoolean(SETTINGS_V2RAY, value)
+                .apply()
+        }
+
+    var v2rayProtocol: String?
+        get() {
+            return sharedPreferences.getString(SETTINGS_V2RAY_PROTOCOL, "")
+        }
+        set(value) {
+            sharedPreferences.edit()
+                .putString(SETTINGS_V2RAY_PROTOCOL, value)
+                .apply()
         }
 
     var killSwitch: Boolean
@@ -479,6 +502,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     fun getAntiTracker(): String? {
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
+    }
+
+    fun setV2raySettings(json: String?) {
+        sharedPreferences.edit()
+            .putString(V2RAY_SETTINGS, json)
+            .apply()
+    }
+
+    fun getV2raySettings(): String? {
+        return sharedPreferences.getString(V2RAY_SETTINGS, "")
     }
 
     private fun putIsMigrated(isMigrated: Boolean) {

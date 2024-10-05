@@ -30,9 +30,11 @@ public class Config {
     @SerializedName("antitracker_plus")
     @Expose
     private AntiTrackerPlus antitrackerPlus;
+
     @SerializedName("api")
     @Expose
     private Api api;
+
     @SerializedName("ports")
     @Expose
     private Ports ports;

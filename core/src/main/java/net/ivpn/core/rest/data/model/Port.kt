@@ -25,6 +25,7 @@ package net.ivpn.core.rest.data.model
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import net.ivpn.core.common.v2ray.V2RaySettings
 
 class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRange()) {
 
@@ -104,6 +105,10 @@ class Ports {
     @SerializedName("openvpn")
     @Expose
     lateinit var openvpn: List<Port>
+
+    @SerializedName("v2ray")
+    @Expose
+    lateinit var v2ray: V2RaySettings
 
 }
 
