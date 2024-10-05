@@ -121,6 +121,8 @@ class IVPNTileService: TileService() {
             val vpnIntent = Intent(this, PermissionActivity::class.java)
             vpnIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(vpnIntent)
+
+            connect.connectIfNot()
         }
 
         tile.updateTile()

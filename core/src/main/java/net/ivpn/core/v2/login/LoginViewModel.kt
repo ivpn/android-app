@@ -35,8 +35,8 @@ import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.session.SessionListenerImpl
 import net.ivpn.core.common.utils.ConnectivityUtil
 import net.ivpn.core.rest.Responses
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.session.SessionNewResponse
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.v2.dialog.Dialogs
 import org.slf4j.LoggerFactory
 import java.io.InterruptedIOException
@@ -75,6 +75,8 @@ class LoginViewModel @Inject constructor(
 
     var pendingCaptcha: String? = null
     var pending2FAToken: String? = null
+
+    var sessionError: SessionErrorResponse? = null
 
     var tfaFocusListener = View.OnFocusChangeListener { _, hasFocus ->
         if (hasFocus) {
@@ -127,7 +129,7 @@ class LoginViewModel @Inject constructor(
                 this@LoginViewModel.onSuccess(response)
             }
 
-            override fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+            override fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
                 LOGGER.error("Login process: ERROR", throwable)
                 if (!ConnectivityUtil.isOnline(context)) {
                     navigator?.openErrorDialogue(Dialogs.CONNECTION_ERROR)
@@ -268,12 +270,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun handleErrorResponse(errorResponse: ErrorResponse?) {
+    private fun handleErrorResponse(errorResponse: SessionErrorResponse?) {
         errorResponse?.let {
-            if (it.status == null) {
-                navigator?.openErrorDialogue(Dialogs.SERVER_ERROR)
-                return
-            }
         } ?: kotlin.run {
             navigator?.openErrorDialogue(Dialogs.CREATE_SESSION_ERROR)
             return
@@ -298,7 +296,7 @@ class LoginViewModel @Inject constructor(
             Responses.SESSION_TOO_MANY -> {
                 pendingCaptcha = captcha.get()
                 pending2FAToken = tfaToken.get()
-                navigator?.openSessionLimitReachedDialogue()
+                navigator?.openSessionLimitReachedDialogue(errorResponse)
             }
             Responses.INVALID_CAPTCHA -> {
                 error.set("Invalid captcha, please try again")
@@ -319,11 +317,13 @@ class LoginViewModel @Inject constructor(
             }
             Responses.WIREGUARD_KEY_INVALID, Responses.WIREGUARD_PUBLIC_KEY_EXIST, Responses.BAD_REQUEST, Responses.SESSION_SERVICE_ERROR -> {
                 navigator?.openCustomErrorDialogue("${context.getString(R.string.dialogs_error)} ${errorResponse.status}",
-                        if (errorResponse.message != null) errorResponse.message else "")
+                    errorResponse.message
+                )
             }
             else -> {
                 navigator?.openCustomErrorDialogue("${context.getString(R.string.dialogs_error)} ${errorResponse.status}",
-                        if (errorResponse.message != null) errorResponse.message else "")
+                    errorResponse.message
+                )
             }
         }
     }

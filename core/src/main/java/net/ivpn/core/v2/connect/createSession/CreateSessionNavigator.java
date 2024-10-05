@@ -28,5 +28,9 @@ public interface CreateSessionNavigator {
 
     void tryAgain();
 
+    void enableDeviceManagement(String url);
+
+    void upgradePlan(String url);
+
     void cancel();
 }

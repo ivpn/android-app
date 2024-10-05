@@ -90,14 +90,12 @@ public class UpdatesService extends Service implements ServiceConstants {
 
         switch (action) {
             case UPDATE_PROCEED: {
-                closeSystemDialogs();
                 return doSendActionBroadcast(UPDATE_PROCEED);
             }
             case UPDATE_SKIP: {
                 return doSendActionBroadcast(UPDATE_SKIP);
             }
             case UPDATE_SETTINGS: {
-                closeSystemDialogs();
                 return doSendActionBroadcast(UPDATE_SETTINGS);
             }
             case SHOW_UPDATE_NOTIFICATION: {

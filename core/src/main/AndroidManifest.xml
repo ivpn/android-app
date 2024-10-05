@@ -27,6 +27,9 @@
     <!-- App notifications for API Level 33+ -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- VPN <service> for API Level 34+ -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
     <!--    To mock location-->
     <uses-permission
         android:name="android.permission.ACCESS_MOCK_LOCATION"
@@ -54,6 +57,7 @@
 
         <activity
             android:name="net.ivpn.core.v2.timepicker.TimePickerActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Transparent" />
 
         <activity
@@ -86,17 +90,23 @@
 
         <activity
             android:name=".v2.qr.QRActivity"
+            android:exported="false"
             android:screenOrientation="portrait" />
 
         <service
             android:name="net.ivpn.core.vpn.openvpn.IVPNService"
             android:exported="false"
-            android:permission="android.permission.BIND_VPN_SERVICE" />
-        <service android:name="net.ivpn.core.vpn.local.WifiWatcherService" />
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:foregroundServiceType="specialUse" />
+        <service
+            android:name="net.ivpn.core.vpn.local.WifiWatcherService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
 
         <service
             android:name="net.ivpn.core.vpn.AlwaysOnVpnService"
             android:exported="false"
+            android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
@@ -106,17 +116,20 @@
         <service
             android:name="com.wireguard.android.backend.GoBackend$WireGuardVpnService"
             android:exported="false"
-            android:permission="android.permission.BIND_VPN_SERVICE" />
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:foregroundServiceType="specialUse" />
 
         <service
             android:name="com.wireguard.android.backend.WireGuardUiService"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
 
         <service
             android:name="net.ivpn.core.common.tile.IVPNTileService"
             android:icon="@drawable/ic_logo_sq"
             android:label="@string/app_name"
             android:exported="true"
+            android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

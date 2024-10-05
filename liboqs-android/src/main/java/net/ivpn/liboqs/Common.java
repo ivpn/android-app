@@ -1,7 +1,10 @@
 package net.ivpn.liboqs;
 
-import android.os.Build;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 public class Common {
@@ -25,10 +28,33 @@ public class Common {
     }
 
     public static void loadNativeLibrary() {
-        System.err.println("---------------------------");
-        System.err.println("Loading liboqs for: " + Build.CPU_ABI);
-        System.err.println("---------------------------");
-        System.loadLibrary("oqs-jni");
+        // If the library is in the java library path, load it directly. (e.g., -Djava.library.path=src/main/resources)
+        try {
+            System.loadLibrary("oqs-jni");
+        // Otherwise load the library from the liboqs-java.jar
+        } catch (UnsatisfiedLinkError e) {
+            String libName = "llliboqs-jni.so";
+            if (Common.isLinux()) {
+                libName = "liboqs-jni.so";
+            } else if (Common.isMac()) {
+                libName = "liboqs-jni.jnilib";
+            } else if (Common.isWindows()) {
+                libName = "oqs-jni.dll";
+            }
+            URL url = KEMs.class.getResource("/" + libName);
+            File tmpDir;
+            try {
+                tmpDir = Files.createTempDirectory("oqs-native-lib").toFile();
+                tmpDir.deleteOnExit();
+                File nativeLibTmpFile = new File(tmpDir, libName);
+                nativeLibTmpFile.deleteOnExit();
+                InputStream in = url.openStream();
+                Files.copy(in, nativeLibTmpFile.toPath());
+                System.load(nativeLibTmpFile.getAbsolutePath());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
     }
 
     public static <E, T extends Iterable<E>> void print_list(T list) {

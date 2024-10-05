@@ -144,12 +144,6 @@ class Settings @Inject constructor(
             settingsPreference.putSettingStartOnBoot(value)
         }
 
-    var isSentryEnabled: Boolean
-        get() = settingsPreference.isSentryEnabled()
-        set(value) {
-            settingsPreference.enableSentry(value)
-        }
-
     var isAntiSurveillanceEnabled: Boolean
         get() = settingsPreference.getIsAntiSurveillanceEnabled()
         set(value) {

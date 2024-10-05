@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.10 - 2024-08-20
+
+[FIXED] Crash when using Network Protection  
+[FIXED] Crash when using the Update button  
+[FIXED] Connect VPN using the Quick Settings tile  
+[NOTE] Removed option to report crash logs with Sentry  
+
+[Download IVPN Client v2.10.10](https://www.ivpn.net/releases/android/IVPNv2.10.10site.apk)  
+SHA256: 484ede3adabda94bc78768d3f3b1dc12732cbb76eb886216bc693850a469f5fe 
+
+## Version 2.10.9 - 2024-08-08
+
+[IMPROVED] Target Android API level 34  
+[FIXED] 2FA login not working when session limit is reached  
+
+[Download IVPN Client v2.10.9](https://www.ivpn.net/releases/android/IVPNv2.10.9site.apk)  
+SHA256: cd68f954ec349277bec818988c57494a7f64f4447d0c5804607c95977a1b1db2  
+
+## Version 2.10.8 - 2024-06-03
+
+[IMPROVED] Post-Quantum library updated to the latest version  
+[IMPROVED] Support for pending payments  
+[NOTE] Removed support for Android 7.0 and older  
+
+[Download IVPN Client v2.10.8](https://www.ivpn.net/releases/android/IVPNv2.10.8site.apk)  
+SHA256: 5f3de49a59b80f06087f440d3e7d939d2f815d7ba944a1a75c90a20e447865cd  
+
+## Version 2.10.7 - 2024-02-12
+
+[NEW] Device Management  
+[IMPROVED] Increased timeout for API requests  
+
+[Download IVPN Client v2.10.7](https://www.ivpn.net/releases/android/IVPNv2.10.7site.apk)  
+SHA256: e091ee87d73eda39036854ca02be2c0451502730043fe39a8242403124965ceb  
+
+## Version 2.10.6 - 2023-12-18
+
+[FIXED] Crash when opening the app on F-Droid  
+
 ## Version 2.10.5 - 2023-12-13
 
 [IMPROVED] Show non-launchable and system apps in the Split Tunneling list  

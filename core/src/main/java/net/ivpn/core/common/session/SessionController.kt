@@ -37,10 +37,10 @@ import net.ivpn.core.rest.Responses
 import net.ivpn.core.rest.data.model.ServiceStatus
 import net.ivpn.core.rest.data.model.WireGuard
 import net.ivpn.core.rest.data.session.*
-import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import net.ivpn.core.rest.requests.common.Request
 import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.v2.login.LoginViewModel
+import net.ivpn.core.v2.viewmodel.AccountViewModel
 import net.ivpn.core.v2.viewmodel.ViewModelCleaner
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
@@ -109,7 +109,7 @@ class SessionController @Inject constructor(
     }
 
     private fun innerCreateSession(body: SessionNewRequestBody, keys: Keypair?) {
-        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
+        sessionNewRequest = Request(settings, clientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4)
 
         sessionNewRequest?.start({ api: IVPNApi -> api.newSession(body) },
                 object : RequestListener<SessionNewResponse> {
@@ -125,7 +125,10 @@ class SessionController @Inject constructor(
 
                     override fun onError(error: String) {
                         LOGGER.error("On create session error = $error")
-                        val errorResponse = Mapper.errorResponseFrom(error)
+                        val errorResponse = Mapper.sessionErrorResponseFrom(error)
+                        if (errorResponse != null) {
+                            errorResponse.isAccountNewStyle = AccountViewModel.isNewStyleAccount(body.username)
+                        }
                         onCreateError(null, errorResponse)
                     }
                 })
@@ -146,6 +149,7 @@ class SessionController @Inject constructor(
                         if (response.status != null && response.status == Responses.SUCCESS) {
                             LOGGER.info("Session status response received successfully")
                             LOGGER.info(response.toString())
+                            userPreference.putDeviceName(response.deviceName)
                             saveSessionStatus(response.serviceStatus)
                             onUpdateSuccess()
                         }
@@ -158,14 +162,14 @@ class SessionController @Inject constructor(
 
                     override fun onError(error: String) {
                         LOGGER.error("Error while getting account status to see the confirmation$error")
-                        val errorResponse = Mapper.errorResponseFrom(error)
+                        val errorResponse = Mapper.sessionErrorResponseFrom(error)
                         errorResponse?.let {
                             if (it.status == Responses.SERVICE_IS_NOT_ACTIVE) {
                                 userPreference.putIsActive(false)
                             }
                             if ((it.status == Responses.SESSION_NOT_FOUND)) {
                                 clearSessionData()
-                                onRemoveSuccess()
+                                onDeviceLoggedOut()
                             }
                         }
                         onUpdateError(null, errorResponse)
@@ -179,7 +183,7 @@ class SessionController @Inject constructor(
 
         val token = userPreference.getSessionToken()
         val requestBody = DeleteSessionRequestBody(token)
-        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.SHORT, RequestWrapper.IpMode.IPv4)
+        deleteSessionRequest = Request(settings, clientFactory, serversRepository, Request.Duration.LONG, RequestWrapper.IpMode.IPv4)
 
         deleteSessionRequest?.start({ api: IVPNApi -> api.deleteSession(requestBody) },
                 object : RequestListener<DeleteSessionResponse?> {
@@ -234,7 +238,7 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    private fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         for (listener in listeners) {
             listener.onCreateError(throwable, errorResponse)
         }
@@ -246,9 +250,15 @@ class SessionController @Inject constructor(
         }
     }
 
-    private fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?) {
+    private fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?) {
         for (listener in listeners) {
             listener.onUpdateError(throwable, errorResponse)
+        }
+    }
+
+    private fun onDeviceLoggedOut() {
+        for (listener in listeners) {
+            listener.onDeviceLoggedOut()
         }
     }
 
@@ -292,6 +302,7 @@ class SessionController @Inject constructor(
         userPreference.putSessionToken(response.token)
         userPreference.putSessionUsername(response.vpnUsername)
         userPreference.putSessionPassword(response.vpnPassword)
+        userPreference.putDeviceName(response.deviceName)
         saveSessionStatus(response.serviceStatus)
     }
 
@@ -304,6 +315,9 @@ class SessionController @Inject constructor(
         userPreference.putCurrentPlan(serviceStatus.currentPlan)
         userPreference.putPaymentMethod(serviceStatus.paymentMethod)
         userPreference.putIsActive(serviceStatus.isActive)
+        serviceStatus.deviceManagement?.let {
+            userPreference.putDeviceManagement(it)
+        }
         if (serviceStatus.capabilities != null) {
             userPreference.putIsUserOnPrivateEmailBeta(serviceStatus.capabilities.contains(Responses.PRIVATE_EMAILS))
             val multiHopCapabilities = serviceStatus.capabilities.contains(Responses.MULTI_HOP)
@@ -348,15 +362,11 @@ class SessionController @Inject constructor(
 
     interface SessionListener {
         fun onRemoveSuccess()
-
         fun onRemoveError()
-
         fun onCreateSuccess(response: SessionNewResponse)
-
-        fun onCreateError(throwable: Throwable?, errorResponse: ErrorResponse?)
-
+        fun onCreateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
         fun onUpdateSuccess()
-
-        fun onUpdateError(throwable: Throwable?, errorResponse: ErrorResponse?)
+        fun onUpdateError(throwable: Throwable?, errorResponse: SessionErrorResponse?)
+        fun onDeviceLoggedOut()
     }
 }

@@ -34,6 +34,7 @@ import net.ivpn.core.common.qr.QRController
 import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.session.SessionListenerImpl
 import net.ivpn.core.common.utils.DateUtil
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -45,6 +46,10 @@ class AccountViewModel @Inject constructor(
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(AccountViewModel::class.java)
+
+        fun isNewStyleAccount(username: String): Boolean {
+            return username.startsWith("i-")
+        }
     }
 
     val dataLoading = ObservableBoolean()
@@ -58,6 +63,8 @@ class AccountViewModel @Inject constructor(
     val isNativeSubscription = ObservableBoolean()
     val availableUntil = ObservableLong()
     val isActive = ObservableBoolean()
+    val deviceManagement = ObservableBoolean()
+    val deviceName = ObservableField<String>()
 
     val isExpired = ObservableBoolean()
     val isExpiredIn = ObservableBoolean()
@@ -73,9 +80,15 @@ class AccountViewModel @Inject constructor(
             override fun onRemoveSuccess() {
                 onRemoveSessionSuccess()
             }
-
             override fun onRemoveError() {
                 onRemoveSessionFailed()
+            }
+            override fun onDeviceLoggedOut() {
+                navigator?.onDeviceLoggedOut()
+            }
+
+            override fun onUpdateSuccess() {
+                navigator?.onSessionStatusUpdate()
             }
         })
     }
@@ -90,6 +103,8 @@ class AccountViewModel @Inject constructor(
         subscriptionPlan.set(getSubscriptionPlan())
         isActive.set(getIsActiveValue())
         paymentMethod = getPaymentMethodValue()
+        deviceManagement.set(getDeviceManagement())
+        deviceName.set(getDeviceName())
 
         updateExpireData()
     }
@@ -171,9 +186,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountNewStyle(): Boolean {
-        return paymentMethod?.let {
-            it == "prepaid"
-        } ?: false
+        return isNewStyleAccount(username.get().toString())
     }
 
     private fun clearLocalCache() {
@@ -260,10 +273,22 @@ class AccountViewModel @Inject constructor(
         return userPreference.getPaymentMethod()
     }
 
+    private fun getDeviceManagement(): Boolean {
+        return userPreference.getDeviceManagement()
+    }
+
+    private fun getDeviceName(): String? {
+        return userPreference.getDeviceName()
+    }
+
     interface AccountNavigator {
         fun onLogOut()
 
         fun onLogOutFailed()
+
+        fun onDeviceLoggedOut()
+
+        fun onSessionStatusUpdate()
     }
 
     enum class Type {

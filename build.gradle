@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.8.0'
     ext.kotlin_coroutines_version = '1.2.1'
-    ext.nav_version = '2.5.0'
+    ext.nav_version = '2.5.3'
     ext.compose_version = '1.4.1'
     ext.dagger_version = '2.44'
     repositories {

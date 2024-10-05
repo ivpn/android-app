@@ -30,6 +30,7 @@ import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
+import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.wireguard.ErrorResponse
 import java.util.*
 
@@ -109,6 +110,17 @@ object Mapper {
     fun errorResponseFrom(json: String?): ErrorResponse? {
         return if (json == null || json.isEmpty()) null else try {
             Gson().fromJson(json, ErrorResponse::class.java)
+        } catch (jsonSyntaxException: JsonSyntaxException) {
+            null
+        } catch (jsonSyntaxException: IllegalStateException) {
+            null
+        }
+    }
+
+    @JvmStatic
+    fun sessionErrorResponseFrom(json: String?): SessionErrorResponse? {
+        return if (json == null || json.isEmpty()) null else try {
+            Gson().fromJson(json, SessionErrorResponse::class.java)
         } catch (jsonSyntaxException: JsonSyntaxException) {
             null
         } catch (jsonSyntaxException: IllegalStateException) {

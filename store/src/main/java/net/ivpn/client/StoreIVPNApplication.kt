@@ -27,7 +27,6 @@ import net.ivpn.client.config.StoreFeatureConfig
 import net.ivpn.client.dagger.BillingComponent
 import net.ivpn.client.dagger.DaggerBillingComponent
 import net.ivpn.client.navigation.StoreNavigation
-import net.ivpn.client.sentry.SentryController
 import net.ivpn.client.signup.SignUpViewModel
 import net.ivpn.client.updates.UpdatesStubViewModel
 import net.ivpn.core.IVPNApplication
@@ -45,9 +44,6 @@ class StoreIVPNApplication: MultiDexApplication() {
     @Inject
     lateinit var viewModel: SignUpViewModel
 
-    @Inject
-    lateinit var sentry: SentryController
-
     var updates = UpdatesStubViewModel()
 
     override fun onCreate() {
@@ -57,8 +53,6 @@ class StoreIVPNApplication: MultiDexApplication() {
         initFeatureConfig()
         initComponents(appComponent)
         initUpdatesController()
-        //Init crash controller at first
-        initCrashLogging()
         IVPNApplication.initBaseComponents()
         initSignUpController()
         IVPNApplication.customNavigation = StoreNavigation
@@ -79,10 +73,5 @@ class StoreIVPNApplication: MultiDexApplication() {
 
     private fun initFeatureConfig() {
         IVPNApplication.applyFeatureConfig(StoreFeatureConfig())
-    }
-
-    private fun initCrashLogging() {
-        sentry.init()
-        IVPNApplication.crashLoggingController = sentry
     }
 }

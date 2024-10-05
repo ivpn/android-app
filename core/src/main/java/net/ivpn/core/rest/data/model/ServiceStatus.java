@@ -53,6 +53,9 @@ public class ServiceStatus {
     @SerializedName("capabilities")
     @Expose
     private List<String> capabilities = null;
+    @SerializedName("device_management")
+    @Expose
+    private Boolean deviceManagement;
 
     public Boolean getIsActive() {
         return isActive;
@@ -118,6 +121,10 @@ public class ServiceStatus {
         this.currentPlan = currentPlan;
     }
 
+    public Boolean getDeviceManagement() {
+        return deviceManagement;
+    }
+
     @Override
     public String toString() {
         return "ServiceStatus{" +
@@ -128,6 +135,7 @@ public class ServiceStatus {
                 ", isRenewable='" + isRenewable + '\'' +
                 ", willAutoRebill='" + willAutoRebill + '\'' +
                 ", isOnFreeTrial='" + isOnFreeTrial + '\'' +
+                ", deviceManagement='" + deviceManagement + '\'' +
                 ", capabilities=" + capabilities +
                 '}';
     }
