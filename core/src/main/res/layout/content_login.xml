@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -71,7 +72,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView13">
 
-                <EditText
+                <net.ivpn.core.common.views.SecureEditText
                     android:id="@+id/edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -79,7 +80,9 @@
                     android:layout_marginHorizontal="16dp"
                     android:background="@null"
                     android:hint="@string/auth_hint"
-                    android:inputType="textVisiblePassword"
+                    android:inputType="textPassword"
+                    android:importantForAutofill="no"
+                    android:privateImeOptions="incognito_mode"
                     android:text="@={viewmodel.username}"
                     android:textColor="@color/login_text_color"
                     android:textColorHint="@color/login_text_color_hint"
@@ -161,22 +164,25 @@
                 app:layout_constraintVertical_chainStyle="spread"
                 app:layout_optimizationLevel="chains" />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_opacity_black_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="@{viewmodel.dataLoading || signUp.dataLoading ? View.VISIBLE : View.GONE}"
+                tools:layout_editor_absoluteX="-2dp"
+                tools:layout_editor_absoluteY="0dp">
+
+                <ProgressBar
+                    style="?indeterminateProgressStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:theme="@style/AppTheme.ProgressBar" />
+            </FrameLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color_opacity_black_background"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="@{viewmodel.dataLoading || signUp.dataLoading ? View.VISIBLE : View.GONE}">
-
-            <ProgressBar
-                style="?indeterminateProgressStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:theme="@style/AppTheme.ProgressBar" />
-        </FrameLayout>
     </FrameLayout>
 </layout>
