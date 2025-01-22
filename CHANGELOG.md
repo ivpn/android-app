@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.11 - 2025-01-22
+
+[IMPROVED] Account ID input type has been updated from "VisiblePassword" to "Password" for enhanced security  
+[IMPROVED] Obsolete v1 Signature Scheme has been removed to maintain compatibility with modern standards  
+
+[Download IVPN Client v2.10.11](https://www.ivpn.net/releases/android/IVPNv2.10.11site.apk)  
+SHA256: bfca85b2fa512e1178857d35218ea2b765f52cdc1b12e85b2108c0b52c2e786b  
+
 ## Version 2.10.10 - 2024-08-20
 
 [FIXED] Crash when using Network Protection  
