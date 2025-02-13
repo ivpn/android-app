@@ -279,6 +279,9 @@ class LoginViewModel @Inject constructor(
 
         when (errorResponse.status) {
             Responses.ACCOUNT_NOT_ACTIVE -> {
+                username.get()?.let { accountId ->
+                    userPreference.blankUsername = accountId
+                }
                 navigator?.onLoginWithBlankAccount()
             }
             Responses.ENTER_TOTP_TOKEN -> {
