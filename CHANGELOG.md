@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.10.12 - 2025-02-17
+
+[FIXED] Initial payment error for existing accounts  
+
 ## Version 2.10.11 - 2025-01-22
 
 [IMPROVED] Account ID input type has been updated from "VisiblePassword" to "Password" for enhanced security  
