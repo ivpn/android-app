@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 [FIXED] Initial payment error for existing accounts  
 
+[Download IVPN Client v2.10.12](https://www.ivpn.net/releases/android/IVPNv2.10.12site.apk)  
+SHA256: 434d479077f12fc9648694806f294010adbfb737fbc34ab40870c6212c9f58f3  
+
 ## Version 2.10.11 - 2025-01-22
 
 [IMPROVED] Account ID input type has been updated from "VisiblePassword" to "Password" for enhanced security  
