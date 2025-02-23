@@ -1,22 +1,5 @@
 package net.ivpn.core.vpn.wireguard
 
-import com.wireguard.android.config.Config
-import com.wireguard.android.config.Peer
-import com.wireguard.android.model.Tunnel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.multihop.MultiHopController
-import net.ivpn.core.rest.data.model.ServerType
-import net.ivpn.core.common.prefs.ServersRepository
-import net.ivpn.core.common.prefs.Settings
-import net.ivpn.core.rest.data.model.Host
-import net.ivpn.core.rest.data.model.Port
-import net.ivpn.core.rest.data.model.Server
-import org.slf4j.LoggerFactory
-import java.util.*
-import javax.inject.Inject
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -39,6 +22,23 @@ import javax.inject.Inject
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.wireguard.android.config.Config
+import com.wireguard.android.config.Peer
+import com.wireguard.android.model.Tunnel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.multihop.MultiHopController
+import net.ivpn.core.rest.data.model.ServerType
+import net.ivpn.core.common.prefs.ServersRepository
+import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.common.v2ray.V2RayCore
+import net.ivpn.core.rest.data.model.Host
+import net.ivpn.core.rest.data.model.Port
+import net.ivpn.core.rest.data.model.Server
+import org.slf4j.LoggerFactory
+import javax.inject.Inject
+
 @ApplicationScope
 class ConfigManager @Inject constructor(
     private val settings: Settings,
@@ -51,6 +51,9 @@ class ConfigManager @Inject constructor(
             tunnel?.listener = value
             field = value
         }
+
+    @Inject
+    lateinit var v2ray: V2RayCore
 
     fun init() {
         LOGGER.info("init")
@@ -105,6 +108,7 @@ class ConfigManager @Inject constructor(
         }
 
         setAddress(config, listOf(host))
+        setV2ray(host, port.portNumber)
 
         val dnsString = getDNS(host)
         println("Config dns = $dnsString")
@@ -140,6 +144,7 @@ class ConfigManager @Inject constructor(
         val exitHost = exitServer.hosts.random()
 
         setAddress(config, listOf(entryHost, exitHost))
+        setV2ray(exitHost, exitHost.multihopPort)
 
         val dnsString = getDNS(entryHost)
         println("Config dns = $dnsString")
@@ -184,6 +189,20 @@ class ConfigManager @Inject constructor(
 
         config.getInterface()
             .setAddressString("$ipAddress/32,${localIPv6AddressForEntry!!.split('/')[0]}$ipAddress/128")
+    }
+
+    private fun setV2ray(host: Host, port: Int) {
+        if (settings.v2ray) {
+            val v2raySettings = settings.v2raySettings
+            if (v2raySettings != null) {
+                v2raySettings.inboundIp = host.host
+                v2raySettings.inboundPort = v2raySettings.singleHopInboundPort
+                v2raySettings.outboundIp = host.v2ray
+                v2raySettings.outboundPort = port
+                v2raySettings.dnsName = host.dnsName
+                settings.v2raySettings = v2raySettings
+            }
+        }
     }
 
     private fun getDNS(host: Host): String {

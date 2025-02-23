@@ -29,6 +29,7 @@ import net.ivpn.core.common.BuildController
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.nightmode.NightMode
+import net.ivpn.core.common.v2ray.V2RaySettings
 import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
@@ -302,6 +303,27 @@ class Settings @Inject constructor(
         }
         set(dns) {
             settingsPreference.setAntiTracker(Mapper.stringFromAntiTracker(dns))
+        }
+
+    var v2ray: Boolean
+        get() = settingsPreference.v2ray
+        set(v2ray) {
+            settingsPreference.v2ray = v2ray
+        }
+
+    var v2rayProtocol: String
+        get() = settingsPreference.v2rayProtocol ?: "udp"
+        set(v2rayProtocol) {
+            settingsPreference.v2rayProtocol = v2rayProtocol
+        }
+
+    var v2raySettings: V2RaySettings?
+        get() {
+            val json = settingsPreference.getV2raySettings()
+            return if (json!!.isEmpty()) null else Mapper.v2raySettingsFrom(json)
+        }
+        set(settings) {
+            settingsPreference.setV2raySettings(Mapper.stringFromV2raySettings(settings))
         }
 
     fun nextPort() {
