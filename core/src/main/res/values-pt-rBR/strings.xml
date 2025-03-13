@@ -1,0 +1,656 @@
+<resources>
+    <string name="app_name">IVPN</string>
+
+    <string name="send_logs">Envie um e-mail com os logs via</string>
+
+    <!--Tutorial-->
+    <string name="tutorial_page_title_locations">Locais populares</string>
+    <string name="tutorial_page_title_access">Acesso a todos os dispositivos</string>
+    <string name="tutorial_page_title_security">Segurança</string>
+
+    <string name="tutorial_page_descr_locations">IVPN oferece mais de 20 locais com conexões rápidas de gigabit</string>
+    <string name="tutorial_page_descr_access">Use sua conta IVPN em todos os seus dispositivos, suportamos Windows, Mac, iOS, Android e Linux</string>
+    <string name="tutorial_page_descr_security">Obtenha proteção de privacidade <b>séria</b> e tranquilidade</string>
+
+    <string name="tutorial_log_in">FAZER LOGIN NA MINHA CONTA</string>
+    <string name="tutorial_start_free_trial">INICIAR MINHA VERSÃO DE TESTE</string>
+
+    <!--Trial-->
+
+    <!--Log in-->
+    <string name="sign_in_username_hint"><font size="15">ID da Conta</font></string>
+
+    <!--Sign up-->
+    <string name="sign_up_start_trial">INICIAR MINHA VERSÃO DE TESTE</string>
+    <string name="sign_up_hint">Endereço de e-mail</string>
+
+    <string name="sign_up_no_password_error">O campo de senha é obrigatório.</string>
+    <string name="sign_up_wrong_email_format">O formato do seu endereço de e-mail está incorreto.</string>
+    <string name="sign_up_unknown_error">Erro desconhecido, entre em contato com o suporte e envie os logs</string>
+
+    <!--Reset Password-->
+
+    <!--Settings-->
+    <string name="settings_server">Servidor</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_interface">Interface</string>
+    <string name="settings_logging">Registro</string>
+    <string name="settings_connectivity">Conectividade</string>
+    <string name="settings_ipv6">IPv6</string>
+    <string name="settings_other">Configurações avançadas</string>
+    <string name="settings_terms_of_service">Termos de serviço</string>
+    <string name="settings_privacy_policy">Política de privacidade</string>
+    <string name="settings_version">VERSÃO</string>
+    <string name="settings_color_theme">Tema de cor</string>
+    <string name="settings_enable_logging">Ativar registro</string>
+    <string name="settings_enable_multi_hop">Conexão multi-hop</string>
+    <string name="settings_multihop_same_provider_title">Restrição de multi-hop com o mesmo provedor</string>
+    <string name="settings_multihop_same_provider_description">Permitir o uso de servidores do mesmo provedor para construir uma cadeia Multi-hop.</string>
+    <string name="settings_kill_switch">Kill switch</string>
+    <string name="setting_anti_surveillance">AntiTracker</string>
+    <string name="setting_custom_dns">DNS personalizado</string>
+    <string name="settings_multi_hop_description">Você será redirecionado por 2 servidores.</string>
+    <string name="settings_port_label">Porta preferencial</string>
+    <string name="settings_preferred_protocol_label">Protocolo preferencial</string>
+    <string name="settings_send_logs">ENVIAR LOGS</string>
+    <string name="settings_split_tunneling">Split tunneling</string>
+    <string name="settings_do_not_collect_your_data">Não podemos ver esses dados até que você nos envie.</string>
+    <string name="settings_split_tunneling_description">Escolha quais aplicativos você quer usar com o IVPN.</string>
+    <string name="settings_kill_switch_description">Permitir usar a internet apenas quando a conexão IVPN estiver habilitada.</string>
+    <string name="settings_always_on_vpn_description">Pode ajudar a melhorar a proteção.</string>
+    <string name="settings_anti_surveillance_description">Configurar bloqueio de anúncios, malware e rastreadores.</string>
+    <string name="settings_custom_dns_description">Especificar o servidor DNS ao conectar-se ao VPN.</string>
+    <string name="settings_updates_title">Atualizações</string>
+    <string name="settings_mock_location_title">Localização falsa</string>
+    <string name="settings_mock_location_description">Igualar sua localização GPS com sua localização VPN.</string>
+    <string name="settings_local_bypass_title">Ignorar VPN para redes locais</string>
+    <string name="settings_local_bypass_description">Redes conectadas diretamente às interfaces locais não serão roteadas pela VPN.</string>
+    <string name="settings_ipv6_title">IPv6 para VPN WireGuard</string>
+    <string name="settings_ipv6_filter_title">Mostrar servidores sem suporte a IPv6</string>
+    <string name="settings_ipv6_description">Você receberá um endereço IPv6 mesmo que seu ISP não forneça.</string>
+    <string name="settings_ipv6_filter_description">Servidores com suporte a IPv6 terão um distintivo especial na lista de servidores.</string>
+
+    <string name="kill_switch_vpn">Kill switch VPN</string>
+    <string name="kill_switch_vpn_description">Desabilita o acesso à internet quando a conexão VPN cai</string>
+    <string name="kill_switch_native">Kill Switch nativo do Android</string>
+    <string name="kill_switch_native_description">Kill Switch impede que seu dispositivo faça conexões externas se você for desconectado da VPN, mantendo seu tráfego de internet seguro.\n\nPara habilitá-lo, selecione <u><b>Always on VPN</b></u> e <u><b>Block connections without VPN</b></u> nas configurações do dispositivo. \n\nObserve que o Kill Switch nativo ignora as configurações de Split Tunneling do IVPN.</string>
+
+    <string name="settings_protocol_selection_description">Escolha o protocolo VPN e as configurações associadas a ele.</string>
+    <string name="settings_vpn_protocol">Protocolo VPN</string>
+
+    <string name="snackbar_to_use_vpn_bypass_disconnect">Para usar o bypass da VPN, desconecte primeiro</string>
+    <string name="snackbar_to_use_mock_location_disconnect">Para usar Localizações Falsas, desconecte primeiro</string>
+    <string name="snackbar_to_ipv6_location_disconnect">Para usar IPv6, desconecte primeiro</string>
+    <string name="snackbar_to_use_antitracker_disconnect">Para usar o AntiTracker, desconecte primeiro</string>
+    <string name="snackbar_to_use_custom_dns_disconnect">Para usar DNS personalizado, desconecte primeiro</string>
+    <string name="snackbar_to_use_kill_switch_disconnect">Para usar Kill Switch, desconecte primeiro</string>
+    <string name="snackbar_to_use_split_tunneling_disconnect">Para usar split tunneling, desconecte primeiro</string>
+    <string name="snackbar_to_change_protocol_disconnect">Para alterar o protocolo, desconecte primeiro</string>
+    <string name="snackbar_to_change_port_disconnect_first_msg">Para alterar a porta, desconecte primeiro</string>
+    <string name="snackbar_to_change_multihop_disconnect_first_msg">Para alterar as configurações de Multi-hop, desconecte primeiro</string>
+    <string name="snackbar_multihop_not_allowed_for_wg">Multi-hop não está disponível para WireGuard no momento</string>
+    <string name="snackbar_new_try_with_different_port">Conexão com o servidor bloqueada, reconectando em uma porta diferente. Aguarde até que a conexão seja estabelecida.</string>
+    <string name="snackbar_disconnect_first">DESCONECTAR</string>
+
+    <string name="settings_package">pacote:</string>
+
+    <string name="settings_always_on_vpn_title">VPN Sempre ativada</string>
+    <string name="settings_start_on_boot_title">Iniciar com o sistema</string>
+    <string name="settings_start_on_boot_description">Habilitar a conexão VPN na inicialização do sistema.</string>
+    <string name="settings_always_on_vpn_note">Este recurso permite que você estabeleça automaticamente uma conexão VPN após a inicialização do dispositivo. Ele deve ser habilitado manualmente nas configurações do dispositivo dentro do perfil do aplicativo IVPN. Além disso, para evitar vazamento de dados, recomendamos habilitar "Bloquear conexões sem VPN" dentro do perfil do aplicativo IVPN.</string>
+    <string name="settings_always_on_vpn_action">Ir para configurações</string>
+
+    <string name="settings_trusted_wifi_title">Proteção de rede</string>
+    <string name="settings_trusted_wifi_description">Configure como o IVPN se comportará ao conectar-se a redes Wi-Fi ou móveis.</string>
+
+    <string name="start_on_boot_description">Devido a restrições do sistema, o VPN pode levar até 1 minuto para conectar após a inicialização do sistema.</string>
+    <string name="start_on_boot_brand_restrictions">Alguns fabricantes podem exigir permissões adicionais para permitir o início automático do aplicativo ao inicializar</string>
+
+    <string name="start_on_boot_read_more">leia mais</string>
+
+    <string name="settings_color_theme_light">Claro</string>
+    <string name="settings_color_theme_dark">Escuro</string>
+    <string name="settings_color_theme_system_default">Padrão do sistema</string>
+    <string name="settings_color_theme_system_by_battery">Pelo nível da bateria</string>
+
+    <!--Updates-->
+    <string name="updates_info_title">Atualizações</string>
+    <string name="updates_current_version">Versão atual</string>
+    <string name="updates_version_up_to_date">Você está usando a versão mais recente</string>
+    <string name="updates_check_for_updates">Verificar atualizações</string>
+    <string name="updates_new_version_available">Nova versão disponível</string>
+    <string name="updates_proceed">Baixar</string>
+    <string name="updates_updates_settings">Configurações</string>
+    <string name="update_check_auto_for_update">Verificar automaticamente por atualizações</string>
+
+    <!--Update notification-->
+    <string name="notification_update_title">Atualização do IVPN disponível</string>
+    <string name="notification_update_message">Instale a versão mais recente do IVPN para garantir sua privacidade e segurança</string>
+    <string name="notification_update_proceed">Baixar</string>
+    <string name="notification_update_skip">Ignorar</string>
+    <string name="notification_update_settings">Configurações</string>
+    <string name="notification_update_channel">Canal de atualizações do IVPN</string>
+
+    <!--Anti-surveillance-->
+    <string name="anti_surveillance_enable_title">Habilitar AntiTracker</string>
+    <string name="anti_surveillance_description">Quando o AntiTracker está ativado, o IVPN bloqueia anúncios, sites maliciosos e rastreadores de terceiros usando nossos servidores DNS privados.</string>
+    <string name="anti_surveillance_block_list_description">As listas de bloqueio referem-se às listas de bloqueio DNS usadas pelo nosso AntiTracker. As opções 'Básica', 'Abrangente' e 'Restritiva' são combinações de listas individuais, cada uma oferecendo um nível diferente de proteção. Você também tem a liberdade de selecionar listas individuais para uma experiência de AntiTracker mais personalizada.</string>
+    <string name="anti_surveillance_hardcore">Modo Hardcore</string>
+    <string name="anti_surveillance_hardcore_description">Adicionar o modo Hardcore bloqueará as principais empresas com modelos de negócios baseados na vigilância do usuário (atualmente: Google e Facebook).</string>
+    <string name="anti_surveillance_read_more">Leia mais</string>
+    <string name="anti_tracker_description_state_disabled">AntiTracker está desativado</string>
+    <string name="anti_tracker_description_state_enabled">AntiTracker está ativado e bloqueando rastreadores conhecidos</string>
+    <string name="anti_tracker_description_state_not_active">O AntiTracker será ativado quando conectado à VPN</string>
+    <string name="anti_tracker_pre_defined">Listas predefinidas</string>
+    <string name="anti_tracker_individual">Listas individuais</string>
+    <string name="anti_block_list">Lista de bloqueio</string>
+    <string name="anti_change_list">Alterar lista</string>
+
+    <!--Mock Location-->
+    <string name="mock_location_enable_developer_options">Habilitar opções de desenvolvedor</string>
+    <string name="mock_location_enable_developer_options_description">Para habilitar as opções de desenvolvedor, toque na opção <b>Build Number</b> 7 vezes. Você pode encontrar essa opção no seguinte local:</string>
+    <string name="mock_location_enable_developer_options_guide_label">Para mais informações sobre como habilitar as opções de desenvolvedor, siga o guia.</string>
+    <string name="mock_location_guide_label">Para mais informações sobre como definir o IVPN como um aplicativo de local simulado, siga o guia.</string>
+    <string name="mock_location_enable_developer_options_path">Configurações > Sobre o telefone > Número de compilação</string>
+    <string name="mock_location_to_settings">Para configurações</string>
+    <string name="mock_location_open_guide">Abrir guia</string>
+    <string name="mock_location_next">Próximo</string>
+    <string name="mock_location_title">Substituir localização GPS</string>
+    <string name="mock_location_description">Faça com que sua localização GPS corresponda à sua localização VPN. Isso fará com que todos os aplicativos que usam GPS para detectar sua localização pensem que você está na sua localização VPN.</string>
+    <string name="mock_location_setup_title">Para usar o recurso de local simulado, você precisa alterar as configurações do seu dispositivo Android primeiro.</string>
+    <string name="mock_location_setup_description">Para fazer isso, toque em "Configurar" e siga os próximos passos. Os passos exatos podem variar de acordo com as versões do sistema Android e as marcas dos dispositivos. Se você tiver dificuldades, entre em contato com nossa equipe de suporte e ajudaremos você. \n\nAviso: usar o recurso pode afetar o consumo de bateria.</string>
+    <string name="mock_location_setup_action">Configurar</string>
+    <string name="mock_location_next_action">Próximo</string>
+    <string name="mock_location_close_action">Fechar</string>
+    <string name="mock_location_step_1">Passo 1/3</string>
+    <string name="mock_location_step_2">Passo 2/3</string>
+    <string name="mock_location_step_3">Passo 3/3</string>
+    <string name="mock_location_step_2_title">Habilitar localização simulada</string>
+    <string name="mock_location_step_2_description">Vá até as opções de desenvolvedor que você desbloqueou anteriormente e selecione o IVPN como aplicativo de local simulado.</string>
+    <string name="mock_location_step_3_title">A configuração foi concluída</string>
+    <string name="mock_location_step_3_description">Você está pronto para usar! Sua localização GPS será a mesma que sua localização VPN.</string>
+
+    <!--Custom dns-->
+    <string name="custom_dns_feature">Usar DNS Personalizado</string>
+    <string name="custom_dns_server">Servidor DNS Personalizado</string>
+    <string name="custom_dns_server_description">Quando especificado, o cliente VPN usará o servidor DNS fornecido ao se conectar à VPN.</string>
+    <string name="custom_dns_change">Alterar DNS</string>
+    <string name="custom_dns_priority">O AntiTracker substituirá essa configuração quando ativado.</string>
+
+    <!--Servers sync-->
+    <string name="servers_sync_updating_servers">Atualizando Servidores…</string>
+    <string name="servers_sync_error_servers">Erro ao carregar servidores</string>
+    <string name="servers_sync_retry">Tentar novamente</string>
+
+    <!--Split Tunneling-->
+    <string name="split_tunneling_description">O split tunneling permite controlar quais aplicativos usam o túnel VPN. Novos aplicativos instalados usarão automaticamente o túnel VPN. Apenas aplicativos com permissão para acessar a internet são listados.</string>
+    <string name="split_tunneling_turn_on_all">LIGAR TODOS</string>
+    <string name="split_tunneling_turn_off_all">DESLIGAR TODOS</string>
+    <string name="split_tunneling_show_system_apps">Mostrar aplicativos do sistema</string>
+
+    <!--Trusted wifi -->
+    <string name="network_mobile_data">Dados móveis</string>
+    <string name="network_none">Sem rede</string>
+    <string name="network_state_none">Nenhuma</string>
+    <string name="network_default">Padrão</string>
+    <string name="network_trusted">Confiável</string>
+    <string name="network_untrusted">Não confiável</string>
+    <string name="network_untrusted_label">Redes não confiáveis</string>
+    <string name="network_trusted_label">Redes confiáveis</string>
+    <string name="network_trusted_feature">Habilitar redes confiáveis/não confiáveis</string>
+    <string name="network_trusted_feature_description">Escolha as redes em que confia ou não confia e aplique as ações relevantes.</string>
+    <string name="network_rules">Regras</string>
+    <string name="network_untrusted_action">Executar as seguintes ações ao conectar-se a redes não confiáveis:</string>
+    <string name="network_connect_to_vpn">Conectar ao IVPN</string>
+    <string name="network_enable_killswitch">Habilitar kill-switch</string>
+    <string name="network_trusted_action">Executar as seguintes ações ao conectar-se a redes confiáveis:</string>
+    <string name="network_disconnect_from_vpn">Desconectar do IVPN</string>
+    <string name="network_disable_killswitch">Desabilitar kill-switch</string>
+    <string name="network_saved_empty_state_title">Marque uma das redes escaneadas como CONFIÁVEL ou NÃO CONFIÁVEL para adicioná-la aqui</string>
+    <string name="network_scanned_empty_state_title">Assim que encontrarmos redes Wi-Fi, elas serão exibidas aqui</string>
+    <string name="network_current_network">Rede atual</string>
+
+    <!--Validation Screen-->
+
+    <!--Api Error-->
+
+    <!--Subscription-->
+    <string name="subscription_title">Assinatura</string>
+    <string name="subscription_title_monthly">Mensal</string>
+    <string name="subscription_title_annual">Anual</string>
+    <string name="subscription_progress_description">Consultando assinaturas disponíveis…</string>
+    <string name="subscription_standard_plan">Plano padrão IVPN</string>
+    <string name="subscription_pro_plan">Plano Pro IVPN</string>
+    <string name="subscription_current_plan">Plano atual</string>
+    <string name="subscription_all_protocol">Todos os protocolos</string>
+    <string name="subscription_port_forwarding">Encaminhamento de porta</string>
+    <string name="subscription_2_devices">2 dispositivos</string>
+    <string name="subscription_7_devices">7 dispositivos</string>
+    <string name="subscription_year_discount">Economize 20% com assinatura anual</string>
+    <string name="subscription_multi_hop">Multi-hop</string>
+    <string name="subscription_select">Selecionar</string>
+    <string name="subscription_free_trial">Teste gratuito de 3 dias, depois</string>
+
+    <string name="billing_validating">Validando compra…</string>
+    <string name="billing_creating_account">Criando conta…</string>
+    <string name="billing_creating_new_session">Criando nova sessão…</string>
+    <string name="billing_error_message">Erro ao recuperar informações dos serviços do Google Play. Tente novamente mais tarde ou use o site para adquirir uma assinatura.</string>
+
+    <!--Private Emails-->
+
+    <!--Servers list-->
+    <string name="servers_list_title">Selecionar Servidor</string>
+    <string name="servers_list_title_entry">Selecionar servidor de entrada</string>
+    <string name="servers_list_title_exit">Selecionar servidor de saída</string>
+    <string name="servers_list_favorites">Favoritos</string>
+    <string name="servers_list_all">Todos</string>
+    <string name="favourites_no_title">Seus servidores favoritos serão\n exibidos aqui</string>
+    <string name="favourites_no_description">Economize tempo criando sua própria lista de servidores</string>
+
+    <!--Fastest Server Settings-->
+    <string name="fastest_setting_description">Escolha quais servidores podem ser usados como os mais rápidos.</string>
+    <string name="fastest_setting_toast">Pelo menos um servidor deve ser selecionado.</string>
+
+    <!--Connect screen-->
+    <string name="connect_status_paused">pausado</string>
+    <string name="connect_status_pausing">pausando</string>
+    <string name="connect_status_not_connected">desconectado</string>
+    <string name="connect_status_connecting">conectando</string>
+    <string name="connect_status_connected">conectado</string>
+    <string name="connect_status_disconnecting">desconectando</string>
+
+    <string name="connect_server_hint_paused">Conectar a</string>
+    <string name="connect_server_hint_pausing">Conectar a</string>
+    <string name="connect_server_hint_connecting">Conectando a</string>
+
+    <string name="connect_server_hint_connected">O tráfego está roteado via servidor</string>
+    <string name="connect_server_hint_disconnected">Servidor selecionado</string>
+    <string name="entry_server_hint_connected">O tráfego está roteado via servidor de entrada</string>
+    <string name="entry_server_hint_disconnected">O servidor de entrada é</string>
+    <string name="exit_server_hint_connected">O tráfego está roteado via servidor de saída</string>
+    <string name="exit_server_hint_disconnected">O servidor de saída é</string>
+
+    <string name="connect_fastest_server_hint_connected">O tráfego está roteado via servidor</string>
+    <string name="connect_fastest_server_hint_disconnected">Servidor mais rápido disponível</string>
+
+    <string name="connect_hint_paused">TOQUE PARA RETOMAR</string>
+    <string name="connect_hint_pausing">PAUSANDO…</string>
+    <string name="connect_hint_not_connected">TOQUE PARA CONECTAR</string>
+    <string name="connect_hint_connecting">CONECTANDO…</string>
+    <string name="connect_hint_connected">TOQUE PARA DESCONECTAR</string>
+    <string name="connect_hint_disconnecting">DESCONECTANDO…</string>
+    <string name="connect_hint_finding_fastest">ENCONTRANDO O SERVIDOR MAIS RÁPIDO…</string>
+    <string name="connect_hint_regeneration_wg_key">REGENERANDO CHAVES…</string>
+
+    <string name="connect_hint_creating_session">CRIANDO SESSÃO…</string>
+
+    <string name="connect_state_hint_connected">VPN conectada, toque para desconectar</string>
+    <string name="connect_state_hint_pausing">VPN pausando…</string>
+    <string name="connect_state_hint_paused">VPN pausada, toque para retomar</string>
+    <string name="connect_state_hint_connecting">VPN conectando</string>
+    <string name="connect_state_hint_not_connected">VPN desconectada, toque para conectar</string>
+    <string name="connect_state_hint_disconnecting">VPN desconectando</string>
+
+    <string name="connect_entry_server">Servidor de Entrada</string>
+    <string name="connect_exit_server">Servidor de Saída</string>
+
+    <string name="connect_fastest_server">Servidor mais rápido</string>
+    <string name="connect_random_server">Servidor aleatório</string>
+    <string name="connect_random_entry_server">Servidor de entrada aleatório</string>
+    <string name="connect_random_exit_server">Servidor de saída aleatório</string>
+    <string name="connect_unable_test_fastest_server">Não é possível testar o servidor mais rápido devido a uma restrição de rede, o servidor padrão será selecionado.</string>
+    <string name="connect_resumed_in">Será retomado em </string>
+
+    <!--Log-->
+
+    <!--Notification-->
+    <string name="notification_title_disconnecting">Desconectando...</string>
+    <string name="notification_title_connecting">Conectando a</string>
+    <string name="notification_title_paused">Pausado</string>
+    <string name="notification_title_connected">Conectado a</string>
+    <string name="notification_status_connected">Conectado a</string>
+    <string name="notification_status_not_connected">Não conectado</string>
+    <string name="notification_resumed_in">Será retomado em</string>
+    <string name="notification_paused">Pausado</string>
+    <string name="notification_status_server_not_reply">Conectando a</string>
+    <string name="notification_status_waiting_for_user_input">Aguardando entrada do usuário...</string>
+    <string name="notification_status_paused">Conexão pausada</string>
+    <string name="notification_channel_name">Canal principal IVPN</string>
+    <string name="notification_kill_switch_channel">Canal de kill switch IVPN</string>
+    <string name="notification_wifi_watcher_channel">Canal de proteção Wi-Fi IVPN</string>
+    <string name="notification_disconnect">Desconectar</string>
+    <string name="notification_pause">Pausar</string>
+    <string name="notification_resume">Retomar</string>
+    <string name="notification_stop">Parar</string>
+
+    <string name="notification_ks_title">Kill-switch ativo</string>
+    <string name="notification_ks_content">A conexão com a Internet está desativada enquanto o IVPN estiver desconectado</string>
+    <string name="notification_ks_connect_action">Conectar ao VPN</string>
+    <string name="notification_ks_cancel_action">Desativar</string>
+    <string name="notification_ks_settings_action">Configurações</string>
+
+    <string name="notification_wifi_watcher_title">Proteção de rede ativada</string>
+    <string name="notification_wifi_watcher_content">O IVPN será iniciado automaticamente quando você se conectar a uma rede Wi-Fi não confiável</string>
+
+    <!--Dialogs-->
+    <string name="dialogs_force_logout_title">Não foi possível contatar o servidor para fazer logout</string>
+    <string name="dialogs_force_logout_description">Por favor, verifique a conectividade com a Internet. Você quer forçar o logout? Este dispositivo continuará contando para o seu limite de dispositivos.</string>
+    <string name="dialogs_force_logout_positive_action">Forçar logout</string>
+    <string name="dialogs_force_logout_negative_action">Cancelar</string>
+
+    <string name="dialogs_log_out_title">Você tem certeza?</string>
+    <string name="dialogs_log_out_message">Isso irá desconectá-lo do IVPN.</string>
+    <string name="dialogs_log_out_positive_button">SAIR</string>
+    <string name="dialogs_log_out_negative_button">ESQUECER</string>
+
+    <string name="dialogs_session_too_many_title">Limite de sessões</string>
+    <string name="dialogs_session_too_many_message">Você atingiu o limite de sessões, force login para sair de todos os outros dispositivos.</string>
+    <string name="dialogs_session_too_many_message_short">Você atingiu o número máximo de dispositivos conectados</string>
+    <string name="dialogs_session_force_login">Forçar login</string>
+    <string name="dialogs_session_log_out_all">Sair de todos os dispositivos</string>
+    <string name="dialogs_session_retry">Tentar novamente</string>
+    <string name="dialogs_session_visit_dm">Visitar Gerenciamento de Dispositivos</string>
+    <string name="dialogs_session_enable_dm">Habilitar Gerenciamento de Dispositivos</string>
+    <string name="dialogs_session_upgrade">Mudar para o IVPN Pro</string>
+    <string name="dialogs_session_cancel">Cancelar login</string>
+
+    <string name="dialogs_error">Erro</string>
+    <string name="dialogs_address_error_msg">O formato do seu endereço de e-mail está incorreto, por favor, verifique e tente novamente.</string>
+    <string name="dialogs_ok">Ok</string>
+    <string name="dialogs_servers_error">Ao usar Multi-Hop, você deve selecionar servidores de entrada e saída em países diferentes.</string>
+
+    <string name="dialogs_registration_error_title">Erro de registro</string>
+    <string name="dialogs_registration_error_msg">Uma conta com este e-mail já está registrada. Por favor, faça login se já se registrou ou redefina sua senha se a esqueceu.</string>
+    <string name="dialogs_username_error_msg">O ID da conta deve começar com "ivpn".</string>
+    <string name="dialogs_password_empty_msg">A senha não pode estar vazia.</string>
+
+    <string name="dialogs_registration_error">O registro está temporariamente desativado no cliente Android, você pode tentar pelo site.</string>
+    <string name="dialogs_registration_continue">Inscrever-se</string>
+
+    <string name="dialogs_connection_error_title">Erro de conexão</string>
+    <string name="dialogs_empty"></string>
+    <string name="dialogs_cant_connect">Não é possível conectar ao servidor</string>
+    <string name="dialogs_no_internet">Por favor, verifique sua conexão com a Internet e tente novamente.</string>
+    <string name="dialogs_cancel">CANCELAR</string>
+    <string name="dialogs_try_again">TENTAR NOVAMENTE</string>
+    <string name="dialogs_retry">Tentar novamente</string>
+
+    <string name="dialogs_mock_location_developer_options">Opções de desenvolvedor desativadas</string>
+    <string name="dialogs_mock_location_developer_options_message">Por favor, tente novamente. Se precisar de ajuda, consulte nosso guia ou entre em contato com o suporte.</string>
+    <string name="dialogs_mock_wrong_app">Localização falsa desativada</string>
+    <string name="dialogs_mock_wrong_app_message">Por favor, tente novamente. Se precisar de ajuda, consulte nosso guia ou entre em contato com o suporte.</string>
+
+    <string name="dialogs_remove_kill_switch">O kill switch do IVPN foi removido, o kill switch do Android agora oferece melhor segurança. Para configurar o kill switch do Android, siga o guia na tela de Kill Switch.</string>
+    <string name="dialogs_to_read_more">Leia mais</string>
+    <string name="dialogs_please_note">Aviso</string>
+
+    <string name="dialogs_auth_error_msg">Ou seu ID de conta está incorreto ou sua assinatura expirou. Por favor, verifique e tente novamente.</string>
+
+    <string name="dialogs_no_active_subscription">O ID de conta fornecido não tem uma assinatura ativa.</string>
+    <string name="dialogs_activate_action">Ativar assinatura</string>
+
+    <string name="dialogs_address_error_title">Erro no endereço de e-mail</string>
+    <string name="dialogs_authentication_error">Erro de autenticação</string>
+    <string name="dialogs_authentication_error_msg">Seu ID de conta está incorreto. Por favor, verifique e tente novamente.</string>
+    <string name="dialogs_server_error">Erro interno do servidor, por favor, tente novamente mais tarde.</string>
+    <string name="dialogs_not_found_error">Erro 404</string>
+    <string name="dialogs_forbidden_error">Erro 403</string>
+    <string name="dialogs_please_contact_support">Esta ação está temporariamente indisponível, por favor, entre em contato com o suporte ou tente novamente mais tarde.</string>
+
+    <string name="dialogs_session_has_expired">Sua sessão expirou. Por favor, faça login novamente.</string>
+
+    <string name="dialogs_remove_email_forever">Isso removerá o endereço de e-mail privado permanentemente.</string>
+    <string name="dialogs_firmware_error_msg">Seu firmware não suporta VPN.</string>
+    <string name="dialogs_setting_not_supported">Essa configuração não é suportada pelo seu dispositivo.</string>
+    <string name="dialogs_too_many_attempts">Muitas tentativas. Por favor, tente novamente mais tarde.</string>
+    <string name="dialogs_no_vpn_settings">Seu dispositivo não suporta essas configurações.</string>
+
+    <string name="dialogs_advanced_kill_switch_title">Bloquear conexões fora do VPN</string>
+    <string name="dialogs_advanced_kill_switch_description">Use o kill switch interno do Android para aumentar sua segurança. Esta opção precisa ser habilitada manualmente nas configurações do dispositivo.</string>
+    <string name="dialogs_advanced_kill_switch_not_show_again">Não mostrar novamente</string>
+    <string name="dialogs_advanced_kill_switch_navigate_to_settings">Configurações</string>
+    <string name="dialogs_advanced_kill_switch_cancel">Cancelar</string>
+    <string name="dialogs_advanced_kill_switch_close">Fechar</string>
+
+    <string name="dialogs_failed_remove_key_title">Falha ao remover automaticamente as chaves antigas do WireGuard</string>
+    <string name="dialogs_failed_create_key_title">Falha ao gerar automaticamente as chaves do WireGuard</string>
+    <string name="dialogs_failed_upgrade_title">Falha ao re-gerar automaticamente as chaves do WireGuard</string>
+    <string name="dialogs_failed_upgrade_message">Não é possível conectar usando o protocolo WireGuard: a regeneração das chaves do WireGuard falhou. Isso provavelmente aconteceu devido à falta de acesso a um servidor API do IVPN. Você pode tentar novamente a conexão, regenerar as chaves manualmente nas preferências ou selecionar outro protocolo. Entre em contato com o suporte se o erro persistir.</string>
+
+    <string name="dialogs_permission_title">Permissão</string>
+    <string name="dialogs_location_permission_message">Para identificar a rede Wi-Fi atual, o cliente IVPN precisa de permissão de localização.</string>
+    <string name="dialogs_location_permission_info_message">Para usar o recurso de rede confiável/não confiável, o cliente IVPN precisa de permissão de localização. Isso permitirá identificar sua rede Wi-Fi atual.</string>
+    <string name="dialogs_background_location_permission_message">Para identificar a rede Wi-Fi atual, o cliente IVPN precisa de permissão de localização em segundo plano. Por favor, escolha a opção "Permitir o tempo todo". Caso contrário, a proteção de rede não funcionará.</string>
+    <string name="dialogs_permission_action_settings">Configurações</string>
+    <string name="dialogs_permission_action_deny">Negar</string>
+
+    <string name="dialogs_time_picker_title">Sua conexão IVPN será retomada automaticamente em</string>
+    <string name="dialogs_five_minutes">5 minutos</string>
+    <string name="dialogs_fifteen_minutes">15 minutos</string>
+    <string name="dialogs_one_hour">1 hora</string>
+    <string name="dialogs_custom_delay">Atraso personalizado</string>
+    <string name="dialogs_apply_action">Aplicar</string>
+
+    <string name="dialogs_connection_info">Localização</string>
+    <string name="dialogs_connection_info_public_ip">Endereço IP público</string>
+    <string name="dialogs_connection_info_updating">Atualizando...</string>
+    <string name="dialogs_connection_info_duration">Tempo conectado</string>
+    <string name="dialogs_connection_info_protocol">Protocolo</string>
+    <string name="dialogs_connection_info_local_ip_address">Endereço IP local</string>
+    <string name="dialogs_connection_info_wireguard">WireGuard</string>
+    <string name="dialogs_connection_info_openvpn">OpenVPN</string>
+
+    <string name="dialogs_account_not_active_title">Conta não ativada</string>
+    <string name="dialogs_account_not_active_msg">Esta operação não pode ser realizada em uma conta nova. Por favor, complete a compra primeiro.</string>
+    <string name="dialogs_account_not_active_title_beta">Conta não ativa</string>
+    <string name="dialogs_account_not_active_msg_beta">Somente contas de usuário ativas estão habilitadas nesta versão beta.</string>
+
+    <string name="dialogs_custom_dns">Servidor DNS personalizado</string>
+    <string name="dialogs_custom_dns_dot">\.</string>
+    <string name="dialogs_custom_dns_apply">Aplicar</string>
+    <string name="dialogs_custom_dns_cancel">Cancelar</string>
+
+    <string name="dialogs_color_theme_title">Tema de cor</string>
+    <string name="dialogs_color_theme_light">Claro</string>
+    <string name="dialogs_color_theme_dark">Escuro</string>
+    <string name="dialogs_color_theme_default">Padrão do sistema</string>
+    <string name="dialogs_color_theme_by_battery">Configurado pelo modo de economia de bateria. O modo escuro é usado quando o recurso de economia de bateria do sistema está ativado. Caso contrário, o modo claro.</string>
+
+    <string name="dialogs_filter_title">Ordenar por</string>
+    <string name="dialogs_filter_city">Cidade</string>
+    <string name="dialogs_filter_country">País</string>
+    <string name="dialogs_filter_latency">Latência</string>
+    <string name="dialogs_filter_distance">Proximidade</string>
+
+    <string name="dialogs_change_network_title">Alterar status da rede</string>
+    <string name="dialogs_change_status_trusted">Confiável</string>
+    <string name="dialogs_change_status_untrusted">Não confiável</string>
+    <string name="dialogs_change_status_default">Padrão</string>
+    <string name="dialogs_change_status_none">Nenhum</string>
+
+    <string name="dialogs_create_account_error_message">Houve um problema ao criar uma nova conta.</string>
+    <string name="dialogs_create_session_error_message">Houve um erro ao criar uma nova sessão.</string>
+
+    <string name="dialogs_wireguard_impossible_change_port">Não é possível usar a configuração de porta preferida quando o Multi-Hop está ativado.</string>
+
+    <string name="dialogs_device_logged_out_title">Você foi desconectado</string>
+    <string name="dialogs_device_logged_out_message">Você foi redirecionado para a página de login para reentrar com suas credenciais.</string>
+
+    <string name="bottom_sheet_logout_description">Você tem certeza? Isso irá desconectá-lo do IVPN.</string>
+    <string name="bottom_sheet_logout_keep_preferences">Sair e limpar configurações do app</string>
+    <string name="bottom_sheet_logout_preferences">Sair</string>
+    <string name="bottom_sheet_close">Fechar</string>
+
+    <!--Purchases-->
+    <string name="purchases_guide_first_step">Faça login em ivpn.net/clientarea e clique no botão "Renovar"</string>
+    <string name="purchases_guide_second_step">Selecione o ciclo de faturamento e insira suas informações de pagamento</string>
+    <string name="purchases_guide_third_step">Abra o app IVPN e conecte-se!</string>
+    <string name="purchase_guide_1">1</string>
+    <string name="purchase_guide_2">2</string>
+    <string name="purchase_guide_3">3</string>
+
+    <!--WireGuard-->
+
+    <!--Protocols-->
+    <string name="protocol_vpn_openvpn">OpenVPN</string>
+    <string name="protocol_vpn_wireguard">WireGuard</string>
+    <string name="protocol_label">Protocolos</string>
+    <string name="protocol_public_keys">Chave pública</string>
+    <string name="protocol_wg_public_key_copied">Chave pública copiada para a área de transferência</string>
+    <string name="protocol_wg_ip_address_copied">Endereço IP do WireGuard copiado para a área de transferência</string>
+    <string name="protocol_generating_and_uploading_key">Gerando novas chaves…</string>
+    <string name="protocol_wg_keys_regenerate_key">regenerar chaves</string>
+    <string name="protocol_wg_details">Detalhes do WireGuard</string>
+    <string name="protocol_settings">Configurações de protocolo</string>
+    <string name="protocol_dialog_wg_details_title">Detalhes do WireGuard</string>
+    <string name="protocol_wireguard_ip_address">Endereço IP</string>
+    <string name="protocol_wg_deleting_key_error">Houve um problema ao regenerar as chaves do WireGuard.</string>
+    <string name="protocol_wg_uploading_key_error">Houve um problema ao gerar e carregar as chaves do WireGuard para o servidor IVPN.</string>
+    <string name="protocol_wg_uploading_too_many_keys">Número máximo de chaves do WireGuard atingido. Por favor, exclua as chaves não usadas usando a Área do Cliente no site IVPN.</string>
+    <string name="protocol_wg_regeneration_period">Taxa de rotação de chaves</string>
+    <string name="protocol_wg_last_keys_generated_date">Última gerada:</string>
+    <string name="protocol_wg_will_regenerate_on">Será regenerada em:</string>
+    <string name="protocol_wg_valid_until">Válido até:</string>
+    <string name="protocol_wg_regeneration_description">Usar o mesmo endereço IP interno e chaves por um período prolongado pode não ser ideal por vários motivos ao conectar-se com o protocolo WireGuard.</string>
+    <string name="protocol_wg_key_rotation_description">A rotação das chaves começará automaticamente no intervalo definido. Isso também mudará o endereço IP interno.</string>
+    <string name="protocol_port">Porta</string>
+    <string name="protocol_custom">Personalizado</string>
+    <string name="protocol_type">Tipo</string>
+    <string name="protocol_add_custom_port">Adicionar porta personalizada</string>
+    <string name="protocol_valid_port_range">Digite o número da porta dentro do intervalo:</string>
+    <string name="protocol_port_already_exists">A porta já existe</string>
+
+    <string name="protocol_wg_keys">Chaves</string>
+    <string name="protocol_wg_public_key">Chave pública</string>
+    <string name="protocol_wg_local_ip">IP local</string>
+    <string name="protocol_wg_generated">Gerada</string>
+    <string name="protocol_wg_expiration_date">Data de expiração</string>
+    <string name="protocol_wg_will_rotate">Será automaticamente rotacionada</string>
+    <string name="protocol_wg_regenerate">Regenerar</string>
+    <string name="protocol_wg_quantum_resistance">Resistência Quântica</string>
+    <string name="protocol_wg_quantum_resistance_enabled">Ativado</string>
+    <string name="protocol_wg_quantum_resistance_disabled">Desativado</string>
+    <string name="protocol_wg_quantum_resistance_info">Resistência Quântica: Indica se sua conexão VPN WireGuard atual está usando medidas de proteção adicionais contra possíveis ataques de futuros computadores quânticos.\n\nQuando Ativado, uma chave pré-compartilhada foi trocada com segurança entre seu dispositivo e o servidor usando algoritmos post-quantum Key Encapsulation Mechanism (KEM). Se Desativado, a conexão VPN atual, embora segura pelos padrões atuais, não inclui essa camada extra de resistência quântica.</string>
+        
+    <string name="protocol_selection">Recomendamos o protocolo WireGuard por sua velocidade, segurança e confiabilidade de conexão. Para mais informações, visite nossa <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">página de comparação de protocolos.</a></string>
+
+    <string name="shortcuts_connect">Conectar</string>
+    <string name="shortcuts_establish_vpn_connection">Estabelecer conexão VPN</string>
+    <string name="shortcuts_disconnect">Desconectar</string>
+    <string name="shortcuts_disconnect_description">Desconectar do IVPN</string>
+
+    <!--Utils-->
+    <plurals name="days_in_millis">
+        <item quantity="one">%d dia</item>
+        <item quantity="other">%d dias</item>
+    </plurals>
+    <plurals name="hours_in_millis">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="count_down_in_seconds">
+        <item quantity="one">Atualização automática em %d segundo</item>
+        <item quantity="other">Atualização automática em %d segundos</item>
+    </plurals>
+    <plurals name="regeneration_in_days">
+        <item quantity="one">Rotacionar chave a cada %d dia.</item>
+        <item quantity="other">Rotacionar chave a cada %d dias.</item>
+    </plurals>
+
+    <!--v2-->
+    <string name="your_status_is">Seu status é</string>
+    <string name="single_hop">Single-hop</string>
+    <string name="multi_hop">Multi-hop</string>
+    <string name="connect_to">Conectar a</string>
+    <string name="exit_server">Servidor de saída</string>
+    <string name="entry_server">Servidor de entrada</string>
+
+    <!--Connect description-->
+    <string name="content_description_entry_server_flag">Bandeira do servidor de entrada</string>
+    <string name="content_description_choose_entry_server">escolher servidor de entrada</string>
+
+    <string name="sliding_panel_connection_details">Detalhes da conexão</string>
+    <string name="sliding_panel_antitracker">AntiTracker</string>
+    <string name="sliding_panel_antitracker_description">O AntiTracker bloqueia todos os rastreadores de dados conhecidos</string>
+    <string name="sliding_panel_wifi_title">Rede Wi-Fi</string>
+    <string name="sliding_panel_protocol_port_name">Protocolo, Porta</string>
+    <string name="sliding_panel_your_ip_title">Endereço IP</string>
+    <string name="sliding_panel_location_title">Localização</string>
+    <string name="sliding_panel_internet_provider_title">Provedor de Internet</string>
+    <string name="sliding_panel_location_not_match">Localização não corresponde</string>
+
+    <string name="network_protection_top_hint">Decida em quais redes você confia. A conexão IVPN será ativada automaticamente para redes não confiáveis</string>
+    <string name="network_protection_default_mobile_data">Padrão &amp; Dados móveis</string>
+    <string name="network_protection_wifi">Redes Wi-Fi</string>
+    <string name="network_saved_wifi_list">Redes Wi-Fi salvas</string>
+    <string name="network_protection_settings">Configurações</string>
+    <string name="network_protection_scanned">ESCANEADO</string>
+    <string name="network_protection_saved">SALVO</string>
+
+    <string name="auth_log_in_label">Digite seu ID de Conta</string>
+    <string name="auth_create_new_account">Criar uma nova conta</string>
+    <string name="auth_log_in">Entrar</string>
+    <string name="auth_hint">ID da conta</string>
+    <string name="auth_log_in_error">"Seu ID de conta deve estar no formato 'i-XXXX-XXXX-XXXX' ou 'ivpnXXXXXXXX'. Você pode encontrá-lo em outros dispositivos onde você está logado ou na área do cliente do site IVPN."</string>
+
+    <string name="tfa_token_label">A conta tem autenticação de dois fatores ativada. Por favor, insira o token TOTP para fazer login.</string>
+    <string name="tfa_token_error">O token TOTP deve conter 6 dígitos.</string>
+    <string name="tfa_button">Enviar</string>
+    <string name="tfa_hint">XXXXXX</string>
+
+    <string name="captcha_description">Por favor, insira o número que você vê acima</string>
+
+    <string name="sign_up_product_description">Oferecemos diferentes planos para melhor atender às suas necessidades. Por favor, selecione um. Você poderá alterá-lo a qualquer momento no futuro.</string>
+    <string name="sign_up_product_standard_title">IVPN padrão</string>
+    <string name="sign_up_product_pro_title">IVPN pro</string>
+    <string name="sign_up_product_2_devices">2 dispositivos</string>
+    <string name="sign_up_product_7_devices">7 dispositivos</string>
+    <string name="sign_up_product_openvpn">OpenVPN</string>
+    <string name="sign_up_product_wireguard">WireGuard</string>
+    <string name="sign_up_product_antitracker">AntiTracker</string>
+    <string name="sign_up_product_multihop">Multi-Hop</string>
+    <string name="sign_up_product_port_forwarding">Encaminhamento de Porta</string>
+    <string name="sign_up_continue">Continuar para opções de pagamento</string>
+
+    <string name="sign_up_all_protocols">Todos os protocolos</string>
+
+    <string name="sign_up_period_description">Adicione fundos à sua conta para começar a usar o IVPN.</string>
+    <string name="sign_up_period_change">Alterar</string>
+    <string name="sign_up_period_1_week">1 semana</string>
+    <string name="sign_up_period_1_month">1 mês</string>
+    <string name="sign_up_period_1_year">1 ano</string>
+    <string name="sign_up_period_2_year">2 anos</string>
+    <string name="sign_up_period_3_year">3 anos</string>
+    <string name="sign_up_period_continue_to_payment">Pagar</string>
+    <string name="sign_up_progress">Consultando produtos disponíveis…</string>
+
+    <string name="sign_up_account_created">Sua conta foi criada.</string>
+
+    <string name="account_label">ID da conta</string>
+    <string name="account_active">Ativo</string>
+    <string name="account_inactive">Inativo</string>
+    <string name="account_type">Tipo de conta</string>
+    <string name="account_active_until">Ativo até</string>
+    <string name="account_log_out">Sair</string>
+    <string name="account_keep_safe">Por favor, salve seu ID de conta em um local seguro, você o usará para se conectar a outro App IVPN ou para fazer login na área do cliente do site IVPN. Você pode encontrar este ID de conta mais tarde na tela de Conta do App IVPN.</string>
+    <string name="account_continue">Selecione seu plano para continuar</string>
+    <string name="account_clipboard">ID da conta copiado</string>
+    <string name="device_name_label">Nome do dispositivo</string>
+
+    <string name="map_dialog_not_connected_title">Sua localização atual</string>
+    <string name="map_dialog_connected_title">Conectado a</string>
+    <string name="map_dialog_server">Proteja-se conectando a</string>
+    <string name="map_dialog_button_text">CONEXÃO AO SERVIDOR</string>
+
+    <string name="account_add_more_time">Adicionar mais tempo</string>
+    <string name="account_copy_account_id">Copiar ID da conta</string>
+    <string name="account_change_plan_description">Faça login no site para alterar o plano de assinatura</string>
+    <string name="account_qr_code">QR code</string>
+    <string name="account_pro_plan_title"><![CDATA[<b>IVPN PRO</b> oferece mais possibilidades para se manter seguro e protegido:]]></string>
+    <string name="account_standard_plan_title">Faça login no site para alterar o plano de assinatura</string>
+    <string name="account_pro_devices_benefits"><![CDATA[Conecte até <b>7 dispositivos</b>]]></string>
+    <string name="account_pro_multihop_benefits"><![CDATA[Use conexões <b>Multi-Hop</b>]]></string>
+    <string name="account_no_active_subscription">Sem assinatura ativa</string>
+    <string name="fastest_server_badge">MÁXIMA VELOCIDADE</string>
+
+</resources>
