@@ -77,6 +77,11 @@ android {
     dataBinding {
         enabled = true
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {

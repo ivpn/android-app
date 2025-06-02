@@ -1,6 +1,8 @@
 module golang.zx2c4.com/wireguard/android
 
-go 1.22
+go 1.23.0
+
+toolchain go1.24.3
 
 require (
 	golang.org/x/sys v0.30.0

@@ -79,6 +79,11 @@ android {
     dataBinding {
         enabled = true
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 kapt {
