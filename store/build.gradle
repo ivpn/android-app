@@ -26,12 +26,12 @@ android {
         }
     }
 
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "net.ivpn.client"
         minSdkVersion 25
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 137
         versionName "2.10.12"
         ndkVersion "25.1.8937393"
@@ -74,6 +74,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17
     }
+    buildFeatures {
+        buildConfig true
+    }
 
     dataBinding {
         enabled = true
@@ -94,15 +97,15 @@ dependencies {
     implementation project(path: ':core')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.12.0'
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
 
     // Purchases
-    implementation 'com.android.billingclient:billing:6.1.0'
+    implementation 'com.android.billingclient:billing:7.1.1'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -110,8 +113,8 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     // Powerful library for logging
-    implementation 'org.slf4j:slf4j-api:1.7.24'
-    implementation 'org.slf4j:jul-to-slf4j:1.7.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:jul-to-slf4j:1.7.36'
     implementation 'com.github.tony19:logback-android:2.0.0'
 
     // Navigation component
@@ -123,7 +126,7 @@ dependencies {
 
     implementation "androidx.multidex:multidex:2.0.1"
 
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }

@@ -5,10 +5,10 @@ plugins {
 android {
     namespace "net.ivpn.liboqs"
 
-    compileSdkVersion 34
+    compileSdkVersion 35
     defaultConfig {
         minSdkVersion 25
-        targetSdkVersion 34
+        targetSdkVersion 35
         ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,10 @@ android {
             path 'jni/Android.mk'
         }
     }
+    buildFeatures {
+        buildConfig true
+    }
+
     packaging {
         jniLibs {
             useLegacyPackaging = true

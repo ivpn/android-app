@@ -166,9 +166,9 @@ class SplitTunnelingRecyclerViewAdapter @Inject internal constructor()
                 filteredList.addAll(allApps)
             } else {
                 isFiltering = true
-                val filterPattern = constraint.toString().toLowerCase(Locale.getDefault()).trim { it <= ' ' }
+                val filterPattern = constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (app in allApps) {
-                    if (app.applicationName.toLowerCase(Locale.getDefault()).contains(filterPattern)) {
+                    if (app.applicationName.lowercase(Locale.getDefault()).contains(filterPattern)) {
                         filteredList.add(app)
                     }
                 }
