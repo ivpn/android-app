@@ -127,8 +127,11 @@ def File registerGenTask(variantName, variantDirName) {
     task("generateOpenVPN3Swig${variantName}", type: Exec) {
 
         def swigcmd = "swig"
-        if (file("/usr/local/bin/swig").exists())
+        if (file("/opt/homebrew/bin/swig").exists())
+            swigcmd = "/opt/homebrew/bin/swig"
+        else if (file("/usr/local/bin/swig").exists())
             swigcmd = "/usr/local/bin/swig"
+
 
         doFirst {
             mkdir genDir
