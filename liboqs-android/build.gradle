@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion 25
         targetSdkVersion 34
-        versionCode 137
-        versionName "2.10.12"
         ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,6 +37,11 @@ android {
         ndkBuild {
             buildStagingDirectory "./outputs/ndk-build"
             path 'jni/Android.mk'
+        }
+    }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 }

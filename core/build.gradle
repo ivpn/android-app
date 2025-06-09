@@ -30,8 +30,6 @@ android {
     defaultConfig {
         minSdkVersion 25
         targetSdkVersion 34
-        versionCode 137
-        versionName "2.10.12"
         ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -59,7 +57,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -104,6 +101,12 @@ android {
             reset()
             include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
             universalApk true
+        }
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
     buildFeatures {
