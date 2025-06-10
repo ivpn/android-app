@@ -55,11 +55,11 @@
                     style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
                     android:overlapAnchor="true"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/protocol_text_color"
-                    android:text="@{viewmodel.wireGuardPort.toThumbnail()}" />
+                    android:text="@{viewmodel.wireGuardPort.toThumbnail()}"
+                    android:textColor="@color/protocol_text_color" />
             </LinearLayout>
 
             <View
@@ -68,6 +68,60 @@
                 android:layout_marginStart="16dp"
                 android:background="@color/color_section_divider"
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/wireguard_obfuscation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    style="@style/SettingsAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@string/settings_obfuscation_label"
+                    android:textAllCaps="true" />
+
+                <RadioGroup
+                    android:id="@+id/obfuscation_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/settings_margin_right">
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_disabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_obfuscation_state_disabled"
+                        android:textColor="@color/protocol_text_color" />
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_v2ray_quic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_obfuscation_state_v2ray_vmess_quic"
+                        android:textColor="@color/protocol_text_color"
+                        android:theme="@style/AppTheme.RadioButton" />
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_v2ray_tcp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_obfuscation_state_v2ray_vmess_tcp"
+                        android:textColor="@color/protocol_text_color" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,8 +205,8 @@
                 <TextView
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
-                    android:paddingVertical="12dp"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
                     android:text="@string/protocol_wg_details"
                     android:textAllCaps="true" />
             </LinearLayout>

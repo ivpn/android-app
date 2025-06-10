@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = '2.1.21'
-    ext.nav_version = '2.9.0'
+    ext.nav_version = '2.5.3'
     ext.compose_version = '1.8.2'
     ext.dagger_version = '2.56.2'
     ext.lifecycle_version = "2.9.1"

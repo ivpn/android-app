@@ -655,4 +655,8 @@
     <string name="account_pro_multihop_benefits"><![CDATA[Use <b>Multi-Hop</b> connections]]></string>
     <string name="account_no_active_subscription">No active subscription</string>
     <string name="fastest_server_badge">FASTEST</string>
+    <string name="settings_obfuscation_label">OBFUSCATION</string>
+    <string name="settings_obfuscation_state_disabled">Disabled</string>
+    <string name="settings_obfuscation_state_v2ray_vmess_quic">V2Ray (VMESS/QUIC)</string>
+    <string name="settings_obfuscation_state_v2ray_vmess_tcp">V2Ray (VMESS/TCP)</string>
 </resources>
