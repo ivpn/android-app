@@ -33,6 +33,7 @@ import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
+import net.ivpn.core.vpn.model.ObfuscationType
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.List
@@ -47,6 +48,12 @@ class Settings @Inject constructor(
     companion object {
         private val TAG = Settings::class.java.simpleName
     }
+
+    var obfuscationType: ObfuscationType
+        get() = settingsPreference.obfuscationType
+        set(value) {
+            settingsPreference.obfuscationType = value
+        }
 
     val dns: String?
         get() {

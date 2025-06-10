@@ -25,8 +25,10 @@ package net.ivpn.core.common.prefs
 import android.content.SharedPreferences
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.vpn.model.ObfuscationType
 import java.util.*
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @ApplicationScope
 class EncryptedSettingsPreference @Inject constructor(val preference: Preference) {
@@ -40,6 +42,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_KILL_SWITCH = "SETTINGS_KILL_SWITCH"
         private const val SETTINGS_ADVANCED_KILL_SWITCH_DIALOG = "SETTINGS_ADVANCED_KILL_SWITCH_DIALOG"
         private const val SETTINGS_START_ON_BOOT = "SETTINGS_START_ON_BOOT"
+        private const val SETTINGS_OBFUSCATION_TYPE = "SETTINGS_OBFUSCATION_TYPE"
         private const val SETTINGS_NETWORK_RULES = "SETTINGS_NETWORK_RULES"
         private const val SETTINGS_WG_PRIVATE_KEY = "SETTINGS_WG_PRIVATE_KEY"
         private const val SETTINGS_WG_PUBLIC_KEY = "SETTINGS_WG_PUBLIC_KEY"
@@ -77,6 +80,17 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
+
+    var obfuscationType: ObfuscationType
+        get() {
+            val typeName = sharedPreferences.getString(SETTINGS_OBFUSCATION_TYPE, ObfuscationType.DISABLED.name)
+            return ObfuscationType.valueOf(typeName!!)
+        }
+        set(value) {
+            sharedPreferences.edit {
+                putString(SETTINGS_OBFUSCATION_TYPE, value.name)
+            }
+        }
 
     var mockLocationSettings: Boolean
         get() {

@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 
 import net.ivpn.core.R;
 import net.ivpn.core.common.Mapper;
@@ -49,6 +50,7 @@ import net.ivpn.core.vpn.ProtocolController;
 import net.ivpn.core.vpn.controller.VpnBehaviorController;
 import net.ivpn.core.vpn.controller.WireGuardKeyController;
 import net.ivpn.core.vpn.controller.WireGuardKeyController.WireGuardKeysEventsListener;
+import net.ivpn.core.vpn.model.ObfuscationType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +58,7 @@ import org.slf4j.LoggerFactory;
 import java.net.UnknownHostException;
 
 import javax.inject.Inject;
+
 
 public class ProtocolViewModel {
 
@@ -71,6 +74,7 @@ public class ProtocolViewModel {
     public ObservableField<MultiHopController> multiHop = new ObservableField<>();
 
     public ObservableField<WireGuardInfo> wgInfo = new ObservableField<>();
+    public ObservableField<ObfuscationType> obfuscationType = new ObservableField<>();
 
     private ProtocolNavigator navigator;
     private String wireGuardPublicKey;
@@ -81,6 +85,21 @@ public class ProtocolViewModel {
     private VpnBehaviorController vpnBehaviorController;
     private MultiHopController multiHopController;
 
+    public RadioGroup.OnCheckedChangeListener obfuscationCheckedChangeListener = (group, checkedId) -> {
+        ObfuscationType type = ObfuscationType.DISABLED;
+        if (checkedId == R.id.obfuscation_v2ray_quic) {
+            type = ObfuscationType.V2RAY_QUIC;
+        } else if (checkedId == R.id.obfuscation_v2ray_tcp) {
+            type = ObfuscationType.V2RAY_TCP;
+        }
+
+        setObfuscationType(type);
+    };
+
+    private void setObfuscationType(ObfuscationType type) {
+        obfuscationType.set(type);
+        settings.setObfuscationType(type);
+    }
     public CompoundButton.OnCheckedChangeListener openVPNCheckedChangeListener = (buttonView, isChecked) -> {
         if (isChecked && protocol.get().equals(Protocol.WIREGUARD)) {
             setProtocol(Protocol.OPENVPN);
@@ -143,6 +162,8 @@ public class ProtocolViewModel {
 
         wireGuardPublicKey = settings.getWireGuardPublicKey();
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
+
+        obfuscationType.set(settings.getObfuscationType());
 
         wgInfo.set(getWireGuardInfo());
         multiHop.set(multiHopController);

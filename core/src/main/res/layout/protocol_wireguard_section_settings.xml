@@ -10,6 +10,8 @@
 
         <import type="net.ivpn.core.common.utils.DateUtil" />
 
+        <import type="net.ivpn.core.vpn.model.ObfuscationType" />
+
         <variable
             name="viewmodel"
             type="net.ivpn.core.v2.viewmodel.ProtocolViewModel" />
@@ -91,12 +93,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/settings_margin_left"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/settings_margin_right">
+                    android:layout_marginEnd="@dimen/settings_margin_right"
+                    android:onCheckedChanged="@{viewmodel.obfuscationCheckedChangeListener}">
 
                     <RadioButton
                         android:id="@+id/obfuscation_disabled"
                         android:layout_width="match_parent"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
                         android:layout_height="wrap_content"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.DISABLED)}"
                         android:text="@string/settings_obfuscation_state_disabled"
                         android:textColor="@color/protocol_text_color" />
 
@@ -104,14 +110,19 @@
                         android:id="@+id/obfuscation_v2ray_quic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.V2RAY_QUIC)}"
                         android:text="@string/settings_obfuscation_state_v2ray_vmess_quic"
-                        android:textColor="@color/protocol_text_color"
-                        android:theme="@style/AppTheme.RadioButton" />
+                        android:textColor="@color/protocol_text_color" />
 
                     <RadioButton
                         android:id="@+id/obfuscation_v2ray_tcp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.V2RAY_TCP)}"
                         android:text="@string/settings_obfuscation_state_v2ray_vmess_tcp"
                         android:textColor="@color/protocol_text_color" />
                 </RadioGroup>
