@@ -72,7 +72,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDir 'src/main/libs'
+            jniLibs.srcDir 'libs'
             assets.srcDirs = ["src/main/assets", "build/ovpnassets"]
         }
     }
@@ -199,7 +199,7 @@ kapt {
 
 dependencies {
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 
     // Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
