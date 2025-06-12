@@ -97,6 +97,10 @@ class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRang
 
 class Ports {
 
+    @SerializedName("test")
+    @Expose
+    var test: List<TestConfig>? = null
+
     @SerializedName("wireguard")
     @Expose
     lateinit var wireguard: List<Port>
@@ -104,6 +108,18 @@ class Ports {
     @SerializedName("openvpn")
     @Expose
     lateinit var openvpn: List<Port>
+
+    @SerializedName("obfs3")
+    @Expose
+    var obfs3: ObfsConfig? = null
+
+    @SerializedName("obfs4")
+    @Expose
+    var obfs4: ObfsConfig? = null
+
+    @SerializedName("v2ray")
+    @Expose
+    var v2ray: V2RayConfig? = null
 
 }
 

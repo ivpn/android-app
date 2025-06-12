@@ -1,5 +1,6 @@
 package net.ivpn.core.vpn.wireguard
 
+import android.util.Log
 import com.wireguard.android.config.Config
 import com.wireguard.android.config.Peer
 import com.wireguard.android.model.Tunnel
