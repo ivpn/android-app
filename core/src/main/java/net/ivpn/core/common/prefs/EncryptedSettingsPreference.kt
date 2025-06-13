@@ -77,6 +77,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
         private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
+        private const val V2RAY_SETTINGS = "V2RAY_SETTINGS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -495,6 +496,16 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 
+    fun setV2RaySettings(json: String?) {
+        sharedPreferences.edit()
+            .putString(V2RAY_SETTINGS, json)
+            .apply()
+    }
+
+    fun getV2RaySettings(): String? {
+        return sharedPreferences.getString(V2RAY_SETTINGS, null)
+    }
+
     private fun putIsMigrated(isMigrated: Boolean) {
         sharedPreferences.edit()
                 .putBoolean(IS_MIGRATED, isMigrated)
@@ -586,6 +597,10 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         }
         if (oldPreference.contains(LAST_USED_IP)) {
             putLastUsedIp(oldPreference.getString(LAST_USED_IP, null))
+        }
+
+        if (oldPreference.contains("v2ray_settings")) {
+            setV2RaySettings(oldPreference.getString("v2ray_settings", null))
         }
 
         oldPreference.edit().clear().apply()

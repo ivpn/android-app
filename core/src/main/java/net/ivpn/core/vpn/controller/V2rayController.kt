@@ -3,6 +3,13 @@ package net.ivpn.core.vpn.controller
 import libV2ray.CoreCallbackHandler
 import libV2ray.CoreController
 import libV2ray.LibV2ray
+import net.ivpn.core.IVPNApplication
+import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.EncryptedSettingsPreference
+import net.ivpn.core.vpn.model.ObfuscationType
+import net.ivpn.core.vpn.model.V2RayConfig
+import net.ivpn.core.vpn.model.V2RaySettingsController
+import javax.inject.Inject
 
 /*
  IVPN Android app
@@ -26,89 +33,54 @@ import libV2ray.LibV2ray
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-object V2rayController : CoreCallbackHandler {
+@ApplicationScope
+class V2rayController @Inject constructor(
+    private val encryptedSettingsPreference: EncryptedSettingsPreference,
+    private val v2RaySettingsController: V2RaySettingsController
+) : CoreCallbackHandler {
+
     private val controller: CoreController by lazy {
         LibV2ray.newCoreController(this)
     }
 
+    fun makeConfig(): V2RayConfig? {
+        val settings = v2RaySettingsController.load() ?: return null
+        val obfuscationType = encryptedSettingsPreference.obfuscationType
 
+        return when (obfuscationType) {
+            ObfuscationType.V2RAY_TCP -> V2RayConfig.createTcp(
+                context = IVPNApplication.application,
+                outboundIp = settings.outboundIp,
+                outboundPort = settings.outboundPort,
+                inboundIp = settings.inboundIp,
+                inboundPort = settings.inboundPort,
+                outboundUserId = settings.id
+            )
 
-    fun start() {
-        val config = """
-           {
-    "log": {
-        "loglevel": "debug"
-    },
-    "inbounds": [
-        {
-            "tag": "vpn",
-            "port": "16661",
-            "listen": "127.0.0.1",
-            "protocol": "dokodemo-door",
-            "settings": {
-                "address": "146.70.146.226",
-                "port": 15351,
-                "network": "udp"
-            }
+            ObfuscationType.V2RAY_QUIC -> V2RayConfig.createQUIC(
+                context = IVPNApplication.application,
+                outboundIp = settings.outboundIp,
+                outboundPort = settings.outboundPort,
+                inboundIp = settings.inboundIp,
+                inboundPort = settings.inboundPort,
+                outboundUserId = settings.id,
+                tlsSrvName = settings.tlsSrvName
+            )
+
+            ObfuscationType.DISABLED -> null
         }
-    ],
-    "outbounds": [
-        {
-            "tag": "proxy",
-            "protocol": "vmess",
-            "settings": {
-                "vnext": [
-                    {
-                        "address": "146.70.146.226",
-                        "port": 2049,
-                        "users": [
-                            {
-                                "id": "27de860d-5601-412d-8b71-baa048a94b98",
-                                "alterId": 0,
-                                "security": "none"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "streamSettings": {
-                "network": "tcp",
-                "security": "",
-                "tcpSettings": {
-                    "header": {
-                        "type": "http",
-                        "request": {
-                            "version": "1.1",
-                            "method": "GET",
-                            "path": ["/"],
-                            "headers": {
-                                "Host": ["www.inet-telecom.com"],
-                                "User-Agent": [
-                                    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36",
-                                    "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0_2 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/53.0.2785.109 Mobile/14A456 Safari/601.1.46"
-                                ],
-                                "Accept-Encoding": ["gzip, deflate"],
-                                "Connection": ["keep-alive"],
-                                "Pragma": "no-cache"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    ]
-}
-        """.trimIndent()
-        controller.startLoop(config)
     }
 
+    fun start() {
+        val config = makeConfig() ?: return
+        controller.startLoop(config.jsonString())
+    }
 
     fun stop() {
         if (controller.isRunning) {
             controller.stopLoop()
         }
     }
-
 
     override fun onEmitStatus(p0: Long, p1: String?): Long {
         return 0

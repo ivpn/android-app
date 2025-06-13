@@ -1,9 +1,8 @@
 package net.ivpn.core.vpn.model
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 /*
  IVPN Android app
@@ -28,99 +27,211 @@ import kotlinx.serialization.Serializable
 */
 
 data class V2RayConfig(
-    val log: Log,
-    val inbounds: List<Inbound>,
-    val outbounds: List<Outbound>,
-)
+    var log: Log,
+    var inbounds: MutableList<Inbound>,
+    var outbounds: MutableList<Outbound>
+) {
+
+    fun getLocalPort(): LocalPortResult {
+        if (inbounds.isEmpty()) {
+            return LocalPortResult(0, false)
+        }
+        val port = inbounds[0].port.toIntOrNull() ?: 0
+        val isTcp = inbounds[0].settings.network == "tcp"
+        return LocalPortResult(port, isTcp)
+    }
+
+    fun setLocalPort(port: Int, isTcp: Boolean) {
+        if (inbounds.isEmpty()) return
+        inbounds[0].port = port.toString()
+        inbounds[0].settings.network = if (isTcp) "tcp" else "udp"
+    }
+
+    fun isValid(): String? {
+        val port = getLocalPort().port
+        if (port == 0 || inbounds[0].settings.network.isEmpty()) {
+            return "inbounds[0].port or inbounds[0].settings.network has invalid value"
+        }
+        if (inbounds[0].settings.address.trim().isEmpty()) {
+            return "inbounds[0].settings.address is empty"
+        }
+        if (inbounds[0].settings.port == 0L) {
+            return "inbounds[0].settings.port is empty"
+        }
+        if (outbounds[0].settings.vnext[0].address.trim().isEmpty()) {
+            return "outbounds[0].settings.vnext[0].address is empty"
+        }
+        if (outbounds[0].settings.vnext[0].port == 0L) {
+            return "outbounds[0].settings.vnext[0].port is empty"
+        }
+        if (outbounds[0].settings.vnext[0].users[0].id.trim().isEmpty()) {
+            return "outbounds[0].settings.vnext[0].users[0].id is empty"
+        }
+
+        return null
+    }
+
+    fun jsonString(): String {
+        return try {
+            Gson().toJson(this)
+        } catch (e: Exception) {
+            "{}"
+        }
+    }
+
+    companion object {
+        fun fromJson(json: String): V2RayConfig {
+            return Gson().fromJson(json, V2RayConfig::class.java)
+        }
+
+        fun createFromTemplate(
+            context: Context,
+            outboundIp: String,
+            outboundPort: Int,
+            inboundIp: String,
+            inboundPort: Int,
+            outboundUserId: String
+        ): V2RayConfig {
+            val jsonStr = context.assets.open("config.json").bufferedReader().use { it.readText() }
+            val config = fromJson(jsonStr)
+
+            config.inbounds[0].settings.address = inboundIp
+            config.inbounds[0].settings.port = inboundPort.toLong()
+            config.outbounds[0].settings.vnext[0].address = outboundIp
+            config.outbounds[0].settings.vnext[0].port = outboundPort.toLong()
+            config.outbounds[0].settings.vnext[0].users[0].id = outboundUserId
+
+            return config
+        }
+
+        fun createQUIC(
+            context: Context,
+            outboundIp: String,
+            outboundPort: Int,
+            inboundIp: String,
+            inboundPort: Int,
+            outboundUserId: String,
+            tlsSrvName: String
+        ): V2RayConfig {
+            val config = createFromTemplate(context, outboundIp, outboundPort, inboundIp, inboundPort, outboundUserId)
+            with(config.outbounds[0].streamSettings) {
+                network = "quic"
+                tcpSettings = null
+                tlsSettings?.serverName = tlsSrvName
+            }
+            return config
+        }
+
+        fun createTcp(
+            context: Context,
+            outboundIp: String,
+            outboundPort: Int,
+            inboundIp: String,
+            inboundPort: Int,
+            outboundUserId: String
+        ): V2RayConfig {
+            val config = createFromTemplate(context, outboundIp, outboundPort, inboundIp, inboundPort, outboundUserId)
+            with(config.outbounds[0].streamSettings) {
+                network = "tcp"
+                security = ""
+                quicSettings = null
+                tlsSettings = null
+            }
+            return config
+        }
+    }
+}
+
+data class LocalPortResult(val port: Int, val isTcp: Boolean)
 
 data class Log(
-    val loglevel: String,
+    var loglevel: String
 )
 
 data class Inbound(
-    val tag: String,
-    val port: String,
-    val listen: String,
-    val protocol: String,
-    val settings: Settings,
+    var tag: String,
+    var port: String,
+    var listen: String,
+    var protocol: String,
+    var settings: Settings
 )
 
 data class Settings(
-    val address: String,
-    val port: Long,
-    val network: String,
+    var address: String,
+    var port: Long,
+    var network: String
 )
 
 data class Outbound(
-    val tag: String,
-    val protocol: String,
-    val settings: Settings2,
-    val streamSettings: StreamSettings,
+    var tag: String,
+    var protocol: String,
+    var settings: Settings2,
+    var streamSettings: StreamSettings
 )
 
 data class Settings2(
-    val vnext: List<Vnext>,
+    var vnext: MutableList<Vnext>
 )
 
 data class Vnext(
-    val address: String,
-    val port: Long,
-    val users: List<User>,
+    var address: String,
+    var port: Long,
+    var users: MutableList<User>
 )
 
 data class User(
-    val id: String,
-    val alterId: Long,
-    val security: String,
+    var id: String,
+    var alterId: Long,
+    var security: String
 )
 
 data class StreamSettings(
-    val network: String,
-    val security: String,
-    val quicSettings: QuicSettings,
-    val tlsSettings: TlsSettings,
-    val tcpSettings: TcpSettings,
+    var network: String,
+    var security: String,
+    var quicSettings: QuicSettings?,
+    var tlsSettings: TlsSettings?,
+    var tcpSettings: TcpSettings?
 )
 
 data class QuicSettings(
-    val security: String,
-    val key: String,
-    val header: Header,
+    var security: String,
+    var key: String,
+    var header: QuicHeader
 )
 
-data class Header(
-    val type: String,
+data class QuicHeader(
+    var type: String
 )
 
 data class TlsSettings(
-    val serverName: String,
+    var serverName: String
 )
 
 data class TcpSettings(
-    val header: Header2,
+    var header: TcpHeader
 )
 
-data class Header2(
-    val type: String,
-    val request: Request,
+data class TcpHeader(
+    var type: String,
+    var request: Request
 )
 
 data class Request(
-    val version: String,
-    val method: String,
-    val path: List<String>,
-    val headers: Headers,
+    var version: String,
+    var method: String,
+    var path: List<String>,
+    var headers: Headers
 )
 
 data class Headers(
     @SerializedName("Host")
-    val host: List<String>,
+    var host: List<String>,
     @SerializedName("User-Agent")
-    val userAgent: List<String>,
+    var userAgent: List<String>,
     @SerializedName("Accept-Encoding")
-    val acceptEncoding: List<String>,
+    var acceptEncoding: List<String>,
     @SerializedName("Connection")
-    val connection: List<String>,
+    var connection: List<String>,
     @SerializedName("Pragma")
-    val pragma: String,
+    var pragma: String
 )
