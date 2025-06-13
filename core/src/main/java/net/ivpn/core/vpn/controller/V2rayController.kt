@@ -8,7 +8,7 @@ import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.EncryptedSettingsPreference
 import net.ivpn.core.vpn.model.ObfuscationType
 import net.ivpn.core.vpn.model.V2RayConfig
-import net.ivpn.core.vpn.model.V2RaySettingsController
+import net.ivpn.core.vpn.model.V2RaySettings
 import javax.inject.Inject
 
 /*
@@ -36,7 +36,7 @@ import javax.inject.Inject
 @ApplicationScope
 class V2rayController @Inject constructor(
     private val encryptedSettingsPreference: EncryptedSettingsPreference,
-    private val v2RaySettingsController: V2RaySettingsController
+    private val V2RaySettings: V2RaySettings
 ) : CoreCallbackHandler {
 
     private val controller: CoreController by lazy {
@@ -44,7 +44,7 @@ class V2rayController @Inject constructor(
     }
 
     fun makeConfig(): V2RayConfig? {
-        val settings = v2RaySettingsController.load() ?: return null
+        val settings = V2RaySettings.load() ?: return null
         val obfuscationType = encryptedSettingsPreference.obfuscationType
 
         return when (obfuscationType) {

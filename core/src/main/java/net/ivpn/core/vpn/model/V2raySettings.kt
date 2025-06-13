@@ -29,7 +29,7 @@ import javax.inject.Inject
 */
 
 @ApplicationScope
-class V2RaySettingsController @Inject constructor(
+class V2RaySettings @Inject constructor(
     private val encryptedSettingsPreference: EncryptedSettingsPreference
 ) {
 
