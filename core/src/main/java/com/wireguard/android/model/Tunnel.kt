@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import net.ivpn.core.IVPNApplication
 import org.slf4j.LoggerFactory
 
-class Tunnel(var name: String, var config: Config?, private var state: State) {
+class Tunnel(var name: String, var config: Config?, internal var state: State) {
 
     var listener: OnStateChangedListener? = null
 

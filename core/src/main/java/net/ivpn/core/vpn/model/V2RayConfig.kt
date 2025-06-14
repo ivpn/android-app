@@ -84,6 +84,8 @@ data class V2RayConfig(
             return Gson().fromJson(json, V2RayConfig::class.java)
         }
 
+        const val V2RAY_LOCAL_PORT = 16661
+
         fun createFromTemplate(
             context: Context,
             outboundIp: String,
@@ -95,8 +97,13 @@ data class V2RayConfig(
             val jsonStr = context.assets.open("config.json").bufferedReader().use { it.readText() }
             val config = fromJson(jsonStr)
 
+            // Configure inbound (local proxy)
+            config.inbounds[0].port = V2RAY_LOCAL_PORT.toString()  // Always use fixed local port
+            config.inbounds[0].listen = "127.0.0.1"  // Always listen on localhost
             config.inbounds[0].settings.address = inboundIp
             config.inbounds[0].settings.port = inboundPort.toLong()
+
+            // Configure outbound (to V2Ray server)
             config.outbounds[0].settings.vnext[0].address = outboundIp
             config.outbounds[0].settings.vnext[0].port = outboundPort.toLong()
             config.outbounds[0].settings.vnext[0].users[0].id = outboundUserId

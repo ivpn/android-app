@@ -77,7 +77,6 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
         private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
-        private const val V2RAY_SETTINGS = "V2RAY_SETTINGS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -98,9 +97,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return sharedPreferences.getBoolean(SETTINGS_MOCK_LOCATION, false)
         }
         set(value) {
-            sharedPreferences.edit()
-                    .putBoolean(SETTINGS_MOCK_LOCATION, value)
-                    .apply()
+            sharedPreferences.edit {
+                putBoolean(SETTINGS_MOCK_LOCATION, value)
+            }
         }
 
     var bypassLocalSettings: Boolean
@@ -108,9 +107,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return sharedPreferences.getBoolean(SETTINGS_BYPASS_LOCAL, false)
         }
         set(value) {
-            sharedPreferences.edit()
-                    .putBoolean(SETTINGS_BYPASS_LOCAL, value)
-                    .apply()
+            sharedPreferences.edit {
+                putBoolean(SETTINGS_BYPASS_LOCAL, value)
+            }
         }
 
     var ipv6Settings: Boolean
@@ -118,9 +117,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return sharedPreferences.getBoolean(SETTINGS_IPV6, false)
         }
         set(value) {
-            sharedPreferences.edit()
-                    .putBoolean(SETTINGS_IPV6, value)
-                    .apply()
+            sharedPreferences.edit {
+                putBoolean(SETTINGS_IPV6, value)
+            }
         }
 
     var killSwitch: Boolean
@@ -128,9 +127,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return sharedPreferences.getBoolean(SETTINGS_KILL_SWITCH, false)
         }
         set(value) {
-            sharedPreferences.edit()
-                .putBoolean(SETTINGS_KILL_SWITCH, value)
-                .apply()
+            sharedPreferences.edit {
+                putBoolean(SETTINGS_KILL_SWITCH, value)
+            }
         }
 
     var ipv6List: String?
@@ -139,9 +138,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return value
         }
         set(value) {
-            sharedPreferences.edit()
-                    .putString(IPV6_LIST, value)
-                    .apply()
+            sharedPreferences.edit {
+                putString(IPV6_LIST, value)
+            }
         }
 
     var ipv6ShowAllServers: Boolean
@@ -149,9 +148,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             return sharedPreferences.getBoolean(IPV6_SHOW_ALL_SERVERS, true)
         }
         set(value) {
-            sharedPreferences.edit()
-                    .putBoolean(IPV6_SHOW_ALL_SERVERS, value)
-                    .apply()
+            sharedPreferences.edit {
+                putBoolean(IPV6_SHOW_ALL_SERVERS, value)
+            }
         }
 
     var isMultiHopSameProviderAllowed: Boolean
@@ -213,9 +212,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun putGenerationTime(generationTime: Long) {
-        sharedPreferences.edit()
-                .putLong(WIREGUARD_KEY_GENERATION_TIME, generationTime)
-                .apply()
+        sharedPreferences.edit {
+            putLong(WIREGUARD_KEY_GENERATION_TIME, generationTime)
+        }
     }
 
     fun getRegenerationPeriod(): Int {
@@ -223,75 +222,75 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun putRegenerationPeriod(regenerationPeriod: Int) {
-        sharedPreferences.edit()
-                .putInt(WIREGUARD_KEY_REGENERATION_PERIOD, regenerationPeriod)
-                .apply()
+        sharedPreferences.edit {
+            putInt(WIREGUARD_KEY_REGENERATION_PERIOD, regenerationPeriod)
+        }
     }
 
     fun putSettingLogging(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_LOGGING, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_LOGGING, value)
+        }
     }
 
     fun putSettingMultiHop(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_MULTI_HOP, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_MULTI_HOP, value)
+        }
     }
 
     fun putSettingCustomDNS(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_CUSTOM_DNS, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_CUSTOM_DNS, value)
+        }
     }
 
     fun putSettingStartOnBoot(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_START_ON_BOOT, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_START_ON_BOOT, value)
+        }
     }
 
     fun putAntiSurveillance(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_ANTI_SURVEILLANCE, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_ANTI_SURVEILLANCE, value)
+        }
     }
 
     fun putAntiSurveillanceHardcore(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_ANTI_SURVEILLANCE_HARDCORE, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_ANTI_SURVEILLANCE_HARDCORE, value)
+        }
     }
 
     fun putSettingAdvancedKillSwitch(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_ADVANCED_KILL_SWITCH_DIALOG, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_ADVANCED_KILL_SWITCH_DIALOG, value)
+        }
     }
 
     fun putAutoUpdateSetting(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_AUTO_UPDATE, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_AUTO_UPDATE, value)
+        }
     }
 
     fun putSettingsNetworkRules(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_NETWORK_RULES, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_NETWORK_RULES, value)
+        }
     }
 
     fun setOpenvpnPort(json: String?) {
-        sharedPreferences.edit()
-                .putString(OV_PORT, json)
-                .apply()
+        sharedPreferences.edit {
+            putString(OV_PORT, json)
+        }
     }
 
     fun setCustomDNSValue(dns: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_CUSTOM_DNS_VALUE, dns)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_CUSTOM_DNS_VALUE, dns)
+        }
     }
 
     fun getCustomDNSValue(): String? {
@@ -303,9 +302,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setWgPort(json: String?) {
-        sharedPreferences.edit()
-                .putString(WG_PORT, json)
-                .apply()
+        sharedPreferences.edit {
+            putString(WG_PORT, json)
+        }
     }
 
     fun getWgPort(): String? {
@@ -313,9 +312,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setOpenvpnPorts(json: String?) {
-        sharedPreferences.edit()
-            .putString(OV_PORT_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(OV_PORT_LIST, json)
+        }
     }
 
     fun getOpenvpnPorts(): String? {
@@ -323,9 +322,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setOpenvpnCustomPorts(json: String?) {
-        sharedPreferences.edit()
-            .putString(OV_CUSTOM_PORT_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(OV_CUSTOM_PORT_LIST, json)
+        }
     }
 
     fun getOpenvpnCustomPorts(): String? {
@@ -333,9 +332,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setOpenvpnPortRanges(json: String?) {
-        sharedPreferences.edit()
-            .putString(OV_PORT_RANGE_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(OV_PORT_RANGE_LIST, json)
+        }
     }
 
     fun getOpenvpnPortRanges(): String? {
@@ -343,9 +342,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setWgPorts(json: String?) {
-        sharedPreferences.edit()
-            .putString(WG_PORT_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(WG_PORT_LIST, json)
+        }
     }
 
     fun getWgPorts(): String? {
@@ -353,9 +352,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setWgCustomPorts(json: String?) {
-        sharedPreferences.edit()
-            .putString(WG_CUSTOM_PORT_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(WG_CUSTOM_PORT_LIST, json)
+        }
     }
 
     fun getWgCustomPorts(): String? {
@@ -363,9 +362,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setWgPortRanges(json: String?) {
-        sharedPreferences.edit()
-            .putString(WG_PORT_RANGE_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(WG_PORT_RANGE_LIST, json)
+        }
     }
 
     fun getWgPortRanges(): String? {
@@ -377,9 +376,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setSettingsWgPrivateKey(privateKey: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_WG_PRIVATE_KEY, privateKey)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_WG_PRIVATE_KEY, privateKey)
+        }
     }
 
     fun getSettingsWgPublicKey(): String? {
@@ -387,15 +386,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setSettingsWgPublicKey(publicKey: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_WG_PUBLIC_KEY, publicKey)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_WG_PUBLIC_KEY, publicKey)
+        }
     }
 
     fun setSettingsWgIpAddress(ipAddress: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_WG_IP_ADDRESS, ipAddress)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_WG_IP_ADDRESS, ipAddress)
+        }
     }
 
     fun getSettingsWgIpAddress(): String? {
@@ -407,9 +406,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setSettingsWgPresharedKey(publicKey: String?) {
-        sharedPreferences.edit()
-            .putString(SETTINGS_WG_PRESHARED_KEY, publicKey)
-            .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_WG_PRESHARED_KEY, publicKey)
+        }
     }
 
     fun isAutoUpdateEnabled(): Boolean {
@@ -425,15 +424,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun putRuleConnectToVpn(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(RULE_CONNECT_TO_VPN, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(RULE_CONNECT_TO_VPN, value)
+        }
     }
 
     fun putRuleDisconnectFromVpn(value: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(RULE_DISCONNECT_FROM_VPN, value)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(RULE_DISCONNECT_FROM_VPN, value)
+        }
     }
 
     fun getNextVersion(): String? {
@@ -441,15 +440,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setNextVersion(nextVersion: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_NEXT_VERSION, nextVersion)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_NEXT_VERSION, nextVersion)
+        }
     }
 
     fun putIpList(ips: String?) {
-        sharedPreferences.edit()
-                .putString(IP_LIST, ips)
-                .apply()
+        sharedPreferences.edit {
+            putString(IP_LIST, ips)
+        }
     }
 
     fun getIpList(): LinkedList<String>? {
@@ -457,9 +456,9 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun putLastUsedIp(ip: String?) {
-        sharedPreferences.edit()
-                .putString(LAST_USED_IP, ip)
-                .apply()
+        sharedPreferences.edit {
+            putString(LAST_USED_IP, ip)
+        }
     }
 
     fun getLastUsedIp(): String? {
@@ -471,15 +470,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setFilter(filter: String?) {
-        sharedPreferences.edit()
-                .putString(SETTINGS_FILTER, filter)
-                .apply()
+        sharedPreferences.edit {
+            putString(SETTINGS_FILTER, filter)
+        }
     }
 
     fun setAntiTrackerList(json: String?) {
-        sharedPreferences.edit()
-            .putString(ANTITRACKER_LIST, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(ANTITRACKER_LIST, json)
+        }
     }
 
     fun getAntiTrackerList(): String? {
@@ -487,29 +486,20 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     }
 
     fun setAntiTracker(json: String?) {
-        sharedPreferences.edit()
-            .putString(ANTITRACKER_DNS, json)
-            .apply()
+        sharedPreferences.edit {
+            putString(ANTITRACKER_DNS, json)
+        }
     }
 
     fun getAntiTracker(): String? {
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 
-    fun setV2RaySettings(json: String?) {
-        sharedPreferences.edit()
-            .putString(V2RAY_SETTINGS, json)
-            .apply()
-    }
-
-    fun getV2RaySettings(): String? {
-        return sharedPreferences.getString(V2RAY_SETTINGS, null)
-    }
 
     private fun putIsMigrated(isMigrated: Boolean) {
-        sharedPreferences.edit()
-                .putBoolean(IS_MIGRATED, isMigrated)
-                .apply()
+        sharedPreferences.edit {
+            putBoolean(IS_MIGRATED, isMigrated)
+        }
     }
 
     private fun isMigrated(): Boolean {
@@ -599,11 +589,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
             putLastUsedIp(oldPreference.getString(LAST_USED_IP, null))
         }
 
-        if (oldPreference.contains("v2ray_settings")) {
-            setV2RaySettings(oldPreference.getString("v2ray_settings", null))
-        }
 
-        oldPreference.edit().clear().apply()
+        oldPreference.edit { clear() }
 
         putIsMigrated(true)
     }

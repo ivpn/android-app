@@ -22,14 +22,12 @@ package net.ivpn.core.rest.data.model;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class V2RayConfig {
+public class V2ray {
 
     @SerializedName("id")
     @Expose
@@ -69,7 +67,7 @@ public class V2RayConfig {
 
     @Override
     public String toString() {
-        return "V2RayConfig{" +
+        return "V2Ray{" +
                 "id='" + id + '\'' +
                 ", openvpn=" + openvpn +
                 ", wireguard=" + wireguard +

@@ -1,11 +1,5 @@
 package net.ivpn.core.vpn.model
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import net.ivpn.core.common.dagger.ApplicationScope
-import net.ivpn.core.common.prefs.EncryptedSettingsPreference
-import javax.inject.Inject
-
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
@@ -28,30 +22,6 @@ import javax.inject.Inject
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-@ApplicationScope
-class V2RaySettings @Inject constructor(
-    private val encryptedSettingsPreference: EncryptedSettingsPreference
-) {
-
-    fun save(settings: V2RaySettings) {
-        val json = Gson().toJson(settings)
-        encryptedSettingsPreference.setV2RaySettings(json)
-    }
-
-    fun load(): V2RaySettings? {
-        val json = encryptedSettingsPreference.getV2RaySettings()
-        return if (json != null) {
-            try {
-                Gson().fromJson(json, object : TypeToken<V2RaySettings>() {}.type)
-            } catch (e: Exception) {
-                null
-            }
-        } else {
-            null
-        }
-    }
-}
-
 data class V2RaySettings(
     var id: String = "",
     var outboundIp: String = "",
@@ -64,6 +34,7 @@ data class V2RaySettings(
 
     val tlsSrvName: String
         get() = dnsName.replace("ivpn.net", "inet-telecom.com")
+
 
     val singleHopInboundPort: Int
         get() = wireguard.firstOrNull()?.port ?: 0

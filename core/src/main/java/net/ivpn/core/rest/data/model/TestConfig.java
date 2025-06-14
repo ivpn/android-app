@@ -29,10 +29,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class TestConfig {
 
-    public TestConfig() {
-        Log.d("HACKER", "TestConfig: "+getEchoserver());
-    }
-
     
     @SerializedName("echoserver")
     @Expose

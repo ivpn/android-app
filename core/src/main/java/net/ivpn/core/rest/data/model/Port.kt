@@ -119,7 +119,7 @@ class Ports {
 
     @SerializedName("v2ray")
     @Expose
-    var v2ray: V2RayConfig? = null
+    var v2ray: V2ray? = null
 
 }
 
