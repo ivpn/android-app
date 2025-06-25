@@ -16,12 +16,13 @@ OUTPUT_DIR="build"
 AAR_NAME="libv2ray"
 MIN_SDK_VERSION="21"
 TARGET_SDK_VERSION="34"
+DEST_DIR="./core/libs"
 
 # ANSI Color Codes for Terminal Output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' 
+NC='\033[0m'
 
 # Logging Functions
 print_status() {
@@ -63,7 +64,7 @@ gomobile init
 # Validate Android SDK Installation
 if [ -z "$ANDROID_HOME" ] && [ -z "$ANDROID_SDK_ROOT" ]; then
     print_warning "ANDROID_HOME or ANDROID_SDK_ROOT environment variables not set. Attempting to locate Android SDK..."
-    
+
     # Standard Android SDK installation paths
     POSSIBLE_ANDROID_HOMES=(
         "$HOME/Android/Sdk"
@@ -71,7 +72,7 @@ if [ -z "$ANDROID_HOME" ] && [ -z "$ANDROID_SDK_ROOT" ]; then
         "/usr/local/android-sdk"
         "/opt/android-sdk"
     )
-    
+
     for sdk_path in "${POSSIBLE_ANDROID_HOMES[@]}"; do
         if [ -d "$sdk_path" ]; then
             export ANDROID_HOME="$sdk_path"
@@ -80,7 +81,7 @@ if [ -z "$ANDROID_HOME" ] && [ -z "$ANDROID_SDK_ROOT" ]; then
             break
         fi
     done
-    
+
     if [ -z "$ANDROID_HOME" ]; then
         print_error "Android SDK not found. Please install Android SDK and configure ANDROID_HOME environment variable."
         exit 1
@@ -121,22 +122,28 @@ gomobile bind \
     "$PACKAGE_NAME"
 
 # Validate Build Success
-    print_status "AAR build completed successfully"
-    print_status "Output file: $OUTPUT_DIR/$AAR_NAME.aar"
-    
-    # Display build artifact information
-    FILE_SIZE=$(ls -lh "$OUTPUT_DIR/$AAR_NAME.aar" | awk '{print $5}')
-    print_status "File size: $FILE_SIZE"
-    
-    # Display AAR contents if unzip is available
-    if command -v unzip &> /dev/null; then
-        print_status "AAR contents:"
-        unzip -l "$OUTPUT_DIR/$AAR_NAME.aar" | head -20
-    fi
-    
-else
-    print_error "AAR build failed"
-    exit 1
+print_status "AAR build completed successfully"
+print_status "Output file: $OUTPUT_DIR/$AAR_NAME.aar"
+
+# Display build artifact information
+FILE_SIZE=$(ls -lh "$OUTPUT_DIR/$AAR_NAME.aar" | awk '{print $5}')
+print_status "File size: $FILE_SIZE"
+
+# Remove old AAR from ./core/libs
+print_status "Removing old AAR files from $DEST_DIR..."
+mkdir -p "$DEST_DIR"
+rm -f "$DEST_DIR"/*.aar
+
+# Copy new AAR to ./core/libs
+print_status "Copying new AAR to $DEST_DIR..."
+cp "$OUTPUT_DIR/$AAR_NAME.aar" "$DEST_DIR/"
+
+print_status "AAR file copied successfully to $DEST_DIR"
+
+# Display AAR contents if unzip is available
+if command -v unzip &> /dev/null; then
+    print_status "AAR contents:"
+    unzip -l "$OUTPUT_DIR/$AAR_NAME.aar" | head -20
 fi
 
 # Generate Build Metadata
