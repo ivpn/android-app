@@ -38,12 +38,14 @@
         "network":"quic",
         "security":"tls",
         "quicSettings":{
+          "security":"",
+          "key":"",
           "header":{
             "type":"srtp"
           }
         },
         "tlsSettings":{
-          "serverName":"xb1.gw.ivpn.net"
+          "serverName":"xb1.gw.inet-telecom.com"
         },
         "tcpSettings":{
           "header":{
