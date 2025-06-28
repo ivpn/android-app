@@ -24,7 +24,6 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# Logging Functions
 print_status() {
     echo -e "${GREEN}[INFO]${NC} $1"
 }
@@ -37,7 +36,6 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Validate Go Installation
 if ! command -v go &> /dev/null; then
     print_error "Go is not installed. Please install Go before proceeding."
     exit 1
@@ -45,7 +43,6 @@ fi
 
 print_status "Go version: $(go version)"
 
-# Validate and Install gomobile
 if ! command -v gomobile &> /dev/null; then
     print_warning "gomobile not found. Installing gomobile..."
     go install golang.org/x/mobile/cmd/gomobile@latest
@@ -57,15 +54,12 @@ fi
 
 print_status "gomobile found: $(which gomobile)"
 
-# Initialize gomobile environment
 print_status "Initializing gomobile..."
 gomobile init
 
-# Validate Android SDK Installation
 if [ -z "$ANDROID_HOME" ] && [ -z "$ANDROID_SDK_ROOT" ]; then
     print_warning "ANDROID_HOME or ANDROID_SDK_ROOT environment variables not set. Attempting to locate Android SDK..."
 
-    # Standard Android SDK installation paths
     POSSIBLE_ANDROID_HOMES=(
         "$HOME/Android/Sdk"
         "$HOME/Library/Android/sdk"
@@ -90,30 +84,24 @@ fi
 
 print_status "Android SDK: $ANDROID_HOME"
 
-# Prepare Build Environment
 mkdir -p "$OUTPUT_DIR"
 
-# Clean Previous Build Artifacts
 print_status "Cleaning previous build artifacts..."
 rm -rf "$OUTPUT_DIR"/*.aar
 rm -rf "$OUTPUT_DIR"/*.jar
 
-# Download and Validate Dependencies
 print_status "Downloading Go dependencies..."
 go mod download
 go mod tidy
 
-# Execute AAR Build Process
 print_status "Building AAR for Android..."
 print_status "Package: $PACKAGE_NAME"
 print_status "Output: $OUTPUT_DIR/$AAR_NAME.aar"
 print_status "Minimum SDK: $MIN_SDK_VERSION"
 print_status "Target SDK: $TARGET_SDK_VERSION"
 
-# Configure Build Environment
 export CGO_ENABLED=1
 
-# Execute gomobile bind command
 gomobile bind \
     -target=android \
     -androidapi="$MIN_SDK_VERSION" \
@@ -121,32 +109,26 @@ gomobile bind \
     -v \
     "$PACKAGE_NAME"
 
-# Validate Build Success
 print_status "AAR build completed successfully"
 print_status "Output file: $OUTPUT_DIR/$AAR_NAME.aar"
 
-# Display build artifact information
 FILE_SIZE=$(ls -lh "$OUTPUT_DIR/$AAR_NAME.aar" | awk '{print $5}')
 print_status "File size: $FILE_SIZE"
 
-# Remove old AAR from ./core/libs
 print_status "Removing old AAR files from $DEST_DIR..."
 mkdir -p "$DEST_DIR"
 rm -f "$DEST_DIR"/*.aar
 
-# Copy new AAR to ./core/libs
 print_status "Copying new AAR to $DEST_DIR..."
 cp "$OUTPUT_DIR/$AAR_NAME.aar" "$DEST_DIR/"
 
 print_status "AAR file copied successfully to $DEST_DIR"
 
-# Display AAR contents if unzip is available
 if command -v unzip &> /dev/null; then
     print_status "AAR contents:"
     unzip -l "$OUTPUT_DIR/$AAR_NAME.aar" | head -20
 fi
 
-# Generate Build Metadata
 BUILD_INFO_FILE="$OUTPUT_DIR/build_info.txt"
 cat > "$BUILD_INFO_FILE" << EOF
 libV2ray AAR Build Information
