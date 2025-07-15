@@ -31,7 +31,7 @@ android {
     compileSdkVersion 35
     defaultConfig {
         minSdkVersion 25
-        targetSdkVersion 35
+        targetSdkVersion 34
         ndkVersion "25.1.8937393"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
