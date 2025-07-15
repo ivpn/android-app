@@ -10,6 +10,37 @@ set -e
 
 echo "Starting libV2ray AAR build process..."
 
+# Asset downloading function
+download_assets() {
+    print_status "Downloading V2Ray assets..."
+    
+    DATADIR="assets"
+    mkdir -p "$DATADIR"
+    
+    # Check for required dependencies
+    if ! command -v jq &> /dev/null; then
+        print_warning "jq not found. Installing jq..."
+        if command -v brew &> /dev/null; then
+            brew install jq
+        elif command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+        elif command -v yum &> /dev/null; then
+            sudo yum install -y jq
+        else
+            print_error "jq is required but could not be installed automatically. Please install jq manually."
+            exit 1
+        fi
+    fi
+    
+    print_status "Downloading geoip.dat..."
+    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o "$DATADIR/geoip.dat"
+    
+    print_status "Downloading geosite.dat..."
+    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o "$DATADIR/geosite.dat"
+    
+    print_status "Assets downloaded successfully to $DATADIR/"
+}
+
 # Build Configuration
 PACKAGE_NAME="github.com/ivpn/libV2ray/libV2ray"
 OUTPUT_DIR="build"
@@ -93,6 +124,9 @@ rm -rf "$OUTPUT_DIR"/*.jar
 print_status "Downloading Go dependencies..."
 go mod download
 go mod tidy
+
+# Download assets before building
+download_assets
 
 print_status "Building AAR for Android..."
 print_status "Package: $PACKAGE_NAME"
