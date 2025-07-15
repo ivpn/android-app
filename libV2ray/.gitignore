@@ -1,8 +1,6 @@
-# Ignore IDE/Editor directories and files
 .vscode/
 .idea/
 
-# Ignore build directories and files
 gradle/build.gradle
 demo/
 assets/
@@ -12,30 +10,23 @@ out/
 *.pb.go
 binary*.go
 
-# Ignore OS generated files
 .DS_Store
 Thumbs.db
 
-# Ignore compressed files
 *.tgz
 *.gz
 *.zip
 
-# Ignore logs and temporary files
 *.log
 *.tmp
 
-# Ignore Go binary files
 *.exe
 *.dll
 *.so
 
-# Ignore dependency directories
 vendor/
 node_modules/
 
-# Ignore generated libraries
 libv2ray*.[a|j]ar
 
-# Ignore configuration files
 conf/demo/
