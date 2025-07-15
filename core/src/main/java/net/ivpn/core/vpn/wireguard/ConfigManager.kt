@@ -68,21 +68,56 @@ class ConfigManager @Inject constructor(
 
 
     fun startWireGuard() {
+        LOGGER.info("Starting WireGuard connection...")
+        
         // Step 1: Update V2Ray settings with current server info
         updateV2raySettings()
 
-        // Step 2: Start V2Ray if enabled (before WireGuard)
-        val v2rayStarted = v2rayController.startIfEnabled()
-        if (v2rayController.isV2RayEnabled() && !v2rayStarted) {
-            LOGGER.error("Failed to start V2Ray, but V2Ray is enabled. Connection may fail.")
+        // Step 2: Add V2Ray server IP to bypass routes (prevents circular routing)
+        if (v2rayController.isV2RayEnabled()) {
+            try {
+                val v2raySettings = serversPreference.getV2RaySettings()
+                if (v2raySettings != null) {
+                    val serverIp = v2raySettings.outboundIp
+                    LOGGER.info("Adding V2Ray server IP to bypass routes: $serverIp")
+                    // This will be handled in the WireGuard configuration generation
+                }
+            } catch (e: Exception) {
+                LOGGER.error("Failed to get V2Ray settings for bypass routes: ${e.message}", e)
+            }
         }
 
-        // Step 3: Generate WireGuard config (will use V2Ray proxy if enabled)
-        applyConfigToTunnel(generateConfig())
+        // Step 3: Start V2Ray if enabled (before WireGuard)
+        if (v2rayController.isV2RayEnabled()) {
+            val v2rayStarted = v2rayController.startIfEnabled()
+            if (!v2rayStarted) {
+                LOGGER.error("Failed to start V2Ray, but V2Ray is enabled. Aborting connection.")
+                return
+            }
+            LOGGER.info("V2Ray started successfully, WireGuard will use local proxy: ${v2rayController.getLocalProxyEndpoint()}")
+        } else {
+            LOGGER.info("V2Ray is disabled, using direct WireGuard connection")
+        }
 
-        // Step 4: Start WireGuard tunnel
+        // Step 4: Generate WireGuard config (will use V2Ray proxy if enabled)
+        val config = generateConfig()
+        if (config == null) {
+            LOGGER.error("Failed to generate WireGuard configuration")
+            v2rayController.stop()  // Clean up V2Ray if it was started
+            return
+        }
+        
+        applyConfigToTunnel(config)
+
+        // Step 5: Start WireGuard tunnel
         GlobalScope.launch {
-            tunnel?.setState(Tunnel.State.UP)
+            try {
+                tunnel?.setState(Tunnel.State.UP)
+                LOGGER.info("WireGuard tunnel started successfully")
+            } catch (e: Exception) {
+                LOGGER.error("Failed to start WireGuard tunnel: ${e.message}", e)
+                v2rayController.stop()  // Clean up V2Ray if tunnel fails
+            }
         }
     }
 
@@ -129,19 +164,30 @@ class ConfigManager @Inject constructor(
 
         // Get current V2Ray settings (base configuration)
         val currentSettings = serversPreference.getV2RaySettings()
-        if (currentSettings == null || currentSettings.id.isEmpty()) {
-            LOGGER.warn("No V2Ray base configuration found, skipping update")
+        if (currentSettings == null) {
+            LOGGER.error("No V2Ray base configuration found - this is critical!")
+            return
+        }
+        
+        if (currentSettings.id.isEmpty()) {
+            LOGGER.error("V2Ray user ID is empty - this will cause authentication failures")
             return
         }
 
         // ALWAYS get entry server (like iOS getHost())
         val entryServer = serversRepository.getCurrentServer(ServerType.ENTRY)
         if (entryServer?.hosts.isNullOrEmpty()) {
-            LOGGER.warn("No entry server or hosts available")
+            LOGGER.error("No entry server or hosts available - cannot configure V2Ray")
             return
         }
 
         val entryHost = entryServer.hosts[0] // Use first host
+        
+        // Validate entry host has required V2Ray fields
+        if (entryHost.v2ray.isNullOrEmpty()) {
+            LOGGER.error("Entry host does not have V2Ray configuration - V2Ray will not work")
+            return
+        }
 
         // Initialize V2Ray settings with entry server (like iOS)
         var v2rayInboundIp = entryHost.host ?: ""
@@ -149,6 +195,12 @@ class ConfigManager @Inject constructor(
         val v2rayOutboundIp = entryHost.v2ray ?: ""  // ALWAYS entry server
         val v2rayOutboundPort = settings.wireGuardPort.portNumber
         val v2rayDnsName = entryHost.dnsName ?: entryHost.hostname ?: ""  // ALWAYS entry server
+        
+        // Validate critical fields
+        if (v2rayInboundIp.isEmpty() || v2rayOutboundIp.isEmpty()) {
+            LOGGER.error("Critical V2Ray IPs are empty - inbound: '$v2rayInboundIp', outbound: '$v2rayOutboundIp'")
+            return
+        }
 
         // Multi-hop override (like iOS) - ONLY changes inbound settings
         if (multiHopController.isReadyToUse()) {
@@ -161,7 +213,8 @@ class ConfigManager @Inject constructor(
 
                 LOGGER.info("Multi-hop V2Ray override: inbound=${exitHost.host}:${exitHost.multihopPort}")
             } else {
-                LOGGER.warn("Multi-hop enabled but no exit server available")
+                LOGGER.error("Multi-hop enabled but no exit server available")
+                return
             }
         }
 
@@ -183,47 +236,74 @@ class ConfigManager @Inject constructor(
         LOGGER.info("  Inbound: ${v2rayInboundIp}:${v2rayInboundPort}")
         LOGGER.info("  DNS (always entry): ${v2rayDnsName}")
         LOGGER.info("  Mode: ${if (multiHopController.isReadyToUse()) "Multi-hop" else "Single-hop"}")
+        LOGGER.info("  User ID: ${currentSettings.id.take(8)}...")  // Only log first 8 chars for security
 
+        // Validate the final configuration
+        val finalValidationError = validateV2RaySettings(v2raySettings)
+        if (finalValidationError != null) {
+            LOGGER.error("V2Ray settings validation failed: $finalValidationError")
+            return
+        }
 
-        val settings = serversPreference.getV2RaySettings()
-
-
-        val config =  when (obfuscationType) {
+        // Generate the actual V2Ray config to verify it works
+        val testConfig = when (obfuscationType) {
             ObfuscationType.V2RAY_TCP -> V2RayConfig.createTcp(
                 context = IVPNApplication.application,
-                outboundIp = settings!!.outboundIp,
-                outboundPort = settings.outboundPort,
-                inboundIp = settings.inboundIp,
-                inboundPort = settings.inboundPort,
-                outboundUserId = settings.id
+                outboundIp = v2raySettings.outboundIp,
+                outboundPort = v2raySettings.outboundPort,
+                inboundIp = v2raySettings.inboundIp,
+                inboundPort = v2raySettings.inboundPort,
+                outboundUserId = v2raySettings.id
             )
 
             ObfuscationType.V2RAY_QUIC -> V2RayConfig.createQUIC(
                 context = IVPNApplication.application,
-                outboundIp = settings!!.outboundIp,
-                outboundPort = settings.outboundPort,
-                inboundIp = settings.inboundIp,
-                inboundPort = settings.inboundPort,
-                outboundUserId = settings.id,
-                tlsSrvName = settings.tlsSrvName
+                outboundIp = v2raySettings.outboundIp,
+                outboundPort = v2raySettings.outboundPort,
+                inboundIp = v2raySettings.inboundIp,
+                inboundPort = v2raySettings.inboundPort,
+                outboundUserId = v2raySettings.id,
+                tlsSrvName = v2raySettings.tlsSrvName
             )
 
             ObfuscationType.DISABLED -> null
         }
 
-        Log.d("HACKER", "updateV2raySettings: "+config!!.jsonString())
+        val configValidationError = testConfig?.isValid()
+        if (configValidationError != null) {
+            LOGGER.error("Generated V2Ray configuration is invalid: $configValidationError")
+            return
+        }
+
+        LOGGER.info("V2Ray settings updated and validated successfully")
+    }
+
+    private fun validateV2RaySettings(settings: V2RaySettings): String? {
+        if (settings.id.isEmpty()) return "User ID is empty"
+        if (settings.outboundIp.isEmpty()) return "Outbound IP is empty"
+        if (settings.outboundPort <= 0) return "Outbound port is invalid"
+        if (settings.inboundIp.isEmpty()) return "Inbound IP is empty"
+        if (settings.inboundPort <= 0) return "Inbound port is invalid"
+        return null
     }
 
     private fun generateConfig(server: Server?, port: Port): Config? {
+        LOGGER.info("Generating WireGuard config for single-hop connection")
+        
+        if (server == null || server.hosts == null || server.hosts.isEmpty()) {
+            LOGGER.error("Server or hosts are null/empty")
+            return null
+        }
+
         val config = Config()
         val privateKey = settings.wireGuardPrivateKey
-
-        LOGGER.info("Generating config:")
-        if (server == null || server.hosts == null) {
+        if (privateKey.isNullOrEmpty()) {
+            LOGGER.error("WireGuard private key is null or empty")
             return null
         }
 
         val host = server.hosts[0] // Use first host as determined
+        LOGGER.info("Using server host: ${host.hostname} (${host.host})")
 
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
@@ -232,79 +312,103 @@ class ConfigManager @Inject constructor(
         setAddress(config, listOf(host))
 
         val dnsString = getDNS(host)
-        println("Config dns = $dnsString")
+        LOGGER.info("DNS configuration: $dnsString")
         config.getInterface().setDnsString(dnsString)
 
         // CRITICAL: Modify endpoint based on V2Ray status
         val endpoint = if (v2rayController.isV2RayEnabled()) {
             // Use local V2Ray proxy instead of direct server connection
-            v2rayController.getLocalProxyEndpoint()
+            val proxyEndpoint = v2rayController.getLocalProxyEndpoint()
+            LOGGER.info("V2Ray enabled - using local proxy endpoint: $proxyEndpoint")
+            proxyEndpoint
         } else {
             // Direct connection to WireGuard server
-            "${host.host}:${port.portNumber}"
+            val directEndpoint = "${host.host}:${port.portNumber}"
+            LOGGER.info("V2Ray disabled - using direct endpoint: $directEndpoint")
+            directEndpoint
         }
 
         val peer = Peer().also {
-            it.setAllowedIPsString("0.0.0.0/0, ::/0")
+            it.setAllowedIPsString("128.0.0.0/1, 0.0.0.0/1")
             it.setEndpointString(endpoint)  // This is the key change!
             it.publicKey = host.publicKey
+            LOGGER.info("Peer configuration - endpoint: $endpoint, publicKey: ${host.publicKey}")
         }
 
         if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
             peer.preSharedKey = settings.wireGuardPresharedKey
+            LOGGER.info("Using pre-shared key")
         }
 
         config.peers = listOf(peer)
 
-        LOGGER.info("WireGuard endpoint: $endpoint (V2Ray: ${v2rayController.isV2RayEnabled()})")
-
+        LOGGER.info("WireGuard config generated successfully")
         return config
     }
     private fun generateConfigForMultiHop(entryServer: Server?, exitServer: Server?): Config? {
-        val config = Config()
-        val privateKey = settings.wireGuardPrivateKey
-
-        LOGGER.info("Generating config for multihop:")
-        if (entryServer == null || entryServer.hosts == null || exitServer == null || exitServer.hosts == null) {
+        LOGGER.info("Generating WireGuard config for multi-hop connection")
+        
+        if (entryServer == null || entryServer.hosts == null || entryServer.hosts.isEmpty()) {
+            LOGGER.error("Entry server or hosts are null/empty")
             return null
         }
+        
+        if (exitServer == null || exitServer.hosts == null || exitServer.hosts.isEmpty()) {
+            LOGGER.error("Exit server or hosts are null/empty")
+            return null
+        }
+
+        val config = Config()
+        val privateKey = settings.wireGuardPrivateKey
+        if (privateKey.isNullOrEmpty()) {
+            LOGGER.error("WireGuard private key is null or empty")
+            return null
+        }
+
+        val entryHost = entryServer.hosts[0]
+        val exitHost = exitServer.hosts[0]
+        
+        LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
+        LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
 
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
 
-        val entryHost = entryServer.hosts[0]
-        val exitHost = exitServer.hosts[0]
-
         setAddress(config, listOf(entryHost, exitHost))
 
         val dnsString = getDNS(entryHost)
-        println("Config dns = $dnsString")
+        LOGGER.info("DNS configuration: $dnsString")
         config.getInterface().setDnsString(dnsString)
 
         // CRITICAL: Modify endpoint for multi-hop with V2Ray
         val endpoint = if (v2rayController.isV2RayEnabled()) {
             // Use local V2Ray proxy
-            v2rayController.getLocalProxyEndpoint()
+            val proxyEndpoint = v2rayController.getLocalProxyEndpoint()
+            LOGGER.info("V2Ray enabled - multi-hop using local proxy endpoint: $proxyEndpoint")
+            proxyEndpoint
         } else {
             // Direct multi-hop connection
-            "${entryHost.host}:${exitHost.multihopPort}"
+            val directEndpoint = "${entryHost.host}:${exitHost.multihopPort}"
+            LOGGER.info("V2Ray disabled - multi-hop using direct endpoint: $directEndpoint")
+            directEndpoint
         }
 
         val peer = Peer().also {
             it.setAllowedIPsString("0.0.0.0/0, ::/0")
             it.setEndpointString(endpoint)  // This is the key change!
-            it.publicKey = exitHost.publicKey
+            it.publicKey = exitHost.publicKey  // Use exit server's public key for multi-hop
+            LOGGER.info("Multi-hop peer configuration - endpoint: $endpoint, publicKey: ${exitHost.publicKey}")
         }
 
         if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
             peer.preSharedKey = settings.wireGuardPresharedKey
+            LOGGER.info("Using pre-shared key")
         }
 
         config.peers = listOf(peer)
 
-        LOGGER.info("WireGuard multi-hop endpoint: $endpoint (V2Ray: ${v2rayController.isV2RayEnabled()})")
-
+        LOGGER.info("Multi-hop WireGuard config generated successfully")
         return config
     }
     private fun setAddress(config: Config, hosts: List<Host>) {

@@ -96,6 +96,8 @@ func NewCoreController(s CoreCallbackHandler) *CoreController {
 	}
 }
 
+
+
 // StartLoop initializes and starts the core processing loop
 // Thread-safe method that configures and runs the v2fly core with the provided configuration
 // Returns immediately if the core is already running
@@ -163,6 +165,8 @@ func (x *CoreController) doStartLoop(configContent string) error {
 	log.Println("Core started successfully")
 	return nil
 }
+
+
 
 // measureInstDelay measures the delay for an instance to a given URL
 func measureInstDelay(ctx context.Context, inst *core.Instance, url string) (int64, error) {

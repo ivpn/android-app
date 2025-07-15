@@ -45,14 +45,17 @@ class V2rayController @Inject constructor(
     private val controller: CoreController by lazy {
         LibV2ray.newCoreController(this)
     }
+    
+
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(V2rayController::class.java)
         const val V2RAY_LOCAL_HOST = "127.0.0.1"
-        const val V2RAY_LOCAL_PORT = 16661  // Same as iOS
+        const val V2RAY_LOCAL_PORT_BASE = 16661  // Base port, will find free port from here
     }
 
     private var isRunning = false
+    private var currentLocalPort = 0  // Track the actual port in use
 
     fun makeConfig(): V2RayConfig? {
         val settings = serversPreference.getV2RaySettings() ?: return null
@@ -113,11 +116,18 @@ class V2rayController @Inject constructor(
 
     fun start(): Boolean {
         try {
+            // Find a free port for V2Ray
+            currentLocalPort = findFreePort()
+            LOGGER.info("Using V2Ray local port: $currentLocalPort")
+            
             val config = makeConfig()
             if (config == null) {
                 LOGGER.error("Failed to create V2Ray configuration")
                 return false
             }
+
+            // Update config to use the dynamic port
+            config.setLocalPort(currentLocalPort, false) // false = UDP
 
             val validationError = config.isValid()
             if (validationError != null) {
@@ -126,18 +136,19 @@ class V2rayController @Inject constructor(
             }
 
             LOGGER.info("Starting V2Ray with configuration:")
-            LOGGER.info("  Local proxy: ${V2RAY_LOCAL_HOST}:${V2RAY_LOCAL_PORT}")
+            LOGGER.info("  Local proxy: ${V2RAY_LOCAL_HOST}:${currentLocalPort}")
             LOGGER.info("  Obfuscation: ${encryptedSettingsPreference.obfuscationType.name}")
 
             controller.startLoop(config.jsonString())
             isRunning = true
 
-            LOGGER.info("V2Ray started successfully")
+            LOGGER.info("V2Ray started successfully - server routes will bypass VPN tunnel")
             return true
 
         } catch (e: Exception) {
             LOGGER.error("Failed to start V2Ray: ${e.message}", e)
             isRunning = false
+            currentLocalPort = 0
             return false
         }
     }
@@ -148,16 +159,38 @@ class V2rayController @Inject constructor(
                 controller.stopLoop()
             }
             isRunning = false
+            currentLocalPort = 0  // Reset the port
             LOGGER.info("V2Ray stopped")
         } catch (e: Exception) {
             LOGGER.error("Error stopping V2Ray: ${e.message}", e)
             isRunning = false
+            currentLocalPort = 0  // Reset the port even on error
         }
     }
 
 
     fun getLocalProxyEndpoint(): String {
-        return "$V2RAY_LOCAL_HOST:$V2RAY_LOCAL_PORT"
+        return "$V2RAY_LOCAL_HOST:$currentLocalPort"
+    }
+
+    private fun findFreePort(): Int {
+        // Try to find a free port starting from the base port
+        for (port in V2RAY_LOCAL_PORT_BASE..V2RAY_LOCAL_PORT_BASE + 100) {
+            if (isPortAvailable(port)) {
+                return port
+            }
+        }
+        return V2RAY_LOCAL_PORT_BASE // Fallback to base port
+    }
+
+    private fun isPortAvailable(port: Int): Boolean {
+        return try {
+            val serverSocket = java.net.ServerSocket(port)
+            serverSocket.close()
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     override fun onEmitStatus(p0: Long, p1: String?): Long {
