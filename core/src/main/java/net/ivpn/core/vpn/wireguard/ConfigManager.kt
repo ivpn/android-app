@@ -164,16 +164,10 @@ class ConfigManager @Inject constructor(
     }
 
     /**
-     * Updates V2Ray settings with current server configuration for obfuscated connections.
-     *
      * V2Ray Configuration Logic:
      * - Outbound: Always connects to entry server V2Ray endpoint
      * - Inbound: Entry server (single-hop) or exit server (multi-hop) WireGuard endpoint
      * - Ports: Uses standard V2Ray ports (80 for TCP, 443 for QUIC)
-     *
-     * Data Flow:
-     * - Single-hop: Local V2Ray → Entry V2Ray → Entry WireGuard
-     * - Multi-hop: Local V2Ray → Entry V2Ray → Exit WireGuard
      */
     private fun updateV2raySettings() {
         val obfuscationType = encryptedSettingsPreference.obfuscationType
@@ -182,7 +176,6 @@ class ConfigManager @Inject constructor(
             return
         }
 
-        // validate base V2Ray configuration
         val currentSettings = serversPreference.getV2RaySettings()
         if (currentSettings == null) {
             LOGGER.error("V2Ray base configuration not found")
@@ -194,7 +187,6 @@ class ConfigManager @Inject constructor(
             return
         }
 
-        // Get entry server configuration (required for all V2Ray connections)
         val entryServer = serversRepository.getCurrentServer(ServerType.ENTRY)
         if (entryServer?.hosts.isNullOrEmpty()) {
             LOGGER.error("Entry server not available, cannot configure V2Ray")
@@ -203,18 +195,15 @@ class ConfigManager @Inject constructor(
 
         val entryHost = entryServer.hosts[0]
 
-        // Validate entry host has V2Ray configuration
         if (entryHost.v2ray.isNullOrEmpty()) {
             LOGGER.error("Entry host missing V2Ray configuration")
             return
         }
 
-        // Configure V2Ray settings with entry server defaults
         var v2rayInboundIp = entryHost.host ?: ""
         var v2rayInboundPort = currentSettings.singleHopInboundPort
         val v2rayOutboundIp = entryHost.v2ray ?: ""
 
-        // Use standard V2Ray ports based on obfuscation type (matching desktop-pp implementation)
         val v2rayOutboundPort = when (obfuscationType) {
             ObfuscationType.V2RAY_TCP -> V2RAY_TCP_PORT
             ObfuscationType.V2RAY_QUIC -> V2RAY_QUIC_PORT
