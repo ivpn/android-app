@@ -36,15 +36,6 @@ import javax.inject.Inject
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-/**
- * V2Ray controller for managing V2Ray proxy connections.
- * 
- * This controller handles:
- * - Starting and stopping V2Ray proxy service
- * - Dynamic port allocation to avoid conflicts
- * - Configuration validation and error handling
- * - Integration with WireGuard for obfuscated connections
- */
 @ApplicationScope
 class V2rayController @Inject constructor(
     private val encryptedSettingsPreference: EncryptedSettingsPreference,
@@ -67,11 +58,7 @@ class V2rayController @Inject constructor(
     @Volatile
     private var currentLocalPort = 0
 
-    /**
-     * Creates V2Ray configuration based on current settings.
-     *
-     * @return V2Ray configuration or null if V2Ray is disabled or settings are invalid
-     */
+
     fun makeConfig(): V2RayConfig? {
         val settings = serversPreference.getV2RaySettings() ?: return null
         val obfuscationType = encryptedSettingsPreference.obfuscationType
@@ -100,11 +87,7 @@ class V2rayController @Inject constructor(
         }
     }
 
-    /**
-     * Checks if V2Ray obfuscation is enabled based on current settings.
-     *
-     * @return true if V2Ray is enabled, false otherwise
-     */
+
     fun isV2RayEnabled(): Boolean {
         val obfuscationType = encryptedSettingsPreference.obfuscationType
         val isEnabled = obfuscationType != ObfuscationType.DISABLED
@@ -114,11 +97,7 @@ class V2rayController @Inject constructor(
         return isEnabled
     }
 
-    /**
-     * Starts V2Ray if it is enabled in settings.
-     *
-     * @return true if V2Ray started successfully or was already running, false otherwise
-     */
+
     fun startIfEnabled(): Boolean {
         if (!isV2RayEnabled()) {
             LOGGER.debug("V2Ray is disabled, skipping start")
@@ -133,14 +112,9 @@ class V2rayController @Inject constructor(
         return start()
     }
 
-    /**
-     * Starts V2Ray proxy service.
-     *
-     * @return true if V2Ray started successfully, false otherwise
-     */
+
     fun start(): Boolean {
         try {
-            // Find a free port for V2Ray local proxy
             currentLocalPort = findFreePort()
             LOGGER.info("V2Ray allocated local port: $currentLocalPort")
             
@@ -150,7 +124,6 @@ class V2rayController @Inject constructor(
                 return false
             }
 
-            // Update config to use the dynamic port (false = UDP)
             config.setLocalPort(currentLocalPort, false)
 
             val validationError = config.isValid()
@@ -162,14 +135,8 @@ class V2rayController @Inject constructor(
             LOGGER.info("Starting V2Ray proxy service:")
             LOGGER.info("  Local endpoint: ${V2RAY_LOCAL_HOST}:${currentLocalPort}")
             LOGGER.info("  Obfuscation type: ${encryptedSettingsPreference.obfuscationType.name}")
-
-            // Log the full V2Ray JSON configuration for debugging
-            val v2rayJsonConfig = config.jsonString()
-            android.util.Log.d("HACKER", "V2Ray Full JSON Configuration:\n$v2rayJsonConfig")
-
-            controller.startLoop(v2rayJsonConfig)
+            controller.startLoop(config.jsonString())
             isRunning = true
-
             LOGGER.info("V2Ray started successfully - traffic will be routed through local proxy")
             return true
 
@@ -180,9 +147,7 @@ class V2rayController @Inject constructor(
         }
     }
 
-    /**
-     * Stops V2Ray proxy service.
-     */
+
     fun stop() {
         try {
             if (controller.isRunning) {
@@ -197,23 +162,14 @@ class V2rayController @Inject constructor(
         }
     }
 
-    /**
-     * Gets the local proxy endpoint for WireGuard to connect to.
-     *
-     * @return local proxy endpoint in format "host:port"
-     */
+
     fun getLocalProxyEndpoint(): String {
         return "$V2RAY_LOCAL_HOST:$currentLocalPort"
     }
 
-    /**
-     * Finds a free port for V2Ray local proxy using libV2ray's port allocation.
-     *
-     * @return available port number or base port as fallback
-     */
+
     private fun findFreePort(): Int {
         return try {
-            // Use libV2ray's GetFreePort function to get a free port
             val port = LibV2ray.getFreePort().toInt()
             if (port > 0) {
                 LOGGER.info("libV2ray allocated free port: $port")
@@ -228,15 +184,12 @@ class V2rayController @Inject constructor(
         }
     }
 
-    /**
-     * Cleans up V2Ray state variables.
-     */
+
     private fun cleanup() {
         isRunning = false
         currentLocalPort = 0
     }
 
-    // CoreCallbackHandler implementation
     override fun onEmitStatus(p0: Long, p1: String?): Long {
         return 0
     }
