@@ -55,7 +55,6 @@ class V2rayController @Inject constructor(
         private val LOGGER = LoggerFactory.getLogger(V2rayController::class.java)
         private const val V2RAY_LOCAL_HOST = "127.0.0.1"
         private const val V2RAY_LOCAL_PORT_BASE = 16661
-        private const val V2RAY_PORT_RANGE = 100
     }
 
     private val controller: CoreController by lazy {
@@ -208,33 +207,25 @@ class V2rayController @Inject constructor(
     }
 
     /**
-     * Finds a free port for V2Ray local proxy.
+     * Finds a free port for V2Ray local proxy using libV2ray's port allocation.
      *
      * @return available port number or base port as fallback
      */
     private fun findFreePort(): Int {
-        for (port in V2RAY_LOCAL_PORT_BASE..V2RAY_LOCAL_PORT_BASE + V2RAY_PORT_RANGE) {
-            if (isPortAvailable(port)) {
-                return port
-            }
-        }
-        LOGGER.warn("No free ports found in range, using base port $V2RAY_LOCAL_PORT_BASE")
-        return V2RAY_LOCAL_PORT_BASE
-    }
-
-    /**
-     * Checks if a port is available for binding.
-     *
-     * @param port port number to check
-     * @return true if port is available, false otherwise
-     */
-    private fun isPortAvailable(port: Int): Boolean {
         return try {
-            val serverSocket = java.net.ServerSocket(port)
-            serverSocket.close()
-            true
+            // Use libV2ray's GetFreePorts function to get a free port
+            val freePorts = LibV2ray.getFreePorts(1)
+            if (freePorts.isNotEmpty()) {
+                val port = freePorts[0].toInt()
+                LOGGER.info("libV2ray allocated free port: $port")
+                port
+            } else {
+                LOGGER.warn("libV2ray returned no free ports, using base port $V2RAY_LOCAL_PORT_BASE")
+                V2RAY_LOCAL_PORT_BASE
+            }
         } catch (e: Exception) {
-            false
+            LOGGER.error("Failed to get free port from libV2ray: ${e.message}, using base port $V2RAY_LOCAL_PORT_BASE")
+            V2RAY_LOCAL_PORT_BASE
         }
     }
 
