@@ -28,6 +28,7 @@ import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
+import net.ivpn.core.vpn.model.ObfuscationType
 import javax.inject.Inject
 
 @ApplicationScope
@@ -38,6 +39,9 @@ class PortsViewModel @Inject constructor(
 
     val protocol: Protocol
         get() = protocolController.currentProtocol
+
+    val obfuscationType: ObfuscationType
+        get() = settings.obfuscationType
 
     fun getPorts(): List<Port> {
         return if (protocol == Protocol.WIREGUARD) {

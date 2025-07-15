@@ -60,7 +60,7 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
                     android:overlapAnchor="true"
-                    android:text="@{viewmodel.wireGuardPort.toThumbnail()}"
+                    android:text="@{viewmodel.wireGuardPort.toThumbnailWithObfuscation(viewmodel.obfuscationType)}"
                     android:textColor="@color/protocol_text_color" />
             </LinearLayout>
 

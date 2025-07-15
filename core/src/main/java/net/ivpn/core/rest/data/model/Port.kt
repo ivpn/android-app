@@ -25,6 +25,7 @@ package net.ivpn.core.rest.data.model
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import net.ivpn.core.vpn.model.ObfuscationType
 
 class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRange()) {
 
@@ -51,6 +52,14 @@ class Port(_protocol: String, _portNumber: Int, _portRange: PortRange = PortRang
 
     fun toThumbnail(): String {
         return "$protocol $portNumber"
+    }
+
+    fun toThumbnailWithObfuscation(obfuscationType: ObfuscationType?): String {
+        val displayProtocol = when {
+            obfuscationType == ObfuscationType.V2RAY_TCP && protocol.equals("UDP", ignoreCase = true) -> "TCP"
+            else -> protocol
+        }
+        return "$displayProtocol $portNumber"
     }
 
     fun next(ports: List<Port>): Port {

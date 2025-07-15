@@ -199,7 +199,7 @@ public class ProtocolViewModel {
 
     public String getDescription() {
         if (protocol.get().equals(Protocol.WIREGUARD)) {
-            return "WireGuard" + ", " + wireGuardPort.get().toThumbnail();
+            return "WireGuard" + ", " + wireGuardPort.get().toThumbnailWithObfuscation(obfuscationType.get());
         } else {
             return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();
         }
