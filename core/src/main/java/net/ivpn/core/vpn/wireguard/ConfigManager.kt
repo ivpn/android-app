@@ -383,7 +383,12 @@ class ConfigManager @Inject constructor(
         val host = server.hosts[0]
         LOGGER.info("Using server host: ${host.hostname} (${host.host})")
 
-        return createWireGuardConfig(host, port.portNumber, privateKey, listOf(host))
+        return createWireGuardConfig(
+            peerHost = host,
+            portNumber = port.portNumber,
+            privateKey = privateKey,
+            hosts = listOf(host)
+        )
     }
 
     /**
@@ -420,13 +425,21 @@ class ConfigManager @Inject constructor(
 
         // For multi-hop, we use the exit server's public key and multihop port
         val portNumber = exitHost.multihopPort
-        return createWireGuardConfig(exitHost, portNumber, privateKey, listOf(entryHost, exitHost), isMultiHop = true)
+        return createWireGuardConfig(
+            peerHost = exitHost,            // Exit server's public key for peer configuration
+            entryHost = entryHost,          // Entry server's host for direct connection endpoint
+            portNumber = portNumber,
+            privateKey = privateKey,
+            hosts = listOf(entryHost, exitHost),
+            isMultiHop = true
+        )
     }
 
     /**
      * Creates a WireGuard configuration with the specified parameters.
      * 
-     * @param peerHost The host to use for peer configuration
+     * @param peerHost The host to use for peer configuration (exit server for multi-hop)
+     * @param entryHost The host to use for direct connection endpoint (entry server for multi-hop)
      * @param portNumber The port number to use for direct connections
      * @param privateKey The WireGuard private key
      * @param hosts The list of hosts for address configuration
@@ -435,6 +448,7 @@ class ConfigManager @Inject constructor(
      */
     private fun createWireGuardConfig(
         peerHost: Host,
+        entryHost: Host? = null,
         portNumber: Int,
         privateKey: String,
         hosts: List<Host>,
@@ -462,9 +476,19 @@ class ConfigManager @Inject constructor(
             proxyEndpoint
         } else {
             // Direct connection to WireGuard server
-            val directEndpoint = "${peerHost.host}:$portNumber"
+            val endpointHost = if (isMultiHop && entryHost != null) {
+                // For multi-hop direct connection: connect to entry server, but use exit server's public key
+                entryHost.host
+            } else {
+                // For single-hop direct connection: connect to the same server whose public key we use
+                peerHost.host
+            }
+            val directEndpoint = "${endpointHost}:$portNumber"
             LOGGER.info("${if (isMultiHop) "Multi-hop" else "Single-hop"} using direct endpoint: $directEndpoint")
             android.util.Log.d("HACKER", "${if (isMultiHop) "Multi-hop" else "Single-hop"} WireGuard will connect directly to: $directEndpoint")
+            if (isMultiHop) {
+                android.util.Log.d("HACKER", "Multi-hop: Connecting to entry server (${entryHost?.host}) but using exit server's public key (${peerHost.publicKey})")
+            }
             directEndpoint
         }
 
