@@ -45,20 +45,6 @@ import javax.inject.Inject
  You should have received a copy of the GNU General Public License
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
-
-/**
- * WireGuard configuration manager with V2Ray obfuscation support.
- * 
- * This class handles:
- * - WireGuard tunnel configuration generation
- * - V2Ray proxy integration for obfuscated connections
- * - Single-hop and multi-hop connection setup
- * - Server configuration validation and error handling
- * 
- * V2Ray Data Flow:
- * - Single-hop: Client → V2Ray Local Proxy → Entry Server V2Ray → Entry Server WireGuard → Internet
- * - Multi-hop: Client → V2Ray Local Proxy → Entry Server V2Ray → Exit Server WireGuard → Internet
- */
 @ApplicationScope
 class ConfigManager @Inject constructor(
     private val settings: Settings,
@@ -68,15 +54,19 @@ class ConfigManager @Inject constructor(
     private val serversPreference: ServersPreference,
     private val v2rayController: V2rayController
 ) {
-    
+    /**
+     * V2Ray Data Flow:
+     * - Single-hop: Client → V2Ray Local Proxy → Entry Server V2Ray → Entry Server WireGuard → Internet
+     * - Multi-hop: Client → V2Ray Local Proxy → Entry Server V2Ray → Exit Server WireGuard → Internet
+     */
     companion object {
         private val LOGGER = LoggerFactory.getLogger(ConfigManager::class.java)
         private const val WIREGUARD_TUNNEL_NAME = "IVPN"
         private const val DEFAULT_DNS = "172.16.0.1"
-        
-        // V2Ray standard ports (matching desktop implementation)
-        private const val V2RAY_TCP_PORT = 80    // HTTP/VMess/TCP
-        private const val V2RAY_QUIC_PORT = 443  // HTTPS/VMess/QUIC
+        // HTTP/VMess/TCP (According to desktop-app)
+        private const val V2RAY_TCP_PORT = 80
+        // HTTPS/VMess/QUIC (According to desktop-app)
+        private const val V2RAY_QUIC_PORT = 443
     }
     
     var tunnel: Tunnel? = null
@@ -86,9 +76,7 @@ class ConfigManager @Inject constructor(
             field = value
         }
 
-    /**
-     * Initialize the configuration manager.
-     */
+
     fun init() {
         LOGGER.info("ConfigManager initialized")
     }
@@ -104,11 +92,7 @@ class ConfigManager @Inject constructor(
      */
     fun startWireGuard() {
         LOGGER.info("Starting WireGuard connection...")
-        
-        // Update V2Ray settings with current server information
         updateV2raySettings()
-
-        // Start V2Ray proxy if obfuscation is enabled
         if (v2rayController.isV2RayEnabled()) {
             val v2rayStarted = v2rayController.startIfEnabled()
             if (!v2rayStarted) {
@@ -120,7 +104,6 @@ class ConfigManager @Inject constructor(
             LOGGER.info("V2Ray obfuscation disabled, using direct WireGuard connection")
         }
 
-        // Generate WireGuard configuration (will route through V2Ray proxy if enabled)
         val config = generateConfig()
         if (config == null) {
             LOGGER.error("Failed to generate WireGuard configuration")
@@ -130,7 +113,6 @@ class ConfigManager @Inject constructor(
         
         applyConfigToTunnel(config)
 
-        // Start WireGuard tunnel
         GlobalScope.launch {
             try {
                 tunnel?.setState(Tunnel.State.UP)
@@ -142,28 +124,22 @@ class ConfigManager @Inject constructor(
         }
     }
 
-    /**
-     * Stops WireGuard connection and V2Ray proxy service.
-     */
+
     fun stopWireGuard() {
         LOGGER.info("Stopping WireGuard connection...")
         
-        // Stop WireGuard tunnel
         GlobalScope.launch {
             tunnel?.setState(Tunnel.State.DOWN)
         }
 
-        // Stop V2Ray proxy service
         v2rayController.stop()
         
         LOGGER.info("WireGuard connection stopped")
     }
 
     private fun applyConfigToTunnel(config: Config?) {
-        // Log the full WireGuard configuration for debugging
         config?.let { wgConfig ->
             val configString = wgConfig.format()
-            android.util.Log.d("HACKER", "WireGuard Full Configuration:\n$configString")
         }
 
         tunnel?.let {
@@ -176,10 +152,8 @@ class ConfigManager @Inject constructor(
 
     private fun generateConfig(): Config? {
         val server = serversRepository.getCurrentServer(ServerType.ENTRY)
-        Log.d("HACKER", "Entry ip ${server?.ipAddress}")
         return if (multiHopController.isReadyToUse()) {
             val exitServer = serversRepository.getCurrentServer(ServerType.EXIT)
-            Log.d("HACKER", "Exit ip ${exitServer?.ipAddress}")
             generateConfigForMultiHop(server, exitServer)
         } else {
             val port = settings.wireGuardPort
@@ -206,7 +180,7 @@ class ConfigManager @Inject constructor(
             return
         }
 
-        // Validate base V2Ray configuration
+        // validate base V2Ray configuration
         val currentSettings = serversPreference.getV2RaySettings()
         if (currentSettings == null) {
             LOGGER.error("V2Ray base configuration not found")
@@ -238,30 +212,26 @@ class ConfigManager @Inject constructor(
         var v2rayInboundPort = currentSettings.singleHopInboundPort
         val v2rayOutboundIp = entryHost.v2ray ?: ""
         
-        // Use standard V2Ray ports based on obfuscation type (matching desktop implementation)
+        // Use standard V2Ray ports based on obfuscation type (matching desktop-pp implementation)
         val v2rayOutboundPort = when (obfuscationType) {
-            ObfuscationType.V2RAY_TCP -> V2RAY_TCP_PORT   // HTTP/VMess/TCP
-            ObfuscationType.V2RAY_QUIC -> V2RAY_QUIC_PORT // HTTPS/VMess/QUIC  
+            ObfuscationType.V2RAY_TCP -> V2RAY_TCP_PORT
+            ObfuscationType.V2RAY_QUIC -> V2RAY_QUIC_PORT
             else -> settings.wireGuardPort.portNumber
         }
         
         val v2rayDnsName = entryHost.dnsName ?: entryHost.hostname ?: ""
         
-        // Validate critical fields
         if (v2rayInboundIp.isEmpty() || v2rayOutboundIp.isEmpty()) {
             LOGGER.error("Critical V2Ray IPs are empty - inbound: '$v2rayInboundIp', outbound: '$v2rayOutboundIp'")
             return
         }
 
-        // Multi-hop override - changes inbound settings to exit server
         if (multiHopController.isReadyToUse()) {
             val exitServer = serversRepository.getCurrentServer(ServerType.EXIT)
             if (exitServer?.hosts?.isNotEmpty() == true) {
                 val exitHost = exitServer.hosts[0]
-                // For multi-hop: inbound connects to exit server, port same as outbound (like desktop)
                 v2rayInboundIp = exitHost.host ?: ""
-                v2rayInboundPort = v2rayOutboundPort  // Use same port as outbound (80 for TCP, 443 for QUIC)
-
+                v2rayInboundPort = v2rayOutboundPort
                 LOGGER.info("Multi-hop V2Ray override: inbound=${exitHost.host}:${v2rayOutboundPort}")
             } else {
                 LOGGER.error("Multi-hop enabled but no exit server available")
@@ -269,85 +239,23 @@ class ConfigManager @Inject constructor(
             }
         }
 
-        // Create updated V2Ray settings
         val v2raySettings = V2RaySettings(
             id = currentSettings.id,
-            outboundIp = v2rayOutboundIp,      // Always entry server
-            outboundPort = v2rayOutboundPort,   // Standard V2Ray port
-            inboundIp = v2rayInboundIp,        // Entry server (single-hop) or Exit server (multi-hop)
-            inboundPort = v2rayInboundPort,     // Single-hop port or Exit multihop port
-            dnsName = v2rayDnsName,            // Always entry server
+            outboundIp = v2rayOutboundIp,
+            outboundPort = v2rayOutboundPort,
+            inboundIp = v2rayInboundIp,
+            inboundPort = v2rayInboundPort,
+            dnsName = v2rayDnsName,
             wireguard = currentSettings.wireguard
         )
-
         serversPreference.putV2RaySettings(v2raySettings)
-
-        // Log complete V2Ray settings for debugging
-        android.util.Log.d("HACKER", "V2Ray Settings Object:\n" +
-            "ID: ${v2raySettings.id}\n" +
-            "Outbound IP: ${v2raySettings.outboundIp} (Entry Server V2Ray)\n" +
-            "Outbound Port: ${v2raySettings.outboundPort} (Standard V2Ray port)\n" +
-            "Inbound IP: ${v2raySettings.inboundIp} (${if (multiHopController.isReadyToUse()) "Exit Server" else "Entry Server"} WireGuard)\n" +
-            "Inbound Port: ${v2raySettings.inboundPort} (${if (multiHopController.isReadyToUse()) "Same as outbound" else "Internal V2Ray port"})\n" +
-            "DNS Name: ${v2raySettings.dnsName}\n" +
-            "TLS Srv Name: ${v2raySettings.tlsSrvName}\n" +
-            "Wireguard: ${v2raySettings.wireguard}\n" +
-            "Mode: ${if (multiHopController.isReadyToUse()) "Multi-hop" else "Single-hop"}\n" +
-            "Obfuscation: ${obfuscationType.name}")
-
-        LOGGER.info("Updated V2Ray settings:")
-        LOGGER.info("  Outbound (always entry): ${v2rayOutboundIp}:${v2rayOutboundPort}")
-        LOGGER.info("  Inbound: ${v2rayInboundIp}:${v2rayInboundPort}")
-        LOGGER.info("  DNS (always entry): ${v2rayDnsName}")
-        LOGGER.info("  Mode: ${if (multiHopController.isReadyToUse()) "Multi-hop" else "Single-hop"}")
-        LOGGER.info("  User ID: ${currentSettings.id.take(8)}...")  // Only log first 8 chars for security
-
-        // Validate the final configuration
         val finalValidationError = validateV2RaySettings(v2raySettings)
         if (finalValidationError != null) {
             LOGGER.error("V2Ray settings validation failed: $finalValidationError")
             return
         }
-
-        // Generate the actual V2Ray config to verify it works
-        val testConfig = when (obfuscationType) {
-            ObfuscationType.V2RAY_TCP -> V2RayConfig.createTcp(
-                context = IVPNApplication.application,
-                outboundIp = v2raySettings.outboundIp,
-                outboundPort = v2raySettings.outboundPort,
-                inboundIp = v2raySettings.inboundIp,
-                inboundPort = v2raySettings.inboundPort,
-                outboundUserId = v2raySettings.id
-            )
-
-            ObfuscationType.V2RAY_QUIC -> V2RayConfig.createQUIC(
-                context = IVPNApplication.application,
-                outboundIp = v2raySettings.outboundIp,
-                outboundPort = v2raySettings.outboundPort,
-                inboundIp = v2raySettings.inboundIp,
-                inboundPort = v2raySettings.inboundPort,
-                outboundUserId = v2raySettings.id,
-                tlsSrvName = v2raySettings.tlsSrvName
-            )
-
-            ObfuscationType.DISABLED -> null
-        }
-
-        val configValidationError = testConfig?.isValid()
-        if (configValidationError != null) {
-            LOGGER.error("Generated V2Ray configuration is invalid: $configValidationError")
-            return
-        }
-
-        LOGGER.info("V2Ray settings updated and validated successfully")
     }
 
-    /**
-     * Validates V2Ray settings to ensure all required fields are properly configured.
-     * 
-     * @param settings The V2Ray settings to validate
-     * @return Error message if validation fails, null if valid
-     */
     private fun validateV2RaySettings(settings: V2RaySettings): String? {
         return when {
             settings.id.isEmpty() -> "V2Ray user ID is empty"
@@ -359,13 +267,7 @@ class ConfigManager @Inject constructor(
         }
     }
 
-    /**
-     * Generates WireGuard configuration for single-hop connections.
-     * 
-     * @param server The VPN server to connect to
-     * @param port The port configuration to use
-     * @return WireGuard configuration or null if generation fails
-     */
+
     private fun generateConfig(server: Server?, port: Port): Config? {
         LOGGER.info("Generating WireGuard configuration for single-hop connection")
         
@@ -391,13 +293,7 @@ class ConfigManager @Inject constructor(
         )
     }
 
-    /**
-     * Generates WireGuard configuration for multi-hop connections.
-     * 
-     * @param entryServer The entry VPN server
-     * @param exitServer The exit VPN server
-     * @return WireGuard configuration or null if generation fails
-     */
+
     private fun generateConfigForMultiHop(entryServer: Server?, exitServer: Server?): Config? {
         LOGGER.info("Generating WireGuard configuration for multi-hop connection")
         
@@ -423,11 +319,11 @@ class ConfigManager @Inject constructor(
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
 
-        // For multi-hop, we use the exit server's public key and multihop port
+        // for multi-hop, we use the exit server's public key and multihop port
         val portNumber = exitHost.multihopPort
         return createWireGuardConfig(
-            peerHost = exitHost,            // Exit server's public key for peer configuration
-            entryHost = entryHost,          // Entry server's host for direct connection endpoint
+            peerHost = exitHost,
+            entryHost = entryHost,
             portNumber = portNumber,
             privateKey = privateKey,
             hosts = listOf(entryHost, exitHost),
@@ -435,17 +331,6 @@ class ConfigManager @Inject constructor(
         )
     }
 
-    /**
-     * Creates a WireGuard configuration with the specified parameters.
-     * 
-     * @param peerHost The host to use for peer configuration (exit server for multi-hop)
-     * @param entryHost The host to use for direct connection endpoint (entry server for multi-hop)
-     * @param portNumber The port number to use for direct connections
-     * @param privateKey The WireGuard private key
-     * @param hosts The list of hosts for address configuration
-     * @param isMultiHop Whether this is a multi-hop connection
-     * @return WireGuard configuration
-     */
     private fun createWireGuardConfig(
         peerHost: Host,
         entryHost: Host? = null,
@@ -456,7 +341,6 @@ class ConfigManager @Inject constructor(
     ): Config {
         val config = Config()
         
-        // Configure interface
         if (config.getInterface().publicKey == null) {
             config.getInterface().privateKey = privateKey
         }
@@ -464,42 +348,30 @@ class ConfigManager @Inject constructor(
         setAddress(config, hosts)
         
         val dnsString = getDNS(hosts[0])
-        LOGGER.info("DNS configuration: $dnsString")
         config.getInterface().setDnsString(dnsString)
 
-        // Configure endpoint based on V2Ray obfuscation status
         val endpoint = if (v2rayController.isV2RayEnabled()) {
             // Route through local V2Ray proxy
             val proxyEndpoint = v2rayController.getLocalProxyEndpoint()
             LOGGER.info("${if (isMultiHop) "Multi-hop" else "Single-hop"} using V2Ray proxy endpoint: $proxyEndpoint")
-            android.util.Log.d("HACKER", "${if (isMultiHop) "Multi-hop" else "Single-hop"} WireGuard will connect to V2Ray proxy at: $proxyEndpoint")
             proxyEndpoint
         } else {
-            // Direct connection to WireGuard server
             val endpointHost = if (isMultiHop && entryHost != null) {
-                // For multi-hop direct connection: connect to entry server, but use exit server's public key
                 entryHost.host
             } else {
-                // For single-hop direct connection: connect to the same server whose public key we use
                 peerHost.host
             }
             val directEndpoint = "${endpointHost}:$portNumber"
             LOGGER.info("${if (isMultiHop) "Multi-hop" else "Single-hop"} using direct endpoint: $directEndpoint")
-            android.util.Log.d("HACKER", "${if (isMultiHop) "Multi-hop" else "Single-hop"} WireGuard will connect directly to: $directEndpoint")
-            if (isMultiHop) {
-                android.util.Log.d("HACKER", "Multi-hop: Connecting to entry server (${entryHost?.host}) but using exit server's public key (${peerHost.publicKey})")
-            }
             directEndpoint
         }
 
-        // Configure peer
         val peer = Peer().also {
-            // Use same AllowedIPs for both single-hop and multi-hop to disable WireGuard's internal firewall
+            // uses same AllowedIPs for both single-hop and multi-hop to disable wg's internal firewall
             // Android VPN service handles routing, so we need to disable WireGuard's firewall
             it.setAllowedIPsString("128.0.0.0/1, 0.0.0.0/1")
             it.setEndpointString(endpoint)
             it.publicKey = peerHost.publicKey
-            LOGGER.info("${if (isMultiHop) "Multi-hop" else "Single-hop"} peer configuration - endpoint: $endpoint, publicKey: ${peerHost.publicKey}")
         }
 
         if (!settings.wireGuardPresharedKey.isNullOrEmpty()) {
@@ -509,7 +381,6 @@ class ConfigManager @Inject constructor(
 
         config.peers = listOf(peer)
 
-        LOGGER.info("${if (isMultiHop) "Multi-hop" else "Single-hop"} WireGuard configuration generated successfully")
         return config
     }
 
@@ -550,11 +421,6 @@ class ConfigManager @Inject constructor(
         } else host.localIp.split("/".toRegex()).toTypedArray()[0]
     }
 
-    /**
-     * Handles tunnel state changes by updating the tunnel state.
-     * 
-     * @param state The new tunnel state
-     */
     fun onTunnelStateChanged(state: Tunnel.State) {
         GlobalScope.launch {
             tunnel?.setState(state)
