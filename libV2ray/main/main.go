@@ -92,6 +92,13 @@ func main() {
 	// Initialize the environment (optional, depending on your needs)
 	libV2ray.InitCoreEnv("", "")
 
+	// Test GetFreePort function to ensure it's exported
+	if port, err := libV2ray.GetFreePort(); err != nil {
+		log.Printf("GetFreePort test failed: %v", err)
+	} else {
+		log.Printf("GetFreePort test succeeded: allocated port %d", port)
+	}
+
 	// Start V2Ray with the config
 	if err := controller.StartLoop(config); err != nil {
 		log.Fatalf("Failed to start V2Ray: %v", err)

@@ -213,14 +213,13 @@ class V2rayController @Inject constructor(
      */
     private fun findFreePort(): Int {
         return try {
-            // Use libV2ray's GetFreePorts function to get a free port
-            val freePorts = LibV2ray.getFreePorts(1)
-            if (freePorts.isNotEmpty()) {
-                val port = freePorts[0].toInt()
+            // Use libV2ray's GetFreePort function to get a free port
+            val port = LibV2ray.getFreePort().toInt()
+            if (port > 0) {
                 LOGGER.info("libV2ray allocated free port: $port")
                 port
             } else {
-                LOGGER.warn("libV2ray returned no free ports, using base port $V2RAY_LOCAL_PORT_BASE")
+                LOGGER.warn("libV2ray returned invalid port, using base port $V2RAY_LOCAL_PORT_BASE")
                 V2RAY_LOCAL_PORT_BASE
             }
         } catch (e: Exception) {
