@@ -200,12 +200,12 @@ public final class GoBackend implements Backend {
             }
         }
         
-        // Add V2Ray server IP to bypass routes to prevent circular routing
+        // Add V2Ray server IP to bypass routes (prevents circular routing)
         if (settings.getObfuscationType() != ObfuscationType.DISABLED) {
             try {
                 net.ivpn.core.vpn.model.V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
                 if (v2raySettings != null && !v2raySettings.getOutboundIp().isEmpty()) {
-                    // Add V2Ray server IP as a /32 route that bypasses the VPN
+                    // Add V2Ray server IP as /32 route that bypasses the VPN tunnel
                     routes.addIP(new CIDRIP(v2raySettings.getOutboundIp(), 32), false);
                     LOGGER.info("Added V2Ray server IP to bypass routes: " + v2raySettings.getOutboundIp());
                 }

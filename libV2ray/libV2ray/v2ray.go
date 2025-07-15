@@ -25,12 +25,11 @@ import (
 	mobasset "golang.org/x/mobile/asset"
 )
 
-// Constants for environment variables
 const (
 	coreAsset = "v2ray.location.asset"
 )
 
-// CoreController represents a controller for managing v2fly core instance lifecycle
+// CoreController manages v2fly core instance lifecycle
 type CoreController struct {
 	CallbackHandler CoreCallbackHandler
 	statsManager    corestats.Manager
@@ -39,7 +38,7 @@ type CoreController struct {
 	IsRunning       bool
 }
 
-// CoreCallbackHandler defines interface for receiving callbacks and notifications from the core service
+// CoreCallbackHandler defines interface for receiving callbacks from the core service
 type CoreCallbackHandler interface {
 	Startup() int
 	Shutdown() int
@@ -47,7 +46,7 @@ type CoreCallbackHandler interface {
 }
 
 // consoleLogWriter implements a log writer without datetime stamps
-// as Android system already adds timestamps to each log line
+// (Android system already adds timestamps to each log line)
 type consoleLogWriter struct {
 	logger *log.Logger // Standard logger
 }
