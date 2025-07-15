@@ -42,7 +42,7 @@ download_assets() {
 }
 
 # Build Configuration
-PACKAGE_NAME="github.com/ivpn/libV2ray/libV2ray"
+PACKAGE_NAME="github.com/ivpn/libV2ray"
 OUTPUT_DIR="build"
 AAR_NAME="libv2ray"
 MIN_SDK_VERSION="21"
