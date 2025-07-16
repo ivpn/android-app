@@ -55,7 +55,7 @@ PACKAGE_NAME="github.com/ivpn/libV2ray"
 OUTPUT_DIR="build"
 AAR_NAME="libv2ray"
 MIN_SDK_VERSION="21"
-TARGET_SDK_VERSION="34"
+TARGET_SDK_VERSION="35"
 DEST_DIR="../core/libs"
 
 RED='\033[0;31m'
