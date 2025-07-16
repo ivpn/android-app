@@ -21,7 +21,7 @@
 # along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 
 set -e  
-
+cd "$(dirname "$0")"
 download_assets() {
     print_status "Downloading V2Ray assets..."
     
