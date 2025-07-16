@@ -2,17 +2,6 @@
 
 A Go library for V2Ray core functionality, designed for Android mobile applications. This library bridges V2Ray's networking capabilities with Android apps through an Android Archive (AAR) package.
 
-## Overview
-
-libV2ray is developed by IVPN Limited, enabling Android applications to integrate V2Ray's proxy and tunneling capabilities with minimal configuration.
-
-## Features
-
-- Cross-platform compatibility with Go and gomobile
-- V2Ray Core Integration (v5.33.0)
-- Lightweight AAR package optimized for mobile
-- Android API 21+ support
-
 ## Build Requirements
 
 - **Go**: 1.24.3+
