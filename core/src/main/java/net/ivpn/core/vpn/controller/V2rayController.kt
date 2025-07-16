@@ -89,10 +89,7 @@ class V2rayController @Inject constructor(
 
     fun isV2RayEnabled(): Boolean {
         val obfuscationType = encryptedSettingsPreference.obfuscationType
-        val isEnabled = obfuscationType != ObfuscationType.DISABLED
-
-        LOGGER.debug("V2Ray obfuscation status: ${if (isEnabled) "enabled (${obfuscationType.name})" else "disabled"}")
-        
+        val isEnabled = obfuscationType != ObfuscationType.DISABLED        
         return isEnabled
     }
 
