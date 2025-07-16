@@ -36,33 +36,11 @@ chmod +x build.sh
 ./build.sh
 ```
 
-### Manual Build
-```bash
-git clone https://github.com/ivpn/libV2ray.git
-cd libV2ray
-gomobile init
-go mod tidy
-gomobile bind -target=android -androidapi=21 -o build/libv2ray.aar -v github.com/ivpn/libV2ray
-```
-
 ## Integration
 
 1. Copy `libv2ray.aar` to your Android project's `libs/` directory
 2. Add to `build.gradle`: `implementation files('libs/libv2ray.aar')`
 3. Configure required permissions in `AndroidManifest.xml`
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature-name`
-3. Make changes and commit
-4. Submit pull request
-
-**Important**: Update the [AUTHORS](AUTHORS) file when contributing:
-- Individual: `Name <email@example.com>`
-- Organization: `Organization Name`
-
-See [CLA.md](CLA.md) for contributor agreement terms.
 
 ## Credits
 
@@ -70,21 +48,5 @@ This project is built upon [V2Ray Core](https://github.com/v2fly/v2ray-core), a 
 
 ### Acknowledgments
 
-- [V2Ray Core team](https://github.com/v2fly/v2ray-core) for the core networking library
-- Go mobile team for cross-platform development tools
-- IVPN Limited for development and maintenance
-- All contributors in [AUTHORS](AUTHORS)
-
-## Support
-
-- Check [issues](https://github.com/ivpn/libV2ray/issues) for existing problems
-- Create new issues with detailed information and logs
-- Contact IVPN Limited for security concerns
-
-## License
-
-This project is licensed under the GNU General Public License v3.0. See [LICENSE.md](LICENSE.md) for details.
-
----
-
-**Copyright © 2025 IVPN Limited**
+- All contributors to the V2Ray and V2Fly projects.
+- The open-source community for their invaluable support and contributions.
