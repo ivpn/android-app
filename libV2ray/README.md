@@ -30,7 +30,6 @@ export ANDROID_SDK_ROOT=/path/to/android/sdk
 
 ### Quick Build
 ```bash
-git clone https://github.com/ivpn/libV2ray.git
 cd libV2ray
 chmod +x build.sh
 ./build.sh
