@@ -1,23 +1,35 @@
+/*
+ IVPN Android app
+ https://github.com/ivpn/android-app
+
+ Created by Tamim Hossain.
+ Copyright (c) 2025 IVPN Limited.
+
+ This file is part of the IVPN Android app.
+
+ The IVPN Android app is free software: you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+ The IVPN Android app is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ details.
+
+ You should have received a copy of the GNU General Public License
+ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #!/bin/bash
 
 set -e  
 
-# Build script for libV2ray Android AAR
-# This script builds an Android Archive (AAR) file from the Go libV2ray library
-# 
-# Copyright (c) IVPN Limited
-# Licensed under the GPLv3: https://www.gnu.org/licenses/gpl-3.0.html
-
-echo "Starting libV2ray AAR build process..."
-
-# Asset downloading function
 download_assets() {
     print_status "Downloading V2Ray assets..."
     
     DATADIR="assets"
     mkdir -p "$DATADIR"
     
-    # Check for required dependencies
     if ! command -v jq &> /dev/null; then
         print_warning "jq not found. Installing jq..."
         if command -v brew &> /dev/null; then
@@ -41,7 +53,6 @@ download_assets() {
     print_status "Assets downloaded successfully to $DATADIR/"
 }
 
-# Build Configuration
 PACKAGE_NAME="github.com/ivpn/libV2ray"
 OUTPUT_DIR="build"
 AAR_NAME="libv2ray"
@@ -49,7 +60,6 @@ MIN_SDK_VERSION="21"
 TARGET_SDK_VERSION="34"
 DEST_DIR="../core/libs"
 
-# ANSI Color Codes for Terminal Output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'

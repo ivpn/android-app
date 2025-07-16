@@ -36,12 +36,6 @@ chmod +x build.sh
 ./build.sh
 ```
 
-## Integration
-
-1. Copy `libv2ray.aar` to your Android project's `libs/` directory
-2. Add to `build.gradle`: `implementation files('libs/libv2ray.aar')`
-3. Configure required permissions in `AndroidManifest.xml`
-
 ## Credits
 
 This project is built upon [V2Ray Core](https://github.com/v2fly/v2ray-core), a platform for building proxies to bypass network restrictions, developed by the V2Fly community.
