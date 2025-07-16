@@ -133,7 +133,6 @@ print_status "Downloading Go dependencies..."
 go mod download
 go mod tidy
 
-# Download assets before building
 download_assets
 
 print_status "Building AAR for Android..."
