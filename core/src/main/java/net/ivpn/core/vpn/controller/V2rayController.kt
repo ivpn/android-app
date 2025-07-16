@@ -1,6 +1,5 @@
 package net.ivpn.core.vpn.controller
 
-import android.util.Log
 import libV2ray.CoreCallbackHandler
 import libV2ray.CoreController
 import libV2ray.LibV2ray
