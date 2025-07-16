@@ -4,8 +4,8 @@ package net.ivpn.core.rest.data.model;
  IVPN Android app
  https://github.com/ivpn/android-app
 
- Created by Oleksandr Mykhailenko.
- Copyright (c) 2023 IVPN Limited.
+ Created by Tamim Hossain.
+ Copyright (c) 2025 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
