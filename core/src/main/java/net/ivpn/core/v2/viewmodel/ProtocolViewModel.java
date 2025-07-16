@@ -207,7 +207,11 @@ public class ProtocolViewModel {
 
     public String getDescriptionMultihop() {
         if (protocol.get().equals(Protocol.WIREGUARD)) {
-            return "WireGuard" + ", " + wireGuardPort.get().getProtocol();
+            String displayProtocol = wireGuardPort.get().getProtocol();
+            if (obfuscationType.get() == ObfuscationType.V2RAY_TCP && displayProtocol.equalsIgnoreCase("UDP")) {
+                displayProtocol = "TCP";
+            }
+            return "WireGuard" + ", " + displayProtocol;
         } else {
             return "OpenVPN" + ", " + openVPNPort.get().getProtocol();
         }
