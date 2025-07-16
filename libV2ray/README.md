@@ -42,7 +42,7 @@ git clone https://github.com/ivpn/libV2ray.git
 cd libV2ray
 gomobile init
 go mod tidy
-gomobile bind -target=android -androidapi=21 -o build/libv2ray.aar -v github.com/ivpn/libV2ray/libV2ray
+gomobile bind -target=android -androidapi=21 -o build/libv2ray.aar -v github.com/ivpn/libV2ray
 ```
 
 ## Integration
