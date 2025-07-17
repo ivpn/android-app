@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file("libs/libV2ray.aar"))

@@ -22,41 +22,13 @@
 
 set -e  
 cd "$(dirname "$0")"
-download_assets() {
-    print_status "Downloading V2Ray assets..."
-    
-    DATADIR="assets"
-    mkdir -p "$DATADIR"
-    
-    if ! command -v jq &> /dev/null; then
-        print_warning "jq not found. Installing jq..."
-        if command -v brew &> /dev/null; then
-            brew install jq
-        elif command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-        elif command -v yum &> /dev/null; then
-            sudo yum install -y jq
-        else
-            print_error "jq is required but could not be installed automatically. Please install jq manually."
-            exit 1
-        fi
-    fi
-    
-    print_status "Downloading geoip.dat..."
-    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o "$DATADIR/geoip.dat"
-    
-    print_status "Downloading geosite.dat..."
-    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o "$DATADIR/geosite.dat"
-    
-    print_status "Assets downloaded successfully to $DATADIR/"
-}
 
 PACKAGE_NAME="github.com/ivpn/libV2ray"
 OUTPUT_DIR="build"
-AAR_NAME="libv2ray"
+AAR_NAME="libV2ray"
 MIN_SDK_VERSION="21"
 TARGET_SDK_VERSION="35"
-DEST_DIR="../core/libs"
+DEST_DIR="libs"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -73,6 +45,32 @@ print_warning() {
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
+}
+
+download_assets() {
+    print_status "Downloading V2Ray assets..."
+
+    DATADIR="assets"
+    mkdir -p "$DATADIR"
+
+    if ! command -v jq &> /dev/null; then
+        print_warning "jq not found. Installing jq..."
+        if command -v brew &> /dev/null; then
+            brew install jq
+        elif command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+        elif command -v yum &> /dev/null; then
+            sudo yum install -y jq
+        else
+            print_error "jq is required but could not be installed automatically. Please install jq manually."
+            exit 1
+        fi
+    fi
+
+    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o "$DATADIR/geoip.dat"
+    curl -sL https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o "$DATADIR/geosite.dat"
+
+    print_status "Assets downloaded successfully to $DATADIR/"
 }
 
 if ! command -v go &> /dev/null; then
@@ -92,7 +90,6 @@ if ! command -v gomobile &> /dev/null; then
 fi
 
 print_status "gomobile found: $(which gomobile)"
-
 print_status "Initializing gomobile..."
 gomobile init
 
@@ -126,8 +123,7 @@ print_status "Android SDK: $ANDROID_HOME"
 mkdir -p "$OUTPUT_DIR"
 
 print_status "Cleaning previous build artifacts..."
-rm -rf "$OUTPUT_DIR"/*.aar
-rm -rf "$OUTPUT_DIR"/*.jar
+rm -rf "$OUTPUT_DIR"/*.aar "$OUTPUT_DIR"/*.jar
 
 print_status "Downloading Go dependencies..."
 go mod download
@@ -136,11 +132,6 @@ go mod tidy
 download_assets
 
 print_status "Building AAR for Android..."
-print_status "Package: $PACKAGE_NAME"
-print_status "Output: $OUTPUT_DIR/$AAR_NAME.aar"
-print_status "Minimum SDK: $MIN_SDK_VERSION"
-print_status "Target SDK: $TARGET_SDK_VERSION"
-
 export CGO_ENABLED=1
 
 gomobile bind \
@@ -190,14 +181,11 @@ EOF
 
 print_status "Build metadata saved to: $BUILD_INFO_FILE"
 
+print_status "Cleaning up assets and build directories..."
+rm -rf "$OUTPUT_DIR"
+rm -rf assets
+
 echo ""
-print_status "Build process completed successfully"
-print_status "AAR file available at: $OUTPUT_DIR/$AAR_NAME.aar"
+print_status "Build process completed and cleaned up."
+print_status "AAR file is available at: $DEST_DIR/$AAR_NAME.aar"
 print_status ""
-print_status "Integration Instructions:"
-print_status "1. Copy the AAR file to your Android project's libs/ directory"
-print_status "2. Add the following dependency to your app's build.gradle:"
-print_status "   implementation files('libs/$AAR_NAME.aar')"
-print_status "3. Ensure required permissions are declared in AndroidManifest.xml"
-print_status ""
-print_status "Build completed successfully"
