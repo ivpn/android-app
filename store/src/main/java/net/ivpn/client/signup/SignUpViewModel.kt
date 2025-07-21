@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.QueryProductDetailsParams.Product
+import com.android.billingclient.api.QueryProductDetailsResult
 import net.ivpn.client.R
 import net.ivpn.client.billing.BillingListener
 import net.ivpn.client.billing.BillingManagerWrapper
@@ -279,29 +280,35 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    override fun onCheckingProductDetailsSuccess(productDetailsList: List<ProductDetails>) {
+    override fun onCheckingProductDetailsSuccess(productDetails: QueryProductDetailsResult?) {
         LOGGER.info("productDetailsList")
         dataLoading.set(false)
 
-        productDetailsList.let { details ->
+        productDetails?.productDetailsList.let { details ->
             selectedPlan.get()?.let { plan ->
-                for (productDetails in details) {
-                    LOGGER.info("Check ${productDetails.productId}")
-                    when (productDetails.productId) {
-                        plan.skuPath + Period.ONE_WEEK.skuPath -> {
-                            oneWeek.set(productDetails)
-                        }
-                        plan.skuPath + Period.ONE_MONTH.skuPath -> {
-                            oneMonth.set(productDetails)
-                        }
-                        plan.skuPath + Period.ONE_YEAR.skuPath -> {
-                            oneYear.set(productDetails)
-                        }
-                        plan.skuPath + Period.TWO_YEARS.skuPath -> {
-                            twoYear.set(productDetails)
-                        }
-                        plan.skuPath + Period.THREE_YEARS.skuPath -> {
-                            threeYear.set(productDetails)
+                if (details != null) {
+                    for (productDetails in details) {
+                        LOGGER.info("Check ${productDetails.productId}")
+                        when (productDetails.productId) {
+                            plan.skuPath + Period.ONE_WEEK.skuPath -> {
+                                oneWeek.set(productDetails)
+                            }
+
+                            plan.skuPath + Period.ONE_MONTH.skuPath -> {
+                                oneMonth.set(productDetails)
+                            }
+
+                            plan.skuPath + Period.ONE_YEAR.skuPath -> {
+                                oneYear.set(productDetails)
+                            }
+
+                            plan.skuPath + Period.TWO_YEARS.skuPath -> {
+                                twoYear.set(productDetails)
+                            }
+
+                            plan.skuPath + Period.THREE_YEARS.skuPath -> {
+                                threeYear.set(productDetails)
+                            }
                         }
                     }
                 }
@@ -313,25 +320,32 @@ class SignUpViewModel @Inject constructor(
                 selectPeriod(Period.ONE_YEAR)
             }
 
-            for (productDetails in details) {
-                when (productDetails.productId) {
-                    Plan.STANDARD.skuPath + Period.ONE_WEEK.skuPath -> {
-                        standardWeek.set(getPricePerPeriodString(productDetails, "Week"))
-                    }
-                    Plan.STANDARD.skuPath + Period.ONE_MONTH.skuPath -> {
-                        standardMonth.set(getPricePerPeriodString(productDetails, "Month"))
-                    }
-                    Plan.STANDARD.skuPath + Period.ONE_YEAR.skuPath -> {
-                        standardYear.set(getPricePerPeriodString(productDetails, "Year"))
-                    }
-                    Plan.PRO.skuPath + Period.ONE_WEEK.skuPath -> {
-                        proWeek.set(getPricePerPeriodString(productDetails, "Week"))
-                    }
-                    Plan.PRO.skuPath + Period.ONE_MONTH.skuPath -> {
-                        proMonth.set(getPricePerPeriodString(productDetails, "Month"))
-                    }
-                    Plan.PRO.skuPath + Period.ONE_YEAR.skuPath -> {
-                        proYear.set(getPricePerPeriodString(productDetails, "Year"))
+            if (details != null) {
+                for (productDetails in details) {
+                    when (productDetails.productId) {
+                        Plan.STANDARD.skuPath + Period.ONE_WEEK.skuPath -> {
+                            standardWeek.set(getPricePerPeriodString(productDetails, "Week"))
+                        }
+
+                        Plan.STANDARD.skuPath + Period.ONE_MONTH.skuPath -> {
+                            standardMonth.set(getPricePerPeriodString(productDetails, "Month"))
+                        }
+
+                        Plan.STANDARD.skuPath + Period.ONE_YEAR.skuPath -> {
+                            standardYear.set(getPricePerPeriodString(productDetails, "Year"))
+                        }
+
+                        Plan.PRO.skuPath + Period.ONE_WEEK.skuPath -> {
+                            proWeek.set(getPricePerPeriodString(productDetails, "Week"))
+                        }
+
+                        Plan.PRO.skuPath + Period.ONE_MONTH.skuPath -> {
+                            proMonth.set(getPricePerPeriodString(productDetails, "Month"))
+                        }
+
+                        Plan.PRO.skuPath + Period.ONE_YEAR.skuPath -> {
+                            proYear.set(getPricePerPeriodString(productDetails, "Year"))
+                        }
                     }
                 }
             }
