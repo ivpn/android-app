@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/account_background">
 
-                <ImageView
+                <net.ivpn.core.v2.account.widget.MaskedImageView
                     android:id="@+id/qr"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -61,7 +61,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <net.ivpn.core.v2.account.widget.MaskedTextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -269,3 +269,8 @@ add_custom_command(TARGET pie_openvpn.${ANDROID_ABI} POST_BUILD
 add_dependencies(opvpnutil pie_openvpn.${ANDROID_ABI} nopie_openvpn.${ANDROID_ABI})
 add_dependencies(pie_openvpn.${ANDROID_ABI} makeassetdir)
 add_dependencies(nopie_openvpn.${ANDROID_ABI} makeassetdir)
+
+
+add_library(blurlib SHARED blur/blurlib.cpp)
+
+target_link_libraries(blurlib -ljnigraphics)
