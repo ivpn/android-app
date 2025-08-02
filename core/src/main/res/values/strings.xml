@@ -659,4 +659,5 @@
     <string name="settings_obfuscation_state_disabled">Disabled</string>
     <string name="settings_obfuscation_state_v2ray_vmess_quic">V2Ray (VMESS/QUIC)</string>
     <string name="settings_obfuscation_state_v2ray_vmess_tcp">V2Ray (VMESS/TCP)</string>
+    <string name="settings_obfuscation_description">VPN obfuscation is a technique that masks VPN traffic to make it appear like standard internet traffic, helping to evade detection and bypass internet restrictions or censorship.</string>
 </resources>
