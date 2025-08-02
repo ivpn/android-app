@@ -64,6 +64,8 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val WG_PORT = "WG_PORT"
         private const val WG_PORT_LIST = "WG_PORT_LIST"
         private const val WG_CUSTOM_PORT_LIST = "WG_CUSTOM_PORT_LIST"
+        private const val WG_CUSTOM_PORT_LIST_V2RAY_TCP = "WG_CUSTOM_PORT_LIST_V2RAY_TCP"
+        private const val WG_CUSTOM_PORT_LIST_V2RAY_UDP = "WG_CUSTOM_PORT_LIST_V2RAY_UDP"
         private const val WG_PORT_RANGE_LIST = "WG_PORT_RANGE_LIST"
         private const val OV_PORT_LIST = "OV_PORT_LIST"
         private const val OV_CUSTOM_PORT_LIST = "OV_CUSTOM_PORT_LIST"
@@ -359,6 +361,26 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
 
     fun getWgCustomPorts(): String? {
         return sharedPreferences.getString(WG_CUSTOM_PORT_LIST, "")
+    }
+
+    fun setWgCustomPortsV2RayTcp(json: String?) {
+        sharedPreferences.edit {
+            putString(WG_CUSTOM_PORT_LIST_V2RAY_TCP, json)
+        }
+    }
+
+    fun getWgCustomPortsV2RayTcp(): String? {
+        return sharedPreferences.getString(WG_CUSTOM_PORT_LIST_V2RAY_TCP, "")
+    }
+
+    fun setWgCustomPortsV2RayUdp(json: String?) {
+        sharedPreferences.edit {
+            putString(WG_CUSTOM_PORT_LIST_V2RAY_UDP, json)
+        }
+    }
+
+    fun getWgCustomPortsV2RayUdp(): String? {
+        return sharedPreferences.getString(WG_CUSTOM_PORT_LIST_V2RAY_UDP, "")
     }
 
     fun setWgPortRanges(json: String?) {

@@ -250,6 +250,24 @@ class Settings @Inject constructor(
             settingsPreference.setWgCustomPorts(Mapper.stringFromPorts(ports))
         }
 
+    var wireGuardCustomPortsV2RayTcp: List<Port>
+        get() {
+            val portsJson = settingsPreference.getWgCustomPortsV2RayTcp()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPortsV2RayTcp(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardCustomPortsV2RayUdp: List<Port>
+        get() {
+            val portsJson = settingsPreference.getWgCustomPortsV2RayUdp()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPortsV2RayUdp(Mapper.stringFromPorts(ports))
+        }
+
     var wireGuardPortRanges: List<Port>
         get() {
             return Mapper.portsFrom(settingsPreference.getWgPortRanges())
