@@ -191,8 +191,16 @@ class ConfigManager @Inject constructor(
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
 
-        // for multi-hop, we use the exit server's public key and multihop port
-        val portNumber = exitHost.multihopPort
+        // for multi-hop, we use the exit server's public key and port
+        // when v2ray is enabled, use user-selected port; otherwise use server's multihop port
+        val portNumber = if (v2rayController.isV2RayEnabled()) {
+            val selectedPort = settings.wireGuardPort.portNumber
+            LOGGER.info("Multi-hop + V2Ray: Using user-selected port $selectedPort")
+            selectedPort
+        } else {
+            LOGGER.info("Multi-hop: Using server's default multihop port ${exitHost.multihopPort}")
+            exitHost.multihopPort
+        }
         return createWireGuardConfig(
             peerHost = exitHost,
             entryHost = entryHost,

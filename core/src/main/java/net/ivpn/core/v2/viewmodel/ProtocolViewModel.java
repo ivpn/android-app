@@ -128,7 +128,6 @@ public class ProtocolViewModel {
         List<Port> ports = new ArrayList<>();
         ports.addAll(settings.getWireGuardPorts());
         
-        // Add custom ports based on current obfuscation type
         switch (obfuscationType.get()) {
             case V2RAY_TCP:
                 ports.addAll(settings.getWireGuardCustomPortsV2RayTcp());
@@ -175,7 +174,6 @@ public class ProtocolViewModel {
             return true;
         }
         if (multiHopController.isEnabled() && protocol.get().equals(Protocol.WIREGUARD)) {
-            // Allow port changes when V2Ray obfuscation is enabled
             ObfuscationType currentObfuscationType = settings.getObfuscationType();
             boolean isV2RayEnabled = currentObfuscationType != ObfuscationType.DISABLED;
             if (!isV2RayEnabled) {
@@ -256,6 +254,9 @@ public class ProtocolViewModel {
 
     public String getDescriptionMultihop() {
         if (protocol.get().equals(Protocol.WIREGUARD)) {
+            if (multiHopController.isEnabled() && obfuscationType.get() == ObfuscationType.DISABLED) {
+                return "WireGuard, UDP";
+            }
             return "WireGuard" + ", " + wireGuardPort.get().toThumbnailWithObfuscation(obfuscationType.get());
         } else {
             return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();

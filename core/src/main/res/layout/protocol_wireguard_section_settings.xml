@@ -42,7 +42,7 @@
                 android:orientation="horizontal"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="visible">
+                android:visibility="@{viewmodel.multiHop.isEnabled() &amp;&amp; viewmodel.obfuscationType == ObfuscationType.DISABLED ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     style="@style/SettingsAction"
