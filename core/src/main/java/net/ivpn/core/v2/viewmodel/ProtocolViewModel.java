@@ -22,6 +22,7 @@ package net.ivpn.core.v2.viewmodel;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -32,6 +33,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.ivpn.core.R;
 import net.ivpn.core.common.Mapper;
@@ -99,6 +103,44 @@ public class ProtocolViewModel {
     private void setObfuscationType(ObfuscationType type) {
         obfuscationType.set(type);
         settings.setObfuscationType(type);
+        
+        if (protocol.get().equals(Protocol.WIREGUARD)) {
+            validateAndUpdateCurrentPort();
+        }
+    }
+    
+    private void validateAndUpdateCurrentPort() {
+        Port currentPort = wireGuardPort.get();
+        List<Port> availablePorts = getAvailablePortsForCurrentObfuscationType();
+        
+        boolean portExists = availablePorts.stream()
+                .anyMatch(port -> port.equals(currentPort));
+        
+        if (!portExists) {
+            if (!availablePorts.isEmpty()) {
+                wireGuardPort.set(availablePorts.get(0));
+                settings.setWireGuardPort(availablePorts.get(0));
+            }
+        }
+    }
+    
+    private List<Port> getAvailablePortsForCurrentObfuscationType() {
+        List<Port> ports = new ArrayList<>();
+        ports.addAll(settings.getWireGuardPorts());
+        
+        switch (obfuscationType.get()) {
+            case V2RAY_TCP:
+                ports.addAll(settings.getWireGuardCustomPortsV2RayTcp());
+                break;
+            case V2RAY_QUIC:
+                ports.addAll(settings.getWireGuardCustomPortsV2RayUdp());
+                break;
+            case DISABLED:
+                ports.addAll(settings.getWireGuardCustomPorts());
+                break;
+        }
+        
+        return ports;
     }
     public CompoundButton.OnCheckedChangeListener openVPNCheckedChangeListener = (buttonView, isChecked) -> {
         if (isChecked && protocol.get().equals(Protocol.WIREGUARD)) {
@@ -122,6 +164,7 @@ public class ProtocolViewModel {
     };
 
     public OnPortSelectedListener onPortChangedListener = this::setPort;
+    @SuppressLint("ClickableViewAccessibility")
     public View.OnTouchListener portsTouchListener = (view, motionEvent) -> {
         if (isVpnActive()) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -131,10 +174,14 @@ public class ProtocolViewModel {
             return true;
         }
         if (multiHopController.isEnabled() && protocol.get().equals(Protocol.WIREGUARD)) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                navigator.openNotifyDialogue(Dialogs.WG_CANT_CHANGE_PORT);
+            ObfuscationType currentObfuscationType = settings.getObfuscationType();
+            boolean isV2RayEnabled = currentObfuscationType != ObfuscationType.DISABLED;
+            if (!isV2RayEnabled) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    navigator.openNotifyDialogue(Dialogs.WG_CANT_CHANGE_PORT);
+                }
+                return true;
             }
-            return true;
         }
         return false;
     };
@@ -207,13 +254,12 @@ public class ProtocolViewModel {
 
     public String getDescriptionMultihop() {
         if (protocol.get().equals(Protocol.WIREGUARD)) {
-            String displayProtocol = wireGuardPort.get().getProtocol();
-            if (obfuscationType.get() == ObfuscationType.V2RAY_TCP && displayProtocol.equalsIgnoreCase("UDP")) {
-                displayProtocol = "TCP";
+            if (multiHopController.isEnabled() && obfuscationType.get() == ObfuscationType.DISABLED) {
+                return "WireGuard, UDP";
             }
-            return "WireGuard" + ", " + displayProtocol;
+            return "WireGuard" + ", " + wireGuardPort.get().toThumbnailWithObfuscation(obfuscationType.get());
         } else {
-            return "OpenVPN" + ", " + openVPNPort.get().getProtocol();
+            return "OpenVPN" + ", " + openVPNPort.get().toThumbnail();
         }
     }
 

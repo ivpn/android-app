@@ -42,7 +42,7 @@
                 android:orientation="horizontal"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
+                android:visibility="@{viewmodel.multiHop.isEnabled() &amp;&amp; viewmodel.obfuscationType == ObfuscationType.DISABLED ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     style="@style/SettingsAction"
@@ -126,6 +126,16 @@
                         android:text="@string/settings_obfuscation_state_v2ray_vmess_tcp"
                         android:textColor="@color/protocol_text_color" />
                 </RadioGroup>
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginEnd="@dimen/settings_margin_left"
+                    android:alpha="0.6"
+                    android:text="@string/settings_obfuscation_description"
+                    android:textColor="@color/protocol_text_color" />
             </LinearLayout>
 
             <View

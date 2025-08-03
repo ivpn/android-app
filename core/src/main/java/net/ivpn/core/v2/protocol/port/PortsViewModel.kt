@@ -53,7 +53,11 @@ class PortsViewModel @Inject constructor(
 
     fun getCustomPorts(): List<Port> {
         return if (protocol == Protocol.WIREGUARD) {
-            settings.wireGuardCustomPorts
+            when (obfuscationType) {
+                ObfuscationType.V2RAY_TCP -> settings.wireGuardCustomPortsV2RayTcp
+                ObfuscationType.V2RAY_QUIC -> settings.wireGuardCustomPortsV2RayUdp
+                ObfuscationType.DISABLED -> settings.wireGuardCustomPorts
+            }
         } else {
             settings.openVpnCustomPorts
         }

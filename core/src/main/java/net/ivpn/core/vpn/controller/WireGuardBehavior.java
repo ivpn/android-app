@@ -40,6 +40,10 @@ import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.common.Mapper;
 import net.ivpn.core.common.multihop.MultiHopController;
 import net.ivpn.core.common.pinger.PingProvider;
+import net.ivpn.core.common.prefs.EncryptedSettingsPreference;
+import net.ivpn.core.common.prefs.ServersPreference;
+import net.ivpn.core.common.prefs.Settings;
+import net.ivpn.core.rest.data.model.Host;
 import net.ivpn.core.rest.data.model.ServerType;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.utils.DateUtil;
@@ -51,6 +55,8 @@ import net.ivpn.core.v2.dialog.Dialogs;
 import net.ivpn.core.vpn.ServiceConstants;
 import net.ivpn.core.vpn.VPNConnectionState;
 import net.ivpn.core.vpn.controller.WireGuardKeyController.WireGuardKeysEventsListener;
+import net.ivpn.core.vpn.model.ObfuscationType;
+import net.ivpn.core.vpn.model.V2RaySettings;
 import net.ivpn.core.vpn.wireguard.ConfigManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -93,19 +99,33 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
     };
     private LiveData<Server> fastestServer;
     private long pauseDuration = 0;
+    // HTTP/VMess/TCP (According to desktop-app)
+    private static final int V2RAY_TCP_PORT = 80;
+
+    // HTTPS/VMess/QUIC (According to desktop-app)
+    private static final int V2RAY_QUIC_PORT = 443;
 
     @Inject
     WireGuardBehavior(WireGuardKeyController wireGuardKeyController,
                       ServersRepository serversRepository,
                       ConfigManager configManager,
                       PingProvider pingProvider,
-                      MultiHopController multiHopController) {
+                      MultiHopController multiHopController,
+                      EncryptedSettingsPreference encryptedSettingsPreference,
+                      ServersPreference serversPreference,
+                      V2rayController v2rayController,  Settings settings) {
         LOGGER.info("Creating");
-        keyController = wireGuardKeyController;
+
+        this.keyController = wireGuardKeyController;
         this.serversRepository = serversRepository;
         this.configManager = configManager;
         this.pingProvider = pingProvider;
         this.multiHopController = multiHopController;
+        this.encryptedSettingsPreference = encryptedSettingsPreference;
+        this.serversPreference = serversPreference;
+        this.v2rayController = v2rayController;
+        this.settings = settings;
+
 
         configManager.setListener(this);
         listeners.add(pingProvider.getVPNStateListener());
@@ -115,6 +135,11 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
         init();
     }
+    private final Settings settings;
+
+    private final EncryptedSettingsPreference encryptedSettingsPreference;
+    private final ServersPreference serversPreference;
+    private final V2rayController v2rayController;
 
     private void init() {
         keyController.setKeysEventsListener(getWireGuardKeysEventsListener());
@@ -318,13 +343,135 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         startWireGuard();
     }
 
+
+    /**
+     * V2Ray Configuration Logic:
+     * - Outbound: Always connects to entry server V2Ray endpoint
+     * - Inbound: Entry server (single-hop) or exit server (multi-hop) WireGuard endpoint
+     * - Ports: Uses standard V2Ray ports (80 for TCP, 443 for QUIC)
+     */
+    private void updateV2raySettings() {
+        ObfuscationType obfuscationType = encryptedSettingsPreference.getObfuscationType();
+        if (obfuscationType == ObfuscationType.DISABLED) {
+            LOGGER.debug("V2Ray obfuscation disabled, skipping settings update");
+            return;
+        }
+
+        V2RaySettings currentSettings = serversPreference.getV2RaySettings();
+        if (currentSettings == null) {
+            LOGGER.error("V2Ray base configuration not found");
+            return;
+        }
+
+        if (currentSettings.getId().isEmpty()) {
+            LOGGER.error("V2Ray user ID is empty, authentication will fail");
+            return;
+        }
+
+        Server entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
+        if (entryServer == null || entryServer.getHosts().isEmpty()) {
+            LOGGER.error("Entry server not available, cannot configure V2Ray");
+            return;
+        }
+
+        Host entryHost = entryServer.getHosts().get(0);
+
+        if (entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
+            LOGGER.error("Entry host missing V2Ray configuration");
+            return;
+        }
+
+        String v2rayInboundIp = entryHost.getHost() != null ? entryHost.getHost() : "";
+        int v2rayInboundPort = currentSettings.getSingleHopInboundPort();
+        String v2rayOutboundIp = entryHost.getV2ray();
+
+        int v2rayOutboundPort;
+        switch (obfuscationType) {
+            case V2RAY_TCP:
+                v2rayOutboundPort = V2RAY_TCP_PORT;
+                break;
+            case V2RAY_QUIC:
+                v2rayOutboundPort = V2RAY_QUIC_PORT;
+                break;
+            default:
+                v2rayOutboundPort = settings.getWireGuardPort().getPortNumber();
+        }
+
+        String v2rayDnsName = entryHost.getDnsName() != null ? entryHost.getDnsName()
+                : (entryHost.getHostname() != null ? entryHost.getHostname() : "");
+
+        if (v2rayInboundIp.isEmpty() || v2rayOutboundIp.isEmpty()) {
+            LOGGER.error("Critical V2Ray IPs are empty - inbound: '" + v2rayInboundIp + "', outbound: '" + v2rayOutboundIp + "'");
+            return;
+        }
+
+        if (multiHopController.isReadyToUse()) {
+            Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
+            if (exitServer != null && !exitServer.getHosts().isEmpty()) {
+                Host exitHost = exitServer.getHosts().get(0);
+                v2rayInboundIp = exitHost.getHost() != null ? exitHost.getHost() : "";
+                v2rayInboundPort = v2rayOutboundPort;
+                LOGGER.info("Multi-hop V2Ray override: inbound=" + exitHost.getHost() + ":" + v2rayOutboundPort);
+            } else {
+                LOGGER.error("Multi-hop enabled but no exit server available");
+                return;
+            }
+        }
+
+        V2RaySettings v2raySettings = new V2RaySettings(
+                currentSettings.getId(),
+                v2rayOutboundIp,
+                v2rayOutboundPort,
+                v2rayInboundIp,
+                v2rayInboundPort,
+                v2rayDnsName,
+                currentSettings.getWireguard()
+        );
+
+        serversPreference.putV2RaySettings(v2raySettings);
+
+        String finalValidationError = validateV2RaySettings(v2raySettings);
+        if (finalValidationError != null) {
+            LOGGER.error("V2Ray settings validation failed: " + finalValidationError);
+            return;
+        }
+    }
+    private String validateV2RaySettings(V2RaySettings settings) {
+        if (settings.getId().isEmpty()) {
+            return "V2Ray user ID is empty";
+        } else if (settings.getOutboundIp().isEmpty()) {
+            return "V2Ray outbound IP is empty";
+        } else if (settings.getOutboundPort() <= 0) {
+            return "V2Ray outbound port is invalid: " + settings.getOutboundPort();
+        } else if (settings.getInboundIp().isEmpty()) {
+            return "V2Ray inbound IP is empty";
+        } else if (settings.getInboundPort() <= 0) {
+            return "V2Ray inbound port is invalid: " + settings.getInboundPort();
+        } else {
+            return null;
+        }
+    }
+
     private void startWireGuard() {
         LOGGER.info("startWireGuard: state = " + state);
         behaviourListener.onConnectingToVpn();
         setState(CONNECTING);
         updateNotification();
+        updateV2raySettings();
+        if (v2rayController.isV2RayEnabled()) {
+            boolean v2rayStarted = v2rayController.startIfEnabled();
+            if (!v2rayStarted) {
+                LOGGER.error("Failed to start V2Ray proxy service, aborting connection");
+                return;
+            }
+            LOGGER.info("V2Ray proxy started, WireGuard will use endpoint: ${v2rayController.getLocalProxyEndpoint()}");
+        } else {
+            LOGGER.info("V2Ray obfuscation disabled, using direct WireGuard connection");
+        }
         configManager.startWireGuard();
     }
+
+
 
     private boolean isFastestServerEnabled() {
         return serversRepository.getSettingFastestServer();
@@ -375,11 +522,14 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
     private void stopVpn() {
         LOGGER.info("stopVpn: state = " + state);
+        v2rayController.stop();
         stopWireGuard();
     }
 
     public void reconnect() {
         LOGGER.info("reconnect: state = " + state);
+        v2rayController.stop();
+        updateV2raySettings();
         setState(CONNECTING);
         updateNotification();
         startConnecting();
