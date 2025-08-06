@@ -357,6 +357,12 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             return;
         }
 
+        List<Server> servers = serversRepository.getServers(false);
+        if (servers == null || servers.isEmpty()) {
+            LOGGER.error("No servers available, cannot configure V2Ray");
+            return;
+        }
+
         V2RaySettings currentSettings = serversPreference.getV2RaySettings();
         if (currentSettings == null) {
             LOGGER.error("V2Ray base configuration not found");
@@ -435,6 +441,9 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             LOGGER.error("V2Ray settings validation failed: " + finalValidationError);
             return;
         }
+
+        LOGGER.info("V2Ray settings updated successfully - inbound: " + v2rayInboundIp + ":" + v2rayInboundPort + 
+                   ", outbound: " + v2rayOutboundIp + ":" + v2rayOutboundPort);
     }
     private String validateV2RaySettings(V2RaySettings settings) {
         if (settings.getId().isEmpty()) {
@@ -457,14 +466,23 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         behaviourListener.onConnectingToVpn();
         setState(CONNECTING);
         updateNotification();
+        
         updateV2raySettings();
+        
         if (v2rayController.isV2RayEnabled()) {
+            V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
+            if (v2raySettings == null || v2raySettings.getInboundIp().isEmpty() || v2raySettings.getOutboundIp().isEmpty()) {
+                LOGGER.error("V2Ray settings not properly configured, aborting connection");
+                LOGGER.error("V2Ray settings: " + (v2raySettings != null ? v2raySettings.toString() : "null"));
+                return;
+            }
+            
             boolean v2rayStarted = v2rayController.startIfEnabled();
             if (!v2rayStarted) {
                 LOGGER.error("Failed to start V2Ray proxy service, aborting connection");
                 return;
             }
-            LOGGER.info("V2Ray proxy started, WireGuard will use endpoint: ${v2rayController.getLocalProxyEndpoint()}");
+            LOGGER.info("V2Ray proxy started, WireGuard will use endpoint: " + v2rayController.getLocalProxyEndpoint());
         } else {
             LOGGER.info("V2Ray obfuscation disabled, using direct WireGuard connection");
         }
