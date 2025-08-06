@@ -62,6 +62,30 @@ class V2rayController @Inject constructor(
         val settings = serversPreference.getV2RaySettings() ?: return null
         val obfuscationType = encryptedSettingsPreference.obfuscationType
 
+      
+        if (settings.inboundIp.isEmpty()) {
+            LOGGER.error("V2Ray inbound IP is empty")
+            return null
+        }
+        if (settings.outboundIp.isEmpty()) {
+            LOGGER.error("V2Ray outbound IP is empty")
+            return null
+        }
+        if (settings.inboundPort <= 0) {
+            LOGGER.error("V2Ray inbound port is invalid: ${settings.inboundPort}")
+            return null
+        }
+        if (settings.outboundPort <= 0) {
+            LOGGER.error("V2Ray outbound port is invalid: ${settings.outboundPort}")
+            return null
+        }
+        if (settings.id.isEmpty()) {
+            LOGGER.error("V2Ray user ID is empty")
+            return null
+        }
+
+        LOGGER.info("Creating V2Ray config with settings: inbound=${settings.inboundIp}:${settings.inboundPort}, outbound=${settings.outboundIp}:${settings.outboundPort}")
+
         return when (obfuscationType) {
             ObfuscationType.V2RAY_TCP -> V2RayConfig.createTcp(
                 context = IVPNApplication.application,
@@ -131,6 +155,7 @@ class V2rayController @Inject constructor(
             LOGGER.info("Starting V2Ray proxy service:")
             LOGGER.info("  Local endpoint: ${V2RAY_LOCAL_HOST}:${currentLocalPort}")
             LOGGER.info("  Obfuscation type: ${encryptedSettingsPreference.obfuscationType.name}")
+            LOGGER.info("  Configuration JSON: ${config.jsonString()}")
             controller.startLoop(config.jsonString())
             isRunning = true
             LOGGER.info("V2Ray started successfully - traffic will be routed through local proxy")
