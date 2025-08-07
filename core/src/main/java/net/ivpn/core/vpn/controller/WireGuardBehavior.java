@@ -352,6 +352,8 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
      */
     private void updateV2raySettings() {
         ObfuscationType obfuscationType = encryptedSettingsPreference.getObfuscationType();
+        LOGGER.debug("Loading v2ray base configuration");
+        serversRepository.loadV2raySettings();
         if (obfuscationType == ObfuscationType.DISABLED) {
             LOGGER.debug("V2Ray obfuscation disabled, skipping settings update");
             return;
