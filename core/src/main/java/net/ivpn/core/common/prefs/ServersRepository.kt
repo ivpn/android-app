@@ -309,6 +309,25 @@ class ServersRepository @Inject constructor(
         }
     }
 
+
+    fun loadV2raySettings() {
+        val response = Mapper.getProtocolServers(ServersLoader.load())
+        response?.let {
+            it.markServerTypes()
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            settings.antiTrackerList = it.config.antiTrackerPlus.list
+
+            if (settings.antiTracker == null) {
+                val defaultDns = AntiTracker()
+                settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
+            }
+
+            parseAndSaveV2RaySettings(it.config)
+        }
+    }
+
+
     fun tryUpdateIpList() {
         if (!settings.ipList.isNullOrEmpty()) {
             return
