@@ -386,24 +386,43 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
         if (entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
             LOGGER.error("Entry host missing V2Ray configuration");
-            return;
+            try {
+                LOGGER.info("Refreshing servers list from bundled cache");
+                serversRepository.updateServerListOffline();
+
+                List<Server> refreshed = serversRepository.getServers(false);
+                if (refreshed != null) {
+                    for (Server s : refreshed) {
+                        if (s != null && s.equals(entryServer)) {
+                            serversRepository.setCurrentServer(ServerType.ENTRY, s);
+                            break;
+                        }
+                    }
+                }
+
+                entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
+                if (entryServer != null && !entryServer.getHosts().isEmpty()) {
+                    entryHost = entryServer.getHosts().get(0);
+                }
+            } catch (Throwable t) {
+                LOGGER.error("Failed to refresh servers list offline", t);
+            }
+
+            if (entryHost == null || entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
+                LOGGER.error("Entry host still missing V2Ray configuration after refresh");
+                return;
+            }
         }
 
         String v2rayInboundIp = entryHost.getHost() != null ? entryHost.getHost() : "";
         int v2rayInboundPort = currentSettings.getSingleHopInboundPort();
         String v2rayOutboundIp = entryHost.getV2ray();
 
-        int v2rayOutboundPort;
-        switch (obfuscationType) {
-            case V2RAY_TCP:
-                v2rayOutboundPort = V2RAY_TCP_PORT;
-                break;
-            case V2RAY_QUIC:
-                v2rayOutboundPort = V2RAY_QUIC_PORT;
-                break;
-            default:
-                v2rayOutboundPort = settings.getWireGuardPort().getPortNumber();
-        }
+        int v2rayOutboundPort = switch (obfuscationType) {
+            case V2RAY_TCP -> V2RAY_TCP_PORT;
+            case V2RAY_QUIC -> V2RAY_QUIC_PORT;
+            default -> settings.getWireGuardPort().getPortNumber();
+        };
 
         String v2rayDnsName = entryHost.getDnsName() != null ? entryHost.getDnsName()
                 : (entryHost.getHostname() != null ? entryHost.getHostname() : "");
@@ -476,12 +495,18 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             if (v2raySettings == null || v2raySettings.getInboundIp().isEmpty() || v2raySettings.getOutboundIp().isEmpty()) {
                 LOGGER.error("V2Ray settings not properly configured, aborting connection");
                 LOGGER.error("V2Ray settings: " + (v2raySettings != null ? v2raySettings.toString() : "null"));
+                setState(NOT_CONNECTED);
+                updateNotification();
+                behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
                 return;
             }
             
             boolean v2rayStarted = v2rayController.startIfEnabled();
             if (!v2rayStarted) {
                 LOGGER.error("Failed to start V2Ray proxy service, aborting connection");
+                setState(NOT_CONNECTED);
+                updateNotification();
+                behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
                 return;
             }
             LOGGER.info("V2Ray proxy started, WireGuard will use endpoint: " + v2rayController.getLocalProxyEndpoint());
