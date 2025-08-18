@@ -3,6 +3,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools">
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:fitsSystemWindows="true"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,13 @@ xmlns:tools="http://schemas.android.com/tools">
     tools:context="net.ivpn.core.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
+            android:fitsSystemWindows="false"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
