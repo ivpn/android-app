@@ -269,8 +269,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.expandedOffset =
-            resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
+        val topOffsetRes = if (Build.VERSION.SDK_INT >= 35)
+            R.dimen.slider_panel_top_offset_api_35
+        else
+            R.dimen.slider_panel_top_offset
+        bottomSheetBehavior.expandedOffset = resources.getDimension(topOffsetRes).toInt()
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {

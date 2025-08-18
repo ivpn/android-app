@@ -58,6 +58,7 @@
     <dimen name="slider_layout_multihop_switch_height">36dp</dimen>
     <dimen name="slider_layout_server_layout_height">78dp</dimen>
     <dimen name="slider_panel_top_offset">36dp</dimen>
+    <dimen name="slider_panel_top_offset_api_35">56dp</dimen>
     <dimen name="map_margin_bottom">166dp</dimen>
 
     <dimen name="map_dialog_side_margin">16dp</dimen>
