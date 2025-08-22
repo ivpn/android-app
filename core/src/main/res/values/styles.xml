@@ -1,15 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/colorControlNormal</item>
-        <item name="android:navigationBarColor">@color/background_material_light</item>
-        <item name="android:windowLightNavigationBar">true</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
         <item name="windowActionBar">false</item>
@@ -27,11 +25,11 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>q
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="AppTheme.Transparent" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme.Transparent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
