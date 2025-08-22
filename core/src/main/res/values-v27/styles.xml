@@ -2,23 +2,17 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/colorControlNormal</item>
+        <item name="android:navigationBarColor">@color/background_material_light</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="popupWindowStyle">@style/AppTheme.Popup</item>
-        <item name="android:windowBackground">@color/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
-        <item name="android:windowLightNavigationBar">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="AppTheme.OutlinedButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">@color/account_outlined_button_text</item>
-        <item name="backgroundTint">@color/account_outlined_button_stroke</item>
-    </style>
-
 </resources>
