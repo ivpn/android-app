@@ -25,15 +25,13 @@ package net.ivpn.client.billing;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
-import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.QueryProductDetailsResult;
 
 import net.ivpn.client.StoreIVPNApplication;
 import net.ivpn.core.R;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -113,7 +111,7 @@ public class BillingViewModel implements BillingListener {
     }
 
     @Override
-    public void onCheckingProductDetailsSuccess(List<ProductDetails> productDetailsList) {
+    public void onCheckingProductDetailsSuccess(QueryProductDetailsResult productDetailsList) {
         // Nothing to do here
     }
 

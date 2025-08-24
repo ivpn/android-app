@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 
     // Purchases
-    implementation 'com.android.billingclient:billing:6.1.0'
+    implementation 'com.android.billingclient:billing:8.0.0'
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
