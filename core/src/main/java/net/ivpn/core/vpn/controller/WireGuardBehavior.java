@@ -437,13 +437,17 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             if (exitServer != null && !exitServer.getHosts().isEmpty()) {
                 Host exitHost = exitServer.getHosts().get(0);
                 v2rayInboundIp = exitHost.getHost() != null ? exitHost.getHost() : "";
-                v2rayInboundPort = v2rayOutboundPort;
-                LOGGER.info("Multi-hop V2Ray override: inbound=" + exitHost.getHost() + ":" + v2rayOutboundPort);
+                v2rayInboundPort = settings.getWireGuardPort().getPortNumber();
+                LOGGER.info("Multi-hop V2Ray inbound set to ExitServer WG endpoint: " + exitHost.getHost() + ":" + v2rayInboundPort);
             } else {
                 LOGGER.error("Multi-hop enabled but no exit server available");
                 return;
             }
         }
+
+        LOGGER.info("V2Ray endpoints → outbound (entry VMess): " + v2rayOutboundIp + ":" + v2rayOutboundPort
+                + ", inbound (WG target): " + v2rayInboundIp + ":" + v2rayInboundPort
+                + ", obfuscation: " + obfuscationType);
 
         V2RaySettings v2raySettings = new V2RaySettings(
                 currentSettings.getId(),
