@@ -16,3 +16,4 @@ core/.cxx/
 /store/production/
 /production/
 liboqs-android/**/*.so
+.kotlin/

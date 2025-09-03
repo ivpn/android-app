@@ -35,6 +35,7 @@ import net.ivpn.core.common.multihop.MultiHopController;
 
 import net.ivpn.core.R;
 import net.ivpn.core.rest.data.model.Port;
+import net.ivpn.core.vpn.model.ObfuscationType;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class PortAdapter extends ArrayAdapter<Port> {
     private List<Port> ports;
     private int currentPosition;
     private MultiHopController multiHopController;
+    private ObfuscationType obfuscationType;
 
     public PortAdapter(Context context, int layoutResourceId,
                        List<Port> ports, MultiHopController multiHopController) {
@@ -52,6 +54,17 @@ public class PortAdapter extends ArrayAdapter<Port> {
         this.context = context;
         this.ports = ports;
         this.multiHopController = multiHopController;
+        this.obfuscationType = null;
+    }
+
+    public PortAdapter(Context context, int layoutResourceId,
+                       List<Port> ports, MultiHopController multiHopController, ObfuscationType obfuscationType) {
+        super(context, layoutResourceId, ports);
+        this.layoutResourceId = layoutResourceId;
+        this.context = context;
+        this.ports = ports;
+        this.multiHopController = multiHopController;
+        this.obfuscationType = obfuscationType;
     }
 
     @Override
@@ -82,7 +95,7 @@ public class PortAdapter extends ArrayAdapter<Port> {
         if (multiHopController.isEnabled()) {
             holder.portTextView.setText(item.getProtocol());
         } else {
-            holder.portTextView.setText(item.toThumbnail());
+            holder.portTextView.setText(item.toThumbnailWithObfuscation(obfuscationType));
         }
 
         return row;
@@ -110,7 +123,7 @@ public class PortAdapter extends ArrayAdapter<Port> {
         if (multiHopController.isEnabled()) {
             holder.portTextView.setText(item.getProtocol());
         } else {
-            holder.portTextView.setText(item.toThumbnail());
+            holder.portTextView.setText(item.toThumbnailWithObfuscation(obfuscationType));
         }
 
         return row;

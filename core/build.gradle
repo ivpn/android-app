@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
@@ -26,7 +28,7 @@ android {
         }
     }
 
-    compileSdkVersion 34
+    compileSdkVersion 35
     defaultConfig {
         minSdkVersion 25
         targetSdkVersion 34
@@ -59,7 +61,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -73,7 +74,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDir 'src/main/libs'
+            jniLibs.srcDir 'libs'
             assets.srcDirs = ["src/main/assets", "build/ovpnassets"]
         }
     }
@@ -106,9 +107,16 @@ android {
             universalApk true
         }
     }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
     buildFeatures {
         viewBinding true
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
@@ -121,8 +129,11 @@ def File registerGenTask(variantName, variantDirName) {
     task("generateOpenVPN3Swig${variantName}", type: Exec) {
 
         def swigcmd = "swig"
-        if (file("/usr/local/bin/swig").exists())
+        if (file("/opt/homebrew/bin/swig").exists())
+            swigcmd = "/opt/homebrew/bin/swig"
+        else if (file("/usr/local/bin/swig").exists())
             swigcmd = "/usr/local/bin/swig"
+
 
         doFirst {
             mkdir genDir
@@ -140,6 +151,7 @@ def File registerGenTask(variantName, variantDirName) {
 def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
 def kemPlatform = "android-21"
 def kemMechanisms = "KEM_kyber_1024;"
+def v2rayScript = "./../libV2ray/build.sh"
 
 tasks.register("buildLiboqsARM64", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
@@ -157,18 +169,26 @@ tasks.register("buildLiboqsX86", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "x86", "-p", kemPlatform, "-m", kemMechanisms
 }
 
-android.libraryVariants.all { variant ->
+tasks.register("buildV2ray", Exec) {
+    commandLine v2rayScript
+}
+
+
+
+android.libraryVariants.configureEach { variant ->
     def sourceDir = registerGenTask(variant.name, variant.baseName.replace("-", "/"))
     def generateOpenVPN3Swig = tasks.named("generateOpenVPN3Swig${variant.name}").get()
     def buildLiboqsARM64 = tasks.named("buildLiboqsARM64").get()
     def buildLiboqsARM = tasks.named("buildLiboqsARM").get()
     def buildLiboqsX8664 = tasks.named("buildLiboqsX8664").get()
     def buildLiboqsX86 = tasks.named("buildLiboqsX86").get()
+    def buildV2ray = tasks.named("buildV2ray").get()
     variant.registerJavaGeneratingTask(generateOpenVPN3Swig, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM64, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX8664, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX86, sourceDir)
+    variant.registerJavaGeneratingTask(buildV2ray, sourceDir)
 }
 
 project.afterEvaluate {
@@ -176,10 +196,13 @@ project.afterEvaluate {
         tasks.named("buildLiboqsARM64").get(),
         tasks.named("buildLiboqsARM").get(),
         tasks.named("buildLiboqsX8664").get(),
-        tasks.named("buildLiboqsX86").get()
+        tasks.named("buildLiboqsX86").get(),
+        tasks.named("buildV2ray").get()
     )
 }
-
+tasks.matching { it.name.startsWith("compile") || it.name.contains("Java") }.configureEach {
+    dependsOn tasks.named("buildV2ray")
+}
 ext {
     supportLibsVersion = '28.0.0'
     streamsupportVersion = '1.7.2'
@@ -189,9 +212,9 @@ kapt {
 }
 
 dependencies {
-    def lifecycle_version = "2.3.1"
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //V2ray
+    implementation project(path: ':libV2ray')
 
     // Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -199,24 +222,26 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.1'
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    //Extended Icons
+    implementation 'androidx.compose.material:material-icons-extended:1.7.8'
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
 
     // JSON Parsing
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
 
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.12.0'
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
@@ -227,22 +252,23 @@ dependencies {
     implementation "net.sourceforge.streamsupport:android-retrostreams:$streamsupportVersion"
 
     // Sliding up panel
-    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.3.0"
 
     // Constraint layout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.1"
 
     // QR support
-    implementation 'com.google.zxing:core:3.3.0'
-    implementation 'com.journeyapps:zxing-android-embedded:4.1.0@aar'
+    implementation 'com.google.zxing:core:3.5.3'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0@aar'
 
     // Encrypted shared preference
-    implementation "androidx.security:security-crypto:1.1.0-alpha03"
+    implementation "androidx.security:security-crypto:1.1.0-beta01"
 
     // Powerful library for logging
-    implementation 'org.slf4j:slf4j-api:1.7.24'
-    implementation 'org.slf4j:jul-to-slf4j:1.7.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:jul-to-slf4j:1.7.36'
     implementation 'com.github.tony19:logback-android:2.0.0'
+
 
     // Navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -270,8 +296,8 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestUtil 'androidx.test:orchestrator:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestUtil 'androidx.test:orchestrator:1.5.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

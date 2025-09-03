@@ -289,7 +289,7 @@ class DialogueDrawer(private val utils: DialogueUtil, private val context: Conte
         var path: String
         dialogueLocationData.countryCode?.let {
             path = ("flag" + File.separator
-                    + it.toLowerCase(Locale.getDefault()) + ".png")
+                    + it.lowercase(Locale.getDefault()) + ".png")
             return Drawable.createFromStream(context.assets.open(path), null)
         } ?: return null
     }

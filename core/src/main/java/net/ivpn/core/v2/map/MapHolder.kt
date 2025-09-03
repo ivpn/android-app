@@ -33,9 +33,9 @@ import kotlin.system.measureTimeMillis
 
 object MapHolder {
 
-    var memoryCache: LruCache<String, Bitmap?>? = null
+    var memoryCache: LruCache<String, Bitmap>? = null
 
-    fun getTilesFor(): LruCache<String, Bitmap?> {
+    fun getTilesFor(): LruCache<String, Bitmap> {
         memoryCache?.let {
             it.evictAll()
             return it
@@ -46,7 +46,7 @@ object MapHolder {
         val cacheSize = maxMemory / 4
         println("Cache size = $cacheSize in Kb")
 
-        val memoryCacheImpl = object : LruCache<String, Bitmap?>(cacheSize) {
+        val memoryCacheImpl = object : LruCache<String, Bitmap>(cacheSize) {
 
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
                 // The cache size will be measured in kilobytes rather than

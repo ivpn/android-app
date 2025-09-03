@@ -25,10 +25,13 @@ import com.wireguard.android.util.SharedLibraryLoader;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
 import net.ivpn.core.common.dagger.ApplicationScope;
+import net.ivpn.core.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.core.common.prefs.PackagesPreference;
+import net.ivpn.core.common.prefs.ServersPreference;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.vpn.NetworkUtils;
 import net.ivpn.core.vpn.controller.VpnBehaviorController;
+import net.ivpn.core.vpn.model.ObfuscationType;
 import net.ivpn.core.vpn.wireguard.ConfigManager;
 
 import org.slf4j.Logger;
@@ -59,6 +62,8 @@ public final class GoBackend implements Backend {
     private VpnBehaviorController vpnBehaviorController;
     private PackagesPreference packagesPreference;
     private Settings settings;
+    private EncryptedSettingsPreference encryptedSettingsPreference;
+    private ServersPreference serversPreference;
 
     @Nullable
     private Tunnel currentTunnel;
@@ -68,13 +73,17 @@ public final class GoBackend implements Backend {
 
     @Inject
     GoBackend(Context context, VpnBehaviorController vpnBehaviorController,
-              PackagesPreference packagesPreference, Settings settings) {
+              PackagesPreference packagesPreference, Settings settings,
+              EncryptedSettingsPreference encryptedSettingsPreference,
+              ServersPreference serversPreference) {
         LOGGER.info("init");
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go");
         this.context = context;
         this.packagesPreference = packagesPreference;
         this.vpnBehaviorController = vpnBehaviorController;
         this.settings = settings;
+        this.encryptedSettingsPreference = encryptedSettingsPreference;
+        this.serversPreference = serversPreference;
 
         LOGGER.info("end init");
     }
@@ -190,6 +199,21 @@ public final class GoBackend implements Backend {
                 }
             }
         }
+        
+        // Add V2Ray server IP to bypass routes (prevents circular routing)
+        if (settings.getObfuscationType() != ObfuscationType.DISABLED) {
+            try {
+                net.ivpn.core.vpn.model.V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
+                if (v2raySettings != null && !v2raySettings.getOutboundIp().isEmpty()) {
+                    // Add V2Ray server IP as /32 route that bypasses the VPN tunnel
+                    routes.addIP(new CIDRIP(v2raySettings.getOutboundIp(), 32), false);
+                    LOGGER.info("Added V2Ray server IP to bypass routes: " + v2raySettings.getOutboundIp());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Failed to add V2Ray server IP to bypass routes: " + e.getMessage(), e);
+            }
+        }
+        
         return routes;
     }
 
@@ -296,6 +320,8 @@ public final class GoBackend implements Backend {
         LOGGER.info("Requesting to start WireGuardVpnService");
         context.startService(new Intent(context, WireGuardVpnService.class));
     }
+
+
 
     public static class WireGuardVpnService extends android.net.VpnService {
 
