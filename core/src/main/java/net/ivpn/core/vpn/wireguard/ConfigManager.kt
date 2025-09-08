@@ -154,7 +154,7 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val host = server.hosts[0]
+        val host = selectPreferredHost(server)
         LOGGER.info("Using server host: ${host.hostname} (${host.host})")
 
         return createWireGuardConfig(
@@ -185,8 +185,8 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val entryHost = entryServer.hosts[0]
-        val exitHost = exitServer.hosts[0]
+        val entryHost = selectPreferredHost(entryServer)
+        val exitHost = selectPreferredHost(exitServer)
 
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
@@ -259,6 +259,12 @@ class ConfigManager @Inject constructor(
         config.peers = listOf(peer)
 
         return config
+    }
+
+    private fun selectPreferredHost(server: Server): Host {
+        // prefer a host with v2ray endpoint if available, otherwise first
+        val withV2ray = server.hosts.firstOrNull { !it.v2ray.isNullOrEmpty() }
+        return withV2ray ?: server.hosts.first()
     }
 
     private fun setAddress(config: Config, hosts: List<Host>) {
