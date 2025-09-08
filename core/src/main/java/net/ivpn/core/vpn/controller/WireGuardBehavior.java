@@ -382,7 +382,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             return;
         }
 
-        Host entryHost = entryServer.getHosts().get(0);
+        Host entryHost = selectPreferredHost(entryServer);
 
         if (entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
             LOGGER.error("Entry host missing V2Ray configuration");
@@ -402,7 +402,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
                 entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
                 if (entryServer != null && !entryServer.getHosts().isEmpty()) {
-                    entryHost = entryServer.getHosts().get(0);
+                    entryHost = selectPreferredHost(entryServer);
                 }
             } catch (Throwable t) {
                 LOGGER.error("Failed to refresh servers list offline", t);
@@ -435,7 +435,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         if (multiHopController.isReadyToUse()) {
             Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
             if (exitServer != null && !exitServer.getHosts().isEmpty()) {
-                Host exitHost = exitServer.getHosts().get(0);
+                Host exitHost = selectPreferredHost(exitServer);
                 v2rayInboundIp = exitHost.getHost() != null ? exitHost.getHost() : "";
                 v2rayInboundPort = settings.getWireGuardPort().getPortNumber();
                 LOGGER.info("Multi-hop V2Ray inbound set to ExitServer WG endpoint: " + exitHost.getHost() + ":" + v2rayInboundPort);
@@ -467,8 +467,26 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             return;
         }
 
-        LOGGER.info("V2Ray settings updated successfully - inbound: " + v2rayInboundIp + ":" + v2rayInboundPort + 
-                   ", outbound: " + v2rayOutboundIp + ":" + v2rayOutboundPort);
+        LOGGER.info("V2Ray settings updated successfully - inbound: " + v2rayInboundIp + ":" + v2rayInboundPort +
+                ", outbound: " + v2rayOutboundIp + ":" + v2rayOutboundPort);
+    }
+
+    private Host selectPreferredHost(Server server) {
+        try {
+            if (server != null && server.getHosts() != null && !server.getHosts().isEmpty()) {
+                // prefer a host with V2Ray endpoint if available
+                for (Host h : server.getHosts()) {
+                    if (h != null && h.getV2ray() != null && !h.getV2ray().isEmpty()) {
+                        return h;
+                    }
+                }
+                // fallback to first host
+                return server.getHosts().get(0);
+            }
+        } catch (Throwable t) {
+            LOGGER.warn("selectPreferredHost failed, falling back to first host if present", t);
+        }
+        return server != null && server.getHosts() != null && !server.getHosts().isEmpty() ? server.getHosts().get(0) : null;
     }
     private String validateV2RaySettings(V2RaySettings settings) {
         if (settings.getId().isEmpty()) {
@@ -491,9 +509,9 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         behaviourListener.onConnectingToVpn();
         setState(CONNECTING);
         updateNotification();
-        
+
         updateV2raySettings();
-        
+
         if (v2rayController.isV2RayEnabled()) {
             V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
             if (v2raySettings == null || v2raySettings.getInboundIp().isEmpty() || v2raySettings.getOutboundIp().isEmpty()) {
@@ -504,7 +522,7 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
                 behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
                 return;
             }
-            
+
             boolean v2rayStarted = v2rayController.startIfEnabled();
             if (!v2rayStarted) {
                 LOGGER.error("Failed to start V2Ray proxy service, aborting connection");
