@@ -335,7 +335,7 @@ class ServersPreference @Inject constructor(
         }
         val entryServer = Mapper.from(preference.getString(CURRENT_ENTER_SERVER, null))
         val exitServer = Mapper.from(preference.getString(CURRENT_EXIT_SERVER, null))
-        if (entryServer != null && entryServer.hosts.random().multihopPort == 0) {
+        if (entryServer != null && entryServer.hosts[0].multihopPort == 0) {
             for (server in servers) {
                 if (server == entryServer) {
                     preference.edit().putString(CURRENT_ENTER_SERVER, Mapper.from(server)).apply()
@@ -343,7 +343,7 @@ class ServersPreference @Inject constructor(
                 }
             }
         }
-        if (exitServer != null && exitServer.hosts.random().multihopPort == 0) {
+        if (exitServer != null && exitServer.hosts[0].multihopPort == 0) {
             for (server in servers) {
                 if (server == exitServer) {
                     preference.edit().putString(CURRENT_EXIT_SERVER, Mapper.from(server)).apply()
