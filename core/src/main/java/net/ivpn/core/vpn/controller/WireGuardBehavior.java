@@ -507,31 +507,6 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         setState(CONNECTING);
         updateNotification();
         
-        updateV2raySettings();
-        
-        if (v2rayController.isV2RayEnabled()) {
-            V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
-            if (v2raySettings == null || v2raySettings.getInboundIp().isEmpty() || v2raySettings.getOutboundIp().isEmpty()) {
-                LOGGER.error("V2Ray settings not properly configured, aborting connection");
-                LOGGER.error("V2Ray settings: " + (v2raySettings != null ? v2raySettings.toString() : "null"));
-                setState(NOT_CONNECTED);
-                updateNotification();
-                behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
-                return;
-            }
-            
-            boolean v2rayStarted = v2rayController.startIfEnabled();
-            if (!v2rayStarted) {
-                LOGGER.error("Failed to start V2Ray proxy service, aborting connection");
-                setState(NOT_CONNECTED);
-                updateNotification();
-                behaviourListener.updateVpnConnectionState(VPNConnectionState.DISCONNECTED);
-                return;
-            }
-            LOGGER.info("V2Ray proxy started, WireGuard will use endpoint: " + v2rayController.getLocalProxyEndpoint());
-        } else {
-            LOGGER.info("V2Ray obfuscation disabled, using direct WireGuard connection");
-        }
         configManager.startWireGuard();
     }
 
@@ -586,7 +561,6 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
     private void stopVpn() {
         LOGGER.info("stopVpn: state = " + state);
-        v2rayController.stop();
         stopWireGuard();
     }
 

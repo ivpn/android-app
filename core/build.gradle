@@ -16,7 +16,7 @@ if (new File("keystore.properties").exists()) {
 
 android {
     namespace "net.ivpn.core"
-    
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['release.key.alias']
@@ -151,7 +151,6 @@ def File registerGenTask(variantName, variantDirName) {
 def kemScript = "./../liboqs-android/jni/liboqs/scripts/build-android.sh"
 def kemPlatform = "android-21"
 def kemMechanisms = "KEM_kyber_1024;"
-def v2rayScript = "./../libV2ray/build.sh"
 
 tasks.register("buildLiboqsARM64", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "arm64-v8a", "-p", kemPlatform, "-m", kemMechanisms
@@ -169,10 +168,6 @@ tasks.register("buildLiboqsX86", Exec) {
     commandLine kemScript, android.ndkDirectory, "-a", "x86", "-p", kemPlatform, "-m", kemMechanisms
 }
 
-tasks.register("buildV2ray", Exec) {
-    commandLine v2rayScript
-}
-
 
 
 android.libraryVariants.configureEach { variant ->
@@ -182,27 +177,22 @@ android.libraryVariants.configureEach { variant ->
     def buildLiboqsARM = tasks.named("buildLiboqsARM").get()
     def buildLiboqsX8664 = tasks.named("buildLiboqsX8664").get()
     def buildLiboqsX86 = tasks.named("buildLiboqsX86").get()
-    def buildV2ray = tasks.named("buildV2ray").get()
     variant.registerJavaGeneratingTask(generateOpenVPN3Swig, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM64, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsARM, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX8664, sourceDir)
     variant.registerJavaGeneratingTask(buildLiboqsX86, sourceDir)
-    variant.registerJavaGeneratingTask(buildV2ray, sourceDir)
 }
 
 project.afterEvaluate {
     preBuild.dependsOn(
-        tasks.named("buildLiboqsARM64").get(),
-        tasks.named("buildLiboqsARM").get(),
-        tasks.named("buildLiboqsX8664").get(),
-        tasks.named("buildLiboqsX86").get(),
-        tasks.named("buildV2ray").get()
+            tasks.named("buildLiboqsARM64").get(),
+            tasks.named("buildLiboqsARM").get(),
+            tasks.named("buildLiboqsX8664").get(),
+            tasks.named("buildLiboqsX86").get(),
     )
 }
-tasks.matching { it.name.startsWith("compile") || it.name.contains("Java") }.configureEach {
-    dependsOn tasks.named("buildV2ray")
-}
+
 ext {
     supportLibsVersion = '28.0.0'
     streamsupportVersion = '1.7.2'
@@ -212,9 +202,6 @@ kapt {
 }
 
 dependencies {
-
-    //V2ray
-    implementation project(path: ':libV2ray')
 
     // Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_version"
