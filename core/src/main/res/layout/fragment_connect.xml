@@ -30,6 +30,7 @@
         android:fitsSystemWindows="true">
 
         <FrameLayout
+            android:fitsSystemWindows="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/map_background">
@@ -38,11 +39,16 @@
                 android:id="@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/map_margin_bottom"
                 android:visibility="visible"
                 app:connectionState="@{connection.connectionState}"
                 app:gateway="@{servers.mapServer}"
                 app:locations="@{location.locations}" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/account_button"
