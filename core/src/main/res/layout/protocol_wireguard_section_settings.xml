@@ -10,6 +10,8 @@
 
         <import type="net.ivpn.core.common.utils.DateUtil" />
 
+        <import type="net.ivpn.core.vpn.model.ObfuscationType" />
+
         <variable
             name="viewmodel"
             type="net.ivpn.core.v2.viewmodel.ProtocolViewModel" />
@@ -40,7 +42,7 @@
                 android:orientation="horizontal"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
-                android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
+                android:visibility="@{viewmodel.multiHop.isEnabled() &amp;&amp; viewmodel.obfuscationType == ObfuscationType.DISABLED ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     style="@style/SettingsAction"
@@ -55,11 +57,11 @@
                     style="@style/SettingsOptionDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
                     android:overlapAnchor="true"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/protocol_text_color"
-                    android:text="@{viewmodel.wireGuardPort.toThumbnail()}" />
+                    android:text="@{viewmodel.wireGuardPort.toThumbnailWithObfuscation(viewmodel.obfuscationType)}"
+                    android:textColor="@color/protocol_text_color" />
             </LinearLayout>
 
             <View
@@ -68,6 +70,79 @@
                 android:layout_marginStart="16dp"
                 android:background="@color/color_section_divider"
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
+                android:id="@+id/wireguard_obfuscation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp">
+
+                <TextView
+                    style="@style/SettingsAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:text="@string/settings_obfuscation_label"
+                    android:textAllCaps="true" />
+
+                <RadioGroup
+                    android:id="@+id/obfuscation_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/settings_margin_right"
+                    android:onCheckedChanged="@{viewmodel.obfuscationCheckedChangeListener}">
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_disabled"
+                        android:layout_width="match_parent"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.DISABLED)}"
+                        android:text="@string/settings_obfuscation_state_disabled"
+                        android:textColor="@color/protocol_text_color" />
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_v2ray_quic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.V2RAY_QUIC)}"
+                        android:text="@string/settings_obfuscation_state_v2ray_vmess_quic"
+                        android:textColor="@color/protocol_text_color" />
+
+                    <RadioButton
+                        android:id="@+id/obfuscation_v2ray_tcp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/AppTheme.RadioButton"
+                        app:buttonTint="@color/dialogue_button"
+                        android:checked="@{viewmodel.obfuscationType.equals(ObfuscationType.V2RAY_TCP)}"
+                        android:text="@string/settings_obfuscation_state_v2ray_vmess_tcp"
+                        android:textColor="@color/protocol_text_color" />
+                </RadioGroup>
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginEnd="@dimen/settings_margin_left"
+                    android:alpha="0.6"
+                    android:text="@string/settings_obfuscation_description"
+                    android:textColor="@color/protocol_text_color" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,8 +226,8 @@
                 <TextView
                     style="@style/SettingsAction"
                     android:layout_width="wrap_content"
-                    android:paddingVertical="12dp"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
                     android:text="@string/protocol_wg_details"
                     android:textAllCaps="true" />
             </LinearLayout>

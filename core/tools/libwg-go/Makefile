@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
-# Copyright © 2017-2023 WireGuard LLC. All Rights Reserved.
+# Copyright © 2017-2025 WireGuard LLC. All Rights Reserved.
 
 BUILDDIR ?= $(CURDIR)/build
 DESTDIR ?= $(CURDIR)/out
@@ -20,12 +20,12 @@ export GOARCH := $(NDK_GO_ARCH_MAP_$(ANDROID_ARCH_NAME))
 export GOOS := android
 export CGO_ENABLED := 1
 
-GO_VERSION := 1.20.3
+GO_VERSION := 1.24.3
 GO_PLATFORM := $(shell uname -s | tr '[:upper:]' '[:lower:]')-$(NDK_GO_ARCH_MAP_$(shell uname -m))
 GO_TARBALL := go$(GO_VERSION).$(GO_PLATFORM).tar.gz
-GO_HASH_darwin-amd64 := c1e1161d6d859deb576e6cfabeb40e3d042ceb1c6f444f617c3c9d76269c3565
-GO_HASH_darwin-arm64 := 86b0ed0f2b2df50fa8036eea875d1cf2d76cefdacf247c44639a1464b7e36b95
-GO_HASH_linux-amd64 := 979694c2c25c735755bf26f4f45e19e64e4811d661dd07b8c010f7a8e18adfca
+GO_HASH_darwin-amd64 := 13e6fe3fcf65689d77d40e633de1e31c6febbdbcb846eb05fc2434ed2213e92b
+GO_HASH_darwin-arm64 := 64a3fa22142f627e78fac3018ce3d4aeace68b743eff0afda8aae0411df5e4fb
+GO_HASH_linux-amd64 := 3333f6ea53afa971e9078895eaa4ac7204a8c6b5c68c10e6bc9a33e8e391bdd8
 
 default: $(DESTDIR)/libwg-go.so
 
@@ -34,7 +34,11 @@ $(GRADLE_USER_HOME)/caches/golang/$(GO_TARBALL):
 	flock "$@.lock" -c ' \
 	[ -f "$@" ] && exit 0; \
 	curl -o "$@.tmp" "https://dl.google.com/go/$(GO_TARBALL)" && \
-	echo "$(GO_HASH_$(GO_PLATFORM))  $@.tmp" | sha256sum -c && \
+	if [ "$(shell uname -s)" = "Darwin" ]; then \
+		echo "$(GO_HASH_$(GO_PLATFORM))  $@.tmp" | shasum -a 256 -c; \
+	else \
+		echo "$(GO_HASH_$(GO_PLATFORM))  $@.tmp" | sha256sum -c; \
+	fi && \
 	mv "$@.tmp" "$@"'
 
 $(BUILDDIR)/go-$(GO_VERSION)/.prepared: $(GRADLE_USER_HOME)/caches/golang/$(GO_TARBALL)
@@ -46,6 +50,7 @@ $(BUILDDIR)/go-$(GO_VERSION)/.prepared: $(GRADLE_USER_HOME)/caches/golang/$(GO_T
 
 $(DESTDIR)/libwg-go.so: export PATH := $(BUILDDIR)/go-$(GO_VERSION)/bin/:$(PATH)
 $(DESTDIR)/libwg-go.so: $(BUILDDIR)/go-$(GO_VERSION)/.prepared go.mod
+	go mod tidy && \
 	go build -tags linux -ldflags="-X golang.zx2c4.com/wireguard/ipc.socketDirectory=/data/data/$(ANDROID_PACKAGE_NAME)/cache/wireguard -buildid=" -v -trimpath -buildvcs=false -o "$@" -buildmode c-shared
 
 .DELETE_ON_ERROR:

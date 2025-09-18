@@ -29,6 +29,7 @@ import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
+import net.ivpn.core.rest.data.model.Config
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
@@ -37,6 +38,8 @@ import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
 import net.ivpn.core.vpn.controller.VpnBehavior.OnRandomServerSelectionListener
+import net.ivpn.core.vpn.model.V2RayPort
+import net.ivpn.core.vpn.model.V2RaySettings
 import org.slf4j.LoggerFactory
 import java.io.Serializable
 import java.util.*
@@ -73,6 +76,32 @@ class ServersRepository @Inject constructor(
             setCurrentServer(serverType, server)
         }
         return server
+    }
+
+    private fun parseAndSaveV2RaySettings(config: Config?) {
+        config?.ports?.v2ray?.let { v2rayConfig ->
+            val wireguardPorts = v2rayConfig.wireguard?.map { port ->
+                V2RayPort(
+                    type = port.protocol,
+                    port = port.portNumber
+                )
+            } ?: emptyList()
+
+            val inboundPort = wireguardPorts.lastOrNull()?.port ?: 0
+
+            val v2raySettings = V2RaySettings(
+                id = v2rayConfig.id ?: "",
+                outboundIp = "",
+                outboundPort = 0,
+                inboundIp = "",
+                inboundPort = inboundPort,
+                dnsName = "",
+                wireguard = wireguardPorts
+            )
+
+            serversPreference.putV2RaySettings(v2raySettings)
+            LOGGER.info("V2Ray settings saved: $v2raySettings")
+        }
     }
 
     fun setCurrentServer(serverType: ServerType, server: Server?) {
@@ -192,6 +221,7 @@ class ServersRepository @Inject constructor(
                     val defaultDns = AntiTracker()
                     settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
                 }
+                parseAndSaveV2RaySettings(response.config)
                 for (listener in onServerListUpdatedListeners) {
                     listener.onSuccess(getSuitableServers(response), isForced)
                 }
@@ -274,9 +304,29 @@ class ServersRepository @Inject constructor(
                 val defaultDns = AntiTracker()
                 settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
             }
+            parseAndSaveV2RaySettings(response.config)
             setServerList(it.openVpnServerList, it.wireGuardServerList)
         }
     }
+
+
+    fun loadV2raySettings() {
+        val response = Mapper.getProtocolServers(ServersLoader.load())
+        response?.let {
+            it.markServerTypes()
+            settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
+            settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
+            settings.antiTrackerList = it.config.antiTrackerPlus.list
+
+            if (settings.antiTracker == null) {
+                val defaultDns = AntiTracker()
+                settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
+            }
+
+            parseAndSaveV2RaySettings(it.config)
+        }
+    }
+
 
     fun tryUpdateIpList() {
         if (!settings.ipList.isNullOrEmpty()) {
@@ -293,6 +343,7 @@ class ServersRepository @Inject constructor(
                 val defaultDns = AntiTracker()
                 settings.antiTracker = defaultDns.getDefaultList(settings.antiTrackerList, settings, userPreference)
             }
+            parseAndSaveV2RaySettings(response.config)
             settings.setIpList(Mapper.stringFromIps(it.config.api.ips))
             settings.setIPv6List(Mapper.stringFromIps(it.config.api.ipv6s))
         }

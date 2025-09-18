@@ -25,52 +25,52 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Config {
+import java.util.List;
 
-    @SerializedName("antitracker")
+public class V2ray {
+
+    @SerializedName("id")
     @Expose
-    private AntiTrackerConfig antitracker;
+    private String id;
     
-    @SerializedName("antitracker_plus")
+    @SerializedName("openvpn")
     @Expose
-    private AntiTrackerPlus antitrackerPlus;
-    @SerializedName("api")
+    private List<Port> openvpn;
+    
+    @SerializedName("wireguard")
     @Expose
-    private Api api;
-    @SerializedName("ports")
-    @Expose
-    private Ports ports;
+    private List<Port> wireguard;
 
-    public AntiTrackerConfig getAntitracker() {
-        return antitracker;
+    public String getId() {
+        return id;
     }
 
-    public void setAntitracker(AntiTrackerConfig antitracker) {
-        this.antitracker = antitracker;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public AntiTrackerPlus getAntiTrackerPlus() {
-        return antitrackerPlus;
+    public List<Port> getOpenvpn() {
+        return openvpn;
     }
 
-    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
-        this.antitrackerPlus = antitrackerPlus;
+    public void setOpenvpn(List<Port> openvpn) {
+        this.openvpn = openvpn;
     }
 
-    public Api getApi() {
-        return api;
+    public List<Port> getWireguard() {
+        return wireguard;
     }
 
-    public void setApi(Api api) {
-        this.api = api;
+    public void setWireguard(List<Port> wireguard) {
+        this.wireguard = wireguard;
     }
 
-    public Ports getPorts() {
-        return ports;
+    @Override
+    public String toString() {
+        return "V2Ray{" +
+                "id='" + id + '\'' +
+                ", openvpn=" + openvpn +
+                ", wireguard=" + wireguard +
+                '}';
     }
-
-    public void setPorts(Ports ports) {
-        this.ports = ports;
-    }
-
-}
+} 

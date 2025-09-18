@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.wireguard.android.config.Config;
+import com.wireguard.android.config.Peer;
 import com.wireguard.android.config.InetNetwork;
 import com.wireguard.android.model.Tunnel;
 import com.wireguard.android.model.Tunnel.State;
@@ -25,11 +26,21 @@ import com.wireguard.android.util.SharedLibraryLoader;
 import net.ivpn.core.IVPNApplication;
 import net.ivpn.core.R;
 import net.ivpn.core.common.dagger.ApplicationScope;
+import net.ivpn.core.common.prefs.EncryptedSettingsPreference;
 import net.ivpn.core.common.prefs.PackagesPreference;
+import net.ivpn.core.common.prefs.ServersRepository;
+import net.ivpn.core.common.prefs.ServersPreference;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.vpn.NetworkUtils;
 import net.ivpn.core.vpn.controller.VpnBehaviorController;
+import net.ivpn.core.vpn.controller.V2rayController;
+import net.ivpn.core.vpn.model.ObfuscationType;
+import net.ivpn.core.vpn.model.V2RaySettings;
 import net.ivpn.core.vpn.wireguard.ConfigManager;
+import net.ivpn.core.common.multihop.MultiHopController;
+import net.ivpn.core.rest.data.model.Host;
+import net.ivpn.core.rest.data.model.Server;
+import net.ivpn.core.rest.data.model.ServerType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +70,8 @@ public final class GoBackend implements Backend {
     private VpnBehaviorController vpnBehaviorController;
     private PackagesPreference packagesPreference;
     private Settings settings;
+    private EncryptedSettingsPreference encryptedSettingsPreference;
+    private ServersPreference serversPreference;
 
     @Nullable
     private Tunnel currentTunnel;
@@ -68,13 +81,17 @@ public final class GoBackend implements Backend {
 
     @Inject
     GoBackend(Context context, VpnBehaviorController vpnBehaviorController,
-              PackagesPreference packagesPreference, Settings settings) {
+              PackagesPreference packagesPreference, Settings settings,
+              EncryptedSettingsPreference encryptedSettingsPreference,
+              ServersPreference serversPreference) {
         LOGGER.info("init");
         SharedLibraryLoader.loadSharedLibrary(context, "wg-go");
         this.context = context;
         this.packagesPreference = packagesPreference;
         this.vpnBehaviorController = vpnBehaviorController;
         this.settings = settings;
+        this.encryptedSettingsPreference = encryptedSettingsPreference;
+        this.serversPreference = serversPreference;
 
         LOGGER.info("end init");
     }
@@ -190,6 +207,21 @@ public final class GoBackend implements Backend {
                 }
             }
         }
+        
+        // Add V2Ray server IP to bypass routes (prevents circular routing)
+        if (settings.getObfuscationType() != ObfuscationType.DISABLED) {
+            try {
+                net.ivpn.core.vpn.model.V2RaySettings v2raySettings = serversPreference.getV2RaySettings();
+                if (v2raySettings != null && !v2raySettings.getOutboundIp().isEmpty()) {
+                    // Add V2Ray server IP as /32 route that bypasses the VPN tunnel
+                    routes.addIP(new CIDRIP(v2raySettings.getOutboundIp(), 32), false);
+                    LOGGER.info("Added V2Ray server IP to bypass routes: " + v2raySettings.getOutboundIp());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Failed to add V2Ray server IP to bypass routes: " + e.getMessage(), e);
+            }
+        }
+        
         return routes;
     }
 
@@ -219,6 +251,30 @@ public final class GoBackend implements Backend {
             if (currentTunnelHandle != -1) {
                 LOGGER.info("Tunnel already up");
                 return;
+            }
+
+            if (encryptedSettingsPreference.getObfuscationType() != ObfuscationType.DISABLED) {
+                try {
+                    service.updateV2raySettingsInService();
+                } catch (final Exception e) {
+                    LOGGER.error("Failed to update V2Ray settings in service", e);
+                }
+                boolean v2rayOk = service.ensureV2RayStarted();
+                if (!v2rayOk) {
+                    throw new Exception("Unable to start V2Ray proxy");
+                }
+                try {
+                    final String localEndpoint = service.getV2RayLocalEndpoint();
+                    if (config != null && config.getPeers() != null) {
+                        for (final Peer peer : config.getPeers()) {
+                            peer.setEndpointString(localEndpoint);
+                        }
+                    }
+                    LOGGER.info("Applied V2Ray local endpoint to WireGuard config: " + localEndpoint);
+                } catch (final Exception e) {
+                    LOGGER.error("Failed to apply V2Ray endpoint to WireGuard config", e);
+                    throw new Exception("Failed to apply V2Ray endpoint", e);
+                }
             }
 
             // Build config
@@ -275,6 +331,16 @@ public final class GoBackend implements Backend {
             currentTunnel = null;
             currentTunnelHandle = -1;
             currentConfig = null;
+
+            try {
+                if (vpnService.isDone()) {
+                    final WireGuardVpnService service = vpnService.get(1, TimeUnit.SECONDS);
+                    if (service != null) {
+                        service.stopV2RayIfRunning();
+                    }
+                }
+            } catch (final Exception ignored) {
+            }
         }
 
         tunnel.onStateChange(state);
@@ -297,6 +363,8 @@ public final class GoBackend implements Backend {
         context.startService(new Intent(context, WireGuardVpnService.class));
     }
 
+
+
     public static class WireGuardVpnService extends android.net.VpnService {
 
         @Nullable
@@ -306,6 +374,18 @@ public final class GoBackend implements Backend {
         VpnBehaviorController vpnBehaviorController;
         @Inject
         ConfigManager configManager;
+        @Inject
+        V2rayController v2rayController;
+        @Inject
+        Settings settings;
+        @Inject
+        ServersRepository serversRepository;
+        @Inject
+        EncryptedSettingsPreference encryptedSettingsPreference;
+        @Inject
+        ServersPreference serversPreference;
+        @Inject
+        MultiHopController multiHopController;
 
         public Builder getBuilder() {
             return new Builder();
@@ -330,6 +410,10 @@ public final class GoBackend implements Backend {
         public void onDestroy() {
             LOGGER.info("onDestroy");
             configManager.onTunnelStateChanged(State.DOWN);
+            try {
+                stopV2RayIfRunning();
+            } catch (final Exception ignored) {
+            }
             if (owner != null) {
                 final Tunnel tunnel = owner.currentTunnel;
                 if (tunnel != null) {
@@ -353,6 +437,147 @@ public final class GoBackend implements Backend {
                 LOGGER.info("Service started by Always-on VPN feature");
             }
             return super.onStartCommand(intent, flags, startId);
+        }
+
+        public void updateV2raySettingsInService() {
+            final ObfuscationType obfuscationType = encryptedSettingsPreference.getObfuscationType();
+            serversRepository.loadV2raySettings();
+            if (obfuscationType == ObfuscationType.DISABLED) {
+                LOGGER.debug("V2Ray obfuscation disabled, skipping settings update (service)");
+                return;
+            }
+
+            final java.util.List<Server> servers = serversRepository.getServers(false);
+            if (servers == null || servers.isEmpty()) {
+                LOGGER.error("No servers available, cannot configure V2Ray (service)");
+                return;
+            }
+
+            V2RaySettings currentSettings = serversPreference.getV2RaySettings();
+            if (currentSettings == null) {
+                LOGGER.error("V2Ray base configuration not found (service)");
+                return;
+            }
+            if (currentSettings.getId().isEmpty()) {
+                LOGGER.error("V2Ray user ID is empty, authentication will fail (service)");
+                return;
+            }
+
+            Server entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
+            if (entryServer == null || entryServer.getHosts().isEmpty()) {
+                LOGGER.error("Entry server not available, cannot configure V2Ray (service)");
+                return;
+            }
+
+            Host entryHost = selectHostWithV2ray(entryServer.getHosts());
+            if (entryHost == null) {
+                LOGGER.error("Entry server has no host with V2Ray configured, attempting offline refresh (service)");
+                try {
+                    serversRepository.updateServerListOffline();
+                    java.util.List<Server> refreshed = serversRepository.getServers(false);
+                    if (refreshed != null) {
+                        for (Server s : refreshed) {
+                            if (s != null && s.equals(entryServer)) {
+                                serversRepository.setCurrentServer(ServerType.ENTRY, s);
+                                break;
+                            }
+                        }
+                    }
+                    entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
+                    if (entryServer != null && !entryServer.getHosts().isEmpty()) {
+                        entryHost = selectHostWithV2ray(entryServer.getHosts());
+                    }
+                } catch (Throwable t) {
+                    LOGGER.error("Failed to refresh servers list offline (service)", t);
+                }
+                if (entryHost == null) {
+                    LOGGER.error("Entry server has no host with V2Ray configuration after refresh (service)");
+                    return;
+                }
+            }
+
+            String v2rayInboundIp = entryHost.getHost() != null ? entryHost.getHost() : "";
+            int v2rayInboundPort = currentSettings.getSingleHopInboundPort();
+            String v2rayOutboundIp = entryHost.getV2ray();
+
+            int v2rayOutboundPort = switch (obfuscationType) {
+                case V2RAY_TCP -> 80;
+                case V2RAY_QUIC -> 443;
+                default -> settings.getWireGuardPort().getPortNumber();
+            };
+
+            String v2rayDnsName = entryHost.getDnsName() != null ? entryHost.getDnsName()
+                    : (entryHost.getHostname() != null ? entryHost.getHostname() : "");
+
+            if (v2rayInboundIp.isEmpty() || v2rayOutboundIp.isEmpty()) {
+                LOGGER.error("Critical V2Ray IPs are empty (service) - inbound: '" + v2rayInboundIp + "', outbound: '" + v2rayOutboundIp + "'");
+                return;
+            }
+
+            if (multiHopController.isReadyToUse()) {
+                Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
+                if (exitServer != null && !exitServer.getHosts().isEmpty()) {
+                    Host exitHost = exitServer.getHosts().get(0);
+                    v2rayInboundIp = exitHost.getHost() != null ? exitHost.getHost() : "";
+                    v2rayInboundPort = settings.getWireGuardPort().getPortNumber();
+                    LOGGER.info("Multi-hop V2Ray inbound set to ExitServer WG endpoint (service): " + exitHost.getHost() + ":" + v2rayInboundPort);
+                } else {
+                    LOGGER.error("Multi-hop enabled but no exit server available (service)");
+                    return;
+                }
+            }
+
+            LOGGER.info("V2Ray endpoints (service) → outbound (entry VMess): " + v2rayOutboundIp + ":" + v2rayOutboundPort
+                    + ", inbound (WG target): " + v2rayInboundIp + ":" + v2rayInboundPort
+                    + ", obfuscation: " + obfuscationType);
+
+            V2RaySettings v2raySettings = new V2RaySettings(
+                    currentSettings.getId(),
+                    v2rayOutboundIp,
+                    v2rayOutboundPort,
+                    v2rayInboundIp,
+                    v2rayInboundPort,
+                    v2rayDnsName,
+                    currentSettings.getWireguard()
+            );
+
+            serversPreference.putV2RaySettings(v2raySettings);
+        }
+
+        private Host selectHostWithV2ray(java.util.List<Host> hosts) {
+            if (hosts == null || hosts.isEmpty()) return null;
+            for (Host h : hosts) {
+                if (h != null && h.getV2ray() != null && !h.getV2ray().isEmpty()) {
+                    return h;
+                }
+            }
+            return null;
+        }
+
+        public boolean ensureV2RayStarted() {
+            try {
+                return v2rayController.startIfEnabled();
+            } catch (final Exception e) {
+                LOGGER.error("Failed to start V2Ray in service", e);
+                return false;
+            }
+        }
+
+        public String getV2RayLocalEndpoint() {
+            try {
+                return v2rayController.getLocalProxyEndpoint();
+            } catch (final Exception e) {
+                LOGGER.error("Failed to get V2Ray local endpoint", e);
+                return "127.0.0.1:0";
+            }
+        }
+
+        public void stopV2RayIfRunning() {
+            try {
+                v2rayController.stop();
+            } catch (final Exception e) {
+                LOGGER.error("Failed to stop V2Ray in service", e);
+            }
         }
 
         public void setOwner(final GoBackend owner) {

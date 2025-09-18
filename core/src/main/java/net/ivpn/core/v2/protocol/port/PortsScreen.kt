@@ -81,7 +81,7 @@ fun PortListItem(port: Port, navController: NavController?, viewModel: PortsView
             .padding(horizontal = 18.dp, vertical = 16.dp)
             .fillMaxWidth()
     ) {
-        Text(port.toThumbnail())
+        Text(port.toThumbnailWithObfuscation(viewModel.obfuscationType))
         if (isCustom) {
             Spacer(Modifier.width(10.dp))
             Text(
