@@ -34,11 +34,13 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.PendingPurchasesParams;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
 
 import net.ivpn.client.StoreIVPNApplication;
 import net.ivpn.client.dagger.BillingScope;
@@ -69,8 +71,8 @@ public class BillingManager implements PurchasesUpdatedListener {
     BillingManager() {
         LOGGER.info("Creating Billing client.");
         billingClient = BillingClient.newBuilder(StoreIVPNApplication.instance)
-                .enablePendingPurchases()
                 .setListener(this)
+                .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
                 .build();
     }
 
@@ -118,7 +120,9 @@ public class BillingManager implements PurchasesUpdatedListener {
     private void queryPurchases() {
         Runnable queryToExecute = () -> {
             long time = System.currentTimeMillis();
-            billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP, (billingResult, purchases) -> {
+            billingClient.queryPurchasesAsync(QueryPurchasesParams.newBuilder()
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build(), (billingResult, purchases) -> {
                 LOGGER.info("Querying products elapsed time: " + (System.currentTimeMillis() - time)
                         + "ms");
                 LOGGER.info("Querying products result code: "
