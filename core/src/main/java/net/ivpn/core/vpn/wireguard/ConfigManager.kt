@@ -283,9 +283,8 @@ class ConfigManager @Inject constructor(
 
         val entryHost = hosts[0]
         val localIPv6AddressForEntry = entryHost.ipv6.local_ip
-
         config.getInterface()
-            .setAddressString("$ipAddress/32,${localIPv6AddressForEntry!!.split('/')[0]}$ipAddress/128")
+            .setAddressString("$ipAddress,${localIPv6AddressForEntry}")
     }
 
     private fun getDNS(host: Host): String {

@@ -382,10 +382,10 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
             return;
         }
 
-        Host entryHost = entryServer.getHosts().get(0);
+        Host entryHost = selectHostWithV2ray(entryServer.getHosts());
 
-        if (entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
-            LOGGER.error("Entry host missing V2Ray configuration");
+        if (entryHost == null) {
+            LOGGER.error("Entry server has no host with V2Ray configured, attempting offline refresh");
             try {
                 LOGGER.info("Refreshing servers list from bundled cache");
                 serversRepository.updateServerListOffline();
@@ -402,14 +402,14 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
 
                 entryServer = serversRepository.getCurrentServer(ServerType.ENTRY);
                 if (entryServer != null && !entryServer.getHosts().isEmpty()) {
-                    entryHost = entryServer.getHosts().get(0);
+                    entryHost = selectHostWithV2ray(entryServer.getHosts());
                 }
             } catch (Throwable t) {
                 LOGGER.error("Failed to refresh servers list offline", t);
             }
 
-            if (entryHost == null || entryHost.getV2ray() == null || entryHost.getV2ray().isEmpty()) {
-                LOGGER.error("Entry host still missing V2Ray configuration after refresh");
+            if (entryHost == null) {
+                LOGGER.error("Entry server has no host with V2Ray configuration after refresh");
                 return;
             }
         }
@@ -484,6 +484,21 @@ public class WireGuardBehavior extends VpnBehavior implements ServiceConstants, 
         } else {
             return null;
         }
+    }
+
+    /**
+     * Selects a host that has a V2Ray entry defined, following desktop-app logic of trying
+     * available hosts rather than always picking the first like the ios app does
+     */
+    private Host selectHostWithV2ray(List<Host> hosts) {
+        if (hosts == null || hosts.isEmpty()) return null;
+        // Prefer any host that has a non-empty v2ray endpoint
+        for (Host h : hosts) {
+            if (h != null && h.getV2ray() != null && !h.getV2ray().isEmpty()) {
+                return h;
+            }
+        }
+        return null;
     }
 
     private void startWireGuard() {
