@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.11.0 - 2025-09-29
+
+[NEW] Obfuscation with V2Ray for WireGuard connections  
+[IMPROVED] Updated to Android API level 35  
+[IMPROVED] Updated to Billing Library 8  
+
+[Download IVPN Client v2.11.0](https://www.ivpn.net/releases/android/IVPNv2.11.0site.apk)  
+SHA256: 3487e243822f8c7d782eabe3585302643b409ef55072c8e77abf75335950a61b  
+
 ## Version 2.10.12 - 2025-02-17
 
 [FIXED] Initial payment error for existing accounts  
