@@ -25,52 +25,37 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Config {
-
-    @SerializedName("antitracker")
-    @Expose
-    private AntiTrackerConfig antitracker;
+public class AntiTrackerDefault {
     
-    @SerializedName("antitracker_plus")
+    @SerializedName("ip")
     @Expose
-    private AntiTrackerPlus antitrackerPlus;
-    @SerializedName("api")
+    private String ip;
+    
+    @SerializedName("multihop-ip")
     @Expose
-    private Api api;
-    @SerializedName("ports")
-    @Expose
-    private Ports ports;
+    private String multihopIp;
 
-    public AntiTrackerConfig getAntitracker() {
-        return antitracker;
+    public String getIp() {
+        return ip;
     }
 
-    public void setAntitracker(AntiTrackerConfig antitracker) {
-        this.antitracker = antitracker;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public AntiTrackerPlus getAntiTrackerPlus() {
-        return antitrackerPlus;
+    public String getMultihopIp() {
+        return multihopIp;
     }
 
-    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
-        this.antitrackerPlus = antitrackerPlus;
+    public void setMultihopIp(String multihopIp) {
+        this.multihopIp = multihopIp;
     }
 
-    public Api getApi() {
-        return api;
+    @Override
+    public String toString() {
+        return "AntiTrackerDefault{" +
+                "ip='" + ip + '\'' +
+                ", multihopIp='" + multihopIp + '\'' +
+                '}';
     }
-
-    public void setApi(Api api) {
-        this.api = api;
-    }
-
-    public Ports getPorts() {
-        return ports;
-    }
-
-    public void setPorts(Ports ports) {
-        this.ports = ports;
-    }
-
-}
+} 

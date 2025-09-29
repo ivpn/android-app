@@ -28,6 +28,7 @@ import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
+import net.ivpn.core.vpn.model.ObfuscationType
 import javax.inject.Inject
 
 @ApplicationScope
@@ -64,7 +65,20 @@ class CustomPortViewModel @Inject constructor(
     
     fun addCustomPort(port: Port) {
         settings.openVpnCustomPorts = settings.openVpnCustomPorts.plus(port)
-        if (port.isUDP()) settings.wireGuardCustomPorts = settings.wireGuardCustomPorts.plus(port)
+        if (port.isUDP()) {
+            when (settings.obfuscationType) {
+                ObfuscationType.V2RAY_TCP -> {
+                    val tcpPort = Port("TCP", port.portNumber, port.range)
+                    settings.wireGuardCustomPortsV2RayTcp = settings.wireGuardCustomPortsV2RayTcp.plus(tcpPort)
+                }
+                ObfuscationType.V2RAY_QUIC -> {
+                    settings.wireGuardCustomPortsV2RayUdp = settings.wireGuardCustomPortsV2RayUdp.plus(port)
+                }
+                ObfuscationType.DISABLED -> {
+                    settings.wireGuardCustomPorts = settings.wireGuardCustomPorts.plus(port)
+                }
+            }
+        }
         setPort(port)
     }
 

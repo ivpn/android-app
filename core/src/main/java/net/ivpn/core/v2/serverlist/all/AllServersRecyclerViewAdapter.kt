@@ -288,9 +288,9 @@ class AllServersRecyclerViewAdapter(
                 filteredList.addAll(servers)
             } else {
                 isFiltering = true
-                val filterPattern = constraint.toString().toLowerCase(Locale.getDefault()).trim { it <= ' ' }
+                val filterPattern = constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
                 for (server in servers) {
-                    if (server.getDescription(filter).toLowerCase(Locale.getDefault()).contains(filterPattern)) {
+                    if (server.getDescription(filter).lowercase(Locale.getDefault()).contains(filterPattern)) {
                         filteredList.add(server)
                     }
                 }

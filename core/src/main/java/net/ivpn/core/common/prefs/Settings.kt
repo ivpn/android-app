@@ -33,6 +33,7 @@ import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.vpn.Protocol
+import net.ivpn.core.vpn.model.ObfuscationType
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.List
@@ -47,6 +48,12 @@ class Settings @Inject constructor(
     companion object {
         private val TAG = Settings::class.java.simpleName
     }
+
+    var obfuscationType: ObfuscationType
+        get() = settingsPreference.obfuscationType
+        set(value) {
+            settingsPreference.obfuscationType = value
+        }
 
     val dns: String?
         get() {
@@ -241,6 +248,24 @@ class Settings @Inject constructor(
         }
         set(ports) {
             settingsPreference.setWgCustomPorts(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardCustomPortsV2RayTcp: List<Port>
+        get() {
+            val portsJson = settingsPreference.getWgCustomPortsV2RayTcp()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPortsV2RayTcp(Mapper.stringFromPorts(ports))
+        }
+
+    var wireGuardCustomPortsV2RayUdp: List<Port>
+        get() {
+            val portsJson = settingsPreference.getWgCustomPortsV2RayUdp()
+            return if (portsJson!!.isEmpty()) emptyList() else Mapper.portsFrom(portsJson)
+        }
+        set(ports) {
+            settingsPreference.setWgCustomPortsV2RayUdp(Mapper.stringFromPorts(ports))
         }
 
     var wireGuardPortRanges: List<Port>

@@ -1,11 +1,11 @@
-package net.ivpn.core.common.prefs
+package net.ivpn.core.rest.data.model;
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
- Created by Oleksandr Mykhailenko.
- Copyright (c) 2023 IVPN Limited.
+ Created by Tamim Hossain.
+ Copyright (c) 2025 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,18 +22,27 @@ package net.ivpn.core.common.prefs
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.core.IVPNApplication
-import org.slf4j.LoggerFactory
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-object ServersLoader {
+public class ObfsConfig {
 
-    private val LOGGER = LoggerFactory.getLogger(ServersLoader::class.java)
-    private const val SERVERS_PATH = "servers.json"
+    @SerializedName("port")
+    @Expose
+    private int port;
 
-    fun load(): String {
-        LOGGER.info("load servers")
-        return IVPNApplication.application.assets.open(SERVERS_PATH).use { inputStream ->
-            inputStream.readBytes().toString(Charsets.UTF_8)
-        }
+    public int getPort() {
+        return port;
     }
-}
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    @Override
+    public String toString() {
+        return "ObfsConfig{" +
+                "port=" + port +
+                '}';
+    }
+} 

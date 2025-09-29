@@ -25,52 +25,50 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Config {
+public class Obfs {
 
-    @SerializedName("antitracker")
+    @SerializedName("obfs3_multihop_port")
     @Expose
-    private AntiTrackerConfig antitracker;
+    private int obfs3MultihopPort;
     
-    @SerializedName("antitracker_plus")
+    @SerializedName("obfs4_multihop_port")
     @Expose
-    private AntiTrackerPlus antitrackerPlus;
-    @SerializedName("api")
+    private int obfs4MultihopPort;
+    
+    @SerializedName("obfs4_key")
     @Expose
-    private Api api;
-    @SerializedName("ports")
-    @Expose
-    private Ports ports;
+    private String obfs4Key;
 
-    public AntiTrackerConfig getAntitracker() {
-        return antitracker;
+    public int getObfs3MultihopPort() {
+        return obfs3MultihopPort;
     }
 
-    public void setAntitracker(AntiTrackerConfig antitracker) {
-        this.antitracker = antitracker;
+    public void setObfs3MultihopPort(int obfs3MultihopPort) {
+        this.obfs3MultihopPort = obfs3MultihopPort;
     }
 
-    public AntiTrackerPlus getAntiTrackerPlus() {
-        return antitrackerPlus;
+    public int getObfs4MultihopPort() {
+        return obfs4MultihopPort;
     }
 
-    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
-        this.antitrackerPlus = antitrackerPlus;
+    public void setObfs4MultihopPort(int obfs4MultihopPort) {
+        this.obfs4MultihopPort = obfs4MultihopPort;
     }
 
-    public Api getApi() {
-        return api;
+    public String getObfs4Key() {
+        return obfs4Key;
     }
 
-    public void setApi(Api api) {
-        this.api = api;
+    public void setObfs4Key(String obfs4Key) {
+        this.obfs4Key = obfs4Key;
     }
 
-    public Ports getPorts() {
-        return ports;
+    @Override
+    public String toString() {
+        return "Obfs{" +
+                "obfs3MultihopPort=" + obfs3MultihopPort +
+                ", obfs4MultihopPort=" + obfs4MultihopPort +
+                ", obfs4Key='" + obfs4Key + '\'' +
+                '}';
     }
-
-    public void setPorts(Ports ports) {
-        this.ports = ports;
-    }
-
-}
+} 
