@@ -42,6 +42,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -140,6 +143,18 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+
+        // Support variable bottom navigation height (Gesture, 2-Button, 3-Button) for Android 35+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            val tappable = insets.getInsets(WindowInsetsCompat.Type.tappableElement()).bottom
+            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout()).bottom
+            val bottomMargin = maxOf(tappable, cutout)
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = bottomMargin
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(view)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -269,8 +284,11 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         bottomSheetBehavior.saveFlags = SAVE_NONE
         bottomSheetBehavior.state = STATE_COLLAPSED
         bottomSheetBehavior.halfExpandedRatio = 0.000000001f
-        bottomSheetBehavior.expandedOffset =
-            resources.getDimension(R.dimen.slider_panel_top_offset).toInt()
+        val topOffsetRes = if (Build.VERSION.SDK_INT >= 35)
+            R.dimen.slider_panel_top_offset_api_35
+        else
+            R.dimen.slider_panel_top_offset
+        bottomSheetBehavior.expandedOffset = resources.getDimension(topOffsetRes).toInt()
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {

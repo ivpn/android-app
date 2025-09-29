@@ -14,58 +14,92 @@ extern int wgGetSocketV4(int handle);
 extern int wgGetSocketV6(int handle);
 extern char *wgGetConfig(int handle);
 extern char *wgVersion();
+extern int wgV2rayStart(const char *jsonConfig);
+extern int wgV2rayStop(int handle);
+extern int wgGetFreePort();
+extern int wgV2rayIsRunning();
+
+JNIEXPORT jboolean JNICALL
+Java_net_ivpn_core_vpn_controller_V2rayController_wgV2rayIsRunning(JNIEnv *env, jclass c)
+{
+    return wgV2rayIsRunning() ? JNI_TRUE : JNI_FALSE;
+}
+
+
+JNIEXPORT jint JNICALL
+Java_net_ivpn_core_vpn_controller_V2rayController_wgGetFreePort(JNIEnv *env, jclass c)
+{
+    return wgGetFreePort();
+}
+
+JNIEXPORT jint JNICALL
+Java_net_ivpn_core_vpn_controller_V2rayController_wgV2rayStart(JNIEnv *env, jclass c, jstring jsonConfig)
+{
+    const char *config_str = (*env)->GetStringUTFChars(env, jsonConfig, 0);
+    int handle = wgV2rayStart(config_str);
+    (*env)->ReleaseStringUTFChars(env, jsonConfig, config_str);
+    if (handle <= 0)
+        return -1;
+    return handle;
+}
+
+JNIEXPORT jint JNICALL
+Java_net_ivpn_core_vpn_controller_V2rayController_wgV2rayStop(JNIEnv *env, jclass c, jint handle)
+{
+    return wgV2rayStop(handle);
+}
 
 JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgTurnOn(JNIEnv *env, jclass c, jstring ifname, jint tun_fd, jstring settings)
 {
-	const char *ifname_str = (*env)->GetStringUTFChars(env, ifname, 0);
-	size_t ifname_len = (*env)->GetStringUTFLength(env, ifname);
-	const char *settings_str = (*env)->GetStringUTFChars(env, settings, 0);
-	size_t settings_len = (*env)->GetStringUTFLength(env, settings);
-	int ret = wgTurnOn((struct go_string){
-		.str = ifname_str,
-		.n = ifname_len
-	}, tun_fd, (struct go_string){
-		.str = settings_str,
-		.n = settings_len
-	});
-	(*env)->ReleaseStringUTFChars(env, ifname, ifname_str);
-	(*env)->ReleaseStringUTFChars(env, settings, settings_str);
-	return ret;
+    const char *ifname_str = (*env)->GetStringUTFChars(env, ifname, 0);
+    size_t ifname_len = (*env)->GetStringUTFLength(env, ifname);
+    const char *settings_str = (*env)->GetStringUTFChars(env, settings, 0);
+    size_t settings_len = (*env)->GetStringUTFLength(env, settings);
+    int ret = wgTurnOn((struct go_string){
+            .str = ifname_str,
+            .n = ifname_len
+    }, tun_fd, (struct go_string){
+            .str = settings_str,
+            .n = settings_len
+    });
+    (*env)->ReleaseStringUTFChars(env, ifname, ifname_str);
+    (*env)->ReleaseStringUTFChars(env, settings, settings_str);
+    return ret;
 }
 
 JNIEXPORT void JNICALL Java_com_wireguard_android_backend_GoBackend_wgTurnOff(JNIEnv *env, jclass c, jint handle)
 {
-	wgTurnOff(handle);
+    wgTurnOff(handle);
 }
 
 JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgGetSocketV4(JNIEnv *env, jclass c, jint handle)
 {
-	return wgGetSocketV4(handle);
+    return wgGetSocketV4(handle);
 }
 
 JNIEXPORT jint JNICALL Java_com_wireguard_android_backend_GoBackend_wgGetSocketV6(JNIEnv *env, jclass c, jint handle)
 {
-	return wgGetSocketV6(handle);
+    return wgGetSocketV6(handle);
 }
 
 JNIEXPORT jstring JNICALL Java_com_wireguard_android_backend_GoBackend_wgGetConfig(JNIEnv *env, jclass c, jint handle)
 {
-	jstring ret;
-	char *config = wgGetConfig(handle);
-	if (!config)
-		return NULL;
-	ret = (*env)->NewStringUTF(env, config);
-	free(config);
-	return ret;
+    jstring ret;
+    char *config = wgGetConfig(handle);
+    if (!config)
+        return NULL;
+    ret = (*env)->NewStringUTF(env, config);
+    free(config);
+    return ret;
 }
 
 JNIEXPORT jstring JNICALL Java_com_wireguard_android_backend_GoBackend_wgVersion(JNIEnv *env, jclass c)
 {
-	jstring ret;
-	char *version = wgVersion();
-	if (!version)
-		return NULL;
-	ret = (*env)->NewStringUTF(env, version);
-	free(version);
-	return ret;
+    jstring ret;
+    char *version = wgVersion();
+    if (!version)
+        return NULL;
+    ret = (*env)->NewStringUTF(env, version);
+    free(version);
+    return ret;
 }

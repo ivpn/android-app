@@ -11,7 +11,7 @@ IVPN Android app is distributed on the [Google Play Store](https://play.google.c
 * [Deployment](#deployment)
 * [Versioning](#versioning)
 * [Contributing](#contributing)
-* [Security Policy](#security)
+* [Security Policy](#security-policy)
 * [Signing certificate hash](#signing-cert)
 * [License](#license)
 * [Authors](#authors)

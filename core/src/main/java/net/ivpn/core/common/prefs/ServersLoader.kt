@@ -32,11 +32,8 @@ object ServersLoader {
 
     fun load(): String {
         LOGGER.info("load servers")
-        var result = ""
-            IVPNApplication.application.assets.open(SERVERS_PATH).apply {
-                result = this.readBytes().toString(Charsets.UTF_8)
-            }.close()
-
-        return result
+        return IVPNApplication.application.assets.open(SERVERS_PATH).use { inputStream ->
+            inputStream.readBytes().toString(Charsets.UTF_8)
+        }
     }
 }

@@ -41,6 +41,15 @@ android {
             path 'jni/Android.mk'
         }
     }
+    buildFeatures {
+        buildConfig true
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 dependencies {}

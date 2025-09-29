@@ -529,7 +529,7 @@ class MapView @JvmOverloads constructor(
         }
     }
 
-    private var bitmapCache: LruCache<String, Bitmap?>? = null
+    private var bitmapCache: LruCache<String, Bitmap>? = null
     private var thumbnails: HashMap<String, Bitmap?>? = null
     private fun initTiles() {
         val path = resources.getString(R.string.path_to_tiles)
