@@ -24,6 +24,9 @@ package net.ivpn.core.v2.serverlist
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -76,6 +79,18 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+
+        // Support variable bottom navigation height (Gesture, 2-Button, 3-Button) for Android 35+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+            val tappable = insets.getInsets(WindowInsetsCompat.Type.tappableElement()).bottom
+            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout()).bottom
+            val bottomMargin = maxOf(tappable, cutout)
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                this.bottomMargin = bottomMargin
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(view)
     }
 
     override fun onResume() {
