@@ -25,52 +25,37 @@ package net.ivpn.core.rest.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Config {
+public class AntiTrackerConfig {
 
-    @SerializedName("antitracker")
+    @SerializedName("default")
     @Expose
-    private AntiTrackerConfig antitracker;
+    private AntiTrackerDefault defaultConfig;
     
-    @SerializedName("antitracker_plus")
+    @SerializedName("hardcore")
     @Expose
-    private AntiTrackerPlus antitrackerPlus;
-    @SerializedName("api")
-    @Expose
-    private Api api;
-    @SerializedName("ports")
-    @Expose
-    private Ports ports;
+    private AntiTrackerHardcore hardcoreConfig;
 
-    public AntiTrackerConfig getAntitracker() {
-        return antitracker;
+    public AntiTrackerDefault getDefaultConfig() {
+        return defaultConfig;
     }
 
-    public void setAntitracker(AntiTrackerConfig antitracker) {
-        this.antitracker = antitracker;
+    public void setDefaultConfig(AntiTrackerDefault defaultConfig) {
+        this.defaultConfig = defaultConfig;
     }
 
-    public AntiTrackerPlus getAntiTrackerPlus() {
-        return antitrackerPlus;
+    public AntiTrackerHardcore getHardcoreConfig() {
+        return hardcoreConfig;
     }
 
-    public void setAntiTrackerPlus(AntiTrackerPlus antitrackerPlus) {
-        this.antitrackerPlus = antitrackerPlus;
+    public void setHardcoreConfig(AntiTrackerHardcore hardcoreConfig) {
+        this.hardcoreConfig = hardcoreConfig;
     }
 
-    public Api getApi() {
-        return api;
+    @Override
+    public String toString() {
+        return "AntiTrackerConfig{" +
+                "defaultConfig=" + defaultConfig +
+                ", hardcoreConfig=" + hardcoreConfig +
+                '}';
     }
-
-    public void setApi(Api api) {
-        this.api = api;
-    }
-
-    public Ports getPorts() {
-        return ports;
-    }
-
-    public void setPorts(Ports ports) {
-        this.ports = ports;
-    }
-
-}
+} 

@@ -1,11 +1,11 @@
-package net.ivpn.core.common.prefs
+package net.ivpn.core.vpn.model
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
- Created by Oleksandr Mykhailenko.
- Copyright (c) 2023 IVPN Limited.
+ Created by Tamim Hossain.
+ Copyright (c) 2025 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,18 +22,25 @@ package net.ivpn.core.common.prefs
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.core.IVPNApplication
-import org.slf4j.LoggerFactory
+data class V2RaySettings(
+    var id: String = "",
+    var outboundIp: String = "",
+    var outboundPort: Int = 0,
+    var inboundIp: String = "",
+    var inboundPort: Int = 0,
+    var dnsName: String = "",
+    var wireguard: List<V2RayPort> = listOf()
+) {
 
-object ServersLoader {
+    val tlsSrvName: String
+        get() = dnsName.replace("ivpn.net", "inet-telecom.com")
 
-    private val LOGGER = LoggerFactory.getLogger(ServersLoader::class.java)
-    private const val SERVERS_PATH = "servers.json"
 
-    fun load(): String {
-        LOGGER.info("load servers")
-        return IVPNApplication.application.assets.open(SERVERS_PATH).use { inputStream ->
-            inputStream.readBytes().toString(Charsets.UTF_8)
-        }
-    }
+    val singleHopInboundPort: Int
+        get() = wireguard.firstOrNull()?.port ?: 0
 }
+
+data class V2RayPort(
+    val type: String,
+    val port: Int
+)

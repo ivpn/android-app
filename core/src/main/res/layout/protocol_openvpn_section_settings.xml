@@ -41,7 +41,6 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
                 android:visibility="@{viewmodel.multiHop.isEnabled() ? View.GONE : View.VISIBLE}">
-
                 <TextView
                     style="@style/SettingsAction"
                     android:layout_width="0dp"

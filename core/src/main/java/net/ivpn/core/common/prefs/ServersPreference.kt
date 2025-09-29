@@ -10,8 +10,10 @@ import net.ivpn.core.rest.data.model.ServerLocation.Companion.stringFrom
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
+import net.ivpn.core.vpn.model.V2RaySettings
 import java.util.*
 import javax.inject.Inject
+import androidx.core.content.edit
 
 /*
 IVPN Android app
@@ -37,8 +39,7 @@ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 
 @ApplicationScope
 class ServersPreference @Inject constructor(
-        private val preference: Preference,
-        private val protocolController: ProtocolController
+    private val preference: Preference, private val protocolController: ProtocolController
 ) {
 
     companion object {
@@ -51,6 +52,7 @@ class ServersPreference @Inject constructor(
         private const val SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER"
         private const val SETTINGS_RANDOM_ENTER_SERVER = "SETTINGS_RANDOM_ENTER_SERVER"
         private const val SETTINGS_RANDOM_EXIT_SERVER = "SETTINGS_RANDOM_EXIT_SERVER"
+        private const val V2RAY_SETTINGS = "V2RAY_SETTINGS"
     }
 
     var listeners = ArrayList<OnValueChangeListener>()
@@ -92,42 +94,48 @@ class ServersPreference @Inject constructor(
     val favouritesServersList: MutableList<Server>
         get() {
             val sharedPreferences = properSharedPreference
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
             return servers ?: ArrayList()
         }
 
     val openvpnFavouritesServersList: MutableList<Server>
         get() {
             val sharedPreferences = preference.serversSharedPreferences
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
             return servers ?: ArrayList()
         }
 
     val wireguardFavouritesServersList: MutableList<Server>
         get() {
             val sharedPreferences = preference.wireguardServersSharedPreferences
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
             return servers ?: ArrayList()
         }
 
     val excludedServersList: MutableList<Server>
         get() {
             val sharedPreferences = properSharedPreference
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
             return servers ?: ArrayList()
         }
 
     val openvpnExcludedServersList: MutableList<Server>
         get() {
             val sharedPreferences = preference.serversSharedPreferences
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
             return servers ?: ArrayList()
         }
 
     val wireguardExcludedServersList: MutableList<Server>
         get() {
             val sharedPreferences = preference.wireguardServersSharedPreferences
-            val servers = Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
+            val servers =
+                Mapper.serverListFrom(sharedPreferences.getString(EXCLUDED_FASTEST_SERVERS, null))
             return servers ?: ArrayList()
         }
 
@@ -141,47 +149,54 @@ class ServersPreference @Inject constructor(
         if (serverType == null || server == null) return
         val openvpnServer = openvpnServersList?.firstOrNull { it == server }
         val wireguardServer = wireguardServersList?.firstOrNull { it == server }
-        val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
-        preference.serversSharedPreferences.edit()
-            .putString(serverKey, Mapper.from(openvpnServer))
+        val serverKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
+        preference.serversSharedPreferences.edit().putString(serverKey, Mapper.from(openvpnServer))
             .apply()
-        preference.wireguardServersSharedPreferences.edit()
-            .putString(serverKey, Mapper.from(wireguardServer))
-            .apply()
+        preference.wireguardServersSharedPreferences.edit {
+            putString(serverKey, Mapper.from(wireguardServer))
+        }
     }
+
+    fun getV2RaySettings(): V2RaySettings? {
+        val sharedPreferences = properSharedPreference
+        val json = sharedPreferences.getString(V2RAY_SETTINGS, null)
+        return Mapper.v2RaySettingsFrom(json)
+    }
+
+    fun putV2RaySettings(settings: V2RaySettings?) {
+        val sharedPreferences = properSharedPreference
+        sharedPreferences.edit {
+            putString(V2RAY_SETTINGS, Mapper.stringFromV2RaySettings(settings))
+        }
+    }
+
 
     fun putOpenVpnServerList(servers: List<Server?>?) {
         val sharedPreferences = preference.serversSharedPreferences
-        sharedPreferences.edit()
-                .putString(SERVERS_LIST, Mapper.stringFrom(servers))
-                .apply()
+        sharedPreferences.edit().putString(SERVERS_LIST, Mapper.stringFrom(servers)).apply()
     }
 
     fun putWireGuardServerList(servers: List<Server?>?) {
         val sharedPreferences = preference.wireguardServersSharedPreferences
-        sharedPreferences.edit()
-                .putString(SERVERS_LIST, Mapper.stringFrom(servers))
-                .apply()
+        sharedPreferences.edit().putString(SERVERS_LIST, Mapper.stringFrom(servers)).apply()
     }
 
     fun putOpenVPNLocations(locations: List<ServerLocation>) {
         val sharedPreferences = preference.serversSharedPreferences
-        sharedPreferences.edit()
-                .putString(LOCATION_LIST, stringFrom(locations))
-                .apply()
+        sharedPreferences.edit().putString(LOCATION_LIST, stringFrom(locations)).apply()
     }
 
     fun putWireGuardLocations(locations: List<ServerLocation>) {
         val sharedPreferences = preference.wireguardServersSharedPreferences
-        sharedPreferences.edit()
-                .putString(LOCATION_LIST, stringFrom(locations))
-                .apply()
+        sharedPreferences.edit().putString(LOCATION_LIST, stringFrom(locations)).apply()
     }
 
     fun getCurrentServer(serverType: ServerType?): Server? {
         if (serverType == null) return null
         val sharedPreferences = properSharedPreference
-        val serverKey = if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
+        val serverKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         return Mapper.from(sharedPreferences.getString(serverKey, null))
     }
 
@@ -196,14 +211,12 @@ class ServersPreference @Inject constructor(
         if (!openvpnServers.contains(openvpnServer)) {
             openvpnServers.add(openvpnServer)
             preference.serversSharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
-                .apply()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers)).apply()
         }
         if (!wireguardServers.contains(wireguardServer)) {
             wireguardServers.add(wireguardServer)
             preference.wireguardServersSharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
-                .apply()
+                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers)).apply()
         }
     }
 
@@ -218,17 +231,18 @@ class ServersPreference @Inject constructor(
         openvpnServers.remove(openvpnServer)
         wireguardServers.remove(wireguardServer)
         preference.serversSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers))
-            .apply()
+            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers)).apply()
         preference.wireguardServersSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers))
-            .apply()
+            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers)).apply()
     }
 
     fun addToExcludedServersList(server: Server?) {
         val openvpnServer = openvpnServersList?.first { it == server }
         val wireguardServer = wireguardServersList?.first { it == server }
-        if (server == null || openvpnServer == null || wireguardServer == null || excludedServersList.contains(server)) {
+        if (server == null || openvpnServer == null || wireguardServer == null || excludedServersList.contains(
+                server
+            )
+        ) {
             return
         }
         val openvpnServers = openvpnExcludedServersList
@@ -236,11 +250,9 @@ class ServersPreference @Inject constructor(
         openvpnServers.add(openvpnServer)
         wireguardServers.add(wireguardServer)
         preference.serversSharedPreferences.edit()
-            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
-            .apply()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers)).apply()
         preference.wireguardServersSharedPreferences.edit()
-            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
-            .apply()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers)).apply()
         notifyValueChanges()
     }
 
@@ -255,35 +267,27 @@ class ServersPreference @Inject constructor(
         openvpnServers.remove(openvpnServer)
         wireguardServers.remove(wireguardServer)
         preference.serversSharedPreferences.edit()
-            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers))
-            .apply()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(openvpnServers)).apply()
         preference.wireguardServersSharedPreferences.edit()
-            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers))
-            .apply()
+            .putString(EXCLUDED_FASTEST_SERVERS, Mapper.stringFrom(wireguardServers)).apply()
         notifyValueChanges()
     }
 
     fun putSettingFastestServer(value: Boolean) {
         val sharedPreferences = preference.serversSharedPreferences
-        sharedPreferences.edit()
-                .putBoolean(SETTINGS_FASTEST_SERVER, value)
-                .apply()
+        sharedPreferences.edit().putBoolean(SETTINGS_FASTEST_SERVER, value).apply()
     }
 
     fun putSettingRandomServer(value: Boolean, serverType: ServerType) {
-        val key = if (serverType == ServerType.ENTRY)
-            SETTINGS_RANDOM_ENTER_SERVER
+        val key = if (serverType == ServerType.ENTRY) SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
         val sharedPreferences = preference.serversSharedPreferences
-        sharedPreferences.edit()
-                .putBoolean(key, value)
-                .apply()
+        sharedPreferences.edit().putBoolean(key, value).apply()
     }
 
     fun getSettingRandomServer(serverType: ServerType): Boolean {
-        val key = if (serverType == ServerType.ENTRY)
-            SETTINGS_RANDOM_ENTER_SERVER
+        val key = if (serverType == ServerType.ENTRY) SETTINGS_RANDOM_ENTER_SERVER
         else SETTINGS_RANDOM_EXIT_SERVER
 
         val sharedPreferences = preference.serversSharedPreferences
@@ -309,9 +313,7 @@ class ServersPreference @Inject constructor(
         if (entryServer != null && entryServer.latitude == 0.0 && entryServer.longitude == 0.0) {
             for (server in servers) {
                 if (server == entryServer) {
-                    preference.edit()
-                            .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
-                            .apply()
+                    preference.edit().putString(CURRENT_ENTER_SERVER, Mapper.from(server)).apply()
                     break
                 }
             }
@@ -319,9 +321,7 @@ class ServersPreference @Inject constructor(
         if (exitServer != null && exitServer.latitude == 0.0 && exitServer.longitude == 0.0) {
             for (server in servers) {
                 if (server == exitServer) {
-                    preference.edit()
-                            .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
-                            .apply()
+                    preference.edit().putString(CURRENT_EXIT_SERVER, Mapper.from(server)).apply()
                     break
                 }
             }
@@ -338,9 +338,7 @@ class ServersPreference @Inject constructor(
         if (entryServer != null && entryServer.hosts.random().multihopPort == 0) {
             for (server in servers) {
                 if (server == entryServer) {
-                    preference.edit()
-                        .putString(CURRENT_ENTER_SERVER, Mapper.from(server))
-                        .apply()
+                    preference.edit().putString(CURRENT_ENTER_SERVER, Mapper.from(server)).apply()
                     break
                 }
             }
@@ -348,9 +346,7 @@ class ServersPreference @Inject constructor(
         if (exitServer != null && exitServer.hosts.random().multihopPort == 0) {
             for (server in servers) {
                 if (server == exitServer) {
-                    preference.edit()
-                        .putString(CURRENT_EXIT_SERVER, Mapper.from(server))
-                        .apply()
+                    preference.edit().putString(CURRENT_EXIT_SERVER, Mapper.from(server)).apply()
                     break
                 }
             }

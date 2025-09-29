@@ -31,6 +31,7 @@ import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.session.SessionErrorResponse
 import net.ivpn.core.rest.data.wireguard.ErrorResponse
+import net.ivpn.core.vpn.model.V2RaySettings
 import java.util.*
 
 object Mapper {
@@ -46,6 +47,20 @@ object Mapper {
         if (json == null) return null
         val type = object : TypeToken<List<Server>>() {}.type
         return Gson().fromJson(json, type)
+    }
+
+    fun v2RaySettingsFrom(json: String?): V2RaySettings? {
+        return if (json == null || json.isEmpty()) null else try {
+            Gson().fromJson(json, V2RaySettings::class.java)
+        } catch (_: JsonSyntaxException) {
+            null
+        } catch (_: IllegalStateException) {
+            null
+        }
+    }
+
+    fun stringFromV2RaySettings(settings: V2RaySettings?): String {
+        return Gson().toJson(settings)
     }
 
     fun ipListFrom(json: String?): LinkedList<String> {
