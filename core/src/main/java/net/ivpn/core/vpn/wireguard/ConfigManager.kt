@@ -260,7 +260,7 @@ class ConfigManager @Inject constructor(
         val peer = Peer().also {
             // uses same AllowedIPs for both single-hop and multi-hop to disable wg's internal firewall
             // Android VPN service handles routing, so we need to disable WireGuard's firewall
-            it.setAllowedIPsString("128.0.0.0/1, 0.0.0.0/1")
+            it.setAllowedIPsString("0.0.0.0/0, ::/0")
             it.setEndpointString(endpoint)
             it.publicKey = peerHost.publicKey
         }
@@ -297,8 +297,12 @@ class ConfigManager @Inject constructor(
 
         val entryHost = hosts[0]
         val localIPv6AddressForEntry = entryHost.ipv6.local_ip
-        config.getInterface()
-            .setAddressString("$ipAddress,${localIPv6AddressForEntry}")
+        val ipv4OnlyAddress = ipAddress?.split("/")?.get(0) ?: ipAddress
+        val ipv6Prefix = localIPv6AddressForEntry?.split("/")?.get(0) ?: ""
+        val combinedAddresses = "$ipAddress/32,${ipv6Prefix}${ipv4OnlyAddress}/128"
+        
+        LOGGER.info("Setting IPv6 addresses: $combinedAddresses")
+        config.getInterface().setAddressString(combinedAddresses)
     }
 
     private fun getDNS(host: Host): String {
