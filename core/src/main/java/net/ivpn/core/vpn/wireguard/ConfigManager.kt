@@ -136,10 +136,6 @@ class ConfigManager @Inject constructor(
     }
 
 
-
-
-
-
     private fun generateConfig(server: Server?, port: Port): Config? {
         LOGGER.info("Generating WireGuard configuration for single-hop connection")
 
@@ -154,7 +150,7 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val host = server.hosts[0]
+        val host = server.hosts.random()
         LOGGER.info("Using server host: ${host.hostname} (${host.host})")
 
         return createWireGuardConfig(
@@ -185,8 +181,8 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val entryHost = entryServer.hosts[0]
-        val exitHost = exitServer.hosts[0]
+        val entryHost = entryServer.hosts.random()
+        val exitHost = exitServer.hosts.random()
 
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
