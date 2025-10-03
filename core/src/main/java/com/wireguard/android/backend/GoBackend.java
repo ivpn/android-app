@@ -255,7 +255,14 @@ public final class GoBackend implements Backend {
 
             if (encryptedSettingsPreference.getObfuscationType() != ObfuscationType.DISABLED) {
                 try {
-                    service.updateV2raySettingsInService();
+                    String selectedPeerPublicKey = null;
+                    if (config != null && config.getPeers() != null) {
+                        for (final Peer peer : config.getPeers()) {
+                            selectedPeerPublicKey = peer.getPublicKey();
+                            break;
+                        }
+                    }
+                    service.updateV2raySettingsInService(selectedPeerPublicKey);
                 } catch (final Exception e) {
                     LOGGER.error("Failed to update V2Ray settings in service", e);
                 }
@@ -439,7 +446,7 @@ public final class GoBackend implements Backend {
             return super.onStartCommand(intent, flags, startId);
         }
 
-        public void updateV2raySettingsInService() {
+        public void updateV2raySettingsInService(@Nullable final String selectedPeerPublicKey) {
             final ObfuscationType obfuscationType = encryptedSettingsPreference.getObfuscationType();
             serversRepository.loadV2raySettings();
             if (obfuscationType == ObfuscationType.DISABLED) {
@@ -469,7 +476,18 @@ public final class GoBackend implements Backend {
                 return;
             }
 
-            Host entryHost = selectHostWithV2ray(entryServer.getHosts());
+            Host entryHost = null;
+            if (selectedPeerPublicKey != null) {
+                for (Host h : entryServer.getHosts()) {
+                    if (h != null && selectedPeerPublicKey.equals(h.getPublicKey())) {
+                        entryHost = h;
+                        break;
+                    }
+                }
+            }
+            if (entryHost == null) {
+                entryHost = selectHostWithV2ray(entryServer.getHosts());
+            }
             if (entryHost == null) {
                 LOGGER.error("Entry server has no host with V2Ray configured, attempting offline refresh (service)");
                 try {
@@ -517,7 +535,18 @@ public final class GoBackend implements Backend {
             if (multiHopController.isReadyToUse()) {
                 Server exitServer = serversRepository.getCurrentServer(ServerType.EXIT);
                 if (exitServer != null && !exitServer.getHosts().isEmpty()) {
-                    Host exitHost = exitServer.getHosts().get(0);
+                    Host exitHost = null;
+                    if (selectedPeerPublicKey != null) {
+                        for (Host h : exitServer.getHosts()) {
+                            if (h != null && selectedPeerPublicKey.equals(h.getPublicKey())) {
+                                exitHost = h;
+                                break;
+                            }
+                        }
+                    }
+                    if (exitHost == null) {
+                        exitHost = exitServer.getHosts().get(0);
+                    }
                     v2rayInboundIp = exitHost.getHost() != null ? exitHost.getHost() : "";
                     v2rayInboundPort = settings.getWireGuardPort().getPortNumber();
                     LOGGER.info("Multi-hop V2Ray inbound set to ExitServer WG endpoint (service): " + exitHost.getHost() + ":" + v2rayInboundPort);
