@@ -136,10 +136,6 @@ class ConfigManager @Inject constructor(
     }
 
 
-
-
-
-
     private fun generateConfig(server: Server?, port: Port): Config? {
         LOGGER.info("Generating WireGuard configuration for single-hop connection")
 
@@ -154,8 +150,17 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val host = server.hosts[0]
-        LOGGER.info("Using server host: ${host.hostname} (${host.host})")
+        val host = if (v2rayController.isV2RayEnabled()) {
+            val candidates = server.hosts.filter { it.v2ray != null && it.v2ray.isNotEmpty() }
+            val selected = candidates.randomOrNull() ?: server.hosts.random()
+            if (candidates.isEmpty()) {
+                LOGGER.warn("No hosts with V2Ray available; falling back to any host")
+            }
+            selected
+        } else {
+            server.hosts.random()
+        }
+        LOGGER.info("Using server host: ${host.hostname} (${host.host})" )
 
         return createWireGuardConfig(
             peerHost = host,
@@ -185,8 +190,17 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val entryHost = entryServer.hosts[0]
-        val exitHost = exitServer.hosts[0]
+        val entryHost = if (v2rayController.isV2RayEnabled()) {
+            val candidates = entryServer.hosts.filter { it.v2ray != null && it.v2ray.isNotEmpty() }
+            val selected = candidates.randomOrNull() ?: entryServer.hosts.random()
+            if (candidates.isEmpty()) {
+                LOGGER.warn("No entry hosts with V2Ray available; falling back to any entry host")
+            }
+            selected
+        } else {
+            entryServer.hosts.random()
+        }
+        val exitHost = exitServer.hosts.random()
 
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
