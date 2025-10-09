@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.11.1 - 2025-10-09
+
+[FIXED] IPv6 not working with WireGuard connections  
+[FIXED] Connecting to a different server in the same location  
+
+[Download IVPN Client v2.11.1](https://www.ivpn.net/releases/android/IVPNv2.11.1site.apk)  
+SHA256: 345ac554df69a88ad6d377d2c72a4ad7cee12382ed7833ab59afaff342469458  
+
 ## Version 2.11.0 - 2025-09-29
 
 [NEW] Obfuscation with V2Ray for WireGuard connections  
