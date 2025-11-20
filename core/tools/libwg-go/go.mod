@@ -1,12 +1,12 @@
 module golang.zx2c4.com/wireguard/android
 
-go 1.24
+go 1.24.0
 
 toolchain go1.24.3
 
 require (
 	github.com/v2fly/v2ray-core/v5 v5.38.0
-	golang.org/x/sys v0.34.0
+	golang.org/x/sys v0.38.0
 	golang.zx2c4.com/wireguard v0.0.0-20230223181233-21636207a675
 )
 
@@ -68,14 +68,14 @@ require (
 	go.starlark.net v0.0.0-20230612165344-9532f5667272 // indirect
 	go.uber.org/mock v0.5.0 // indirect
 	go4.org/netipx v0.0.0-20230303233057-f1b76eb4bb35 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
-	golang.org/x/mod v0.25.0 // indirect
-	golang.org/x/net v0.42.0 // indirect
-	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/mod v0.29.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.34.0 // indirect
+	golang.org/x/tools v0.38.0 // indirect
 	golang.zx2c4.com/wintun v0.0.0-20230126152724-0fa3db229ce2 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
 	google.golang.org/grpc v1.74.2 // indirect
