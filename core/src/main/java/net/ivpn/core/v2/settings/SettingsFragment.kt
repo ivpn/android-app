@@ -131,6 +131,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         alwaysOnVPN.onResume()
         logging.onResume()
         colorTheme.onResume()
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onStart() {

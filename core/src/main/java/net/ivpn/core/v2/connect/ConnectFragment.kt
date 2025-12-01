@@ -178,6 +178,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         account.updateSessionStatus()
         checkLocationPermission()
         applySlidingPanelSide()
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onStart() {
