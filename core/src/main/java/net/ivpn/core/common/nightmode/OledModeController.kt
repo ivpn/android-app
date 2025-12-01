@@ -36,6 +36,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 
@@ -129,6 +130,10 @@ object OledModeController {
         }
 
         if (view is AppBarLayout) {
+            view.setBackgroundColor(OLED_BLACK)
+        }
+
+        if (view is TabLayout) {
             view.setBackgroundColor(OLED_BLACK)
         }
 
