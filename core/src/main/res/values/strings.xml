@@ -42,6 +42,7 @@
     <string name="settings_privacy_policy">Privacy policy</string>
     <string name="settings_version">VERSION</string>
     <string name="settings_color_theme">Color theme</string>
+    <string name="settings_app_icon">App icon</string>
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
     <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
@@ -660,4 +661,17 @@
     <string name="settings_obfuscation_state_v2ray_vmess_quic">V2Ray (VMESS/QUIC)</string>
     <string name="settings_obfuscation_state_v2ray_vmess_tcp">V2Ray (VMESS/TCP)</string>
     <string name="settings_obfuscation_description">VPN obfuscation is a technique that masks VPN traffic to make it appear like standard internet traffic, helping to evade detection and bypass internet restrictions or censorship.</string>
+
+    <!--App Icon-->
+    <string name="app_icon_name_default">Default</string>
+    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_description">Customize how the IVPN app appears on your device. Discreet icons can help disguise the presence of a VPN app on your phone.</string>
+    <string name="app_icon_discreet_section">Discreet app icon</string>
+    <string name="app_icon_discreet_description">Using a discreet icon changes the app name on the home screen to match the icon.</string>
+    <string name="app_icon_change_title">Change app icon?</string>
+    <string name="app_icon_change_message">This will cause the IVPN app to close. To restart IVPN, just tap your new app icon.</string>
+    <string name="app_icon_change_confirm">Change</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>

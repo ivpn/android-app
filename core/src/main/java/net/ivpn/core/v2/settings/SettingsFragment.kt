@@ -186,6 +186,9 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
         }
+        binding.contentLayout.sectionInterface.appIconLayout.setOnClickListener {
+            openAppIconScreen()
+        }
         binding.contentLayout.sectionConnectivity.splitTunnelingLayout.setOnClickListener {
             if (!account.authenticated.get()) {
                 openLoginScreen()
@@ -416,6 +419,11 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
 
     private fun openColorThemeDialogue() {
         DialogBuilderK.openDarkModeDialogue(requireContext(), this, colorTheme)
+    }
+
+    private fun openAppIconScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToAppIconFragment()
+        navigate(action)
     }
 
     private fun openSplitTunnelingScreen() {
