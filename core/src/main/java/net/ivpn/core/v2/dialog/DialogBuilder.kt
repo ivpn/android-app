@@ -47,6 +47,7 @@ import net.ivpn.core.common.InputFilterMinMax
 import net.ivpn.core.common.extension.setContentSecure
 import net.ivpn.core.common.utils.DateUtil
 import net.ivpn.core.databinding.DialogCustomDnsBinding
+import net.ivpn.core.databinding.DialogMtuBinding
 import net.ivpn.core.v2.customdns.OnDNSChangedListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardInfo
@@ -377,6 +378,74 @@ object DialogBuilder {
             alertDialog.show()
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    @JvmStatic
+    fun createMtuDialog(
+        context: Context?,
+        currentMtu: String,
+        onMtuSaved: (String) -> Unit,
+        onMtuError: () -> Unit
+    ) {
+        LOGGER.info("Create MTU dialog")
+        if (context == null) {
+            return
+        }
+        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val binding: DialogMtuBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.dialog_mtu, null, false
+        )
+        binding.mtuValue = currentMtu
+        val dialogView = binding.root
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+
+        binding.mtuInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val mtuString = binding.mtuInput.text?.toString() ?: ""
+                if (isValidMtu(mtuString)) {
+                    onMtuSaved(mtuString)
+                    alertDialog.dismiss()
+                } else {
+                    onMtuError()
+                }
+            }
+            false
+        }
+
+        dialogView.findViewById<View>(R.id.apply_action).setOnClickListener {
+            val mtuString = binding.mtuInput.text?.toString() ?: ""
+            if (isValidMtu(mtuString)) {
+                onMtuSaved(mtuString)
+                alertDialog.dismiss()
+            } else {
+                onMtuError()
+            }
+        }
+        dialogView.findViewById<View>(R.id.cancel_action).setOnClickListener { alertDialog.dismiss() }
+
+        if ((context as Activity).isFinishing) {
+            return
+        }
+        try {
+            alertDialog.show()
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun isValidMtu(mtuString: String): Boolean {
+        if (mtuString.isEmpty()) {
+            return true // Empty means use default
+        }
+        return try {
+            val mtu = mtuString.toInt()
+            mtu == 0 || (mtu in 576..65535)
+        } catch (e: NumberFormatException) {
+            false
         }
     }
 }

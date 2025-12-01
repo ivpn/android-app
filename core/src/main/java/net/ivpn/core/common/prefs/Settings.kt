@@ -366,6 +366,12 @@ class Settings @Inject constructor(
             settingsPreference.putRegenerationPeriod(value)
         }
 
+    var wireGuardMtu: Int
+        get() = settingsPreference.wireGuardMtu
+        set(value) {
+            settingsPreference.wireGuardMtu = value
+        }
+
     fun generateWireGuardKeys(): Keypair {
         return Keypair()
     }

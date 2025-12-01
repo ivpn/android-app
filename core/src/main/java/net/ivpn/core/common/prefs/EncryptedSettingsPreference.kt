@@ -79,6 +79,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
         private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
+        private const val WIREGUARD_MTU = "WIREGUARD_MTU"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -517,6 +518,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 
+    var wireGuardMtu: Int
+        get() {
+            return sharedPreferences.getInt(WIREGUARD_MTU, 0)
+        }
+        set(value) {
+            sharedPreferences.edit {
+                putInt(WIREGUARD_MTU, value)
+            }
+        }
 
     private fun putIsMigrated(isMigrated: Boolean) {
         sharedPreferences.edit {
