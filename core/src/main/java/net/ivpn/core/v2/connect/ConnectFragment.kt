@@ -71,6 +71,7 @@ import net.ivpn.core.v2.map.model.Location
 import net.ivpn.core.v2.network.NetworkViewModel
 import net.ivpn.core.v2.signup.SignUpController
 import net.ivpn.core.v2.viewmodel.*
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.vpn.ServiceConstants
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -143,6 +144,7 @@ class ConnectFragment : Fragment(), MultiHopViewModel.MultiHopNavigator,
         LOGGER.info("On view created")
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+        view.post { OledModeController.applyOledToViewTree(view) }
 
         // Support variable bottom navigation height (Gesture, 2-Button, 3-Button) for Android 35+
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->

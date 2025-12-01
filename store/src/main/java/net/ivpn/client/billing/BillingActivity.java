@@ -32,6 +32,7 @@ import androidx.databinding.DataBindingUtil;
 import net.ivpn.client.R;
 import net.ivpn.client.StoreIVPNApplication;
 import net.ivpn.client.databinding.ActivityBillingBinding;
+import net.ivpn.core.common.nightmode.OledModeController;
 import net.ivpn.core.v2.dialog.DialogBuilder;
 
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        OledModeController.INSTANCE.applyOledTheme(this);
         super.onCreate(savedInstanceState);
         LOGGER.info("onCreate");
         StoreIVPNApplication.instance.billingComponent.inject(this);

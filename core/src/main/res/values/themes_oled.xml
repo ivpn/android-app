@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.OLED" parent="AppTheme">
+        <item name="android:windowBackground">@color/oled_background</item>
+        <item name="android:navigationBarColor">@color/oled_background</item>
+        <item name="android:statusBarColor">@color/oled_background</item>
+        <item name="colorPrimaryDark">@color/oled_background</item>
+        <item name="colorSurface">@color/oled_surface</item>
+        <item name="android:colorBackground">@color/oled_background</item>
+        <item name="backgroundColor">@color/oled_background</item>
+    </style>
+
+</resources>
+
