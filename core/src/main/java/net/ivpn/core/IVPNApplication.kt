@@ -43,6 +43,13 @@ object IVPNApplication {
     lateinit var moduleNavGraph: NavGraph
     lateinit var config: FeatureConfig
 
+
+    init {
+        try {
+            System.loadLibrary("blurlib")
+        } catch (_: UnsatisfiedLinkError) {}
+    }
+
     fun initBy(application: Application): ApplicationComponent{
         this.application = application
         appComponent = DaggerApplicationComponent.factory().create(application)

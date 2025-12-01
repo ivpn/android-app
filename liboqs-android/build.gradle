@@ -11,7 +11,7 @@ android {
         targetSdkVersion 35
         versionCode 139
         versionName "2.11.1"
-        ndkVersion "25.1.8937393"
+        ndkVersion "29.0.13113456"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
