@@ -106,7 +106,8 @@ class FavouriteServerListRecyclerViewAdapter(
             val server: Server = getServerFor(position)
             bindings[holder.binding] = server
             setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter)
+            // For favourite servers, don't show expand button (hosts are shown in main list)
+            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter, false, false)
         }
     }
 

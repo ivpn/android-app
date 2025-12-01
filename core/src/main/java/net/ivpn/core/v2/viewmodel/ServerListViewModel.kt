@@ -33,10 +33,12 @@ import net.ivpn.core.common.prefs.OnServerListUpdatedListener
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.serverlist.AdapterListener
 import net.ivpn.core.v2.serverlist.FavouriteServerListener
+import net.ivpn.core.v2.serverlist.OnServerExpandListener
 import javax.inject.Inject
 
 @ApplicationScope
@@ -57,6 +59,7 @@ class ServerListViewModel @Inject constructor(
     val dataLoading = ObservableBoolean()
     val navigators = arrayListOf<ServerListNavigator>()
     val favouriteListeners = arrayListOf<FavouriteServerListener>()
+    val expandListeners = arrayListOf<OnServerExpandListener>()
 
     val adapterListener = object : AdapterListener {
         override fun onServerLongClick(server: Server) {
@@ -99,6 +102,25 @@ class ServerListViewModel @Inject constructor(
                 navigators[0].onServerSelected()
             }
         }
+
+        override fun onHostSelected(host: Host, parentServer: Server, forbiddenServer: Server?) {
+            if (parentServer.canBeUsedAsMultiHopWith(forbiddenServer)) {
+                setCurrentServerAndHost(parentServer, host)
+                if (navigators.isNotEmpty()) {
+                    navigators[0].onServerSelected()
+                }
+            } else {
+                if (navigators.isNotEmpty()) {
+                    navigators[0].showDialog(Dialogs.INCOMPATIBLE_SERVERS)
+                }
+            }
+        }
+
+        override fun onServerExpandToggle(server: Server) {
+            for (listener in expandListeners) {
+                listener.onServerExpandToggle(server)
+            }
+        }
     }
 
     private var listener: OnServerListUpdatedListener = object : OnServerListUpdatedListener {
@@ -134,6 +156,12 @@ class ServerListViewModel @Inject constructor(
     fun setCurrentServer(server: Server?) {
         serverType?.let {
             serversRepository.serverSelected(server, it)
+        }
+    }
+
+    fun setCurrentServerAndHost(server: Server?, host: Host?) {
+        serverType?.let {
+            serversRepository.hostSelected(server, host, it)
         }
     }
 

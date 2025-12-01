@@ -35,7 +35,8 @@ class ServerViewHolder(
         val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean, filter: Filters?) {
+    fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean, filter: Filters?, 
+             isExpanded: Boolean = false, showExpandButton: Boolean = false) {
         binding.server = server
         binding.forbiddenServer = forbiddenServer
         binding.navigator = navigator
@@ -52,6 +53,19 @@ class ServerViewHolder(
         }
         binding.ipv6Badge.isVisible = server.isIPv6Enabled && isIPv6Enabled
         binding.filter = filter
+
+        // Handle expand button visibility and state
+        val hasMultipleHosts = server.hosts != null && server.hosts.size > 1
+        binding.expandLayout.isVisible = showExpandButton && hasMultipleHosts
+        if (hasMultipleHosts) {
+            binding.expandIcon.setImageResource(
+                if (isExpanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
+            )
+            binding.expandLayout.setOnClickListener {
+                navigator.onServerExpandToggle(server)
+            }
+        }
+
         binding.executePendingBindings()
     }
 
