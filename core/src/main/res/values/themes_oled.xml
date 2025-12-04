@@ -18,6 +18,10 @@
         <item name="android:background">@color/oled_background</item>
         <item name="android:windowBackground">@color/oled_background</item>
         <item name="colorSurface">@color/oled_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">#B3FFFFFF</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.BottomSheet.OLED" parent="Theme.Design.BottomSheetDialog">
