@@ -417,6 +417,7 @@ object DialogBuilder {
         val dialogView = binding.root
         if (OledModeController.isOledModeEnabled()) {
             dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+            binding.mtuInput.setHintTextColor(context.getColor(R.color.oled_hint_text))
         }
         builder.setView(dialogView)
         val alertDialog = builder.create()
