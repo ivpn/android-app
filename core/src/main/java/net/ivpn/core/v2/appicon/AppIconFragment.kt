@@ -35,6 +35,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.appicon.CustomAppIconData
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.databinding.FragmentAppIconBinding
 import net.ivpn.core.v2.MainActivity
 import net.ivpn.core.v2.viewmodel.AppIconViewModel
@@ -109,7 +110,7 @@ class AppIconFragment : Fragment() {
             return
         }
 
-        AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
+        AlertDialog.Builder(requireContext(), getDialogStyle())
             .setTitle(R.string.app_icon_change_title)
             .setMessage(R.string.app_icon_change_message)
             .setPositiveButton(R.string.app_icon_change_confirm) { _, _ ->
@@ -126,6 +127,14 @@ class AppIconFragment : Fragment() {
         binding.contentLayout.radioWeather.isChecked = currentIcon == CustomAppIconData.WEATHER
         binding.contentLayout.radioNotes.isChecked = currentIcon == CustomAppIconData.NOTES
         binding.contentLayout.radioCalculator.isChecked = currentIcon == CustomAppIconData.CALCULATOR
+    }
+
+    private fun getDialogStyle(): Int {
+        return if (OledModeController.isOledModeEnabled()) {
+            R.style.AppTheme_AlertDialog_OLED
+        } else {
+            R.style.AppTheme_AlertDialog
+        }
     }
 }
 
