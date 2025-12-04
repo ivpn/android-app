@@ -312,6 +312,9 @@ object DialogBuilder {
         val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_wireguard_details, null)
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         (dialogView.findViewById<View>(R.id.wg_public_key) as TextView).text = info.publicKey
@@ -360,6 +363,9 @@ object DialogBuilder {
         )
         binding.viewmodel = viewModel
         val dialogView = binding.root
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         binding.firstValue.filters = arrayOf<InputFilter>(InputFilterMinMax(0, 255))
@@ -409,6 +415,9 @@ object DialogBuilder {
         )
         binding.mtuValue = currentMtu
         val dialogView = binding.root
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
 
