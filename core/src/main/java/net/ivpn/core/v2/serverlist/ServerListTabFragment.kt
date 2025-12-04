@@ -41,6 +41,7 @@ import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.databinding.FragmentTabsServerListBinding
 import net.ivpn.core.v2.viewmodel.ServersListCommonViewModel
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.v2.dialog.DialogBuilderK
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
@@ -79,6 +80,7 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        view.post { OledModeController.applyOledToViewTree(view) }
 
         // Support variable bottom navigation height (Gesture, 2-Button, 3-Button) for Android 35+
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
@@ -97,6 +99,7 @@ class ServerListTabFragment : Fragment(), ServerListFilterViewModel.OnFilterChan
         super.onResume()
         LOGGER.info("onResume")
         filterViewModel.onResume()
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onStart() {
