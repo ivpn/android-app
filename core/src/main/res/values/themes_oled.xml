@@ -14,7 +14,7 @@
         <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheet.OLED</item>
     </style>
 
-    <style name="AppTheme.AlertDialog.OLED" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+    <style name="AppTheme.AlertDialog.OLED" parent="AppTheme.AlertDialog">
         <item name="android:background">@color/oled_background</item>
         <item name="android:windowBackground">@color/oled_background</item>
         <item name="colorSurface">@color/oled_background</item>
@@ -22,6 +22,18 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">#B3FFFFFF</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowTitleStyle">@style/AppTheme.DialogTitleStyle.OLED</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+    </style>
+
+    <style name="AppTheme.DialogTitleStyle.OLED" parent="AppTheme.DialogTitleStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogButton.OLED" parent="AppTheme.AlertDialogButton">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.BottomSheet.OLED" parent="Theme.Design.BottomSheetDialog">
