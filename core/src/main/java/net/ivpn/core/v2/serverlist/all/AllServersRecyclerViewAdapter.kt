@@ -34,6 +34,7 @@ import net.ivpn.core.R
 import net.ivpn.core.common.distance.DistanceProvider
 import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.PingResultFormatter
+import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.databinding.FastestServerItemBinding
 import net.ivpn.core.databinding.HostItemBinding
 import net.ivpn.core.databinding.RandomServerItemBinding
@@ -66,6 +67,9 @@ class AllServersRecyclerViewAdapter(
 
     @Inject
     lateinit var distanceProvider: DistanceProvider
+
+    @Inject
+    lateinit var settings: Settings
 
     private var bindings = HashMap<ServerItemBinding, Server>()
     private var hostBindings = HashMap<HostItemBinding, HostItem>()
@@ -166,7 +170,8 @@ class AllServersRecyclerViewAdapter(
                 bindings[holder.binding] = item
                 setPing(holder.binding, item)
                 val isExpanded = expandedServerCities.contains(item.city)
-                val showExpandButton = !isFiltering // Only show expand in non-search mode
+                // Only show expand button when "Select individual servers" is enabled and not filtering
+                val showExpandButton = settings.isSelectHostEnabled && !isFiltering
                 holder.bind(item, forbiddenServer, isIPv6Enabled, filter, isExpanded, showExpandButton)
             }
         } else if (holder is HostViewHolder) {
@@ -291,8 +296,8 @@ class AllServersRecyclerViewAdapter(
         for (server in servers) {
             listToShow.add(server)
             
-            // If this server is expanded, add its hosts
-            if (expandedServerCities.contains(server.city) && !isFiltering) {
+            // If this server is expanded and "Select individual servers" is enabled, add its hosts
+            if (settings.isSelectHostEnabled && expandedServerCities.contains(server.city) && !isFiltering) {
                 server.hosts?.let { hosts ->
                     for (host in hosts) {
                         listToShow.add(HostItem(host, server))

@@ -37,6 +37,7 @@ import net.ivpn.core.v2.connect.createSession.ConnectionState
 import net.ivpn.core.vpn.controller.DefaultVPNStateListener
 import net.ivpn.core.vpn.controller.VpnBehaviorController
 import net.ivpn.core.vpn.controller.VpnStateListener
+import android.widget.CompoundButton
 import javax.inject.Inject
 
 @ApplicationScope
@@ -53,6 +54,12 @@ class ServersViewModel @Inject constructor(
     val fastestServerSetting = ObservableBoolean()
     val entryServerVisibility = ObservableBoolean()
     val exitServerVisibility = ObservableBoolean()
+    val selectHostEnabled = ObservableBoolean()
+
+    val enableSelectHostListener =
+        CompoundButton.OnCheckedChangeListener { _: CompoundButton?, value: Boolean ->
+            enableSelectHost(value)
+        }
 
     val entryServer = ObservableField<Server>()
     val exitServer = ObservableField<Server>()
@@ -88,6 +95,7 @@ class ServersViewModel @Inject constructor(
         fastestServerSetting.set(isFastestServerEnabled())
         entryRandomServer.set(getSettingsRandomServer(ServerType.ENTRY))
         exitRandomServer.set(getSettingsRandomServer(ServerType.EXIT))
+        selectHostEnabled.set(settings.isSelectHostEnabled)
 
         entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
@@ -220,5 +228,14 @@ class ServersViewModel @Inject constructor(
         fastestServer.value?.let {
             return settings.ipv6Setting && settings.showAllServersSetting && it.isIPv6Enabled
         } ?: return false
+    }
+
+    private fun enableSelectHost(value: Boolean) {
+        settings.isSelectHostEnabled = value
+        selectHostEnabled.set(value)
+    }
+
+    fun isSelectHostEnabled(): Boolean {
+        return settings.isSelectHostEnabled
     }
 }
