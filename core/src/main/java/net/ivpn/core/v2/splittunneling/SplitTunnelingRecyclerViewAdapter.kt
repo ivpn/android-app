@@ -88,7 +88,7 @@ class SplitTunnelingRecyclerViewAdapter @Inject internal constructor()
         } else if (holder is AppsSearchViewHolder) {
             searchBinding = holder.binding
         }
-        // Apply OLED colors to recycled/new items
+
         OledModeController.applyOledToViewTree(holder.itemView)
     }
 
