@@ -401,7 +401,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding: DialogMtuBinding = DataBindingUtil.inflate(
             inflater,
