@@ -35,6 +35,7 @@ import net.ivpn.core.v2.splittunneling.holder.AppsSearchViewHolder
 import net.ivpn.core.v2.splittunneling.items.ApplicationItem
 import net.ivpn.core.v2.splittunneling.items.SearchItem
 import net.ivpn.core.v2.splittunneling.items.SplitTunnelingItem
+import net.ivpn.core.common.nightmode.OledModeController
 import java.util.*
 import javax.inject.Inject
 
@@ -87,6 +88,8 @@ class SplitTunnelingRecyclerViewAdapter @Inject internal constructor()
         } else if (holder is AppsSearchViewHolder) {
             searchBinding = holder.binding
         }
+        // Apply OLED colors to recycled/new items
+        OledModeController.applyOledToViewTree(holder.itemView)
     }
 
     override fun getItemCount(): Int {
