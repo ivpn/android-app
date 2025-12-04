@@ -67,6 +67,9 @@ class LogOutFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
+        if (OledModeController.isOledModeEnabled()) {
+            binding.bottomSheet.setBackgroundColor(requireContext().getColor(R.color.oled_background))
+        }
         init()
     }
 
