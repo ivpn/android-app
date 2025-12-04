@@ -121,6 +121,9 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (OledModeController.INSTANCE.isOledModeEnabled()) {
+            view.setBackgroundColor(requireContext().getColor(R.color.oled_background));
+        }
         init();
     }
 
