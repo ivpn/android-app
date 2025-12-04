@@ -9,6 +9,25 @@
         <item name="colorSurface">@color/oled_surface</item>
         <item name="android:colorBackground">@color/oled_background</item>
         <item name="backgroundColor">@color/oled_background</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialog.OLED</item>
+        <item name="android:alertDialogTheme">@style/AppTheme.AlertDialog.OLED</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheet.OLED</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.OLED" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:background">@color/oled_background</item>
+        <item name="android:windowBackground">@color/oled_background</item>
+        <item name="colorSurface">@color/oled_background</item>
+    </style>
+
+    <style name="AppTheme.BottomSheet.OLED" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackground">@color/oled_background</item>
+        <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle.OLED</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetStyle.OLED" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/oled_background</item>
     </style>
 
 </resources>
