@@ -209,5 +209,6 @@
     <color name="oled_background">#000000</color>
     <color name="oled_surface">#000000</color>
     <color name="oled_card">#0A0A0A</color>
+    <color name="oled_hint_text">#80FFFFFF</color>
 
 </resources>
