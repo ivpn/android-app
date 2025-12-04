@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.OLED" parent="AppTheme">
+        <item name="android:windowBackground">@color/oled_background</item>
+        <item name="android:navigationBarColor">@color/oled_background</item>
+        <item name="android:statusBarColor">@color/oled_background</item>
+        <item name="colorPrimaryDark">@color/oled_background</item>
+        <item name="colorSurface">@color/oled_surface</item>
+        <item name="android:colorBackground">@color/oled_background</item>
+        <item name="backgroundColor">@color/oled_background</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialog.OLED</item>
+        <item name="android:alertDialogTheme">@style/AppTheme.AlertDialog.OLED</item>
+        <item name="bottomSheetDialogTheme">@style/AppTheme.BottomSheet.OLED</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog.OLED" parent="AppTheme.AlertDialog">
+        <item name="android:background">@color/oled_background</item>
+        <item name="android:windowBackground">@color/oled_background</item>
+        <item name="colorSurface">@color/oled_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">#B3FFFFFF</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowTitleStyle">@style/AppTheme.DialogTitleStyle.OLED</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppTheme.AlertDialogButton.OLED</item>
+    </style>
+
+    <style name="AppTheme.DialogTitleStyle.OLED" parent="AppTheme.DialogTitleStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogButton.OLED" parent="AppTheme.AlertDialogButton">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.BottomSheet.OLED" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackground">@color/oled_background</item>
+        <item name="bottomSheetStyle">@style/AppTheme.BottomSheetStyle.OLED</item>
+    </style>
+
+    <style name="AppTheme.BottomSheetStyle.OLED" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@color/oled_background</item>
+    </style>
+
+</resources>
+

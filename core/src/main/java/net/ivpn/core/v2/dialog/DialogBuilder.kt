@@ -53,11 +53,20 @@ import net.ivpn.core.v2.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardInfo
 import net.ivpn.core.v2.timepicker.OnDelayOptionSelected
 import net.ivpn.core.v2.timepicker.PauseDelay
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import java.util.*
 
 object DialogBuilder {
     private val LOGGER = LoggerFactory.getLogger(DialogBuilder::class.java)
+
+    private fun getDialogStyle(): Int {
+        return if (OledModeController.isOledModeEnabled()) {
+            R.style.AppTheme_AlertDialog_OLED
+        } else {
+            R.style.AlertDialog
+        }
+    }
 
     @JvmStatic
     fun createOptionDialog(
@@ -68,7 +77,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
         if (dialogAttr.positiveBtnId != -1) {
@@ -95,7 +104,7 @@ object DialogBuilder {
         if (context == null || dialogAttr == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
         builder.setNegativeButton(context.getString(dialogAttr.negativeBtnId), null)
@@ -117,7 +126,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(title)
         builder.setMessage(msg)
         builder.setNegativeButton(context.getString(R.string.dialogs_ok), null)
@@ -142,7 +151,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         builder.setTitle(title)
         builder.setMessage(msg)
         builder.setOnCancelListener(cancelListener)
@@ -174,7 +183,7 @@ object DialogBuilder {
         if (context == null) {
             return null
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
 
@@ -216,7 +225,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_predefined_time_picker, null)
         val delayMap: MutableMap<Int, PauseDelay> = HashMap()
@@ -259,7 +268,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_custom_time_picker, null)
         val pauseTime = LongArray(1)
@@ -300,7 +309,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_wireguard_details, null)
         builder.setView(dialogView)
@@ -340,7 +349,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val viewModel =
             IVPNApplication.appComponent.provideActivityComponent().create().dialogueViewModel
