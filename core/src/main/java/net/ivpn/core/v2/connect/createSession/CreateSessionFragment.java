@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import net.ivpn.core.R;
+import net.ivpn.core.common.nightmode.OledModeController;
 import net.ivpn.core.databinding.BottomSheetBinding;
 import net.ivpn.core.databinding.BottomSheetDmProBinding;
 import net.ivpn.core.databinding.BottomSheetLegacyStandardBinding;
@@ -58,6 +59,14 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
 
     public CreateSessionFragment(SessionErrorResponse error) {
         this.error = error;
+    }
+
+    @Override
+    public int getTheme() {
+        if (OledModeController.INSTANCE.isOledModeEnabled()) {
+            return R.style.AppTheme_BottomSheet_OLED;
+        }
+        return super.getTheme();
     }
 
     @Override
