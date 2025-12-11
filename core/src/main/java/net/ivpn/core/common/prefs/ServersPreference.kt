@@ -3,6 +3,8 @@ package net.ivpn.core.common.prefs
 import android.content.SharedPreferences
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.rest.data.model.FavoriteIdentifier
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerLocation.Companion.from
@@ -45,9 +47,12 @@ class ServersPreference @Inject constructor(
     companion object {
         private const val CURRENT_ENTER_SERVER = "CURRENT_ENTER_SERVER"
         private const val CURRENT_EXIT_SERVER = "CURRENT_EXIT_SERVER"
+        private const val CURRENT_ENTER_HOST = "CURRENT_ENTER_HOST"
+        private const val CURRENT_EXIT_HOST = "CURRENT_EXIT_HOST"
         private const val SERVERS_LIST = "SERVERS_LIST"
         private const val LOCATION_LIST = "LOCATION_LIST"
         private const val FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST"
+        private const val UNIFIED_FAVOURITES_LIST = "UNIFIED_FAVOURITES_LIST"
         private const val EXCLUDED_FASTEST_SERVERS = "EXCLUDED_FASTEST_SERVERS"
         private const val SETTINGS_FASTEST_SERVER = "SETTINGS_FASTEST_SERVER"
         private const val SETTINGS_RANDOM_ENTER_SERVER = "SETTINGS_RANDOM_ENTER_SERVER"
@@ -91,28 +96,75 @@ class ServersPreference @Inject constructor(
             return Mapper.serverListFrom(sharedPreferences.getString(SERVERS_LIST, null))
         }
 
+    /**
+     * Returns the list of favorite servers for the current protocol.
+     * This uses the unified favorites system where favorites are stored as
+     * protocol-agnostic identifiers (gateway prefix for locations, dns_name for hosts).
+     * When retrieving, it matches these identifiers against the current protocol's servers.
+     */
     val favouritesServersList: MutableList<Server>
         get() {
-            val sharedPreferences = properSharedPreference
-            val servers =
-                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
-            return servers ?: ArrayList()
+            val identifiers = unifiedFavouritesList
+            val currentServers = serversList ?: return ArrayList()
+            
+            val favourites = ArrayList<Server>()
+            for (server in currentServers) {
+                for (identifier in identifiers) {
+                    if (identifier.matches(server)) {
+                        favourites.add(server)
+                        break
+                    }
+                }
+            }
+            return favourites
+        }
+
+    /**
+     * Returns the unified list of favorite identifiers.
+     * These identifiers are protocol-agnostic and work across OpenVPN and WireGuard.
+     */
+    val unifiedFavouritesList: MutableList<FavoriteIdentifier>
+        get() {
+            // First try to get from unified storage
+            val sharedPreferences = preference.stickySharedPreferences
+            val identifiers = Mapper.favoriteIdentifierListFrom(
+                sharedPreferences.getString(UNIFIED_FAVOURITES_LIST, null)
+            )
+            return identifiers ?: ArrayList()
         }
 
     val openvpnFavouritesServersList: MutableList<Server>
         get() {
-            val sharedPreferences = preference.serversSharedPreferences
-            val servers =
-                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
-            return servers ?: ArrayList()
+            val identifiers = unifiedFavouritesList
+            val currentServers = openvpnServersList ?: return ArrayList()
+            
+            val favourites = ArrayList<Server>()
+            for (server in currentServers) {
+                for (identifier in identifiers) {
+                    if (identifier.matches(server)) {
+                        favourites.add(server)
+                        break
+                    }
+                }
+            }
+            return favourites
         }
 
     val wireguardFavouritesServersList: MutableList<Server>
         get() {
-            val sharedPreferences = preference.wireguardServersSharedPreferences
-            val servers =
-                Mapper.serverListFrom(sharedPreferences.getString(FAVOURITES_SERVERS_LIST, null))
-            return servers ?: ArrayList()
+            val identifiers = unifiedFavouritesList
+            val currentServers = wireguardServersList ?: return ArrayList()
+            
+            val favourites = ArrayList<Server>()
+            for (server in currentServers) {
+                for (identifier in identifiers) {
+                    if (identifier.matches(server)) {
+                        favourites.add(server)
+                        break
+                    }
+                }
+            }
+            return favourites
         }
 
     val excludedServersList: MutableList<Server>
@@ -200,40 +252,138 @@ class ServersPreference @Inject constructor(
         return Mapper.from(sharedPreferences.getString(serverKey, null))
     }
 
-    fun addFavouriteServer(server: Server?) {
-        val openvpnServer = openvpnServersList?.first { it == server }
-        val wireguardServer = wireguardServersList?.first { it == server }
-        if (server == null || openvpnServer == null || wireguardServer == null) {
-            return
+    fun setCurrentHost(serverType: ServerType?, host: Host?) {
+        if (serverType == null) return
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        preference.serversSharedPreferences.edit {
+            putString(hostKey, Mapper.stringFromHost(host))
         }
-        val openvpnServers = openvpnFavouritesServersList
-        val wireguardServers = wireguardFavouritesServersList
-        if (!openvpnServers.contains(openvpnServer)) {
-            openvpnServers.add(openvpnServer)
-            preference.serversSharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers)).apply()
-        }
-        if (!wireguardServers.contains(wireguardServer)) {
-            wireguardServers.add(wireguardServer)
-            preference.wireguardServersSharedPreferences.edit()
-                .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers)).apply()
+        preference.wireguardServersSharedPreferences.edit {
+            putString(hostKey, Mapper.stringFromHost(host))
         }
     }
 
-    fun removeFavouriteServer(server: Server) {
-        val openvpnServer = openvpnServersList?.first { it == server }
-        val wireguardServer = wireguardServersList?.first { it == server }
-        if (openvpnServer == null || wireguardServer == null) {
+    fun getCurrentHost(serverType: ServerType?): Host? {
+        if (serverType == null) return null
+        val sharedPreferences = properSharedPreference
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        return Mapper.hostFrom(sharedPreferences.getString(hostKey, null))
+    }
+
+    fun clearCurrentHost(serverType: ServerType?) {
+        if (serverType == null) return
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        preference.serversSharedPreferences.edit { remove(hostKey) }
+        preference.wireguardServersSharedPreferences.edit { remove(hostKey) }
+    }
+
+    /**
+     * Adds a server to the unified favorites list.
+     * The server is stored as a protocol-agnostic identifier:
+     * - For locations: normalized gateway (with .wg. replaced by .gw.)
+     * - For hosts: dns_name
+     */
+    fun addFavouriteServer(server: Server?) {
+        if (server == null) return
+        
+        val identifier = FavoriteIdentifier.fromServer(server)
+        val identifiers = unifiedFavouritesList
+        
+        // Check if already in favorites
+        if (identifiers.any { it == identifier }) {
             return
         }
-        val openvpnServers = openvpnFavouritesServersList
-        val wireguardServers = wireguardFavouritesServersList
-        openvpnServers.remove(openvpnServer)
-        wireguardServers.remove(wireguardServer)
-        preference.serversSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(openvpnServers)).apply()
-        preference.wireguardServersSharedPreferences.edit()
-            .putString(FAVOURITES_SERVERS_LIST, Mapper.stringFrom(wireguardServers)).apply()
+        
+        identifiers.add(identifier)
+        saveUnifiedFavourites(identifiers)
+    }
+
+    /**
+     * Removes a server from the unified favorites list.
+     */
+    fun removeFavouriteServer(server: Server) {
+        val identifier = FavoriteIdentifier.fromServer(server)
+        val identifiers = unifiedFavouritesList
+        
+        identifiers.removeAll { it == identifier }
+        saveUnifiedFavourites(identifiers)
+    }
+
+    /**
+     * Adds a specific host to favorites by dns_name.
+     */
+    fun addFavouriteHost(dnsName: String) {
+        val identifier = FavoriteIdentifier.forHost(dnsName)
+        val identifiers = unifiedFavouritesList
+        
+        if (identifiers.any { it == identifier }) {
+            return
+        }
+        
+        identifiers.add(identifier)
+        saveUnifiedFavourites(identifiers)
+    }
+
+    /**
+     * Removes a specific host from favorites by dns_name.
+     */
+    fun removeFavouriteHost(dnsName: String) {
+        val identifier = FavoriteIdentifier.forHost(dnsName)
+        val identifiers = unifiedFavouritesList
+        
+        identifiers.removeAll { it == identifier }
+        saveUnifiedFavourites(identifiers)
+    }
+
+    /**
+     * Checks if a server is in the favorites list.
+     */
+    fun isFavourite(server: Server): Boolean {
+        val identifier = FavoriteIdentifier.fromServer(server)
+        return unifiedFavouritesList.any { it == identifier }
+    }
+
+    /**
+     * Saves the unified favorites list.
+     */
+    private fun saveUnifiedFavourites(identifiers: List<FavoriteIdentifier>) {
+        preference.stickySharedPreferences.edit {
+            putString(UNIFIED_FAVOURITES_LIST, Mapper.stringFromFavoriteIdentifiers(identifiers))
+        }
+    }
+
+    /**
+     * Migrates old per-protocol favorites to the new unified format.
+     * This should be called once during app upgrade.
+     */
+    fun migrateOldFavouritesToUnified() {
+        // Check if already migrated
+        if (preference.stickySharedPreferences.contains(UNIFIED_FAVOURITES_LIST)) {
+            return
+        }
+
+        val identifiers = mutableSetOf<FavoriteIdentifier>()
+
+        val oldOpenvpnFavourites = Mapper.serverListFrom(
+            preference.serversSharedPreferences.getString(FAVOURITES_SERVERS_LIST, null)
+        )
+        oldOpenvpnFavourites?.forEach { server ->
+            identifiers.add(FavoriteIdentifier.fromServer(server))
+        }
+
+        val oldWireguardFavourites = Mapper.serverListFrom(
+            preference.wireguardServersSharedPreferences.getString(FAVOURITES_SERVERS_LIST, null)
+        )
+        oldWireguardFavourites?.forEach { server ->
+            identifiers.add(FavoriteIdentifier.fromServer(server))
+        }
+
+        if (identifiers.isNotEmpty()) {
+            saveUnifiedFavourites(identifiers.toList())
+        }
     }
 
     fun addToExcludedServersList(server: Server?) {

@@ -30,6 +30,7 @@ import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Config
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
@@ -276,9 +277,29 @@ class ServersRepository @Inject constructor(
         serversPreference.putSettingFastestServer(false)
         serversPreference.putSettingRandomServer(false, type)
         setCurrentServer(type, server)
+        // Clear host selection when a different server is selected
+        serversPreference.clearCurrentHost(type)
         for (listener in onServerChangedListeners) {
             listener.onServerChanged()
         }
+    }
+
+    fun hostSelected(server: Server?, host: Host?, type: ServerType) {
+        serversPreference.putSettingFastestServer(false)
+        serversPreference.putSettingRandomServer(false, type)
+        setCurrentServer(type, server)
+        serversPreference.setCurrentHost(type, host)
+        for (listener in onServerChangedListeners) {
+            listener.onServerChanged()
+        }
+    }
+
+    fun getCurrentHost(serverType: ServerType): Host? {
+        return serversPreference.getCurrentHost(serverType)
+    }
+
+    fun clearCurrentHost(serverType: ServerType) {
+        serversPreference.clearCurrentHost(serverType)
     }
 
     private fun tryUpdateServerListOffline() {

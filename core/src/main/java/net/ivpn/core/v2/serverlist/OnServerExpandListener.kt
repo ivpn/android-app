@@ -1,11 +1,11 @@
-package net.ivpn.core.v2.serverlist;
+package net.ivpn.core.v2.serverlist
 
 /*
  IVPN Android app
  https://github.com/ivpn/android-app
 
- Created by Oleksandr Mykhailenko.
- Copyright (c) 2023 IVPN Limited.
+ Created by Tamim Hossain.
+ Copyright (c) 2025 IVPN Limited.
 
  This file is part of the IVPN Android app.
 
@@ -22,24 +22,13 @@ package net.ivpn.core.v2.serverlist;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.ivpn.core.rest.data.model.Host;
-import net.ivpn.core.rest.data.model.Server;
+import net.ivpn.core.rest.data.model.Server
 
-public interface AdapterListener {
-
-    void onServerSelected(Server server, Server forbiddenServer);
-
-    void onServerLongClick(Server server);
-
-    void onFastestServerSelected();
-
-    void onFastestServerSettingsClick();
-
-    void onRandomServerSelected();
-
-    void changeFavouriteStateFor(Server server, boolean isFavourite);
-
-    void onHostSelected(Host host, Server parentServer, Server forbiddenServer);
-
-    void onServerExpandToggle(Server server);
+/**
+ * Listener for server expansion toggle events in the server list.
+ * Used to handle expanding/collapsing server items to show individual hosts.
+ */
+interface OnServerExpandListener {
+    fun onServerExpandToggle(server: Server)
 }
+
