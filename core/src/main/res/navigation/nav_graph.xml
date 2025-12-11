@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_mockLocationFragment"
             app:destination="@id/mockLocationFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_appIconFragment"
+            app:destination="@id/appIconFragment" />
     </fragment>
     <fragment
         android:id="@+id/splitTunnelingFragment"
@@ -251,4 +254,8 @@
         android:id="@+id/logOutFragment"
         android:name="net.ivpn.core.v2.account.LogOutFragment"
         android:label="LogOutFragment" />
+    <fragment
+        android:id="@+id/appIconFragment"
+        android:name="net.ivpn.core.v2.appicon.AppIconFragment"
+        android:label="App Icon" />
 </navigation>
