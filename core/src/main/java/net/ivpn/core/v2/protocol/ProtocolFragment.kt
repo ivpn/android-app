@@ -107,9 +107,7 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         binding.contentLayout.wgProtocolSettings.wireguardDetails.setOnClickListener {
             openWireGuardDetails()
         }
-        binding.contentLayout.wgProtocolSettings.wireguardMtu.setOnClickListener {
-            openMtuDialog()
-        }
+
         binding.contentLayout.protocolSelection.comparisonText.movementMethod = LinkMovementMethod.getInstance()
     }
 
@@ -130,22 +128,7 @@ class ProtocolFragment : Fragment(), ProtocolNavigator {
         navigate(action)
     }
 
-    private fun openMtuDialog() {
-        DialogBuilder.createMtuDialog(
-            context,
-            viewModel.getMtuDisplayValue(),
-            onMtuSaved = { mtuString ->
-                viewModel.saveMtu(mtuString)
-            },
-            onMtuError = {
-                DialogBuilder.createFullCustomNotificationDialog(
-                    context,
-                    getString(R.string.dialogs_error),
-                    getString(R.string.protocol_wg_mtu_error)
-                )
-            }
-        )
-    }
+
 
     override fun notifyUser(msgId: Int, actionId: Int, listener: View.OnClickListener?) {
         SnackbarUtil.show(binding.coordinator, msgId, actionId, listener)
