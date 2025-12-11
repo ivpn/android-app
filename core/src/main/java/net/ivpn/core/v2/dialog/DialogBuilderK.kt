@@ -36,12 +36,21 @@ import net.ivpn.core.databinding.DialogueNightModeBinding
 import net.ivpn.core.v2.network.dialog.NetworkChangeDialogViewModel
 import net.ivpn.core.v2.viewmodel.ColorThemeViewModel
 import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
+import net.ivpn.core.common.nightmode.OledModeController
 
 object DialogBuilderK {
 
+    private fun getDialogStyle(): Int {
+        return if (OledModeController.isOledModeEnabled()) {
+            R.style.AppTheme_AlertDialog_OLED
+        } else {
+            R.style.AppTheme_AlertDialog
+        }
+    }
+
     fun openDarkModeDialogue(context: Context, listener: OnNightModeChangedListener, colorThemeViewModel: ColorThemeViewModel) {
         val builder: AlertDialog.Builder =
-                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                AlertDialog.Builder(context, getDialogStyle())
         val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -75,7 +84,7 @@ object DialogBuilderK {
             listener: ServerListFilterViewModel.OnFilterChangedListener,
             filterViewModel: ServerListFilterViewModel) {
         val builder: AlertDialog.Builder =
-                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                AlertDialog.Builder(context, getDialogStyle())
         val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -104,7 +113,7 @@ object DialogBuilderK {
 
     fun openChangeNetworkStatusDialogue(context: Context, dialogViewModel: NetworkChangeDialogViewModel) {
         val builder: AlertDialog.Builder =
-                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                AlertDialog.Builder(context, getDialogStyle())
         val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -133,7 +142,7 @@ object DialogBuilderK {
 
     fun openChangeDefaultNetworkStatusDialogue(context: Context, dialogViewModel: NetworkChangeDialogViewModel) {
         val builder: AlertDialog.Builder =
-                AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                AlertDialog.Builder(context, getDialogStyle())
         val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 

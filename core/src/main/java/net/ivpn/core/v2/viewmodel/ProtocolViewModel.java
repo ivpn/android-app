@@ -79,6 +79,10 @@ public class ProtocolViewModel {
 
     public ObservableField<WireGuardInfo> wgInfo = new ObservableField<>();
     public ObservableField<ObfuscationType> obfuscationType = new ObservableField<>();
+    public ObservableField<String> wireGuardMtu = new ObservableField<>();
+
+    private static final int MTU_LOWER_BOUND = 576;
+    private static final int MTU_UPPER_BOUND = 65535;
 
     private ProtocolNavigator navigator;
     private String wireGuardPublicKey;
@@ -186,6 +190,18 @@ public class ProtocolViewModel {
         return false;
     };
 
+    @SuppressLint("ClickableViewAccessibility")
+    public View.OnTouchListener mtuTouchListener = (view, motionEvent) -> {
+        if (isVpnActive()) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                navigator.notifyUser(R.string.snackbar_to_change_mtu_disconnect_first,
+                        R.string.snackbar_disconnect_first, null);
+            }
+            return true;
+        }
+        return false;
+    };
+
     @Inject
     ProtocolViewModel(Context context, Settings settings, WireGuardKeyController keyController,
                       ProtocolController protocolController, VpnBehaviorController vpnBehaviorController,
@@ -211,6 +227,9 @@ public class ProtocolViewModel {
         regenerationPeriod.set(String.valueOf(keyController.getRegenerationPeriod()));
 
         obfuscationType.set(settings.getObfuscationType());
+
+        int mtu = settings.getWireGuardMtu();
+        wireGuardMtu.set(mtu > 0 ? String.valueOf(mtu) : "");
 
         wgInfo.set(getWireGuardInfo());
         multiHop.set(multiHopController);
@@ -291,6 +310,38 @@ public class ProtocolViewModel {
         } else {
             settings.setOpenVpnPort(port);
         }
+    }
+
+    public boolean isValidMtu(String mtuString) {
+        if (mtuString == null || mtuString.isEmpty()) {
+            // empty is valid that means use default
+            return true; 
+        }
+        try {
+            int mtu = Integer.parseInt(mtuString);
+            return mtu == 0 || (mtu >= MTU_LOWER_BOUND && mtu <= MTU_UPPER_BOUND);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public void saveMtu(String mtuString) {
+        LOGGER.info(TAG, "Save MTU: " + mtuString);
+        int mtu = 0;
+        if (mtuString != null && !mtuString.isEmpty()) {
+            try {
+                mtu = Integer.parseInt(mtuString);
+            } catch (NumberFormatException e) {
+                mtu = 0;
+            }
+        }
+        settings.setWireGuardMtu(mtu);
+        wireGuardMtu.set(mtu > 0 ? String.valueOf(mtu) : "");
+    }
+
+    public String getMtuDisplayValue() {
+        int mtu = settings.getWireGuardMtu();
+        return mtu > 0 ? String.valueOf(mtu) : "";
     }
 
     private void onGeneratingError(String error, Throwable throwable) {

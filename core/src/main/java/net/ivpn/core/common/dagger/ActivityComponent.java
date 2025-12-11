@@ -29,6 +29,7 @@ import net.ivpn.core.common.tile.IVPNTileService;
 import net.ivpn.core.v2.account.AccountFragment;
 import net.ivpn.core.v2.account.LogOutFragment;
 import net.ivpn.core.v2.alwaysonvpn.AlwaysOnVPNFragment;
+import net.ivpn.core.v2.appicon.AppIconFragment;
 import net.ivpn.core.v2.antitracker.AntiTrackerFragment;
 import net.ivpn.core.v2.antitracker.AntiTrackerListFragment;
 import net.ivpn.core.v2.captcha.CaptchaFragment;
@@ -155,6 +156,8 @@ public interface ActivityComponent {
     void inject(WireGuardDetailsFragment fragment);
 
     void inject(KillSwitchFragment fragment);
+
+    void inject(AppIconFragment fragment);
 
     void inject(MockLocationFragment fragment);
 
