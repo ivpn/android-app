@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentCustomDnsBinding
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.MainActivity
 import org.slf4j.LoggerFactory
@@ -50,6 +52,8 @@ class CustomDNSFragment : Fragment() {
     @Inject
     lateinit var viewModel: CustomDNSViewModel
 
+    private var oledLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -64,6 +68,19 @@ class CustomDNSFragment : Fragment() {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        view.post { OledModeController.applyOledToViewTree(view) }
+        registerOledEnforcer(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyOledIfNeeded()
+        binding.root.post { applyOledIfNeeded() }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        unregisterOledEnforcer()
     }
 
     override fun onStart() {
@@ -81,6 +98,35 @@ class CustomDNSFragment : Fragment() {
         binding.contentLayout.changeDnsButton.setOnClickListener {
             changeDNS()
         }
+    }
+
+    private fun applyOledIfNeeded() {
+        if (!OledModeController.isOledModeEnabled()) return
+        if (!isAdded) return
+        val context = context ?: return
+        val oledColor = context.getColor(R.color.oled_background)
+        binding.root.setBackgroundColor(oledColor)
+        binding.coordinator.setBackgroundColor(oledColor)
+        binding.contentLayout.root.setBackgroundColor(oledColor)
+        OledModeController.applyOledToViewTree(binding.root)
+    }
+
+    private fun registerOledEnforcer(view: View) {
+        if (!OledModeController.isOledModeEnabled()) return
+        if (oledLayoutListener != null) return
+        if (!view.viewTreeObserver.isAlive) return
+        oledLayoutListener = ViewTreeObserver.OnGlobalLayoutListener { applyOledIfNeeded() }
+        view.viewTreeObserver.addOnGlobalLayoutListener(oledLayoutListener)
+    }
+
+    private fun unregisterOledEnforcer() {
+        oledLayoutListener?.let { listener ->
+            val v = view
+            if (v != null && v.viewTreeObserver.isAlive) {
+                v.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+            }
+        }
+        oledLayoutListener = null
     }
 
     fun changeDNS() {
