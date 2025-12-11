@@ -249,6 +249,11 @@
     <string name="favourites_no_title">Your favourite servers will be\n displayed here</string>
     <string name="favourites_no_description">Save your time by creating your own list of servers</string>
 
+    <!--Server hosts and load-->
+    <string name="server_load">Server load</string>
+    <string name="server_host">Server host</string>
+    <string name="specific_server_description">Select a specific server to get the same IP address on every connection</string>
+
     <!--Fastest Server Settings-->
     <string name="fastest_setting_description">Choose which servers can be used as the fastest.</string>
     <string name="fastest_setting_toast">At least one server should be selected.</string>
