@@ -50,7 +50,7 @@ public class BillingActivity extends AppCompatActivity implements BillingNavigat
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        OledModeController.INSTANCE.applyOledTheme(this);
+        OledModeController.applyOledTheme(this);
         super.onCreate(savedInstanceState);
         LOGGER.info("onCreate");
         StoreIVPNApplication.instance.billingComponent.inject(this);

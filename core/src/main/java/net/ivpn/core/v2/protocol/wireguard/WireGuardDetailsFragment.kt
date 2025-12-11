@@ -99,6 +99,9 @@ class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
         binding.contentLayout.regenerate.setOnClickListener {
             reGenerateKeys()
         }
+        binding.contentLayout.wireguardMtu.setOnClickListener {
+            openMtuDialog()
+        }
     }
 
     private fun initToolbar() {
@@ -123,6 +126,23 @@ class WireGuardDetailsFragment: Fragment(), ProtocolNavigator {
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         viewModel.copyWgIpToClipboard(clipboard)
         ToastUtil.toast(R.string.protocol_wg_ip_address_copied)
+    }
+
+    private fun openMtuDialog() {
+        DialogBuilder.createMtuDialog(
+            context,
+            viewModel.getMtuDisplayValue(),
+            onMtuSaved = { mtuString ->
+                viewModel.saveMtu(mtuString)
+            },
+            onMtuError = {
+                DialogBuilder.createFullCustomNotificationDialog(
+                    context,
+                    getString(R.string.dialogs_error),
+                    getString(R.string.protocol_wg_mtu_error)
+                )
+            }
+        )
     }
 
     private fun openQuantumResistanceInfo() {

@@ -5,7 +5,7 @@ package net.ivpn.core.common.nightmode
  https://github.com/ivpn/android-app
  
  Created by Tamim Hossain.
- Copyright (c) 2024 IVPN Limited.
+ Copyright (c) 2025 IVPN Limited.
  
  This file is part of the IVPN Android app.
  
@@ -61,6 +61,7 @@ object OledModeController {
 
     private val handleColor = 0xFF49494B.toInt()
 
+    @JvmStatic
     fun applyOledTheme(activity: Activity) {
         if (isOledModeEnabled()) {
             activity.setTheme(R.style.AppTheme_OLED)
