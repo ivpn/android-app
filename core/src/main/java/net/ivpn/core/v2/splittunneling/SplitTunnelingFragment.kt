@@ -37,6 +37,7 @@ import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentSplitTunnelingBinding
 import net.ivpn.core.v2.viewmodel.SplitTunnelingViewModel
 import net.ivpn.core.v2.MainActivity
+import net.ivpn.core.common.nightmode.OledModeController
 import javax.inject.Inject
 
 class SplitTunnelingFragment : Fragment() {
@@ -64,6 +65,12 @@ class SplitTunnelingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         init()
+        view.post { OledModeController.applyOledToViewTree(view) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onStart() {

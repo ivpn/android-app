@@ -88,6 +88,7 @@
     <string name="snackbar_to_use_split_tunneling_disconnect">To use split tunneling, please disconnect first</string>
     <string name="snackbar_to_change_protocol_disconnect">To change protocol, please disconnect first</string>
     <string name="snackbar_to_change_port_disconnect_first_msg">To change port please disconnect first</string>
+    <string name="snackbar_to_change_mtu_disconnect_first">To change MTU please disconnect first</string>
     <string name="snackbar_to_change_multihop_disconnect_first_msg">To change Multi-hop settings please disconnect first</string>
     <string name="snackbar_multihop_not_allowed_for_wg">Multi-hop is not available for WireGuard right now</string>
     <string name="snackbar_new_try_with_different_port">Connection to server blocked, reconnecting on a different port. Please wait until connection is established.</string>
@@ -111,6 +112,7 @@
 
     <string name="settings_color_theme_light">Light</string>
     <string name="settings_color_theme_dark">Dark</string>
+    <string name="settings_color_theme_amoled_black">AMOLED Black</string>
     <string name="settings_color_theme_system_default">System default</string>
     <string name="settings_color_theme_system_by_battery">By battery</string>
 
@@ -456,6 +458,7 @@
     <string name="dialogs_color_theme_title">Color Theme</string>
     <string name="dialogs_color_theme_light">Light</string>
     <string name="dialogs_color_theme_dark">Dark</string>
+    <string name="dialogs_color_theme_amoled_black">AMOLED Black</string>
     <string name="dialogs_color_theme_default">System default</string>
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
@@ -535,6 +538,13 @@
     <string name="protocol_wg_quantum_resistance_disabled">Disabled</string>
     <string name="protocol_wg_quantum_resistance_info">Quantum Resistance: Indicates whether your current WireGuard VPN connection is using additional protection measures against potential future quantum computer attacks.\n\nWhen Enabled, a Pre-shared key has been securely exchanged between your device and the server using post-quantum Key Encapsulation Mechanism (KEM) algorithms. If Disabled, the current VPN connection, while secure under today\'s standards, does not include this extra layer of quantum resistance.</string>
     
+    <string name="protocol_wg_mtu">MTU</string>
+    <string name="protocol_wg_configure_mtu">Configure MTU</string>
+    <string name="protocol_wg_mtu_description">Valid range [576 - 65535]. Please note that changing this value may affect the proper functioning of the VPN tunnel.</string>
+    <string name="protocol_wg_mtu_hint">576 - 65535</string>
+    <string name="protocol_wg_mtu_default">Leave blank to use default value</string>
+    <string name="protocol_wg_mtu_error">Expected value: [576 - 65535]</string>
+
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
     <string name="shortcuts_connect">Connect</string>
