@@ -34,12 +34,15 @@ import androidx.navigation.findNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.common.extension.setContentSecure
+import net.ivpn.core.common.nightmode.OledModeController
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        OledModeController.applyOledTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        OledModeController.applyOledColors(window, findViewById(android.R.id.content))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -57,6 +60,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
         currentFocus?.hideKeyboard()
+        findViewById<View>(R.id.nav_host_fragment)?.post {
+            findViewById<View>(R.id.nav_host_fragment)?.let { 
+                OledModeController.applyOledToViewTree(it) 
+            }
+        }
     }
 
     private fun View.hideKeyboard() {

@@ -222,7 +222,7 @@ public class Interface implements Parcelable{
             setListenPort(0);
     }
 
-    private void setMtu(final int mtu) {
+    public void setMtu(final int mtu) {
         this.mtu = mtu;
     }
 

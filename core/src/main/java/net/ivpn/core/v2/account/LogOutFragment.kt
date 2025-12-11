@@ -33,6 +33,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.databinding.FragmentLogoutBottomSheetBinding
 import net.ivpn.core.v2.viewmodel.AccountViewModel
 import javax.inject.Inject
@@ -43,6 +44,14 @@ class LogOutFragment : BottomSheetDialogFragment() {
 
     @Inject
     lateinit var account: AccountViewModel
+
+    override fun getTheme(): Int {
+        return if (OledModeController.isOledModeEnabled()) {
+            R.style.AppTheme_BottomSheet_OLED
+        } else {
+            super.getTheme()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

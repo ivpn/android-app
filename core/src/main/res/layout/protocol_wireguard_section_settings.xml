@@ -214,6 +214,77 @@
                 android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginEnd="@dimen/settings_margin_right">
+
+                    <TextView
+                        style="@style/SettingsOptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/protocol_wg_mtu"
+                        android:textColor="@color/protocol_text_color" />
+
+                    <TextView
+                        android:id="@+id/mtu_value_display"
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:alpha="0.6"
+                        android:text="@{viewmodel.wireGuardMtu.isEmpty() ? @string/protocol_wg_mtu_default : viewmodel.wireGuardMtu}"
+                        android:textColor="@color/protocol_text_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wireguard_mtu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginEnd="@dimen/settings_margin_right"
+                    android:onTouch="@{viewmodel.mtuTouchListener}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/SettingsAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="8dp"
+                        android:text="@string/protocol_wg_configure_mtu"
+                        android:textAllCaps="true" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/SettingsOptionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin_left"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/settings_margin_left"
+                    android:alpha="0.6"
+                    android:text="@string/protocol_wg_mtu_description"
+                    android:textColor="@color/protocol_text_color" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{viewmodel.protocol.equals(Protocol.WIREGUARD) ? View.VISIBLE : View.GONE}" />
+
+            <LinearLayout
                 android:id="@+id/wireguard_details"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/settings_section_height"
