@@ -6,10 +6,18 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import net.ivpn.core.common.nightmode.OledModeController
 
 private val DarkColorPalette = darkColors(
     primary = colorPrimary,
     secondary = colorPrimary
+)
+
+private val OledColorPalette = darkColors(
+    primary = colorPrimary,
+    secondary = colorPrimary,
+    background = oledBackground,
+    surface = oledSurface
 )
 
 private val LightColorPalette = lightColors(
@@ -18,14 +26,22 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
-    val colors =
-        if (darkTheme) DarkColorPalette
-        else LightColorPalette
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    oledTheme: Boolean = OledModeController.isOledModeEnabled(),
+    content: @Composable() () -> Unit
+) {
+    val colors = when {
+        oledTheme -> OledColorPalette
+        darkTheme -> DarkColorPalette
+        else -> LightColorPalette
+    }
 
-    val customColors =
-        if (darkTheme) CustomDarkColorPalette
-        else CustomLightColorPalette
+    val customColors = when {
+        oledTheme -> CustomOledColorPalette
+        darkTheme -> CustomDarkColorPalette
+        else -> CustomLightColorPalette
+    }
 
     CompositionLocalProvider(
         LocalColors provides customColors

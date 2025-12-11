@@ -48,6 +48,7 @@ import net.ivpn.core.v2.serverlist.items.ConnectionOption
 import net.ivpn.core.v2.serverlist.items.FastestServerItem
 import net.ivpn.core.v2.serverlist.items.RandomServerItem
 import net.ivpn.core.v2.serverlist.items.SearchServerItem
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
@@ -154,6 +155,8 @@ class AllServersRecyclerViewAdapter(
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding
         }
+        // Apply OLED colors to recycled/new items
+        OledModeController.applyOledToViewTree(holder.itemView)
     }
 
     private fun setPing(binding: ServerItemBinding, server: Server) {
