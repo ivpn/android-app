@@ -206,4 +206,9 @@
     <color name="ipv6_badge_background">#E0E5EA</color>
     <color name="fastest_server_badge_background">#2AD489</color>
 
+    <color name="oled_background">#000000</color>
+    <color name="oled_surface">#000000</color>
+    <color name="oled_card">#0A0A0A</color>
+    <color name="oled_hint_text">#80FFFFFF</color>
+
 </resources>
