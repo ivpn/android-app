@@ -52,7 +52,7 @@ public class PermissionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        OledModeController.INSTANCE.applyOledTheme(this);
+        OledModeController.applyOledTheme(this);
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
         LOGGER.info("onCreate");
         super.onCreate(savedInstanceState);

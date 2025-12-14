@@ -55,7 +55,7 @@ public class ConnectionShortcutsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        OledModeController.INSTANCE.applyOledTheme(this);
+        OledModeController.applyOledTheme(this);
         LOGGER.info("ConnectionShortcutsActivity onCreate");
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
         super.onCreate(savedInstanceState);

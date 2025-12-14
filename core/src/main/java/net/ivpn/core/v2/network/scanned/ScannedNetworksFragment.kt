@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentScannedNetworksBinding
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.v2.network.NetworkRecyclerViewAdapter
 import net.ivpn.core.v2.network.NetworkViewModel
 import javax.inject.Inject
@@ -57,6 +58,7 @@ class ScannedNetworksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+        view.post { OledModeController.applyOledToViewTree(view) }
     }
 
     private fun initViews() {

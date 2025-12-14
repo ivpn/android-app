@@ -44,7 +44,7 @@ public class TimePickerActivity extends AppCompatActivity implements OnDelayOpti
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        OledModeController.INSTANCE.applyOledTheme(this);
+        OledModeController.applyOledTheme(this);
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
         super.onCreate(savedInstanceState);
         showPredefinedTimePickerDialog();

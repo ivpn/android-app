@@ -148,6 +148,13 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))
         viewmodel.favouriteListeners.add(adapter)
+
+        if (OledModeController.isOledModeEnabled()) {
+            val oledBackground = resources.getColor(R.color.oled_background, null)
+            binding.root.setBackgroundColor(oledBackground)
+            binding.recyclerView.setBackgroundColor(oledBackground)
+            view.findViewById<View>(R.id.empty_view)?.setBackgroundColor(oledBackground)
+        }
     }
 
     @Deprecated("Deprecated in Java")

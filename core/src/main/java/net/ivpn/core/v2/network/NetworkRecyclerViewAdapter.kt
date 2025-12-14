@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.databinding.ViewWifiItemBinding
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.v2.dialog.DialogBuilderK.openChangeNetworkStatusDialogue
 import net.ivpn.core.v2.network.dialog.NetworkChangeDialogViewModel
 import net.ivpn.core.vpn.model.NetworkState
@@ -121,6 +122,7 @@ class NetworkRecyclerViewAdapter(context: Context?) : RecyclerView.Adapter<Recyc
         fun bind(wifiItem: WifiItem) {
             item = wifiItem
             binding.wifi = wifiItem
+            OledModeController.applyOledToViewTree(binding.root)
         }
     }
 }
