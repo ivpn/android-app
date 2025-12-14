@@ -44,6 +44,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
 import net.ivpn.core.databinding.FragmentNetworkBinding
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.v2.dialog.DialogBuilder
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.MainActivity
@@ -81,6 +82,7 @@ class NetworkCommonFragment : Fragment(), NetworkNavigator {
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
         initToolbar()
+        view.post { OledModeController.applyOledToViewTree(view) }
     }
 
     @Deprecated("Deprecated in Java")

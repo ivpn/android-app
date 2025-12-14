@@ -61,6 +61,7 @@ object OledModeController {
 
     private val handleColor = 0xFF49494B.toInt()
 
+    @JvmStatic
     fun applyOledTheme(activity: Activity) {
         if (isOledModeEnabled()) {
             activity.setTheme(R.style.AppTheme_OLED)
