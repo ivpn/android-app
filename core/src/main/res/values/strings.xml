@@ -113,7 +113,7 @@
 
     <string name="settings_color_theme_light">Light</string>
     <string name="settings_color_theme_dark">Dark</string>
-    <string name="settings_color_theme_amoled_black">AMOLED Black</string>
+    <string name="settings_color_theme_amoled_black">Pure Black</string>
     <string name="settings_color_theme_system_default">System default</string>
     <string name="settings_color_theme_system_by_battery">By battery</string>
 
@@ -459,7 +459,7 @@
     <string name="dialogs_color_theme_title">Color Theme</string>
     <string name="dialogs_color_theme_light">Light</string>
     <string name="dialogs_color_theme_dark">Dark</string>
-    <string name="dialogs_color_theme_amoled_black">AMOLED Black</string>
+    <string name="dialogs_color_theme_amoled_black">Pure Black</string>
     <string name="dialogs_color_theme_default">System default</string>
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
