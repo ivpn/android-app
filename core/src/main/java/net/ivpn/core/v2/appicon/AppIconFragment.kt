@@ -96,8 +96,8 @@ class AppIconFragment : Fragment() {
             showConfirmationDialog(CustomAppIconData.WEATHER)
         }
 
-        binding.contentLayout.iconNotes.setOnClickListener {
-            showConfirmationDialog(CustomAppIconData.NOTES)
+        binding.contentLayout.iconAlarmClock.setOnClickListener {
+            showConfirmationDialog(CustomAppIconData.ALARM_CLOCK)
         }
 
         binding.contentLayout.iconCalculator.setOnClickListener {
@@ -125,7 +125,7 @@ class AppIconFragment : Fragment() {
         val currentIcon = viewModel.currentIcon.get()
         binding.contentLayout.radioDefault.isChecked = currentIcon == CustomAppIconData.DEFAULT
         binding.contentLayout.radioWeather.isChecked = currentIcon == CustomAppIconData.WEATHER
-        binding.contentLayout.radioNotes.isChecked = currentIcon == CustomAppIconData.NOTES
+        binding.contentLayout.radioAlarmClock.isChecked = currentIcon == CustomAppIconData.ALARM_CLOCK
         binding.contentLayout.radioCalculator.isChecked = currentIcon == CustomAppIconData.CALCULATOR
     }
 

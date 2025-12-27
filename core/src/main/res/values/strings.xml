@@ -675,7 +675,7 @@
     <!--App Icon-->
     <string name="app_icon_name_default">Default</string>
     <string name="app_icon_name_weather">Weather</string>
-    <string name="app_icon_name_notes">Notes</string>
+    <string name="app_icon_name_alarm_clock">Alarm Clock</string>
     <string name="app_icon_name_calculator">Calculator</string>
     <string name="app_icon_description">Customize how the IVPN app appears on your device. Discreet icons can help disguise the presence of a VPN app on your phone.</string>
     <string name="app_icon_discreet_section">Discreet app icon</string>
