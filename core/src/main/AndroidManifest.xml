@@ -98,10 +98,10 @@
         </activity-alias>
 
         <activity-alias
-            android:name="net.ivpn.client.MainActivityNotes"
+            android:name="net.ivpn.client.MainActivityAlarmClock"
             android:targetActivity="net.ivpn.core.v2.MainActivity"
-            android:label="@string/app_icon_name_notes"
-            android:icon="@mipmap/ic_launcher_notes"
+            android:label="@string/app_icon_name_alarm_clock"
+            android:icon="@mipmap/ic_launcher_alarm_clock"
             android:enabled="false"
             android:exported="true">
             <intent-filter>

@@ -81,7 +81,7 @@ enum class CustomAppIconData(
 ) {
     DEFAULT(".MainActivity", R.mipmap.ic_launcher, R.string.app_icon_name_default, IconCategory.IVPN),
     WEATHER(".MainActivityWeather", R.mipmap.ic_launcher_weather, R.string.app_icon_name_weather, IconCategory.Discreet),
-    NOTES(".MainActivityNotes", R.mipmap.ic_launcher_notes, R.string.app_icon_name_notes, IconCategory.Discreet),
+    ALARM_CLOCK(".MainActivityAlarmClock", R.mipmap.ic_launcher_alarm_clock, R.string.app_icon_name_alarm_clock, IconCategory.Discreet),
     CALCULATOR(".MainActivityCalculator", R.mipmap.ic_launcher_calculator, R.string.app_icon_name_calculator, IconCategory.Discreet);
 
     fun getComponentName(context: Context): ComponentName {
