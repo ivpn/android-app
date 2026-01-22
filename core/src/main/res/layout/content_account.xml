@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -151,9 +152,23 @@
                     android:letterSpacing="-0.03"
                     android:text="@{account.accountType}"
                     android:textColor="@color/account_text"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-medium"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_type_label" />
+                    app:layout_constraintTop_toBottomOf="@+id/account_type_label"
+                    app:layout_constraintBottom_toTopOf="@+id/plan_desc"/>
+
+                <TextView
+                    android:id="@+id/plan_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.7"
+                    android:text="@{account.plan.getPlanDesc()}"
+                    android:textColor="@color/account_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_label" />
 
                 <View
                     android:id="@+id/line2"
@@ -213,7 +228,7 @@
                     android:padding="8dp"
                     android:text="@string/account_log_out"
                     android:textAllCaps="true"
-                    android:textColor="@color/account_logout"
+                    android:textColor="@color/primary"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -262,86 +277,80 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/plan_details_background"
-                    android:padding="12dp"
+                    android:padding="14dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_label">
+                    app:layout_constraintTop_toBottomOf="@+id/plan_desc">
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:letterSpacing="-0.03"
+                        android:text="@string/account_available_on_website"
+                        android:textColor="@color/account_plan_details_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/textView32"/>
 
                     <TextView
                         android:id="@+id/textView32"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:letterSpacing="-0.03"
+                        android:text="@{account.plan.getAltTitleOne()}"
                         android:textColor="@color/account_plan_details_text"
-                        android:textSize="12sp"
-                        app:html="@{account.accountStandard ? @string/account_pro_plan_title : @string/account_standard_plan_title}"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imageView11"
-                        android:layout_width="6dp"
-                        android:layout_height="6dp"
-                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView33"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView33"
-                        app:srcCompat="@drawable/ic_multiply"
-                        app:tint="@color/account_plan_details_text" />
-
-                    <ImageView
-                        android:id="@+id/imageView12"
-                        android:layout_width="6dp"
-                        android:layout_height="6dp"
-                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView34"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView34"
-                        app:srcCompat="@drawable/ic_multiply"
-                        app:tint="@color/account_plan_details_text" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView31"
+                        app:layout_constraintBottom_toTopOf="@+id/textView33"/>
 
                     <TextView
                         android:id="@+id/textView33"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:letterSpacing="-0.03"
+                        android:text="@{account.plan.getAltDescOne()}"
                         android:textColor="@color/account_plan_details_text"
-                        android:textSize="12sp"
-                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
-                        app:html="@{@string/account_pro_devices_benefits}"
-                        app:layout_constraintStart_toEndOf="@+id/imageView11"
-                        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView32"
+                        app:layout_constraintBottom_toTopOf="@+id/textView34"/>
 
                     <TextView
                         android:id="@+id/textView34"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="4dp"
-                        android:letterSpacing="-0.03"
-                        android:textColor="@color/account_plan_details_text"
-                        android:textSize="12sp"
-                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
-                        app:html="@{@string/account_pro_multihop_benefits}"
-                        app:layout_constraintStart_toEndOf="@+id/imageView12"
-                        app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-                    <TextView
-                        android:id="@+id/textView36"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:letterSpacing="-0.03"
-                        android:text="@string/account_standard_plan_title"
+                        android:text="@{account.plan.getAltTitleTwo()}"
                         android:textColor="@color/account_plan_details_text"
-                        android:textSize="12sp"
-                        android:visibility="@{account.accountStandard ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView33"
+                        app:layout_constraintBottom_toTopOf="@+id/textView35"/>
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:letterSpacing="-0.03"
+                        android:text="@{account.plan.getAltDescTwo()}"
+                        android:textColor="@color/account_plan_details_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView34"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
