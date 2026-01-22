@@ -28,6 +28,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableLong
 import androidx.lifecycle.ViewModel
 import net.ivpn.core.IVPNApplication
+import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.EncryptedUserPreference
 import net.ivpn.core.common.qr.QRController
@@ -65,6 +66,7 @@ class AccountViewModel @Inject constructor(
     val isActive = ObservableBoolean()
     val deviceManagement = ObservableBoolean()
     val deviceName = ObservableField<String>()
+    val plan = ObservableField<Plan>()
 
     val isExpired = ObservableBoolean()
     val isExpiredIn = ObservableBoolean()
@@ -105,6 +107,7 @@ class AccountViewModel @Inject constructor(
         paymentMethod = getPaymentMethodValue()
         deviceManagement.set(getDeviceManagement())
         deviceName.set(getDeviceName())
+        plan.set(getPlanByProductName(accountType.get()))
 
         updateExpireData()
     }
@@ -279,6 +282,10 @@ class AccountViewModel @Inject constructor(
 
     private fun getDeviceName(): String? {
         return userPreference.getDeviceName()
+    }
+
+    private fun getPlanByProductName(productName: String?): Plan {
+        return Plan.getPlanByProductName(productName)
     }
 
     interface AccountNavigator {
