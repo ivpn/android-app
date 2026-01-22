@@ -22,19 +22,77 @@ package net.ivpn.core.common.billing.addfunds
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-enum class Plan(val skuPath: String, val productName: String) {
-    PRO("net.ivpn.subscriptions.pro.", "IVPN Pro"),
-    STANDARD("net.ivpn.subscriptions.standard.", "IVPN Standard");
+enum class Plan(
+        val skuPath: String,
+        val productName: String,
+        val title: String,
+        val description: String
+) {
+    STANDARD(
+            skuPath = "net.ivpn.subscriptions.standard.",
+            productName = "IVPN Standard",
+            title = "IVPN Standard",
+            description = "IVPN on 5 devices"
+    ),
+    PLUS(
+            skuPath = "net.ivpn.subscriptions.plus.",
+            productName = "IVPN Plus",
+            title = "IVPN Plus",
+            description = "IVPN on 10 devices, modDNS, Mailx"
+    ),
+    PRO(
+            skuPath = "net.ivpn.subscriptions.pro.",
+            productName = "IVPN Pro",
+            title = "IVPN Pro Suite",
+            description = "IVPN on 10 devices, modDNS, Mailx, Portmaster Pro"
+    );
 
     companion object {
-        fun getPlanByProductName(productName: String?): Plan {
-            for (plan in values()) {
-                if (plan.productName == productName) {
-                    return plan
-                }
-            }
 
-            return STANDARD
+        fun getPlanByProductName(productName: String?): Plan {
+            return values().firstOrNull { it.productName == productName } ?: STANDARD
+        }
+
+        fun getPlan(currentPlan: String?): Plan {
+            if (currentPlan == null) return STANDARD
+
+            return when {
+                currentPlan.contains("Plus", ignoreCase = true) -> PLUS
+                currentPlan.contains("Pro", ignoreCase = true) -> PRO
+                else -> STANDARD
+            }
         }
     }
+
+    fun getPlanTitle(): String = title
+
+    fun getPlanDesc(): String = description
+
+    fun getAltTitleOne(): String =
+            when (this) {
+                STANDARD -> PLUS.title
+                PLUS -> STANDARD.title
+                PRO -> STANDARD.title
+            }
+
+    fun getAltDescOne(): String =
+            when (this) {
+                STANDARD -> PLUS.description
+                PLUS -> STANDARD.description
+                PRO -> STANDARD.description
+            }
+
+    fun getAltTitleTwo(): String =
+            when (this) {
+                STANDARD -> PRO.title
+                PLUS -> PRO.title
+                PRO -> PLUS.title
+            }
+
+    fun getAltDescTwo(): String =
+            when (this) {
+                STANDARD -> PRO.description
+                PLUS -> PRO.description
+                PRO -> PLUS.description
+            }
 }
