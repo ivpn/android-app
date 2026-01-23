@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_signUpAccountCreatedFragment_to_signUpProductFragment"
             app:destination="@id/signUpProductFragment" />
+        <action
+            android:id="@+id/action_signUpAccountCreatedFragment_to_signUpPeriodFragment2"
+            app:destination="@id/signUpPeriodFragment2" />
     </fragment>
     <fragment
         android:id="@+id/signUpPeriodFragment2"
