@@ -130,7 +130,8 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
     }
 
     fun getCapabilityMultiHop(): Boolean {
-        return sharedPreferences.getBoolean(USER_MULTI_HOP, false)
+        // return sharedPreferences.getBoolean(USER_MULTI_HOP, false)
+        return true
     }
 
     fun getPaymentMethod(): String {
