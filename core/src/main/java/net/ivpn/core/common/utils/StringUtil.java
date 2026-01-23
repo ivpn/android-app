@@ -81,10 +81,4 @@ public class StringUtil {
         return builder.toString();
     }
 
-//    public static String formatPlanName(Plan plan) {
-//        if (plan == null) {
-//            return "";
-//        }
-//        return "IVPN " + plan.toString();
-//    }
 }
