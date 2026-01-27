@@ -91,12 +91,12 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
         }
 
         // Device Management enabled, Standard plan
-        if (deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
+        if (deviceManagement && !plan.equals(Plan.PRO) && isAccountNewStyle) {
             return getDmStandardBinding(inflater, container);
         }
 
         // Device Management disabled, Standard plan
-        if (!deviceManagement && plan.equals(Plan.STANDARD) && isAccountNewStyle) {
+        if (!deviceManagement && !plan.equals(Plan.PRO) && isAccountNewStyle) {
             return getStandardBinding(inflater, container);
         }
 

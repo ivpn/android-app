@@ -50,15 +50,11 @@ enum class Plan(
     companion object {
 
         fun getPlanByProductName(productName: String?): Plan {
-            return values().firstOrNull { it.productName == productName } ?: STANDARD
-        }
-
-        fun getPlan(currentPlan: String?): Plan {
-            if (currentPlan == null) return STANDARD
+            if (productName == null) return STANDARD
 
             return when {
-                currentPlan.contains("Plus", ignoreCase = true) -> PLUS
-                currentPlan.contains("Pro", ignoreCase = true) -> PRO
+                productName.contains("Plus", ignoreCase = true) -> PLUS
+                productName.contains("Pro", ignoreCase = true) -> PRO
                 else -> STANDARD
             }
         }
@@ -67,6 +63,8 @@ enum class Plan(
     fun getPlanTitle(): String = title
 
     fun getPlanDesc(): String = description
+
+    fun isStandard(): Boolean = this == STANDARD
 
     fun getAltTitleOne(): String =
             when (this) {
