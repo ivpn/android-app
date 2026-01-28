@@ -46,6 +46,8 @@
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
     <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
     <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
+    <string name="settings_select_host">Select individual servers</string>
+    <string name="settings_select_host_description">Connect to a specific server rather than a random server in the location</string>
     <string name="settings_kill_switch">Kill switch</string>
     <string name="setting_anti_surveillance">AntiTracker</string>
     <string name="setting_custom_dns">Custom DNS</string>
@@ -248,6 +250,11 @@
     <string name="servers_list_all">All</string>
     <string name="favourites_no_title">Your favourite servers will be\n displayed here</string>
     <string name="favourites_no_description">Save your time by creating your own list of servers</string>
+
+    <!--Server hosts and load-->
+    <string name="server_load">Server load</string>
+    <string name="server_host">Server host</string>
+    <string name="specific_server_description">Select a specific server to get the same IP address on every connection</string>
 
     <!--Fastest Server Settings-->
     <string name="fastest_setting_description">Choose which servers can be used as the fastest.</string>

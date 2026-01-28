@@ -59,6 +59,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
         private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
         private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
+        private const val SETTINGS_SELECT_HOST = "SETTINGS_SELECT_HOST"
 
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
@@ -177,6 +178,10 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false)
     }
 
+    fun getSettingSelectHost(): Boolean {
+        return sharedPreferences.getBoolean(SETTINGS_SELECT_HOST, false)
+    }
+
     fun getSettingStartOnBoot(): Boolean {
         return sharedPreferences.getBoolean(SETTINGS_START_ON_BOOT, false)
     }
@@ -238,6 +243,12 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     fun putSettingMultiHop(value: Boolean) {
         sharedPreferences.edit {
             putBoolean(SETTINGS_MULTI_HOP, value)
+        }
+    }
+
+    fun putSettingSelectHost(value: Boolean) {
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_SELECT_HOST, value)
         }
     }
 

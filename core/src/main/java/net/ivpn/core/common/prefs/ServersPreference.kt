@@ -3,6 +3,7 @@ package net.ivpn.core.common.prefs
 import android.content.SharedPreferences
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerLocation.Companion.from
@@ -45,6 +46,8 @@ class ServersPreference @Inject constructor(
     companion object {
         private const val CURRENT_ENTER_SERVER = "CURRENT_ENTER_SERVER"
         private const val CURRENT_EXIT_SERVER = "CURRENT_EXIT_SERVER"
+        private const val CURRENT_ENTER_HOST = "CURRENT_ENTER_HOST"
+        private const val CURRENT_EXIT_HOST = "CURRENT_EXIT_HOST"
         private const val SERVERS_LIST = "SERVERS_LIST"
         private const val LOCATION_LIST = "LOCATION_LIST"
         private const val FAVOURITES_SERVERS_LIST = "FAVOURITES_SERVERS_LIST"
@@ -198,6 +201,34 @@ class ServersPreference @Inject constructor(
         val serverKey =
             if (serverType == ServerType.ENTRY) CURRENT_ENTER_SERVER else CURRENT_EXIT_SERVER
         return Mapper.from(sharedPreferences.getString(serverKey, null))
+    }
+
+    fun setCurrentHost(serverType: ServerType?, host: Host?) {
+        if (serverType == null) return
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        preference.serversSharedPreferences.edit {
+            putString(hostKey, Mapper.stringFromHost(host))
+        }
+        preference.wireguardServersSharedPreferences.edit {
+            putString(hostKey, Mapper.stringFromHost(host))
+        }
+    }
+
+    fun getCurrentHost(serverType: ServerType?): Host? {
+        if (serverType == null) return null
+        val sharedPreferences = properSharedPreference
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        return Mapper.hostFrom(sharedPreferences.getString(hostKey, null))
+    }
+
+    fun clearCurrentHost(serverType: ServerType?) {
+        if (serverType == null) return
+        val hostKey =
+            if (serverType == ServerType.ENTRY) CURRENT_ENTER_HOST else CURRENT_EXIT_HOST
+        preference.serversSharedPreferences.edit { remove(hostKey) }
+        preference.wireguardServersSharedPreferences.edit { remove(hostKey) }
     }
 
     fun addFavouriteServer(server: Server?) {
