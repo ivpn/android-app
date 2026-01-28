@@ -203,6 +203,59 @@ public class Server implements ConnectionOption {
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
     }
 
+    /**
+     * Returns the normalized gateway, replacing .wg. with .gw.
+     * This makes the gateway protocol-agnostic, matching iOS implementation.
+     * Example: "gb.wg.ivpn.net" -> "gb.gw.ivpn.net"
+     */
+    public String getNormalizedGateway() {
+        if (gateway == null || gateway.isEmpty()) return "";
+        return gateway.replace(".wg.", ".gw.");
+    }
+
+    /**
+     * Extracts the location prefix from the gateway.
+     * For example, "gb.wg.ivpn.net" -> "gb"
+     * or "us-ca.gw.ivpn.net" -> "us-ca"
+     */
+    public String getGatewayPrefix() {
+        if (gateway == null || gateway.isEmpty()) return "";
+        String[] parts = gateway.split("\\.");
+        if (parts.length > 0) return parts[0];
+        return "";
+    }
+
+    /**
+     * Checks if this server matches the given gateway prefix.
+     * Normalizes the gateway by removing protocol-specific parts (.wg. -> .gw.)
+     */
+    public boolean matchesGatewayPrefix(String prefix) {
+        if (prefix == null || prefix.isEmpty()) return false;
+        return getGatewayPrefix().equalsIgnoreCase(prefix);
+    }
+
+    /**
+     * Checks if this server has a host with the given dns_name.
+     */
+    public boolean hasHostWithDnsName(String dnsName) {
+        if (dnsName == null || dnsName.isEmpty() || hosts == null) return false;
+        for (Host host : hosts) {
+            if (dnsName.equals(host.getDnsName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets the first host's dns_name if available.
+     * Used for single-host servers as the favorite identifier.
+     */
+    public String getFirstHostDnsName() {
+        if (hosts == null || hosts.isEmpty()) return null;
+        return hosts.get(0).getDnsName();
+    }
+
     public boolean isPingInfoSameWith(Server server) {
         return this.equals(server) && this.latency == server.latency;
     }

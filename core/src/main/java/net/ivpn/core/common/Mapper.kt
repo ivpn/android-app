@@ -27,6 +27,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
+import net.ivpn.core.rest.data.model.FavoriteIdentifier
 import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Port
 import net.ivpn.core.rest.data.model.Server
@@ -143,5 +144,21 @@ object Mapper {
         } catch (jsonSyntaxException: IllegalStateException) {
             null
         }
+    }
+
+    fun favoriteIdentifierListFrom(json: String?): MutableList<FavoriteIdentifier>? {
+        if (json == null) return null
+        return try {
+            val type = object : TypeToken<List<FavoriteIdentifier>>() {}.type
+            Gson().fromJson(json, type)
+        } catch (_: JsonSyntaxException) {
+            null
+        } catch (_: IllegalStateException) {
+            null
+        }
+    }
+
+    fun stringFromFavoriteIdentifiers(identifiers: List<FavoriteIdentifier>?): String {
+        return Gson().toJson(identifiers)
     }
 }
