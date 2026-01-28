@@ -72,6 +72,7 @@ class MigrationController @Inject constructor(
         return when (version) {
             2 -> UF1T2(userPreference, protocolController)
             3 -> UF2T3(repository, serversPreference)
+            4 -> UF3T4(serversPreference)
             else -> null
         }
     }
