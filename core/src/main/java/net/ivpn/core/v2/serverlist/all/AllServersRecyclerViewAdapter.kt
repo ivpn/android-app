@@ -66,6 +66,7 @@ class AllServersRecyclerViewAdapter(
 
     private var bindings = HashMap<ServerItemBinding, Server>()
     private var searchBinding: SearchItemBinding? = null
+    private var allServers = arrayListOf<Server>()
     private var servers = arrayListOf<Server>()
     private var filteredServers = arrayListOf<Server>()
     private var displayServers = arrayListOf<ConnectionOption>()
@@ -226,14 +227,19 @@ class AllServersRecyclerViewAdapter(
     }
 
     private fun setServers(servers: ArrayList<Server>) {
-        this.servers = servers
+        this.allServers = servers
+        this.servers = if (forbiddenServer != null) {
+            ArrayList(servers.filter { it != forbiddenServer })
+        } else {
+            servers
+        }
         setDistances()
         setLatencies()
 
         searchBinding?.search?.let {
             searchFilter.filter(it.query)
         } ?: run {
-            filteredServers = servers
+            filteredServers = this.servers
             if (pings.isNullOrEmpty() && filter == Filters.LATENCY) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     applyFilter()
@@ -268,7 +274,12 @@ class AllServersRecyclerViewAdapter(
     }
 
     override fun setForbiddenServer(server: Server?) {
-        forbiddenServer = server
+        if (forbiddenServer != server) {
+            forbiddenServer = server
+            if (allServers.isNotEmpty()) {
+                setServers(ArrayList(allServers))
+            }
+        }
     }
 
     private fun getPositionFor(server: Server): Int {
