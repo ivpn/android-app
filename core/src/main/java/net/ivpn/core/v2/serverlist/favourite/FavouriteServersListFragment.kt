@@ -48,6 +48,7 @@ import net.ivpn.core.v2.viewmodel.ConnectionViewModel
 import net.ivpn.core.v2.viewmodel.IPv6ViewModel
 import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.core.v2.viewmodel.ServerListViewModel
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -106,6 +107,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         init(view)
         viewmodel.start(serverType)
         binding.lifecycleOwner = this
+        view.post { OledModeController.applyOledToViewTree(view) }
 
         val pingObserver = Observer<MutableMap<Server, PingResultFormatter?>> { map ->
             (binding.recyclerView.adapter as ServerBasedRecyclerViewAdapter).setPings(map)
@@ -117,6 +119,7 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
     override fun onResume() {
         super.onResume()
         viewmodel.navigators.add(this)
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onPause() {
@@ -145,6 +148,13 @@ class FavouriteServersListFragment : Fragment(), ServerListViewModel.ServerListN
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.setEmptyView(view.findViewById(R.id.empty_view))
         viewmodel.favouriteListeners.add(adapter)
+
+        if (OledModeController.isOledModeEnabled()) {
+            val oledBackground = resources.getColor(R.color.oled_background, null)
+            binding.root.setBackgroundColor(oledBackground)
+            binding.recyclerView.setBackgroundColor(oledBackground)
+            view.findViewById<View>(R.id.empty_view)?.setBackgroundColor(oledBackground)
+        }
     }
 
     @Deprecated("Deprecated in Java")

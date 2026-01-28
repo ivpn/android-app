@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="net.ivpn.core.v2.viewmodel.AppIconViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_settings_background"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_sections_top_margin" />
+
+            <!-- Description Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/settings_card_background"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_icon_description" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- IVPN Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/settings_card_background"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsSectionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name" />
+
+                    <LinearLayout
+                        android:id="@+id/icon_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_section_height"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/settings_margin_left"
+                        android:paddingEnd="@dimen/settings_margin_right">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@mipmap/ic_launcher"
+                            android:contentDescription="@string/app_icon_name_default" />
+
+                        <TextView
+                            style="@style/SettingsOptionTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/app_icon_name_default" />
+
+                        <RadioButton
+                            android:id="@+id/radio_default"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Discreet Icons Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/settings_card_background"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingsSectionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_icon_discreet_section" />
+
+                    <TextView
+                        style="@style/SettingsOptionDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_margin_left"
+                        android:layout_marginEnd="@dimen/settings_margin_right"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/app_icon_discreet_description" />
+
+                    <!-- Weather Icon -->
+                    <LinearLayout
+                        android:id="@+id/icon_weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_section_height"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/settings_margin_left"
+                        android:paddingEnd="@dimen/settings_margin_right">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@mipmap/ic_launcher_weather"
+                            android:contentDescription="@string/app_icon_name_weather" />
+
+                        <TextView
+                            style="@style/SettingsOptionTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/app_icon_name_weather" />
+
+                        <RadioButton
+                            android:id="@+id/radio_weather"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
+                    </LinearLayout>
+
+                    <!-- Alarm Clock Icon -->
+                    <LinearLayout
+                        android:id="@+id/icon_alarm_clock"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_section_height"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/settings_margin_left"
+                        android:paddingEnd="@dimen/settings_margin_right">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@mipmap/ic_launcher_alarm_clock"
+                            android:contentDescription="@string/app_icon_name_alarm_clock" />
+
+                        <TextView
+                            style="@style/SettingsOptionTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/app_icon_name_alarm_clock" />
+
+                        <RadioButton
+                            android:id="@+id/radio_alarm_clock"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
+                    </LinearLayout>
+
+                    <!-- Calculator Icon -->
+                    <LinearLayout
+                        android:id="@+id/icon_calculator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/settings_section_height"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/settings_margin_left"
+                        android:paddingEnd="@dimen/settings_margin_right">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@mipmap/ic_launcher_calculator"
+                            android:contentDescription="@string/app_icon_name_calculator" />
+
+                        <TextView
+                            style="@style/SettingsOptionTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/app_icon_name_calculator" />
+
+                        <RadioButton
+                            android:id="@+id/radio_calculator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_sections_inner_margin" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
+
