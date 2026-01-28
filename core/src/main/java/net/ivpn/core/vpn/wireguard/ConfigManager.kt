@@ -262,6 +262,13 @@ class ConfigManager @Inject constructor(
         val dnsString = getDNS(hosts[0])
         config.getInterface().setDnsString(dnsString)
 
+        // set only if configured
+        val mtu = settings.wireGuardMtu
+        if (mtu > 0) {
+            config.getInterface().setMtu(mtu)
+            LOGGER.info("Using custom MTU: $mtu")
+        }
+
         val endpoint = if (v2rayController.isV2RayEnabled()) {
             v2rayController.getLocalProxyEndpoint()
         } else {

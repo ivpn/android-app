@@ -48,6 +48,7 @@ import net.ivpn.core.v2.viewmodel.ConnectionViewModel
 import net.ivpn.core.v2.viewmodel.IPv6ViewModel
 import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.core.v2.viewmodel.ServerListViewModel
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -99,6 +100,7 @@ class ServerListFragment : Fragment(),
         init()
         viewmodel.start(serverType)
         binding.lifecycleOwner = this
+        view.post { OledModeController.applyOledToViewTree(view) }
 
         val pingObserver = Observer<MutableMap<Server, PingResultFormatter?>> { map ->
             (binding.recyclerView.adapter as ServerBasedRecyclerViewAdapter).setPings(map)
@@ -110,6 +112,7 @@ class ServerListFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         viewmodel.navigators.add(this)
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onPause() {

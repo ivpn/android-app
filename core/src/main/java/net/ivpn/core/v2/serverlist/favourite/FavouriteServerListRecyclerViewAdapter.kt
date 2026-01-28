@@ -44,6 +44,7 @@ import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.v2.serverlist.holders.HolderListener
 import net.ivpn.core.v2.serverlist.holders.ServerViewHolder
 import net.ivpn.core.v2.serverlist.items.ConnectionOption
+import net.ivpn.core.common.nightmode.OledModeController
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
@@ -109,6 +110,8 @@ class FavouriteServerListRecyclerViewAdapter(
             // For favourite servers, don't show expand button (hosts are shown in main list)
             holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter, false, false)
         }
+        // Apply OLED colors to recycled/new items
+        OledModeController.applyOledToViewTree(holder.itemView)
     }
 
     private fun setPing(binding: ServerItemBinding, server: Server) {

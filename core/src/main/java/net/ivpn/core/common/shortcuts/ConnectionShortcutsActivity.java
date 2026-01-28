@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import net.ivpn.core.IVPNApplication;
+import net.ivpn.core.common.nightmode.OledModeController;
 import net.ivpn.core.v2.dialog.DialogBuilder;
 import net.ivpn.core.v2.dialog.Dialogs;
 
@@ -54,6 +55,7 @@ public class ConnectionShortcutsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        OledModeController.applyOledTheme(this);
         LOGGER.info("ConnectionShortcutsActivity onCreate");
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
         super.onCreate(savedInstanceState);

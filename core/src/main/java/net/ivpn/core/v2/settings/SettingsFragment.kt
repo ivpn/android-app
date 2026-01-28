@@ -44,6 +44,7 @@ import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.extension.findNavControllerSafely
 import net.ivpn.core.common.extension.navigate
 import net.ivpn.core.common.nightmode.NightMode
+import net.ivpn.core.common.nightmode.OledModeController
 import net.ivpn.core.common.nightmode.OnNightModeChangedListener
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.utils.ToastUtil
@@ -118,6 +119,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         super.onViewCreated(view, savedInstanceState)
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this)
         initViews()
+        view.post { OledModeController.applyOledToViewTree(view) }
     }
 
     override fun onResume() {
@@ -129,6 +131,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         alwaysOnVPN.onResume()
         logging.onResume()
         colorTheme.onResume()
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onStart() {
@@ -185,6 +188,9 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         }
         binding.contentLayout.sectionInterface.colorThemeLayout.setOnClickListener {
             openColorThemeDialogue()
+        }
+        binding.contentLayout.sectionInterface.appIconLayout.setOnClickListener {
+            openAppIconScreen()
         }
         binding.contentLayout.sectionConnectivity.splitTunnelingLayout.setOnClickListener {
             if (!account.authenticated.get()) {
@@ -418,6 +424,11 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
         DialogBuilderK.openDarkModeDialogue(requireContext(), this, colorTheme)
     }
 
+    private fun openAppIconScreen() {
+        val action = SettingsFragmentDirections.actionSettingsFragmentToAppIconFragment()
+        navigate(action)
+    }
+
     private fun openSplitTunnelingScreen() {
         val action = SettingsFragmentDirections.actionSettingsFragmentToSplitTunnelingFragment()
         navigate(action)
@@ -526,7 +537,7 @@ class SettingsFragment : Fragment(), OnNightModeChangedListener, ColorThemeViewM
             return
         }
         AppCompatDelegate.setDefaultNightMode(mode.systemId)
-        println("$mode was selected")
+        activity?.recreate()
     }
 
     override fun onNightModeCancelClicked() {
