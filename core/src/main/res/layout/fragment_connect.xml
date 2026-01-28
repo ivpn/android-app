@@ -161,6 +161,7 @@
                         android:letterSpacing="-0.03"
                         android:paddingHorizontal="16dp"
                         android:text="Renew"
+                        android:visibility="@{account.plan.isStandard() ? View.VISIBLE : View.GONE}"
                         android:textAllCaps="true"
                         android:textColor="@color/alerts_text"
                         android:textSize="12sp" />
@@ -202,6 +203,7 @@
                         android:letterSpacing="-0.03"
                         android:paddingHorizontal="16dp"
                         android:text="Renew"
+                        android:visibility="@{account.plan.isStandard() ? View.VISIBLE : View.GONE}"
                         android:textAllCaps="true"
                         android:textColor="@color/alerts_text"
                         android:textSize="12sp" />

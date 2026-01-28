@@ -23,8 +23,10 @@ package net.ivpn.client.signup
 */
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.ObservableField
 import androidx.navigation.NavController
 import com.android.billingclient.api.BillingClient
@@ -50,6 +52,8 @@ import net.ivpn.core.rest.data.addfunds.NewAccountRequestBody
 import net.ivpn.core.rest.data.addfunds.NewAccountResponse
 import net.ivpn.core.rest.requests.common.Request
 import net.ivpn.core.rest.requests.common.RequestWrapper
+import net.ivpn.core.v2.dialog.DialogBuilder
+import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.signup.SignUpController
 import org.slf4j.LoggerFactory
 import java.util.Calendar
@@ -153,6 +157,11 @@ class SignUpViewModel @Inject constructor(
     override fun signUpWithInactiveAccount(navController: NavController?,
                                            plan: Plan, isAccountNewStyle: Boolean) {
         if (isAccountNewStyle) {
+            if (!plan.isStandard()) {
+                DialogBuilder.createNotificationDialog(navController?.context, Dialogs.ACCOUNT_INACTIVE)
+                return
+            }
+
             blankAccountID.set(null)
             selectedPlan.set(plan)
 
@@ -162,7 +171,6 @@ class SignUpViewModel @Inject constructor(
             openSite()
         }
     }
-
 
     override fun reset() {
         dataLoading.set(false)

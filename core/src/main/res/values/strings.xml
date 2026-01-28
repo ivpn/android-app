@@ -479,6 +479,9 @@
     <string name="dialogs_device_logged_out_title">You are logged out</string>
     <string name="dialogs_device_logged_out_message">You have been redirected to the login page to re-enter your credentials.</string>
 
+    <string name="dialogs_account_expired_title">Your account is expired</string>
+    <string name="dialogs_account_expired_msg">Please renew your account to use this feature.</string>
+
     <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
     <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>
     <string name="bottom_sheet_logout_preferences">Log out</string>
