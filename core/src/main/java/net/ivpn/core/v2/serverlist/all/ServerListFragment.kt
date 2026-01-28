@@ -121,6 +121,7 @@ class ServerListFragment : Fragment(),
         super.onDestroy()
         if (this::adapter.isInitialized) {
             viewmodel.favouriteListeners.remove(adapter)
+            viewmodel.expandListeners.remove(adapter)
         }
         filterViewModel.listeners.remove(this)
         adapter.release()
@@ -141,6 +142,7 @@ class ServerListFragment : Fragment(),
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorAccent)
         viewmodel.favouriteListeners.add(adapter)
+        viewmodel.expandListeners.add(adapter)
     }
 
     fun cancel() {
