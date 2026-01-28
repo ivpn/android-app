@@ -122,17 +122,16 @@ class PingDataSet @Inject constructor(
     private fun calculateFastestServer(pings: MutableMap<Server, PingResultFormatter?>): Server? {
         var fastestServer: Server? = null
         var lowestPing = Long.MAX_VALUE
-        var excludedServers = serversRepository.getExcludedServersList()
+        val excludedServers = serversRepository.getExcludedServersList()
         for ((server, result) in pings) {
-            fastestServer?.let { _ ->
-                result?.let { result ->
-                    if (!excludedServers.contains(server) && result.isPingAvailable && lowestPing > result.ping) {
-                        fastestServer = server
-                        lowestPing = result.ping
-                    }
+            if (excludedServers.contains(server)) {
+                continue
+            }
+            result?.let { pingResult ->
+                if (pingResult.isPingAvailable && lowestPing > pingResult.ping) {
+                    fastestServer = server
+                    lowestPing = pingResult.ping
                 }
-            } ?: run {
-                fastestServer = server
             }
         }
 
