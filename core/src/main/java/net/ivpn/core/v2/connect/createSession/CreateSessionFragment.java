@@ -159,11 +159,6 @@ public class CreateSessionFragment extends BottomSheetDialogFragment {
                 navigator.tryAgain();
             }
         });
-        binding.upgradePlan.setOnClickListener(view -> {
-            if (navigator != null) {
-                navigator.upgradePlan(upgradeToUrl);
-            }
-        });
         binding.close.setOnClickListener(view -> {
             if (navigator != null) {
                 navigator.cancel();
