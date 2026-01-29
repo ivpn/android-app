@@ -192,6 +192,10 @@ class AccountViewModel @Inject constructor(
         return isNewStyleAccount(username.get().toString())
     }
 
+    fun showAddMoreTime(): Boolean {
+        return isAccountStandard() && isAccountNewStyle()
+    }
+
     private fun clearLocalCache() {
         authenticated.set(false)
     }

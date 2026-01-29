@@ -247,7 +247,7 @@
                     android:text="@string/account_add_more_time"
                     android:textColor="@color/primary"
                     android:textSize="15sp"
-                    android:visibility="@{account.plan.isStandard() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{account.showAddMoreTime() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@+id/active_until"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/active_until_label" />
@@ -278,6 +278,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/plan_details_background"
                     android:padding="14dp"
+                    android:visibility="@{account.isAccountNewStyle() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/plan_desc">
