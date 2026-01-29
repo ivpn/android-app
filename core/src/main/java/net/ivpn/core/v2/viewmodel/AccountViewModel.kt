@@ -185,7 +185,12 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountLegacy(): Boolean {
-        return accountType.get()?.equals("Member VPN Pro Account") ?: false
+        return username.get()?.startsWith("ivpn") ?: false
+    }
+
+    fun isAccountLegacyTeam(): Boolean {
+        val user = username.get() ?: return false
+        return user.startsWith("ivpn") && accountType.get()?.contains("Member") == true
     }
 
     fun isAccountNewStyle(): Boolean {

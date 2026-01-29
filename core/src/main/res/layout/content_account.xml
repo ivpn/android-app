@@ -150,13 +150,31 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:letterSpacing="-0.03"
-                    android:text="@{account.plan.getPlanTitle()}"
+                    android:text="@{account.accountType}"
                     android:textColor="@color/account_text"
                     android:textSize="18sp"
                     android:fontFamily="sans-serif-medium"
+                    android:visibility="@{account.isAccountNewStyle() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_type_label"
                     app:layout_constraintBottom_toTopOf="@+id/plan_desc"/>
+
+                <TextView
+                    android:id="@+id/account_label_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="20dp"
+                    android:letterSpacing="-0.03"
+                    android:text="@{account.accountType}"
+                    android:textColor="@color/account_text"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:visibility="@{account.isAccountNewStyle() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/account_type_label"
+                    app:layout_constraintBottom_toTopOf="@+id/line2"/>
 
                 <TextView
                     android:id="@+id/plan_desc"
@@ -167,6 +185,7 @@
                     android:alpha="0.7"
                     android:text="@{account.plan.getPlanDesc()}"
                     android:textColor="@color/account_text"
+                    android:visibility="@{account.isAccountNewStyle() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_label" />
 
@@ -176,6 +195,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/account_line"
+                    android:visibility="@{account.isAccountLegacyTeam() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/plan_details" />
@@ -189,7 +209,7 @@
                     android:alpha="0.7"
                     android:text="@string/account_active_until"
                     android:textColor="@color/account_text"
-                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{account.isAccountLegacyTeam() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line2" />
 
@@ -203,7 +223,7 @@
                     android:text="@{account.isActive() ? DateUtil.formatDate(account.availableUntil) : @string/account_no_active_subscription}"
                     android:textColor="@color/account_text"
                     android:textSize="16sp"
-                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{account.isAccountLegacyTeam() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/active_until_label" />
 
@@ -213,7 +233,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="24dp"
                     android:background="@color/account_line"
-                    android:visibility="@{account.accountLegacy ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{account.isAccountLegacyTeam() ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/active_until" />
