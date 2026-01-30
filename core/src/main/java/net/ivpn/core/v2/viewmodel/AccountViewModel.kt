@@ -181,11 +181,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountStandard(): Boolean {
-        return accountType.get()?.equals("IVPN Standard") ?: false
-    }
-
-    fun isAccountLegacy(): Boolean {
-        return username.get()?.startsWith("ivpn") ?: false
+        return plan.get() == Plan.STANDARD
     }
 
     fun isAccountLegacyTeam(): Boolean {
