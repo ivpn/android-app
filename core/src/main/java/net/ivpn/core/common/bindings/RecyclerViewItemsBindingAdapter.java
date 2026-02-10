@@ -37,6 +37,8 @@ import net.ivpn.core.v2.splittunneling.SplitTunnelingRecyclerViewAdapter;
 import net.ivpn.core.v2.splittunneling.items.ApplicationItem;
 import net.ivpn.core.v2.network.NetworkRecyclerViewAdapter;
 import net.ivpn.core.v2.serverlist.ServerBasedRecyclerViewAdapter;
+import net.ivpn.core.v2.serverlist.favourite.FavouriteServerListRecyclerViewAdapter;
+import net.ivpn.core.v2.serverlist.items.ConnectionOption;
 import net.ivpn.core.vpn.model.WifiItem;
 
 import java.util.ArrayList;
@@ -54,6 +56,13 @@ public class RecyclerViewItemsBindingAdapter {
         ServerBasedRecyclerViewAdapter adapter = (ServerBasedRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.replaceData(items);
+        }
+    }
+
+    @BindingAdapter("favouriteItems")
+    public static void setFavouriteItems(RecyclerView recyclerView, List<ConnectionOption> items) {
+        if (recyclerView.getAdapter() instanceof FavouriteServerListRecyclerViewAdapter) {
+            ((FavouriteServerListRecyclerViewAdapter) recyclerView.getAdapter()).replaceDataConnectionOptions(items != null ? items : new ArrayList<>());
         }
     }
 

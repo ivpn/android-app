@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModel
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.multihop.MultiHopController
 import net.ivpn.core.common.pinger.PingProvider
+import net.ivpn.core.common.prefs.OnServerChangedListener
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.rest.data.model.Server
@@ -65,12 +66,20 @@ class ServersViewModel @Inject constructor(
     val exitServer = ObservableField<Server>()
     val mapServer = ObservableField<Server>()
     val fastestServer = pingProvider.fastestServer
+    
+    val entryServerDescription = ObservableField<String>()
+    val exitServerDescription = ObservableField<String>()
 
     private var isBackgroundUpdateDone = false
 
     init {
         multiHopController.addListener(getOnMultihopValueChanges())
         vpnBehaviorController.addVpnStateListener(getVPNStateListener())
+        serversRepository.addOnServerChangedListener(object : OnServerChangedListener {
+            override fun onServerChanged() {
+                updateServerDescriptions()
+            }
+        })
     }
 
     fun onResume() {
@@ -99,6 +108,13 @@ class ServersViewModel @Inject constructor(
 
         entryServerVisibility.set(!fastestServerSetting.get() && !entryRandomServer.get())
         exitServerVisibility.set(!exitRandomServer.get())
+        
+        updateServerDescriptions()
+    }
+    
+    private fun updateServerDescriptions() {
+        entryServerDescription.set(computeEntryServerDescription())
+        exitServerDescription.set(computeExitServerDescription())
     }
 
     private fun updateServersInBackground() {
@@ -139,6 +155,7 @@ class ServersViewModel @Inject constructor(
             override fun notifyServerAsFastest(server: Server) {
                 entryServer.set(server)
                 mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
+                updateServerDescriptions()
             }
 
             override fun notifyServerAsRandom(server: Server, serverType: ServerType) {
@@ -147,6 +164,7 @@ class ServersViewModel @Inject constructor(
                     ServerType.EXIT -> exitServer.set(server)
                 }
                 mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
+                updateServerDescriptions()
             }
         }
     }
@@ -186,6 +204,7 @@ class ServersViewModel @Inject constructor(
             serversRepository.serverSelected(serverToConnect, ServerType.ENTRY)
         }
         mapServer.set(if (multiHopController.isEnabled) exitServer.get() else entryServer.get())
+        updateServerDescriptions()
     }
 
     private fun getServerFor(serverLocation: ServerLocation): Server? {
@@ -237,5 +256,33 @@ class ServersViewModel @Inject constructor(
 
     fun isSelectHostEnabled(): Boolean {
         return settings.isSelectHostEnabled
+    }
+
+    /**
+     * Computes entry server description with host prefix if a host is selected.
+     * (Named to avoid conflicting with ObservableField getter in data binding.)
+     */
+    private fun computeEntryServerDescription(): String {
+        val server = entryServer.get() ?: return ""
+        val host = serversRepository.getCurrentHost(ServerType.ENTRY)
+        return if (host != null) {
+            server.getDescriptionWithHostPrefix(host)
+        } else {
+            server.getDescription()
+        }
+    }
+
+    /**
+     * Computes exit server description with host prefix if a host is selected.
+     * (Named to avoid conflicting with ObservableField getter in data binding.)
+     */
+    private fun computeExitServerDescription(): String {
+        val server = exitServer.get() ?: return ""
+        val host = serversRepository.getCurrentHost(ServerType.EXIT)
+        return if (host != null) {
+            server.getDescriptionWithHostPrefix(host)
+        } else {
+            server.getDescription()
+        }
     }
 }
