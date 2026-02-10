@@ -55,9 +55,8 @@ class ServerViewHolder(
         binding.filter = filter
 
         // Handle expand button visibility and state
-        val hasMultipleHosts = server.hosts != null && server.hosts.size > 1
-        binding.expandLayout.isVisible = showExpandButton && hasMultipleHosts
-        if (hasMultipleHosts) {
+        binding.expandLayout.isVisible = showExpandButton
+        if (showExpandButton) {
             binding.expandIcon.setImageResource(
                 if (isExpanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
             )

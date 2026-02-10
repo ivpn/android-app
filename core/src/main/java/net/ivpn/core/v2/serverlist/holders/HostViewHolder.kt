@@ -34,20 +34,19 @@ class HostViewHolder(
     val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(hostItem: HostItem, forbiddenServer: Server?) {
+    fun bind(hostItem: HostItem, forbiddenServer: Server?, isFavouritesEntry: Boolean = false) {
         binding.hostItem = hostItem
         binding.navigator = navigator
+        binding.isFavouritesEntry = isFavouritesEntry
 
-        // Set load indicator color based on load percentage
-        val load = hostItem.getLoad()
-        val loadIndicatorRes = when {
-            load < 50 -> R.drawable.ping_green_light
-            load < 80 -> R.drawable.ping_yellow_light
-            else -> R.drawable.ping_red_light
+        binding.star.setImageResource(if (hostItem.isFavourite) R.drawable.ic_star_on else R.drawable.ic_star_off)
+        
+        binding.starLayout.setOnClickListener {
+            hostItem.isFavourite = !hostItem.isFavourite
+            binding.star.setImageResource(if (hostItem.isFavourite) R.drawable.ic_star_on else R.drawable.ic_star_off)
+            navigator.changeFavouriteStateForHost(hostItem.host, hostItem.parentServer, hostItem.isFavourite)
         }
-        binding.loadIndicator.setImageResource(loadIndicatorRes)
 
-        // Handle click to select this specific host
         binding.hostLayout.setOnClickListener {
             navigator.onHostSelected(hostItem.host, hostItem.parentServer, forbiddenServer)
         }

@@ -32,7 +32,8 @@ import net.ivpn.core.rest.data.model.Server
  */
 data class HostItem(
     val host: Host,
-    val parentServer: Server
+    val parentServer: Server,
+    var isFavourite: Boolean = false
 ) : ConnectionOption {
     
     /**
@@ -63,6 +64,19 @@ data class HostItem(
     fun getLoad(): Double {
         return host.load
     }
+    
+    /**
+     * Returns whether to show the favorite star (only when server has more than 1 host)
+     */
+    val showFavoriteStar: Boolean
+        get() {
+            val hosts = parentServer.hosts
+            return hosts != null && hosts.size > 1
+        }
+
+
+    val displayTitleForFavourites: String
+        get() = parentServer.getDescriptionWithHostPrefix(host)
     
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             app:forbiddenItem="@{viewmodel.forbiddenServer}"
-            app:items="@{viewmodel.favourites}" />
+            app:favouriteItems="@{viewmodel.favourites}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/empty_view"

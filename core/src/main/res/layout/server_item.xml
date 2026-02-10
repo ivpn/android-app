@@ -63,6 +63,24 @@
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
+            <FrameLayout
+                android:id="@+id/expand_layout"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/expand_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_expand_more"
+                    android:alpha="0.6" />
+
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/ipv6_badge"
                 android:layout_width="wrap_content"
@@ -104,24 +122,6 @@
                     android:visibility="@{pingstatus.isPingAvailable() ? View.VISIBLE : View.GONE}" />
 
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/expand_layout"
-                android:layout_width="32dp"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/expand_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_expand_more"
-                    android:alpha="0.6" />
-
-            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/star_layout"

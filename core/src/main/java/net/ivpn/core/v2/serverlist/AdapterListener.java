@@ -42,4 +42,6 @@ public interface AdapterListener {
     void onHostSelected(Host host, Server parentServer, Server forbiddenServer);
 
     void onServerExpandToggle(Server server);
+
+    void changeFavouriteStateForHost(Host host, Server parentServer, boolean isFavourite);
 }
