@@ -149,17 +149,6 @@
                                 android:text="@string/protocol_wg_configure_mtu"
                                 android:textAllCaps="true" />
                         </LinearLayout>
-
-                        <TextView
-                            style="@style/SettingsOptionDescription"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/settings_margin_left"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginEnd="@dimen/settings_margin_left"
-                            android:alpha="0.6"
-                            android:text="@string/protocol_wg_mtu_description"
-                            android:textColor="@color/protocol_text_color" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
