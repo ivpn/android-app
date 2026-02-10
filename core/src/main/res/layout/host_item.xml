@@ -13,6 +13,10 @@
         <variable
             name="navigator"
             type="net.ivpn.core.v2.serverlist.AdapterListener" />
+
+        <variable
+            name="isFavouritesEntry"
+            type="Boolean" />
     </data>
 
     <FrameLayout
@@ -28,51 +32,65 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="56dp">
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/host_flag"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/content_description_entry_server_flag"
+                android:src="@{hostItem.parentServer}" />
 
             <TextView
                 android:id="@+id/host_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="-0.03"
                 android:lineSpacingExtra="8sp"
-                android:text="@{hostItem.shortHostName}"
+                android:text="@{isFavouritesEntry != null &amp;&amp; isFavouritesEntry ? hostItem.displayTitleForFavourites : hostItem.shortHostName}"
                 android:textColor="@color/servers_text_color"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 android:alpha="0.8" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/host_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="-0.03"
+                android:text="@{hostItem.loadPercentage}"
+                android:textColor="@color/servers_text_color"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                android:alpha="0.6" />
+
+            <FrameLayout
+                android:id="@+id/star_layout"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="@{hostItem.showFavoriteStar ? View.VISIBLE : View.GONE}">
 
                 <ImageView
-                    android:id="@+id/load_indicator"
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_marginEnd="4dp" />
+                    android:id="@+id/star"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@{hostItem.isFavourite ? @drawable/ic_star_on : @drawable/ic_star_off}" />
 
-                <TextView
-                    android:id="@+id/host_load"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:letterSpacing="-0.03"
-                    android:text="@{hostItem.loadPercentage}"
-                    android:textColor="@color/servers_text_color"
-                    android:textSize="13sp"
-                    android:textStyle="normal"
-                    android:alpha="0.6" />
-            </LinearLayout>
+            </FrameLayout>
 
             <View
                 android:layout_width="42dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="@{hostItem.showFavoriteStar ? View.GONE : View.VISIBLE}" />
         </LinearLayout>
     </FrameLayout>
 </layout>

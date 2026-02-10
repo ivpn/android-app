@@ -34,6 +34,7 @@ import net.ivpn.core.R
 import net.ivpn.core.common.distance.DistanceProvider
 import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.PingResultFormatter
+import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.databinding.FastestServerItemBinding
 import net.ivpn.core.databinding.HostItemBinding
@@ -70,6 +71,9 @@ class AllServersRecyclerViewAdapter(
 
     @Inject
     lateinit var settings: Settings
+
+    @Inject
+    lateinit var serversRepository: ServersRepository
 
     private var bindings = HashMap<ServerItemBinding, Server>()
     private var hostBindings = HashMap<HostItemBinding, HostItem>()
@@ -292,15 +296,14 @@ class AllServersRecyclerViewAdapter(
         }
         sortServers(servers)
         
-        // Add servers and their hosts if expanded
         for (server in servers) {
             listToShow.add(server)
             
-            // If this server is expanded and "Select individual servers" is enabled, add its hosts
             if (settings.isSelectHostEnabled && expandedServerCities.contains(server.city) && !isFiltering) {
                 server.hosts?.let { hosts ->
                     for (host in hosts) {
-                        listToShow.add(HostItem(host, server))
+                        val isFavourite = serversRepository.isHostFavourite(host, server)
+                        listToShow.add(HostItem(host, server, isFavourite))
                     }
                 }
             }

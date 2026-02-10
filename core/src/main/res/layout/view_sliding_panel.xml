@@ -415,7 +415,7 @@
                             style="@style/AppTheme.ServerNameText"
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="2dp"
-                            android:text="@{servers.entryServer.description}"
+                            android:text="@{servers.entryServerDescription}"
                             app:layout_constraintBottom_toBottomOf="@+id/imageView"
                             app:layout_constraintStart_toEndOf="@+id/imageView"
                             app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -503,7 +503,7 @@
                             style="@style/AppTheme.ServerNameText"
                             android:layout_marginStart="8dp"
                             android:layout_marginBottom="2dp"
-                            android:text="@{servers.exitServer.description}"
+                            android:text="@{servers.exitServerDescription}"
                             app:layout_constraintBottom_toBottomOf="@+id/exit_server_flag"
                             app:layout_constraintStart_toEndOf="@+id/exit_server_flag"
                             app:layout_constraintTop_toTopOf="@+id/exit_server_flag" />
