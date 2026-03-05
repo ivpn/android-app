@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationManagerCompat;
 
 import net.ivpn.core.IVPNApplication;
+import net.ivpn.core.common.appicon.AppIconManager;
 import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.migration.MigrationController;
 import net.ivpn.core.common.pinger.PingProvider;
@@ -60,6 +61,7 @@ public class ComponentUtil {
     private final PingProvider pingProvider;
     private final MockLocationController mockLocationController;
     private final StickyPreference stickyPreference;
+    private final AppIconManager appIconManager;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
@@ -67,7 +69,8 @@ public class ComponentUtil {
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
                   MigrationController migrationController, PingProvider pingProvider,
-                  MockLocationController mockLocationController, StickyPreference stickyPreference) {
+                  MockLocationController mockLocationController, StickyPreference stickyPreference,
+                  AppIconManager appIconManager) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
@@ -81,6 +84,7 @@ public class ComponentUtil {
         this.pingProvider = pingProvider;
         this.mockLocationController = mockLocationController;
         this.stickyPreference = stickyPreference;
+        this.appIconManager = appIconManager;
     }
 
     public void performBaseComponentsInit() {
@@ -106,6 +110,7 @@ public class ComponentUtil {
         IVPNApplication.updatesController.resetComponent();
         logUtil.resetAll();
         mockLocationController.reset();
+        appIconManager.resetToDefault();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }
