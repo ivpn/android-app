@@ -120,6 +120,7 @@
     <color name="servers_text_color_hint">#802A394B</color>
     <color name="servers_background">#F2F3F6</color>
     <color name="servers_card_background">#FFFFFF</color>
+    <color name="host_item_background">#FFFFFF</color>
     <color name="servers_icon_color">#98A5B3</color>
 
     <color name="login_text_color">#2A394B</color>
