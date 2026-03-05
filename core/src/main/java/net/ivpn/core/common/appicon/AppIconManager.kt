@@ -60,6 +60,11 @@ class AppIconManager @Inject constructor(
         currentIcon = desiredAppIcon
     }
 
+    fun resetToDefault() {
+        currentIcon = null
+        setNewAppIcon(CustomAppIconData.DEFAULT)
+    }
+
     fun getCurrentIconData(): CustomAppIconData {
         currentIcon?.let { return it }
         

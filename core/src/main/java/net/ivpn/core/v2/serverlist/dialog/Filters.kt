@@ -24,6 +24,8 @@ package net.ivpn.core.v2.serverlist.dialog
 
 import net.ivpn.core.R
 import net.ivpn.core.rest.data.model.Server
+import net.ivpn.core.v2.serverlist.items.ConnectionOption
+import net.ivpn.core.v2.serverlist.items.HostItem
 
 enum class Filters(val id: Int) {
     CITY(R.id.city_filter) {
@@ -55,6 +57,23 @@ enum class Filters(val id: Int) {
     };
 
     abstract fun getServerComparator(): Comparator<Server>
+
+    fun getConnectionOptionComparator(): Comparator<ConnectionOption> {
+        val serverComparator = getServerComparator()
+        return Comparator { a, b ->
+            val serverA = when (a) {
+                is Server -> a
+                is HostItem -> a.parentServer
+                else -> return@Comparator 0
+            }
+            val serverB = when (b) {
+                is Server -> b
+                is HostItem -> b.parentServer
+                else -> return@Comparator 0
+            }
+            serverComparator.compare(serverA, serverB)
+        }
+    }
 
     companion object {
         fun getById(id: Int): Filters {

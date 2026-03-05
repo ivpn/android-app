@@ -34,10 +34,11 @@ class HostViewHolder(
     val navigator: AdapterListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(hostItem: HostItem, forbiddenServer: Server?, isFavouritesEntry: Boolean = false) {
+    fun bind(hostItem: HostItem, forbiddenServer: Server?, isFavouritesEntry: Boolean = false, isIPv6BadgeEnabled: Boolean = false) {
         binding.hostItem = hostItem
         binding.navigator = navigator
         binding.isFavouritesEntry = isFavouritesEntry
+        binding.isIPv6BadgeEnabled = isIPv6BadgeEnabled
 
         binding.star.setImageResource(if (hostItem.isFavourite) R.drawable.ic_star_on else R.drawable.ic_star_off)
         

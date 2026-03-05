@@ -42,6 +42,7 @@ class UF3T4(
     override fun update() {
         LOGGER.info("Migrating favorites to unified storage")
         serversPreference.migrateOldFavouritesToUnified()
+        serversPreference.migrateLegacyHostFavouritesToUnified()
         LOGGER.info("Favorites migration completed")
     }
 }

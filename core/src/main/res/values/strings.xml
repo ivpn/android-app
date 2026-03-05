@@ -548,10 +548,10 @@
     
     <string name="protocol_wg_mtu">MTU</string>
     <string name="protocol_wg_configure_mtu">Configure MTU</string>
-    <string name="protocol_wg_mtu_description">Valid range [576 - 65535]. Please note that changing this value may affect the proper functioning of the VPN tunnel.</string>
-    <string name="protocol_wg_mtu_hint">576 - 65535</string>
+    <string name="protocol_wg_mtu_description">Valid range [1280 - 65535]. Please note that changing this value may affect the proper functioning of the VPN tunnel.</string>
+    <string name="protocol_wg_mtu_hint">1280 - 65535</string>
     <string name="protocol_wg_mtu_default">Leave blank to use default value</string>
-    <string name="protocol_wg_mtu_error">Expected value: [576 - 65535]</string>
+    <string name="protocol_wg_mtu_error">Expected value: [1280 - 65535]</string>
 
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 

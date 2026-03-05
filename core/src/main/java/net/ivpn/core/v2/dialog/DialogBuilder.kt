@@ -462,7 +462,7 @@ object DialogBuilder {
         }
         return try {
             val mtu = mtuString.toInt()
-            mtu == 0 || (mtu in 576..65535)
+            mtu == 0 || (mtu in 1280..65535)
         } catch (e: NumberFormatException) {
             false
         }
