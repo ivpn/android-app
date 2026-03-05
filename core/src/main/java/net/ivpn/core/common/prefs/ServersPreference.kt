@@ -112,7 +112,7 @@ class ServersPreference @Inject constructor(
             val favourites = ArrayList<Server>()
             for (server in currentServers) {
                 for (identifier in identifiers) {
-                    if (identifier.matches(server)) {
+                    if (identifier.isLocationFavorite && identifier.matches(server)) {
                         favourites.add(server)
                         break
                     }
@@ -143,7 +143,7 @@ class ServersPreference @Inject constructor(
             val favourites = ArrayList<Server>()
             for (server in currentServers) {
                 for (identifier in identifiers) {
-                    if (identifier.matches(server)) {
+                    if (identifier.isLocationFavorite && identifier.matches(server)) {
                         favourites.add(server)
                         break
                     }
@@ -160,7 +160,7 @@ class ServersPreference @Inject constructor(
             val favourites = ArrayList<Server>()
             for (server in currentServers) {
                 for (identifier in identifiers) {
-                    if (identifier.matches(server)) {
+                    if (identifier.isLocationFavorite && identifier.matches(server)) {
                         favourites.add(server)
                         break
                     }
