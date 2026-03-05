@@ -59,6 +59,7 @@ class ServersPreference @Inject constructor(
         private const val SETTINGS_RANDOM_EXIT_SERVER = "SETTINGS_RANDOM_EXIT_SERVER"
         private const val V2RAY_SETTINGS = "V2RAY_SETTINGS"
         private const val FAVOURITES_HOSTS_LIST = "FAVOURITES_HOSTS_LIST"
+        private const val HOST_FAVOURITES_MIGRATED = "HOST_FAVOURITES_MIGRATED"
     }
 
     var listeners = ArrayList<OnValueChangeListener>()
@@ -387,63 +388,81 @@ class ServersPreference @Inject constructor(
         }
     }
 
+    
+    fun migrateLegacyHostFavouritesToUnified() {
+        if (preference.stickySharedPreferences.getBoolean(HOST_FAVOURITES_MIGRATED, false)) {
+            return
+        }
+
+        val identifiers = unifiedFavouritesList.toMutableList()
+
+        fun migrateFromPrefs(servers: List<Server>?, prefs: SharedPreferences) {
+            servers ?: return
+            for (server in servers) {
+                val key = "${FAVOURITES_HOSTS_LIST}_${getFavouriteHostsKey(server)}"
+                val hostnames = prefs.getStringSet(key, null) ?: continue
+                server.hosts?.forEach { host ->
+                    if (host.hostname != null && hostnames.contains(host.hostname)) {
+                        val dnsName = host.dnsName ?: host.hostname
+                        val identifier = FavoriteIdentifier.forHost(dnsName)
+                        if (!identifiers.any { it == identifier }) {
+                            identifiers.add(identifier)
+                        }
+                    }
+                }
+            }
+        }
+
+        migrateFromPrefs(openvpnServersList, preference.serversSharedPreferences)
+        migrateFromPrefs(wireguardServersList, preference.wireguardServersSharedPreferences)
+
+        if (identifiers.size > unifiedFavouritesList.size) {
+            saveUnifiedFavourites(identifiers)
+        }
+
+        clearLegacyHostFavourites(preference.serversSharedPreferences)
+        clearLegacyHostFavourites(preference.wireguardServersSharedPreferences)
+
+        preference.stickySharedPreferences.edit {
+            putBoolean(HOST_FAVOURITES_MIGRATED, true)
+        }
+    }
+
+    private fun clearLegacyHostFavourites(prefs: SharedPreferences) {
+        val allKeys = prefs.all.keys.filter { it.startsWith(FAVOURITES_HOSTS_LIST) }
+        if (allKeys.isNotEmpty()) {
+            prefs.edit {
+                allKeys.forEach { remove(it) }
+            }
+        }
+    }
+
     private fun getFavouriteHostsKey(server: Server): String {
         return "${server.city}_${server.countryCode}"
     }
 
-    private fun getFavouriteHostsSet(server: Server): MutableSet<String> {
-        val key = getFavouriteHostsKey(server)
-        val currentProtocol = protocolController.currentProtocol
-        val prefs = if (currentProtocol == Protocol.WIREGUARD) {
-            preference.wireguardServersSharedPreferences
-        } else {
-            preference.serversSharedPreferences
-        }
-        return prefs.getStringSet("${FAVOURITES_HOSTS_LIST}_$key", mutableSetOf())?.toMutableSet() ?: mutableSetOf()
-    }
-
-    private fun saveFavouriteHostsSet(server: Server, hosts: Set<String>) {
-        val key = getFavouriteHostsKey(server)
-        val currentProtocol = protocolController.currentProtocol
-        val prefs = if (currentProtocol == Protocol.WIREGUARD) {
-            preference.wireguardServersSharedPreferences
-        } else {
-            preference.serversSharedPreferences
-        }
-        prefs.edit().putStringSet("${FAVOURITES_HOSTS_LIST}_$key", hosts).apply()
-    }
-
     fun addFavouriteHost(host: Host, parentServer: Server) {
-        val hostname = host.hostname ?: return
-        val favouriteHosts = getFavouriteHostsSet(parentServer)
-        if (!favouriteHosts.contains(hostname)) {
-            favouriteHosts.add(hostname)
-            saveFavouriteHostsSet(parentServer, favouriteHosts)
-        }
+        val dnsName = host.dnsName ?: host.hostname ?: return
+        addFavouriteHost(dnsName)
     }
 
     fun removeFavouriteHost(host: Host, parentServer: Server) {
-        val hostname = host.hostname ?: return
-        val favouriteHosts = getFavouriteHostsSet(parentServer)
-        if (favouriteHosts.contains(hostname)) {
-            favouriteHosts.remove(hostname)
-            saveFavouriteHostsSet(parentServer, favouriteHosts)
-        }
+        val dnsName = host.dnsName ?: host.hostname ?: return
+        removeFavouriteHost(dnsName)
     }
 
     fun isHostFavourite(host: Host, parentServer: Server): Boolean {
-        val hostname = host.hostname ?: return false
-        val favouriteHosts = getFavouriteHostsSet(parentServer)
-        return favouriteHosts.contains(hostname)
+        val dnsName = host.dnsName ?: host.hostname ?: return false
+        return unifiedFavouritesList.any { it.isHostFavorite && it.dnsName?.equals(dnsName, ignoreCase = true) == true }
     }
 
-   
     fun getFavouriteHosts(servers: List<Server>): List<Pair<Host, Server>> {
         val result = mutableListOf<Pair<Host, Server>>()
+        val hostIdentifiers = unifiedFavouritesList.filter { it.isHostFavorite }
         for (server in servers) {
-            val hostnames = getFavouriteHostsSet(server)
             server.hosts?.forEach { host ->
-                if (host.hostname != null && hostnames.contains(host.hostname)) {
+                val dnsName = host.dnsName ?: host.hostname ?: return@forEach
+                if (hostIdentifiers.any { it.dnsName?.equals(dnsName, ignoreCase = true) == true }) {
                     result.add(Pair(host, server))
                 }
             }
