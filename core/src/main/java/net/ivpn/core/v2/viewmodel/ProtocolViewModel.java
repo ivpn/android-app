@@ -81,7 +81,7 @@ public class ProtocolViewModel {
     public ObservableField<ObfuscationType> obfuscationType = new ObservableField<>();
     public ObservableField<String> wireGuardMtu = new ObservableField<>();
 
-    private static final int MTU_LOWER_BOUND = 576;
+    private static final int MTU_LOWER_BOUND = 1280;
     private static final int MTU_UPPER_BOUND = 65535;
 
     private ProtocolNavigator navigator;
