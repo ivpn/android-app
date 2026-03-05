@@ -32,8 +32,8 @@ android {
         applicationId "net.ivpn.client"
         minSdkVersion 25
         targetSdkVersion 35
-        versionCode 139
-        versionName "2.11.1"
+        versionCode 141
+        versionName "2.12.0"
         ndkVersion "29.0.13113456"
 
         buildConfigField "String", "BILLING_PUBLIC_KEY", keystoreProperties['billing.public.key']
