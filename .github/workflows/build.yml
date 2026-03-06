@@ -21,10 +21,13 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
-      - name: Set up NDK
-        uses: nttld/setup-ndk@ed92fe6cadad69be94a966a7ee3271275e62f779 # v1
-        with:
-          ndk-version: r25b
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install required NDK
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "ndk;29.0.13113456"
 
       - name: Install liboqs dependencies
         run: |
