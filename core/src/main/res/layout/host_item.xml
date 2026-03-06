@@ -90,6 +90,19 @@
                     android:alpha="0.6"
                     android:visibility="@{isFavouritesEntry != null &amp;&amp; !isFavouritesEntry ? View.VISIBLE : View.GONE}" />
 
+                <TextView
+                    android:id="@+id/ipv6_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@drawable/ipv6_text_background"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
+                    android:text="IPv6"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="12sp"
+                    android:visibility="@{isFavouritesEntry &amp;&amp; isIPv6BadgeEnabled != null &amp;&amp; isIPv6BadgeEnabled &amp;&amp; hostItem.parentServer.isIPv6Enabled ? View.VISIBLE : View.GONE}" />
+
                 <LinearLayout
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
@@ -118,19 +131,6 @@
                         android:textStyle="normal" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/ipv6_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:background="@drawable/ipv6_text_background"
-                    android:paddingHorizontal="4dp"
-                    android:paddingVertical="2dp"
-                    android:text="IPv6"
-                    android:textColor="@color/servers_text_color"
-                    android:textSize="12sp"
-                    android:visibility="@{isFavouritesEntry &amp;&amp; isIPv6BadgeEnabled != null &amp;&amp; isIPv6BadgeEnabled &amp;&amp; hostItem.parentServer.isIPv6Enabled ? View.VISIBLE : View.GONE}" />
 
                 <FrameLayout
                     android:id="@+id/star_layout"
