@@ -32,6 +32,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
@@ -142,6 +143,7 @@ class ServerListFragment : Fragment(),
                 viewmodel.isFastestServerAllowed(), filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        (binding.recyclerView.itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorAccent)
         viewmodel.favouriteListeners.add(adapter)
