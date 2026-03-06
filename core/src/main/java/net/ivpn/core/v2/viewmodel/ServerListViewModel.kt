@@ -130,7 +130,16 @@ class ServerListViewModel @Inject constructor(
                 favourites.add(HostItem(host, parentServer, isFavourite = true))
             } else {
                 serversRepository.removeFavouriteHost(host, parentServer)
-                favourites.removeAll { it is HostItem && it.host == host && it.parentServer == parentServer }
+                val hostDns = host.dnsName
+                val hostHostname = host.hostname
+                val serverGateway = parentServer.gateway
+                if (serverGateway != null && (hostDns != null || hostHostname != null)) {
+                    favourites.removeAll { it is HostItem &&
+                        it.parentServer.gateway == serverGateway &&
+                        (hostDns != null && it.host.dnsName?.equals(hostDns, ignoreCase = true) == true ||
+                         hostHostname != null && it.host.hostname?.equals(hostHostname, ignoreCase = true) == true)
+                    }
+                }
             }
         }
     }
@@ -213,10 +222,8 @@ class ServerListViewModel @Inject constructor(
 
     private fun applyFavourites() {
         val favouriteServers = favourites.filterIsInstance<Server>()
-        val favouriteHostsByServer = favourites.filterIsInstance<HostItem>().groupBy { it.parentServer }
         for (server in all) {
-            server.isFavourite = favouriteServers.contains(server) ||
-                    favouriteHostsByServer.containsKey(server)
+            server.isFavourite = favouriteServers.contains(server)
         }
         for (server in favouriteServers) {
             server.isFavourite = true

@@ -408,6 +408,13 @@ class AllServersRecyclerViewAdapter(
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val item1 = oldList[oldItemPosition]
                 val item2 = newList[newItemPosition]
+                if (item1 is Server && item2 is Server && item1 == item2) {
+                    val oldExpanded = oldItemPosition + 1 < oldList.size &&
+                            (oldList[oldItemPosition + 1] as? HostItem)?.parentServer == item1
+                    val newExpanded = newItemPosition + 1 < newList.size &&
+                            (newList[newItemPosition + 1] as? HostItem)?.parentServer == item2
+                    return oldExpanded == newExpanded
+                }
                 return item1.equals(item2)
             }
 

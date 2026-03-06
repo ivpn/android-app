@@ -349,6 +349,15 @@ class ServersPreference @Inject constructor(
     }
 
     /**
+     * Clears the favorites list from storage.
+     */
+    fun clearFavourites() {
+        preference.stickySharedPreferences.edit {
+            remove(UNIFIED_FAVOURITES_LIST)
+        }
+    }
+
+    /**
      * Saves the unified favorites list.
      */
     private fun saveUnifiedFavourites(identifiers: List<FavoriteIdentifier>) {

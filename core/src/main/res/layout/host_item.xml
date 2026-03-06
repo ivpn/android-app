@@ -21,98 +21,155 @@
         <variable
             name="isIPv6BadgeEnabled"
             type="Boolean" />
+
+        <variable
+            name="pingstatus"
+            type="net.ivpn.core.common.pinger.PingResultFormatter" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/host_item_background">
+        app:favouritesListBackground="@{isFavouritesEntry}">
 
         <LinearLayout
             android:id="@+id/host_layout"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/host_flag"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="20dp"
-                android:src="@{isFavouritesEntry ? hostItem.parentServer : null}"
-                android:visibility="@{isFavouritesEntry ? View.VISIBLE : View.GONE}" />
+          
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="1dp"
-                android:visibility="@{isFavouritesEntry ? View.GONE : View.VISIBLE}" />
+                <ImageView
+                    android:id="@+id/host_flag"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@{isFavouritesEntry ? hostItem.parentServer : null}"
+                    android:visibility="@{isFavouritesEntry ? View.VISIBLE : View.GONE}" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="1dp"
+                    android:visibility="@{isFavouritesEntry ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                    android:id="@+id/host_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@{isFavouritesEntry != null &amp;&amp; isFavouritesEntry ? hostItem.parentServer.city : hostItem.shortHostName}"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:alpha="0.8" />
+
+                <TextView
+                    android:id="@+id/host_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif"
+                    android:letterSpacing="-0.03"
+                    android:text="@{hostItem.loadPercentage}"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    android:alpha="0.6"
+                    android:visibility="@{isFavouritesEntry != null &amp;&amp; !isFavouritesEntry ? View.VISIBLE : View.GONE}" />
+
+                <LinearLayout
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|end"
+                    android:visibility="@{(isFavouritesEntry != null &amp;&amp; isFavouritesEntry &amp;&amp; pingstatus != null &amp;&amp; pingstatus.isPingAvailable()) ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:id="@+id/ping_light"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:src="@{pingstatus.getAppropriateLight}" />
+
+                    <TextView
+                        android:id="@+id/host_ping"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:alpha="0.6"
+                        android:fontFamily="sans-serif"
+                        android:gravity="end"
+                        android:letterSpacing="-0.03"
+                        android:lineSpacingExtra="5sp"
+                        android:text="@{pingstatus.formatPing}"
+                        android:textColor="@color/servers_text_color"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ipv6_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@drawable/ipv6_text_background"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
+                    android:text="IPv6"
+                    android:textColor="@color/servers_text_color"
+                    android:textSize="12sp"
+                    android:visibility="@{isFavouritesEntry &amp;&amp; isIPv6BadgeEnabled != null &amp;&amp; isIPv6BadgeEnabled &amp;&amp; hostItem.parentServer.isIPv6Enabled ? View.VISIBLE : View.GONE}" />
+
+                <FrameLayout
+                    android:id="@+id/star_layout"
+                    android:layout_width="42dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="@{hostItem.showFavoriteStar ? View.VISIBLE : View.GONE}">
+
+                    <ImageView
+                        android:id="@+id/star"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:src="@{hostItem.isFavourite ? @drawable/ic_star_on : @drawable/ic_star_off}" />
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="42dp"
+                    android:layout_height="match_parent"
+                    android:visibility="@{hostItem.showFavoriteStar ? View.GONE : View.VISIBLE}" />
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/host_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif"
-                android:letterSpacing="-0.03"
-                android:lineSpacingExtra="8sp"
-                android:text="@{isFavouritesEntry != null &amp;&amp; isFavouritesEntry ? hostItem.displayTitleForFavourites : hostItem.shortHostName}"
-                android:textColor="@color/servers_text_color"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                android:alpha="0.8" />
-
-            <TextView
-                android:id="@+id/host_load"
+                android:id="@+id/host_name_with_load"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="56dp"
+                android:layout_marginBottom="8dp"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="-0.03"
-                android:text="@{hostItem.loadPercentage}"
+                android:text="@{hostItem.hostnameWithLoad}"
                 android:textColor="@color/servers_text_color"
                 android:textSize="13sp"
                 android:textStyle="normal"
-                android:alpha="0.6" />
-
-            <TextView
-                android:id="@+id/ipv6_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:background="@drawable/ipv6_text_background"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="2dp"
-                android:text="IPv6"
-                android:textColor="@color/servers_text_color"
-                android:textSize="12sp"
-                android:visibility="@{isFavouritesEntry &amp;&amp; isIPv6BadgeEnabled != null &amp;&amp; isIPv6BadgeEnabled &amp;&amp; hostItem.parentServer.isIPv6Enabled ? View.VISIBLE : View.GONE}" />
-
-            <FrameLayout
-                android:id="@+id/star_layout"
-                android:layout_width="42dp"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:visibility="@{hostItem.showFavoriteStar ? View.VISIBLE : View.GONE}">
-
-                <ImageView
-                    android:id="@+id/star"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center"
-                    android:src="@{hostItem.isFavourite ? @drawable/ic_star_on : @drawable/ic_star_off}" />
-
-            </FrameLayout>
-
-            <View
-                android:layout_width="42dp"
-                android:layout_height="match_parent"
-                android:visibility="@{hostItem.showFavoriteStar ? View.GONE : View.VISIBLE}" />
+                android:alpha="0.6"
+                android:visibility="@{isFavouritesEntry != null &amp;&amp; isFavouritesEntry ? View.VISIBLE : View.GONE}" />
         </LinearLayout>
     </FrameLayout>
 </layout>

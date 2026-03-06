@@ -36,10 +36,11 @@ class ServerViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(server: Server, forbiddenServer: Server?, isIPv6Enabled: Boolean, filter: Filters?, 
-             isExpanded: Boolean = false, showExpandButton: Boolean = false) {
+             isExpanded: Boolean = false, showExpandButton: Boolean = false, isFavouritesEntry: Boolean = false) {
         binding.server = server
         binding.forbiddenServer = forbiddenServer
         binding.navigator = navigator
+        binding.isFavouritesEntry = isFavouritesEntry
         binding.star.setImageResource(if (server.isFavourite) R.drawable.ic_star_on else R.drawable.ic_star_off)
         binding.starLayout.setOnClickListener {
             server.let {

@@ -33,6 +33,7 @@ import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.migration.MigrationController;
 import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
+import net.ivpn.core.common.prefs.ServersPreference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.prefs.StickyPreference;
@@ -50,6 +51,7 @@ public class ComponentUtil {
 
     private final Settings settings;
     private final Preference preference;
+    private final ServersPreference serversPreference;
     private final ServersRepository serversRepository;
     private final GlobalBehaviorController globalBehaviorController;
     private final ProtocolController protocolController;
@@ -65,7 +67,8 @@ public class ComponentUtil {
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
-                  ServersRepository serversRepository, GlobalBehaviorController globalBehaviorController,
+                  ServersPreference serversPreference, ServersRepository serversRepository,
+                  GlobalBehaviorController globalBehaviorController,
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
                   MigrationController migrationController, PingProvider pingProvider,
@@ -74,6 +77,7 @@ public class ComponentUtil {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
+        this.serversPreference = serversPreference;
         this.serversRepository = serversRepository;
         this.globalBehaviorController = globalBehaviorController;
         this.protocolController = protocolController;
@@ -103,6 +107,7 @@ public class ComponentUtil {
 
     public void resetComponents() {
         preference.removeAll();
+        serversPreference.clearFavourites();
         stickyPreference.partlyReset();
         networkController.finishAll();
         globalBehaviorController.finishAll();

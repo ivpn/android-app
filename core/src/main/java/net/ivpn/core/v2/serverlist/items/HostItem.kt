@@ -77,6 +77,17 @@ data class HostItem(
 
     val displayTitleForFavourites: String
         get() = parentServer.getDescriptionWithHostPrefix(host)
+
+    
+    val hostnameWithLoad: String
+        get() {
+            val hostname = host.hostname ?: host.dnsName ?: return ""
+            return "$hostname (${host.load.toInt()}%)"
+        }
+
+    
+    val parentServerLocationName: String
+        get() = parentServer.getDescription()
     
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

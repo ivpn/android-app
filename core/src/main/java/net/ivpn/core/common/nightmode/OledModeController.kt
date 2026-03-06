@@ -48,6 +48,7 @@ object OledModeController {
 
     private val darkGrayColors = setOf(
         0xFF202020.toInt(),
+        0xFF252525.toInt(),  
         0xFF1C1C1C.toInt(),
         0xFF1C1C1E.toInt(),
         0xFF121212.toInt(),

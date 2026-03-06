@@ -123,10 +123,11 @@ class FavouriteServerListRecyclerViewAdapter(
             holder is ServerViewHolder && item is Server -> {
                 bindings[holder.binding] = item
                 setPing(holder.binding, item)
-                holder.bind(item, forbiddenServer, isIPv6BadgeEnabled, filter, false, false)
+                holder.bind(item, forbiddenServer, isIPv6BadgeEnabled, filter, false, false, isFavouritesEntry = true)
             }
             holder is HostViewHolder && item is HostItem -> {
                 hostBindings[holder.binding] = item
+                setPingForHost(holder.binding, item)
                 holder.bind(item, forbiddenServer, isFavouritesEntry = true, isIPv6BadgeEnabled = isIPv6BadgeEnabled)
             }
         }
@@ -141,6 +142,18 @@ class FavouriteServerListRecyclerViewAdapter(
             } ?: run {
                 binding.pingstatus = null
             }
+        }
+    }
+
+    private fun setPingForHost(binding: HostItemBinding, hostItem: HostItem) {
+        pings?.let {
+            it[hostItem.parentServer]?.also { formatter ->
+                binding.pingstatus = formatter
+            } ?: run {
+                binding.pingstatus = null
+            }
+        } ?: run {
+            binding.pingstatus = null
         }
     }
 
@@ -224,6 +237,11 @@ class FavouriteServerListRecyclerViewAdapter(
 
         bindings.forEach {(binding, server) ->
             setPing(binding, server)
+            binding.executePendingBindings()
+        }
+        hostBindings.forEach {(binding, hostItem) ->
+            setPingForHost(binding, hostItem)
+            binding.executePendingBindings()
         }
         if (filter == Filters.LATENCY) {
             applyFilter()
