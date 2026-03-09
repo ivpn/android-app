@@ -176,8 +176,7 @@ class AllServersRecyclerViewAdapter(
                 bindings[holder.binding] = item
                 setPing(holder.binding, item)
                 val isExpanded = expandedServerCities.contains(item.city)
-                // Only show expand button when "Select individual servers" is enabled and not filtering
-                val showExpandButton = settings.isSelectHostEnabled && !isFiltering
+                val showExpandButton = settings.isSelectHostEnabled
                 holder.bind(item, forbiddenServer, isIPv6Enabled, filter, isExpanded, showExpandButton)
             }
         } else if (holder is HostViewHolder) {
@@ -308,7 +307,8 @@ class AllServersRecyclerViewAdapter(
         for (server in servers) {
             listToShow.add(server)
             
-            if (settings.isSelectHostEnabled && expandedServerCities.contains(server.city) && !isFiltering) {
+            val shouldShowHosts = settings.isSelectHostEnabled && expandedServerCities.contains(server.city)
+            if (shouldShowHosts) {
                 server.hosts?.let { hosts ->
                     for (host in hosts) {
                         val isFavourite = serversRepository.isHostFavourite(host, server)
