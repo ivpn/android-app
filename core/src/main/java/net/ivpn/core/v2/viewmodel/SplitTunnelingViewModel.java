@@ -172,7 +172,7 @@ public class SplitTunnelingViewModel {
                                 null != packageManager.getInstallerPackageName(info.packageName) &&
                                         (info.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
                         ) {
-                            if (packageNames.add(info.loadLabel(packageManager).toString())) {
+                            if (packageNames.add(info.packageName+info.loadLabel(packageManager))) {
                                 items.add(new ApplicationItem(info.loadLabel(packageManager).toString(), info.packageName,
                                         info.loadIcon(packageManager)));
                             }
