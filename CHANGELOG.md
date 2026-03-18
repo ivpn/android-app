@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.12.0 - 2026-03-18
+
+[NEW] Select individual servers  
+[NEW] Show server load information  
+[NEW] MTU configuration for WireGuard  
+[NEW] Option to show/hide Account ID  
+[NEW] Dark mode for OLED displays  
+[NEW] Discreet app icon option  
+[IMPROVED] Support 16 KB page sizes on 64-bit devices  
+[FIXED] Unified favorite servers across VPN protocols  
+[FIXED] Option to prevent a Multi-Hop chain with the same location in both hops  
+[FIXED] After update, app reconnects to an unexpected VPN server  
+[FIXED] Unable to read device name on Pixel devices  
+
+[Download IVPN Client v2.12.0](https://www.ivpn.net/releases/android/IVPNv2.12.0site.apk)  
+SHA256: 9758a9200c965d2a5b1b3cd96649d80de7d73a01a950fd9f21333bb49ead680e  
+
 ## Version 2.11.1 - 2025-10-09
 
 [FIXED] IPv6 not working with WireGuard connections  
