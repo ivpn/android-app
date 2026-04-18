@@ -42,10 +42,13 @@
     <string name="settings_privacy_policy">Privacy policy</string>
     <string name="settings_version">VERSION</string>
     <string name="settings_color_theme">Color theme</string>
+    <string name="settings_app_icon">App icon</string>
     <string name="settings_enable_logging">Enable logging</string>
     <string name="settings_enable_multi_hop">Multi-hop connection</string>
     <string name="settings_multihop_same_provider_title">Multi-hop same provider restriction</string>
     <string name="settings_multihop_same_provider_description">Allow to use servers from the same provider to build Multi-hop chain.</string>
+    <string name="settings_select_host">Select individual servers</string>
+    <string name="settings_select_host_description">Enable selection of individual servers in server selection list</string>
     <string name="settings_kill_switch">Kill switch</string>
     <string name="setting_anti_surveillance">AntiTracker</string>
     <string name="setting_custom_dns">Custom DNS</string>
@@ -88,6 +91,7 @@
     <string name="snackbar_to_use_split_tunneling_disconnect">To use split tunneling, please disconnect first</string>
     <string name="snackbar_to_change_protocol_disconnect">To change protocol, please disconnect first</string>
     <string name="snackbar_to_change_port_disconnect_first_msg">To change port please disconnect first</string>
+    <string name="snackbar_to_change_mtu_disconnect_first">To change MTU please disconnect first</string>
     <string name="snackbar_to_change_multihop_disconnect_first_msg">To change Multi-hop settings please disconnect first</string>
     <string name="snackbar_multihop_not_allowed_for_wg">Multi-hop is not available for WireGuard right now</string>
     <string name="snackbar_new_try_with_different_port">Connection to server blocked, reconnecting on a different port. Please wait until connection is established.</string>
@@ -111,6 +115,7 @@
 
     <string name="settings_color_theme_light">Light</string>
     <string name="settings_color_theme_dark">Dark</string>
+    <string name="settings_color_theme_amoled_black">Pure Black</string>
     <string name="settings_color_theme_system_default">System default</string>
     <string name="settings_color_theme_system_by_battery">By battery</string>
 
@@ -248,6 +253,11 @@
     <string name="servers_list_all">All</string>
     <string name="favourites_no_title">Your favourite servers will be\n displayed here</string>
     <string name="favourites_no_description">Save your time by creating your own list of servers</string>
+
+    <!--Server hosts and load-->
+    <string name="server_load">Server load</string>
+    <string name="server_host">Server host</string>
+    <string name="specific_server_description">Select a specific server to get the same IP address on every connection</string>
 
     <!--Fastest Server Settings-->
     <string name="fastest_setting_description">Choose which servers can be used as the fastest.</string>
@@ -456,6 +466,7 @@
     <string name="dialogs_color_theme_title">Color Theme</string>
     <string name="dialogs_color_theme_light">Light</string>
     <string name="dialogs_color_theme_dark">Dark</string>
+    <string name="dialogs_color_theme_amoled_black">Pure Black</string>
     <string name="dialogs_color_theme_default">System default</string>
     <string name="dialogs_color_theme_by_battery">Set by Battery Saver. Dark mode is used when the system\'s Battery Saver feature is enabled. Otherwise - Light mode.</string>
 
@@ -538,6 +549,13 @@
     <string name="protocol_wg_quantum_resistance_disabled">Disabled</string>
     <string name="protocol_wg_quantum_resistance_info">Quantum Resistance: Indicates whether your current WireGuard VPN connection is using additional protection measures against potential future quantum computer attacks.\n\nWhen Enabled, a Pre-shared key has been securely exchanged between your device and the server using post-quantum Key Encapsulation Mechanism (KEM) algorithms. If Disabled, the current VPN connection, while secure under today\'s standards, does not include this extra layer of quantum resistance.</string>
     
+    <string name="protocol_wg_mtu">MTU</string>
+    <string name="protocol_wg_configure_mtu">Configure MTU</string>
+    <string name="protocol_wg_mtu_description">Valid range [1280 - 65535]. Please note that changing this value may affect the proper functioning of the VPN tunnel.</string>
+    <string name="protocol_wg_mtu_hint">1280 - 65535</string>
+    <string name="protocol_wg_mtu_default">Leave blank to use default value</string>
+    <string name="protocol_wg_mtu_error">Expected value: [1280 - 65535]</string>
+
     <string name="protocol_selection">We recommend the WireGuard protocol for its speed, security and connection reliability. For more information visit our protocol <a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">comparison web page.</a></string>
 
     <string name="shortcuts_connect">Connect</string>
@@ -664,4 +682,17 @@
     <string name="settings_obfuscation_state_v2ray_vmess_quic">V2Ray (VMESS/QUIC)</string>
     <string name="settings_obfuscation_state_v2ray_vmess_tcp">V2Ray (VMESS/TCP)</string>
     <string name="settings_obfuscation_description">VPN obfuscation is a technique that masks VPN traffic to make it appear like standard internet traffic, helping to evade detection and bypass internet restrictions or censorship.</string>
+
+    <!--App Icon-->
+    <string name="app_icon_name_default">Default</string>
+    <string name="app_icon_name_weather">Weather</string>
+    <string name="app_icon_name_alarm_clock">Alarm Clock</string>
+    <string name="app_icon_name_calculator">Calculator</string>
+    <string name="app_icon_description">Customize how the IVPN app appears on your device. Discreet icons can help disguise the presence of a VPN app on your phone.</string>
+    <string name="app_icon_discreet_section">Discreet app icon</string>
+    <string name="app_icon_discreet_description">Using a discreet icon changes the app name on the home screen to match the icon.</string>
+    <string name="app_icon_change_title">Change app icon?</string>
+    <string name="app_icon_change_message">This will cause the IVPN app to close. To restart IVPN, just tap your new app icon.</string>
+    <string name="app_icon_change_confirm">Change</string>
+    <string name="dialog_cancel">Cancel</string>
 </resources>

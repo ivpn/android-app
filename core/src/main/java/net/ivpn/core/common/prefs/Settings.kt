@@ -126,6 +126,12 @@ class Settings @Inject constructor(
             settingsPreference.putSettingMultiHop(value)
         }
 
+    var isSelectHostEnabled: Boolean
+        get() = settingsPreference.getSettingSelectHost()
+        set(value) {
+            settingsPreference.putSettingSelectHost(value)
+        }
+
     var isMultiHopSameProviderAllowed: Boolean
         get() = settingsPreference.isMultiHopSameProviderAllowed
         set(value) {
@@ -364,6 +370,12 @@ class Settings @Inject constructor(
         get() = settingsPreference.getRegenerationPeriod()
         set(value) {
             settingsPreference.putRegenerationPeriod(value)
+        }
+
+    var wireGuardMtu: Int
+        get() = settingsPreference.wireGuardMtu
+        set(value) {
+            settingsPreference.wireGuardMtu = value
         }
 
     fun generateWireGuardKeys(): Keypair {

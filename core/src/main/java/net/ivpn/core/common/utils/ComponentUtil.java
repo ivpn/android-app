@@ -28,10 +28,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationManagerCompat;
 
 import net.ivpn.core.IVPNApplication;
+import net.ivpn.core.common.appicon.AppIconManager;
 import net.ivpn.core.common.dagger.ApplicationScope;
 import net.ivpn.core.common.migration.MigrationController;
 import net.ivpn.core.common.pinger.PingProvider;
 import net.ivpn.core.common.prefs.Preference;
+import net.ivpn.core.common.prefs.ServersPreference;
 import net.ivpn.core.common.prefs.ServersRepository;
 import net.ivpn.core.common.prefs.Settings;
 import net.ivpn.core.common.prefs.StickyPreference;
@@ -49,6 +51,7 @@ public class ComponentUtil {
 
     private final Settings settings;
     private final Preference preference;
+    private final ServersPreference serversPreference;
     private final ServersRepository serversRepository;
     private final GlobalBehaviorController globalBehaviorController;
     private final ProtocolController protocolController;
@@ -60,17 +63,21 @@ public class ComponentUtil {
     private final PingProvider pingProvider;
     private final MockLocationController mockLocationController;
     private final StickyPreference stickyPreference;
+    private final AppIconManager appIconManager;
 
     @Inject
     ComponentUtil(LogUtil logUtil, Preference preference, Settings settings,
-                  ServersRepository serversRepository, GlobalBehaviorController globalBehaviorController,
+                  ServersPreference serversPreference, ServersRepository serversRepository,
+                  GlobalBehaviorController globalBehaviorController,
                   ProtocolController protocolController, NetworkController networkController,
                   ConfigManager configManager, ProfileManager profileManager,
                   MigrationController migrationController, PingProvider pingProvider,
-                  MockLocationController mockLocationController, StickyPreference stickyPreference) {
+                  MockLocationController mockLocationController, StickyPreference stickyPreference,
+                  AppIconManager appIconManager) {
         this.logUtil = logUtil;
         this.settings = settings;
         this.preference = preference;
+        this.serversPreference = serversPreference;
         this.serversRepository = serversRepository;
         this.globalBehaviorController = globalBehaviorController;
         this.protocolController = protocolController;
@@ -81,6 +88,7 @@ public class ComponentUtil {
         this.pingProvider = pingProvider;
         this.mockLocationController = mockLocationController;
         this.stickyPreference = stickyPreference;
+        this.appIconManager = appIconManager;
     }
 
     public void performBaseComponentsInit() {
@@ -99,6 +107,7 @@ public class ComponentUtil {
 
     public void resetComponents() {
         preference.removeAll();
+        serversPreference.clearFavourites();
         stickyPreference.partlyReset();
         networkController.finishAll();
         globalBehaviorController.finishAll();
@@ -106,6 +115,7 @@ public class ComponentUtil {
         IVPNApplication.updatesController.resetComponent();
         logUtil.resetAll();
         mockLocationController.reset();
+        appIconManager.resetToDefault();
 
         NotificationManagerCompat.from(IVPNApplication.application).cancelAll();
     }

@@ -122,6 +122,20 @@ class AccountFragment : Fragment(), AccountViewModel.AccountNavigator {
                 binding.contentLayout.qr.width
             )
         }
+
+        syncMaskingBehavior()
+    }
+
+    private fun syncMaskingBehavior() {
+        binding.contentLayout.qr.setOnClickListener {
+            binding.contentLayout.qr.toggleMask()
+            binding.contentLayout.username.toggleMask()
+        }
+
+        binding.contentLayout.username.setOnClickListener {
+            binding.contentLayout.username.toggleMask()
+            binding.contentLayout.qr.toggleMask()
+        }
     }
 
     override fun onLogOut() {

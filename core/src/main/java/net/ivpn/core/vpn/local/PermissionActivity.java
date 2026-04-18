@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import net.ivpn.core.IVPNApplication;
+import net.ivpn.core.common.nightmode.OledModeController;
 import net.ivpn.core.v2.dialog.DialogBuilder;
 import net.ivpn.core.v2.dialog.Dialogs;
 import net.ivpn.core.vpn.controller.VpnBehaviorController;
@@ -51,6 +52,7 @@ public class PermissionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        OledModeController.applyOledTheme(this);
         IVPNApplication.appComponent.provideActivityComponent().create().inject(this);
         LOGGER.info("onCreate");
         super.onCreate(savedInstanceState);

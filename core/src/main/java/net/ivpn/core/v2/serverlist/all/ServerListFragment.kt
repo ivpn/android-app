@@ -32,6 +32,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.R
@@ -48,6 +49,7 @@ import net.ivpn.core.v2.viewmodel.ConnectionViewModel
 import net.ivpn.core.v2.viewmodel.IPv6ViewModel
 import net.ivpn.core.v2.viewmodel.ServerListFilterViewModel
 import net.ivpn.core.v2.viewmodel.ServerListViewModel
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 
@@ -99,6 +101,7 @@ class ServerListFragment : Fragment(),
         init()
         viewmodel.start(serverType)
         binding.lifecycleOwner = this
+        view.post { OledModeController.applyOledToViewTree(view) }
 
         val pingObserver = Observer<MutableMap<Server, PingResultFormatter?>> { map ->
             (binding.recyclerView.adapter as ServerBasedRecyclerViewAdapter).setPings(map)
@@ -110,6 +113,7 @@ class ServerListFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         viewmodel.navigators.add(this)
+        view?.let { OledModeController.applyOledToViewTree(it) }
     }
 
     override fun onPause() {
@@ -121,6 +125,7 @@ class ServerListFragment : Fragment(),
         super.onDestroy()
         if (this::adapter.isInitialized) {
             viewmodel.favouriteListeners.remove(adapter)
+            viewmodel.expandListeners.remove(adapter)
         }
         filterViewModel.listeners.remove(this)
         adapter.release()
@@ -138,9 +143,11 @@ class ServerListFragment : Fragment(),
                 viewmodel.isFastestServerAllowed(), filterViewModel.filter.get(), ipv6ViewModel.isIPv6BadgeEnabled.get())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        (binding.recyclerView.itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 R.color.colorAccent)
         viewmodel.favouriteListeners.add(adapter)
+        viewmodel.expandListeners.add(adapter)
     }
 
     fun cancel() {

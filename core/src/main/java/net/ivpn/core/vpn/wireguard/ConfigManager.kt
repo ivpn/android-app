@@ -150,7 +150,12 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val host = if (v2rayController.isV2RayEnabled()) {
+        // Check if a specific host was selected for consistent IP address
+        val selectedHost = serversRepository.getCurrentHost(ServerType.ENTRY)
+        val host = if (selectedHost != null && server.hosts.any { it.hostname == selectedHost.hostname }) {
+            LOGGER.info("Using user-selected specific host: ${selectedHost.hostname}")
+            selectedHost
+        } else if (v2rayController.isV2RayEnabled()) {
             val candidates = server.hosts.filter { it.v2ray != null && it.v2ray.isNotEmpty() }
             val selected = candidates.randomOrNull() ?: server.hosts.random()
             if (candidates.isEmpty()) {
@@ -190,7 +195,14 @@ class ConfigManager @Inject constructor(
             return null
         }
 
-        val entryHost = if (v2rayController.isV2RayEnabled()) {
+        // Check if specific hosts were selected
+        val selectedEntryHost = serversRepository.getCurrentHost(ServerType.ENTRY)
+        val selectedExitHost = serversRepository.getCurrentHost(ServerType.EXIT)
+
+        val entryHost = if (selectedEntryHost != null && entryServer.hosts.any { it.hostname == selectedEntryHost.hostname }) {
+            LOGGER.info("Using user-selected specific entry host: ${selectedEntryHost.hostname}")
+            selectedEntryHost
+        } else if (v2rayController.isV2RayEnabled()) {
             val candidates = entryServer.hosts.filter { it.v2ray != null && it.v2ray.isNotEmpty() }
             val selected = candidates.randomOrNull() ?: entryServer.hosts.random()
             if (candidates.isEmpty()) {
@@ -200,7 +212,13 @@ class ConfigManager @Inject constructor(
         } else {
             entryServer.hosts.random()
         }
-        val exitHost = exitServer.hosts.random()
+
+        val exitHost = if (selectedExitHost != null && exitServer.hosts.any { it.hostname == selectedExitHost.hostname }) {
+            LOGGER.info("Using user-selected specific exit host: ${selectedExitHost.hostname}")
+            selectedExitHost
+        } else {
+            exitServer.hosts.random()
+        }
 
         LOGGER.info("Multi-hop: Entry server: ${entryHost.hostname} (${entryHost.host})")
         LOGGER.info("Multi-hop: Exit server: ${exitHost.hostname} (${exitHost.host})")
@@ -243,6 +261,13 @@ class ConfigManager @Inject constructor(
 
         val dnsString = getDNS(hosts[0])
         config.getInterface().setDnsString(dnsString)
+
+        // set only if configured
+        val mtu = settings.wireGuardMtu
+        if (mtu > 0) {
+            config.getInterface().setMtu(mtu)
+            LOGGER.info("Using custom MTU: $mtu")
+        }
 
         val endpoint = if (v2rayController.isV2RayEnabled()) {
             v2rayController.getLocalProxyEndpoint()

@@ -33,10 +33,14 @@ import net.ivpn.core.common.prefs.OnServerListUpdatedListener
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.common.prefs.ServersRepository
 import net.ivpn.core.common.prefs.Settings
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.dialog.Dialogs
 import net.ivpn.core.v2.serverlist.AdapterListener
 import net.ivpn.core.v2.serverlist.FavouriteServerListener
+import net.ivpn.core.v2.serverlist.items.ConnectionOption
+import net.ivpn.core.v2.serverlist.items.HostItem
+import net.ivpn.core.v2.serverlist.OnServerExpandListener
 import javax.inject.Inject
 
 @ApplicationScope
@@ -50,13 +54,14 @@ class ServerListViewModel @Inject constructor(
     val pings = pingProvider.pings
 
     val all = ObservableArrayList<Server>()
-    val favourites = ObservableArrayList<Server>()
+    val favourites = ObservableArrayList<ConnectionOption>()
     val forbiddenServer = ObservableField<Server>()
 
     val dataRefreshing = ObservableBoolean()
     val dataLoading = ObservableBoolean()
     val navigators = arrayListOf<ServerListNavigator>()
     val favouriteListeners = arrayListOf<FavouriteServerListener>()
+    val expandListeners = arrayListOf<OnServerExpandListener>()
 
     val adapterListener = object : AdapterListener {
         override fun onServerLongClick(server: Server) {
@@ -99,6 +104,44 @@ class ServerListViewModel @Inject constructor(
                 navigators[0].onServerSelected()
             }
         }
+
+        override fun onHostSelected(host: Host, parentServer: Server, forbiddenServer: Server?) {
+            if (parentServer.canBeUsedAsMultiHopWith(forbiddenServer)) {
+                setCurrentServerAndHost(parentServer, host)
+                if (navigators.isNotEmpty()) {
+                    navigators[0].onServerSelected()
+                }
+            } else {
+                if (navigators.isNotEmpty()) {
+                    navigators[0].showDialog(Dialogs.INCOMPATIBLE_SERVERS)
+                }
+            }
+        }
+
+        override fun onServerExpandToggle(server: Server) {
+            for (listener in expandListeners) {
+                listener.onServerExpandToggle(server)
+            }
+        }
+
+        override fun changeFavouriteStateForHost(host: Host, parentServer: Server, isFavourite: Boolean) {
+            if (isFavourite) {
+                serversRepository.addFavouriteHost(host, parentServer)
+                favourites.add(HostItem(host, parentServer, isFavourite = true))
+            } else {
+                serversRepository.removeFavouriteHost(host, parentServer)
+                val hostDns = host.dnsName
+                val hostHostname = host.hostname
+                val serverGateway = parentServer.gateway
+                if (serverGateway != null && (hostDns != null || hostHostname != null)) {
+                    favourites.removeAll { it is HostItem &&
+                        it.parentServer.gateway == serverGateway &&
+                        (hostDns != null && it.host.dnsName?.equals(hostDns, ignoreCase = true) == true ||
+                         hostHostname != null && it.host.hostname?.equals(hostHostname, ignoreCase = true) == true)
+                    }
+                }
+            }
+        }
     }
 
     private var listener: OnServerListUpdatedListener = object : OnServerListUpdatedListener {
@@ -137,6 +180,12 @@ class ServerListViewModel @Inject constructor(
         }
     }
 
+    fun setCurrentServerAndHost(server: Server?, host: Host?) {
+        serverType?.let {
+            serversRepository.hostSelected(server, host, it)
+        }
+    }
+
     fun start(serverType: ServerType?) {
         if (serverType == null) return
 
@@ -144,6 +193,7 @@ class ServerListViewModel @Inject constructor(
         forbiddenServer.set(getForbiddenServer(serverType))
         favourites.clear()
         favourites.addAll(serversRepository.getFavouritesServers())
+        favourites.addAll(serversRepository.getFavouriteHosts())
 
         if (isServersListExist()) {
             getCachedServersList()?.let {
@@ -171,16 +221,18 @@ class ServerListViewModel @Inject constructor(
     }
 
     private fun applyFavourites() {
+        val favouriteServers = favourites.filterIsInstance<Server>()
         for (server in all) {
-            server.isFavourite = favourites.contains(server)
+            server.isFavourite = favouriteServers.contains(server)
         }
-        for (server in favourites) {
+        for (server in favouriteServers) {
             server.isFavourite = true
         }
     }
 
     private fun addToFavourites(server: Server) {
         serversRepository.addFavouritesServer(server)
+        favourites.add(server)
         for (listener in favouriteListeners) {
             listener.onChangeState(server, true)
         }
@@ -188,6 +240,7 @@ class ServerListViewModel @Inject constructor(
 
     private fun removeFromFavourites(server: Server) {
         serversRepository.removeFavouritesServer(server)
+        favourites.remove(server)
         for (listener in favouriteListeners) {
             listener.onChangeState(server, false)
         }

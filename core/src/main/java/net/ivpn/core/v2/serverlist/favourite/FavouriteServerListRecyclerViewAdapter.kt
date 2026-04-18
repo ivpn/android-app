@@ -35,6 +35,7 @@ import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.OnPingFinishListener
 import net.ivpn.core.common.pinger.PingProvider
 import net.ivpn.core.common.pinger.PingResultFormatter
+import net.ivpn.core.databinding.HostItemBinding
 import net.ivpn.core.databinding.ServerItemBinding
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.serverlist.AdapterListener
@@ -42,8 +43,11 @@ import net.ivpn.core.v2.serverlist.FavouriteServerListener
 import net.ivpn.core.v2.serverlist.ServerBasedRecyclerViewAdapter
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.v2.serverlist.holders.HolderListener
+import net.ivpn.core.v2.serverlist.holders.HostViewHolder
 import net.ivpn.core.v2.serverlist.holders.ServerViewHolder
 import net.ivpn.core.v2.serverlist.items.ConnectionOption
+import net.ivpn.core.common.nightmode.OledModeController
+import net.ivpn.core.v2.serverlist.items.HostItem
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
@@ -59,9 +63,10 @@ class FavouriteServerListRecyclerViewAdapter(
     lateinit var distanceProvider: DistanceProvider
 
     private var bindings = HashMap<ServerItemBinding, Server>()
+    private var hostBindings = HashMap<HostItemBinding, HostItem>()
 
-    private var rawServers = arrayListOf<Server>()
-    private var serversToDisplay = arrayListOf<Server>()
+    private var rawItems = arrayListOf<ConnectionOption>()
+    private var itemsToDisplay = arrayListOf<ConnectionOption>()
     private var forbiddenServer: Server? = null
 
     val distanceChangedListener = object : OnDistanceChangedListener {
@@ -81,13 +86,24 @@ class FavouriteServerListRecyclerViewAdapter(
     private var pings: Map<Server, PingResultFormatter?>? = null
 
     override fun getItemViewType(position: Int): Int {
-        return SERVER_ITEM
+        return when (itemsToDisplay.getOrNull(position)) {
+            is HostItem -> HOST_ITEM
+            else -> SERVER_ITEM
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
-        return ServerViewHolder(binding, navigator)
+        return when (viewType) {
+            HOST_ITEM -> {
+                val binding = HostItemBinding.inflate(layoutInflater, parent, false)
+                HostViewHolder(binding, navigator)
+            }
+            else -> {
+                val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
+                ServerViewHolder(binding, navigator)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
@@ -102,12 +118,21 @@ class FavouriteServerListRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ServerViewHolder) {
-            val server: Server = getServerFor(position)
-            bindings[holder.binding] = server
-            setPing(holder.binding, server)
-            holder.bind(server, forbiddenServer, isIPv6BadgeEnabled, filter)
+        val item = getItemFor(position)
+        when {
+            holder is ServerViewHolder && item is Server -> {
+                bindings[holder.binding] = item
+                setPing(holder.binding, item)
+                holder.bind(item, forbiddenServer, isIPv6BadgeEnabled, filter, false, false, isFavouritesEntry = true)
+            }
+            holder is HostViewHolder && item is HostItem -> {
+                hostBindings[holder.binding] = item
+                setPingForHost(holder.binding, item)
+                holder.bind(item, forbiddenServer, isFavouritesEntry = true, isIPv6BadgeEnabled = isIPv6BadgeEnabled)
+            }
         }
+        // Apply OLED colors to recycled/new items
+        OledModeController.applyOledToViewTree(holder.itemView)
     }
 
     private fun setPing(binding: ServerItemBinding, server: Server) {
@@ -120,39 +145,54 @@ class FavouriteServerListRecyclerViewAdapter(
         }
     }
 
+    private fun setPingForHost(binding: HostItemBinding, hostItem: HostItem) {
+        pings?.let {
+            it[hostItem.parentServer]?.also { formatter ->
+                binding.pingstatus = formatter
+            } ?: run {
+                binding.pingstatus = null
+            }
+        } ?: run {
+            binding.pingstatus = null
+        }
+    }
+
     override fun getItemCount(): Int {
-        return serversToDisplay.size
+        return itemsToDisplay.size
+    }
+
+    private fun getItemFor(position: Int): ConnectionOption {
+        return itemsToDisplay[position]
     }
 
     private fun removeFavouriteServer(server: Server) {
-        if (!rawServers.contains(server)) {
-            return
-        }
-        rawServers.remove(server)
+        if (!rawItems.contains(server)) return
+        rawItems.remove(server)
         applyFilter()
     }
 
     private fun addFavouriteServer(server: Server) {
-        if (rawServers.contains(server)) {
-            return
-        }
-        rawServers.add(server)
+        if (rawItems.contains(server)) return
+        rawItems.add(server)
         applyFilter()
     }
 
-    private fun setServers(servers: ArrayList<Server>) {
-        rawServers = servers
+    /**
+     * Replaces the list with servers and/or host items (ConnectionOption).
+     * Used by the favouriteItems binding.
+     */
+    fun replaceDataConnectionOptions(items: List<ConnectionOption>) {
+        rawItems = ArrayList(items)
         setDistances()
         setLatencies()
         applyFilter()
     }
 
-    private fun sortServers(servers: ArrayList<Server>) {
-        filter?.let {
-            Collections.sort(servers, it.getServerComparator())
-        } ?: run {
-            Collections.sort(servers, Server.comparator)
-        }
+    private fun setServers(servers: ArrayList<Server>) {
+        rawItems = ArrayList(servers)
+        setDistances()
+        setLatencies()
+        applyFilter()
     }
 
     private fun notifyChanges(oldList: List<ConnectionOption>, newList: List<ConnectionOption>) {
@@ -176,7 +216,7 @@ class FavouriteServerListRecyclerViewAdapter(
     }
 
     override fun replaceData(items: List<Server>) {
-        setServers(ArrayList(items))
+        replaceDataConnectionOptions(ArrayList(items))
     }
 
     override fun setFilter(filter: Filters?) {
@@ -197,6 +237,11 @@ class FavouriteServerListRecyclerViewAdapter(
 
         bindings.forEach {(binding, server) ->
             setPing(binding, server)
+            binding.executePendingBindings()
+        }
+        hostBindings.forEach {(binding, hostItem) ->
+            setPingForHost(binding, hostItem)
+            binding.executePendingBindings()
         }
         if (filter == Filters.LATENCY) {
             applyFilter()
@@ -204,17 +249,23 @@ class FavouriteServerListRecyclerViewAdapter(
     }
 
     private fun setLatencies() {
-        pings?.let{pingsObj ->
-            rawServers.forEach {
+        pings?.let { pingsObj ->
+            rawItems.filterIsInstance<Server>().forEach {
                 it.latency = pingsObj[it]?.ping ?: Long.MAX_VALUE
+            }
+            rawItems.filterIsInstance<HostItem>().forEach {
+                it.parentServer.latency = pingsObj[it.parentServer]?.ping ?: Long.MAX_VALUE
             }
         }
     }
 
     private fun setDistances() {
         val distances = distanceProvider.distances
-        rawServers.forEach {
+        rawItems.filterIsInstance<Server>().forEach {
             it.distance = distances[it] ?: Float.MAX_VALUE
+        }
+        rawItems.filterIsInstance<HostItem>().forEach {
+            it.parentServer.distance = distances[it.parentServer] ?: Float.MAX_VALUE
         }
     }
 
@@ -231,23 +282,41 @@ class FavouriteServerListRecyclerViewAdapter(
             }, updateInterval)
         } else {
             isUpdating = true
-            val oldList = serversToDisplay
-            serversToDisplay = ArrayList(rawServers)
-            sortServers(serversToDisplay)
-            notifyChanges(oldList, serversToDisplay)
+            val oldList = itemsToDisplay
+            val allItems = ArrayList<ConnectionOption>(rawItems)
+            filter?.let {
+                Collections.sort(allItems, it.getConnectionOptionComparator())
+            } ?: run {
+                Collections.sort(allItems) { a, b ->
+                    val serverA = when (a) {
+                        is Server -> a
+                        is HostItem -> a.parentServer
+                        else -> return@sort 0
+                    }
+                    val serverB = when (b) {
+                        is Server -> b
+                        is HostItem -> b.parentServer
+                        else -> return@sort 0
+                    }
+                    Server.comparator.compare(serverA, serverB)
+                }
+            }
+            itemsToDisplay = allItems
+            notifyChanges(oldList, itemsToDisplay)
         }
     }
 
     private fun getPositionFor(server: Server): Int {
-        return serversToDisplay.indexOf(server)
+        return itemsToDisplay.indexOf(server)
     }
 
     private fun getServerFor(position: Int): Server {
-        return serversToDisplay[position]
+        return getItemFor(position) as Server
     }
 
     companion object {
         private const val SERVER_ITEM = 1
+        private const val HOST_ITEM = 2
     }
 
     fun release() {

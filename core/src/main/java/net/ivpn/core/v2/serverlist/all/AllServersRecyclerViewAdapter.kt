@@ -34,20 +34,26 @@ import net.ivpn.core.R
 import net.ivpn.core.common.distance.DistanceProvider
 import net.ivpn.core.common.distance.OnDistanceChangedListener
 import net.ivpn.core.common.pinger.PingResultFormatter
+import net.ivpn.core.common.prefs.ServersRepository
+import net.ivpn.core.common.prefs.Settings
 import net.ivpn.core.databinding.FastestServerItemBinding
+import net.ivpn.core.databinding.HostItemBinding
 import net.ivpn.core.databinding.RandomServerItemBinding
 import net.ivpn.core.databinding.SearchItemBinding
 import net.ivpn.core.databinding.ServerItemBinding
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.v2.serverlist.AdapterListener
 import net.ivpn.core.v2.serverlist.FavouriteServerListener
+import net.ivpn.core.v2.serverlist.OnServerExpandListener
 import net.ivpn.core.v2.serverlist.ServerBasedRecyclerViewAdapter
 import net.ivpn.core.v2.serverlist.dialog.Filters
 import net.ivpn.core.v2.serverlist.holders.*
 import net.ivpn.core.v2.serverlist.items.ConnectionOption
 import net.ivpn.core.v2.serverlist.items.FastestServerItem
+import net.ivpn.core.v2.serverlist.items.HostItem
 import net.ivpn.core.v2.serverlist.items.RandomServerItem
 import net.ivpn.core.v2.serverlist.items.SearchServerItem
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.inject.Inject
@@ -59,18 +65,29 @@ class AllServersRecyclerViewAdapter(
         private val isFastestServerAllowed: Boolean,
         private var filter: Filters?,
         private var isIPv6Enabled: Boolean
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ServerBasedRecyclerViewAdapter, FavouriteServerListener, OnServerExpandListener {
 
     @Inject
     lateinit var distanceProvider: DistanceProvider
 
+    @Inject
+    lateinit var settings: Settings
+
+    @Inject
+    lateinit var serversRepository: ServersRepository
+
     private var bindings = HashMap<ServerItemBinding, Server>()
+    private var hostBindings = HashMap<HostItemBinding, HostItem>()
     private var searchBinding: SearchItemBinding? = null
+    private var allServers = arrayListOf<Server>()
     private var servers = arrayListOf<Server>()
     private var filteredServers = arrayListOf<Server>()
     private var displayServers = arrayListOf<ConnectionOption>()
     private var forbiddenServer: Server? = null
     private var isFiltering = false
+    
+    // Track expanded servers by their city (unique identifier)
+    private var expandedServerCities = mutableSetOf<String>()
 
     val distanceChangedListener = object : OnDistanceChangedListener {
         override fun onDistanceChanged() {
@@ -89,6 +106,11 @@ class AllServersRecyclerViewAdapter(
     private var pings: Map<Server, PingResultFormatter?>? = null
 
     override fun getItemViewType(position: Int): Int {
+        val item = displayServers.getOrNull(position)
+        if (item is HostItem) {
+            return HOST_ITEM
+        }
+        
         if (isFiltering) {
             return when (position) {
                 0 -> SEARCH_ITEM
@@ -125,6 +147,10 @@ class AllServersRecyclerViewAdapter(
                 val binding = FastestServerItemBinding.inflate(layoutInflater, parent, false)
                 FastestServerViewHolder(binding, navigator)
             }
+            HOST_ITEM -> {
+                val binding = HostItemBinding.inflate(layoutInflater, parent, false)
+                HostViewHolder(binding, navigator)
+            }
             else -> {
                 val binding = ServerItemBinding.inflate(layoutInflater, parent, false)
                 ServerViewHolder(binding, navigator)
@@ -145,15 +171,25 @@ class AllServersRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ServerViewHolder) {
-            val server: ConnectionOption = getServerFor(position)
-            if (server is Server) {
-                bindings[holder.binding] = server
-                setPing(holder.binding, server)
-                holder.bind(server, forbiddenServer, isIPv6Enabled, filter)
+            val item: ConnectionOption = getServerFor(position)
+            if (item is Server) {
+                bindings[holder.binding] = item
+                setPing(holder.binding, item)
+                val isExpanded = expandedServerCities.contains(item.city)
+                val showExpandButton = settings.isSelectHostEnabled
+                holder.bind(item, forbiddenServer, isIPv6Enabled, filter, isExpanded, showExpandButton)
+            }
+        } else if (holder is HostViewHolder) {
+            val item: ConnectionOption = getServerFor(position)
+            if (item is HostItem) {
+                hostBindings[holder.binding] = item
+                holder.bind(item, forbiddenServer)
             }
         } else if (holder is SearchViewHolder) {
             searchBinding = holder.binding
         }
+        // Apply OLED colors to recycled/new items
+        OledModeController.applyOledToViewTree(holder.itemView)
     }
 
     private fun setPing(binding: ServerItemBinding, server: Server) {
@@ -226,14 +262,19 @@ class AllServersRecyclerViewAdapter(
     }
 
     private fun setServers(servers: ArrayList<Server>) {
-        this.servers = servers
+        this.allServers = servers
+        this.servers = if (forbiddenServer != null) {
+            ArrayList(servers.filter { it != forbiddenServer })
+        } else {
+            servers
+        }
         setDistances()
         setLatencies()
 
         searchBinding?.search?.let {
             searchFilter.filter(it.query)
         } ?: run {
-            filteredServers = servers
+            filteredServers = this.servers
             if (pings.isNullOrEmpty() && filter == Filters.LATENCY) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     applyFilter()
@@ -262,13 +303,41 @@ class AllServersRecyclerViewAdapter(
             }
         }
         sortServers(servers)
-        listToShow.addAll(servers)
+        
+        for (server in servers) {
+            listToShow.add(server)
+            
+            val shouldShowHosts = settings.isSelectHostEnabled && expandedServerCities.contains(server.city)
+            if (shouldShowHosts) {
+                server.hosts?.let { hosts ->
+                    for (host in hosts) {
+                        val isFavourite = serversRepository.isHostFavourite(host, server)
+                        listToShow.add(HostItem(host, server, isFavourite))
+                    }
+                }
+            }
+        }
 
         return listToShow
     }
+    
+    override fun onServerExpandToggle(server: Server) {
+        val city = server.city
+        if (expandedServerCities.contains(city)) {
+            expandedServerCities.remove(city)
+        } else {
+            expandedServerCities.add(city)
+        }
+        applyFilter()
+    }
 
     override fun setForbiddenServer(server: Server?) {
-        forbiddenServer = server
+        if (forbiddenServer != server) {
+            forbiddenServer = server
+            if (allServers.isNotEmpty()) {
+                setServers(ArrayList(allServers))
+            }
+        }
     }
 
     private fun getPositionFor(server: Server): Int {
@@ -339,6 +408,13 @@ class AllServersRecyclerViewAdapter(
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 val item1 = oldList[oldItemPosition]
                 val item2 = newList[newItemPosition]
+                if (item1 is Server && item2 is Server && item1 == item2) {
+                    val oldExpanded = oldItemPosition + 1 < oldList.size &&
+                            (oldList[oldItemPosition + 1] as? HostItem)?.parentServer == item1
+                    val newExpanded = newItemPosition + 1 < newList.size &&
+                            (newList[newItemPosition + 1] as? HostItem)?.parentServer == item2
+                    return oldExpanded == newExpanded
+                }
                 return item1.equals(item2)
             }
 
@@ -374,5 +450,6 @@ class AllServersRecyclerViewAdapter(
         private const val SERVER_ITEM = 1
         private const val SEARCH_ITEM = 2
         private const val RANDOM_ITEM = 3
+        private const val HOST_ITEM = 4
     }
 }

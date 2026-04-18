@@ -22,6 +22,7 @@ package net.ivpn.core.v2.serverlist;
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.ivpn.core.rest.data.model.Host;
 import net.ivpn.core.rest.data.model.Server;
 
 public interface AdapterListener {
@@ -37,4 +38,10 @@ public interface AdapterListener {
     void onRandomServerSelected();
 
     void changeFavouriteStateFor(Server server, boolean isFavourite);
+
+    void onHostSelected(Host host, Server parentServer, Server forbiddenServer);
+
+    void onServerExpandToggle(Server server);
+
+    void changeFavouriteStateForHost(Host host, Server parentServer, boolean isFavourite);
 }

@@ -134,6 +134,54 @@ public class Server implements ConnectionOption {
         return getDescription();
     }
 
+    /**
+     * Returns description with host prefix if a host is provided.
+     * Format: "City (hostPrefix), CountryCode" e.g., "Vienna (at1), AT"
+     */
+    public String getDescriptionWithHostPrefix(Host host) {
+        if (host == null || host.getHostname() == null) {
+            return getDescription();
+        }
+        
+        String hostPrefix = extractHostPrefix(host.getHostname());
+        if (hostPrefix.isEmpty()) {
+            return getDescription();
+        }
+        
+        return city + " (" + hostPrefix + "), " + countryCode;
+    }
+
+    /**
+     * Extracts short host prefix from hostname for display (e.g. "at1", "at").
+     * Examples:
+     *   "at1.wg.ivpn.net" -> "at1"
+     *   "at-vie-wg-001.relays.ivpn.net" -> "at"
+     *   "at1-vie-wg-001.relays.ivpn.net" -> "at1"
+     */
+    private String extractHostPrefix(String hostname) {
+        if (hostname == null || hostname.isEmpty()) {
+            return "";
+        }
+        
+        String shortName = hostname;
+        int relaysIndex = hostname.indexOf(".relays");
+        if (relaysIndex > 0) {
+            shortName = hostname.substring(0, relaysIndex);
+        }
+        
+        int dashIndex = shortName.indexOf('-');
+        if (dashIndex > 0) {
+            return shortName.substring(0, dashIndex);
+        }
+        
+        int dotIndex = shortName.indexOf('.');
+        if (dotIndex > 0) {
+            return shortName.substring(0, dotIndex);
+        }
+        
+        return shortName;
+    }
+
     public List<Host> getHosts() {
         return hosts;
     }
@@ -201,6 +249,59 @@ public class Server implements ConnectionOption {
     public boolean canBeUsedAsMultiHopWith(Server server) {
         if (server == null) return true;
         return !this.countryCode.equalsIgnoreCase(server.countryCode);
+    }
+
+    /**
+     * Returns the normalized gateway, replacing .wg. with .gw.
+     * This makes the gateway protocol-agnostic, matching iOS implementation.
+     * Example: "gb.wg.ivpn.net" -> "gb.gw.ivpn.net"
+     */
+    public String getNormalizedGateway() {
+        if (gateway == null || gateway.isEmpty()) return "";
+        return gateway.replace(".wg.", ".gw.");
+    }
+
+    /**
+     * Extracts the location prefix from the gateway.
+     * For example, "gb.wg.ivpn.net" -> "gb"
+     * or "us-ca.gw.ivpn.net" -> "us-ca"
+     */
+    public String getGatewayPrefix() {
+        if (gateway == null || gateway.isEmpty()) return "";
+        String[] parts = gateway.split("\\.");
+        if (parts.length > 0) return parts[0];
+        return "";
+    }
+
+    /**
+     * Checks if this server matches the given gateway prefix.
+     * Normalizes the gateway by removing protocol-specific parts (.wg. -> .gw.)
+     */
+    public boolean matchesGatewayPrefix(String prefix) {
+        if (prefix == null || prefix.isEmpty()) return false;
+        return getGatewayPrefix().equalsIgnoreCase(prefix);
+    }
+
+    /**
+     * Checks if this server has a host with the given dns_name.
+     */
+    public boolean hasHostWithDnsName(String dnsName) {
+        if (dnsName == null || dnsName.isEmpty() || hosts == null) return false;
+        for (Host host : hosts) {
+            if (dnsName.equals(host.getDnsName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets the first host's dns_name if available.
+     * Used for single-host servers as the favorite identifier.
+     */
+    public String getFirstHostDnsName() {
+        if (hosts == null || hosts.isEmpty()) return null;
+        return hosts.get(0).getDnsName();
     }
 
     public boolean isPingInfoSameWith(Server server) {

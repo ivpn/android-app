@@ -47,16 +47,26 @@ import net.ivpn.core.common.InputFilterMinMax
 import net.ivpn.core.common.extension.setContentSecure
 import net.ivpn.core.common.utils.DateUtil
 import net.ivpn.core.databinding.DialogCustomDnsBinding
+import net.ivpn.core.databinding.DialogMtuBinding
 import net.ivpn.core.v2.customdns.OnDNSChangedListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardDetailsDialogListener
 import net.ivpn.core.v2.protocol.dialog.WireGuardInfo
 import net.ivpn.core.v2.timepicker.OnDelayOptionSelected
 import net.ivpn.core.v2.timepicker.PauseDelay
+import net.ivpn.core.common.nightmode.OledModeController
 import org.slf4j.LoggerFactory
 import java.util.*
 
 object DialogBuilder {
     private val LOGGER = LoggerFactory.getLogger(DialogBuilder::class.java)
+
+    private fun getDialogStyle(): Int {
+        return if (OledModeController.isOledModeEnabled()) {
+            R.style.AppTheme_AlertDialog_OLED
+        } else {
+            R.style.AlertDialog
+        }
+    }
 
     @JvmStatic
     fun createOptionDialog(
@@ -67,7 +77,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
         if (dialogAttr.positiveBtnId != -1) {
@@ -94,7 +104,7 @@ object DialogBuilder {
         if (context == null || dialogAttr == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
         builder.setNegativeButton(context.getString(dialogAttr.negativeBtnId), null)
@@ -116,7 +126,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = MaterialAlertDialogBuilder(context, R.style.AlertDialog)
+        val builder = MaterialAlertDialogBuilder(context, getDialogStyle())
         builder.setTitle(title)
         builder.setMessage(msg)
         builder.setNegativeButton(context.getString(R.string.dialogs_ok), null)
@@ -141,7 +151,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         builder.setTitle(title)
         builder.setMessage(msg)
         builder.setOnCancelListener(cancelListener)
@@ -173,7 +183,7 @@ object DialogBuilder {
         if (context == null) {
             return null
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         builder.setTitle(context.getString(dialogAttr.titleId))
         builder.setMessage(context.getString(dialogAttr.messageId))
 
@@ -215,7 +225,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_predefined_time_picker, null)
         val delayMap: MutableMap<Int, PauseDelay> = HashMap()
@@ -258,7 +268,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_custom_time_picker, null)
         val pauseTime = LongArray(1)
@@ -299,9 +309,12 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_wireguard_details, null)
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         (dialogView.findViewById<View>(R.id.wg_public_key) as TextView).text = info.publicKey
@@ -339,7 +352,7 @@ object DialogBuilder {
         if (context == null) {
             return
         }
-        val builder = AlertDialog.Builder(context, R.style.AlertDialog)
+        val builder = AlertDialog.Builder(context, getDialogStyle())
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val viewModel =
             IVPNApplication.appComponent.provideActivityComponent().create().dialogueViewModel
@@ -350,6 +363,9 @@ object DialogBuilder {
         )
         binding.viewmodel = viewModel
         val dialogView = binding.root
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+        }
         builder.setView(dialogView)
         val alertDialog = builder.create()
         binding.firstValue.filters = arrayOf<InputFilter>(InputFilterMinMax(0, 255))
@@ -377,6 +393,78 @@ object DialogBuilder {
             alertDialog.show()
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    @JvmStatic
+    fun createMtuDialog(
+        context: Context?,
+        currentMtu: String,
+        onMtuSaved: (String) -> Unit,
+        onMtuError: () -> Unit
+    ) {
+        LOGGER.info("Create MTU dialog")
+        if (context == null) {
+            return
+        }
+        val builder = AlertDialog.Builder(context, getDialogStyle())
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val binding: DialogMtuBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.dialog_mtu, null, false
+        )
+        binding.mtuValue = currentMtu
+        val dialogView = binding.root
+        if (OledModeController.isOledModeEnabled()) {
+            dialogView.setBackgroundColor(context.getColor(R.color.oled_background))
+            binding.mtuInput.setHintTextColor(context.getColor(R.color.oled_hint_text))
+        }
+        builder.setView(dialogView)
+        val alertDialog = builder.create()
+
+        binding.mtuInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val mtuString = binding.mtuInput.text?.toString() ?: ""
+                if (isValidMtu(mtuString)) {
+                    onMtuSaved(mtuString)
+                    alertDialog.dismiss()
+                } else {
+                    onMtuError()
+                }
+            }
+            false
+        }
+
+        dialogView.findViewById<View>(R.id.apply_action).setOnClickListener {
+            val mtuString = binding.mtuInput.text?.toString() ?: ""
+            if (isValidMtu(mtuString)) {
+                onMtuSaved(mtuString)
+                alertDialog.dismiss()
+            } else {
+                onMtuError()
+            }
+        }
+        dialogView.findViewById<View>(R.id.cancel_action).setOnClickListener { alertDialog.dismiss() }
+
+        if ((context as Activity).isFinishing) {
+            return
+        }
+        try {
+            alertDialog.show()
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun isValidMtu(mtuString: String): Boolean {
+        if (mtuString.isEmpty()) {
+            return true // Empty means use default
+        }
+        return try {
+            val mtu = mtuString.toInt()
+            mtu == 0 || (mtu in 1280..65535)
+        } catch (e: NumberFormatException) {
+            false
         }
     }
 }

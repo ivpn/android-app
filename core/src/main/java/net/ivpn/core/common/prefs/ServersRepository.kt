@@ -24,16 +24,19 @@ along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 
 import net.ivpn.core.common.Mapper
 import net.ivpn.core.common.dagger.ApplicationScope
+import net.ivpn.core.common.prefs.OnServerChangedListener
 import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.data.ServersListResponse
 import net.ivpn.core.rest.data.model.AntiTracker
 import net.ivpn.core.rest.data.model.Config
+import net.ivpn.core.rest.data.model.Host
 import net.ivpn.core.rest.data.model.Server
 import net.ivpn.core.rest.data.model.ServerLocation
 import net.ivpn.core.rest.data.model.ServerType
 import net.ivpn.core.rest.requests.common.Request
+import net.ivpn.core.v2.serverlist.items.HostItem
 import net.ivpn.core.rest.requests.common.RequestWrapper
 import net.ivpn.core.vpn.Protocol
 import net.ivpn.core.vpn.ProtocolController
@@ -61,7 +64,7 @@ class ServersRepository @Inject constructor(
     private val currentServers = EnumMap<Protocol, EnumMap<ServerType, Server?>>(Protocol::class.java)
     private var onFavouritesChangedListeners: MutableList<OnFavouriteServersChangedListener> = ArrayList()
     private var onServerListUpdatedListeners: MutableList<OnServerListUpdatedListener> = ArrayList()
-    private var onServerChangedListeners: List<OnServerChangedListener> = ArrayList()
+    private var onServerChangedListeners: MutableList<OnServerChangedListener> = ArrayList()
     private var request: Request<ServersListResponse>? = null
 
     init {
@@ -179,6 +182,14 @@ class ServersRepository @Inject constructor(
         return serversPreference.favouritesServersList
     }
 
+   
+    fun getFavouriteHosts(): List<HostItem> {
+        val servers = getServers(false) ?: return emptyList()
+        return serversPreference.getFavouriteHosts(servers).map { (host, server) ->
+            HostItem(host, server, isFavourite = true)
+        }
+    }
+
     fun addFavouritesServer(server: Server) {
         LOGGER.info("addFavouritesServer server = $server")
         serversPreference.addFavouriteServer(server)
@@ -276,9 +287,29 @@ class ServersRepository @Inject constructor(
         serversPreference.putSettingFastestServer(false)
         serversPreference.putSettingRandomServer(false, type)
         setCurrentServer(type, server)
+        // Clear host selection when a different server is selected
+        serversPreference.clearCurrentHost(type)
         for (listener in onServerChangedListeners) {
             listener.onServerChanged()
         }
+    }
+
+    fun hostSelected(server: Server?, host: Host?, type: ServerType) {
+        serversPreference.putSettingFastestServer(false)
+        serversPreference.putSettingRandomServer(false, type)
+        setCurrentServer(type, server)
+        serversPreference.setCurrentHost(type, host)
+        for (listener in onServerChangedListeners) {
+            listener.onServerChanged()
+        }
+    }
+
+    fun getCurrentHost(serverType: ServerType): Host? {
+        return serversPreference.getCurrentHost(serverType)
+    }
+
+    fun clearCurrentHost(serverType: ServerType) {
+        serversPreference.clearCurrentHost(serverType)
     }
 
     private fun tryUpdateServerListOffline() {
@@ -431,6 +462,14 @@ class ServersRepository @Inject constructor(
         onServerListUpdatedListeners.remove(listener)
     }
 
+    fun addOnServerChangedListener(listener: OnServerChangedListener) {
+        onServerChangedListeners.add(listener)
+    }
+
+    fun removeOnServerChangedListener(listener: OnServerChangedListener) {
+        onServerChangedListeners.remove(listener)
+    }
+
     private val currentProtocolType: Protocol
         get() = protocolController.currentProtocol
 
@@ -453,5 +492,19 @@ class ServersRepository @Inject constructor(
 
     private fun notifyFavouriteServerRemoved(server: Server) {
         onFavouritesChangedListeners.forEach { it.notifyFavouriteServerRemoved(server) }
+    }
+
+    fun addFavouriteHost(host: Host, parentServer: Server) {
+        LOGGER.info("addFavouriteHost host = ${host.hostname}, server = $parentServer")
+        serversPreference.addFavouriteHost(host, parentServer)
+    }
+
+    fun removeFavouriteHost(host: Host, parentServer: Server) {
+        LOGGER.info("removeFavouriteHost host = ${host.hostname}, server = $parentServer")
+        serversPreference.removeFavouriteHost(host, parentServer)
+    }
+
+    fun isHostFavourite(host: Host, parentServer: Server): Boolean {
+        return serversPreference.isHostFavourite(host, parentServer)
     }
 }

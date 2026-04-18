@@ -40,6 +40,66 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings_server" />
 
+            <!-- Select individual servers toggle -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/select_host_title"
+                    style="@style/SettingsOptionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/settings_select_host"
+                    app:layout_constraintEnd_toStartOf="@+id/enable_select_host"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/select_host_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/settings_select_host_description"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/settings_option_description_text"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/enable_select_host"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/select_host_title" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/enable_select_host"
+                    android:layout_width="48dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="@{servers.selectHostEnabled}"
+                    android:thumb="@drawable/common_thumb_selector"
+                    android:translationX="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/select_host_description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/select_host_title"
+                    app:onChanged="@{servers.enableSelectHostListener}"
+                    app:track="@drawable/common_track_selector" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/color_section_divider"
+                android:visibility="@{multihop.isSupported() ? View.VISIBLE : View.GONE}" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -176,7 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@{servers.entryServer.getDescription}" />
+                        android:text="@{servers.entryServerDescription}" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"
@@ -333,7 +393,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@{servers.exitServer.getDescription}" />
+                        android:text="@{servers.exitServerDescription}" />
 
                     <FrameLayout
                         android:layout_width="wrap_content"

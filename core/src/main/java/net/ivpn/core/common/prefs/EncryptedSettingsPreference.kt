@@ -59,6 +59,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val SETTINGS_BYPASS_LOCAL = "SETTINGS_BYPASS_LOCAL"
         private const val SETTINGS_IPV6 = "SETTINGS_IPV6"
         private const val IPV6_SHOW_ALL_SERVERS = "IPV6_SHOW_ALL_SERVERS"
+        private const val SETTINGS_SELECT_HOST = "SETTINGS_SELECT_HOST"
 
         private const val OV_PORT = "OV_PORT"
         private const val WG_PORT = "WG_PORT"
@@ -79,6 +80,7 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         private const val LAST_USED_IP = "LAST_USED_IP"
         private const val ANTITRACKER_LIST = "ANTITRACKER_LIST"
         private const val ANTITRACKER_DNS = "ANTITRACKER_DNS"
+        private const val WIREGUARD_MTU = "WIREGUARD_MTU"
     }
 
     private val sharedPreferences: SharedPreferences = preference.settingsPreference
@@ -177,6 +179,10 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getBoolean(SETTINGS_MULTI_HOP, false)
     }
 
+    fun getSettingSelectHost(): Boolean {
+        return sharedPreferences.getBoolean(SETTINGS_SELECT_HOST, false)
+    }
+
     fun getSettingStartOnBoot(): Boolean {
         return sharedPreferences.getBoolean(SETTINGS_START_ON_BOOT, false)
     }
@@ -238,6 +244,12 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
     fun putSettingMultiHop(value: Boolean) {
         sharedPreferences.edit {
             putBoolean(SETTINGS_MULTI_HOP, value)
+        }
+    }
+
+    fun putSettingSelectHost(value: Boolean) {
+        sharedPreferences.edit {
+            putBoolean(SETTINGS_SELECT_HOST, value)
         }
     }
 
@@ -517,6 +529,15 @@ class EncryptedSettingsPreference @Inject constructor(val preference: Preference
         return sharedPreferences.getString(ANTITRACKER_DNS, "")
     }
 
+    var wireGuardMtu: Int
+        get() {
+            return sharedPreferences.getInt(WIREGUARD_MTU, 0)
+        }
+        set(value) {
+            sharedPreferences.edit {
+                putInt(WIREGUARD_MTU, value)
+            }
+        }
 
     private fun putIsMigrated(isMigrated: Boolean) {
         sharedPreferences.edit {
