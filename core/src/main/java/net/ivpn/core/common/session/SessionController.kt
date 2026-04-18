@@ -22,6 +22,7 @@ package net.ivpn.core.common.session
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.google.gson.Gson
 import com.wireguard.android.crypto.Keypair
 import net.ivpn.core.IVPNApplication
 import net.ivpn.core.common.Mapper
@@ -34,6 +35,7 @@ import net.ivpn.core.rest.HttpClientFactory
 import net.ivpn.core.rest.IVPNApi
 import net.ivpn.core.rest.RequestListener
 import net.ivpn.core.rest.Responses
+import net.ivpn.core.rest.data.model.ServicePlan
 import net.ivpn.core.rest.data.model.ServiceStatus
 import net.ivpn.core.rest.data.model.WireGuard
 import net.ivpn.core.rest.data.session.*
@@ -325,6 +327,9 @@ class SessionController @Inject constructor(
             if (!multiHopCapabilities) {
                 settings.isMultiHopEnabled = false
             }
+        }
+        serviceStatus.availablePlans?.let {
+            userPreference.putAvailablePlans(Gson().toJson(it))
         }
     }
 
