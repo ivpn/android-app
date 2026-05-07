@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Version 2.13.0 - 2026-05-07
+
+[NEW] Added support for the new signup flow  
+
+[Download IVPN Client v2.13.0](https://www.ivpn.net/releases/android/IVPNv2.13.0site.apk)  
+SHA256: c75173f4ed32f787877de685a6c47fe14e814a2e6370e62408af09ef240809d6  
+
 ## Version 2.12.0 - 2026-03-18
 
 [NEW] Select individual servers  
