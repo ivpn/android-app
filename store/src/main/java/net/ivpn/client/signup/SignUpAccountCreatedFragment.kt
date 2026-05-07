@@ -38,6 +38,7 @@ import androidx.navigation.ui.setupWithNavController
 import net.ivpn.client.R
 import net.ivpn.client.StoreIVPNApplication
 import net.ivpn.client.databinding.FragmentSignUpFinishBinding
+import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.utils.ToastUtil
 import net.ivpn.core.v2.MainActivity
 import org.slf4j.LoggerFactory
@@ -110,7 +111,8 @@ class SignUpAccountCreatedFragment : Fragment() {
     }
 
     private fun continuePurchase() {
-        val action = SignUpAccountCreatedFragmentDirections.actionSignUpAccountCreatedFragmentToSignUpProductFragment()
+        viewModel.selectedPlan.set(Plan.STANDARD)
+        val action = SignUpAccountCreatedFragmentDirections.actionSignUpAccountCreatedFragmentToSignUpPeriodFragment2()
         NavHostFragment.findNavController(this).navigate(action)
     }
 }

@@ -1,4 +1,4 @@
-package net.ivpn.core.common.billing
+package net.ivpn.core.rest.data.model
 
 /*
  IVPN Android app
@@ -22,23 +22,15 @@ package net.ivpn.core.common.billing
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-object ConsumableProducts {
+data class ServicePlan(
+    @SerializedName("name")
+    @Expose
+    val name: String,
 
-    const val ONE_WEEK_STANDARD = "net.ivpn.subscriptions.standard.1week"
-    const val ONE_MONTH_STANDARD = "net.ivpn.subscriptions.standard.1month"
-    const val ONE_YEAR_STANDARD = "net.ivpn.subscriptions.standard.1year"
-    const val TWO_YEARS_STANDARD = "net.ivpn.subscriptions.standard.2year"
-    const val THREE_YEARS_STANDARD = "net.ivpn.subscriptions.standard.3year"
-
-    fun getConsumableSKUs(): List<String> {
-        val skuList = mutableListOf<String>()
-        skuList.add(ONE_WEEK_STANDARD)
-        skuList.add(ONE_MONTH_STANDARD)
-        skuList.add(ONE_YEAR_STANDARD)
-        skuList.add(TWO_YEARS_STANDARD)
-        skuList.add(THREE_YEARS_STANDARD)
-
-        return skuList
-    }
-}
+    @SerializedName("device_limit")
+    @Expose
+    val deviceLimit: Int
+)

@@ -56,6 +56,9 @@ public class ServiceStatus {
     @SerializedName("device_management")
     @Expose
     private Boolean deviceManagement;
+    @SerializedName("available_plans")
+    @Expose
+    private List<ServicePlan> availablePlans = null;
 
     public Boolean getIsActive() {
         return isActive;
@@ -125,6 +128,14 @@ public class ServiceStatus {
         return deviceManagement;
     }
 
+    public List<ServicePlan> getAvailablePlans() {
+        return availablePlans;
+    }
+
+    public void setAvailablePlans(List<ServicePlan> availablePlans) {
+        this.availablePlans = availablePlans;
+    }
+
     @Override
     public String toString() {
         return "ServiceStatus{" +
@@ -137,6 +148,7 @@ public class ServiceStatus {
                 ", isOnFreeTrial='" + isOnFreeTrial + '\'' +
                 ", deviceManagement='" + deviceManagement + '\'' +
                 ", capabilities=" + capabilities +
+                ", availablePlans=" + availablePlans +
                 '}';
     }
 }

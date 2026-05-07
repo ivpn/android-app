@@ -90,10 +90,9 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:letterSpacing="0.04"
-                        android:text="@{Utils.formatPlanName(viewmodel.selectedPlan)}"
-                        android:textAllCaps="true"
+                        android:text="@{viewmodel.selectedPlan.getPlanTitle()}"
                         android:textColor="@color/sign_up_text_color"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/divider_1" />
@@ -108,7 +107,7 @@
                         android:text="@string/sign_up_period_change"
                         android:textColor="@color/primary"
                         android:textSize="16sp"
-                        android:visibility="@{viewmodel.blankAccountID != null ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@+id/standard_plan_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/standard_plan_title" />

@@ -22,19 +22,106 @@ package net.ivpn.core.common.billing.addfunds
  along with the IVPN Android app. If not, see <https://www.gnu.org/licenses/>.
 */
 
-enum class Plan(val skuPath: String, val productName: String) {
-    PRO("net.ivpn.subscriptions.pro.", "IVPN Pro"),
-    STANDARD("net.ivpn.subscriptions.standard.", "IVPN Standard");
+import net.ivpn.core.rest.data.model.ServicePlan
+
+enum class Plan(
+        val skuPath: String,
+        val productName: String,
+        val title: String,
+        val description: String
+) {
+    STANDARD(
+            skuPath = "net.ivpn.subscriptions.standard.",
+            productName = "IVPN Standard",
+            title = "IVPN Standard",
+            description = "IVPN on 5 devices"
+    ),
+    PLUS(
+            skuPath = "net.ivpn.subscriptions.plus.",
+            productName = "IVPN Plus",
+            title = "IVPN Plus",
+            description = "IVPN on 10 devices, modDNS, Mailx"
+    ),
+    PRO(
+            skuPath = "net.ivpn.subscriptions.pro.",
+            productName = "IVPN Pro",
+            title = "IVPN Pro Suite",
+            description = "IVPN on 10 devices, modDNS, Mailx, Portmaster Pro"
+    );
 
     companion object {
+
         fun getPlanByProductName(productName: String?): Plan {
-            for (plan in values()) {
-                if (plan.productName == productName) {
-                    return plan
-                }
+            if (productName == null) return STANDARD
+
+            return when {
+                productName.contains("Plus", ignoreCase = true) -> PLUS
+                productName.contains("Pro", ignoreCase = true) -> PRO
+                else -> STANDARD
+            }
+        }
+    }
+
+    fun getPlanTitle(): String = title
+
+    fun getDeviceLimit(keyword: String, plans: List<ServicePlan>): Int {
+        return plans.firstOrNull { it.name.contains(keyword, ignoreCase = true) }?.deviceLimit ?: 0
+    }
+
+    fun getStandardDesc(deviceLimit: Int): String = "IVPN on $deviceLimit devices"
+
+    fun getPlusDesc(deviceLimit: Int): String = "IVPN on $deviceLimit devices, modDNS, Mailx"
+
+    fun getProDesc(deviceLimit: Int): String = "IVPN on $deviceLimit devices, modDNS, Mailx, Portmaster Pro"
+
+    fun getPlanDesc(plans: List<ServicePlan> = emptyList()): String {
+        if (plans.isEmpty()) return description
+        return when (this) {
+            STANDARD -> getStandardDesc(getDeviceLimit("Standard", plans))
+            PLUS -> getPlusDesc(getDeviceLimit("Plus", plans))
+            PRO -> getProDesc(getDeviceLimit("Pro", plans))
+        }
+    }
+
+    fun isStandard(): Boolean = this == STANDARD
+
+    fun getAltTitleOne(): String =
+            when (this) {
+                STANDARD -> PLUS.title
+                PLUS -> STANDARD.title
+                PRO -> STANDARD.title
             }
 
-            return STANDARD
+    fun getAltDescOne(plans: List<ServicePlan> = emptyList()): String {
+        if (plans.isEmpty()) return when (this) {
+            STANDARD -> PLUS.description
+            PLUS -> STANDARD.description
+            PRO -> STANDARD.description
+        }
+        return when (this) {
+            STANDARD -> getPlusDesc(getDeviceLimit("Plus", plans))
+            PLUS -> getStandardDesc(getDeviceLimit("Standard", plans))
+            PRO -> getStandardDesc(getDeviceLimit("Standard", plans))
+        }
+    }
+
+    fun getAltTitleTwo(): String =
+            when (this) {
+                STANDARD -> PRO.title
+                PLUS -> PRO.title
+                PRO -> PLUS.title
+            }
+
+    fun getAltDescTwo(plans: List<ServicePlan> = emptyList()): String {
+        if (plans.isEmpty()) return when (this) {
+            STANDARD -> PRO.description
+            PLUS -> PRO.description
+            PRO -> PLUS.description
+        }
+        return when (this) {
+            STANDARD -> getProDesc(getDeviceLimit("Pro", plans))
+            PLUS -> getProDesc(getDeviceLimit("Pro", plans))
+            PRO -> getPlusDesc(getDeviceLimit("Plus", plans))
         }
     }
 }

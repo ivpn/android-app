@@ -27,13 +27,17 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableLong
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import net.ivpn.core.IVPNApplication
+import net.ivpn.core.common.billing.addfunds.Plan
 import net.ivpn.core.common.dagger.ApplicationScope
 import net.ivpn.core.common.prefs.EncryptedUserPreference
 import net.ivpn.core.common.qr.QRController
 import net.ivpn.core.common.session.SessionController
 import net.ivpn.core.common.session.SessionListenerImpl
 import net.ivpn.core.common.utils.DateUtil
+import net.ivpn.core.rest.data.model.ServicePlan
 import net.ivpn.core.rest.data.session.SessionErrorResponse
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -65,6 +69,8 @@ class AccountViewModel @Inject constructor(
     val isActive = ObservableBoolean()
     val deviceManagement = ObservableBoolean()
     val deviceName = ObservableField<String>()
+    val plan = ObservableField<Plan>()
+    val availablePlans = ObservableField<List<ServicePlan>>(emptyList())
 
     val isExpired = ObservableBoolean()
     val isExpiredIn = ObservableBoolean()
@@ -105,6 +111,8 @@ class AccountViewModel @Inject constructor(
         paymentMethod = getPaymentMethodValue()
         deviceManagement.set(getDeviceManagement())
         deviceName.set(getDeviceName())
+        plan.set(getPlanByProductName(accountType.get()))
+        availablePlans.set(getAvailablePlansValue())
 
         updateExpireData()
     }
@@ -178,15 +186,20 @@ class AccountViewModel @Inject constructor(
     }
 
     fun isAccountStandard(): Boolean {
-        return accountType.get()?.equals("IVPN Standard") ?: false
+        return plan.get() == Plan.STANDARD
     }
 
-    fun isAccountLegacy(): Boolean {
-        return accountType.get()?.equals("Member VPN Pro Account") ?: false
+    fun isAccountLegacyTeam(): Boolean {
+        val user = username.get() ?: return false
+        return user.startsWith("ivpn") && accountType.get()?.contains("Member") == true
     }
 
     fun isAccountNewStyle(): Boolean {
         return isNewStyleAccount(username.get().toString())
+    }
+
+    fun showAddMoreTime(): Boolean {
+        return isAccountStandard() && isAccountNewStyle()
     }
 
     private fun clearLocalCache() {
@@ -279,6 +292,16 @@ class AccountViewModel @Inject constructor(
 
     private fun getDeviceName(): String? {
         return userPreference.getDeviceName()
+    }
+
+    private fun getPlanByProductName(productName: String?): Plan {
+        return Plan.getPlanByProductName(productName)
+    }
+
+    private fun getAvailablePlansValue(): List<ServicePlan> {
+        val json = userPreference.getAvailablePlans() ?: return emptyList()
+        val type = object : TypeToken<List<ServicePlan>>() {}.type
+        return Gson().fromJson(json, type) ?: emptyList()
     }
 
     interface AccountNavigator {

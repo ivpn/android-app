@@ -364,7 +364,7 @@
     <string name="dialogs_session_retry">Retry</string>
     <string name="dialogs_session_visit_dm">Visit Device Management</string>
     <string name="dialogs_session_enable_dm">Enable Device Management</string>
-    <string name="dialogs_session_upgrade">Switch to IVPN Pro</string>
+    <string name="dialogs_session_upgrade">Upgrade your subscription</string>
     <string name="dialogs_session_cancel">Cancel login</string>
 
     <string name="dialogs_error">Error</string>
@@ -489,6 +489,9 @@
 
     <string name="dialogs_device_logged_out_title">You are logged out</string>
     <string name="dialogs_device_logged_out_message">You have been redirected to the login page to re-enter your credentials.</string>
+
+    <string name="dialogs_account_expired_title">Your account is expired</string>
+    <string name="dialogs_account_expired_msg">Please renew your account to use this feature.</string>
 
     <string name="bottom_sheet_logout_description">Are you sure? This will disconnect you from IVPN.</string>
     <string name="bottom_sheet_logout_keep_preferences">Log out and clear app settings</string>
@@ -654,8 +657,9 @@
     <string name="account_active_until">Active until</string>
     <string name="account_log_out">Log out</string>
     <string name="account_keep_safe">Please save your account ID in a safe place, you will use it to connect on another IVPN App or log in to the client area of the IVPN website. You can find this account ID later in the IVPN App Account screen.</string>
-    <string name="account_continue">Select your plan to continue</string>
+    <string name="account_continue">Continue to payment</string>
     <string name="account_clipboard">Account ID copied</string>
+    <string name="account_available_on_website">Available on IVPN website:</string>
     <string name="device_name_label">Device Name</string>
 
     <string name="map_dialog_not_connected_title">Your current location</string>

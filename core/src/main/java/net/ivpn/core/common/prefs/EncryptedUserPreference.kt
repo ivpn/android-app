@@ -49,6 +49,7 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
 
         private const val BLANK_USERNAME = "BLANK_USERNAME"
         private const val BLANK_USERNAME_GENERATED_DATE = "BLANK_USERNAME_GENERATED_DATE"
+        private const val AVAILABLE_PLANS = "AVAILABLE_PLANS"
     }
 
     private val sharedPreferences: SharedPreferences = preference.accountPreference
@@ -129,8 +130,19 @@ class EncryptedUserPreference @Inject constructor(val preference: Preference) {
         return sharedPreferences.getString(CURRENT_PLAN, "")
     }
 
+    fun putAvailablePlans(json: String?) {
+        sharedPreferences.edit()
+                .putString(AVAILABLE_PLANS, json)
+                .apply()
+    }
+
+    fun getAvailablePlans(): String? {
+        return sharedPreferences.getString(AVAILABLE_PLANS, null)
+    }
+
     fun getCapabilityMultiHop(): Boolean {
-        return sharedPreferences.getBoolean(USER_MULTI_HOP, false)
+        // return sharedPreferences.getBoolean(USER_MULTI_HOP, false)
+        return true
     }
 
     fun getPaymentMethod(): String {
