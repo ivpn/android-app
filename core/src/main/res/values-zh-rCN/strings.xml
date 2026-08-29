@@ -1,0 +1,696 @@
+<resources>
+    <string name="app_name">IVPN</string>
+
+    <string name="send_logs">通过以下方式发送包含日志的邮件</string>
+
+    <!--引导页-->
+    <string name="tutorial_page_title_locations">热门节点</string>
+    <string name="tutorial_page_title_access">全设备支持</string>
+    <string name="tutorial_page_title_security">安全防护</string>
+
+    <string name="tutorial_page_descr_locations">IVPN提供20+个节点，千兆高速连接</string>
+    <string name="tutorial_page_descr_access">在所有设备上使用你的IVPN账号，支持Windows、Mac、iOS、Android和Linux</string>
+    <string name="tutorial_page_descr_security">获得<b>极致</b>隐私保护，安心上网</string>
+
+    <string name="tutorial_log_in">登录我的账号</string>
+    <string name="tutorial_start_free_trial">开始免费试用</string>
+
+    <!--试用-->
+
+    <!--登录-->
+    <string name="sign_in_username_hint"><font size="15">账号ID</font></string>
+
+    <!--注册-->
+    <string name="sign_up_start_trial">开始免费试用</string>
+    <string name="sign_up_hint">邮箱地址</string>
+
+    <string name="sign_up_no_password_error">密码字段不能为空。</string>
+    <string name="sign_up_wrong_email_format">邮箱地址格式不正确。</string>
+    <string name="sign_up_unknown_error">未知错误，请联系客服并发送日志</string>
+
+    <!--重置密码-->
+
+    <!--设置-->
+    <string name="settings_server">服务器</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_interface">界面</string>
+    <string name="settings_logging">日志</string>
+    <string name="settings_connectivity">连接</string>
+    <string name="settings_ipv6">IPv6</string>
+    <string name="settings_other">高级设置</string>
+    <string name="settings_terms_of_service">服务条款</string>
+    <string name="settings_privacy_policy">隐私政策</string>
+    <string name="settings_version">版本</string>
+    <string name="settings_color_theme">主题颜色</string>
+    <string name="settings_app_icon">应用图标</string>
+    <string name="settings_enable_logging">启用日志</string>
+    <string name="settings_enable_multi_hop">多跳连接</string>
+    <string name="settings_multihop_same_provider_title">多跳同服务商限制</string>
+    <string name="settings_multihop_same_provider_description">允许使用同一服务商的服务器构建多跳链路。</string>
+    <string name="settings_select_host">选择独立服务器</string>
+    <string name="settings_select_host_description">在服务器选择列表中启用独立服务器选择</string>
+    <string name="settings_kill_switch">断网保护</string>
+    <string name="setting_anti_surveillance">反追踪</string>
+    <string name="setting_custom_dns">自定义DNS</string>
+    <string name="settings_multi_hop_description">你的流量将经过2台服务器转发。</string>
+    <string name="settings_port_label">首选端口</string>
+    <string name="settings_preferred_protocol_label">首选协议</string>
+    <string name="settings_send_logs">发送日志</string>
+    <string name="settings_split_tunneling">分流隧道</string>
+    <string name="settings_do_not_collect_your_data">在你发送给我们之前，我们看不到这些内容。</string>
+    <string name="settings_split_tunneling_description">选择哪些应用使用IVPN。</string>
+    <string name="settings_kill_switch_description">仅在IVPN连接启用时允许使用网络。</string>
+    <string name="settings_always_on_vpn_description">有助于提升防护能力。</string>
+    <string name="settings_anti_surveillance_description">配置广告、恶意软件和追踪器拦截。</string>
+    <string name="settings_custom_dns_description">连接VPN时指定DNS服务器。</string>
+    <string name="settings_updates_title">更新</string>
+    <string name="settings_mock_location_title">模拟位置</string>
+    <string name="settings_mock_location_description">让你的GPS位置与VPN位置保持一致。</string>
+    <string name="settings_local_bypass_title">本地网络绕过VPN</string>
+    <string name="settings_local_bypass_description">直接连接到本地接口的网络将不经过VPN路由。</string>
+    <string name="settings_ipv6_title">WireGuard VPN的IPv6</string>
+    <string name="settings_ipv6_filter_title">显示不支持IPv6的服务器</string>
+    <string name="settings_ipv6_description">即使你的ISP不提供IPv6，你也将获得一个IPv6地址。</string>
+    <string name="settings_ipv6_filter_description">支持IPv6的服务器将在服务器列表中显示特殊标记。</string>
+
+    <string name="kill_switch_vpn">VPN断网保护</string>
+    <string name="kill_switch_vpn_description">VPN连接断开时禁用网络访问</string>
+    <string name="kill_switch_native">Android原生断网保护</string>
+    <string name="kill_switch_native_description">断网保护可在你与VPN断开连接时，防止设备建立外部连接，确保你的网络流量安全。\n\n要启用它，请在设备设置中选择<u><b>始终开启VPN</b></u>和<u><b>无VPN时阻止连接</b></u>。\n\n请注意，原生断网保护会忽略IVPN分流隧道设置。</string>
+
+    <string name="settings_protocol_selection_description">选择VPN协议及相关设置。</string>
+    <string name="settings_vpn_protocol">VPN协议</string>
+
+    <string name="snackbar_to_use_vpn_bypass_disconnect">要使用VPN绕过，请先断开连接</string>
+    <string name="snackbar_to_use_mock_location_disconnect">要使用模拟位置，请先断开连接</string>
+    <string name="snackbar_to_ipv6_location_disconnect">要使用IPv6，请先断开连接</string>
+    <string name="snackbar_to_use_antitracker_disconnect">要使用反追踪，请先断开连接</string>
+    <string name="snackbar_to_use_custom_dns_disconnect">要使用自定义DNS，请先断开连接</string>
+    <string name="snackbar_to_use_kill_switch_disconnect">要使用断网保护，请先断开连接</string>
+    <string name="snackbar_to_use_split_tunneling_disconnect">要使用分流隧道，请先断开连接</string>
+    <string name="snackbar_to_change_protocol_disconnect">要更改协议，请先断开连接</string>
+    <string name="snackbar_to_change_port_disconnect_first_msg">要更改端口，请先断开连接</string>
+    <string name="snackbar_to_change_mtu_disconnect_first">要更改MTU，请先断开连接</string>
+    <string name="snackbar_to_change_multihop_disconnect_first_msg">要更改多跳设置，请先断开连接</string>
+    <string name="snackbar_multihop_not_allowed_for_wg">WireGuard目前不支持多跳</string>
+    <string name="snackbar_new_try_with_different_port">服务器连接被阻止，正在尝试其他端口重新连接。请等待连接建立。</string>
+    <string name="snackbar_disconnect_first">断开连接</string>
+
+    <string name="settings_package">套餐：</string>
+
+    <string name="settings_always_on_vpn_title">始终开启VPN</string>
+    <string name="settings_start_on_boot_title">开机启动</string>
+    <string name="settings_start_on_boot_description">系统启动时启用VPN连接。</string>
+    <string name="settings_always_on_vpn_note">此功能可让设备启动后自动建立VPN连接。需要在IVPN应用配置文件的设备设置中手动启用。此外，为防止数据泄露，建议在IVPN应用配置文件中启用"无VPN时阻止连接"。</string>
+    <string name="settings_always_on_vpn_action">前往设置</string>
+
+    <string name="settings_trusted_wifi_title">网络保护</string>
+    <string name="settings_trusted_wifi_description">配置IVPN在连接Wi-Fi或移动网络时的行为。</string>
+
+    <string name="start_on_boot_description">由于系统限制，VPN可能需要在系统启动后最多1分钟才能连接。</string>
+    <string name="start_on_boot_brand_restrictions">部分厂商可能要求你提供额外权限以允许应用开机自启</string>
+
+    <string name="start_on_boot_read_more">了解更多</string>
+
+    <string name="settings_color_theme_light">浅色</string>
+    <string name="settings_color_theme_dark">深色</string>
+    <string name="settings_color_theme_amoled_black">纯黑</string>
+    <string name="settings_color_theme_system_default">跟随系统</string>
+    <string name="settings_color_theme_system_by_battery">根据电量</string>
+
+    <!--更新-->
+    <string name="updates_info_title">更新</string>
+    <string name="updates_current_version">当前版本</string>
+    <string name="updates_version_up_to_date">你正在使用最新版本</string>
+    <string name="updates_check_for_updates">检查更新</string>
+    <string name="updates_new_version_available">有新版本可用</string>
+    <string name="updates_proceed">下载</string>
+    <string name="updates_updates_settings">设置</string>
+    <string name="update_check_auto_for_update">自动检查更新</string>
+
+    <!--更新通知-->
+    <string name="notification_update_title">IVPN有更新可用</string>
+    <string name="notification_update_message">安装最新版本的IVPN以确保你的隐私和安全</string>
+    <string name="notification_update_proceed">下载</string>
+    <string name="notification_update_skip">跳过</string>
+    <string name="notification_update_settings">设置</string>
+    <string name="notification_update_channel">IVPN更新渠道</string>
+
+    <!--反追踪-->
+    <string name="anti_surveillance_enable_title">启用反追踪</string>
+    <string name="anti_surveillance_description">启用反追踪后，IVPN将使用我们的私有DNS服务器拦截广告、恶意网站和第三方追踪器。</string>
+    <string name="anti_surveillance_block_list_description">拦截列表指反追踪使用的DNS拦截列表。"基础"、"全面"和"严格"选项是各个列表的组合，分别提供不同级别的防护。你也可以自由选择单个列表，获得更定制化的反追踪体验。</string>
+    <string name="anti_surveillance_hardcore">硬核模式</string>
+    <string name="anti_surveillance_hardcore_description">开启硬核模式将拦截那些商业模式依赖用户监控的头部公司（目前：Google和Facebook）。</string>
+    <string name="anti_surveillance_read_more">了解更多</string>
+    <string name="anti_tracker_description_state_disabled">反追踪已禁用</string>
+    <string name="anti_tracker_description_state_enabled">反追踪已启用，正在拦截已知追踪器</string>
+    <string name="anti_tracker_description_state_not_active">连接VPN后将启用反追踪</string>
+    <string name="anti_tracker_pre_defined">预设列表</string>
+    <string name="anti_tracker_individual">单个列表</string>
+    <string name="anti_block_list">拦截列表</string>
+    <string name="anti_change_list">更改列表</string>
+
+    <!--模拟位置-->
+    <string name="mock_location_enable_developer_options">启用开发者选项</string>
+    <string name="mock_location_enable_developer_options_description">要启用开发者选项，请连续点击<b>版本号</b>7次。你可以在以下位置找到该选项：</string>
+    <string name="mock_location_enable_developer_options_guide_label">有关如何启用开发者选项的更多信息，请按照指南操作。</string>
+    <string name="mock_location_guide_label">有关如何将IVPN设置为模拟位置应用的更多信息，请按照指南操作。</string>
+    <string name="mock_location_enable_developer_options_path">设置 > 关于手机 > 版本号</string>
+    <string name="mock_location_to_settings">前往设置</string>
+    <string name="mock_location_open_guide">打开指南</string>
+    <string name="mock_location_next">下一步</string>
+    <string name="mock_location_title">覆盖GPS位置</string>
+    <string name="mock_location_description">让你的GPS位置与VPN位置保持一致。这将使所有使用GPS检测位置的应用认为你位于VPN所在位置。</string>
+    <string name="mock_location_setup_title">要使用模拟位置功能，你需要先更改Android设备设置。</string>
+    <string name="mock_location_setup_description">点击"设置"并按照后续步骤操作。具体步骤可能因Android系统版本和设备品牌而异。如果遇到困难，请联系我们的客服团队，我们将为你提供帮助。\n\n警告：使用该功能可能会影响电池续航。</string>
+    <string name="mock_location_setup_action">设置</string>
+    <string name="mock_location_next_action">下一步</string>
+    <string name="mock_location_close_action">关闭</string>
+    <string name="mock_location_step_1">第1步/共3步</string>
+    <string name="mock_location_step_2">第2步/共3步</string>
+    <string name="mock_location_step_3">第3步/共3步</string>
+    <string name="mock_location_step_2_title">启用模拟位置</string>
+    <string name="mock_location_step_2_description">前往你之前解锁的开发者选项，选择IVPN作为模拟位置应用。</string>
+    <string name="mock_location_step_3_title">设置完成</string>
+    <string name="mock_location_step_3_description">一切就绪！你的GPS位置将与VPN位置保持一致。</string>
+
+    <!--自定义DNS-->
+    <string name="custom_dns_feature">使用自定义DNS</string>
+    <string name="custom_dns_server">自定义DNS服务器</string>
+    <string name="custom_dns_server_description">指定后，VPN客户端在连接VPN时将使用提供的DNS服务器。</string>
+    <string name="custom_dns_change">更改DNS</string>
+    <string name="custom_dns_priority">启用反追踪时将覆盖此设置。</string>
+
+    <!--服务器同步-->
+    <string name="servers_sync_updating_servers">正在更新服务器…</string>
+    <string name="servers_sync_error_servers">加载服务器时出错</string>
+    <string name="servers_sync_retry">重试</string>
+
+    <!--分流隧道-->
+    <string name="split_tunneling_description">分流隧道允许你控制哪些应用使用VPN隧道。你新安装的应用将自动使用VPN隧道。仅列出具有网络权限的应用。</string>
+    <string name="split_tunneling_turn_on_all">全部开启</string>
+    <string name="split_tunneling_turn_off_all">全部关闭</string>
+    <string name="split_tunneling_show_system_apps">显示系统应用</string>
+
+    <!--受信任的Wi-Fi-->
+    <string name="network_mobile_data">移动数据</string>
+    <string name="network_none">无网络</string>
+    <string name="network_state_none">无</string>
+    <string name="network_default">默认</string>
+    <string name="network_trusted">受信任</string>
+    <string name="network_untrusted">不受信任</string>
+    <string name="network_untrusted_label">不受信任的网络</string>
+    <string name="network_trusted_label">受信任的网络</string>
+    <string name="network_trusted_feature">启用受信任/不受信任网络</string>
+    <string name="network_trusted_feature_description">选择你信任或不信任的网络，并应用相应操作。</string>
+    <string name="network_rules">规则</string>
+    <string name="network_untrusted_action">加入不受信任网络时执行以下操作：</string>
+    <string name="network_connect_to_vpn">连接IVPN</string>
+    <string name="network_enable_killswitch">启用断网保护</string>
+    <string name="network_trusted_action">加入受信任网络时执行以下操作：</string>
+    <string name="network_disconnect_from_vpn">断开IVPN</string>
+    <string name="network_disable_killswitch">禁用断网保护</string>
+    <string name="network_saved_empty_state_title">将扫描到的网络标记为"受信任"或"不受信任"以添加到此处</string>
+    <string name="network_scanned_empty_state_title">找到Wi-Fi网络后将显示在此处</string>
+    <string name="network_current_network">当前网络</string>
+
+    <!--验证页面-->
+
+    <!--API错误-->
+
+    <!--订阅-->
+    <string name="subscription_title">订阅</string>
+    <string name="subscription_title_monthly">按月</string>
+    <string name="subscription_title_annual">按年</string>
+    <string name="subscription_progress_description">正在查询可用订阅…</string>
+    <string name="subscription_standard_plan">IVPN标准版</string>
+    <string name="subscription_pro_plan">IVPN专业版</string>
+    <string name="subscription_current_plan">当前套餐</string>
+    <string name="subscription_all_protocol">所有协议</string>
+    <string name="subscription_port_forwarding">端口转发</string>
+    <string name="subscription_2_devices">2台设备</string>
+    <string name="subscription_7_devices">7台设备</string>
+    <string name="subscription_year_discount">按年订阅节省20%</string>
+    <string name="subscription_multi_hop">多跳</string>
+    <string name="subscription_select">选择</string>
+    <string name="subscription_free_trial">3天免费试用，之后</string>
+
+    <string name="billing_validating">正在验证购买…</string>
+    <string name="billing_creating_account">正在创建账号…</string>
+    <string name="billing_creating_new_session">正在创建新会话…</string>
+    <string name="billing_error_message">从Google Play服务获取信息时出错。\n请稍后重试，或使用网站购买订阅。</string>
+
+    <!--私有邮箱-->
+
+    <!--服务器列表-->
+    <string name="servers_list_title">选择服务器</string>
+    <string name="servers_list_title_entry">选择入口服务器</string>
+    <string name="servers_list_title_exit">选择出口服务器</string>
+    <string name="servers_list_favorites">收藏</string>
+    <string name="servers_list_all">全部</string>
+    <string name="favourites_no_title">你收藏的服务器将\n显示在此处</string>
+    <string name="favourites_no_description">创建你自己的服务器列表以节省时间</string>
+
+    <!--服务器主机和负载-->
+    <string name="server_load">服务器负载</string>
+    <string name="server_host">服务器主机</string>
+    <string name="specific_server_description">选择特定服务器以在每次连接时获得相同的IP地址</string>
+
+    <!--最快服务器设置-->
+    <string name="fastest_setting_description">选择哪些服务器可以作为最快服务器。</string>
+    <string name="fastest_setting_toast">至少应选择一台服务器。</string>
+
+    <!--连接页面-->
+
+    <string name="connect_status_paused">已暂停</string>
+    <string name="connect_status_pausing">暂停中</string>
+    <string name="connect_status_not_connected">已断开</string>
+    <string name="connect_status_connecting">连接中</string>
+    <string name="connect_status_connected">已连接</string>
+    <string name="connect_status_disconnecting">断开中</string>
+
+    <string name="connect_server_hint_paused">连接到</string>
+    <string name="connect_server_hint_pausing">连接到</string>
+    <string name="connect_server_hint_connecting">正在连接到</string>
+
+    <string name="connect_server_hint_connected">流量经由服务器路由</string>
+    <string name="connect_server_hint_disconnected">所选服务器</string>
+    <string name="entry_server_hint_connected">流量经由入口服务器路由</string>
+    <string name="entry_server_hint_disconnected">入口服务器为</string>
+    <string name="exit_server_hint_connected">流量经由出口服务器路由</string>
+    <string name="exit_server_hint_disconnected">出口服务器为</string>
+
+    <string name="connect_fastest_server_hint_connected">流量经由服务器路由</string>
+    <string name="connect_fastest_server_hint_disconnected">最快可用服务器</string>
+
+    <string name="connect_hint_paused">点击恢复</string>
+    <string name="connect_hint_pausing">暂停中…</string>
+    <string name="connect_hint_not_connected">点击连接</string>
+    <string name="connect_hint_connecting">连接中…</string>
+    <string name="connect_hint_connected">点击断开</string>
+    <string name="connect_hint_disconnecting">断开中…</string>
+    <string name="connect_hint_finding_fastest">正在寻找最快服务器…</string>
+    <string name="connect_hint_regeneration_wg_key">正在重新生成密钥…</string>
+
+    <string name="connect_hint_creating_session">正在创建会话…</string>
+
+    <string name="connect_state_hint_connected">VPN已连接，点击断开</string>
+    <string name="connect_state_hint_pausing">VPN正在暂停…</string>
+    <string name="connect_state_hint_paused">VPN已暂停，点击恢复</string>
+    <string name="connect_state_hint_connecting">VPN正在连接</string>
+    <string name="connect_state_hint_not_connected">VPN已断开，点击连接</string>
+    <string name="connect_state_hint_disconnecting">VPN正在断开</string>
+
+    <string name="connect_entry_server">入口服务器</string>
+    <string name="connect_exit_server">出口服务器</string>
+
+    <string name="connect_fastest_server">最快服务器</string>
+    <string name="connect_random_server">随机服务器</string>
+    <string name="connect_random_entry_server">随机入口服务器</string>
+    <string name="connect_random_exit_server">随机出口服务器</string>
+    <string name="connect_unable_test_fastest_server">由于网络限制，无法测试最快服务器，将选择默认服务器。</string>
+    <string name="connect_resumed_in">将在 后恢复</string>
+
+    <!--日志-->
+
+    <!--通知-->
+    <string name="notification_title_disconnecting">断开中…</string>
+    <string name="notification_title_connecting">正在连接到</string>
+    <string name="notification_title_paused">已暂停</string>
+    <string name="notification_title_connected">已连接到</string>
+    <string name="notification_status_connected">已连接到</string>
+    <string name="notification_status_not_connected">未连接</string>
+    <string name="notification_resumed_in">将在 后恢复</string>
+    <string name="notification_paused">已暂停</string>
+    <string name="notification_status_server_not_reply">正在连接到</string>
+    <string name="notification_status_waiting_for_user_input">等待用户输入…</string>
+    <string name="notification_status_paused">连接已暂停</string>
+    <string name="notification_channel_name">IVPN主通道</string>
+    <string name="notification_kill_switch_channel">IVPN断网保护通道</string>
+    <string name="notification_wifi_watcher_channel">IVPN Wi-Fi保护通道</string>
+    <string name="notification_disconnect">断开</string>
+    <string name="notification_pause">暂停</string>
+    <string name="notification_resume">恢复</string>
+    <string name="notification_stop">停止</string>
+
+    <string name="notification_ks_title">断网保护已启用</string>
+    <string name="notification_ks_content">IVPN断开连接时网络访问已禁用</string>
+    <string name="notification_ks_connect_action">连接VPN</string>
+    <string name="notification_ks_cancel_action">禁用</string>
+    <string name="notification_ks_settings_action">设置</string>
+
+    <string name="notification_wifi_watcher_title">网络保护已启用</string>
+    <string name="notification_wifi_watcher_content">当你连接到不受信任的Wi-Fi网络时，IVPN将自动启动</string>
+
+    <!--对话框-->
+    <string name="dialogs_force_logout_title">无法联系服务器登出</string>
+    <string name="dialogs_force_logout_description">请检查网络连接。是否强制登出？此设备将继续计入你的设备数量限制。</string>
+    <string name="dialogs_force_logout_positive_action">强制登出</string>
+    <string name="dialogs_force_logout_negative_action">取消</string>
+
+    <string name="dialogs_log_out_title">确定吗？</string>
+    <string name="dialogs_log_out_message">这将断开你与IVPN的连接。</string>
+    <string name="dialogs_log_out_positive_button">登出</string>
+    <string name="dialogs_log_out_negative_button">取消</string>
+
+    <string name="dialogs_session_too_many_title">会话限制</string>
+    <string name="dialogs_session_too_many_message">你已达到会话限制，强制登录以登出所有其他设备。</string>
+    <string name="dialogs_session_too_many_message_short">你已达到最大连接设备数</string>
+    <string name="dialogs_session_force_login">强制登录</string>
+    <string name="dialogs_session_log_out_all">登出所有设备</string>
+    <string name="dialogs_session_retry">重试</string>
+    <string name="dialogs_session_visit_dm">前往设备管理</string>
+    <string name="dialogs_session_enable_dm">启用设备管理</string>
+    <string name="dialogs_session_upgrade">升级你的订阅</string>
+    <string name="dialogs_session_cancel">取消登录</string>
+
+    <string name="dialogs_error">错误</string>
+    <string name="dialogs_address_error_msg">邮箱地址格式不正确，请检查后重试。</string>
+    <string name="dialogs_ok">确定</string>
+    <string name="dialogs_servers_error">使用多跳时，入口和出口服务器必须选择不同国家。</string>
+
+    <string name="dialogs_registration_error_title">注册错误</string>
+    <string name="dialogs_registration_error_msg">该邮箱已注册账号。如果你已注册，请登录；如果忘记密码，请重置密码。</string>
+    <string name="dialogs_username_error_msg">账号ID应以"ivpn"开头。</string>
+    <string name="dialogs_password_empty_msg">密码不能为空。</string>
+
+    <string name="dialogs_registration_error">Android客户端暂时禁用注册，你可以通过网站尝试。</string>
+    <string name="dialogs_registration_continue">注册</string>
+
+    <string name="dialogs_connection_error_title">连接错误</string>
+    <string name="dialogs_empty"></string>
+    <string name="dialogs_cant_connect">无法连接到服务器</string>
+    <string name="dialogs_no_internet">请检查你的网络连接并重试。</string>
+    <string name="dialogs_cancel">取消</string>
+    <string name="dialogs_try_again">重试</string>
+    <string name="dialogs_retry">重试</string>
+
+    <string name="dialogs_mock_location_developer_options">开发者选项已禁用</string>
+    <string name="dialogs_mock_location_developer_options_message">请重试。如果需要帮助，请查看我们的指南或联系客服。</string>
+    <string name="dialogs_mock_wrong_app">模拟位置已禁用</string>
+    <string name="dialogs_mock_wrong_app_message">请重试。如果需要帮助，请查看我们的指南或联系客服。</string>
+
+    <string name="dialogs_remove_kill_switch">IVPN断网保护已移除，Android系统断网保护现在提供更好的安全性。要配置Android断网保护，请按照断网保护页面上的指南操作。</string>
+    <string name="dialogs_to_read_more">了解更多</string>
+    <string name="dialogs_please_note">警告</string>
+
+    <string name="dialogs_auth_error_msg">你的账号ID不正确或订阅已过期。请检查后重试。</string>
+
+    <string name="dialogs_no_active_subscription">提供的账号ID没有有效订阅。</string>
+    <string name="dialogs_activate_action">激活订阅</string>
+
+    <string name="dialogs_address_error_title">邮箱地址错误</string>
+    <string name="dialogs_authentication_error">认证错误</string>
+    <string name="dialogs_authentication_error_msg">你的账号ID不正确。请检查后重试。</string>
+    <string name="dialogs_server_error">服务器内部错误，请稍后重试。</string>
+    <string name="dialogs_not_found_error">错误404</string>
+    <string name="dialogs_forbidden_error">错误403</string>
+    <string name="dialogs_please_contact_support">此操作当前不可用，请联系客服或稍后重试。</string>
+
+    <string name="dialogs_session_has_expired">你的会话已过期。请重新登录。</string>
+
+    <string name="dialogs_remove_email_forever">这将永久删除私有邮箱地址。</string>
+    <string name="dialogs_firmware_error_msg">你的固件不支持VPN。</string>
+    <string name="dialogs_setting_not_supported">你的设备不支持此设置。</string>
+    <string name="dialogs_too_many_attempts">尝试次数过多。请稍后重试。</string>
+    <string name="dialogs_no_vpn_settings">你的设备不支持这些设置。</string>
+
+    <string name="dialogs_advanced_kill_switch_title">阻止VPN外的连接</string>
+    <string name="dialogs_advanced_kill_switch_description">使用Android内部断网保护以提升安全性。此选项需要在设备设置中手动启用。</string>
+    <string name="dialogs_advanced_kill_switch_not_show_again">不再显示</string>
+    <string name="dialogs_advanced_kill_switch_navigate_to_settings">设置</string>
+    <string name="dialogs_advanced_kill_switch_cancel">取消</string>
+    <string name="dialogs_advanced_kill_switch_close">关闭</string>
+
+    <string name="dialogs_failed_remove_key_title">自动移除旧WireGuard密钥失败</string>
+    <string name="dialogs_failed_create_key_title">自动生成WireGuard密钥失败</string>
+    <string name="dialogs_failed_upgrade_title">自动重新生成WireGuard密钥失败</string>
+    <string name="dialogs_failed_upgrade_message">无法使用WireGuard协议连接：重新生成WireGuard密钥失败。这可能是因为无法访问IVPN API服务器。你可以重试连接、从偏好设置中手动重新生成密钥，或选择其他协议。如果此错误持续存在，请联系客服。</string>
+
+    <string name="dialogs_permission_title">权限</string>
+    <string name="dialogs_location_permission_message">要识别当前Wi-Fi网络，IVPN客户端需要位置权限。</string>
+    <string name="dialogs_location_permission_info_message">要使用受信任/不受信任网络功能，IVPN客户端需要位置权限。这将允许识别你当前的Wi-Fi。</string>
+    <string name="dialogs_background_location_permission_message">要识别当前Wi-Fi网络，IVPN客户端需要后台位置权限。请选择"始终允许"选项。否则网络保护将无法工作。</string>
+    <string name="dialogs_permission_action_settings">设置</string>
+    <string name="dialogs_permission_action_deny">拒绝</string>
+
+    <string name="dialogs_time_picker_title">你的IVPN连接将在以下时间后自动恢复</string>
+    <string name="dialogs_five_minutes">5分钟</string>
+    <string name="dialogs_fifteen_minutes">15分钟</string>
+    <string name="dialogs_one_hour">1小时</string>
+    <string name="dialogs_custom_delay">自定义延迟</string>
+    <string name="dialogs_apply_action">应用</string>
+
+    <string name="dialogs_connection_info">位置</string>
+    <string name="dialogs_connection_info_public_ip">公网IP地址</string>
+    <string name="dialogs_connection_info_updating">更新中…</string>
+    <string name="dialogs_connection_info_duration">连接时长</string>
+    <string name="dialogs_connection_info_protocol">协议</string>
+    <string name="dialogs_connection_info_local_ip_address">本地IP地址</string>
+    <string name="dialogs_connection_info_wireguard">WireGuard</string>
+    <string name="dialogs_connection_info_openvpn">OpenVPN</string>
+
+    <string name="dialogs_account_not_active_title">账号未激活</string>
+    <string name="dialogs_account_not_active_msg">新账号无法执行此操作。请先完成购买。</string>
+    <string name="dialogs_account_not_active_title_beta">账号未激活</string>
+    <string name="dialogs_account_not_active_msg_beta">此测试版仅对已激活的用户账号开放。</string>
+
+    <string name="dialogs_custom_dns">自定义DNS服务器</string>
+    <string name="dialogs_custom_dns_dot">.</string>
+    <string name="dialogs_custom_dns_apply">应用</string>
+    <string name="dialogs_custom_dns_cancel">取消</string>
+
+    <string name="dialogs_color_theme_title">主题颜色</string>
+    <string name="dialogs_color_theme_light">浅色</string>
+    <string name="dialogs_color_theme_dark">深色</string>
+    <string name="dialogs_color_theme_amoled_black">纯黑</string>
+    <string name="dialogs_color_theme_default">跟随系统</string>
+    <string name="dialogs_color_theme_by_battery">由省电模式决定。启用系统省电模式时使用深色模式，否则使用浅色模式。</string>
+
+    <string name="dialogs_filter_title">排序方式</string>
+    <string name="dialogs_filter_city">城市</string>
+    <string name="dialogs_filter_country">国家</string>
+    <string name="dialogs_filter_latency">延迟</string>
+    <string name="dialogs_filter_distance">距离</string>
+
+    <string name="dialogs_change_network_title">更改网络状态</string>
+    <string name="dialogs_change_status_trusted">受信任</string>
+    <string name="dialogs_change_status_untrusted">不受信任</string>
+    <string name="dialogs_change_status_default">默认</string>
+    <string name="dialogs_change_status_none">无</string>
+
+    <string name="dialogs_create_account_error_message">创建新账号时出现问题。</string>
+    <string name="dialogs_create_session_error_message">创建新会话时出现错误。</string>
+
+    <string name="dialogs_wireguard_impossible_change_port">启用多跳时，无法使用首选端口设置。</string>
+
+    <string name="dialogs_device_logged_out_title">你已登出</string>
+    <string name="dialogs_device_logged_out_message">你已被重定向到登录页面，请重新输入凭据。</string>
+
+    <string name="dialogs_account_expired_title">你的账号已过期</string>
+    <string name="dialogs_account_expired_msg">请续费账号以使用此功能。</string>
+
+    <string name="bottom_sheet_logout_description">确定吗？这将断开你与IVPN的连接。</string>
+    <string name="bottom_sheet_logout_keep_preferences">登出并清除应用设置</string>
+    <string name="bottom_sheet_logout_preferences">登出</string>
+    <string name="bottom_sheet_close">关闭</string>
+
+    <!--购买-->
+    <string name="purchases_guide_first_step">登录ivpn.net/clientarea，点击"续费"按钮</string>
+    <string name="purchases_guide_second_step">选择计费周期并输入你的支付信息</string>
+    <string name="purchases_guide_third_step">打开IVPN应用并连接！</string>
+    <string name="purchase_guide_1">1</string>
+    <string name="purchase_guide_2">2</string>
+    <string name="purchase_guide_3">3</string>
+
+    <!--WireGuard-->
+
+    <!--协议-->
+    <string name="protocol_vpn_openvpn">OpenVPN</string>
+    <string name="protocol_vpn_wireguard">WireGuard</string>
+    <string name="protocol_label">协议</string>
+    <string name="protocol_public_keys">公钥</string>
+    <string name="protocol_wg_public_key_copied">公钥已复制到剪贴板</string>
+    <string name="protocol_wg_ip_address_copied">WireGuard IP地址已复制到剪贴板</string>
+    <string name="protocol_generating_and_uploading_key">正在生成新密钥…</string>
+    <string name="protocol_wg_keys_regenerate_key">重新生成密钥</string>
+    <string name="protocol_wg_details">WireGuard详情</string>
+    <string name="protocol_settings">协议设置</string>
+    <string name="protocol_dialog_wg_details_title">WireGuard详情</string>
+    <string name="protocol_wireguard_ip_address">IP地址</string>
+    <string name="protocol_wg_deleting_key_error">重新生成WireGuard密钥时出现问题。</string>
+    <string name="protocol_wg_uploading_key_error">生成WireGuard密钥并上传到IVPN服务器时出现问题。</string>
+    <string name="protocol_wg_uploading_too_many_keys">已达到WireGuard密钥最大数量。请使用IVPN网站客户区删除未使用的密钥。</string>
+    <string name="protocol_wg_regeneration_period">密钥轮换周期</string>
+    <string name="protocol_wg_last_keys_generated_date">上次生成：</string>
+    <string name="protocol_wg_will_regenerate_on">将在以下时间重新生成：</string>
+    <string name="protocol_wg_valid_until">有效期至：</string>
+    <string name="protocol_wg_regeneration_description">使用WireGuard协议连接时，长时间使用相同的内部IP地址和密钥可能因各种原因而不理想。</string>
+    <string name="protocol_wg_key_rotation_description">密钥轮换将在定义的时间间隔内自动开始。这也将更改内部IP地址。</string>
+    <string name="protocol_port">端口</string>
+    <string name="protocol_custom">自定义</string>
+    <string name="protocol_type">类型</string>
+    <string name="protocol_add_custom_port">添加自定义端口</string>
+    <string name="protocol_valid_port_range">输入以下范围内的端口号：</string>
+    <string name="protocol_port_already_exists">端口已存在</string>
+
+    <string name="protocol_wg_keys">密钥</string>
+    <string name="protocol_wg_public_key">公钥</string>
+    <string name="protocol_wg_local_ip">本地IP</string>
+    <string name="protocol_wg_generated">已生成</string>
+    <string name="protocol_wg_expiration_date">过期日期</string>
+    <string name="protocol_wg_will_rotate">将自动轮换</string>
+    <string name="protocol_wg_regenerate">重新生成</string>
+    <string name="protocol_wg_quantum_resistance">抗量子计算</string>
+    <string name="protocol_wg_quantum_resistance_enabled">已启用</string>
+    <string name="protocol_wg_quantum_resistance_disabled">已禁用</string>
+    <string name="protocol_wg_quantum_resistance_info">抗量子计算：指示你当前的WireGuard VPN连接是否使用额外的防护措施，以抵御未来潜在的量子计算机攻击。\n\n启用时，已使用后量子密钥封装机制（KEM）算法在你的设备和服务器之间安全交换预共享密钥。禁用时，当前VPN连接虽然在当今标准下是安全的，但不包含这层额外的抗量子防护。</string>
+    
+    <string name="protocol_wg_mtu">MTU</string>
+    <string name="protocol_wg_configure_mtu">配置MTU</string>
+    <string name="protocol_wg_mtu_description">有效范围[1280 - 65535]。请注意，更改此值可能会影响VPN隧道的正常运行。</string>
+    <string name="protocol_wg_mtu_hint">1280 - 65535</string>
+    <string name="protocol_wg_mtu_default">留空以使用默认值</string>
+    <string name="protocol_wg_mtu_error">期望值：[1280 - 65535]</string>
+
+    <string name="protocol_selection">我们推荐使用WireGuard协议，因为它速度快、安全性高且连接可靠。有关更多信息，请访问我们的协议<a href="https://www.ivpn.net/pptp-vs-ipsec-ikev2-vs-openvpn-vs-wireguard/">对比网页</a>。</string>
+
+    <string name="shortcuts_connect">连接</string>
+    <string name="shortcuts_establish_vpn_connection">建立VPN连接</string>
+    <string name="shortcuts_disconnect">断开</string>
+    <string name="shortcuts_disconnect_description">断开IVPN连接</string>
+
+    <!--工具-->
+    <plurals name="days_in_millis">
+        <item quantity="one">%d天</item>
+        <item quantity="other">%d天</item>
+    </plurals>
+    <plurals name="hours_in_millis">
+        <item quantity="one">%d小时</item>
+        <item quantity="other">%d小时</item>
+    </plurals>
+    <plurals name="count_down_in_seconds">
+        <item quantity="one">%d秒后自动刷新</item>
+        <item quantity="other">%d秒后自动刷新</item>
+    </plurals>
+    <plurals name="regeneration_in_days">
+        <item quantity="one">每%d天轮换密钥。</item>
+        <item quantity="other">每%d天轮换密钥。</item>
+    </plurals>
+
+    <!--v2-->
+    <string name="your_status_is">你的状态是</string>
+    <string name="single_hop">单跳</string>
+    <string name="multi_hop">多跳</string>
+    <string name="connect_to">连接到</string>
+    <string name="exit_server">出口服务器</string>
+    <string name="entry_server">入口服务器</string>
+
+    <!--连接描述-->
+    <string name="content_description_entry_server_flag">入口服务器国旗</string>
+    <string name="content_description_choose_entry_server">选择入口服务器</string>
+
+    <string name="sliding_panel_connection_details">连接详情</string>
+    <string name="sliding_panel_antitracker">反追踪</string>
+    <string name="sliding_panel_antitracker_description">反追踪拦截所有已知数据追踪器</string>
+    <string name="sliding_panel_wifi_title">Wi-Fi网络</string>
+    <string name="sliding_panel_protocol_port_name">协议、端口</string>
+    <string name="sliding_panel_your_ip_title">IP地址</string>
+    <string name="sliding_panel_location_title">位置</string>
+    <string name="sliding_panel_internet_provider_title">网络服务商</string>
+    <string name="sliding_panel_location_not_match">位置不匹配</string>
+
+    <string name="network_protection_top_hint">决定你信任哪些网络。IVPN连接将为不受信任的网络自动开启</string>
+    <string name="network_protection_default_mobile_data">默认和移动数据</string>
+    <string name="network_protection_wifi">Wi-Fi网络</string>
+    <string name="network_saved_wifi_list">已保存的Wi-Fi网络</string>
+    <string name="network_protection_settings">设置</string>
+    <string name="network_protection_scanned">已扫描</string>
+    <string name="network_protection_saved">已保存</string>
+
+    <string name="auth_log_in_label">输入你的账号ID</string>
+    <string name="auth_create_new_account">创建新账号</string>
+    <string name="auth_log_in">登录</string>
+    <string name="auth_hint">账号ID</string>
+    <string name="auth_log_in_error">"你的账号ID必须为'i-XXXX-XXXX-XXXX'或'ivpnXXXXXXXX'格式。你可以在其他已登录的设备上以及IVPN网站的客户区找到它。"</string>
+
+    <string name="tfa_token_label">账号已启用双重验证。请输入TOTP令牌以登录。</string>
+    <string name="tfa_token_error">TOTP令牌必须包含6位数字。</string>
+    <string name="tfa_button">提交</string>
+    <string name="tfa_hint">XXXXXX</string>
+
+    <string name="captcha_description">请输入你在上方看到的数字</string>
+
+    <string name="sign_up_product_description">我们提供不同的套餐以更好地满足你的需求。请选择一个。你将来可以随时更改。</string>
+    <string name="sign_up_product_standard_title">IVPN标准版</string>
+    <string name="sign_up_product_pro_title">IVPN专业版</string>
+    <string name="sign_up_product_2_devices">5台设备</string>
+    <string name="sign_up_product_7_devices">10台设备</string>
+    <string name="sign_up_product_openvpn">OpenVPN</string>
+    <string name="sign_up_product_wireguard">WireGuard</string>
+    <string name="sign_up_product_antitracker">反追踪</string>
+    <string name="sign_up_product_multihop">多跳</string>
+    <string name="sign_up_product_port_forwarding">端口转发</string>
+    <string name="sign_up_continue">继续前往支付选项</string>
+
+    <string name="sign_up_all_protocols">所有协议</string>
+
+    <string name="sign_up_period_description">为你的账号充值以开始使用IVPN。</string>
+    <string name="sign_up_period_change">更改</string>
+    <string name="sign_up_period_1_week">1周</string>
+    <string name="sign_up_period_1_month">1个月</string>
+    <string name="sign_up_period_1_year">1年</string>
+    <string name="sign_up_period_2_year">2年</string>
+    <string name="sign_up_period_3_year">3年</string>
+    <string name="sign_up_period_continue_to_payment">支付</string>
+    <string name="sign_up_progress">正在查询可用产品…</string>
+
+    <string name="sign_up_account_created">你的账号已创建。</string>
+
+    <string name="account_label">账号ID</string>
+    <string name="account_active">已激活</string>
+    <string name="account_inactive">未激活</string>
+    <string name="account_type">账号类型</string>
+    <string name="account_active_until">有效期至</string>
+    <string name="account_log_out">登出</string>
+    <string name="account_keep_safe">请将你的账号ID保存在安全的地方，你将使用它在其他IVPN应用上连接，或登录IVPN网站的客户区。你稍后可以在IVPN应用的账号页面找到此账号ID。</string>
+    <string name="account_continue">选择你的套餐以继续</string>
+    <string name="account_clipboard">账号ID已复制</string>
+    <string name="account_available_on_website">可在IVPN网站上使用：</string>
+    <string name="device_name_label">设备名称</string>
+
+    <string name="map_dialog_not_connected_title">你当前的位置</string>
+    <string name="map_dialog_connected_title">已连接到</string>
+    <string name="map_dialog_server">通过连接到以下位置保护自己</string>
+    <string name="map_dialog_button_text">连接到服务器</string>
+
+    <string name="account_add_more_time">续费</string>
+    <string name="account_copy_account_id">复制账号ID</string>
+    <string name="account_change_plan_description">登录网站更改订阅套餐</string>
+    <string name="account_qr_code">二维码</string>
+    <string name="account_pro_plan_title"><![CDATA[<b>IVPN专业版</b>为你提供更多保持安全和受保护的可能性：]]></string>
+    <string name="account_standard_plan_title">登录网站更改订阅套餐</string>
+    <string name="account_pro_devices_benefits"><![CDATA[最多连接<b>7台设备</b>]]></string>
+    <string name="account_pro_multihop_benefits"><![CDATA[使用<b>多跳</b>连接]]></string>
+    <string name="account_no_active_subscription">无有效订阅</string>
+    <string name="fastest_server_badge">最快</string>
+    <string name="settings_obfuscation_label">混淆</string>
+    <string name="settings_obfuscation_state_disabled">已禁用</string>
+    <string name="settings_obfuscation_state_v2ray_vmess_quic">V2Ray（VMESS/QUIC）</string>
+    <string name="settings_obfuscation_state_v2ray_vmess_tcp">V2Ray（VMESS/TCP）</string>
+    <string name="settings_obfuscation_description">VPN混淆是一种伪装VPN流量的技术，使其看起来像标准网络流量，有助于规避检测并绕过网络限制或审查。</string>
+
+    <!--应用图标-->
+    <string name="app_icon_name_default">默认</string>
+    <string name="app_icon_name_weather">天气</string>
+    <string name="app_icon_name_alarm_clock">闹钟</string>
+    <string name="app_icon_name_calculator">计算器</string>
+    <string name="app_icon_description">自定义IVPN应用在你设备上的显示方式。隐蔽图标可以帮助掩盖手机上VPN应用的存在。</string>
+    <string name="app_icon_discreet_section">隐蔽应用图标</string>
+    <string name="app_icon_discreet_description">使用隐蔽图标会更改主屏幕上的应用名称以匹配图标。</string>
+    <string name="app_icon_change_title">更改应用图标？</string>
+    <string name="app_icon_change_message">这将导致IVPN应用关闭。要重新启动IVPN，只需点击你的新应用图标。</string>
+    <string name="app_icon_change_confirm">更改</string>
+    <string name="dialog_cancel">取消</string>
+</resources>
