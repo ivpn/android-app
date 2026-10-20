@@ -46,5 +46,5 @@ ext {
     hamcrestVersion = '2.1'
     espressoCore = '3.0.1'
     lifecycleVersion = '2.4.1'
-    coroutenes = '1.10.2'
+    coroutines = '1.10.2'
 }
